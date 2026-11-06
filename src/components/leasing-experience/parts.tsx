@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Heading, Photo, Shot } from "@/data/leasing-experience-model";
-import type { Localized, SiteLocale } from "@/lib/site-data";
+import { isPreviewBuild, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * Shared parts of the leasing experience (OWNER "MOSCOVA 20 · COMPACT PREMIUM
@@ -13,17 +13,19 @@ export const ui = {
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   checkForMe: { ro: "Verificați Moscova 20 pentru afacerea mea", ru: "Проверить Moscova 20 для моего бизнеса", en: "Check Moscova 20 for my business" },
   viewingPersonal: { ro: "Solicită o vizionare individuală", ru: "Запросить индивидуальный просмотр", en: "Request a private viewing" },
-  presentation: { ro: "Primește prezentarea obiectului", ru: "Получить презентацию объекта", en: "Get the property presentation" },
+  presentation: { ro: "Primește prezentarea", ru: "Получить презентацию", en: "Get the presentation" },
   plansGet: { ro: "Primește planurile", ru: "Получить планы", en: "Get the plans" },
-  plansSee: { ro: "Vezi planurile", ru: "Смотреть планы", en: "See the plans" },
-  fitCheck: { ro: "Verificați dacă obiectul se potrivește", ru: "Проверить, подходит ли объект", en: "Check whether it fits" },
+  plansSee: { ro: "Vezi planurile", ru: "Посмотреть планы", en: "See the plans" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
   leasing: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
-  chapters: { ro: "Capitolele paginii", ru: "Разделы страницы", en: "Page chapters" },
-  chTech: { ro: "Caracteristici tehnice", ru: "Технические характеристики", en: "Technical data" },
-  chLocation: { ro: "Locație și acces", ru: "Локация и доступ", en: "Location and access" },
-  chPlans: { ro: "Planuri și suprafețe", ru: "Планы и площади", en: "Plans and areas" },
+  chapters: { ro: "Decizia rapidă", ru: "Быстрое решение", en: "Quick decision" },
+  chTech: { ro: "Caracteristici tehnice", ru: "Технические характеристики", en: "Technical characteristics" },
+  chLocation: { ro: "Locație și flux", ru: "Локация и поток", en: "Location and flow" },
+  chPlans: { ro: "Planuri", ru: "Планы", en: "Plans" },
   chReadiness: { ro: "Pregătire pentru lansare", ru: "Готовность к запуску", en: "Ready to open" },
+  economics: { ro: "Verificați economia punctului", ru: "Проверить экономику точки", en: "Check the unit economics" },
+  close: { ro: "Închide", ru: "Закрыть", en: "Close" },
+  see: { ro: "vezi", ru: "смотреть", en: "see" },
   ready: { ro: "Există", ru: "Есть", en: "In place" },
   tenant: { ro: "Chiriașul", ru: "Арендатор", en: "Tenant" },
   toConfirm: { ro: "Se clarifică", ru: "Уточняется", en: "To be confirmed" },
@@ -41,6 +43,13 @@ export const ui = {
   contacts: { ro: "Contacte", ru: "Контакты", en: "Contacts" },
   film: { ro: "Filmul", ru: "Фильм", en: "The film" },
 } satisfies Record<string, Localized>;
+
+/**
+ * The OWNER preview (GitHub Pages build) and `next dev` show the decision modules
+ * still awaiting OWNER approval (src/data/tenant-intelligence.ts); a production
+ * build never does. Decided on the server — client bundles cannot read it.
+ */
+export const ownerPreview = isPreviewBuild || process.env.NODE_ENV === "development";
 
 /** Replaces the "{area}" token with the marketed area read from the unit record. */
 export const withArea = (text: string, area: string) => text.replace("{area}", area);

@@ -7,7 +7,10 @@ import type { AvailableSpace } from "@/data/leasing-inventory";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * SCENE 01 — HERO (OWNER compact brief §2). The building carries the first
+ * SCENE 01 — HERO · DESIRE (OWNER compact brief §2; final viewing pass: only the
+ * name, the line, the place, the area, the status, «Капитальная база уже готова.
+ * Пространство адаптируется под ваш формат.», ЗАПРОСИТЬ ПРОСМОТР and ПОСМОТРЕТЬ
+ * ПЛАНЫ). The building carries the first
  * screen: a crop of the real facade frame (glazing, terrace, steps and ramp,
  * pavement) without the neighbouring building's lettering, inside the shell
  * (never upscaled past ~6 %). Above it, one compact line of text: the name and
@@ -33,8 +36,8 @@ export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience
         </div>
         <p className="lg-hero__support">{x.hero.support[locale]}</p>
         <div className="lg-hero__actions">
-          <a className="btn" href={open ? "#format" : "#viewing"} data-intent={open ? undefined : "viewing"}>
-            <span>{open ? ui.checkForMe[locale] : ui.waitlist[locale]}</span>
+          <a className="btn" href="#viewing" data-intent="viewing">
+            <span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span>
             <Icon />
           </a>
           <a className="pm-link" href="#plans">

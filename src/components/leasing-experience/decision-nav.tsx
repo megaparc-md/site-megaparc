@@ -3,76 +3,64 @@
 import { useEffect, useState, type MouseEvent } from "react";
 
 /**
- * DECISION NAVIGATION (OWNER compact brief §3) — four chapters and the viewing
- * action, right after the hero. A chapter that lives in the decision panel
- * opens its tab and scrolls to the panel; «Планы и площади» scrolls to the plans
- * scene. Desktop: sticky under the header, the active chapter underlined while
- * its scene is on screen. Phones: one quiet horizontal rail (the sticky action
- * is the bottom bar). Plain anchors without JavaScript.
+ * FAST DECISION BAR (OWNER "FINAL VIEWING CONVERSION PASS", 2026-11-06) — right
+ * after the hero, and only there: ЛОКАЦИЯ И ПОТОК · ПЛАНЫ · ТЕХНИЧЕСКИЕ
+ * ХАРАКТЕРИСТИКИ · ГОТОВНОСТЬ К ЗАПУСКУ + ЗАПРОСИТЬ ПРОСМОТР. Each item either
+ * scrolls to its scene or opens its drawer (data-drawer, handled by LgDrawer).
+ * Desktop: sticky under the header, the chapter on screen underlined in
+ * burgundy. Phones: one quiet horizontal rail; the sticky action is the bottom bar.
+ * Plain anchors without JavaScript.
  */
 
-export type Chapter = { key: "tech" | "location" | "plans" | "readiness"; label: string; target: "decision" | "plans"; tab?: string };
-
-/** Which chapter a panel tab belongs to. */
-const chapterOfTab: Record<string, Chapter["key"]> = { tech: "tech", areas: "tech", engineering: "tech", location: "location", access: "location", readiness: "readiness" };
-
-export function openPanelTab(tab: string) {
-  window.dispatchEvent(new CustomEvent("lg:tab", { detail: tab }));
-}
+export type Chapter = { key: string; label: string; href: string; drawer?: string };
 
 export function DecisionNav({ chapters, label, cta }: { chapters: Chapter[]; label: string; cta: string }) {
-  const [inView, setInView] = useState<"decision" | "plans" | "capex" | null>(null);
-  const [tab, setTab] = useState("tech");
+  const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
-    const onTab = (event: Event) => setTab(String((event as CustomEvent).detail));
-    window.addEventListener("lg:tab-changed", onTab);
-    const targets = ["decision", "plans", "capex"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const targets = chapters.filter((chapter) => !chapter.drawer).map((chapter) => document.getElementById(chapter.href.slice(1))).filter(Boolean) as HTMLElement[];
     const seen = new Map<string, number>();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => seen.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0));
-        let best: "decision" | "plans" | "capex" | null = null;
+        let best: string | null = null;
         let ratio = 0;
         for (const [id, value] of seen) {
           if (value > ratio) {
             ratio = value;
-            best = id as "decision" | "plans" | "capex";
+            best = id;
           }
         }
-        setInView(ratio > 0.12 ? best : null);
+        setActive(ratio > 0.08 ? best : null);
       },
-      { threshold: [0, 0.12, 0.25, 0.5, 0.75], rootMargin: "-20% 0px -30% 0px" },
+      { threshold: [0, 0.08, 0.25, 0.5, 0.75], rootMargin: "-20% 0px -30% 0px" },
     );
     targets.forEach((target) => observer.observe(target));
-    return () => {
-      window.removeEventListener("lg:tab-changed", onTab);
-      observer.disconnect();
-    };
-  }, []);
-
-  const active = inView === "plans" ? "plans" : inView === "capex" ? "readiness" : inView === "decision" ? chapterOfTab[tab] : null;
+    return () => observer.disconnect();
+  }, [chapters]);
 
   const go = (event: MouseEvent<HTMLAnchorElement>, chapter: Chapter) => {
-    if (!chapter.tab) return;
+    if (chapter.drawer) return; // LgDrawer opens it
     event.preventDefault();
-    openPanelTab(chapter.tab);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document.getElementById(chapter.target)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-    history.replaceState(null, "", `#${chapter.tab}`);
+    document.getElementById(chapter.href.slice(1))?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    history.replaceState(null, "", chapter.href);
   };
 
   return (
     <nav className="lg-dnav" aria-label={label}>
       <div className="xp-shell lg-dnav__inner">
         <ul className="lg-dnav__list">
-          {chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <a href={`#${chapter.target}`} className={`lg-dnav__link${active === chapter.key ? " is-active" : ""}`} aria-current={active === chapter.key ? "true" : undefined} onClick={(event) => go(event, chapter)}>
-                {chapter.label}
-              </a>
-            </li>
-          ))}
+          {chapters.map((chapter) => {
+            const on = !chapter.drawer && active === chapter.href.slice(1);
+            return (
+              <li key={chapter.key}>
+                <a href={chapter.href} className={`lg-dnav__link${on ? " is-active" : ""}${chapter.drawer ? " is-drawer" : ""}`} aria-current={on ? "true" : undefined} aria-haspopup={chapter.drawer ? "dialog" : undefined} data-drawer={chapter.drawer} onClick={(event) => go(event, chapter)}>
+                  {chapter.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
         <a className="btn lg-dnav__cta" href="#viewing" data-intent="viewing"><span>{cta}</span></a>
       </div>

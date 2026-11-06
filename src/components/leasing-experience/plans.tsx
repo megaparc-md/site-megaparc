@@ -8,7 +8,9 @@ import type { AreaLevel, AvailableSpace } from "@/data/leasing-inventory";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
- * SCENE 04 — PLANS AND AREAS (OWNER compact brief §7): a product, not a table.
+ * SCENE 05 — PLANS AND AREAS · DETAIL (OWNER compact brief §7; final viewing
+ * pass: 1-й этаж · Цоколь · Общая схема, a large plan and three or four figures
+ * by default, the room schedule behind «Показать экспликацию»): a product, not a table.
  * Two plan schemes traced from the architectural plans (rooms, stairs,
  * entrances, columns — no tenant layout) on one common scale, so the stair
  * cores stay in place when the level changes; zones light up on hover / tap
@@ -37,6 +39,8 @@ const copy = {
   sectionLabel: { ro: "Secțiune schematică prin niveluri", ru: "Схематический разрез по уровням", en: "A schematic section through the levels" },
   streetLevel: { ro: "Nivelul străzii · intrare: scări și rampă", ru: "Уровень улицы · вход: лестница и пандус", en: "Street level · entrance: steps and a ramp" },
   stairs: { ro: "Scări între niveluri", ru: "Лестницы между уровнями", en: "Stairs between the levels" },
+  showSchedule: { ro: "Arată explicația încăperilor", ru: "Показать экспликацию", en: "Show the room schedule" },
+  hideSchedule: { ro: "Ascunde explicația încăperilor", ru: "Скрыть экспликацию", en: "Hide the room schedule" },
 } satisfies Record<string, Localized>;
 
 function Arrow({ mark }: { mark: PlanMark }) {
@@ -153,6 +157,8 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
       <>
         <p className="lg-plans__level">{level.label[locale]} <span>{level.mark}</span></p>
         <Figures items={figures} />
+        <details className="lg-plans__schedule">
+          <summary className="pm-link"><span className="is-show">{copy.showSchedule[locale]}</span><span className="is-hide">{copy.hideSchedule[locale]}</span><Icon name="down" /></summary>
         <p className="lg-label">{copy.legend[locale]}</p>
         <ul className="lg-legend">
           {level.zones.filter((zone) => zone.no).map((zone) => (
@@ -174,6 +180,7 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
             ))}
           </ul>
         ) : null}
+        </details>
       </>
     );
   };
@@ -203,7 +210,10 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
       <PlanViewer tabs={tabs} views={views} sides={sides} label={copy.views[locale]} />
       <div className="lg-plans__foot" data-reveal>
         <p className="lg-plans__note">{p.note[locale]}</p>
-        <a className="btn btn--ghost" href="#viewing" data-intent="plans"><span>{ui.plansGet[locale]}</span><Icon /></a>
+        <p className="lg-plans__actions">
+          <a className="pm-link" href="#tech" data-drawer="tech" aria-haspopup="dialog"><span>{ui.chTech[locale]}</span><Icon /></a>
+          <a className="btn btn--ghost" href="#viewing" data-intent="plans"><span>{ui.plansGet[locale]}</span><Icon /></a>
+        </p>
       </div>
     </LgSection>
   );

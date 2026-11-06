@@ -5,8 +5,11 @@ import type { Localized } from "@/lib/site-data";
  * LEASING EXPERIENCE MODEL — the content model of the tenant-decision page.
  * OWNER "MOSCOVA 20 · GOLD STANDARD" (2026-11-06), recomposed by
  * "MOSCOVA 20 · COMPACT PREMIUM LEASING EXPERIENCE · CONVERSION TO VIEWING"
- * (2026-11-06): eight scenes instead of sixteen sections. Applied to Moscova 20
- * only until the OWNER approves the standard.
+ * (2026-11-06), then by "FINAL VIEWING CONVERSION PASS" + "LOCATION
+ * INTELLIGENCE + VIEWING CONVERSION PASS" (2026-11-06): DESIRE → PROOF → DETAIL,
+ * the detail behind drawers and reveals. Applied to Moscova 20 only until the
+ * OWNER approves the standard. Location traffic and decision-tool gating:
+ * src/data/tenant-intelligence.ts.
  *
  * Separation (OWNER priority clarification, 2026-11-06) — unchanged:
  *   PROPERTY          src/lib/assets.ts + assetOccupancy (name, address, total area)
@@ -66,14 +69,24 @@ export type TechRow = { key: string; label: Localized; value: Localized; state: 
  * shown on the page), what is checked together, and a possible organisation of
  * the space drawn on the real plan (generic zones only, always captioned).
  */
-export type LensRef = PanelTab | "plans" | "photos" | "capex";
+export type LensRef = "location" | "tech" | "readiness" | "plans" | "photos" | "capex";
+/**
+ * A possible organisation drawn delicately on a real photograph (OWNER "FINAL
+ * VIEWING CONVERSION PASS", 2026-11-06): generic zones only, always captioned
+ * «Возможный сценарий организации». Shapes in the photograph's pixel space
+ * (1600 × 1066 interiors); `at` is where the numbered marker and label sit.
+ */
+export type PhotoZone = { label: Localized; shape: Pt[]; at: Pt };
 export type LensFormat = {
   key: "retail" | "showroom" | "service" | "office";
   label: Localized;
+  /** the format's own question about the location and the space */
   question: Localized;
+  /** 3–4 arguments, each pointing to where it is shown */
   evidence: { text: Localized; ref: LensRef; evidence: Evidence; source: string }[];
+  /** 2–3 checks made together before a decision */
   checks: Localized[];
-  scenario: { label: Localized; level: "ground" | "lower"; shape: Pt[] }[];
+  overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string };
 };
 
 /**
@@ -105,8 +118,10 @@ export type PlanLevel = { key: "ground" | "lower"; tab: Localized; label: Locali
 
 /* ---------------------------------------------------------------- page */
 
-export type PanelTab = "tech" | "location" | "areas" | "engineering" | "access" | "readiness";
-export type PanelMedia = { kind: "photo"; shot: Shot } | { kind: "map" } | { kind: "scheme" };
+/** The ecosystem around the address — OWNER copy; the map category it lights up (when the catchment map is shown). */
+export type EcosystemGroup = { key: string; title: Localized; text: Localized; category: "residential" | "education" | "transport" | "services" };
+/** A mark of the visibility study on the aerial photograph — confirmed elements only (pixel space of the photo). */
+export type VisibilityMark = { key: string; kind: "object" | "entrance" | "pavement" | "road" | "glazing"; label: Localized; shape: Pt[]; at: Pt; evidence: Evidence; source: string };
 
 export type LeasingExperience = {
   unitId: string;
@@ -114,37 +129,53 @@ export type LeasingExperience = {
   address: Localized;
   photos: Record<string, Photo>;
 
-  /** SCENE 01 — the building first (a crop without the neighbour's lettering), the positioning line, the offer. */
+  /** SCENE 01 — DESIRE: the building first (a crop without the neighbour's lettering), the positioning line, the offer. */
   hero: { photo: string; phonePhoto: string; title: Localized; place: Localized; offer: Localized; support: Localized };
 
-  /** SCENE 02 — three proofs, each with a real photograph. */
-  why: Heading & { items: { key: string; title: Localized; text: Localized; shot: Shot }[] };
+  /** Three reasons visible at once, right after the decision bar. */
+  reasons: { label: Localized; items: { key: string; no: string; label: Localized; text: Localized }[] };
 
-  /** SCENE 03 — the decision panel: one block, six answers. Rows below feed its tabs. */
-  panel: Heading & { tabs: { key: PanelTab; label: Localized; lead: Localized; media: PanelMedia }[] };
-  /** Technical characteristics beyond the areas (areas, levels and heights come from the unit record). */
+  /** SCENE 02 — PROOF, the visual centre: «Локация в движении». */
+  motion: Heading & {
+    ecosystemTitle: Localized;
+    ecosystem: EcosystemGroup[];
+    modelTitle: Localized;
+    modelCaption: Localized;
+    rhythmTitle: Localized;
+    rhythmNote: Localized;
+    mapTab: Localized;
+    mapCaption: Localized;
+    visibilityTab: Localized;
+    visibility: { photo: string; caption: Localized; marks: VisibilityMark[] };
+    verdict: { title: Localized; text: Localized };
+    cta: { title: Localized; text: Localized };
+  };
+
+  /** Technical characteristics drawer: areas, levels and heights come from the unit record; these rows add the rest. */
+  drawers: { tech: { title: Localized; lead: Localized }; readiness: { title: Localized; lead: Localized } };
   specs: TechRow[];
   location: { lead: Localized; points: Fact[]; metrics: LocationMetric[]; internal: HistoricalNote[]; internalNote: string };
   area: { propertyLine: Localized; groundOnly: Fact };
   access: TechRow[];
   engineering: { rows: TechRow[]; note: Localized };
   readiness: { confirmTitle: Localized; confirm: Fact[]; costTitle: Localized; cost: CostRow[] };
+  /** «Коммерческие условия предоставляются после первичной проверки формата бизнеса.» — the only public line on terms. */
   terms: { title: Localized; pending: Localized; covers: Localized[]; rows: Term[] };
 
-  /** SCENE 04 — plans and areas: two levels traced from the architectural plans + the section scheme. */
+  /** SCENE 05 — DETAIL: plans and areas, two levels traced from the architectural plans + the section scheme; the room schedule on request. */
   plans: Heading & { levels: PlanLevel[]; schemeTab: Localized; note: Localized; source: string; marks: { ground: string; lower: string; evidence: Evidence; source: string } | null };
 
-  /** SCENE 05 — the capital base, as a feeling and as two short lists. */
-  capex: Heading & { photo: string; body: Localized; readyTitle: Localized; ready: Fact[]; tenantTitle: Localized; tenant: Fact[] };
+  /** SCENE 04 — PROOF with emotion: the capital base, one large photograph and two lists of five. */
+  capex: Heading & { photo: string; readyTitle: Localized; ready: Fact[]; tenantTitle: Localized; tenant: Fact[] };
 
-  /** SCENE 06 — a curated photo story (5–7 frames), each answering a tenant's question. */
-  story: Heading & { frames: { key: string; shot: Shot; layout: "cinematic" | "vertical" | "full"; label: Localized; caption: Localized }[] };
+  /** SCENE 06 — DETAIL: the photo sequence 01 · address → 06 · possibility, each frame answering one question. */
+  story: Heading & { frames: { key: string; no: string; shot: Shot; label: Localized; caption: Localized }[] };
 
-  /** SCENE 03 — «Какой бизнес вы рассматриваете?»: one selector, four formats, the page's argument re-weighted for each. */
+  /** SCENE 03 — «Какой бизнес вы рассматриваете?»: four formats, one shown at a time. */
   lens: Heading & { formats: LensFormat[]; honesty: Localized; regulated: Localized; scenarioNote: Localized; evidenceTitle: Localized; checksTitle: Localized };
 
-  /** SCENE 08 — the viewing: one real photograph, the next step, the short form. The film plugs in here when it exists (poster first, never autoplay). */
-  viewing: Heading & { photo: string; contactsLine: Localized; steps: { title: Localized; lead: Localized; items: Localized[] }[]; film: { src: string; poster: string; title: Localized; duration: string } | null };
+  /** SCENE 07 — CONVERSION: «Не решайте по фотографиям.», two actions, the short form. The film plugs in here when it exists (poster first, never autoplay). */
+  viewing: Heading & { photo: string; contactsLine: Localized; steps: { title: Localized; text: Localized }[]; film: { src: string; poster: string; title: Localized; duration: string } | null };
 };
 
 /* ------------------------------------------------------------------ */
