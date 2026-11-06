@@ -1,60 +1,55 @@
-import { AreaBreakdown, AreaScheme } from "@/components/leasing-experience/area-breakdown";
-import { CampaignFilm } from "@/components/leasing-experience/campaign";
-import { CapexReadiness, CapitalBase } from "@/components/leasing-experience/capex-readiness";
-import { DecisionChecks, LeaseTerms, ViewingJourney } from "@/components/leasing-experience/decision";
+import { CapitalBase } from "@/components/leasing-experience/capital-base";
+import { DecisionNav, type Chapter } from "@/components/leasing-experience/decision-nav";
+import { FormatLens } from "@/components/leasing-experience/format-lens";
 import { LeasingHero } from "@/components/leasing-experience/hero";
-import { LocationIntelligence } from "@/components/leasing-experience/location-intelligence";
+import { DecisionPanelScene } from "@/components/leasing-experience/panel";
+import { ui } from "@/components/leasing-experience/parts";
 import { PhotoStory } from "@/components/leasing-experience/photo-story";
-import { AccessAndLogistics, ConfirmedVsToConfirm, EngineeringReadiness } from "@/components/leasing-experience/readiness";
-import { TenantFit } from "@/components/leasing-experience/tenant-fit";
-import { ViewingSection } from "@/components/leasing-experience/viewing";
+import { PlansScene } from "@/components/leasing-experience/plans";
+import { StickyCta } from "@/components/leasing-experience/sticky-cta";
+import { ViewingScene } from "@/components/leasing-experience/viewing";
+import { WhyConsider } from "@/components/leasing-experience/why";
 import { PageShell } from "@/components/page-shell";
-import type { ProjectEntry } from "@/content/source";
+import { availabilityLabel, formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
- * MOSCOVA 20 · GOLD STANDARD COMMERCIAL LEASING EXPERIENCE (OWNER 2026-11-06)
- * — a digital leasing adviser, not a listing. One page answers the tenant's
- * decision: why consider it · does it fit my business · what is ready · what
- * capital work I do not repeat · what I adapt · what is confirmed · what is
- * still checked · how to arrange a viewing.
- *
- * Desktop order (brief §4):
- *   01 hero · 02 capital base · 03 tenant fit · 04 location · 05 areas ·
- *   06 photo story · 07 access · 08 engineering · 09 confirmed / to confirm ·
- *   10 area scheme · 11 lease terms · 12 cost of opening · 13 decision checks ·
- *   14 film / campaign · 15 viewing · 16 what happens next
- * Phones (brief §20) re-sequence the same sections in CSS (leasing-experience.css):
- *   hero → capital base → fit → areas → photos → engineering → access →
- *   location → confirmed → scheme → cost of opening → terms → checks →
- *   viewing → next → film.
+ * MOSCOVA 20 · COMPACT PREMIUM LEASING EXPERIENCE (OWNER 2026-11-06,
+ * "CONVERSION TO VIEWING") — eight scenes instead of sixteen sections:
+ *   01 hero (+ decision navigation)  02 why consider it  03 «какой бизнес вы
+ *   рассматриваете?» (format lens — OWNER conversion pass)  04 decision panel
+ *   (technical · location · areas · engineering · access · readiness)
+ *   05 plans and areas  06 capital base  07 photo story  08 viewing (+ the
+ *   before / at / after steps, the form); phones add a sticky viewing bar.
+ * Progressive disclosure: hero → reasons → choose your concern → evidence → viewing.
+ * The DOM order is the reading order on every width.
  *
  * Rendered by /projects/moscova-20 and /leasing/moscova-20-corner while the
- * unit is published (src/content/source.ts → leasingExperienceFor); the
- * property URL is canonical. Facts: unit record (status, areas) +
- * src/data/leasing-experience-moscova-20.ts (everything else).
+ * unit is published (src/content/source.ts → leasingExperienceFor); status,
+ * areas and the viewing action are read from the unit record.
  */
 export function LeasingExperiencePage({ locale, project, unit, experience: x }: { locale: SiteLocale; project: ProjectEntry; unit: AvailableSpace; experience: LeasingExperience }) {
+  const open = viewingEnabled(unit);
+  const chapters: Chapter[] = [
+    { key: "tech", label: ui.chTech[locale], target: "decision", tab: "tech" },
+    { key: "location", label: ui.chLocation[locale], target: "decision", tab: "location" },
+    { key: "plans", label: ui.chPlans[locale], target: "plans" },
+    { key: "readiness", label: ui.chReadiness[locale], target: "decision", tab: "readiness" },
+  ];
   return (
     <PageShell locale={locale} experience mainClassName="lg-page">
       <LeasingHero x={x} unit={unit} project={project} locale={locale} />
+      <DecisionNav chapters={chapters} label={ui.chapters[locale]} cta={open ? ui.viewing[locale] : ui.waitlist[locale]} />
+      <WhyConsider x={x} unit={unit} locale={locale} />
+      <FormatLens x={x} unit={unit} locale={locale} />
+      <DecisionPanelScene x={x} unit={unit} project={project} locale={locale} />
+      <PlansScene x={x} unit={unit} locale={locale} />
       <CapitalBase x={x} locale={locale} />
-      <TenantFit x={x} locale={locale} />
-      <LocationIntelligence x={x} locale={locale} name={project.name} place={x.hero.place[locale]} map={project.asset?.map ?? null} />
-      <AreaBreakdown x={x} unit={unit} locale={locale} />
       <PhotoStory x={x} locale={locale} />
-      <AccessAndLogistics x={x} locale={locale} />
-      <EngineeringReadiness x={x} locale={locale} />
-      <ConfirmedVsToConfirm x={x} locale={locale} />
-      <AreaScheme x={x} unit={unit} locale={locale} />
-      <LeaseTerms x={x} locale={locale} />
-      <CapexReadiness x={x} locale={locale} />
-      <DecisionChecks x={x} locale={locale} />
-      <CampaignFilm x={x} locale={locale} />
-      <ViewingSection x={x} unit={unit} project={project} locale={locale} />
-      <ViewingJourney x={x} locale={locale} />
+      <ViewingScene x={x} unit={unit} project={project} locale={locale} />
+      <StickyCta name={project.name} meta={`${formatArea(unit.area, locale)} · ${availabilityLabel(unit, locale)}`} label={open ? ui.viewing[locale] : ui.waitlist[locale]} />
     </PageShell>
   );
 }

@@ -7,51 +7,45 @@ import type { AvailableSpace } from "@/data/leasing-inventory";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * HERO (section 01) — OWNER mandate §6–7 / brief §5. The real building first:
- * the facade frame shows the glazing, the entrance with steps and ramp, the
- * terrace and the street in one look. Beside it — never over it — the name,
- * the one-line identity, the marketed area, the levels, the status (from the
- * unit record), four micro-facts and two actions. No technical detail here.
- * The photograph (1278 px) is never upscaled: it fills the 60 % column on
- * desktop (≤ 1152 px at 1920) and a 4:3.4 frame on phones.
+ * SCENE 01 — HERO (OWNER compact brief §2). The building carries the first
+ * screen: a crop of the real facade frame (glazing, terrace, steps and ramp,
+ * pavement) without the neighbouring building's lettering, inside the shell
+ * (never upscaled past ~6 %). Above it, one compact line of text: the name and
+ * the positioning, then the place, the marketed area, the status (all from the
+ * unit record), the capital-base line and two actions. Phones: the photograph
+ * first (4:3 crop), then Moscova 20 · area · status · action.
  */
 export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
-  const photo = x.photos[x.hero.photo];
   const state = availabilityOf(unit).key;
   const open = viewingEnabled(unit);
   return (
     <section className="lg-hero" aria-labelledby="lg-hero-title">
-      <figure className="lg-hero__media">
-        <LgPhoto photo={photo} locale={locale} priority sizes="(min-width: 1024px) 60vw, 100vw" className="lg-hero__photo" />
-      </figure>
-      <div className="lg-hero__copy">
+      <div className="xp-shell lg-hero__text">
         <Link href={localePath(locale, "/leasing")} className="pp2-back lg-hero__back"><Icon name="left" /> {ui.leasing[locale]}</Link>
         <h1 className="lg-hero__h1" id="lg-hero-title">
           <span className="lg-hero__name">{project.name}</span>
           <span className="lg-hero__title">{x.hero.title[locale]}</span>
         </h1>
-        <div className="lg-hero__key">
-          <p className="lg-hero__area">{formatArea(unit.area, locale)}</p>
-          <p className="lg-hero__levels">{unit.floorLabel[locale]}</p>
+        <div className="lg-hero__offer">
+          <p className="lg-hero__place">{x.hero.place[locale]}</p>
+          <p className="lg-hero__area"><strong>{formatArea(unit.area, locale)}</strong> <span>{x.hero.offer[locale]}</span></p>
+          <p className={`lg-hero__status is-${state}`}><i aria-hidden="true" />{availabilityLabel(unit, locale)}</p>
         </div>
-        <p className={`lg-hero__status is-${state}`}><i aria-hidden="true" />{availabilityLabel(unit, locale)}</p>
-        <ul className="lg-hero__facts">
-          {unit.highlights.map((item) => (
-            <li key={item.en}>{item[locale]}</li>
-          ))}
-        </ul>
+        <p className="lg-hero__support">{x.hero.support[locale]}</p>
         <div className="lg-hero__actions">
-          <a className="btn" href="#viewing">
-            <span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span>
-            <Icon name="down" />
+          <a className="btn" href={open ? "#format" : "#viewing"} data-intent={open ? undefined : "viewing"}>
+            <span>{open ? ui.checkForMe[locale] : ui.waitlist[locale]}</span>
+            <Icon />
           </a>
-          <a className="pm-link" href="#scheme">
-            <span>{ui.scheme[locale]}</span>
-            <Icon name="down" />
+          <a className="pm-link" href="#plans">
+            <span>{ui.plansSee[locale]}</span>
+            <Icon />
           </a>
         </div>
-        <p className="lg-hero__place">{x.address[locale]} · {x.hero.place[locale]}</p>
       </div>
+      <figure className="xp-shell lg-hero__media">
+        <LgPhoto photo={x.photos[x.hero.photo]} phone={x.photos[x.hero.phonePhoto]} locale={locale} priority sizes="(min-width: 1440px) 1360px, 100vw" className="lg-hero__photo" />
+      </figure>
     </section>
   );
 }
