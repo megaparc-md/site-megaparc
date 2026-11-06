@@ -7,8 +7,9 @@ import { PageShell } from "@/components/page-shell";
 import { ProjectStatus, storyLine } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, isDemoField, nextProject, spacesFor, type ProjectEntry } from "@/content/source";
-import { assetProfiles, creangaProfile, occupancyOf, tenantFit, type Requirement } from "@/data/demo-content";
+import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
+import { availabilityLabel, availabilityOf, formatAreaRange, isDemoField, leasingExperienceFor, nextProject, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
+import { assetProfiles, creangaProfile, tenantFit, type Requirement } from "@/data/demo-content";
 import type { AssetSlug } from "@/lib/assets";
 import { needs as needCopy } from "@/lib/leasing";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -77,6 +78,14 @@ const techKeys: Requirement[] = ["ground", "power", "ventilation", "flexible"];
 const offerKeys: Requirement[] = ["flexible"];
 
 export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; project: ProjectEntry }) {
+  // Gold-standard leasing experience (OWNER 2026-11-06, Moscova 20 only): shown while
+  // its unit is published; LEASED / HIDDEN / TO_CONFIRM falls back to the page below.
+  const experience = leasingExperienceFor(project.slug);
+  if (experience) return <LeasingExperiencePage locale={locale} project={project} unit={experience.unit} experience={experience.experience} />;
+  return <IncomePropertyPage locale={locale} project={project} />;
+}
+
+function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: ProjectEntry }) {
   const asset = project.asset!;
   const slug = asset.slug;
   const next = nextProject(project.slug);
@@ -84,7 +93,8 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
   const fit = tenantFit[slug];
   const profile = assetProfiles[slug];
   const isCreanga = slug === "creanga-78";
-  const occupancy = occupancyOf(slug);
+  /** Derived from the unit register (OWNER CMS brief 2026-11-06) — never typed by hand. */
+  const occupancy = propertyOccupancy(slug);
   const own = spacesFor(slug);
   /** 100 % occupied and nothing on the public market (OWNER 2026-10-09). */
   const fullyLet = occupancy.fullyLet && own.length === 0;

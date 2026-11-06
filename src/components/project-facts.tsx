@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { viewingHref } from "@/components/leasing/unit-card";
 import { TextLink } from "@/components/ui";
-import { availabilityOf, formatAreaRange, formatDate, spacesFor, type ProjectEntry } from "@/content/source";
-import { occupancyOf, type OperatingSlug } from "@/data/demo-content";
+import { availabilityOf, formatAreaRange, formatDate, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
+import type { OperatingSlug } from "@/data/demo-content";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /** Place · size · status — the three facts a project card answers before the page opens (final craft pass 2026-10-08). */
@@ -43,7 +43,8 @@ export function ProjectStatus({ project, locale, tone, as: Tag = "p", className 
   const slug = project.slug as OperatingSlug;
   let text: string | null = null;
   if (spaces.length) text = `${statusCopy.free[locale]} ${spaces.map((space) => formatAreaRange(space.areaMin, space.area, locale)).join(" · ")}`;
-  else if (occupancyOf(slug).fullyLet) text = statusCopy.full[locale];
+  // derived from the unit register (OWNER CMS brief 2026-11-06): the last unit set to LEASED turns this into «Занят на 100 %»
+  else if (propertyOccupancy(slug).fullyLet) text = statusCopy.full[locale];
   if (!text) return null;
   return <Tag className={`pj-status${tone === "dark" ? " pj-status--dark" : ""}${spaces.length ? " is-open" : ""} ${className}`.trim()}>{text}</Tag>;
 }

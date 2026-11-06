@@ -232,7 +232,7 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
     tenants: demo("asset.moscova-20.tenants", "PROJECTS", P("moscova-20"), "Tenants", { ro: "1 chiriaș", ru: "1 арендатор", en: "1 tenant" }, "OWNER — current lease schedule"),
     acquired: demo("asset.moscova-20.acquired", "PROJECTS", P("moscova-20"), "Acquired", "2011", "OWNER — acquisition date"),
     repositioned: demo("asset.moscova-20.repositioned", "PROJECTS", P("moscova-20"), "Repositioned", "2023", "OWNER — last major works"),
-    availability: confirmed("asset.moscova-20.availability", "LEASING", P("moscova-20"), "Availability", { ro: "625,7 m² din 17 august 2026", ru: "625,7 м² с 17 августа 2026", en: "625.7 m² from 17 August 2026" }),
+    // availability: not stored here — derived from the unit record M20-01 (OWNER 2026-11-06, one source of truth)
     levers: [
       lever("corner", "moscova-20", { ro: "Colțul ca punct de reper", ru: "Угол как ориентир района", en: "The corner as a landmark" }, { ro: "Vitrina continuă pe două străzi transformă spațiul într-un reper zilnic al cartierului.", ru: "Сплошная витрина на две улицы делает помещение ежедневным ориентиром района.", en: "A continuous window on two streets makes the space a daily landmark for the neighbourhood." }),
       lever("terrace", "moscova-20", { ro: "Terasa activează strada", ru: "Терраса оживляет улицу", en: "The terrace activates the street" }, { ro: "Pentru cafenea, servicii sau retail alimentar terasa prelungește spațiul în exterior.", ru: "Для кафе, сервисов или продуктового ритейла терраса продолжает помещение на улицу.", en: "For a café, services or food retail the terrace extends the space outdoors." }),
@@ -348,7 +348,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     bestForStatus: "DEMO",
     why: [
       { ro: "Colț vizibil, vitrină continuă pe două străzi", ru: "Заметный угол, сплошная витрина на две улицы", en: "A visible corner, a continuous window on two streets" },
-      { ro: "Circa 5.000 de pietoni pe zi (estimare)", ru: "Около 5 000 пешеходов в день (оценка)", en: "About 5,000 pedestrians a day (estimate)" },
+      { ro: "Scară interioară între niveluri", ru: "Внутренняя лестница между уровнями", en: "An internal staircase between levels" },
       { ro: "Intrare pentru clienți și acces de serviciu separat", ru: "Вход для покупателей и отдельный служебный доступ", en: "Customer entrance and separate service access" },
       { ro: "Terasă și parcare dedicată", ru: "Терраса и выделенная парковка", en: "A terrace and dedicated parking" },
     ],
@@ -357,7 +357,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
       ground: cap("moscova-20", "ground", "strong", { ro: "Parter 240,96 m² + demisol 293,70 m²", ru: "1‑й этаж 240,96 м² + цоколь 293,70 м²", en: "Ground 240.96 m² + lower ground 293.70 m²" }, "CONFIRMED"),
       parking: cap("moscova-20", "parking", "possible", { ro: "Parcare dedicată în apropiere", ru: "Выделенная парковка рядом", en: "Dedicated parking nearby" }, "CONFIRMED"),
       entrance: cap("moscova-20", "entrance", "strong", { ro: "Intrare de la colț + acces de serviciu cu rampă", ru: "Вход с угла + служебный доступ с рампой", en: "Corner entrance + service access with ramp" }, "CONFIRMED"),
-      power: cap("moscova-20", "power", "possible", { ro: "Aproximativ 50 kVA, se confirmă tehnic", ru: "Около 50 кВА, уточняется", en: "About 50 kVA, to be confirmed" }, "CONFIRMED"),
+      power: cap("moscova-20", "power", "possible", { ro: "3 faze · 38 kW conform documentelor", ru: "3 фазы · 38 кВт по документам", en: "3 phases · 38 kW documented" }, "CONFIRMED"),
       ventilation: cap("moscova-20", "ventilation", "possible", { ro: "Trasee de ventilație existente", ru: "Существующие трассы вентиляции", en: "Existing ventilation routes" }, "CONFIRMED"),
       delivery: cap("moscova-20", "delivery", "strong", { ro: "Acces de serviciu separat, cu rampă", ru: "Отдельный служебный доступ с рампой", en: "Separate service access with ramp" }, "CONFIRMED"),
       flexible: cap("moscova-20", "flexible", "possible", { ro: "Două niveluri; parterul separat — de confirmat", ru: "Два уровня; первый этаж отдельно — уточняется", en: "Two levels; ground floor alone — to be confirmed" }, "DEMO"),
@@ -402,7 +402,7 @@ const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", sourc
 export const projectNow: Record<string, DataPoint> = {
   "moscova-9": NOW("moscova-9", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31": NOW("dacia-31", { ro: "Clădire de birouri în proprietatea MEGAPARC.", ru: "Офисное здание в собственности MEGAPARC.", en: "An office building owned by MEGAPARC." }, "CONFIRMED"),
-  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul de colț de 625,7 m² cu vitrină pe două străzi.", ru: `Сдаём угловое помещение 625,7 м² с витриной на две улицы.`, en: "Leasing the 625.7 m² corner space with windows on two streets." }, "CONFIRMED"),
+  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de colț de pe prima linie.", ru: "Сдаём угловое коммерческое пространство на первой линии.", en: "Leasing the first-line corner commercial space." }, "CONFIRMED"),
   "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),

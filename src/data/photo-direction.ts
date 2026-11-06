@@ -134,7 +134,7 @@ export const propertyBriefs: PropertyBrief[] = [
   {
     slug: "moscova-20",
     name: "Moscova 20",
-    status: "Operating property · first-line corner retail space, 625.7 m² available from 17 August 2026 (confirmed).",
+    status: "Operating property 704 m² · the first-line corner unit M20-01 (625.7 m²) is on offer — status from the unit record.",
     mood: L("Viața zilnică a cartierului: colțul, vitrina pe două străzi, terasa, oamenii care trec.", "Ежедневная жизнь района: угол, витрина на две улицы, терраса, прохожие.", "Neighbourhood daily life: the corner, the window on two streets, the terrace, people walking by."),
     avoid: L("Aspect de stradă goală; firma chiriașului actual fără acord; cabluri peste fațadă.", "Пустая улица; вывеска нынешнего арендатора без согласия; провода через фасад.", "An empty-street look; the current tenant's branding without consent; overhead wires across the facade."),
     notApplicable: [],
@@ -147,7 +147,7 @@ export const propertyBriefs: PropertyBrief[] = [
       access: "Approach on foot from the transport stop",
       parking: "Dedicated parking nearby and its distance to the door",
       entrance: "The corner entrance; separately the service access with ramp",
-      human: "The daily pedestrian flow past the window (≈5,000/day estimated)",
+      human: "The daily pedestrian flow past the window (no figure — new count required)",
       tenant: "Only with consent — otherwise a staged café / shop use with the OWNER's approval",
       interior: "Ground floor (240.96 m²) and lower ground (293.70 m²), empty and lit",
       detail: "Window frames, terrace edge, signage band",

@@ -351,17 +351,17 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     story: {
       ro: [
-        "Moscova 20 se află la un colț pe care locuitorii cartierului îl traversează zilnic: transport public în apropiere, blocuri dense, magazine și servicii, parcare dedicată. Fluxul pietonal estimat este de aproximativ 5.000 de persoane pe zi.",
+        "Moscova 20 se află la un colț pe care locuitorii cartierului îl traversează zilnic: transport public în apropiere, blocuri dense, magazine și servicii, parcare dedicată.",
         "Fațada panoramică transformă spațiul într-o vitrină continuă. Intrarea pentru clienți și accesul separat de serviciu, cu rampă, despart aprovizionarea de clienți.",
         "Spațiul ocupă parterul și demisolul: 458,86 m² suprafață netă de vânzare și o terasă. Se potrivește pentru retail alimentar, servicii, showroom sau comerț specializat.",
       ],
       ru: [
-        "Moscova 20 стоит на углу, через который жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка. Оценочный пешеходный поток — около 5 000 человек в день.",
+        "Moscova 20 стоит на углу, через который жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка.",
         "Панорамный фасад превращает помещение в сплошную витрину. Вход для покупателей и отдельный служебный доступ с рампой разводят покупателей и товар.",
         "Помещение занимает первый и цокольный этажи: чистая торговая площадь 458,86 м² и терраса. Подходит для продуктового ритейла, услуг, шоурума или специализированной торговли.",
       ],
       en: [
-        "Moscova 20 stands on a corner the neighbourhood's residents cross every day: public transport close by, dense housing, shops and services, dedicated parking. Estimated pedestrian flow is around 5,000 people a day.",
+        "Moscova 20 stands on a corner the neighbourhood's residents cross every day: public transport close by, dense housing, shops and services, dedicated parking.",
         "The panoramic frontage turns the space into a continuous shop window. The customer entrance and the separate service access with ramp keep deliveries and customers apart.",
         "The space occupies the ground and lower-ground floors: 458.86 m² of net sales area and a terrace. It suits food retail, services, a showroom or specialist retail.",
       ],
@@ -369,8 +369,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     keyFacts: [
       { label: { ro: "Spațiu comercial", ru: "Торговое помещение", en: "Retail premises" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
       { label: { ro: "Suprafață netă de vânzare", ru: "Чистая торговая площадь", en: "Net sales area" }, value: { ro: "458,86 m²", ru: "458,86 м²", en: "458.86 m²" } },
-      { label: { ro: "Flux pietonal (estimat)", ru: "Пешеходный поток (оценка)", en: "Pedestrian flow (estimated)" }, value: { ro: "cca. 5.000 / zi", ru: "около 5 000 / день", en: "approx. 5,000 / day" } },
-      { label: { ro: "Putere electrică (aprox.)", ru: "Электрическая мощность (ок.)", en: "Electrical power (approx.)" }, value: { ro: "cca. 50 kVA", ru: "около 50 кВА", en: "approx. 50 kVA" } },
+      { label: { ro: "Alimentare electrică", ru: "Электроснабжение", en: "Power supply" }, value: { ro: "3 faze · 38 kW (documente)", ru: "3 фазы · 38 кВт (по документам)", en: "3 phases · 38 kW (documented)" } },
     ],
     location: {
       ro: "Sectorul Rîșcani, intersecția bulevardului Moscova cu strada Matei Basarab: transport public în apropiere, zonă rezidențială densă, magazine și servicii în jur, parcare dedicată.",
@@ -386,9 +385,9 @@ export const portfolioAssets: PortfolioAsset[] = [
     map: { address: "Bd. Moscova 20, Chișinău", query: "Bd. Moscova 20, Chișinău, Moldova" },
     building: {
       text: {
-        ro: "Parter și demisol, terasă, fațadă panoramică. Trasee existente de ventilație, utilități și curenți slabi; putere electrică disponibilă de aproximativ 50 kVA.",
-        ru: "Первый и цокольный этажи, терраса, панорамный фасад. Существующие трассы вентиляции, инженерных сетей и слаботочных систем; доступная электрическая мощность около 50 кВА.",
-        en: "Ground and lower-ground floors, terrace, panoramic frontage. Existing ventilation, utility and low-voltage routes; available electrical power of approximately 50 kVA.",
+        ro: "Parter și demisol, terasă, fațadă panoramică. Trasee existente de ventilație, utilități și curenți slabi; alimentare electrică de 3 faze, 38 kW conform documentelor.",
+        ru: "Первый и цокольный этажи, терраса, панорамный фасад. Существующие трассы вентиляции, инженерных сетей и слаботочных систем; электроснабжение 3 фазы, 38 кВт по документам.",
+        en: "Ground and lower-ground floors, terrace, panoramic frontage. Existing ventilation, utility and low-voltage routes; 3-phase power, 38 kW documented.",
       },
       programme: [
         { label: { ro: "Parter", ru: "Первый этаж", en: "Ground floor" }, value: { ro: "240,96 m² · vânzare 195,46 m²", ru: "240,96 м² · торговая 195,46 м²", en: "240.96 m² · sales 195.46 m²" } },
@@ -426,19 +425,13 @@ export const portfolioAssets: PortfolioAsset[] = [
       ru: "Ежедневный поток и угловое расположение сохраняют ценность при любом формате. Помещение можно адаптировать под то, что нужно району.",
       en: "The daily flow and the corner position keep their value whatever the format. The space can be adapted to what the neighbourhood needs.",
     },
-    availability: {
-      headline: {
-        ro: "Disponibil din 17 august 2026, pregătit pentru ocupare și amenajare în identitatea brandului.",
-        ru: "Доступно с 17 августа 2026 года, готово к заселению и оформлению под бренд.",
-        en: "Available from 17 August 2026, ready for occupation and brand fit-out.",
-      },
-      area: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" },
-      from: { ro: "17 august 2026", ru: "17 августа 2026", en: "17 August 2026" },
-    },
+    // status, area and date of the unit on offer live only in the unit record M20-01 (src/data/leasing-inventory.ts) — OWNER 2026-11-06
+    availability: null,
+    // the pedestrian estimate and the ≈ 50 kVA figure are retired (OWNER Moscova 20 mandate 2026-11-06 §4, §12)
     caveat: {
-      ro: "Fluxul pietonal este o estimare. Puterea electrică este aproximativă și se confirmă tehnic.",
-      ru: "Пешеходный поток — оценка. Электрическая мощность приблизительная, уточняется.",
-      en: "Pedestrian flow is an estimate. Electrical power is approximate and is confirmed technically.",
+      ro: "Înălțimile libere sunt aproximative. Hota se confirmă pentru formatul concret.",
+      ru: "Высота помещений — ориентировочная. Вытяжка подтверждается под конкретный формат.",
+      en: "Clear heights are approximate. Extraction is confirmed for the specific format.",
     },
   },
   {

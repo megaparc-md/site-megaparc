@@ -1,5 +1,6 @@
-import { assetProfiles, creangaProfile, daciaDevelopment, drochiaProfile, projectNow, publicLand, tenantFit, vatraProfile, type DataPoint } from "@/data/demo-content";
-import { spaces, type AvailableSpace, type SpaceField, type SpaceProject } from "@/data/leasing-inventory";
+import { assetProfiles, creangaProfile, daciaDevelopment, drochiaProfile, occupancyOf, projectNow, publicLand, tenantFit, vatraProfile, type DataPoint, type OperatingSlug } from "@/data/demo-content";
+import { leasingExperiences } from "@/data/leasing-experience";
+import { spaces, type AvailableSpace, type SpaceField, type SpaceProject, type SpaceStatus } from "@/data/leasing-inventory";
 import { developmentProjects, portfolioAssets, type AssetMedia, type DevelopmentProject, type PortfolioAsset } from "@/lib/assets";
 import { openVacancies, type Vacancy } from "@/lib/careers";
 import type { Localized, SiteLocale } from "@/lib/site-data";
@@ -19,7 +20,9 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * docs/CMS_ARCHITECTURE.md maps every field to its WordPress field.
  *
  * Publication rules enforced here, not in the pages:
- *  - an Available space with status "leased" is never published;
+ *  - an Available space is published only while its status is AVAILABLE_NOW,
+ *    AVAILABLE_FROM_DATE or (switch `showReservedUnits`) RESERVED — LEASED,
+ *    HIDDEN and TO_CONFIRM are never published;
  *  - a Vacancy is published only while its status is "open";
  *  - "for sale" appears only on projects whose forSale flag is set.
  */
@@ -33,6 +36,14 @@ const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB"
 export function formatArea(m2: number, locale: SiteLocale) {
   const n = m2.toLocaleString(intl[locale], { maximumFractionDigits: 2 }).replace(/\s/g, " ");
   return `${n} ${locale === "ru" ? "м²" : "m²"}`;
+}
+
+/** Documented level areas keep both decimals as measured (293,70 m², not 293,7) — OWNER Moscova 20 mandate §4. */
+export function formatAreaExact(m2: number, locale: SiteLocale) {
+  if (Number.isInteger(m2)) return formatArea(m2, locale);
+  const nb = " ";
+  const n = m2.toLocaleString(intl[locale], { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/\s/g, nb);
+  return `${n}${nb}${locale === "ru" ? "м²" : "m²"}`;
 }
 
 export function formatAreaRange(min: number | undefined, max: number, locale: SiteLocale) {
@@ -52,9 +63,23 @@ export const today = new Date().toISOString().slice(0, 10);
 /* AVAILABLE SPACE                                                      */
 /* ------------------------------------------------------------------ */
 
-/** Everything a tenant may see: available and reserved. Leased records are never published. */
-/** Only AVAILABLE and RESERVED records are public; LEASED and DRAFT stay in the CMS. */
-export const publicSpaces: AvailableSpace[] = spaces.filter((space) => space.status === "available" || space.status === "reserved");
+/**
+ * Business rule (OWNER 2026-11-06): RESERVED units stay visible, labelled, with a
+ * waitlist action instead of a viewing. Set to false to hide reserved units from
+ * every public view — one switch, no page edits.
+ */
+export const showReservedUnits = true;
+/** Statuses that are published (the CMS prototype receives this list as a prop). */
+export const publishedStatuses: readonly SpaceStatus[] = ["AVAILABLE_NOW", "AVAILABLE_FROM_DATE", ...(showReservedUnits ? (["RESERVED"] as const) : [])];
+/** Every status in CMS order — the WordPress select lists them in this order. */
+export const spaceStatuses: readonly SpaceStatus[] = ["AVAILABLE_NOW", "AVAILABLE_FROM_DATE", "RESERVED", "LEASED", "HIDDEN", "TO_CONFIRM"];
+
+/**
+ * Everything a tenant may see — the ONE list every public view derives from
+ * (Home, Leasing, Projects, property pages, counts, forms). LEASED, HIDDEN and
+ * TO_CONFIRM records stay in the CMS and are never published.
+ */
+export const publicSpaces: AvailableSpace[] = spaces.filter((space) => publishedStatuses.includes(space.status));
 
 /** Every record, including leased ones — only the internal CMS workflow prototype reads this. */
 export const allSpacesForCmsPrototype: AvailableSpace[] = spaces;
@@ -70,9 +95,60 @@ export function spacesFor(project: string) {
 export type Availability = { key: "now" | "soon" | "reserved"; date: string | null };
 
 export function availabilityOf(space: AvailableSpace): Availability {
-  if (space.status === "reserved") return { key: "reserved", date: null };
-  if (!space.availableFrom || space.availableFrom <= today) return { key: "now", date: null };
-  return { key: "soon", date: space.availableFrom };
+  if (space.status === "RESERVED") return { key: "reserved", date: null };
+  if (space.status === "AVAILABLE_FROM_DATE" && space.availableFrom && space.availableFrom > today) return { key: "soon", date: space.availableFrom };
+  return { key: "now", date: null };
+}
+
+/** Viewing action allowed: published, not reserved (a reserved unit gets the waitlist), CMS switch on. */
+export function viewingEnabled(space: AvailableSpace) {
+  return space.status !== "RESERVED" && space.ctaEnabled !== false && publicSpaces.includes(space);
+}
+
+/**
+ * Property occupancy DERIVED from the unit register (OWNER CMS brief 2026-11-06 —
+ * nobody types "100 %" by hand): occupied = the OWNER-confirmed occupied area of
+ * the property (area let outside the unit register) + every LEASED unit, capped
+ * at the total. When the last available unit of a property becomes LEASED the
+ * property reads «Занят на 100 %» everywhere (1 m² rounding tolerance: unit areas
+ * are documented to two decimals, property totals to the metre).
+ */
+export function propertyOccupancy(slug: OperatingSlug) {
+  const base = occupancyOf(slug);
+  const leased = spaces.filter((space) => space.project === slug && space.status === "LEASED").reduce((sum, space) => sum + space.area, 0);
+  const occupied = Math.min(base.total, base.occupied + leased);
+  const fullyLet = occupied >= base.total - 1 && spacesFor(slug).length === 0;
+  return { total: base.total, occupied, vacancy: Math.max(0, base.total - occupied), percent: fullyLet ? 100 : (occupied / base.total) * 100, fullyLet, available: spacesFor(slug).length };
+}
+
+/** Counts every public view shows — derived, never typed (Home, Leasing, History, company facts). */
+export function leasingCounts() {
+  return {
+    published: publicSpaces.length,
+    availableNow: publicSpaces.filter((space) => availabilityOf(space).key === "now").length,
+    reserved: publicSpaces.filter((space) => space.status === "RESERVED").length,
+    propertiesWithAvailability: new Set(publicSpaces.map((space) => space.project)).size,
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/* LEASING EXPERIENCE (gold standard — Moscova 20 only for now)          */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The tenant-decision page for a published unit (OWNER "MOSCOVA 20 GOLD
+ * STANDARD", 2026-11-06). Returned only while the unit is published: when the
+ * unit becomes LEASED / HIDDEN / TO_CONFIRM the property falls back to its
+ * regular page (and, if nothing is left to let, reads «Занят на 100 %»).
+ */
+export function leasingExperienceFor(projectSlug: string) {
+  const unit = spacesFor(projectSlug).find((space) => leasingExperiences[space.id]);
+  return unit ? { unit, experience: leasingExperiences[unit.id] } : null;
+}
+
+export function leasingExperienceForSpace(spaceId: string) {
+  const unit = getSpace(spaceId);
+  return unit && leasingExperiences[unit.id] ? { unit, experience: leasingExperiences[unit.id] } : null;
 }
 
 /** Public order: available now, then soon (by date), then reserved; within a group records built on confirmed facts lead, then by area. */

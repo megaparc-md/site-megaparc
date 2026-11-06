@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { CmsPrototype, type CmsCopy } from "@/components/cms-prototype";
 import { Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
-import { allSpacesForCmsPrototype, formatAreaRange, formatDate, getProject, today } from "@/content/source";
+import { allSpacesForCmsPrototype, formatAreaRange, formatDate, getProject, publishedStatuses, spaceStatuses, today } from "@/content/source";
 import { uses } from "@/lib/leasing";
 import type { SiteLocale } from "@/lib/site-data";
 
@@ -18,7 +18,7 @@ const copy = {
     label: "Prototip intern · CMS",
     title: "Cum actualizează un angajat site-ul — fără cod.",
     lead: "Așa va arăta ecranul din WordPress. Alegeți un spațiu, schimbați statutul și apăsați „Actualizează” — în dreapta vedeți ce se schimbă pe site.",
-    path: ["WordPress", "Închiriere", "Moscova 20", "Spațiul de colț", "Status", "Actualizează"],
+    path: ["WordPress", "Închiriere", "Moscova 20", "M20-01", "Status", "Actualizează"],
     afterLabel: "Ce se întâmplă după „Actualizează”",
     after: [["WordPress salvează înregistrarea", "Statutul spațiului devine „Închiriat”."], ["Site-ul primește semnalul", "WordPress anunță automat site-ul că s-a schimbat conținutul."], ["Pagina se reface", "Spațiul dispare din „Acum se închiriază”, de pe pagina clădirii și din numărători."], ["Gata", "În câteva secunde sau un minut, în funcție de găzduire."]],
     never: "Fără Git, fără VS Code, fără cod, fără publicare manuală.",
@@ -29,7 +29,7 @@ const copy = {
     label: "Внутренний прототип · CMS",
     title: "Как сотрудник обновляет сайт — без кода.",
     lead: "Так будет выглядеть экран в WordPress. Выберите помещение, смените статус и нажмите «Обновить» — справа видно, что меняется на сайте.",
-    path: ["WordPress", "Аренда", "Moscova 20", "Угловое помещение", "Статус", "Обновить"],
+    path: ["WordPress", "Аренда", "Moscova 20", "M20-01", "Статус", "Обновить"],
     afterLabel: "Что происходит после «Обновить»",
     after: [["WordPress сохраняет запись", "Статус помещения становится «Сдано»."], ["Сайт получает сигнал", "WordPress автоматически сообщает сайту, что запись изменилась."], ["Страница пересобирается", "Помещение исчезает из «Сейчас сдаётся», со страницы здания и из счётчиков."], ["Готово", "Через несколько секунд или минуту — зависит от хостинга."]],
     never: "Без Git, без VS Code, без кода, без ручной публикации.",
@@ -40,7 +40,7 @@ const copy = {
     label: "Internal prototype · CMS",
     title: "How an employee updates the site — without code.",
     lead: "This is what the WordPress screen will look like. Pick a space, change its status and press “Update” — on the right you see what changes on the site.",
-    path: ["WordPress", "Leasing", "Moscova 20", "Corner space", "Status", "Update"],
+    path: ["WordPress", "Leasing", "Moscova 20", "M20-01", "Status", "Update"],
     afterLabel: "What happens after “Update”",
     after: [["WordPress saves the record", "The space's status becomes “Leased”."], ["The site gets the signal", "WordPress tells the site automatically that content has changed."], ["The page is rebuilt", "The space disappears from “Available now”, from the building page and from every count."], ["Done", "Within seconds or a minute, depending on hosting."]],
     never: "No Git, no VS Code, no code, no manual deployment.",
@@ -56,7 +56,7 @@ const cmsCopy: Record<SiteLocale, CmsCopy> = {
     listTitle: "Spații",
     addNew: "Adaugă spațiu",
     columns: ["Spațiu", "Obiect", "Suprafață", "Status", "Actualizat"],
-    status: { available: "Liber", reserved: "Rezervat", leased: "Închiriat", draft: "Nepublicat" },
+    status: { AVAILABLE_NOW: "Liber acum", AVAILABLE_FROM_DATE: "Liber de la dată", RESERVED: "Rezervat", LEASED: "Închiriat", HIDDEN: "Ascuns", TO_CONFIRM: "De confirmat" },
     editTitle: "Editează spațiul",
     fields: { project: "Obiect", unit: "Spațiu", floor: "Etaj", area: "Suprafață", uses: "Destinație", from: "Liber din", status: "Status", photos: "Fotografii", plan: "Plan" },
     photosValue: "3 fotografii",
@@ -64,11 +64,11 @@ const cmsCopy: Record<SiteLocale, CmsCopy> = {
     update: "Actualizează",
     back: "Toate spațiile",
     saved: "Actualizat. Site-ul arată noul statut.",
-    savedLeased: "Actualizat. Spațiul a dispărut de pe site — în WordPress rămâne, marcat „Închiriat”.",
+    savedLeased: "Actualizat. Spațiul a dispărut de pe site — în WordPress rămâne, cu noul statut.",
     siteTitle: "Acum se închiriază",
     siteCount: "Pe site: {n}",
     siteEmpty: "Niciun spațiu liber.",
-    hidden: "Spațiile marcate „Închiriat” nu se publică.",
+    hidden: "Spațiile „Închiriat”, „Ascuns” și „De confirmat” nu se publică.",
     hint: "Alegeți „Închiriat” și apăsați „Actualizează”.",
   },
   ru: {
@@ -77,7 +77,7 @@ const cmsCopy: Record<SiteLocale, CmsCopy> = {
     listTitle: "Помещения",
     addNew: "Добавить помещение",
     columns: ["Помещение", "Объект", "Площадь", "Статус", "Обновлено"],
-    status: { available: "Свободно", reserved: "Забронировано", leased: "Сдано", draft: "Не опубликовано" },
+    status: { AVAILABLE_NOW: "Свободно сейчас", AVAILABLE_FROM_DATE: "Свободно с даты", RESERVED: "Забронировано", LEASED: "Сдано", HIDDEN: "Скрыто", TO_CONFIRM: "Уточняется" },
     editTitle: "Редактировать помещение",
     fields: { project: "Объект", unit: "Помещение", floor: "Этаж", area: "Площадь", uses: "Назначение", from: "Свободно с", status: "Статус", photos: "Фото", plan: "План" },
     photosValue: "3 фотографии",
@@ -85,11 +85,11 @@ const cmsCopy: Record<SiteLocale, CmsCopy> = {
     update: "Обновить",
     back: "Все помещения",
     saved: "Обновлено. Сайт показывает новый статус.",
-    savedLeased: "Обновлено. Помещение исчезло с сайта — в WordPress оно остаётся с отметкой «Сдано».",
+    savedLeased: "Обновлено. Помещение исчезло с сайта — в WordPress оно остаётся с новым статусом.",
     siteTitle: "Сейчас сдаётся",
     siteCount: "На сайте: {n}",
     siteEmpty: "Свободных помещений нет.",
-    hidden: "Помещения со статусом «Сдано» не публикуются.",
+    hidden: "Помещения со статусом «Сдано», «Скрыто» и «Уточняется» не публикуются.",
     hint: "Выберите «Сдано» и нажмите «Обновить».",
   },
   en: {
@@ -98,7 +98,7 @@ const cmsCopy: Record<SiteLocale, CmsCopy> = {
     listTitle: "Spaces",
     addNew: "Add new space",
     columns: ["Space", "Property", "Area", "Status", "Updated"],
-    status: { available: "Available", reserved: "Reserved", leased: "Leased", draft: "Unpublished" },
+    status: { AVAILABLE_NOW: "Available now", AVAILABLE_FROM_DATE: "Available from date", RESERVED: "Reserved", LEASED: "Leased", HIDDEN: "Hidden", TO_CONFIRM: "To confirm" },
     editTitle: "Edit space",
     fields: { project: "Property", unit: "Space", floor: "Floor", area: "Area", uses: "Use", from: "Available from", status: "Status", photos: "Photos", plan: "Plan" },
     photosValue: "3 photos",
@@ -106,11 +106,11 @@ const cmsCopy: Record<SiteLocale, CmsCopy> = {
     update: "Update",
     back: "All spaces",
     saved: "Updated. The site shows the new status.",
-    savedLeased: "Updated. The space has left the site — in WordPress it stays, marked “Leased”.",
+    savedLeased: "Updated. The space has left the site — in WordPress it stays, with its new status.",
     siteTitle: "Available now",
     siteCount: "On the site: {n}",
     siteEmpty: "No spaces available.",
-    hidden: "Spaces marked “Leased” are not published.",
+    hidden: "Spaces marked “Leased”, “Hidden” or “To confirm” are not published.",
     hint: "Choose “Leased” and press “Update”.",
   },
 };
@@ -149,7 +149,7 @@ export function CmsWorkflowPage({ locale }: { locale: SiteLocale }) {
 
       <section className="xp-sec xp-sec--flush-top xp-sec--warm">
         <div className="xp-shell">
-          <CmsPrototype records={records} copy={cmsCopy[locale]} initial="moscova-20-corner" />
+          <CmsPrototype records={records} copy={cmsCopy[locale]} initial="moscova-20-corner" statuses={spaceStatuses} publishedStatuses={publishedStatuses} />
         </div>
       </section>
 

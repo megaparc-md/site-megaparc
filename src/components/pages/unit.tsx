@@ -5,7 +5,8 @@ import { AvailabilityChip, SpaceImage, UnitCard, labelOfUse, viewingHref } from 
 import { UnitPlan } from "@/components/leasing/unit-plan";
 import { PageShell } from "@/components/page-shell";
 import { Button, Icon, TextLink } from "@/components/ui";
-import { availabilityCopy, availabilityOf, formatAreaRange, formatDate, getProject, isDemoField, publicSpaces, sortSpaces } from "@/content/source";
+import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
+import { availabilityCopy, availabilityOf, formatAreaRange, formatDate, getProject, isDemoField, leasingExperienceForSpace, publicSpaces, sortSpaces } from "@/content/source";
 import { leasingProcess, tenantFit } from "@/data/demo-content";
 import type { AvailableSpace, SpaceField } from "@/data/leasing-inventory";
 import { fitCopy, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
@@ -71,13 +72,21 @@ function Row({ label, value, demo }: { label: string; value: string; demo?: bool
 }
 
 export function UnitPage({ locale, space }: { locale: SiteLocale; space: AvailableSpace }) {
+  // Gold-standard leasing experience (OWNER 2026-11-06): the unit with an experience
+  // record opens the tenant-decision page; every other unit keeps this template.
+  const experience = leasingExperienceForSpace(space.id);
+  if (experience) return <LeasingExperiencePage locale={locale} project={getProject(space.project)!} unit={experience.unit} experience={experience.experience} />;
+  return <UnitTemplate locale={locale} space={space} />;
+}
+
+function UnitTemplate({ locale, space }: { locale: SiteLocale; space: AvailableSpace }) {
   const p = (path: string) => localePath(locale, path);
   const project = getProject(space.project)!;
   const viewing = viewingHref(locale, space);
   const demo = (field: SpaceField) => isDemoField(space, field);
   const more = space.photos.slice(1);
   const others = sortSpaces(publicSpaces.filter((s) => s.id !== space.id)).sort((a, b) => Number(b.project === space.project) - Number(a.project === space.project)).slice(0, 3);
-  const reserved = space.status === "reserved";
+  const reserved = space.status === "RESERVED";
   const when = availabilityOf(space);
   const useList = space.uses.map((key) => labelOfUse(key, locale)).join(" · ");
   const delivery = tenantFit[space.project].capabilities?.delivery;

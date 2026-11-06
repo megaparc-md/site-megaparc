@@ -8,6 +8,7 @@ import "../leasing.css";
 import "../history.css";
 import "../alive.css";
 import "../premium.css";
+import "../leasing-experience.css";
 
 /** Root layout for the RU edition: static HTML is served with lang="ru". */
 export const metadata: Metadata = {

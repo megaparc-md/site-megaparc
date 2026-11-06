@@ -55,7 +55,6 @@ export function LocationSection({
   fallback?: ReactNode;
 }) {
   const data = mapKey ? locationMaps[mapKey] : undefined;
-  const unit = locale === "ru" ? "м" : "m";
   return (
     <section className="loc" aria-label={copy.label[locale]}>
       <div className="shell">
@@ -91,31 +90,44 @@ export function LocationSection({
             ) : null}
           </div>
           {data ? (
-            <figure className="loc__figure" data-reveal>
-              <div className="loc__map" role="img" aria-label={`${copy.map[locale]} — ${name}, ${place}`}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={publicAsset(data.src)} alt="" loading="lazy" decoding="async" />
-                {data.labels.map((label) => (
-                  <span key={label.text} className={`loc__street${label.frontage ? " is-frontage" : ""}`} style={{ "--x": `${label.x}%`, "--y": `${label.y}%`, "--a": `${label.angle}deg` } as CSSProperties} aria-hidden="true">
-                    {label.text}
-                  </span>
-                ))}
-                <span className="loc__ring-label" style={{ "--x": `${data.ring.label.x}%`, "--y": `${data.ring.label.y}%` } as CSSProperties} aria-hidden="true">{data.ring.meters}{NB}{unit}</span>
-                <span className="loc__pin" aria-hidden="true" />
-                <span className="loc__name" aria-hidden="true">{name}</span>
-                <span className="loc__scale" style={{ "--w": `${data.scale.width}%` } as CSSProperties} aria-hidden="true"><i />{data.scale.meters}{NB}{unit}</span>
-                <span className="loc__credit">© OpenStreetMap</span>
-              </div>
-              <figcaption className="loc__legend">
-                {data.stops ? <span className="loc__key loc__key--stop">{copy.stops[locale]}</span> : null}
-                <span className="loc__key loc__key--ring">{copy.walk[locale]}</span>
-              </figcaption>
-            </figure>
+            <LocationMap locale={locale} mapKey={mapKey!} name={name} place={place} />
           ) : fallback ? (
             <figure className="loc__figure loc__figure--photo" data-reveal>{fallback}</figure>
           ) : null}
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * The light editorial OSM map on its own (reused by the leasing experience,
+ * src/components/leasing-experience). Renders nothing without map data.
+ */
+export function LocationMap({ locale, mapKey, name, place, className = "" }: { locale: SiteLocale; mapKey: string; name: string; place: string; className?: string }) {
+  const data = locationMaps[mapKey];
+  if (!data) return null;
+  const unit = locale === "ru" ? "м" : "m";
+  return (
+    <figure className={`loc__figure ${className}`.trim()} data-reveal>
+      <div className="loc__map" role="img" aria-label={`${copy.map[locale]} — ${name}, ${place}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={publicAsset(data.src)} alt="" loading="lazy" decoding="async" />
+        {data.labels.map((label) => (
+          <span key={label.text} className={`loc__street${label.frontage ? " is-frontage" : ""}`} style={{ "--x": `${label.x}%`, "--y": `${label.y}%`, "--a": `${label.angle}deg` } as CSSProperties} aria-hidden="true">
+            {label.text}
+          </span>
+        ))}
+        <span className="loc__ring-label" style={{ "--x": `${data.ring.label.x}%`, "--y": `${data.ring.label.y}%` } as CSSProperties} aria-hidden="true">{data.ring.meters}{NB}{unit}</span>
+        <span className="loc__pin" aria-hidden="true" />
+        <span className="loc__name" aria-hidden="true">{name}</span>
+        <span className="loc__scale" style={{ "--w": `${data.scale.width}%` } as CSSProperties} aria-hidden="true"><i />{data.scale.meters}{NB}{unit}</span>
+        <span className="loc__credit">© OpenStreetMap</span>
+      </div>
+      <figcaption className="loc__legend">
+        {data.stops ? <span className="loc__key loc__key--stop">{copy.stops[locale]}</span> : null}
+        <span className="loc__key loc__key--ring">{copy.walk[locale]}</span>
+      </figcaption>
+    </figure>
   );
 }

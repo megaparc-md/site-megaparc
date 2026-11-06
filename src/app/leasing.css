@@ -369,9 +369,9 @@
 .cms__list td button:hover { text-decoration: underline; }
 @media (max-width: 719px) { .cms__list th:nth-child(5), .cms__list td:nth-child(5), .cms__list th:nth-child(3), .cms__list td:nth-child(3) { display: none; } }
 .cms__pill { display: inline-block; padding: .18rem .45rem; border-radius: 3px; font-size: .7rem; font-weight: 600; white-space: nowrap; }
-.cms__pill--available { background: #edfaef; color: #00450c; }
+.cms__pill--available-now, .cms__pill--available-from-date { background: #edfaef; color: #00450c; }
 .cms__pill--reserved { background: #fcf9e8; color: #614200; }
-.cms__pill--leased { background: #f0f0f1; color: #50575e; }
+.cms__pill--leased, .cms__pill--hidden, .cms__pill--to-confirm { background: #f0f0f1; color: #50575e; }
 .cms__back { margin-bottom: .8rem; padding: 0; border: 0; background: none; color: #2271b1; font: inherit; cursor: pointer; }
 .cms__fields { display: grid; gap: .5rem 1rem; margin-bottom: 1rem; padding: 1rem; background: white; border: 1px solid #c3c4c7; }
 @media (min-width: 720px) { .cms__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -384,7 +384,7 @@
 .cms__radio input { position: absolute; opacity: 0; }
 .cms__radio span { display: inline-flex; align-items: center; min-height: 2.4rem; padding: 0 1rem; border: 1px solid #8c8f94; border-radius: 3px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
 .cms__radio input:checked + span { border-color: #2271b1; background: #2271b1; color: white; }
-.cms__radio--leased input:checked + span { border-color: #1d2327; background: #1d2327; }
+.cms__radio--leased input:checked + span, .cms__radio--hidden input:checked + span, .cms__radio--to-confirm input:checked + span { border-color: #1d2327; background: #1d2327; }
 .cms__radio input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
 .cms__update { min-height: 2.4rem; padding: 0 1.2rem; border: 1px solid #2271b1; border-radius: 3px; background: #2271b1; color: white; font: inherit; font-weight: 600; cursor: pointer; }
 .cms__update:disabled { opacity: .5; cursor: default; }

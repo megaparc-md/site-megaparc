@@ -8,10 +8,15 @@ import type { Localized } from "@/lib/site-data";
  * the future WordPress content type "Available space" (docs/CMS_ARCHITECTURE.md):
  * every field below maps to one field an employee edits in WordPress.
  *
- * AVAILABILITY RULE (src/content/source.ts): records with status "leased" are
- * never published — no card, no unit page, no count. Changing a status in the
- * CMS from AVAILABLE to LEASED therefore removes the space from the site on the
- * next publish, without anyone touching code. "reserved" stays visible, labelled.
+ * AVAILABILITY RULE (src/content/source.ts; OWNER "HEADLESS CMS ARCHITECTURE"
+ * 2026-11-06 — the status is the ONE source of truth for every public
+ * reference): AVAILABLE_NOW and AVAILABLE_FROM_DATE are published with a viewing
+ * action; RESERVED stays visible, labelled, with a waitlist action instead of a
+ * viewing; LEASED, HIDDEN and TO_CONFIRM are never published — no card, no unit
+ * page, no count, no Home block. Changing the status in the CMS therefore
+ * updates Home, Leasing, Projects and the property page on the next publish,
+ * without anyone touching code. AVAILABLE_FROM_DATE turns into "available now"
+ * by itself once its date has passed.
  *
  * DATA GOVERNANCE: the prototype has no approved space schedule from the
  * leasing team. Records are built on confirmed property facts where they exist
@@ -24,8 +29,20 @@ import type { Localized } from "@/lib/site-data";
  * type stripping to write docs/DEMO_DATA_REGISTER.md.
  */
 
-/** draft = kept in the CMS, not published (offer not confirmed by the OWNER). */
-export type SpaceStatus = "available" | "reserved" | "leased" | "draft";
+/**
+ * Unit availability status (OWNER enum, 2026-11-06):
+ *   AVAILABLE_NOW       → leasing listing + viewing action
+ *   AVAILABLE_FROM_DATE → listing + the exact future date (becomes "now" after it)
+ *   RESERVED            → visible, labelled «Забронировано», waitlist action
+ *   LEASED              → removed from every public view
+ *   HIDDEN              → no public output (kept in the CMS)
+ *   TO_CONFIRM          → never marketed as available (offer not confirmed)
+ */
+export type SpaceStatus = "AVAILABLE_NOW" | "AVAILABLE_FROM_DATE" | "RESERVED" | "LEASED" | "HIDDEN" | "TO_CONFIRM";
+/** Evidence class of a fact (OWNER Moscova 20 mandate §37 — internal; never rendered as a tag). */
+export type Evidence = "OWNER_CONFIRMED" | "DOCUMENT_CONFIRMED" | "APPROXIMATE" | "TO_CONFIRM" | "HISTORICAL_ANALYSIS" | "DEMO";
+/** One level of a multi-level unit: gross area, useful (sales) area, clear height. */
+export type AreaLevel = { key: "ground" | "lower" | "terrace" | "upper"; label: Localized; area: number; useful?: number; height?: number; heightEvidence?: Evidence };
 export type SpaceUse = "retail" | "office" | "showroom" | "services" | "clinic" | "fnb";
 export type SpaceNeed = "visibility" | "flow" | "parking" | "ground" | "entrance" | "power" | "ventilation" | "delivery" | "flexible" | "fast";
 export type NeedFit = "strong" | "possible" | "limited";
@@ -53,13 +70,19 @@ export type AvailableSpace = {
   unit: Localized;
   floor: FloorKey;
   floorLabel: Localized;
-  /** m² offered; areaMin when a smaller part can be agreed. */
+  /** m² offered (marketed area); areaMin when a smaller part can be agreed. */
   area: number;
   areaMin?: number;
+  /** Useful / sales area inside the marketed area, when documented. */
+  usefulArea?: number;
+  /** Level-by-level breakdown of the marketed area (CMS: "Разбивка площадей"). */
+  breakdown?: AreaLevel[];
   uses: SpaceUse[];
   status: SpaceStatus;
-  /** ISO date the space can be occupied; null = now. */
+  /** ISO date the space can be occupied (used by AVAILABLE_FROM_DATE); null = now. */
   availableFrom: string | null;
+  /** CMS switch: false hides the viewing action even while the unit is published. Default true. */
+  ctaEnabled?: boolean;
   /** The reason to care, in one line. */
   headline: Localized;
   /** Key features (three or four). */
@@ -104,46 +127,57 @@ export const spaces: AvailableSpace[] = [
     project: "moscova-20",
     unit: L("Spațiu de colț · parter + demisol", "Угловое помещение · 1‑й этаж + цоколь", "Corner space · ground + lower ground"),
     floor: "multi",
-    floorLabel: L("Parter + demisol", "1‑й этаж + цоколь", "Ground + lower ground"),
+    floorLabel: L("Parter + demisol", "1‑й этаж + цоколь", "Ground + lower ground"),
+    // OWNER Moscova 20 mandate 2026-11-06 §3–4: marketed area ≠ total property area (704 m², src/data/demo-content.ts → assetOccupancy)
     area: 625.7,
-    uses: ["retail", "fnb", "services", "clinic", "showroom"],
-    status: "available",
-    availableFrom: "2026-08-17",
-    headline: L(
-      "Vitrină de colț pe prima linie, cu terasă și acces de serviciu separat.",
-      "Угловая витрина на первой линии, терраса и отдельный служебный вход.",
-      "A first-line corner window, a terrace and a separate service entrance.",
-    ),
-    highlights: [
-      L("Fațadă panoramică pe două străzi", "Панорамный фасад на две улицы", "Panoramic frontage on two streets"),
-      L("Circa 5.000 de pietoni pe zi (estimare)", "Около 5 000 пешеходов в день (оценка)", "About 5,000 pedestrians a day (estimate)"),
-      L("Terasă de 91,03 m²", "Терраса 91,03 м²", "A 91.03 m² terrace"),
-      L("Acces de serviciu cu rampă", "Служебный доступ с рампой", "Service access with ramp"),
+    usefulArea: 458.86,
+    breakdown: [
+      { key: "ground", label: L("Parter", "1‑й этаж", "Ground floor"), area: 240.96, useful: 195.46, height: 2.64, heightEvidence: "APPROXIMATE" },
+      { key: "lower", label: L("Demisol", "Цоколь", "Lower ground"), area: 293.7, useful: 263.4, height: 2.67, heightEvidence: "APPROXIMATE" },
+      { key: "terrace", label: L("Terasă", "Терраса", "Terrace"), area: 91.03 },
     ],
-    parking: L("Parcare dedicată în apropiere", "Выделенная парковка рядом", "Dedicated parking nearby"),
-    entrance: L("Intrare de la colț + acces de serviciu cu rampă", "Вход с угла + служебный вход с рампой", "Corner entrance + service access with ramp"),
-    visibility: L("Colț, vitrină continuă pe două străzi", "Угол, сплошная витрина на две улицы", "Corner, continuous window on two streets"),
+    // café / restaurant and clinic need a technical check first (extraction, power, permitted use) — not marketed as a fit
+    uses: ["retail", "showroom", "services"],
+    status: "AVAILABLE_NOW",
+    availableFrom: null,
+    ctaEnabled: true,
+    headline: L(
+      "Spațiu comercial de colț pe prima linie: parter, demisol și terasă.",
+      "Угловое коммерческое пространство на первой линии: 1‑й этаж, цоколь и терраса.",
+      "A corner commercial space on the first line: ground floor, lower ground and terrace.",
+    ),
+    // the four hero micro-facts (OWNER mandate §7) — the same record feeds Leasing, Home and the property page
+    highlights: [
+      L("Vitrină panoramică", "Панорамное остекление", "Panoramic glazing"),
+      L("Intrare separată", "Отдельный вход", "Separate entrance"),
+      L("Terasă", "Терраса", "Terrace"),
+      L("Acces de serviciu", "Служебный доступ", "Service access"),
+    ],
+    parking: L("Zonă de parcare dedicată lângă obiect", "Выделенная парковочная зона у объекта", "A dedicated parking area by the property"),
+    entrance: L("Intrare separată din stradă, cu scări și rampă · acces de serviciu separat", "Отдельный вход с улицы, лестница и пандус · отдельный служебный доступ", "Separate street entrance with steps and a ramp · separate service access"),
+    visibility: L("Colț pe prima linie, vitrină panoramică spre bulevard", "Угол на первой линии, панорамное остекление на бульвар", "A first-line corner, panoramic glazing to the boulevard"),
     technical: {
-      power: L("cca. 50 kVA · se confirmă tehnic", "около 50 кВА · уточняется", "approx. 50 kVA · to be confirmed"),
-      ventilation: L("Trasee de ventilație existente", "Существующие трассы вентиляции", "Existing ventilation routes"),
-      height: L("Parter cca. 2,64 m · demisol cca. 2,67 m", "1‑й этаж ок. 2,64 м · цоколь ок. 2,67 м", "Ground approx. 2.64 m · lower ground approx. 2.67 m"),
-      condition: L("Gata pentru amenajarea chiriașului", "Готово к отделке под арендатора", "Ready for the tenant's fit-out"),
+      power: L("3 faze · 38 kW (conform documentelor)", "3 фазы · 38 кВт (по документам)", "3 phases · 38 kW (documented)"),
+      ventilation: L("Sistem de ventilație și climatizare existent", "Существующая система вентиляции и кондиционирования", "Existing ventilation and air-conditioning system"),
+      height: L("Parter cca. 2,64 m · demisol cca. 2,67 m", "1‑й этаж ок. 2,64 м · цоколь ок. 2,67 м", "Ground approx. 2.64 m · lower ground approx. 2.67 m"),
+      condition: L("Renovat: pardoseli, pereți, încălzire, grupuri sanitare", "Отремонтировано: полы, стены, отопление, санузлы", "Renovated: floors, walls, heating, washrooms"),
     },
     fit: { visibility: "strong", flow: "strong", parking: "possible", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "strong", flexible: "possible", fast: "strong" },
     plan: {
       kind: "stack",
       levels: [
         { label: L("Terasă", "Терраса", "Terrace"), m2: 91.03, included: true },
-        { label: L("Parter · vânzare 195,46 m²", "1‑й этаж · торговая 195,46 м²", "Ground · sales 195.46 m²"), m2: 240.96, included: true },
-        { label: L("Demisol · vânzare 263,40 m²", "Цоколь · торговая 263,40 м²", "Lower ground · sales 263.40 m²"), m2: 293.7, included: true },
+        { label: L("Parter · util 195,46 m²", "1‑й этаж · полезная 195,46 м²", "Ground · useful 195.46 m²"), m2: 240.96, included: true },
+        { label: L("Demisol · util 263,40 m²", "Цоколь · полезная 263,40 м²", "Lower ground · useful 263.40 m²"), m2: 293.7, included: true },
       ],
-      note: L("Parterul separat (240,96 m²) — de confirmat.", "Первый этаж отдельно (240,96 м²) — уточняется.", "Ground floor alone (240.96 m²) — to be confirmed."),
+      note: L("Închirierea doar a parterului — se clarifică.", "Аренда только 1‑го этажа — уточняется.", "Leasing the ground floor alone — to be confirmed."),
     },
-    photos: [{ kind: "asset", slug: "moscova-20" }, { kind: "use", id: "asset.moscova-20.gallery.1" }, { kind: "use", id: "asset.moscova-20.gallery.2" }],
+    // real photographs only: the concept placements (asset.moscova-20.gallery.*) are retired; the photo story lives in src/data/leasing-experience-moscova-20.ts
+    photos: [{ kind: "asset", slug: "moscova-20" }],
     dataStatus: "PROVISIONAL",
-    confirmed: ["area", "floor", "availableFrom", "parking", "entrance", "visibility", "power", "ventilation", "height", "condition", "plan", "highlights"],
-    updated: "2026-10-06",
-    futureSource: "CMS — Available space record (leasing team); uses beyond retail / services / showroom are DEMO",
+    confirmed: ["area", "floor", "availableFrom", "uses", "parking", "entrance", "visibility", "power", "ventilation", "height", "condition", "plan", "highlights"],
+    updated: "2026-11-06",
+    futureSource: "CMS — Available space record M20-01 (leasing team); OWNER Moscova 20 mandate 2026-11-06",
   },
   {
     id: "moscova-9-building",
@@ -155,7 +189,7 @@ export const spaces: AvailableSpace[] = [
     area: 1289.93,
     areaMin: 400,
     uses: ["retail", "showroom"],
-    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
+    status: "LEASED", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "O clădire proprie pe bulevard: fațadă lungă, două intrări, rampă de descărcare.",
@@ -203,7 +237,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический", "Lower ground + 3 floors + technical"),
     area: 5223,
     uses: ["office"],
-    status: "draft", // OWNER 2026-10-09: 5 223 m² is not a confirmed offer — not published
+    status: "TO_CONFIRM", // OWNER 2026-10-09: 5 223 m² is not a confirmed offer — never marketed
     availableFrom: "2027-01-01",
     headline: L(
       "O clădire separată pentru sediul unei singure companii — cu numele ei pe fațadă.",
@@ -252,7 +286,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Parter", "1‑й этаж", "Ground floor"),
     area: 120,
     uses: ["services", "clinic", "retail"],
-    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
+    status: "LEASED", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "Un spațiu la stradă pentru servicii de cartier sau un cabinet medical.",
@@ -291,7 +325,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Etajul 2", "2‑й этаж", "2nd floor"),
     area: 210,
     uses: ["office"],
-    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
+    status: "LEASED", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "Un birou pentru o echipă de 15–25 de oameni, cu lumină pe două laturi.",
@@ -330,7 +364,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Etajul 3", "3‑й этаж", "3rd floor"),
     area: 85,
     uses: ["office", "services"],
-    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
+    status: "LEASED", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: "2026-12-01",
     headline: L(
       "Un birou compact pentru o echipă mică — liber din decembrie.",
@@ -368,7 +402,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Parter", "1‑й этаж", "Ground floor"),
     area: 95,
     uses: ["fnb", "services"],
-    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
+    status: "LEASED", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "Spațiu pentru o cafenea de cartier, cu terasă la stradă.",
@@ -407,7 +441,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Etajul 4", "4‑й этаж", "4th floor"),
     area: 240,
     uses: ["office"],
-    status: "leased",
+    status: "LEASED",
     availableFrom: null,
     headline: L("Birou de 240 m² cu vedere spre oraș.", "Офис 240 м² с видом на город.", "A 240 m² office with a city view."),
     highlights: [L("Vedere spre oraș", "Вид на город", "City view")],
