@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_PAGES: "true"
           NEXT_PUBLIC_BASE_PATH: "/site-megaparc"
-          NEXT_PUBLIC_SITE_URL: "https://ghennadiiacovlev-blip.github.io/site-megaparc"
+          NEXT_PUBLIC_SITE_URL: "https://megaparc-md.github.io/site-megaparc"
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
