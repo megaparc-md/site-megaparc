@@ -120,7 +120,10 @@ const creangaPlate = (self: string, level: Localized, ids: [string, string, stri
   ],
 });
 
-export const spaces: AvailableSpace[] = [
+/** Site edition, read directly (this module also loads in Node for the production gate). */
+const productionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") === "production";
+
+const allSpaces: AvailableSpace[] = [
   {
     id: "moscova-20-corner",
     code: "M20-01",
@@ -183,18 +186,20 @@ export const spaces: AvailableSpace[] = [
     id: "moscova-9-building",
     code: "M9-01",
     project: "moscova-9",
-    unit: L("Clădire comercială independentă", "Отдельное торговое здание", "Stand-alone retail building"),
-    floor: "whole",
-    floorLabel: L("Clădire întreagă · sală la nivelul străzii", "Здание целиком · зал на уровне улицы", "Whole building · street-level sales floor"),
+    // OWNER FACT 2026-11-09 (overnight release §7): the 1st floor becomes available on 1 January 2027. Area = the street-level
+    // zones of this record (sales floor + support rooms + unloading) — to be confirmed by the OWNER as the 1st-floor area.
+    unit: L("Etajul 1 al clădirii comerciale", "1-й этаж торгового здания", "1st floor of the retail building"),
+    floor: "ground",
+    floorLabel: L("Etajul 1 · sală la nivelul străzii", "1-й этаж · торговый зал на уровне улицы", "1st floor · street-level sales floor"),
     area: 1289.93,
     areaMin: 400,
     uses: ["retail", "showroom"],
-    status: "LEASED", // OWNER 2026-10-09: property 100 % occupied — no public availability
-    availableFrom: null,
+    status: "AVAILABLE_FROM_DATE", // OWNER FACT 2026-11-09 — not available now
+    availableFrom: "2027-01-01",
     headline: L(
-      "O clădire proprie pe bulevard: fațadă lungă, două intrări, rampă de descărcare.",
-      "Своё здание на бульваре: длинный фасад, два входа, рампа для разгрузки.",
-      "A building of your own on the boulevard: a long frontage, two entrances, an unloading ramp.",
+      "Prima linie a bulevardului: fațadă lungă, două intrări, rampă de descărcare.",
+      "Первая линия бульвара: длинный фасад, два входа, рампа для разгрузки.",
+      "The boulevard's first line: a long frontage, two entrances, an unloading ramp.",
     ),
     highlights: [
       L("Sală de vânzare de 737,07 m²", "Торговый зал 737,07 м²", "A 737.07 m² sales floor"),
@@ -222,9 +227,9 @@ export const spaces: AvailableSpace[] = [
         { label: L("Descărcare · rampă", "Разгрузка · рампа", "Unloading · ramp"), m2: 69.46, x: 70, y: 18, w: 30, h: 42, tone: "service" },
       ],
     },
-    photos: [{ kind: "asset", slug: "moscova-9" }, { kind: "use", id: "asset.moscova-9.gallery.1" }, { kind: "use", id: "asset.moscova-9.gallery.2" }],
+    photos: [{ kind: "asset", slug: "moscova-9" }],
     dataStatus: "PROVISIONAL",
-    confirmed: ["area", "uses", "parking", "entrance", "visibility", "highlights", "plan"],
+    confirmed: ["area", "floor", "availableFrom", "uses", "parking", "entrance", "visibility", "highlights", "plan"],
     updated: "2026-10-03",
     futureSource: "CMS — Available space record (leasing team); minimum part, date, height and technical values are DEMO; support-room area is derived (total − sales − unloading)",
   },
@@ -237,7 +242,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический", "Lower ground + 3 floors + technical"),
     area: 5223,
     uses: ["office"],
-    status: "TO_CONFIRM", // OWNER 2026-10-09: 5 223 m² is not a confirmed offer — never marketed
+    status: "AVAILABLE_FROM_DATE", // OWNER overnight release 2026-11-09 §8: Dacia 31 is a leasing destination — the record's offer (whole building, from 1 January 2027; OWNER-approved card copy 2026-10-09)
     availableFrom: "2027-01-01",
     headline: L(
       "O clădire separată pentru sediul unei singure companii — cu numele ei pe fațadă.",
@@ -271,7 +276,7 @@ export const spaces: AvailableSpace[] = [
       ],
       note: L("Se închiriază ca întreg.", "Сдаётся целиком.", "Leased as a whole."),
     },
-    photos: [{ kind: "asset", slug: "dacia-31" }, { kind: "use", id: "asset.dacia-31.gallery.1" }, { kind: "use", id: "asset.dacia-31.gallery.2" }],
+    photos: [{ kind: "asset", slug: "dacia-31" }],
     dataStatus: "PROVISIONAL",
     confirmed: ["area", "floor", "availableFrom", "uses", "entrance", "visibility", "power", "ventilation", "plan", "highlights"],
     updated: "2026-10-01",
@@ -463,6 +468,26 @@ export const spaces: AvailableSpace[] = [
     futureSource: "OWNER / leasing team — Creangă 78 vacancy schedule (no approved data yet)",
   },
 ];
+
+const OMITTED = "__DEMO_OMITTED__";
+const omitted: Localized = { ro: OMITTED, ru: OMITTED, en: OMITTED };
+/** Production edition: the unconfirmed fields of a record are not part of the dataset (never a guessed value on the live site). */
+function confirmedOnly(space: AvailableSpace): AvailableSpace {
+  if (space.dataStatus === "CONFIRMED") return space;
+  const keep = (field: SpaceField, value: Localized) => (space.confirmed.includes(field) ? value : omitted);
+  return {
+    ...space,
+    // a smaller agreed part (areaMin) is published only when the record is fully confirmed (Moscova 9: DEMO minimum part)
+    areaMin: undefined,
+    parking: keep("parking", space.parking),
+    entrance: keep("entrance", space.entrance),
+    visibility: keep("visibility", space.visibility),
+    technical: { power: keep("power", space.technical.power), ventilation: keep("ventilation", space.technical.ventilation), height: keep("height", space.technical.height), condition: keep("condition", space.technical.condition) },
+  };
+}
+
+/** Production edition: DEMO records are not part of the dataset (LEASED, never published); unconfirmed fields carry the sentinel. */
+export const spaces: AvailableSpace[] = productionEdition ? allSpaces.filter((space) => space.dataStatus !== "DEMO").map(confirmedOnly) : allSpaces;
 
 /** Rows for docs/DEMO_DATA_REGISTER.md (scripts/demo-register.mjs). */
 export const spaceRegister = spaces.map((space) => ({

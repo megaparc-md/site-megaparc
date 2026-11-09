@@ -46,11 +46,28 @@ export type DataPoint = {
 
 const points: DataPoint[] = [];
 
+/**
+ * Site edition — read directly: this module also loads in Node for `npm run gate:production`.
+ * release/2026-11-09-production-v1 builds the PRODUCTION edition unless NEXT_PUBLIC_SITE_EDITION=preview.
+ */
+export const productionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") === "production";
+
+/**
+ * Production edition (OWNER "PRODUCTION V1": confirmed content only): a DEMO value is not part of the production
+ * dataset — it is never registered and carries no real text. Should a component still print one, this sentinel
+ * appears in the export and `scripts/qa-production.mjs` fails the build.
+ */
+export const DEMO_OMITTED = "__DEMO_OMITTED__";
+
 function point(status: DataStatus, key: string, group: DemoGroup, page: string, field: string, value: Localized | string, futureSource: string): DataPoint {
+  if (status === "DEMO" && productionEdition) return { key, group, page, field, value: { ro: DEMO_OMITTED, ru: DEMO_OMITTED, en: DEMO_OMITTED }, status, futureSource };
   const entry: DataPoint = { key, group, page, field, value: typeof value === "string" ? { ro: value, ru: value, en: value } : value, status, futureSource };
   points.push(entry);
   return entry;
 }
+
+/** A DataPoint that may be published in this edition (production: everything but DEMO). */
+export const shown = (entry: DataPoint | null | undefined): entry is DataPoint => !!entry && !(productionEdition && entry.status === "DEMO");
 const demo = (key: string, group: DemoGroup, page: string, field: string, value: Localized | string, futureSource: string) => point("DEMO", key, group, page, field, value, futureSource);
 const confirmed = (key: string, group: DemoGroup, page: string, field: string, value: Localized | string, futureSource = "Confirmed — src/lib/assets.ts") => point("CONFIRMED", key, group, page, field, value, futureSource);
 const provisional = (key: string, group: DemoGroup, page: string, field: string, value: Localized | string, futureSource: string) => point("PROVISIONAL", key, group, page, field, value, futureSource);
@@ -503,6 +520,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
 };
 
 /** How a partnership conversation starts — a process statement, DEMO until the OWNER confirms it. */
+/** The case is published only when every stage is (production edition: its DEMO stages are not — the whole case is omitted). */
+export const caseStudyPublished = (): boolean => caseStudy.stages.every((stage) => shown(stage.text));
+
 export const partnershipProcess: DataPoint[] = [
   demo("partnership.process.1", "COMPANY", "Partnership", "Process · first contact", { ro: "Câteva rânduri despre interes sau proiect — prin formular sau e-mail.", ru: "Несколько строк об интересе или проекте — через форму или по e‑mail.", en: "A few lines about your interest or the project — through the form or by e-mail." }, "OWNER — confirm the partnership process"),
   demo("partnership.process.2", "COMPANY", "Partnership", "Process · meeting", { ro: "Întâlnire și vizită la obiecte sau la proiect.", ru: "Встреча и осмотр объектов или проекта.", en: "A meeting and a visit to the properties or the project." }, "OWNER — confirm the partnership process"),
@@ -576,6 +596,15 @@ export const conceptVisuals: Record<VisualKey, ConceptVisual> = Object.fromEntri
 export type ImageScope = "BRAND" | "PROPERTY_DIRECTION";
 
 export type ImageUse = {
+  /**
+   * ILLUSTRATIVE_APPROVED (OWNER "PRODUCTION V1", 2026-11-09) — explicitly approved by the OWNER, an illustration
+   * only, never property evidence, always shown with its visible `disclosure`. Never used for factual data.
+   * Without it the placement is DEMO (a concept visual awaiting a real MEGAPARC photograph).
+   */
+  evidence?: "ILLUSTRATIVE_APPROVED";
+  disclosure?: Localized;
+  /** One art-directed crop per breakpoint (scripts/hero-art-direction.mjs → <visual>-1920 / 1440 / 1024 / 768 / 390.webp). */
+  art?: boolean;
   id: string;
   page: string;
   section: string;
@@ -590,8 +619,19 @@ export type ImageUse = {
 };
 
 const uses: ImageUse[] = [];
+const approved: ImageUse[] = [];
 function place(id: string, page: string, section: string, asset: string | null, visual: VisualKey, scope: ImageScope, purpose: string, priority: ImageUse["priority"], recommendedShot: string, alt: Localized, position?: string) {
+  // production edition: a DEMO concept visual is not part of the dataset — the placement renders without it
+  if (productionEdition) return;
   uses.push({ id, page, section, asset, visual, scope, purpose, priority, recommendedShot, alt, position });
+}
+
+/** The quiet disclosure every OWNER-approved illustration carries (OWNER "PRODUCTION V1" §2). */
+export const conceptDisclosure: Localized = { ro: "Imagine de concept", ru: "Концептуальное изображение", en: "Concept image" };
+
+/** An OWNER-approved illustration (ILLUSTRATIVE_APPROVED): brand scope only, no property, always disclosed — both editions. */
+function illustrate(id: string, page: string, section: string, visual: VisualKey, purpose: string, recommendedShot: string, alt: Localized, position?: string) {
+  approved.push({ evidence: "ILLUSTRATIVE_APPROVED", disclosure: conceptDisclosure, art: true, id, page, section, asset: null, visual, scope: "BRAND", purpose, priority: "HIGH", recommendedShot, alt, position });
 }
 
 const A = {
@@ -641,8 +681,9 @@ const A = {
 place("home.direction.investment", "Home", "Directions · 01 investment", null, "cv-inspection", "BRAND", "Investment — people evaluating a real asset", "HIGH", "MEGAPARC team on a site visit with plans at a property", A.inspection);
 place("home.direction.development", "Home", "Directions · 02 development", null, "cv-frame", "BRAND", "Development — engineering on site", "HIGH", "VATRA site: MEGAPARC engineer on site", A.frame);
 place("home.direction.leasing", "Home", "Directions · 03 leasing", null, "cv-loft-cafe", "BRAND", "Leasing — tenant activity at street level", "HIGH", "People entering a MEGAPARC property", A.loftCafe);
-// Home hero — a concept architectural photograph that sells the brand, never a MEGAPARC asset (OWNER premium brief 2026-10-09). Source: Unsplash, Wolfgang Weiser, Hamburg (Unsplash License). Not captioned on the site.
-place("home.hero", "Home", "Hero · brand", null, "cv-hero-plaza", "BRAND", "Brand — scale, capital, city, architecture", "HIGH", "Commissioned architectural photograph or an approved MEGAPARC brand image", A.heroPlaza, "50% 60%");
+// Home hero — a concept architectural photograph that sells the brand, never a MEGAPARC asset (OWNER premium brief 2026-10-09). Source: Unsplash, Wolfgang Weiser, Hamburg (Unsplash License).
+// OWNER "PRODUCTION V1" (2026-11-09) §2A: approved for production as an illustration — disclosed «Концептуальное изображение».
+illustrate("home.hero", "Home", "Hero · brand", "cv-hero-plaza", "Brand — scale, capital, city, architecture", "Commissioned architectural photograph or an approved MEGAPARC brand image", A.heroPlaza, "50% 60%");
 place("home.proof", "Home", "Proof · full-bleed scene", null, "cv-crane", "BRAND", "Execution — work in progress behind the figures", "MEDIUM", "VATRA construction, wide, daylight", A.crane);
 place("home.route.partner", "Home", "Routes · investment partnership", null, "cv-model", "BRAND", "Partnership — a meeting over plans", "MEDIUM", "MEGAPARC meeting over drawings", A.model);
 // About · the business (three scenes): real property photographs carry the scene; these insets add human scale.
@@ -650,7 +691,8 @@ place("business.investment.inset", "About", "Business · 01 investment inset", n
 place("business.development.inset", "About", "Business · 02 development inset", null, "cv-level", "BRAND", "Construction work", "HIGH", "VATRA construction crew", A.level);
 place("business.leasing.inset", "About", "Business · 03 leasing inset", null, "cv-entrance", "BRAND", "Tenant activity", "HIGH", "Tenant activity inside a MEGAPARC property", A.entrance);
 // Pexels 2314021, Diego Pontes, Malvinas (PB), Brazil — Pexels License; provenance internal only (OWNER premium phase 2, 2026-10-09)
-place("partnership.hero", "Partnership", "Hero", null, "cv-dev-frame", "BRAND", "Capital at work — a commercial frame going up, project scale, human scale", "HIGH", "MEGAPARC development site from above (drone), daylight", A.devFrame, "50% 55%");
+// OWNER "PRODUCTION V1" (2026-11-09) §2B: approved for production as an illustration — never a MEGAPARC asset or completed project.
+illustrate("partnership.hero", "Partnership", "Hero", "cv-dev-frame", "Capital at work — a commercial frame going up, project scale, human scale", "MEGAPARC development site from above (drone), daylight", A.devFrame, "50% 55%");
 place("home.route.owner", "Home", "Routes · offer a property or land", null, "cv-field", "BRAND", "Owner route — land", "MEDIUM", "Land at a town entrance (MEGAPARC site visit)", A.field);
 // Projects
 place("development.drochia", "Projects", "Collection · Drochia Gateway", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway DRONE — the real site, both road fronts", A.field);
@@ -673,7 +715,10 @@ place("careers.responsibility", "Careers", "Pillar · Project responsibility", n
 place("careers.growth", "Careers", "Pillar · Career development", null, "cv-drawing", "BRAND", "Learning", "LOW", "MEGAPARC office", A.drawing);
 place("careers.field", "Careers", "Pillar · Field + office", null, "cv-scaffold-street", "BRAND", "Field and office", "LOW", "MEGAPARC team between site and office", A.scaffoldStreet);
 
+/** DEMO concept-visual placements (the production gate fails while any remains; production edition: none). */
 export const imageUses: readonly ImageUse[] = uses;
+/** OWNER-approved illustrations (ILLUSTRATIVE_APPROVED) — the only concept imagery the production edition carries. */
+export const approvedIllustrations: readonly ImageUse[] = approved;
 
 /* ------------------------------------------------------------------ */
 /* VIDEO — concept films (OWNER addendum 2026-10-08, careers video)      */
@@ -716,7 +761,8 @@ export type VideoUse = { id: string; page: string; section: string; video: keyof
 const filmShoot =
   "MEGAPARC shoot, daylight, people natural (no staged handshakes): engineer walking through a MEGAPARC property · inspection on the VATRA site · plans on the table · team discussing drawings · measuring a building detail · machinery on site · a colleague crossing an operating building · a short building / street transition. 16:9 + 9:16, 15–20 s loop, no audio";
 
-export const videoUses: readonly VideoUse[] = [
+// production edition: no concept film (OWNER "PRODUCTION V1" §3 Careers)
+export const videoUses: readonly VideoUse[] = productionEdition ? [] : [
   { id: "home.careers.film", page: "Home", section: "Vacancies · cinematic film", video: "cv-film-careers", purpose: "Atmosphere of real work behind the careers statement", priority: "HIGH", recommendedShot: filmShoot },
   { id: "careers.hero.film", page: "Careers", section: "Hero · cinematic film", video: "cv-film-careers", purpose: "Opening of the careers page — real work, one call to action", priority: "HIGH", recommendedShot: filmShoot },
 ];
@@ -724,9 +770,11 @@ export const videoUses: readonly VideoUse[] = [
 /** Shown on the film while it is concept footage — never implies MEGAPARC people or property. */
 export const conceptVideoLabel: Localized = { ro: "Video concept · nu MEGAPARC", ru: "Концепт-видео · не MEGAPARC", en: "Concept video · not MEGAPARC" };
 
-export function imageUse(id: string): ImageUse {
-  const found = uses.find((item) => item.id === id);
-  if (!found) throw new Error(`demo-content: unknown image use "${id}"`);
+/** A registered placement, or null when this edition carries no image there (production: DEMO placements). */
+export function imageUse(id: string): ImageUse | null {
+  const found = uses.find((item) => item.id === id) ?? approved.find((item) => item.id === id) ?? null;
+  // the preview edition registers every placement — an unknown id there is a typo
+  if (!found && !productionEdition) throw new Error(`demo-content: unknown image use "${id}"`);
   return found;
 }
 

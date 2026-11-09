@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { ConceptImage } from "@/components/experience";
+import { ConceptImage, hasConceptImage } from "@/components/experience";
 import { ArtImage } from "@/components/primitives";
 import { Icon } from "@/components/ui";
 import { getProject } from "@/content/source";
@@ -74,9 +74,12 @@ export function BusinessStage({ locale, label, more }: { locale: SiteLocale; lab
             <figure key={scene.key} className="bz__frame">
               <SceneImage scene={scene} locale={locale} sizes="(min-width: 1024px) 60vw, 100vw" />
               <span className="bz__caption">{scene.caption[locale]}</span>
-              <span className="bz__inset">
-                <ConceptImage id={scene.inset} locale={locale} sizes="(min-width: 1024px) 18vw, 40vw" />
-              </span>
+              {/* production edition: no concept visual here (OWNER "PRODUCTION V1" §3) — the frame is not rendered */}
+              {hasConceptImage(scene.inset) ? (
+                <span className="bz__inset">
+                  <ConceptImage id={scene.inset} locale={locale} sizes="(min-width: 1024px) 18vw, 40vw" />
+                </span>
+              ) : null}
             </figure>
           ))}
         </div>
@@ -109,9 +112,12 @@ export function DirectionTiles({ locale, links }: { locale: SiteLocale; links: R
       {directions.map((d, index) => (
         <li key={d.key} data-reveal style={{ "--i": index } as CSSProperties}>
           <Link href={links[d.key].href} className="dt__link">
-            <figure className="dt__media">
-              <ConceptImage id={tiles[d.key]} locale={locale} sizes="(min-width: 1024px) 33vw, 100vw" />
-            </figure>
+            {/* production edition: no concept visual here (OWNER "PRODUCTION V1" §3) — the frame is not rendered */}
+            {hasConceptImage(tiles[d.key]) ? (
+              <figure className="dt__media">
+                <ConceptImage id={tiles[d.key]} locale={locale} sizes="(min-width: 1024px) 33vw, 100vw" />
+              </figure>
+            ) : null}
             <span className="dt__no">{d.no}</span>
             <span className="dt__title">{d.title[locale]}</span>
             <span className="dt__text">{d.short[locale]}</span>

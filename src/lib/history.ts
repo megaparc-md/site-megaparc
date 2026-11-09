@@ -877,7 +877,10 @@ export const episodePlace: Record<string, Localized> = {
  * the group's own archive (provenance in historyImages / scripts/history-imagery.mjs,
  * never shown on the page). MEGAPARC episodes use real MEGAPARC photographs.
  */
-export const episodeImage: Record<string, { kind: "archive"; key: string } | { kind: "asset"; slug: string }> = {
+/** Site edition, read directly (this module also loads in Node for the production gate). */
+const productionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") === "production";
+
+const allEpisodeImages: Record<string, { kind: "archive"; key: string } | { kind: "asset"; slug: string }> = {
   negruzzi: { kind: "archive", key: "era-retail" },
   modelier: { kind: "archive", key: "ep-modelier" },
   romitech: { kind: "archive", key: "era-port" },
@@ -904,6 +907,24 @@ export const episodeImage: Record<string, { kind: "archive"; key: string } | { k
   "romania-logistics": { kind: "archive", key: "ep-romania-logistics" },
   "focus-2020": { kind: "asset", slug: "dacia-31" },
 };
+
+/**
+ * Production edition (OWNER "PRODUCTION V1" §3): the period images are placeholders for the group archive and are
+ * not approved for production — episodes keep their confirmed text and show no image (never an invented one).
+ * The real MEGAPARC photographs (asset episodes) stay.
+ */
+export const episodeImage: Record<string, { kind: "archive"; key: string } | { kind: "asset"; slug: string }> = productionEdition
+  ? Object.fromEntries(Object.entries(allEpisodeImages).filter(([, image]) => image.kind === "asset"))
+  : allEpisodeImages;
+
+/** The archive photograph that opens the page (a period image) — preview edition only. */
+export const historyHeroImage: HistoryImageKey | null = productionEdition ? null : "era-port";
+
+/** The period photographs of the Home and About history teasers — preview edition only. */
+export const teaserImage: Record<"home" | "about", HistoryImageKey | null> = productionEdition ? { home: null, about: null } : { home: "era-port", about: "era-retail" };
+
+/** The archive interlude before 2005 (a period image) — preview edition only. */
+export const interludeImage: HistoryImageKey | null = productionEdition ? null : "era-construction";
 
 /** Heritage dates for the opening (the agreed distinction: group · MEGAPARC · focus). */
 export const heritage: { year: string; label: Localized }[] = [

@@ -48,6 +48,18 @@ export function PhotoLabel(props: { className?: string }) {
  */
 export function ConceptImage({ id, locale, priority = false, depth, sizes, className = "" }: { id: string; locale: SiteLocale; priority?: boolean; depth?: number; sizes?: string; className?: string }) {
   const use = imageUse(id);
+  // production edition: a DEMO placement has no image — the placement renders nothing
+  if (!use) return null;
+  // art-directed heroes: one intentional crop per breakpoint, never one generic object-position (OWNER overnight release §3)
+  if (use.art) {
+    const art = [[1920, 1600], [1440, 1200], [1024, 900], [768, 720]] as const;
+    return (
+      <picture>
+        {art.map(([bp, min]) => <source key={bp} media={`(min-width: ${min}px)`} srcSet={publicAsset(`/assets/brand/${use.visual}-${bp}.webp`)} />)}
+        <img src={publicAsset(`/assets/brand/${use.visual}-390.webp`)} alt={use.alt[locale]} className={`is-art ${className}`.trim()} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} decoding="async" />
+      </picture>
+    );
+  }
   const media = conceptMedia(use.visual, use.position);
   return (
     <>
@@ -57,8 +69,23 @@ export function ConceptImage({ id, locale, priority = false, depth, sizes, class
   );
 }
 
+/** True when this edition carries an image for the placement (production: approved illustrations only). */
+export function hasConceptImage(id: string) {
+  return imageUse(id) !== null;
+}
+
+/**
+ * The quiet disclosure of an OWNER-approved illustration (ILLUSTRATIVE_APPROVED, OWNER "PRODUCTION V1" §2):
+ * «Концептуальное изображение» — small, outside the aria-hidden media so it is read, never a warning badge.
+ */
+export function ConceptDisclosure({ id, locale, className = "" }: { id: string; locale: SiteLocale; className?: string }) {
+  const use = imageUse(id);
+  if (use?.evidence !== "ILLUSTRATIVE_APPROVED" || !use.disclosure) return null;
+  return <p className={`xp-disclosure ${className}`.trim()}>{use.disclosure[locale]}</p>;
+}
+
 export function isPropertyDirection(id: string) {
-  return imageUse(id).scope === "PROPERTY_DIRECTION";
+  return imageUse(id)?.scope === "PROPERTY_DIRECTION";
 }
 
 /* ---------------------------------------------------------------- */

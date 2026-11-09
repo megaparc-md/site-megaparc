@@ -1,15 +1,16 @@
 import Link from "next/link";
+import { InvestQA } from "@/components/invest-qa";
 import type { CSSProperties } from "react";
 import { DirectionsLine } from "@/components/business-stage";
-import { ConceptImage, Ledger, MaskTitle } from "@/components/experience";
+import { ConceptDisclosure, ConceptImage, Ledger, MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ProjectFacts, ProjectStatus, storyLine } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { SiteMap } from "@/components/site-map";
 import { Button, Icon } from "@/components/ui";
 import { getProject, kindLabel, listLand, listProjects, publicSpaces } from "@/content/source";
-import { caseStudy, daciaDevelopment, drochiaProfile, occupancyOf, partnershipProcess, portfolioFigures, vatraProfile } from "@/data/demo-content";
-import { acquisitionTypes, developmentStages } from "@/lib/business";
+import { caseStudy, caseStudyPublished, daciaDevelopment, drochiaProfile, occupancyOf, portfolioFigures, vatraProfile } from "@/data/demo-content";
+import { developmentStages } from "@/lib/business";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -227,6 +228,7 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
           <ConceptImage id="partnership.hero" locale={locale} priority sizes="100vw" />
         </div>
         <div className="pm-hero__veil" aria-hidden="true" />
+        <ConceptDisclosure id="partnership.hero" locale={locale} />
         <div className="xp-shell pm-hero__inner">
           <p className="pm-kicker pm-kicker--light">MEGAPARC · {c.label}</p>
           <MaskTitle as="h1" className="pm-hero__title pt2-hero__title" lines={[...c.title]} />
@@ -282,7 +284,9 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* CASE — Moscova 9 as an investment story: the building, one progression line, three chapters */}
+      {/* CASE — Moscova 9 as an investment story: the building, one progression line, three chapters.
+          Production edition: the case is DEMO — omitted entirely (OWNER "PRODUCTION V1" §3). */}
+      {caseStudyPublished() ? (
       <section className="pt2-case" id="case">
         <div className="xp-shell pm-head pm-head--split" data-reveal>
           <p className="pm-kicker">{c.caseLabel}</p>
@@ -369,6 +373,7 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* HOW VALUE IS CREATED */}
       <section className="pm-sec pm-sec--warm">
@@ -443,80 +448,9 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* WHAT WE CONSIDER + THE SIX DISCIPLINES OF THE CHECK — typography, not tiles */}
-      <section className="pm-sec pm-sec--paper pt2-look">
-        <div className="xp-shell">
-          <div className="pm-head" data-reveal>
-            <p className="pm-kicker">{c.lookLabel}</p>
-            <h2 className="pm-h2">{c.lookTitle}</h2>
-          </div>
-          <div className="pt2-types" data-reveal>
-            <p className="pt2-sub">{c.lookTypes}</p>
-            <ul>
-              {acquisitionTypes.map((type) => (
-                <li key={type.key}>
-                  <h3>{type.title[locale]}</h3>
-                  <p>{type.text[locale]}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="pt2-disc">
-            <p className="pt2-sub" data-reveal>{c.lookChecks}</p>
-            <ul className="pt2-disc__list">
-              {c.checks.map(([title, text]) => (
-                <li key={title} data-reveal>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* PARTNERSHIP AND FINANCING — how a conversation starts */}
-      <section className="pm-sec pm-sec--warm">
-        <div className="xp-shell">
-          <div className="pm-head" data-reveal>
-            <p className="pm-kicker">{c.talkLabel}</p>
-            <h2 className="pm-h2">{c.talkTitle}</h2>
-          </div>
-          <div className="pt-talk">
-            <ol className="pt-steps" data-reveal>
-              {partnershipProcess.map((step, index) => (
-                <li key={step.key}>
-                  <span className="pt-checks__no">{String(index + 1).padStart(2, "0")}</span>
-                  <p>{step.value[locale]}</p>
-                </li>
-              ))}
-            </ol>
-            <div data-reveal>
-              <ul className="pt-partners">
-                {c.partners.map(([title, text, to]) => (
-                  <li key={title}>
-                    <Link href={href(to)}>
-                      <h3>{title}</h3>
-                      <p>{text}</p>
-                      <Icon name="arrow" size={18} />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              {/* Contractors and designers — a secondary cooperation route, not an investment-partnership audience (OWNER copy patch 2026-10-09). */}
-              <p className="pt-coop">
-                <span className="pt-coop__title">{c.coop.title}</span>
-                <span>{c.coop.text}</span>
-                <Link className="pm-link" href={href(c.coop.to)}>{c.coop.cta}<Icon /></Link>
-              </p>
-            </div>
-          </div>
-          <p className="pt-note" data-reveal>{c.note}</p>
-          <div className="pm-actions pt2-talk__cta" data-reveal>
-            <Button href={discuss}>{c.cta}</Button>
-          </div>
-        </div>
-      </section>
+      {/* THE PARTNER'S QUESTIONS — what MEGAPARC considers, useful information, the initial assessment, what a partnership
+          can involve, what happens next (OWNER overnight release §13: no invented process, no DEMO case) */}
+      <InvestQA locale={locale} checks={c.checks} partners={c.partners} coop={c.coop} legal={c.note} />
 
       {/* DISCUSS AN OPPORTUNITY — calm close */}
       <section className="pm-close">

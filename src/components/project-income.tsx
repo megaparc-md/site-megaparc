@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PropertyTrust } from "@/components/leasing/property-trust";
 import type { CSSProperties } from "react";
 import { viewingHref } from "@/components/leasing/unit-card";
 import { UnitPlan } from "@/components/leasing/unit-plan";
@@ -53,6 +54,7 @@ const copy = {
   closeViewing: { ro: "Vedeți spațiul cu ochii dumneavoastră.", ru: "Посмотрите помещение вживую.", en: "See the space for yourself." },
   closeAsk: { ro: "Întrebați despre această clădire.", ru: `Вопрос об${N}этом здании?`, en: "A question about this building?" },
   closeFull: { ro: "Clădirea este închiriată integral.", ru: "Здание сдано полностью.", en: "The building is fully let." },
+  seeSpaces: { ro: "Vedeți spațiile disponibile", ru: "Смотреть свободные помещения", en: "See available spaces" },
   ask: { ro: "Scrieți-ne despre obiect", ru: "Написать об объекте", en: "Write about the property" },
   nextLabel: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
   allProjects: { ro: "Toate proiectele", ru: "Все проекты", en: "All projects" },
@@ -274,6 +276,9 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
         </section>
       ) : null}
 
+      {/* TECHNICAL SUPPORT + OFFICIAL VERIFICATION — wherever a unit is offered (OWNER overnight release §6) */}
+      {unit ? <PropertyTrust slug={slug} locale={locale} /> : null}
+
       {/* TECHNICAL INFORMATION — confirmed only, for the whole building */}
       {!unit && tech.length >= 2 ? (
         <section className="pm-sec pm-sec--paper pp2-tech">
@@ -303,6 +308,11 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
             {unit ? (
               <div className="pm-actions pp2-close__actions">
                 <Button href={viewingHref(locale, unit)}>{copy.viewing[locale]}</Button>
+              </div>
+            ) : fullyLet ? (
+              // a fully let building is proof of execution, not a leasing pitch: the route goes to the spaces that are offered (OWNER overnight release §9)
+              <div className="pm-actions pp2-close__actions">
+                <Button href={`${p("/leasing")}#available`}>{copy.seeSpaces[locale]}</Button>
               </div>
             ) : !fullyLet ? (
               <div className="pm-actions pp2-close__actions">

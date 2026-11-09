@@ -1,17 +1,16 @@
 import Link from "next/link";
-import { DirectionTiles } from "@/components/business-stage";
-import { ConceptImage, HeroFigures, Ledger, MaskTitle } from "@/components/experience";
+import { HeroDoors, HomePortals } from "@/components/home-portals";
+import { ConceptDisclosure, ConceptImage, HeroFigures, Ledger, MaskTitle, hasConceptImage } from "@/components/experience";
 import { SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon } from "@/components/ui";
 import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces } from "@/content/source";
-import { company, contactLinks, daciaDevelopment, drochiaProfile, portfolioFigures, vatraProfile } from "@/data/demo-content";
+import { caseStudyPublished, company, contactLinks, daciaDevelopment, drochiaProfile, portfolioFigures, vatraProfile } from "@/data/demo-content";
 import { CareersMoment } from "@/components/careers-moment";
 import { ProjectFacts, ProjectStatus } from "@/components/project-facts";
-import { eras, historyCopy } from "@/lib/history";
-import { holdOrSell, reinvestment } from "@/lib/business";
-import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { eras, historyCopy, teaserImage } from "@/lib/history";
+import { isProductionEdition, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
  * HOME — premium experience rebuild (OWNER brief "PREMIUM REAL ESTATE EXPERIENCE
@@ -166,29 +165,20 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           <ConceptImage id="home.hero" locale={locale} priority sizes="100vw" />
         </div>
         <div className="pm-hero__veil" aria-hidden="true" />
+        <ConceptDisclosure id="home.hero" locale={locale} />
         <div className="xp-shell pm-hero__inner">
           <MaskTitle as="h1" className="pm-hero__title" lines={[...c.heroTitle]} />
-          <div className="pm-hero__base">
-            <p className="pm-hero__statement">{c.heroStatement}</p>
-            <dl className="pm-hero__heritage">
-              {c.heritage.map(([year, text]) => (
-                <div key={year}>
-                  <dt>{year}</dt>
-                  <dd>{text}</dd>
-                </div>
-              ))}
-            </dl>
-            <div className="pm-actions">
-              <Button href={p("/partnership")} variant="light">{c.ctaPartner}</Button>
-              <Link className="pm-link pm-link--light" href={`${p("/leasing")}#available`}>{c.ctaSpace}<Icon /></Link>
-              <Link className="pm-link pm-link--light pm-link--quiet" href={p("/offer")}>{c.ctaOffer}</Link>
-            </div>
-          </div>
+          {/* the statement, then the two MEGAPARC directions on the first screen (OWNER overnight release §2 / §3) */}
+          <p className="pm-hero__statement hm2-hero__statement">{c.heroStatement}</p>
+          <HeroDoors locale={locale} />
         </div>
-        <a className="pm-hero__cue" href="#proof">{c.scroll}<Icon name="down" /></a>
+        <a className="pm-hero__cue" href="#directions">{c.scroll}<Icon name="down" /></a>
       </section>
 
-      {/* 2 REAL MEGAPARC — proof: one dominant building full bleed, two supporting stories */}
+      {/* 2 TWO ENGINES — investment & partnership · leasing of MEGAPARC's own property, at photographic scale */}
+      <HomePortals locale={locale} />
+
+      {/* 3 REAL MEGAPARC — proof: one dominant building full bleed, two supporting stories */}
       <section className="pm-proof" id="proof">
         <div className="xp-shell pm-head" data-reveal>
           <p className="pm-kicker">{c.proofKicker}</p>
@@ -222,22 +212,6 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
         <div className="xp-shell pm-proof__foot" data-reveal>
           <Link className="pm-link" href={p("/projects")}>{c.projectsAll} · {String(projects.length).padStart(2, "0")}<Icon /></Link>
-        </div>
-      </section>
-
-      {/* 3 LIGHT EDITORIAL — how MEGAPARC works */}
-      <section className="pm-sec pm-sec--paper" id="directions">
-        <div className="xp-shell">
-          <div className="pm-head pm-head--split" data-reveal>
-            <p className="pm-kicker">{c.dirKicker}</p>
-            <h2 className="pm-h2">{c.dirTitle}</h2>
-            <p className="pm-head__lead">{holdOrSell[locale]} {reinvestment[locale]}</p>
-          </div>
-          <DirectionTiles locale={locale} links={{
-            investment: { href: p("/partnership"), cta: c.dirLinks.investment },
-            development: { href: `${p("/projects")}#development`, cta: c.dirLinks.development },
-            leasing: { href: `${p("/leasing")}#available`, cta: c.dirLinks.leasing },
-          }} />
         </div>
       </section>
 
@@ -336,20 +310,26 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             </ol>
             <Link className="pm-link" href={p("/history")}>{c.historyCta}<Icon /></Link>
           </div>
-          <figure className="hs-teaser__figure al-reveal" data-reveal>
-            <picture>
-              <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-port.webp")} />
-              <img src={publicAsset("/assets/history/era-port-mobile.webp")} alt="" loading="lazy" decoding="async" />
-            </picture>
-          </figure>
+          {/* production edition: the period photograph is a placeholder for the group archive — not published */}
+          {teaserImage.home ? (
+            <figure className="hs-teaser__figure al-reveal" data-reveal>
+              <picture>
+                <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${teaserImage.home}.webp`)} />
+                <img src={publicAsset(`/assets/history/${teaserImage.home}-mobile.webp`)} alt="" loading="lazy" decoding="async" />
+              </picture>
+            </figure>
+          ) : null}
         </div>
       </section>
 
       {/* 7 INVESTMENT PARTNERSHIP — figures over a full-bleed scene, one investor action */}
       <section className="hm-proof" id="partnership">
-        <figure className="hm-proof__media" aria-hidden="true">
-          <ConceptImage id="home.proof" locale={locale} sizes="100vw" />
-        </figure>
+        {/* production edition: no concept visual here (OWNER "PRODUCTION V1" §3) — the frame is not rendered */}
+        {hasConceptImage("home.proof") ? (
+          <figure className="hm-proof__media" aria-hidden="true">
+            <ConceptImage id="home.proof" locale={locale} sizes="100vw" />
+          </figure>
+        ) : null}
         <div className="xp-shell hm-proof__copy">
           <p className="pm-kicker pm-kicker--light" data-reveal>{c.partnerKicker}</p>
           <h2 className="hm-proof__title" data-reveal>{c.partnerTitle}</h2>
@@ -364,13 +344,13 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           </div>
           <div className="pm-actions" data-reveal>
             <Button href={href("/contact?subject=partnership#partnership")} variant="light">{c.partnerCta}</Button>
-            <Link className="pm-link pm-link--light" href={`${p("/partnership")}#case`}>{c.partnerCase}<Icon /></Link>
+            {caseStudyPublished() ? <Link className="pm-link pm-link--light" href={`${p("/partnership")}#case`}>{c.partnerCase}<Icon /></Link> : null}
           </div>
         </div>
       </section>
 
-      {/* 8 PEOPLE — careers film */}
-      <CareersMoment locale={locale} variant="section" href={`${p("/careers")}#positions`} count={vacancies.length} />
+      {/* 8 PEOPLE — careers film (preview edition only: the film is concept footage, OWNER "PRODUCTION V1" §3) */}
+      {isProductionEdition ? null : <CareersMoment locale={locale} variant="section" href={`${p("/careers")}#positions`} count={vacancies.length} />}
 
       {/* 9 CALM CONTACT CLOSE — the next step and the confirmed contacts */}
       <section className="pm-close" id="next">

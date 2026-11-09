@@ -1,11 +1,12 @@
 import { ui } from "@/components/leasing-experience/parts";
+import { DirectContact } from "@/components/direct-contact";
 import { ViewingForm } from "@/components/leasing-experience/viewing-form";
 import { Icon } from "@/components/ui";
 import { formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import type { AvailableSpace } from "@/data/leasing-inventory";
-import type { SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 
 /**
  * SCENE — THE VIEWING · the culmination (OWNER "FINAL ART DIRECTION & VISUAL
@@ -53,7 +54,8 @@ export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperienc
             </figure>
           ) : null}
           <div className="xp-form lg-viewing__form" data-reveal>
-            <ViewingForm locale={locale} mode={open ? "viewing" : "waitlist"} unitLabel={label} mailbox={company.email.value[locale]} property={project.name} />
+            {/* production edition: no form backend yet (n8n off) — direct contacts, never a form that cannot send */}
+            {isProductionEdition ? <DirectContact id="lg-form" locale={locale} subject="viewing" context={`${project.name} · ${label}`} /> : <ViewingForm locale={locale} mode={open ? "viewing" : "waitlist"} unitLabel={label} mailbox={company.email.value[locale]} property={project.name} />}
           </div>
           <aside className="lg-viewing__aside">
             <dl className="lg-steps" data-reveal>

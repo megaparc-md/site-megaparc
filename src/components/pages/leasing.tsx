@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TechSupport } from "@/components/leasing/property-trust";
 import type { CSSProperties } from "react";
 import { DemoMark, MaskTitle, Val } from "@/components/experience";
 import { LeasingInventory, type InventoryCopy } from "@/components/leasing/inventory";
@@ -8,7 +9,7 @@ import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon } from "@/components/ui";
 import { availabilityLabel, availabilityOf, formatArea, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, spacesFor } from "@/content/source";
-import { leasingProcess } from "@/data/demo-content";
+import { leasingProcess, shown } from "@/data/demo-content";
 import { areaBands, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
@@ -290,6 +291,13 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       </section>
       ) : null}
 
+      {/* TECHNICAL SUPPORT — a MEGAPARC advantage on every leasing route (OWNER overnight release §6) */}
+      <section className="tr-sec" id="technical-support">
+        <div className="xp-shell tr-grid tr-grid--single">
+          <TechSupport locale={locale} />
+        </div>
+      </section>
+
       {/* PROCESS */}
       <section className="xp-sec xp-sec--stone">
         <div className="xp-shell">
@@ -306,10 +314,13 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
               </li>
             ))}
           </ol>
-          <dl className="lx-facts" data-reveal>
-            <div><dt>{c.reply}</dt><dd><Val point={leasingProcess.reply} locale={locale} /></dd></div>
-            <div><dt>{c.viewing}</dt><dd><Val point={leasingProcess.viewing} locale={locale} /></dd></div>
-          </dl>
+          {/* production edition: the reply / viewing times are DEMO promises — not published (OWNER "PRODUCTION V1" §3) */}
+          {shown(leasingProcess.reply) || shown(leasingProcess.viewing) ? (
+            <dl className="lx-facts" data-reveal>
+              {shown(leasingProcess.reply) ? <div><dt>{c.reply}</dt><dd><Val point={leasingProcess.reply} locale={locale} /></dd></div> : null}
+              {shown(leasingProcess.viewing) ? <div><dt>{c.viewing}</dt><dd><Val point={leasingProcess.viewing} locale={locale} /></dd></div> : null}
+            </dl>
+          ) : null}
         </div>
       </section>
 

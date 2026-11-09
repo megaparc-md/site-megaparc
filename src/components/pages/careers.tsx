@@ -8,7 +8,8 @@ import { Button, Icon } from "@/components/ui";
 import { company, contactLinks, cultureStatement, roleStories } from "@/data/demo-content";
 import { formatDate, listProjects, listVacancies } from "@/content/source";
 import { departmentLabel, employerBrand } from "@/lib/careers";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { DirectContact } from "@/components/direct-contact";
+import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS — emotional contrast to the institutional pages (2026-10-07).
@@ -118,7 +119,33 @@ const pillarImages = ["careers.team", "careers.responsibility", "careers.growth"
 /** Projects without an approved photograph use their registered concept image (DEMO, src/data/demo-content.ts). */
 const workConcept: Partial<Record<string, string>> = { "drochia-gateway": "project.drochia.road" };
 
+/** Production careers state (OWNER "PRODUCTION V1", 2026-11-09 §3): no vacancies published, no film, no culture claims. */
+const productionCopy = {
+  label: { ro: "Cariere", ru: "Вакансии", en: "Careers" },
+  title: { ro: "Momentan nu avem posturi vacante.", ru: "Открытых вакансий сейчас нет.", en: "There are no open positions right now." },
+  contact: { ro: "Întrebări despre lucrul la MEGAPARC — prin e-mail sau telefon.", ru: "Вопросы о работе в MEGAPARC — по e‑mail или телефону.", en: "Questions about working at MEGAPARC — by e-mail or telephone." },
+};
+
+function CareersProductionPage({ locale }: { locale: SiteLocale }) {
+  return (
+    <PageShell locale={locale} experience>
+      <section className="xp-sec xp-careers-state" id="positions">
+        <div className="xp-shell xp-careers-state__grid">
+          <div>
+            <p className="pm-kicker" data-reveal>{productionCopy.label[locale]}</p>
+            <h1 className="xp-careers-state__title" data-reveal>{productionCopy.title[locale]}</h1>
+          </div>
+          <div data-reveal>
+            <DirectContact locale={locale} subject="careers" title={null} note={productionCopy.contact[locale]} />
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  );
+}
+
 export function CareersPage({ locale }: { locale: SiteLocale }) {
+  if (isProductionEdition) return <CareersProductionPage locale={locale} />;
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const work = listProjects().map((project) => ({ key: project.slug, name: project.name, href: p(`/projects/${project.slug}`), media: project.media, concept: workConcept[project.slug] }));

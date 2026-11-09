@@ -4,8 +4,19 @@ export const defaultLocale: SiteLocale = "ro";
 
 const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+/**
+ * Site edition (release/2026-11-09-production-v1, OWNER "PRODUCTION V1"): this release branch builds the
+ * PRODUCTION edition by default — confirmed content only, no DEMO values, no concept visuals except the two
+ * OWNER-approved illustrations, no preview tools. The OWNER preview edition needs NEXT_PUBLIC_SITE_EDITION=preview.
+ * Data modules read the same variable directly (they also load in Node for `npm run gate:production`).
+ */
+export const isProductionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") === "production";
+
+/** True for a static export (GitHub Pages — the OWNER preview and the production artifact alike). */
+export const isStaticExport = process.env.GITHUB_PAGES === "true";
+
 /** True on the GitHub Pages OWNER approval preview. */
-export const isPreviewBuild = process.env.GITHUB_PAGES === "true";
+export const isPreviewBuild = isStaticExport && !isProductionEdition;
 
 /** Prefixes a public asset path with the GitHub Pages base path when present. */
 export function publicAsset(path: string) {

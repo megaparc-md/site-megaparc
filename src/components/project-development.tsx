@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening, Val } from "@/components/experience";
+import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening, Val, hasConceptImage } from "@/components/experience";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
 import { ProjectStatus } from "@/components/project-facts";
@@ -241,9 +241,12 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
             <div className="xp-split__copy" data-reveal>
               <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{copy.realityLabel[locale]}</span></p>
               <p className="xp-lead">{copy.teamText[locale]}</p>
-              <figure className="xp-fig pj-inset" style={{ "--ratio": "4 / 3" } as CSSProperties}>
-                <ConceptImage id="project.vatra.team" locale={locale} sizes="(min-width: 1024px) 30vw, 100vw" />
-              </figure>
+              {/* production edition: no concept visual here (OWNER "PRODUCTION V1" §3) — the frame is not rendered */}
+              {hasConceptImage("project.vatra.team") ? (
+                <figure className="xp-fig pj-inset" style={{ "--ratio": "4 / 3" } as CSSProperties}>
+                  <ConceptImage id="project.vatra.team" locale={locale} sizes="(min-width: 1024px) 30vw, 100vw" />
+                </figure>
+              ) : null}
             </div>
           </div>
         </section>

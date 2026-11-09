@@ -7,7 +7,7 @@ import { Button, Icon } from "@/components/ui";
 import { getProject, listProjects } from "@/content/source";
 import { portfolioFigures } from "@/data/demo-content";
 import { businessStatement, directionLines, geography, operations, principles } from "@/lib/business";
-import { eras } from "@/lib/history";
+import { eras, teaserImage } from "@/lib/history";
 import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -213,12 +213,15 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
             </ol>
             <Link className="pm-link" href={p("/history")}>{c.fromCta}<Icon /></Link>
           </div>
-          <figure className="hs-teaser__figure" data-reveal>
-            <picture>
-              <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-retail.webp")} />
-              <img src={publicAsset("/assets/history/era-retail-mobile.webp")} alt="" loading="lazy" decoding="async" />
-            </picture>
-          </figure>
+          {/* production edition: the period photograph is a placeholder for the group archive — not published */}
+          {teaserImage.about ? (
+            <figure className="hs-teaser__figure" data-reveal>
+              <picture>
+                <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${teaserImage.about}.webp`)} />
+                <img src={publicAsset(`/assets/history/${teaserImage.about}-mobile.webp`)} alt="" loading="lazy" decoding="async" />
+              </picture>
+            </figure>
+          ) : null}
         </div>
       </section>
 

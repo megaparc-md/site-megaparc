@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Heading, Photo, Shot } from "@/data/leasing-experience-model";
-import { isPreviewBuild, type Localized, type SiteLocale } from "@/lib/site-data";
+import { isPreviewBuild, isProductionEdition, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * Shared parts of the leasing experience (OWNER "MOSCOVA 20 · COMPACT PREMIUM
@@ -78,7 +78,7 @@ export function EconomicsGlyph({ className = "" }: { className?: string }) {
  * still awaiting OWNER approval (src/data/tenant-intelligence.ts); a production
  * build never does. Decided on the server — client bundles cannot read it.
  */
-export const ownerPreview = isPreviewBuild || process.env.NODE_ENV === "development";
+export const ownerPreview = isPreviewBuild || (process.env.NODE_ENV === "development" && !isProductionEdition);
 
 /** Replaces the "{area}" token with the marketed area read from the unit record. */
 export const withArea = (text: string, area: string) => text.replace("{area}", area);

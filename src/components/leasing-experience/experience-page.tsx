@@ -14,6 +14,7 @@ import { ReadinessSheet, TechSheet } from "@/components/leasing-experience/sheet
 import { StickyCta } from "@/components/leasing-experience/sticky-cta";
 import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
+import { PropertyTrust } from "@/components/leasing/property-trust";
 import { PageShell } from "@/components/page-shell";
 import { availabilityLabel, formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
@@ -87,6 +88,8 @@ export function LeasingExperiencePage({ locale, project, unit, experience: x }: 
       <PhotoStory x={x} locale={locale} />
       <PlansScene x={x} unit={unit} locale={locale} />
       <CapitalBase x={x} locale={locale} />
+      {/* OWNER overnight release §5 / §6: official e-Cadastru verification + technical support (the one addition; the page stays frozen) */}
+      <PropertyTrust slug={project.slug} locale={locale} tone="warm" />
       <ViewingScene x={x} unit={unit} project={project} locale={locale} />
       <StickyCta name={project.name} meta={`${formatArea(unit.area, locale)} · ${availabilityLabel(unit, locale)}`} label={open ? ui.viewing[locale] : ui.waitlist[locale]} />
       <LgDrawer id="tech" title={x.drawers.tech.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>

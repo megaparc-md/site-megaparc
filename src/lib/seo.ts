@@ -19,7 +19,8 @@ import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLo
  * passing `npm run gate:production`.
  */
 
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://megaparc.md").replace(/\/$/, "");
+/** Canonical origin — OWNER "PRODUCTION V1" (2026-11-09) §8: https://www.megaparc.md. */
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.megaparc.md").replace(/\/$/, "");
 
 export const robotsPolicy: NonNullable<Metadata["robots"]> = isPreviewBuild || demoContentPresent
   ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } }

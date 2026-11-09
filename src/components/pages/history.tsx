@@ -8,7 +8,7 @@ import { ProjectStatus } from "@/components/project-facts";
 import { Icon } from "@/components/ui";
 import { getProject, listProjects, publicSpaces } from "@/content/source";
 import { portfolioFigures } from "@/data/demo-content";
-import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
+import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, historyHeroImage, interludeImage, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -35,6 +35,8 @@ const format: Partial<Record<ChapterKey, Format>> = { origins: "spread", group: 
 
 function EpisodeImage({ entry, locale, sizes, eager = false }: { entry: HistoryEntry; locale: SiteLocale; sizes: string; eager?: boolean }) {
   const image = episodeImage[entry.id];
+  // production edition: no period image (OWNER "PRODUCTION V1" §3) — the episode keeps its text, never an invented picture
+  if (!image) return null;
   if (image.kind === "asset") {
     const project = getProject(image.slug)!;
     return <ArtImage media={project.media!} alt={`${project.name} — ${entry.title[locale]}`} sizes={sizes} />;
@@ -59,10 +61,12 @@ function Meta({ entry, locale }: { entry: HistoryEntry; locale: SiteLocale }) {
 
 function Episode({ entry, locale, sizes }: { entry: HistoryEntry; locale: SiteLocale; sizes: string }) {
   return (
-    <li className="hc-ep" data-reveal>
-      <figure className="hc-ep__media">
-        <EpisodeImage entry={entry} locale={locale} sizes={sizes} />
-      </figure>
+    <li className={`hc-ep${episodeImage[entry.id] ? "" : " hc-ep--text"}`} data-reveal>
+      {episodeImage[entry.id] ? (
+        <figure className="hc-ep__media">
+          <EpisodeImage entry={entry} locale={locale} sizes={sizes} />
+        </figure>
+      ) : null}
       <div className="hc-ep__body">
         <Meta entry={entry} locale={locale} />
         <h3 className="hc-ep__title">{entry.title[locale]}</h3>
@@ -99,7 +103,8 @@ function Episodes({ ids, locale, kind }: { ids: string[]; locale: SiteLocale; ki
   const sizes = sizesFor[kind];
   const pick = (index: number) => sizes[Math.min(index, sizes.length - 1)];
   return (
-    <ol className={`hc-eps hc2-eps hc2-eps--${kind}`}>
+    // a chapter whose episodes carry no image (production edition) reads as one quiet editorial list
+    <ol className={`hc-eps hc2-eps hc2-eps--${ids.some((id) => episodeImage[id]) ? kind : "text"}`}>
       {ids.map((id, index) => (
         <Episode key={id} entry={byId(id)} locale={locale} sizes={pick(kind === "spread" ? index : index === 0 ? 0 : 1)} />
       ))}
@@ -115,18 +120,20 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
     <PageShell locale={locale} experience mainClassName="hc hc2">
       {/* OPENING — the archive photograph breaks the grid; the years are the way in */}
       <section className="hc2-hero">
-        <div className="xp-shell hc2-hero__grid">
+        <div className={`xp-shell hc2-hero__grid${historyHeroImage ? "" : " hc2-hero__grid--text"}`}>
           <div className="hc2-hero__copy">
             <p className="pm-kicker" data-reveal>{h.kicker[locale]}</p>
             <MaskTitle as="h1" className="hc2-hero__title" lines={[...h.title[locale]]} />
             <p className="hc2-hero__lead" data-reveal>{h.lead[locale]}</p>
           </div>
-          <figure className="hc2-hero__media" data-reveal>
-            <picture>
-              <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-port.webp")} />
-              <img src={publicAsset("/assets/history/era-port-mobile.webp")} alt="" decoding="async" fetchPriority="high" />
-            </picture>
-          </figure>
+          {historyHeroImage ? (
+            <figure className="hc2-hero__media" data-reveal>
+              <picture>
+                <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${historyHeroImage}.webp`)} />
+                <img src={publicAsset(`/assets/history/${historyHeroImage}-mobile.webp`)} alt="" decoding="async" fetchPriority="high" />
+              </picture>
+            </figure>
+          ) : null}
         </div>
         <nav className="xp-shell hc2-years" aria-label={h.index[locale]} data-reveal>
           <ol>
@@ -149,14 +156,16 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
           return (
             <Fragment key={chapter.key}>
               {/* full-bleed archive pause before the company appears */}
-              <div className="hc-interlude hc-interlude--archive" data-xp-progress aria-hidden="true">
-                <div className="hc-interlude__media">
-                  <picture>
-                    <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-construction.webp")} />
-                    <img src={publicAsset("/assets/history/era-construction-mobile.webp")} alt="" loading="lazy" decoding="async" />
-                  </picture>
+              {interludeImage ? (
+                <div className="hc-interlude hc-interlude--archive" data-xp-progress aria-hidden="true">
+                  <div className="hc-interlude__media">
+                    <picture>
+                      <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${interludeImage}.webp`)} />
+                      <img src={publicAsset(`/assets/history/${interludeImage}-mobile.webp`)} alt="" loading="lazy" decoding="async" />
+                    </picture>
+                  </div>
                 </div>
-              </div>
+              ) : null}
               {/* 2005 — the break */}
               <section className="hc-ch hc2-break" id={chapter.key}>
                 <div className="xp-shell">

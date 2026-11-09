@@ -802,3 +802,225 @@ a:hover .pm-more svg { transform: translateX(5px); }
   .pp2-hero__head { grid-template-columns: minmax(0, 1fr); }
   .pp2-hero__facts { justify-self: start; padding-bottom: 0; }
 }
+
+/* OWNER "PRODUCTION V1" (2026-11-09) §2 — the quiet disclosure of an OWNER-approved illustration (ILLUSTRATIVE_APPROVED):
+   «Концептуальное изображение», small and premium, never a warning badge; outside the aria-hidden media so it is read. */
+.xp-disclosure { position: absolute; right: calc((100% - var(--xp-shell)) / 2); bottom: clamp(1.1rem, 2.6vh, 1.8rem); z-index: 2; display: inline-flex; align-items: center; gap: .6rem; margin: 0; color: rgba(255, 255, 255, .7); font-size: .62rem; font-weight: 600; line-height: 1; letter-spacing: .14em; text-transform: uppercase; pointer-events: none; }
+.xp-disclosure::before { content: ""; width: 1.4rem; height: 1px; background: currentColor; opacity: .6; }
+@media (max-width: 719px) { .xp-disclosure { bottom: .9rem; font-size: .56rem; letter-spacing: .12em; } }
+
+/* OWNER "PRODUCTION V1" §7 — direct contact instead of a form (no backend yet): three confirmed actions, no fields. */
+.dc { display: grid; gap: 1rem; }
+.dc__title { margin: 0; color: var(--ink); font-size: clamp(1.35rem, 2.2vw, 1.75rem); font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
+.dc__note { margin: 0; max-width: 34rem; color: var(--muted); font-size: .95rem; line-height: 1.55; }
+.dc__list { display: grid; margin: .4rem 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.dc__list li { border-bottom: 1px solid var(--line); }
+.dc__action { display: grid; grid-template-columns: minmax(6.5rem, 9rem) minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding: 1.05rem 0; color: var(--ink); text-decoration: none; }
+.dc__label { color: var(--muted); font-size: .72rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+.dc__value { font-size: clamp(1.05rem, 1.6vw, 1.25rem); font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.dc__action svg { color: var(--signal); transition: transform .3s ease; }
+.dc__action:hover .dc__value, .dc__action:focus-visible .dc__value { color: var(--brand); }
+.dc__action:hover svg, .dc__action:focus-visible svg { transform: translate(2px, -2px); }
+@media (max-width: 719px) { .dc__action { grid-template-columns: minmax(0, 1fr) auto; gap: .2rem .8rem; } .dc__label { grid-column: 1 / -1; } }
+
+/* OWNER "PRODUCTION V1" §3 — History without the period images (production edition): the confirmed text stays,
+   episodes become a quiet editorial list with a rule, the opening keeps its copy and the heritage years. */
+.hc2-hero__grid--text { grid-template-columns: minmax(0, 1fr); }
+.hc2-hero__grid--text .hc2-hero__copy { max-width: 52rem; }
+.hc2-eps--text { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18.5rem), 1fr)); gap: clamp(2rem, 3.4vw, 2.8rem) clamp(1.4rem, 2.6vw, 2.4rem); }
+.hc2-eps--text > .hc-ep, .hc2-eps--aside > .hc-ep--text { grid-column: auto; grid-template-columns: minmax(0, 1fr); padding-top: 1.2rem; border-top: 1px solid var(--xp-line); }
+.hc-ch--dark .hc2-eps--text > .hc-ep { border-top-color: rgba(255, 255, 255, .18); }
+
+/* OWNER "PRODUCTION V1" §3 — the production careers state: one honest sentence and the direct contacts. */
+.xp-careers-state { padding-block: clamp(9rem, 20vh, 13rem) clamp(5rem, 10vh, 8rem); }
+.xp-careers-state__grid { display: grid; gap: clamp(2.4rem, 5vw, 4rem); align-items: end; }
+.xp-careers-state__title { margin: 1.2rem 0 0; max-width: 14em; color: var(--ink); font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 600; line-height: 1.04; letter-spacing: -.025em; text-wrap: balance; }
+@media (min-width: 1024px) { .xp-careers-state__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+@media (min-width: 1024px) { .pt-talk.pt-talk--single { grid-template-columns: minmax(0, 1fr); max-width: 52rem; } }
+/* history teaser without its period photograph (production edition): the copy and the year ribbon take the row */
+@media (min-width: 720px) { .hs-teaser__grid:not(:has(.hs-teaser__figure)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* OWNER "PRODUCTION V1" §3 — placements whose concept visual is not published (production edition) */
+.hm-proof:not(:has(.hm-proof__media)) { min-height: 0; }
+@media (min-width: 1024px) { .of-buy:not(:has(.of-buy__figure)) { grid-template-columns: minmax(0, 1fr); max-width: 56rem; } }
+.dt__link:not(:has(.dt__media)) { padding-top: clamp(1.4rem, 2.6vw, 2rem); border-top: 1px solid var(--xp-line-strong, rgba(22, 23, 26, .2)); }
+/* text-only direction tiles (production edition): one baseline, no photo stagger, the same rule on all three */
+@media (min-width: 900px) { .dt:not(:has(.dt__media)) > li { margin-top: 0; } }
+.dt:not(:has(.dt__media)) { margin-top: clamp(2.4rem, 5vw, 3.6rem); }
+
+/* OWNER overnight release §3 — art-directed hero crops: each breakpoint has its own composition, centred as cut;
+   the drift stays subtle so the edges of the architecture are never trimmed. */
+.pm-hero__media img.is-art { object-position: 50% 50%; animation-name: pm-drift-soft; }
+@keyframes pm-drift-soft { from { transform: scale(1.025); } to { transform: scale(1); } }
+
+/* OWNER overnight release §5 / §6 — the leasing trust block: technical support (Technical Director + Architect)
+   and the official e-Cadastru verification. Explicit values: the block appears outside the Moscova 20 page too. */
+.tr-sec { padding-block: clamp(4.5rem, 9vw, 7.5rem); background: #f6f2ea; color: var(--ink); }
+.tr-sec--warm { background: #efe9df; }
+.tr-grid { display: grid; gap: clamp(2.4rem, 5vw, 4rem); align-items: start; }
+.tr-label { display: inline-flex; align-items: center; gap: .7rem; margin: 0; color: #74202f; font-size: .72rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+.tr-label::before { content: ""; width: 2.2rem; height: 1px; background: currentColor; }
+.tr-tech__title { margin: 1.1rem 0 0; max-width: 15em; font-size: clamp(2rem, 4.2vw, 3.3rem); font-weight: 600; line-height: 1.04; letter-spacing: -.03em; text-wrap: balance; }
+.tr-tech__lead { margin: 1.1rem 0 0; max-width: 38rem; color: var(--muted); font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.5; }
+.tr-tech__body { margin-top: clamp(1.8rem, 3.4vw, 2.6rem); }
+.tr-tech__sub { margin: 0 0 .6rem; color: var(--muted); font-size: .74rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
+.tr-tech__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); column-gap: 2rem; margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(17, 18, 22, .14); }
+.tr-tech__list li { display: flex; align-items: baseline; gap: .7rem; padding: .95rem 0; border-bottom: 1px solid rgba(17, 18, 22, .14); font-size: 1.02rem; font-weight: 550; }
+.tr-tech__list li::before { content: ""; flex: none; width: .38rem; height: .38rem; border-radius: 50%; background: #74202f; transform: translateY(-.1em); }
+.tr-tech__principle { margin: clamp(1.6rem, 3vw, 2.2rem) 0 0; padding-left: 1.1rem; max-width: 36rem; border-left: 2px solid #74202f; font-size: clamp(1.12rem, 1.7vw, 1.4rem); font-weight: 600; line-height: 1.35; }
+.tr-tech__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.8rem; margin-top: clamp(1.6rem, 3vw, 2.2rem); }
+.tr-tech__note { margin: 1.2rem 0 0; max-width: 40rem; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+.tr-cad { padding: clamp(1.6rem, 3vw, 2.3rem); border: 1px solid rgba(17, 18, 22, .1); border-radius: 6px; background: #fff; box-shadow: 0 1px 2px rgba(17, 18, 22, .04), 0 18px 40px -30px rgba(17, 18, 22, .32); }
+.tr-cad__title { margin: 1rem 0 0; font-size: 1.05rem; font-weight: 600; }
+.tr-cad__number { margin: .35rem 0 0; font-size: clamp(1.45rem, 2.4vw, 1.95rem); font-weight: 600; letter-spacing: .01em; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; user-select: all; }
+.tr-cad__text { margin: .8rem 0 0; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+.tr-cad__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.4rem; margin-top: 1.4rem; }
+.tr-cad__copy { padding: 0; border: 0; background: none; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.tr-cad__done { min-height: 1.4em; margin: .9rem 0 0; color: #74202f; font-size: .85rem; opacity: 0; transition: opacity .3s ease; }
+.tr-cad__done.is-on { opacity: 1; }
+@media (min-width: 1024px) { .tr-grid { grid-template-columns: minmax(0, 7.4fr) minmax(0, 4.6fr); column-gap: clamp(3rem, 6vw, 5.5rem); } .tr-grid--single { grid-template-columns: minmax(0, 1fr); max-width: 64rem; } .tr-cad { position: sticky; top: calc(var(--header-h, 5rem) + 2rem); } }
+@media (max-width: 719px) { .tr-cad__open { width: 100%; justify-content: center; } }
+
+/* OWNER overnight release §2–§4 — Home: the two directions on the first screen (doors) and at photographic
+   scale right after it (portals). Typography and photography carry it; the signal red stays on the arrow. */
+.hm2-hero__statement { max-width: 33rem; margin: 0; color: rgba(255, 255, 255, .86); font-size: clamp(1.02rem, 1.35vw, 1.2rem); line-height: 1.55; }
+.hm2-doors { display: grid; margin-top: clamp(.6rem, 2.4vh, 1.8rem); border-top: 1px solid rgba(255, 255, 255, .32); }
+.hm2-door { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "no title icon" "no text icon"; align-items: center; gap: .25rem 1rem; padding: 1.05rem 0; border-bottom: 1px solid rgba(255, 255, 255, .18); color: #fff; text-decoration: none; }
+.hm2-door__no { grid-area: no; align-self: start; padding-top: .45rem; color: rgba(255, 255, 255, .6); font-size: .72rem; font-weight: 650; letter-spacing: .16em; }
+.hm2-door__title { grid-area: title; font-size: clamp(1.22rem, 2vw, 1.8rem); font-weight: 560; line-height: 1.1; letter-spacing: -.02em; }
+.hm2-door__text { grid-area: text; color: rgba(255, 255, 255, .72); font-size: .94rem; line-height: 1.4; }
+.hm2-door svg { grid-area: icon; color: var(--signal); transition: transform .45s ease; }
+.hm2-door::after { content: ""; position: absolute; left: 0; bottom: -1px; width: 0; height: 2px; background: #fff; transition: width .6s cubic-bezier(.2, .7, .2, 1); }
+.hm2-door:hover::after, .hm2-door:focus-visible::after { width: 100%; }
+.hm2-door:hover svg, .hm2-door:focus-visible svg { transform: translateX(6px); }
+.pm-hero:has(.hm2-doors) .pm-hero__cue { display: none; }
+@media (min-width: 720px) {
+  .hm2-doors { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4.5rem); }
+  .hm2-door { padding: 1.5rem 0 .3rem; border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hm2-door::after, .hm2-door svg { transition: none; } }
+
+.hp2 { padding-block: clamp(5.5rem, 11vw, 9.5rem); background: #f6f2ea; color: var(--ink); }
+.hp2__head { display: grid; gap: 1.1rem; max-width: 50rem; margin-bottom: clamp(2.8rem, 5.5vw, 4.6rem); }
+.hp2__lead { margin: 0; font-size: clamp(1.55rem, 2.9vw, 2.5rem); font-weight: 520; line-height: 1.14; letter-spacing: -.022em; text-wrap: balance; }
+.hp2__grid { display: grid; gap: clamp(4rem, 8vw, 5.5rem); }
+.hp2-portal { display: grid; gap: clamp(1.5rem, 2.8vw, 2.2rem); align-content: start; }
+.hp2-portal__media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: #e7e0d4; }
+.hp2-portal__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(.2, .7, .2, 1); }
+.hp2-portal:hover .hp2-portal__media img { transform: scale(1.025); }
+.hp2-portal__label { margin: 0; color: #74202f; font-size: .74rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+.hp2-portal__title { margin: .7rem 0 0; max-width: 13em; font-size: clamp(1.95rem, 3.4vw, 3.05rem); font-weight: 600; line-height: 1.04; letter-spacing: -.03em; text-wrap: balance; }
+.hp2-portal__text { margin: 1.05rem 0 0; max-width: 35rem; color: var(--muted); font-size: 1.05rem; line-height: 1.6; }
+.hp2-offer { margin: 1.5rem 0 0; max-width: 35rem; border-top: 1px solid rgba(17, 18, 22, .14); }
+.hp2-offer > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem 1rem; padding: .85rem 0; border-bottom: 1px solid rgba(17, 18, 22, .14); }
+.hp2-offer dt a { color: inherit; font-weight: 650; text-decoration: none; }
+.hp2-offer dt a:hover { color: #74202f; }
+.hp2-offer dd { margin: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hp2-offer__status.is-now { color: #74202f; font-weight: 600; }
+.hp2-portal__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.7rem; margin-top: 1.7rem; }
+@media (min-width: 1024px) {
+  .hp2__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2.8rem, 5vw, 5rem); }
+  .hp2-portal:nth-child(2) { margin-top: clamp(4.5rem, 9vw, 8rem); }
+}
+
+/* OWNER overnight release §11–§14 — the investment direction as editorial questions: large question headlines
+   (sticky beside their answers on desktop), generous rules, no numbering, no cards. */
+.iq { padding-block: clamp(5.5rem, 11vw, 9.5rem); background: #fbf9f5; color: var(--ink); }
+.iq-row { display: grid; gap: 1.4rem 2rem; padding-block: clamp(2.8rem, 5.5vw, 4.6rem); border-top: 1px solid rgba(17, 18, 22, .14); }
+.iq .iq-row:first-child { padding-top: 0; border-top: 0; }
+.iq-row--last { padding-bottom: 0; }
+.iq-row--solo { padding-block: 0; border-top: 0; }
+.iq-q { margin: 0; max-width: 12em; font-size: clamp(1.8rem, 3.3vw, 2.9rem); font-weight: 600; line-height: 1.05; letter-spacing: -.03em; text-wrap: balance; }
+.iq-a { min-width: 0; max-width: 46rem; }
+.iq-lead { margin: 0 0 1.5rem; font-size: clamp(1.1rem, 1.6vw, 1.38rem); line-height: 1.45; }
+.iq-list { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(17, 18, 22, .14); }
+.iq-list li { display: flex; align-items: baseline; gap: .75rem; padding: 1rem 0; border-bottom: 1px solid rgba(17, 18, 22, .14); font-size: clamp(1.02rem, 1.3vw, 1.15rem); font-weight: 550; }
+.iq-list li::before { content: ""; flex: none; width: .38rem; height: .38rem; border-radius: 50%; background: #74202f; transform: translateY(-.1em); }
+.iq-note { margin: 1.5rem 0 0; max-width: 40rem; padding-left: 1.1rem; border-left: 2px solid #74202f; font-size: 1.02rem; line-height: 1.55; }
+.iq-checks { display: grid; gap: 1.6rem 2.6rem; margin: 0; }
+.iq-checks dt { font-size: 1.15rem; font-weight: 650; }
+.iq-checks dd { margin: .35rem 0 0; color: var(--muted); line-height: 1.55; }
+.iq-partners { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(17, 18, 22, .14); }
+.iq-partners li { border-bottom: 1px solid rgba(17, 18, 22, .14); }
+.iq-partners a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .35rem 1.5rem; padding: 1.3rem 0; color: inherit; text-decoration: none; }
+.iq-partners__title { font-size: clamp(1.2rem, 1.9vw, 1.55rem); font-weight: 600; letter-spacing: -.015em; }
+.iq-partners__text { grid-column: 1; color: var(--muted); line-height: 1.5; }
+.iq-partners svg { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--signal); transition: transform .45s ease; }
+.iq-partners a:hover .iq-partners__title { color: #74202f; }
+.iq-partners a:hover svg { transform: translateX(5px); }
+.iq-coop { margin: 1.5rem 0 0; color: var(--muted); line-height: 1.6; }
+.iq-coop b { color: var(--ink); font-weight: 600; }
+.iq-legal { margin: 1.8rem 0 0; max-width: 40rem; color: var(--muted); font-size: .84rem; line-height: 1.55; }
+.iq-sec { padding-block: clamp(5rem, 10vw, 8.5rem); }
+@media (min-width: 720px) { .iq-list--two { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.4rem; } .iq-checks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) {
+  .iq-row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(3rem, 6vw, 6.5rem); }
+  .iq-q { position: sticky; top: calc(var(--header-h, 5rem) + 2.2rem); align-self: start; }
+}
+
+/* OWNER overnight release §15 — History as an editorial archive. Without authentic archive photographs (the period
+   placeholders are not published) the scale comes from typography: cinematic year markers, the heritage years at
+   display size, two generous columns of episodes, company names as headlines — never footnotes. */
+.hc2 .hc2-head__range { font-size: clamp(3.4rem, 10vw, 9rem); line-height: .88; letter-spacing: -.055em; color: #74202f; }
+.hc-ch--international .hc2-head__range { color: #f3eee6; }
+.hc2-hero__grid--text { padding-block: clamp(1rem, 4vw, 3rem) 0; }
+.hc2-hero__grid--text .hc2-hero__title { font-size: clamp(2.6rem, 7.2vw, 7.2rem); max-width: 11em; }
+.hc2-hero__grid--text ~ .hc2-years .hc2-years__year { font-size: clamp(3rem, 7.4vw, 7rem); }
+@media (min-width: 900px) { .hc2-hero__grid--text ~ .hc2-years ol { max-width: none; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(1.5rem, 3vw, 3rem); } }
+.hc2-eps--text { grid-template-columns: minmax(0, 1fr); gap: clamp(2.6rem, 5vw, 4rem) clamp(2.5rem, 5vw, 5rem); }
+@media (min-width: 900px) { .hc2-eps--text { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.hc2-eps--text > .hc-ep { padding-top: clamp(1.4rem, 2.4vw, 2rem); gap: .9rem; }
+.hc2-eps--text .hc-ep__title { font-size: clamp(1.6rem, 2.7vw, 2.45rem); font-weight: 560; line-height: 1.06; letter-spacing: -.028em; text-wrap: balance; }
+.hc2-eps--text .hc-ep__text { max-width: 38rem; font-size: clamp(1.02rem, 1.25vw, 1.12rem); line-height: 1.62; }
+.hc2-eps--text .hc-ep__meta { font-size: .78rem; }
+
+/* OWNER overnight release §10 — status is visually obvious: available now (signal dot), from a date (burgundy ring),
+   fully let (graphite rule) — the same derived status everywhere a project appears. */
+.pj-status.is-soon { color: var(--ink); }
+.pj-status.is-soon::before { background: transparent; border: 1.5px solid #74202f; }
+.pj-status.is-full { color: var(--muted); }
+.pj-status.is-full::before { content: ""; width: .9rem; height: 1px; background: currentColor; }
+.pj-status--dark.is-soon::before { border-color: #fff; }
+
+/* OWNER "HEADER / NAVIGATION SYSTEM" (2026-11-09) — the projects dropdown (OWNER preview edition only): white /
+   warm ivory, graphite, a burgundy micro-accent, strong type, restrained shadow, generous spacing — not a SaaS menu. */
+.pmenu { position: relative; display: inline-flex; align-items: center; }
+.pmenu__toggle { position: relative; display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 0; border: 0; background: none; color: inherit; font: inherit; letter-spacing: inherit; text-transform: inherit; white-space: nowrap; opacity: .7; cursor: pointer; transition: opacity .25s ease; }
+.pmenu__toggle::after { content: ""; position: absolute; inset: auto 100% 0 0; height: 2px; background: var(--red); transition: right .35s var(--ease); }
+.pmenu__toggle:hover, .pmenu.is-open .pmenu__toggle, .pmenu__toggle[aria-current="page"] { opacity: 1; }
+.pmenu__toggle[aria-current="page"]::after, .pmenu.is-open .pmenu__toggle::after { right: 0; }
+.pmenu__toggle svg { transition: transform .3s ease; }
+.pmenu.is-open .pmenu__toggle svg { transform: rotate(180deg); }
+.pmenu__toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.pmenu__panel { position: absolute; top: calc(100% + 1.25rem); left: 50%; z-index: 120; width: min(54rem, calc(100vw - 3rem)); padding: 1.6rem 1.6rem 1.3rem; border: 1px solid rgba(17, 18, 22, .08); border-radius: 6px; background: #fbf9f5; box-shadow: 0 1px 2px rgba(17, 18, 22, .05), 0 36px 70px -38px rgba(17, 18, 22, .45); color: #18191c; font-size: 1rem; font-weight: 400; letter-spacing: normal; text-transform: none; transform: translateX(-50%); animation: pmenu-in .26s cubic-bezier(.2, .7, .2, 1) both; }
+.pmenu__panel[hidden] { display: none; }
+@keyframes pmenu-in { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.pmenu__grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.15fr); gap: 1.6rem; }
+.pmenu__list { display: grid; gap: .15rem; margin: 0; padding: 0; list-style: none; }
+.pmenu__list a { display: grid; gap: .15rem; padding: .62rem .4rem .62rem 1rem; border-left: 2px solid transparent; color: inherit; opacity: 1; text-decoration: none; white-space: normal; }
+.pmenu__list a::after { display: none; }
+.pmenu__list a.is-current, .pmenu__list a:focus-visible { border-left-color: #74202f; background: rgba(116, 32, 47, .045); outline: none; }
+.pmenu__name { font-size: 1.12rem; font-weight: 600; letter-spacing: -.01em; }
+.pmenu__status { color: #6b6e75; font-size: .8rem; line-height: 1.35; }
+.pmenu__status.is-now { color: #74202f; font-weight: 600; }
+.pmenu__preview { position: relative; display: grid; align-content: end; min-height: 19rem; overflow: hidden; border-radius: 4px; background: #efe9df; }
+.pmenu__preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: pmenu-fade .45s ease both; }
+.pmenu__preview:has(img)::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12, 13, 15, 0) 45%, rgba(12, 13, 15, .72) 100%); }
+@keyframes pmenu-fade { from { opacity: .4; } to { opacity: 1; } }
+.pmenu__type { position: absolute; inset: 1.4rem; display: grid; align-content: start; color: #74202f; font-size: 2.2rem; font-weight: 600; line-height: 1; letter-spacing: -.03em; }
+.pmenu__caption { position: relative; z-index: 1; display: grid; gap: .25rem; padding: 1.1rem 1.2rem; color: #fff; }
+.pmenu__preview:not(:has(img)) .pmenu__caption { color: #18191c; }
+.pmenu__caption b { font-size: 1.25rem; font-weight: 600; }
+.pmenu__caption span { font-size: .88rem; opacity: .85; }
+.pmenu__all { display: block; margin-top: 1.2rem; padding: 1rem 0 0; border-top: 1px solid rgba(17, 18, 22, .12); color: #18191c; font-size: .95rem; font-weight: 600; opacity: 1; text-decoration: none; }
+.pmenu__all::after { display: none; }
+.pmenu__all:hover, .pmenu__all:focus-visible { color: #74202f; }
+.pacc__toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 1rem 0; border: 0; border-bottom: 1px solid var(--line); background: none; color: inherit; font: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.05; letter-spacing: -.02em; text-align: left; cursor: pointer; }
+.pacc__toggle[aria-current="page"] { color: var(--brand); }
+.pacc__toggle svg { transition: transform .3s ease; }
+.pacc.is-open .pacc__toggle svg { transform: rotate(180deg); }
+.pacc__list { margin: 0; padding: .4rem 0 .8rem; list-style: none; border-bottom: 1px solid var(--line); }
+.site-nav--mobile .pacc__list a { display: grid; gap: .1rem; padding: .7rem 0 .7rem 1rem; border-bottom: 0; border-left: 2px solid rgba(116, 32, 47, .35); font-size: 1.15rem; font-weight: 600; }
+.pacc__list small { color: var(--muted); font-size: .8rem; font-weight: 400; }
+.pacc__list small.is-now { color: #74202f; }
+.site-nav--mobile .pacc__list a.pacc__all { border-left-color: transparent; color: var(--brand); font-size: 1rem; }

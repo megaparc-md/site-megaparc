@@ -1,14 +1,16 @@
 import Link from "next/link";
+import { InvestInputs } from "@/components/invest-qa";
 import type { CSSProperties } from "react";
-import { ConceptImage, MaskTitle, Opening, Val } from "@/components/experience";
-import { EnquiryFormBlock, OwnerCompassBlock } from "@/components/journey-blocks";
+import { ConceptImage, MaskTitle, Opening, hasConceptImage } from "@/components/experience";
+import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { getProject } from "@/content/source";
-import { acquisitionProcess, company, contactLinks } from "@/data/demo-content";
-import { acquisitionCriteria, acquisitionTypes, geography } from "@/lib/business";
-import { isPreviewBuild, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { acquisitionTypes, geography } from "@/lib/business";
+import { localePath, type SiteLocale } from "@/lib/site-data";
+
+const N = " ";
 
 /**
  * OFFER A PROPERTY — MEGAPARC buys real estate and land (OWNER correction
@@ -21,8 +23,8 @@ import { isPreviewBuild, localePath, publicAsset, type SiteLocale } from "@/lib/
 const copy = {
   ro: {
     label: "Propune un obiect",
-    title: ["Obiecte și terenuri", "pentru proiectele următoare."],
-    lead: "Analizăm clădiri comerciale — inclusiv cele care cer o nouă viață — și terenuri pentru dezvoltare. Descrieți obiectul: îl evaluăm și vă răspundem.",
+    title: ["Propuneți un imobil", "sau un teren."],
+    lead: "Analizăm proiecte în care putem crea valoare prin investiție, dezvoltare și exploatare ulterioară.",
     send: "Trimite obiectul",
     how: "Ce verificăm",
     buyLabel: "Ce cumpărăm",
@@ -44,8 +46,8 @@ const copy = {
   },
   ru: {
     label: "Предложить объект",
-    title: ["Объекты и земля", "для следующих проектов."],
-    lead: "Рассматриваем коммерческие здания — в том числе те, которым нужна новая жизнь, — и землю под развитие. Опишите объект: оценим его и ответим.",
+    title: ["Предложите объект", "или земельный участок."],
+    lead: `Мы рассматриваем проекты, где можем создать стоимость через инвестиции, развитие и${N}последующую эксплуатацию.`,
     send: "Отправить объект",
     how: "Что мы проверяем",
     buyLabel: "Что покупаем",
@@ -67,8 +69,8 @@ const copy = {
   },
   en: {
     label: "Offer a property",
-    title: ["Property and land", "for the next projects."],
-    lead: "We consider commercial buildings — including ones that need a new life — and land for development. Describe the property: we assess it and reply.",
+    title: ["Offer a property", "or a land plot."],
+    lead: "We consider projects where we can create value through investment, development and subsequent operation.",
     send: "Send the property",
     how: "What we check",
     buyLabel: "What we buy",
@@ -89,6 +91,8 @@ const copy = {
     routes: [["Available spaces", "/leasing#available"], ["Our projects", "/projects"], ["Investment partnership", "/partnership"], ["See vacancies", "/careers#positions"]],
   },
 } as const;
+
+const inputsTitle: Record<SiteLocale, string> = { ro: "Ce informații sunt utile?", ru: "Какая информация полезна?", en: "What information is useful?" };
 
 export function OfferPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
@@ -129,53 +133,23 @@ export function OfferPage({ locale }: { locale: SiteLocale }) {
                 </li>
               ))}
             </ol>
-            <figure className="xp-fig of-buy__figure" style={{ "--ratio": "4 / 5" } as CSSProperties} data-reveal>
-              <ConceptImage id="offer.land" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" />
-            </figure>
+            {/* production edition: no concept visual here (OWNER "PRODUCTION V1" §3) — the frame is not rendered */}
+            {hasConceptImage("offer.land") ? (
+              <figure className="xp-fig of-buy__figure" style={{ "--ratio": "4 / 5" } as CSSProperties} data-reveal>
+                <ConceptImage id="offer.land" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" />
+              </figure>
+            ) : null}
           </div>
         </div>
       </section>
 
-      {/* WHAT WE CHECK */}
-      <section className="xp-sec xp-sec--stone" id="check">
-        <div className="xp-shell xp-split xp-split--text">
-          <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">02</span><span>{c.checkLabel}</span></p>
-            <h2 className="xp-split__title xp-split__title--gap">{c.checkTitle}</h2>
+      {/* USEFUL MATERIALS — the practical checklist (OWNER overnight release §14); no invented criteria, no process steps */}
+      <section className="xp-sec xp-sec--stone iq-sec" id="check">
+        <div className="xp-shell iq-row iq-row--solo">
+          <h2 className="iq-q">{inputsTitle[locale]}</h2>
+          <div className="iq-a">
+            <InvestInputs locale={locale} />
           </div>
-          <ol className="xp-numbered" data-reveal>
-            {acquisitionCriteria.map((item) => (
-              <li key={item.en}><h3>{item[locale]}</h3></li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* OWNER COMPASS */}
-      <section className="xp-sec xp-sec--warm">
-        <div className="xp-shell">
-          <Opening no="03" label={c.compassLabel} title={c.compassTitle} />
-          {/* Plain link (full reload): add the base path and the export's trailing slash ourselves. */}
-          <OwnerCompassBlock locale={locale} formHref={`${publicAsset(p("/offer"))}${isPreviewBuild ? "/" : ""}`} />
-        </div>
-      </section>
-
-      {/* PROCESS */}
-      <section className="xp-sec">
-        <div className="xp-shell">
-          <Opening no="04" label={c.processLabel} title={c.processTitle} className="xp-opening--split" />
-          <ol className="xp-process" style={{ "--n": c.steps.length } as CSSProperties} data-reveal>
-            {c.steps.map(([title, text]) => (
-              <li key={title}>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </li>
-            ))}
-          </ol>
-          <dl className="lx-facts" data-reveal>
-            <div><dt>{c.reply}</dt><dd><Val point={acquisitionProcess.reply} locale={locale} /></dd></div>
-            <div><dt>{c.mailbox}</dt><dd><a href={contactLinks.email}>{company.email.value[locale]}</a></dd></div>
-          </dl>
         </div>
       </section>
 

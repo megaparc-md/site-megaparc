@@ -1,3 +1,4 @@
+import { DirectContact } from "@/components/direct-contact";
 import { EnquiryForm, type FormOptions, type Subject } from "@/components/enquiry-form";
 import { OwnerCompass } from "@/components/owner-compass";
 import { getProject, listProjects, listVacancies, publicSpaces } from "@/content/source";
@@ -5,7 +6,7 @@ import { acquisitionProcess, company, leasingProcess } from "@/data/demo-content
 import { acquisitionTypes } from "@/lib/business";
 import { departmentLabel, type Department } from "@/lib/careers";
 import { areaBands, needOrder, needs, uses } from "@/lib/leasing";
-import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * Server wrappers that turn journey data into the props of the client journey
@@ -79,6 +80,8 @@ const partnerCategories: { key: string; label: Localized }[] = [
 ];
 
 export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale; initial?: Subject; only?: Subject[] }) {
+  // production edition: no form backend yet (n8n off) — the confirmed direct contacts instead of a form that cannot send
+  if (isProductionEdition) return <DirectContact locale={locale} subject={initial ?? "general"} />;
   const districts = Array.from(new Set(listProjects().filter((p) => p.kind === "operating").map((p) => p.district[locale])));
   const departments = Array.from(new Set(listVacancies().map((v) => v.department))) as Department[];
   const options: FormOptions = {

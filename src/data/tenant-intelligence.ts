@@ -56,6 +56,9 @@ export type LocationTraffic = {
 
 const day = (rows: [number, number, number, number][]): HourLevel[] => rows.map(([hour, auto, pedestrian, transit]) => ({ hour, auto, pedestrian, transit }));
 
+/** Site edition, read directly (this module also loads in Node for the production gate). */
+const productionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") === "production";
+
 export const locationTraffic: Record<string, LocationTraffic> = {
   "moscova-20": {
     property: "moscova-20",
@@ -70,7 +73,8 @@ export const locationTraffic: Record<string, LocationTraffic> = {
     measurementDate: null,
     measurementMethod: null,
     source: "Vehicles, pedestrians, peak and the day profile: OWNER brief «LOCATION INTELLIGENCE + VIEWING CONVERSION PASS», 2026-11-06 — PRELIMINARY MEGAPARC LOCATION MODEL (desk estimate, awaiting the field count). Public transport routes: 8 — current OpenStreetMap research (docs/research), stops within a 350 m radius; a researched fact, not a field count and not a model estimate (OWNER micro-fix 2026-11-09).",
-    publishTraffic: true,
+    // production edition: the preliminary model is never published (OWNER "PRODUCTION V1" §4)
+    publishTraffic: !productionEdition,
     publishScope: "OWNER_PREVIEW",
     ownerApproved: false,
     dayProfile: day([
@@ -97,7 +101,8 @@ export const locationTraffic: Record<string, LocationTraffic> = {
  */
 export type PreviewTool = { key: string; property: string; label: string; publishScope: "OWNER_PREVIEW" | "PUBLIC"; ownerApproved: boolean; note: string };
 
-export const previewTools: PreviewTool[] = [
+// production edition: none of the OWNER-preview decision tools is part of the build (OWNER "PRODUCTION V1" §4)
+export const previewTools: PreviewTool[] = productionEdition ? [] : [
   { key: "moscova-20.location-model", property: "moscova-20", label: "Preliminary MEGAPARC location model — figures + «Как живёт локация» day rhythm", publishScope: "OWNER_PREVIEW", ownerApproved: false, note: "Ranges from the OWNER brief; replaced by MEGAPARC LOCATION COUNT" },
   { key: "moscova-20.catchment-map", property: "moscova-20", label: "Catchment map ≈ 5 / 10 / 15 min walk (OSM points, straight-line radii)", publishScope: "OWNER_PREVIEW", ownerApproved: false, note: "OSM research not yet field-checked; radii are not isochrones" },
   { key: "moscova-20.visibility-study", property: "moscova-20", label: "Visibility study on the aerial photograph (boulevard · object · customer entrance · pavement)", publishScope: "OWNER_PREVIEW", ownerApproved: false, note: "Confirmed elements only; public transport direction not drawn (unconfirmed in the frame)" },

@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import type { ProjectsMenuData } from "@/components/projects-menu";
 import { SiteNav } from "@/components/site-nav";
 import { brand, ui, type SiteLocale } from "@/lib/site-data";
 
@@ -11,7 +12,7 @@ import { brand, ui, type SiteLocale } from "@/lib/site-data";
  * full-screen panel with the routes, the corporate routes and RO · RU · EN.
  * Escape closes, route change closes, body scroll is locked while open.
  */
-export function MobileMenu({ locale }: { locale: SiteLocale }) {
+export function MobileMenu({ locale, projects }: { locale: SiteLocale; projects?: Omit<ProjectsMenuData, "label" | "active"> }) {
   const pathname = usePathname();
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn === pathname;
@@ -49,7 +50,7 @@ export function MobileMenu({ locale }: { locale: SiteLocale }) {
       <div id={panelId} className="menu__panel" hidden={!open}>
         <div className="shell menu__inner">
           <div>
-            <SiteNav locale={locale} variant="mobile" />
+            <SiteNav locale={locale} variant="mobile" projects={projects} />
             <SiteNav locale={locale} variant="secondary-mobile" secondary />
           </div>
           <div className="menu__foot">

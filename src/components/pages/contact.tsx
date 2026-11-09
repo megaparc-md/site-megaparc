@@ -2,7 +2,7 @@ import Link from "next/link";
 import { DemoLegend, Val } from "@/components/experience";
 import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
-import { company, contactLinks, leasingProcess } from "@/data/demo-content";
+import { company, contactLinks, leasingProcess, shown } from "@/data/demo-content";
 import { Icon } from "@/components/ui";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
@@ -71,11 +71,12 @@ const copy = {
 
 export function ContactPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
-  const rows = [
+  // production edition: unconfirmed working hours are not published (OWNER "PRODUCTION V1" §3 Contacts)
+  const rows = ([
     [c.company, company.legalName],
     [c.office, company.city],
     [c.hours, company.hours],
-  ] as const;
+  ] as const).filter(([, point]) => shown(point));
   const direct = [
     [c.email, company.email, contactLinks.email],
     [c.mobile, company.mobile, contactLinks.mobile],
@@ -145,7 +146,7 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
               {c.next.map(([title, text], index) => (
                 <li key={title}>
                   <h3>{title}</h3>
-                  <p>{text}{index === 1 ? <> <Val point={leasingProcess.reply} locale={locale} /></> : null}</p>
+                  <p>{text}{index === 1 && shown(leasingProcess.reply) ? <> <Val point={leasingProcess.reply} locale={locale} /></> : null}</p>
                 </li>
               ))}
             </ol>

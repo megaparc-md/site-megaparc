@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PropertyTrust } from "@/components/leasing/property-trust";
 import type { CSSProperties } from "react";
 import { DemoLegend, DemoMark, Opening, Val } from "@/components/experience";
 import { AvailabilityChip, SpaceImage, UnitCard, labelOfUse, viewingHref } from "@/components/leasing/unit-card";
@@ -7,7 +8,7 @@ import { PageShell } from "@/components/page-shell";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
 import { availabilityCopy, availabilityOf, formatAreaRange, formatDate, getProject, isDemoField, leasingExperienceForSpace, publicSpaces, sortSpaces } from "@/content/source";
-import { leasingProcess, tenantFit } from "@/data/demo-content";
+import { leasingProcess, tenantFit, shown } from "@/data/demo-content";
 import type { AvailableSpace, SpaceField } from "@/data/leasing-inventory";
 import { fitCopy, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -210,6 +211,9 @@ function UnitTemplate({ locale, space }: { locale: SiteLocale; space: AvailableS
         </div>
       </section>
 
+      {/* TECHNICAL SUPPORT + OFFICIAL VERIFICATION (OWNER overnight release §6) */}
+      <PropertyTrust slug={space.project} locale={locale} />
+
       {/* PROCESS */}
       <section className="xp-sec xp-sec--stone xp-sec--tight">
         <div className="xp-shell">
@@ -223,8 +227,8 @@ function UnitTemplate({ locale, space }: { locale: SiteLocale; space: AvailableS
             ))}
           </ol>
           <dl className="lx-facts" data-reveal>
-            <div><dt>{t.reply[locale]}</dt><dd><Val point={leasingProcess.reply} locale={locale} /></dd></div>
-            <div><dt>{t.viewingTime[locale]}</dt><dd><Val point={leasingProcess.viewing} locale={locale} /></dd></div>
+            {shown(leasingProcess.reply) ? <div><dt>{t.reply[locale]}</dt><dd><Val point={leasingProcess.reply} locale={locale} /></dd></div> : null}
+            {shown(leasingProcess.viewing) ? <div><dt>{t.viewingTime[locale]}</dt><dd><Val point={leasingProcess.viewing} locale={locale} /></dd></div> : null}
             <div><dt>{t.terms[locale]}</dt><dd>{noPrice[locale]}</dd></div>
           </dl>
         </div>

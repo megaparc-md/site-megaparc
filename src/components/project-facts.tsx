@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { viewingHref } from "@/components/leasing/unit-card";
 import { TextLink } from "@/components/ui";
-import { availabilityOf, formatAreaRange, formatDate, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
+import { availabilityLabel, availabilityOf, formatAreaRange, formatDate, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
 import type { OperatingSlug } from "@/data/demo-content";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -42,11 +42,16 @@ export function ProjectStatus({ project, locale, tone, as: Tag = "p", className 
   const spaces = spacesFor(project.slug);
   const slug = project.slug as OperatingSlug;
   let text: string | null = null;
-  if (spaces.length) text = `${statusCopy.free[locale]} ${spaces.map((space) => formatAreaRange(space.areaMin, space.area, locale)).join(" · ")}`;
+  let kind = "";
+  // availability-aware (OWNER overnight release §10): «Свободно сейчас · 625,7 м²» differs visibly from «Свободно с 1 января 2027 · …»
+  if (spaces.length) {
+    text = spaces.map((space) => `${availabilityLabel(space, locale)} · ${formatAreaRange(space.areaMin, space.area, locale)}`).join(" · ");
+    kind = spaces.some((space) => availabilityOf(space).key === "now") ? " is-open is-now" : " is-open is-soon";
+  }
   // derived from the unit register (OWNER CMS brief 2026-11-06): the last unit set to LEASED turns this into «Занят на 100 %»
-  else if (propertyOccupancy(slug).fullyLet) text = statusCopy.full[locale];
+  else if (propertyOccupancy(slug).fullyLet) { text = statusCopy.full[locale]; kind = " is-full"; }
   if (!text) return null;
-  return <Tag className={`pj-status${tone === "dark" ? " pj-status--dark" : ""}${spaces.length ? " is-open" : ""} ${className}`.trim()}>{text}</Tag>;
+  return <Tag className={`pj-status${tone === "dark" ? " pj-status--dark" : ""}${kind} ${className}`.trim()}>{text}</Tag>;
 }
 
 const editorialCopy = {
