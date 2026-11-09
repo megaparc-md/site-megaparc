@@ -1,4 +1,4 @@
-import { LgPhoto, ui } from "@/components/leasing-experience/parts";
+import { ui } from "@/components/leasing-experience/parts";
 import { ViewingForm } from "@/components/leasing-experience/viewing-form";
 import { Icon } from "@/components/ui";
 import { formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
@@ -17,6 +17,10 @@ import type { SiteLocale } from "@/lib/site-data";
  * e-mail → «Свяжитесь со мной»; the qualifying fields on request), before / at
  * / after, the one public line on terms and the confirmed contacts. When a real
  * film exists it takes the photograph's place, poster first, never autoplay.
+ * Card & air pass (2026-11-09, §17): more air; «Посмотрите Moscova 20 лично.»;
+ * the three actions as action cards (primary dark, two light) carrying the unit,
+ * the one public line on terms and the telephone; the form beside the steps,
+ * without the photograph (the film slot stays).
  */
 export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
   const v = x.viewing;
@@ -25,7 +29,7 @@ export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperienc
   const [title, sub] = v.title[locale].split("\n");
   return (
     <section id="viewing" className="lg-viewing" aria-labelledby="lg-viewing-title">
-      <div className="xp-shell">
+      <div className="xp-shell lg-viewing__shell">
         <header className="lg-viewing__head">
           <p className="pm-kicker" data-reveal>{v.kicker[locale]}</p>
           <h2 className="lg-viewing__title" id="lg-viewing-title" data-reveal>
@@ -33,22 +37,21 @@ export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperienc
             {sub ? <span className="lg-viewing__sub">{sub}</span> : null}
           </h2>
           {v.lead ? <p className="lg-viewing__lead" data-reveal>{v.lead[locale]}</p> : null}
-          <div className="lg-viewing__actions" data-reveal>
-            <a className="btn" href="#lg-form" data-intent="viewing"><span>{open ? ui.viewingPersonal[locale] : ui.waitlist[locale]}</span><Icon /></a>
-            <a className="btn btn--ghost" href="#lg-form" data-intent="offer"><span>{ui.offer[locale]}</span><Icon /></a>
-            <a className="pm-link" href={contactLinks.mobile}><span>{ui.call[locale]}</span><Icon /></a>
-          </div>
         </header>
+        {/* three actions as premium action cards: one primary, two secondary (OWNER card & air pass §17) */}
+        <ul className="lg-actions" data-reveal>
+          <li><a className="lg-card lg-action is-primary" href="#lg-form" data-intent="viewing"><span className="lg-action__label">{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><span className="lg-action__meta">{label}</span><Icon /></a></li>
+          <li><a className="lg-card lg-action" href="#lg-form" data-intent="offer"><span className="lg-action__label">{ui.offer[locale]}</span><span className="lg-action__meta">{x.terms.pending[locale]}</span><Icon /></a></li>
+          <li><a className="lg-card lg-action" href={contactLinks.mobile}><span className="lg-action__label">{ui.call[locale]}</span><span className="lg-action__meta">{company.mobile.value[locale]}</span><Icon /></a></li>
+        </ul>
         <div className="lg-viewing__grid">
-          <figure className="lg-viewing__media" data-reveal>
-            {v.film ? (
+          {v.film ? (
+            <figure className="lg-viewing__media" data-reveal>
               <video className="lg-viewing__video" controls preload="none" playsInline poster={v.film.poster} aria-label={v.film.title[locale]}>
                 <source src={v.film.src} type="video/mp4" />
               </video>
-            ) : (
-              <LgPhoto photo={x.photos[v.photo]} locale={locale} ratio="4 / 5" sizes="(min-width: 1024px) 34vw, 100vw" />
-            )}
-          </figure>
+            </figure>
+          ) : null}
           <div className="xp-form lg-viewing__form" data-reveal>
             <ViewingForm locale={locale} mode={open ? "viewing" : "waitlist"} unitLabel={label} mailbox={company.email.value[locale]} property={project.name} />
           </div>
@@ -61,7 +64,6 @@ export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperienc
                 </div>
               ))}
             </dl>
-            <p className="lg-viewing__terms" data-reveal>{x.terms.pending[locale]}</p>
             <div className="lg-viewing__contacts" data-reveal>
               <p className="lg-label">{v.contactsLine[locale]}</p>
               <a href={contactLinks.email}>{company.email.value[locale]}</a>

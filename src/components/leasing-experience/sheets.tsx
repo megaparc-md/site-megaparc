@@ -1,6 +1,6 @@
 import { ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
-import { formatArea, formatAreaExact, type ProjectEntry } from "@/content/source";
+import { formatAreaExact, type ProjectEntry } from "@/content/source";
 import { publishable, type CostState, type LeasingExperience, type TechRow } from "@/data/leasing-experience-model";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { googleDirectionsUrl } from "@/lib/assets";
@@ -28,7 +28,8 @@ const copy = {
   engineering: { ro: "Inginerie", ru: "Инженерия", en: "Engineering" },
   access: { ro: "Acces", ru: "Доступ", en: "Access" },
   levelsN: { ro: "niveluri", ru: "уровня", en: "levels" },
-  power: { ro: "putere conform documentelor", ru: "мощность по документам", en: "power, documented" },
+  power: { ro: "alimentare conform documentelor", ru: "электроснабжение по документам", en: "power supply, documented" },
+  documented: { ro: "conform documentelor", ru: "по документам", en: "documented" },
   confirm: { ro: "Clarificăm pentru afacerea dumneavoastră", ru: "Уточняем под ваш бизнес", en: "We confirm for your business" },
   cost: { ro: "Din ce se compune lansarea", ru: "Из чего складывается запуск", en: "What opening involves" },
   covers: { ro: "Oferta comercială răspunde la", ru: "В коммерческом предложении", en: "The commercial proposal covers" },
@@ -64,18 +65,19 @@ export function TechSheet({ x, unit, project, locale }: { x: LeasingExperience; 
   const power = x.engineering.rows.find((row) => row.key === "power" && publishable(row.evidence));
   const kw = power?.value.en.match(/(\d+)\s*kW/)?.[1];
   const map = project.asset?.map ?? null;
+  // fact cards first (OWNER card & air pass §13): power · the two clear heights · exits — all read from the records
+  const exits = x.access.find((row) => row.key === "exits" && publishable(row.evidence))?.value[locale].match(/^(\d+)[\s ]+([^\s,.]+)/);
   const big = [
-    { label: ui.offered[locale], value: formatArea(unit.area, locale) },
-    ...(unit.usefulArea ? [{ label: ui.useful[locale], value: formatArea(unit.usefulArea, locale) }] : []),
-    { label: copy.levelsN[locale], value: String(floors.length) },
     ...(kw ? [{ label: copy.power[locale], value: `${kw} ${locale === "ru" ? "кВт" : "kW"}` }] : []),
+    ...heights.map((level) => ({ label: level.label[locale], value: `${level.heightEvidence === "APPROXIMATE" ? "≈ " : ""}${fmtHeight(level.height!, locale)}` })),
+    ...(exits ? [{ label: copy.documented[locale], value: `${exits[1]} ${exits[2]}` }] : []),
   ];
   return (
     <div className="lg-sheet">
       <p className="lg-sheet__lead">{x.drawers.tech.lead[locale]}</p>
-      <dl className="lg-sheet__big">
+      <dl className="lg-sheet__big lg-facts">
         {big.map((item) => (
-          <div key={item.label}>
+          <div key={item.label} className="lg-card lg-fact">
             <dt>{item.label}</dt>
             <dd>{item.value}</dd>
           </div>

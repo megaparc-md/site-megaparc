@@ -3,66 +3,90 @@
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
 /**
- * LOCATION STAGE — the visual centre of «Локация в движении»: two views of the
- * same address (the surroundings map · how the property is seen from the
- * boulevard) and, under the map, quiet category filters that bring one layer
- * forward (education, transport, groceries, pharmacies, services, main roads).
- * Views are rendered on the server; this component only chooses.
+ * LOCATION EXPLORER (OWNER "PREMIUM CARD SYSTEM & AIR PASS", 2026-11-09, §9) —
+ * «Локация в движении» as a premium interactive product: one large visual on
+ * the left, a short stack of cards on the right (АДРЕС · ОКРУЖЕНИЕ · ТРАНСПОРТ ·
+ * РИТМ ДНЯ — the last two only where the catchment map and the preliminary
+ * model are shown). Choosing a card changes the main visual (the real aerial
+ * with the confirmed marks · the surroundings map · the same map with the
+ * transport layer brought forward · the rhythm of the day) and the short detail
+ * under the cards — never map + aerial + POI + traffic + paragraphs at once.
+ * The category filters of the map stay with the surroundings card.
+ * WAI-ARIA tabs (vertical); visuals and details are rendered on the server.
  */
-export function LocationStage({ tabs, views, filters, label, filterLabel }: { tabs: { key: string; label: string }[]; views: ReactNode[]; filters: { key: string; label: string }[]; label: string; filterLabel: string }) {
-  const [active, setActive] = useState(0);
-  const [cat, setCat] = useState<string | null>(null);
-  const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
+export type ExplorerOption = { key: string; label: string; title: string; visual: string; cat?: string; detail?: ReactNode };
+
+export function LocationExplorer({ options, visuals, filters, label, filterLabel }: { options: ExplorerOption[]; visuals: { key: string; node: ReactNode }[]; filters: { key: string; label: string }[]; label: string; filterLabel: string }) {
+  const [active, setActive] = useState(0);
+  const [filter, setFilter] = useState<string | null>(null);
+  const refs = useRef<(HTMLButtonElement | null)[]>([]);
+  const option = options[active];
+  const cat = option.cat ?? (option.visual === "map" ? filter : null);
+
+  const select = (index: number, focus = false) => {
+    setActive(index);
+    setFilter(null);
+    if (focus) refs.current[index]?.focus();
+  };
   const onKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    const last = tabs.length - 1;
-    const next = event.key === "ArrowRight" ? (index === last ? 0 : index + 1) : event.key === "ArrowLeft" ? (index === 0 ? last : index - 1) : null;
+    const last = options.length - 1;
+    const forward = event.key === "ArrowDown" || event.key === "ArrowRight";
+    const back = event.key === "ArrowUp" || event.key === "ArrowLeft";
+    const next = forward ? (index === last ? 0 : index + 1) : back ? (index === 0 ? last : index - 1) : null;
     if (next === null) return;
     event.preventDefault();
-    setActive(next);
-    refs.current[next]?.focus();
+    select(next, true);
   };
 
   return (
-    <div className="lg-stage" data-cat={cat ?? undefined}>
-      {tabs.length > 1 ? (
-        <div className="lg-stage__tabs" role="tablist" aria-label={label}>
-          {tabs.map((tab, index) => (
+    <div className="lg-explorer lg-stage" data-cat={cat ?? undefined}>
+      <div className="lg-explorer__stage">
+        {visuals.map((visual) => (
+          <div key={visual.key} className={`lg-explorer__view is-${visual.key}${visual.key === option.visual ? " is-on" : ""}`} aria-hidden={visual.key !== option.visual}>
+            {visual.node}
+          </div>
+        ))}
+      </div>
+      <div className="lg-explorer__side">
+        <div className="lg-explorer__cards" role="tablist" aria-label={label} aria-orientation="vertical">
+          {options.map((item, index) => (
             <button
-              key={tab.key}
+              key={item.key}
               ref={(element) => {
                 refs.current[index] = element;
               }}
               type="button"
               role="tab"
-              id={`lg-stage-${tab.key}`}
-              aria-controls={`lg-stagepane-${tab.key}`}
+              id={`lg-explore-${item.key}`}
+              aria-controls="lg-explore-panel"
               aria-selected={index === active}
               tabIndex={index === active ? 0 : -1}
-              className={`lg-stage__tab${index === active ? " is-active" : ""}`}
-              onClick={() => setActive(index)}
+              className={`lg-card lg-explorer__card${index === active ? " is-active" : ""}`}
+              onClick={() => select(index)}
               onKeyDown={(event) => onKey(event, index)}
             >
-              {tab.label}
+              <span className="lg-card__label"><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</span>
+              <span className="lg-explorer__title">{item.title}</span>
             </button>
           ))}
         </div>
-      ) : null}
-      {views.map((view, index) => (
-        <div key={tabs[index].key} role={tabs.length > 1 ? "tabpanel" : undefined} id={`lg-stagepane-${tabs[index].key}`} aria-labelledby={tabs.length > 1 ? `lg-stage-${tabs[index].key}` : undefined} hidden={index !== active} className="lg-stage__view">
-          {view}
-          {index === 0 && filters.length ? (
+        <div className="lg-explorer__detail" role="tabpanel" id="lg-explore-panel" aria-labelledby={`lg-explore-${option.key}`}>
+          {/* phones and tablets show the cards as labels only; the chosen card's line opens the panel */}
+          <p className="lg-explorer__lead">{option.title}</p>
+          {option.detail}
+          {option.visual === "map" && !option.cat && filters.length ? (
             <div className="lg-stage__filters" role="group" aria-label={filterLabel}>
-              {filters.map((filter) => (
-                <button key={filter.key} type="button" className={`lg-stage__filter is-${filter.key}${cat === filter.key ? " is-on" : ""}`} aria-pressed={cat === filter.key} onClick={() => setCat(cat === filter.key ? null : filter.key)}>
+              {filters.map((item) => (
+                <button key={item.key} type="button" className={`lg-stage__filter is-${item.key}${filter === item.key ? " is-on" : ""}`} aria-pressed={filter === item.key} onClick={() => setFilter(filter === item.key ? null : item.key)}>
                   <i aria-hidden="true" />
-                  {filter.label}
+                  {item.label}
                 </button>
               ))}
             </div>
           ) : null}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

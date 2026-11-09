@@ -132,18 +132,6 @@ export function SectionScheme({ x, unit, locale, compact = false }: { x: Leasing
   );
 }
 
-/** The level's area as display type (OWNER art direction §17: 240,96 · 293,70 · 458,86 as visual typography). */
-function BigArea({ value, label }: { value: string; label: string }) {
-  const { figure, unit } = splitArea(value);
-  return (
-    <p className="lg-plans__big">
-      <strong>{figure}</strong>
-      <span className="lg-plans__bigunit">{unit}</span>
-      <span className="lg-plans__biglabel">{label}</span>
-    </p>
-  );
-}
-
 function Figures({ items }: { items: { label: string; value: string }[] }) {
   return (
     <dl className="lg-figs">
@@ -173,7 +161,6 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
     return (
       <>
         <p className="lg-plans__level">{level.label[locale]} <span>{level.mark}</span></p>
-        {data ? <BigArea value={formatAreaExact(data.area, locale)} label={copy.total[locale]} /> : null}
         <Figures items={figures} />
         <details className="lg-plans__schedule">
           <summary className="pm-link"><span className="is-show">{copy.showSchedule[locale]}</span><span className="is-hide">{copy.hideSchedule[locale]}</span><Icon name="down" /></summary>
@@ -206,7 +193,6 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
   const overviewSide = (
     <>
       <p className="lg-plans__level">{p.schemeTab[locale]}</p>
-      {unit.usefulArea ? <BigArea value={formatAreaExact(unit.usefulArea, locale)} label={ui.useful[locale]} /> : null}
       <Figures
         items={[
           { label: ui.offered[locale], value: formatArea(unit.area, locale) },
@@ -218,7 +204,12 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
     </>
   );
 
-  const tabs = [...p.levels.map((level) => ({ key: level.key, label: level.tab[locale] })), { key: "scheme", label: p.schemeTab[locale] }];
+  // the level switches are KPI cards: the level area, the useful area on the overview (OWNER card & air pass §12)
+  const kpi = (area: number | undefined) => (area ? splitArea(formatAreaExact(area, locale)) : null);
+  const tabs = [
+    ...p.levels.map((level) => { const k = kpi(byKey(level.key)?.area); return { key: level.key, label: level.tab[locale], figure: k?.figure, unit: k?.unit }; }),
+    (() => { const k = kpi(unit.usefulArea); return { key: "scheme", label: p.schemeTab[locale], figure: k?.figure, unit: k?.unit, caption: k ? ui.usefulShort[locale] : undefined }; })(),
+  ];
   const views = [...p.levels.map((level) => <PlanSvg key={level.key} level={level} other={p.levels.find((item) => item.key !== level.key)} locale={locale} />), <SectionScheme key="scheme" x={x} unit={unit} locale={locale} />];
   const sides = [...p.levels.map((level) => <div key={level.key}>{levelSide(level)}</div>), <div key="scheme">{overviewSide}</div>];
 

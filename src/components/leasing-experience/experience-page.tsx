@@ -7,11 +7,12 @@ import { FormatLens } from "@/components/leasing-experience/format-lens";
 import { LeasingHero } from "@/components/leasing-experience/hero";
 import { LocationMotion } from "@/components/leasing-experience/location-motion";
 import { EconomicsGlyph, LgPhoto, ownerPreview, ui } from "@/components/leasing-experience/parts";
-import { PhotoStory } from "@/components/leasing-experience/photo-story";
+import { PhotoGallery, PhotoStory, galleryTitle } from "@/components/leasing-experience/photo-story";
 import { PlanSvg, PlansScene } from "@/components/leasing-experience/plans";
 import { Reasons } from "@/components/leasing-experience/reasons";
 import { ReadinessSheet, TechSheet } from "@/components/leasing-experience/sheets";
 import { StickyCta } from "@/components/leasing-experience/sticky-cta";
+import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
 import { PageShell } from "@/components/page-shell";
 import { availabilityLabel, formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
@@ -78,6 +79,7 @@ export function LeasingExperiencePage({ locale, project, unit, experience: x }: 
     <PageShell locale={locale} experience mainClassName="lg-page">
       <LeasingHero x={x} unit={unit} project={project} locale={locale} />
       <DecisionNav portals={portals} label={ui.chapters[locale]} cta={open ? ui.viewing[locale] : ui.waitlist[locale]} status={availabilityLabel(unit, locale)} />
+      <SummaryCards x={x} unit={unit} locale={locale} />
       <Reasons x={x} unit={unit} locale={locale} />
       <FormatLens x={x} unit={unit} locale={locale} />
       <LocationMotion x={x} unit={unit} project={project} locale={locale} />
@@ -88,6 +90,9 @@ export function LeasingExperiencePage({ locale, project, unit, experience: x }: 
       <StickyCta name={project.name} meta={`${formatArea(unit.area, locale)} · ${availabilityLabel(unit, locale)}`} label={open ? ui.viewing[locale] : ui.waitlist[locale]} />
       <LgDrawer id="tech" title={x.drawers.tech.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
         <TechSheet x={x} unit={unit} project={project} locale={locale} />
+      </LgDrawer>
+      <LgDrawer id="gallery" title={galleryTitle[locale]} kicker={project.name} closeLabel={ui.close[locale]} wide>
+        <PhotoGallery x={x} locale={locale} />
       </LgDrawer>
       <LgDrawer id="readiness" title={x.drawers.readiness.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
         <ReadinessSheet x={x} locale={locale} open={open} />

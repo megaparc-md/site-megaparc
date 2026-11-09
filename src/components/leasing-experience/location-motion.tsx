@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { LocationStage } from "@/components/leasing-experience/location-stage";
-import { OpenFrom } from "@/components/leasing-experience/open-from";
+import { LocationExplorer, type ExplorerOption } from "@/components/leasing-experience/location-stage";
 import { EconomicsGlyph, ownerPreview, ui } from "@/components/leasing-experience/parts";
 import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
 import { LocationMap } from "@/components/location-section";
@@ -29,6 +28,11 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * economics tool. Wording rule: activity «вокруг локации», never «станут вашими
  * покупателями».
  *
+ * Card & air pass (OWNER "PREMIUM CARD SYSTEM & AIR PASS", 2026-11-09, §9):
+ * the steps became one LocationExplorer — the large visual on the left, the
+ * cards АДРЕС · ОКРУЖЕНИЕ · ТРАНСПОРТ · РИТМ ДНЯ on the right, the economics
+ * entry as a premium card beside the verdict.
+ *
  * Gating (src/data/tenant-intelligence.ts): the model, the map, the visibility
  * marks and the economics entry render only in the OWNER preview until the
  * OWNER approves them; a production build shows the OSM location module, the
@@ -37,6 +41,10 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 
 const copy = {
   filters: { ro: "Straturi ale hărții", ru: "Слои карты", en: "Map layers" },
+  option: {
+    address: { ro: "Adresa", ru: "Адрес", en: "Address" },
+    rhythm: { ro: "Ritmul zilei", ru: "Ритм дня", en: "Rhythm of the day" },
+  },
   cat: {
     education: { ro: "Educație", ru: "Образование", en: "Education" },
     transport: { ro: "Transport", ru: "Транспорт", en: "Transport" },
@@ -123,8 +131,9 @@ function CatchmentMap({ name, locale, caption }: { name: string; locale: SiteLoc
 /* ------------------------------------------------------------ day rhythm */
 
 /** One editorial line 08 → 20: three thin series, the peak band and the parts of the lines inside it in burgundy. No values. */
-function DayRhythm({ traffic, locale }: { traffic: LocationTraffic; locale: SiteLocale }) {
-  const W = 1200, H = 214, X0 = 40, X1 = 1060, Y0 = 178, YH = 142;
+function DayRhythm({ traffic, locale, narrow = false }: { traffic: LocationTraffic; locale: SiteLocale; narrow?: boolean }) {
+  // two drawings of the same line: a wide one, and a narrow one for phones whose 12-unit type stays legible at 350 px
+  const W = narrow ? 560 : 1200, H = narrow ? 230 : 214, X0 = 24, X1 = narrow ? 440 : 1060, Y0 = narrow ? 192 : 178, YH = narrow ? 150 : 142;
   const hours = traffic.dayProfile;
   const first = hours[0].hour;
   const last = hours[hours.length - 1].hour;
@@ -135,9 +144,9 @@ function DayRhythm({ traffic, locale }: { traffic: LocationTraffic; locale: Site
   const ends = (["auto", "pedestrian", "transit"] as const).map((key) => ({ key, y: y(hours[hours.length - 1][key]) })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 18) ends[i].y = ends[i - 1].y + 18;
   const word = (hour: number) => (hour < 10 ? copy.hour.morning : hour >= p0 && hour < p1 ? copy.hour.peak : hour >= p1 ? copy.hour.late : copy.hour.day)[locale];
-  const clip = "lg-rhythm-peak";
+  const clip = narrow ? "lg-rhythm-peak-narrow" : "lg-rhythm-peak";
   return (
-    <figure className="lg-rhythm">
+    <figure className={`lg-rhythm ${narrow ? "is-narrow" : "is-wide"}`}>
       <svg viewBox={`0 0 ${W} ${H}`} className="lg-rhythm__svg" role="img" aria-label={copy.chartLabel[locale]}>
         <defs>
           <clipPath id={clip}><rect x={x(p0)} y="0" width={x(p1) - x(p0)} height={H} /></clipPath>
@@ -263,96 +272,97 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
     </a>
   );
 
+  const groups = m.ecosystem;
+  const transportGroup = groups.find((group) => group.category === "transport");
+  const everyday = groups.filter((group) => group.category !== "transport");
+  const routeLinks = map ? (
+    <p className="lg-motion__links">
+      <a className="pm-link" href={googleDirectionsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.route[locale]}</span><Icon name="up-right" /></a>
+      <a className="pm-link pm-link--quiet" href={googleMapsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.openMap[locale]}</span><Icon name="up-right" /></a>
+    </p>
+  ) : null;
+
+  const rhythmView =
+    figures.length && traffic ? (
+      <div className="lg-model">
+        <p className="lg-label lg-model__status">{traffic.trafficStatus === "MODELLED" ? m.modelTitle[locale] : copy.status[traffic.trafficStatus][locale]}{traffic.measurementDate ? ` · ${traffic.measurementDate}` : ""}</p>
+        <dl className="lg-model__figs">
+          {figures.map((figure) => (
+            <div key={figure.key} className={`is-${figure.key}`}>
+              <dt>{figure.label[locale]}</dt>
+              <dd><strong>{figure.value}</strong><span>{figure.unit[locale]}</span></dd>
+            </div>
+          ))}
+        </dl>
+        <ul className="lg-rhythm__legend">
+          {(["auto", "pedestrian", "transit"] as const).map((key) => (
+            <li key={key} className={`is-${key}`}><i aria-hidden="true" />{copy.series[key][locale]}</li>
+          ))}
+        </ul>
+        <DayRhythm traffic={traffic} locale={locale} />
+        <DayRhythm traffic={traffic} locale={locale} narrow />
+      </div>
+    ) : null;
+
+  const options: ExplorerOption[] = [
+    { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: "aerial", detail: <><p className="lg-explorer__text">{marksOn ? m.visibility.caption[locale] : x.photos[m.visibility.photo].alt[locale]}</p>{routeLinks}</> },
+    {
+      key: "around",
+      label: m.mapTab[locale],
+      title: everyday.map((group) => group.title[locale]).join(" · "),
+      visual: "map",
+      detail: (
+        <ul className="lg-explorer__groups">
+          {everyday.map((group) => (
+            <li key={group.key}><b>{group.title[locale]}</b> {group.text[locale]}</li>
+          ))}
+        </ul>
+      ),
+    },
+    ...(mapOn && transportGroup
+      ? [{ key: "transport", label: copy.cat.transport[locale], title: transportGroup.text[locale], visual: "map", cat: "transport", detail: <p className="lg-explorer__text">{m.mapCaption[locale]}</p> }]
+      : []),
+    ...(rhythmView && traffic
+      ? [{ key: "rhythm", label: copy.option.rhythm[locale], title: `${copy.figure.peak.label[locale]} ${traffic.peakPeriod ?? ""}`.trim(), visual: "rhythm", detail: <><p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption[locale] : traffic.source}</p><p className="lg-model__note">{m.rhythmNote[locale]}</p></> }]
+      : []),
+  ];
+  const visuals = [
+    { key: "aerial", node: <AddressAerial x={x} locale={locale} marked={marksOn} /> },
+    { key: "map", node: mapView },
+    ...(rhythmView ? [{ key: "rhythm", node: rhythmView }] : []),
+  ];
+
   return (
     <section id="location" className="lg-motion" aria-labelledby="lg-motion-title">
-      {/* 1 · the address */}
-      <div className="xp-shell lg-motion__address">
-        <header className="lg-motion__head">
-          <p className="pm-kicker" data-reveal>{m.kicker[locale]}</p>
-          <h2 className="lg-display lg-motion__title" id="lg-motion-title" data-reveal>{m.title[locale]}</h2>
-          {m.lead ? <p className="lg-motion__lead" data-reveal>{m.lead[locale]}</p> : null}
-          {map ? (
-            <p className="lg-motion__links" data-reveal>
-              <a className="pm-link" href={googleDirectionsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.route[locale]}</span><Icon name="up-right" /></a>
-              <a className="pm-link pm-link--quiet" href={googleMapsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.openMap[locale]}</span><Icon name="up-right" /></a>
-            </p>
-          ) : null}
+      <div className="xp-shell">
+        <header className="lg-motion__head" data-reveal>
+          <p className="pm-kicker">{m.kicker[locale]}</p>
+          <h2 className="lg-display lg-motion__title" id="lg-motion-title">{m.title[locale]}</h2>
+          {m.lead ? <p className="lg-motion__lead">{m.lead[locale]}</p> : null}
         </header>
-        <div className="lg-motion__aerial" data-reveal>
-          <p className="lg-step"><span>{m.visibilityTab[locale]}</span></p>
-          <AddressAerial x={x} locale={locale} marked={marksOn} />
-        </div>
-      </div>
-
-      {/* 2 · the surroundings */}
-      <div className="xp-shell lg-motion__around">
-        <div className="lg-motion__map" data-reveal>
-          <p className="lg-step"><span>{m.mapTab[locale]}</span></p>
-          <LocationStage
-            label={m.mapTab[locale]}
+        <div className="lg-motion__explorer" data-reveal>
+          <LocationExplorer
+            label={m.kicker[locale]}
             filterLabel={copy.filters[locale]}
-            tabs={[{ key: "map", label: m.mapTab[locale] }]}
-            views={[mapView]}
+            options={options}
+            visuals={visuals}
             filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).map((key) => ({ key, label: copy.cat[key][locale] })) : []}
           />
         </div>
-        <div className="lg-motion__eco" data-reveal>
-          <p className="lg-motion__eco-title">{m.ecosystemTitle[locale]}</p>
-          <ul className="lg-eco">
-            {m.ecosystem.map((group, i) => (
-              <li key={group.key} className={`lg-eco__item is-${group.category}`} style={{ "--i": i } as CSSProperties}>
-                <h3>{group.title[locale]}</h3>
-                <p>{group.text[locale]}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
 
-      {/* 3 · the rhythm (preliminary model — OWNER preview) and, beside it, the closed state of the economics tool */}
-      {figures.length && traffic ? (
-        <div className={`xp-shell lg-motion__rhythm${economicsOn ? " has-teaser" : ""}`}>
-          <div className="lg-model" data-reveal>
-            <p className="lg-step"><span>{m.rhythmTitle[locale]}</span></p>
-            <p className="lg-label lg-model__status">{traffic.trafficStatus === "MODELLED" ? m.modelTitle[locale] : copy.status[traffic.trafficStatus][locale]}{traffic.measurementDate ? ` · ${traffic.measurementDate}` : ""}</p>
-            <dl className="lg-model__figs">
-              {figures.map((figure) => (
-                <div key={figure.key} className={`is-${figure.key}`}>
-                  <dt>{figure.label[locale]}</dt>
-                  <dd><strong>{figure.value}</strong><span>{figure.unit[locale]}</span></dd>
-                </div>
-              ))}
-            </dl>
-            <OpenFrom min={720} className="lg-model__line" summary={<span className="lg-label">{m.rhythmTitle[locale]}</span>}>
-              <ul className="lg-rhythm__legend">
-                {(["auto", "pedestrian", "transit"] as const).map((key) => (
-                  <li key={key} className={`is-${key}`}><i aria-hidden="true" />{copy.series[key][locale]}</li>
-                ))}
-              </ul>
-              <DayRhythm traffic={traffic} locale={locale} />
-              <p className="lg-model__note">{m.rhythmNote[locale]}</p>
-            </OpenFrom>
-            <p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption[locale] : traffic.source}</p>
+        {/* verdict · actions · the economics entry as a premium card */}
+        <div className={`lg-motion__close${economicsOn ? " has-teaser" : ""}`}>
+          <div className="lg-motion__verdict" data-reveal>
+            <p className="lg-motion__verdict-title">{m.verdict.title[locale]}</p>
+            <p>{m.verdict.text[locale]}</p>
+            <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
+            <div className="lg-motion__actions">
+              <a className="btn" href="#format"><span>{ui.checkForMe[locale]}</span><Icon /></a>
+              <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><Icon /></a>
+            </div>
           </div>
           {economicsOn ? teaser : null}
         </div>
-      ) : null}
-
-      {/* verdict · actions (+ the economics entry when there is no rhythm step) */}
-      <div className={`xp-shell lg-motion__close${economicsOn && !figures.length ? " has-teaser" : ""}`}>
-        <div className="lg-motion__verdict" data-reveal>
-          <p className="lg-motion__verdict-title">{m.verdict.title[locale]}</p>
-          <p>{m.verdict.text[locale]}</p>
-        </div>
-        <div className="lg-motion__verdict lg-motion__ask" data-reveal>
-          <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
-          <p className="lg-motion__cta-text">{m.cta.text[locale]}</p>
-          <div className="lg-motion__actions">
-            <a className="btn" href="#format"><span>{ui.checkForMe[locale]}</span><Icon /></a>
-            <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><Icon /></a>
-          </div>
-        </div>
-        {economicsOn && !figures.length ? teaser : null}
       </div>
     </section>
   );

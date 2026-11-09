@@ -4,11 +4,12 @@ import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode, type S
 
 /**
  * PLAN VIEWER — the level switch of the plans scene: Уровень 1 · Уровень 2 ·
- * Общая схема. The plans share one scale, so they crossfade in place. A zone
+ * Общая схема. Card & air pass (2026-11-09, §12): each switch is a small KPI
+ * card carrying the level area (240,96 · 293,70 · 458,86 useful on the overview). The plans share one scale, so they crossfade in place. A zone
  * and its legend line light up together on hover, focus or tap (any element
  * carrying data-zone). Plans and legends are rendered on the server.
  */
-export function PlanViewer({ tabs, views, sides, label }: { tabs: { key: string; label: string }[]; views: ReactNode[]; sides: ReactNode[]; label: string }) {
+export function PlanViewer({ tabs, views, sides, label }: { tabs: { key: string; label: string; figure?: string; unit?: string; caption?: string }[]; views: ReactNode[]; sides: ReactNode[]; label: string }) {
   const [active, setActive] = useState(0);
   const [hot, setHot] = useState<string | null>(null);
   const root = useRef<HTMLDivElement>(null);
@@ -57,11 +58,18 @@ export function PlanViewer({ tabs, views, sides, label }: { tabs: { key: string;
             aria-controls={`lg-levelpane-${tab.key}`}
             aria-selected={index === active}
             tabIndex={index === active ? 0 : -1}
-            className={`lg-planview__tab${index === active ? " is-active" : ""}`}
+            className={`lg-planview__tab${tab.figure ? " lg-card lg-kpi" : ""}${index === active ? " is-active" : ""}`}
             onClick={() => setActive(index)}
             onKeyDown={(event) => onKey(event, index)}
           >
-            {tab.label}
+            {tab.figure ? (
+              <>
+                <span className="lg-kpi__figure"><strong>{tab.figure}</strong><span className="lg-kpi__unit">{tab.unit}</span></span>
+                <span className="lg-kpi__label">{tab.label}{tab.caption ? <em>{tab.caption}</em> : null}</span>
+              </>
+            ) : (
+              tab.label
+            )}
           </button>
         ))}
       </div>

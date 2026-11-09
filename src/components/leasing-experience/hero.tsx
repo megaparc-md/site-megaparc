@@ -22,6 +22,11 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  * Motion (CSS only, off under reduced motion): a soft mask reveal of the
  * photograph, a slow 1.00 → 1.03 scale, a few pixels of parallax (data-depth),
  * the lines and the figure rising in turn, the arrow moving on the actions.
+ *
+ * Card & air pass (OWNER "PREMIUM CARD SYSTEM & AIR PASS", 2026-11-09, §1–3):
+ * calmer, more air between the blocks, the photograph framed inside the page
+ * shell with a restrained radius, «м²» set apart from 625,7 (top right, never
+ * touching the digits).
  */
 export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
   const state = availabilityOf(unit).key;
@@ -29,7 +34,7 @@ export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience
   const area = splitArea(formatArea(unit.area, locale));
   return (
     <section className="lg-hero" aria-labelledby="lg-hero-title">
-      <div className="lg-hero__grid">
+      <div className="xp-shell lg-hero__grid">
         <div className="lg-hero__text">
           <Link href={localePath(locale, "/leasing")} className="pp2-back lg-hero__back"><Icon name="left" /> {ui.leasing[locale]}</Link>
           <p className="lg-hero__place lg-rise" style={{ "--d": 0 } as CSSProperties}>{x.hero.place[locale]}</p>
@@ -38,8 +43,9 @@ export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience
             <span className="lg-hero__title lg-rise" style={{ "--d": 2 } as CSSProperties}>{x.hero.title[locale]}</span>
           </h1>
           <div className="lg-hero__offer lg-rise" style={{ "--d": 3 } as CSSProperties}>
+            {/* the figure and its unit are two boxes side by side — the unit can never overlap the digits (OWNER card pass §1, §20) */}
             <p className="lg-hero__area">
-              <strong>{area.figure}</strong>
+              <strong className="lg-hero__figure">{area.figure}</strong>
               <span className="lg-hero__unit">{area.unit}</span>
             </p>
             <p className="lg-hero__offered">{x.hero.offer[locale]}</p>

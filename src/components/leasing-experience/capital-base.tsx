@@ -11,7 +11,9 @@ import type { SiteLocale } from "@/lib/site-data";
  * under a gradient — «Вкладывайте в свой бизнес. / Не в базовое восстановление.»,
  * then УЖЕ ГОТОВО and ПОД ВАШ БИЗНЕС in a few words each. Never "zero CAPEX".
  * The detail (what we still confirm, what opening involves, the technical rows)
- * is one tap away in the drawers.
+ * is one tap away in the drawers. Card & air pass (2026-11-09, §11): the two
+ * lists as two premium cards under the headline — УЖЕ ГОТОВО light, ПОД ВАШ
+ * БИЗНЕС dark — five short words each.
  */
 export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteLocale }) {
   const c = x.capex;
@@ -31,7 +33,7 @@ export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteL
           <LgPhoto photo={x.photos[c.photo]} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" className="lg-capex__photo" />
         </figure>
         <div className="lg-capex__lists">
-          <div className="lg-capex__col is-ready" data-reveal>
+          <div className="lg-card lg-capex__col is-ready" data-reveal>
             <h3 className="lg-capex__label">{c.readyTitle[locale]}</h3>
             <ul className="lg-capex__words is-ready">
               {c.ready.filter((item) => publishable(item.evidence)).map((item) => (
@@ -39,7 +41,7 @@ export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteL
               ))}
             </ul>
           </div>
-          <div className="lg-capex__col is-tenant" data-reveal>
+          <div className="lg-card lg-capex__col is-tenant" data-reveal>
             <h3 className="lg-capex__label">{c.tenantTitle[locale]}</h3>
             <ul className="lg-capex__words is-tenant">
               {c.tenant.map((item) => (

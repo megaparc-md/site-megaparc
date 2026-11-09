@@ -6,14 +6,13 @@ import type { AvailableSpace } from "@/data/leasing-inventory";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
- * STATEMENT · THREE REASONS (OWNER "FINAL ART DIRECTION & VISUAL CONVERSION
- * PASS", 2026-11-09, §12 + §24 «one strong photo»): the three reasons for a
- * viewing are now the scene that follows the navigation — one editorial
- * statement set as architecture, «625,7 м². / Два уровня. / Одна концепция.»
- * (the area and the number of levels read from the unit record), the three
- * reasons beside it, then one large real interior where both levels meet at
- * the stair. No new facts: the statement repeats the record; the reasons are
- * the existing lines.
+ * STATEMENT ON ONE STRONG INTERIOR (OWNER "FINAL ART DIRECTION & VISUAL
+ * CONVERSION PASS", 2026-11-09, §12 + §24 «one strong photo»): «625,7 м². /
+ * Два уровня. / Одна концепция.» set as architecture on the interior where both
+ * levels meet at the stair (the area and the number of levels read from the
+ * unit record). Card & air pass (same day): the three reasons gave way to the
+ * summary cards right after the navigation, so this scene is the photograph
+ * and the statement only.
  */
 
 const copy = {
@@ -34,14 +33,6 @@ export function Reasons({ x, unit, locale }: { x: LeasingExperience; unit: Avail
             <span key={line} className="xp-mask__line"><span style={{ "--i": i } as CSSProperties}>{line}</span></span>
           ))}
         </h2>
-        <ol className="lg-statement__reasons" aria-label={x.reasons.label[locale]}>
-          {x.reasons.items.map((item, i) => (
-            <li key={item.key} className="lg-statement__reason" data-reveal style={{ "--i": i } as CSSProperties}>
-              <p className="lg-statement__label"><span>{item.no}</span>{item.label[locale]}</p>
-              <p className="lg-statement__text">{item.text[locale]}</p>
-            </li>
-          ))}
-        </ol>
       </div>
       {photo ? (
         <figure className="lg-statement__media" data-reveal>

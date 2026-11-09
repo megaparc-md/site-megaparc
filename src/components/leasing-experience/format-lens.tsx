@@ -16,6 +16,9 @@ import type { SiteLocale } from "@/lib/site-data";
  * photograph, the delicate zoning on it (generic zones, always captioned
  * «Возможный сценарий организации» — never furniture, never a render), the main
  * question and the proof. Only one format is shown at a time.
+ * Card & air pass (2026-11-09, §10): the arguments «что говорит в пользу» as
+ * short evidence cards (one thesis each, with «смотреть»), the checks «что
+ * проверим вместе» apart and quieter beside the question.
  */
 
 const target: Record<LensRef, { href: string; drawer?: string }> = {
@@ -51,21 +54,10 @@ function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensF
           </ol>
         </figcaption>
       </figure>
-      <div className="lg-lens__copy">
-        <div className="lg-lens__ask">
-          <p className="lg-lens__question">{format.question[locale]}</p>
-          <a className="btn" href="#viewing" data-intent="viewing" data-format={format.label[locale]}><span>{open ? ui.viewingPersonal[locale] : ui.waitlist[locale]}</span><Icon /></a>
-        </div>
-        <div className="lg-lens__proof">
-          <p className="lg-label">{l.evidenceTitle[locale]}</p>
-          <ul className="lg-lens__evidence">
-            {format.evidence.filter((item) => publishable(item.evidence)).map((item) => (
-              <li key={item.text.en}>
-                <span>{item.text[locale]}</span>
-                <a href={target[item.ref].href} data-drawer={target[item.ref].drawer} className="lg-lens__see" aria-label={`${ui.see[locale]}: ${item.text[locale]}`}>{ui.see[locale]}</a>
-              </li>
-            ))}
-          </ul>
+      <div className="lg-lens__ask">
+        <p className="lg-lens__question">{format.question[locale]}</p>
+        <a className="btn" href="#viewing" data-intent="viewing" data-format={format.label[locale]}><span>{open ? ui.viewingPersonal[locale] : ui.waitlist[locale]}</span><Icon /></a>
+        <div className="lg-lens__checkwrap">
           <p className="lg-label">{l.checksTitle[locale]}</p>
           <ul className="lg-circles lg-lens__checks">
             {format.checks.map((check) => (
@@ -73,6 +65,18 @@ function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensF
             ))}
           </ul>
         </div>
+      </div>
+      <div className="lg-lens__proof">
+        <p className="lg-label">{l.evidenceTitle[locale]}</p>
+        <ul className="lg-lens__cards">
+          {format.evidence.filter((item) => publishable(item.evidence)).map((item, i) => (
+            <li key={item.text.en} className="lg-card lg-lens__card">
+              <span className="lg-card__no">{String(i + 1).padStart(2, "0")}</span>
+              <span className="lg-lens__cardtext">{item.text[locale]}</span>
+              <a href={target[item.ref].href} data-drawer={target[item.ref].drawer} className="lg-lens__see" aria-label={`${ui.see[locale]}: ${item.text[locale]}`}>{ui.see[locale]}</a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
