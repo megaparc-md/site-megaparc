@@ -19,6 +19,8 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
   const root = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const timer = useRef<number | undefined>(undefined);
+  // Escape returns focus to the toggle — that focus must not reopen the panel
+  const suppressFocus = useRef(false);
   const id = useId();
   const panelId = `pmenu-${id.replace(/:/g, "")}`;
 
@@ -33,7 +35,7 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
   const hideSoon = () => { window.clearTimeout(timer.current); timer.current = window.setTimeout(() => setOpen(false), 220); };
   const links = () => Array.from(root.current?.querySelectorAll<HTMLAnchorElement>(".pmenu__list a, .pmenu__all") ?? []);
   const onKey = (event: KeyboardEvent) => {
-    if (event.key === "Escape") { setOpen(false); button.current?.focus(); return; }
+    if (event.key === "Escape") { window.clearTimeout(timer.current); suppressFocus.current = true; setOpen(false); button.current?.focus(); return; }
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
     event.preventDefault();
     setOpen(true);
@@ -54,7 +56,7 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
         aria-controls={panelId}
         aria-current={data.active ? "page" : undefined}
         onClick={() => setOpen((value) => !value)}
-        onFocus={show}
+        onFocus={() => { if (suppressFocus.current) { suppressFocus.current = false; return; } show(); }}
       >
         {data.label}
         <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>

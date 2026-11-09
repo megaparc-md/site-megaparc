@@ -1024,3 +1024,6 @@ a:hover .pm-more svg { transform: translateX(5px); }
 .pacc__list small { color: var(--muted); font-size: .8rem; font-weight: 400; }
 .pacc__list small.is-now { color: #74202f; }
 .site-nav--mobile .pacc__list a.pacc__all { border-left-color: transparent; color: var(--brand); font-size: 1rem; }
+
+/* the header clips its content (globals.css) — the projects dropdown must overflow it (and focus must never scroll the header) */
+.hdr:has(.pmenu) { overflow: visible; }
