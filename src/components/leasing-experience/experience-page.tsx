@@ -8,7 +8,7 @@ import { LeasingHero } from "@/components/leasing-experience/hero";
 import { LocationMotion } from "@/components/leasing-experience/location-motion";
 import { EconomicsGlyph, LgPhoto, ownerPreview, ui } from "@/components/leasing-experience/parts";
 import { PhotoGallery, PhotoStory, galleryTitle } from "@/components/leasing-experience/photo-story";
-import { PlanSvg, PlansScene } from "@/components/leasing-experience/plans";
+import { PlansScene } from "@/components/leasing-experience/plans";
 import { Reasons } from "@/components/leasing-experience/reasons";
 import { ReadinessSheet, TechSheet } from "@/components/leasing-experience/sheets";
 import { StickyCta } from "@/components/leasing-experience/sticky-cta";
@@ -70,7 +70,8 @@ export function LeasingExperiencePage({ locale, project, unit, experience: x }: 
     : { key: "launch", href: "#readiness", drawer: "readiness", visual: photo("groundHall"), ...portalCopy.launch };
   const portals: Portal[] = [
     { key: "location", href: "#location", visual: photo(x.motion.visibility.photo), ...portalCopy.location },
-    { key: "plans", href: "#plans", visual: ground ? <PlanSvg level={ground} other={undefined} locale={locale} decor /> : null, ...portalCopy.plans },
+    // the OWNER drawing itself (plan replacement pass 2026-11-09), never a redrawn plan
+    { key: "plans", href: "#plans", visual: ground?.drawing ? photo(ground.drawing.photo) : null, ...portalCopy.plans },
     { key: "ready", href: "#capex", visual: photo("engineering"), ...portalCopy.ready },
     fourth,
   ].map((portal, i) => ({ key: portal.key, no: String(i + 1).padStart(2, "0"), label: portal.label[locale], word: portal.word[locale], href: portal.href, drawer: "drawer" in portal ? portal.drawer : undefined, visual: portal.visual }));

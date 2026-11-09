@@ -62,6 +62,10 @@ const photos: Record<string, Photo> = {
   engineering: photo("m20-engineering", 1600, 1066, T("Trasee de ventilație, indicator de ieșire și scara în demisol", "Трассы вентиляции, указатель выхода и лестница в цоколе", "Ventilation ducts, an exit sign and the staircase in the lower ground")),
   lowerStairs: photo("m20-lower-stairs", 1600, 1066, T("Demisolul gol, pregătit pentru conceptul chiriașului", "Пустой цоколь, готовый к концепции арендатора", "The empty lower ground, ready for the tenant's concept")),
   approach: photo("m20-approach", 1278, 959, T("Cum se ajunge: trotuarul, scările și rampa spre intrare", "Как подойти: тротуар, лестница и пандус к входу", "How you arrive: the pavement, the steps and the ramp to the entrance")),
+  // OWNER plan replacement pass 2026-11-09: crops of the OWNER PDFs (rotated to reading orientation, 2.4 px / pt;
+  // geometry unchanged) — Plan_0.000_Moscova_20_Variant_1 (1).pdf and Plan_-2.950_-3.300_Moscova_20_Variant_1.pdf
+  planGround: photo("m20-plan-ground", 3199, 3005, T("Planul parterului, cota +0,000, scara 1:100 — anexa nr. 2 la contractul de locațiune", "План 1-го этажа, отметка +0,000, М 1:100 — приложение № 2 к договору аренды", "Ground floor plan, level +0.000, scale 1:100 — annex no. 2 to the lease agreement"), { evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
+  planLower: photo("m20-plan-lower", 2647, 1735, T("Planul demisolului, cotele −2,950 / −3,300, scara 1:100 — anexa nr. 1 la contractul de locațiune", "План цоколя, отметки −2,950 / −3,300, М 1:100 — приложение № 1 к договору аренды", "Lower ground plan, levels −2.950 / −3.300, scale 1:100 — annex no. 1 to the lease agreement"), { evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
 };
 
 /* ------------------------------------------------------------------ */
@@ -268,7 +272,9 @@ export const moscova20Experience: LeasingExperience = {
         key: "ground",
         tab: T("Parter", "1-й этаж", "Ground floor"),
         label: T("Parter", "1-й этаж", "Ground floor"),
-        mark: "±0,000",
+        // level mark as on the drawing «Plan parter, cota +0.000» (OWNER plan replacement pass 2026-11-09)
+        mark: "+0,000",
+        drawing: { photo: "planGround", pdf: publicAsset(`${dir}/plans/moscova-20-plan-parter-0000.pdf`) },
         zones: [
           zone("hall-ground", "1", "sales", T("Sală comercială", "Торговый зал", "Sales hall"), 195.46, rect(12650, 0, 29800, 10600), [22200, 3600]),
           zone("corridor", "2", "corridor", T("Coridor · intrare de serviciu", "Коридор · служебный вход", "Corridor · service entrance"), 30.5, rect(24400, -12800, 27700, 0), [25300, -9600]),
@@ -289,7 +295,9 @@ export const moscova20Experience: LeasingExperience = {
         key: "lower",
         tab: T("Demisol", "Цоколь", "Lower ground"),
         label: T("Demisol", "Цоколь", "Lower ground"),
-        mark: "−2,950",
+        // level marks as on the drawing «Plan cota −2.950, −3.300» (the auxiliary rooms sit at −3,300)
+        mark: "−2,950 / −3,300",
+        drawing: { photo: "planLower", pdf: publicAsset(`${dir}/plans/moscova-20-plan-demisol-2950-3300.pdf`) },
         zones: [
           zone("hall-lower", "1", "sales", T("Sală comercială", "Торговый зал", "Sales hall"), 263.4, [[0, 0], [29800, 0], [29800, 10600], [12650, 10600], [12650, 5600], [0, 5600]], [8000, 2800]),
           zone("aux-lower", "2", "aux", T("Încăpere auxiliară", "Вспомогательное помещение", "Auxiliary room"), 20.97, rect(24800, -4600, 29100, -500), [26950, -2550]),
@@ -303,9 +311,10 @@ export const moscova20Experience: LeasingExperience = {
       },
     ],
     schemeTab: T("Schema generală", "Общая схема", "Overview"),
-    note: T("Schema arată distribuția suprafețelor și nu înlocuiește planul arhitectural măsurat. Trasată după planurile arhitecturale ale nivelurilor.", "Схема показывает распределение площадей и не заменяет обмерный архитектурный план. Построена по архитектурным планам уровней.", "The scheme shows how the areas are distributed and does not replace a measured architectural plan. Traced from the architectural plans of both levels."),
+    // OWNER plan replacement pass 2026-11-09: the drawings themselves are shown — never «схема»
+    note: T("Planurile — anexele nr. 1 și nr. 2 la contractul de locațiune, scara 1:100; suprafețele — conform borderourilor de pe planuri.", "Планы — приложения № 1 и № 2 к договору аренды, масштаб 1:100; площади — по экспликации на чертежах.", "The plans are annexes no. 1 and no. 2 to the lease agreement, scale 1:100; the areas follow the room schedules on the drawings."),
     source: PLANS,
-    marks: { ground: "±0,000", lower: "−2,950", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+    marks: { ground: "+0,000", lower: "−2,950 / −3,300", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
   },
 
   capex: {

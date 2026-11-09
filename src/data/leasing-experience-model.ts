@@ -114,7 +114,12 @@ export type PlanZone = { key: string; no: string | null; kind: ZoneKind; label: 
 export type PlanMarkKind = "customer" | "service" | "street";
 /** An entrance or orientation mark: the arrow points into the unit. */
 export type PlanMark = { key: string; kind: PlanMarkKind; label: Localized; at: Pt; dir: "up" | "down" };
-export type PlanLevel = { key: "ground" | "lower"; tab: Localized; label: Localized; mark: string; zones: PlanZone[]; marks: PlanMark[]; columns: Pt[] };
+/**
+ * The authoritative drawing of a level (OWNER plan replacement pass, 2026-11-09): a crop of the OWNER's
+ * architectural PDF (lease-agreement annex, 1:100) registered as a photograph, and the original PDF itself.
+ */
+export type PlanDrawing = { photo: string; pdf: string };
+export type PlanLevel = { key: "ground" | "lower"; tab: Localized; label: Localized; mark: string; zones: PlanZone[]; marks: PlanMark[]; columns: Pt[]; drawing?: PlanDrawing };
 
 /* ---------------------------------------------------------------- page */
 

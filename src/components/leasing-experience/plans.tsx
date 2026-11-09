@@ -1,147 +1,68 @@
-import type { CSSProperties, ReactNode } from "react";
-import { LgHead, LgSection, splitArea, ui } from "@/components/leasing-experience/parts";
+import type { ReactNode } from "react";
+import { LgHead, LgPhoto, LgSection, splitArea, ui } from "@/components/leasing-experience/parts";
 import { PlanViewer } from "@/components/leasing-experience/plan-viewer";
+import { SheetPan } from "@/components/leasing-experience/sheet-pan";
 import { Icon } from "@/components/ui";
 import { formatArea, formatAreaExact } from "@/content/source";
-import type { LeasingExperience, PlanLevel, PlanMark, Pt } from "@/data/leasing-experience-model";
-import type { AreaLevel, AvailableSpace } from "@/data/leasing-inventory";
+import type { LeasingExperience, PlanLevel } from "@/data/leasing-experience-model";
+import type { AvailableSpace } from "@/data/leasing-inventory";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
- * SCENE 05 — PLANS AND AREAS · DETAIL (OWNER compact brief §7; final viewing
- * pass: 1-й этаж · Цоколь · Общая схема, a large plan and three or four figures
- * by default, the room schedule behind «Показать экспликацию»): a product, not a table.
- * Two plan schemes traced from the architectural plans (rooms, stairs,
- * entrances, columns — no tenant layout) on one common scale, so the stair
- * cores stay in place when the level changes; zones light up on hover / tap
- * together with their line in the legend. Beside the plan: three or four
- * figures of the level (from the unit record), the legend, the caveat, «Получить
- * планы». Third view: the section through both levels.
- *
- * Art direction (OWNER "FINAL ART DIRECTION & VISUAL CONVERSION PASS",
- * 2026-11-09, §17): a premium architectural drawing — the plan on a drawing
- * board kept inside its frame, the level area as display type (240,96 · 293,70
- * · 458,86 useful on the overview), the room schedule hidden, «Получить полные
- * планы». PlanSvg also draws the white plan fragment of portal 02 (decor).
+ * SCENE — PLANS AND AREAS · the OWNER's architectural drawings (OWNER "PLAN
+ * REPLACEMENT PASS", 2026-11-09). The redrawn plan schemes and the section
+ * diagram are gone: each level shows the authoritative drawing — a crop of the
+ * OWNER PDF (Plan_0.000 · Anexa 2 and Plan_-2.950 / -3.300 · Anexa 1, project
+ * 15/19 SA, scale 1:100), rotated to its reading orientation, geometry, walls,
+ * columns, stairs, doors, sanitary rooms and dimensions untouched — inside an
+ * architectural-dossier frame: «План помещения · Приложение к договору аренды ·
+ * М 1:100», the level mark, «Открыть полный план» (the original PDF). The level
+ * switches are KPI cards (total · commercial, read from the unit record); the
+ * commercial total and the terrace stay as fixed KPIs. Phones pan the drawing
+ * sideways so its text stays legible.
  */
 
-const VIEW = { x: -700, y: -16200, w: 32700, h: 33700 };
-const path = (shape: Pt[]) => `M${shape.map(([x, y]) => `${x} ${y}`).join(" L")} Z`;
-const centre = (shape: Pt[]): Pt => {
-  const xs = shape.map((p) => p[0]);
-  const ys = shape.map((p) => p[1]);
-  return [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2];
-};
-const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB")} ${locale === "ru" ? "м" : "m"}`;
+// level marks are stored with a decimal comma (as in RU / RO); English reads a decimal point
+const markOf = (mark: string, locale: SiteLocale) => (locale === "en" ? mark.replace(/,/g, ".") : mark);
+const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB")} ${locale === "ru" ? "м" : "m"}`;
 
 const copy = {
-  street: { ro: "Trotuar · Bd. Moscova", ru: "Тротуар · бул. Москова", en: "Pavement · Moscova Blvd" },
-  level: { ro: "Nivelul", ru: "Уровень", en: "Level" },
-  total: { ro: "Suprafața nivelului", ru: "Площадь уровня", en: "Level area" },
-  planLabel: { ro: "Schema planului", ru: "План-схема", en: "Plan scheme" },
+  views: { ro: "Niveluri", ru: "Уровни", en: "Levels" },
+  total: { ro: "totală", ru: "общая", en: "total" },
+  commercial: { ro: "comercială", ru: "коммерческая", en: "commercial" },
+  commercialTotal: { ro: "Suprafață comercială", ru: "Коммерческая площадь", en: "Commercial area" },
+  planTitle: { ro: "Planul spațiului", ru: "План помещения", en: "Premises plan" },
+  planNote: { ro: "Anexă la contractul de locațiune · Sc. 1:100", ru: "Приложение к договору аренды · М 1:100", en: "Lease agreement annex · Scale 1:100" },
+  openFull: { ro: "Deschide planul complet", ru: "Открыть полный план", en: "Open full plan" },
+  swipe: { ro: "Glisați pe plan pentru detalii", ru: "Проведите по плану, чтобы рассмотреть детали", en: "Swipe the plan to see the details" },
   legend: { ro: "Încăperi", ru: "Помещения", en: "Rooms" },
   entrances: { ro: "Intrări", ru: "Входы", en: "Entrances" },
-  views: { ro: "Niveluri", ru: "Уровни", en: "Levels" },
-  sectionLabel: { ro: "Secțiune schematică prin niveluri", ru: "Схематический разрез по уровням", en: "A schematic section through the levels" },
-  streetLevel: { ro: "Nivelul străzii · intrare: scări și rampă", ru: "Уровень улицы · вход: лестница и пандус", en: "Street level · entrance: steps and a ramp" },
   stairs: { ro: "Scări între niveluri", ru: "Лестницы между уровнями", en: "Stairs between the levels" },
   showSchedule: { ro: "Arată explicația încăperilor", ru: "Показать экспликацию", en: "Show the room schedule" },
   hideSchedule: { ro: "Ascunde explicația încăperilor", ru: "Скрыть экспликацию", en: "Hide the room schedule" },
 } satisfies Record<string, Localized>;
 
-function Arrow({ mark }: { mark: PlanMark }) {
-  const [x, y] = mark.at;
-  const d = mark.dir === "up" ? `M${x} ${y - 760} L${x + 520} ${y + 140} L${x - 520} ${y + 140} Z` : `M${x} ${y + 760} L${x + 520} ${y - 140} L${x - 520} ${y - 140} Z`;
-  return <path className={`lg-plan__arrow is-${mark.kind}`} d={d} />;
-}
-
-/** One level as SVG: the other level as a faint outline, the zones, the stairs, the columns, the numbers and the entrance arrows. `decor` draws it as a background fragment (portal 02): no title, no ids shared with the plans scene. */
-export function PlanSvg({ level, other, locale, decor = false }: { level: PlanLevel; other: PlanLevel | undefined; locale: SiteLocale; decor?: boolean }) {
-  const hatch = `lg-hatch-${level.key}${decor ? "-decor" : ""}`;
-  const terrace = `lg-terrace-${level.key}${decor ? "-decor" : ""}`;
+/** The drawing of one level in its dossier frame. */
+function Drawing({ x, level, locale }: { x: LeasingExperience; level: PlanLevel; locale: SiteLocale }) {
+  const d = level.drawing;
+  const photo = d ? x.photos[d.photo] : undefined;
+  if (!d || !photo) return null;
   return (
-    <svg className={`lg-plan${decor ? " is-decor" : ""}`} viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`} preserveAspectRatio="xMidYMid meet" role={decor ? undefined : "img"} aria-hidden={decor ? true : undefined} aria-label={decor ? undefined : `${copy.planLabel[locale]} — ${level.label[locale]} ${level.mark}`}>
-      <defs>
-        <pattern id={hatch} patternUnits="userSpaceOnUse" width="520" height="520" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="520" className="lg-plan__hatch" />
-        </pattern>
-        <pattern id={terrace} patternUnits="userSpaceOnUse" width="900" height="900">
-          <circle cx="450" cy="450" r="70" className="lg-plan__dot" />
-        </pattern>
-      </defs>
-      {other ? other.zones.filter((zone) => zone.kind === "sales").map((zone) => <path key={zone.key} d={path(zone.shape)} className="lg-plan__ghost" />) : null}
-      {level.zones.map((zone) => (
-        <path key={zone.key} d={path(zone.shape)} data-zone={zone.kind === "stair" ? `stairs-${level.key}` : zone.key} className={`lg-plan__z is-${zone.kind}`} style={zone.kind === "stair" ? ({ fill: `url(#${hatch})` } as CSSProperties) : zone.kind === "terrace" ? ({ fill: `url(#${terrace})` } as CSSProperties) : undefined}>
-          <title>{`${zone.label[locale]}${zone.area ? ` · ${formatAreaExact(zone.area, locale)}` : ""}`}</title>
-        </path>
-      ))}
-      {level.columns.map(([x, y]) => <rect key={`${x}-${y}`} x={x - 210} y={y - 210} width="420" height="420" className="lg-plan__col" />)}
-      {level.marks.map((mark) => <Arrow key={mark.key} mark={mark} />)}
-      {level.zones.filter((zone) => zone.no).map((zone) => {
-        const [cx, cy] = zone.at ?? centre(zone.shape);
-        return (
-          <g key={zone.key} className="lg-plan__no" data-zone={zone.key}>
-            <circle cx={cx} cy={cy} r="720" />
-            <text x={cx} y={cy} dy="0.36em" textAnchor="middle">{zone.no}</text>
-          </g>
-        );
-      })}
-      {level.key === "ground" ? <text className="lg-plan__street" x="22000" y="17150" textAnchor="middle">{copy.street[locale]}</text> : null}
-    </svg>
-  );
-}
-
-/** The section through both levels (HTML, readable at 390 px): terrace at street level, ground floor above the grade, lower ground below, the stairs between them. */
-export function SectionScheme({ x, unit, locale, compact = false }: { x: LeasingExperience; unit: AvailableSpace; locale: SiteLocale; compact?: boolean }) {
-  const levels = unit.breakdown ?? [];
-  const ground = levels.find((level) => level.key === "ground");
-  const lower = levels.find((level) => level.key === "lower");
-  const terrace = levels.find((level) => level.key === "terrace");
-  if (!ground || !lower) return null;
-  const widest = Math.max(ground.area, lower.area);
-  const box = (level: AreaLevel, mark: string | undefined) => (
-    <div className={`lg-sect__box is-${level.key}`} style={{ "--w": `${(level.area / widest) * 100}%` } as CSSProperties}>
-      <p className="lg-sect__name">{level.label[locale]}</p>
-      <p className="lg-sect__area">{formatAreaExact(level.area, locale)}</p>
-      {level.useful ? <p className="lg-sect__meta">{ui.usefulShort[locale]} {formatAreaExact(level.useful, locale)}</p> : null}
-      {mark ? <span className="lg-sect__mark">{mark}</span> : null}
-    </div>
-  );
-  return (
-    <div className={`lg-sect${compact ? " is-compact" : ""}`} role="img" aria-label={copy.sectionLabel[locale]}>
-      <div className="lg-sect__drawing">
-        <div className="lg-sect__front">
-          {terrace ? (
-            <div className="lg-sect__terrace">
-              <p className="lg-sect__name">{terrace.label[locale]}</p>
-              <p className="lg-sect__area">{formatAreaExact(terrace.area, locale)}</p>
-            </div>
-          ) : null}
-        </div>
-        <div className="lg-sect__floors">
-          {box(ground, x.plans.marks?.ground)}
-          <div className="lg-sect__grade"><span>{copy.streetLevel[locale]}</span></div>
-          {box(lower, x.plans.marks?.lower)}
-          <svg className="lg-sect__stair" viewBox="0 0 40 60" aria-hidden="true" focusable="false" preserveAspectRatio="none">
-            <path d="M2 2 H9 V12 H16 V22 H23 V32 H30 V42 H38 V58" />
-          </svg>
-        </div>
-      </div>
-      <p className="lg-sect__legend"><i aria-hidden="true" />{copy.stairs[locale]}</p>
-    </div>
-  );
-}
-
-function Figures({ items }: { items: { label: string; value: string }[] }) {
-  return (
-    <dl className="lg-figs">
-      {items.map((item) => (
-        <div key={item.label}>
-          <dt>{item.label}</dt>
-          <dd>{item.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <figure className="lg-drawing">
+      <figcaption className="lg-drawing__head">
+        <span className="lg-drawing__title">{copy.planTitle[locale]}</span>
+        <span className="lg-drawing__note">{copy.planNote[locale]}</span>
+        <span className="lg-drawing__mark">{level.label[locale]} · {markOf(level.mark, locale)}</span>
+      </figcaption>
+      {/* phones pan the sheet; it opens on the premises (ground: the hall under the service wing; lower: the hall) */}
+      <SheetPan start={level.key === "ground" ? 0.55 : 0.5} label={photo.alt[locale]}>
+        <LgPhoto photo={photo} locale={locale} ratio={`${photo.width} / ${photo.height}`} sizes="(min-width: 1024px) 72vw, 230vw" className="lg-drawing__img" />
+      </SheetPan>
+      <p className="lg-drawing__foot">
+        <span className="lg-drawing__hint">{copy.swipe[locale]}</span>
+        <a className="pm-link" href={d.pdf} target="_blank" rel="noopener noreferrer"><span>{copy.openFull[locale]}</span><Icon name="up-right" /></a>
+      </p>
+    </figure>
   );
 }
 
@@ -150,73 +71,93 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
   const breakdown = unit.breakdown ?? [];
   const byKey = (key: string) => breakdown.find((level) => level.key === key);
   const terrace = byKey("terrace");
+  const levels = p.levels.filter((level) => level.drawing);
 
-  const levelSide = (level: PlanLevel): ReactNode => {
+  // the level switches: total and commercial area of the level, from the unit record
+  const tabs = levels.map((level, i) => {
     const data = byKey(level.key);
-    const figures = [
-      ...(data?.useful ? [{ label: ui.useful[locale], value: formatAreaExact(data.useful, locale) }] : []),
-      ...(data?.height ? [{ label: ui.heights[locale], value: `${data.heightEvidence === "APPROXIMATE" ? `${ui.approx[locale]} ` : ""}${fmtHeight(data.height, locale)}` }] : []),
-      ...(level.key === "ground" && terrace ? [{ label: terrace.label[locale], value: formatAreaExact(terrace.area, locale) }] : []),
-    ];
-    return (
-      <>
-        <p className="lg-plans__level">{level.label[locale]} <span>{level.mark}</span></p>
-        <Figures items={figures} />
-        <details className="lg-plans__schedule">
-          <summary className="pm-link"><span className="is-show">{copy.showSchedule[locale]}</span><span className="is-hide">{copy.hideSchedule[locale]}</span><Icon name="down" /></summary>
-        <p className="lg-label">{copy.legend[locale]}</p>
-        <ul className="lg-legend">
-          {level.zones.filter((zone) => zone.no).map((zone) => (
-            <li key={zone.key} data-zone={zone.key} tabIndex={0}>
-              <span className="lg-legend__no">{zone.no}</span>
-              <span className="lg-legend__name">{zone.label[locale]}</span>
-              {zone.area ? <span className="lg-legend__area">{formatAreaExact(zone.area, locale)}</span> : null}
-            </li>
-          ))}
-          <li data-zone={`stairs-${level.key}`} tabIndex={0}>
-            <span className="lg-legend__hatch" aria-hidden="true" />
-            <span className="lg-legend__name">{copy.stairs[locale]}</span>
-          </li>
-        </ul>
-        {level.marks.filter((mark) => mark.kind !== "street").length ? (
-          <ul className="lg-legend lg-legend--marks" aria-label={copy.entrances[locale]}>
-            {level.marks.filter((mark) => mark.kind !== "street").map((mark) => (
-              <li key={mark.key}><span className={`lg-legend__arrow is-${mark.kind}`} aria-hidden="true" /><span className="lg-legend__name">{mark.label[locale]}</span></li>
-            ))}
-          </ul>
-        ) : null}
-        </details>
-      </>
-    );
-  };
+    const total = data ? splitArea(formatAreaExact(data.area, locale)) : null;
+    return {
+      key: level.key,
+      label: `${level.label[locale]} · ${markOf(level.mark, locale)}`,
+      body: (
+        <>
+          <span className="lg-kpi__head"><b>{String(i + 1).padStart(2, "0")}</b>{level.label[locale]} · {markOf(level.mark, locale)}</span>
+          {total ? (
+            <span className="lg-kpi__figure"><strong>{total.figure}</strong><span className="lg-kpi__unit">{total.unit}</span><em>{copy.total[locale]}</em></span>
+          ) : null}
+          {data?.useful ? <span className="lg-kpi__sub">{formatAreaExact(data.useful, locale)} {copy.commercial[locale]}</span> : null}
+        </>
+      ),
+    };
+  });
 
-  const overviewSide = (
+  // the KPIs that do not switch: commercial total and terrace
+  const fixed = [
+    ...(unit.usefulArea ? [{ key: "commercial", label: copy.commercialTotal[locale], value: splitArea(formatArea(unit.usefulArea, locale)) }] : []),
+    ...(terrace ? [{ key: "terrace", label: terrace.label[locale], value: splitArea(formatAreaExact(terrace.area, locale)) }] : []),
+  ];
+  const extra = (
     <>
-      <p className="lg-plans__level">{p.schemeTab[locale]}</p>
-      <Figures
-        items={[
-          { label: ui.offered[locale], value: formatArea(unit.area, locale) },
-          ...(terrace ? [{ label: terrace.label[locale], value: formatAreaExact(terrace.area, locale) }] : []),
-        ]}
-      />
+      <dl className="lg-planview__fixed">
+        {fixed.map((item) => (
+          <div key={item.key} className="lg-card lg-fixedkpi">
+            <dt>{item.label}</dt>
+            <dd><strong>{item.value.figure}</strong><span>{item.value.unit}</span></dd>
+          </div>
+        ))}
+      </dl>
       <p className="lg-plans__line">{x.area.propertyLine[locale]}</p>
       <p className="lg-plans__line">{x.area.groundOnly.text[locale]} — <span className="lg-plans__status">{ui.toConfirm[locale].toLowerCase()}</span></p>
     </>
   );
 
-  // the level switches are KPI cards: the level area, the useful area on the overview (OWNER card & air pass §12)
-  const kpi = (area: number | undefined) => (area ? splitArea(formatAreaExact(area, locale)) : null);
-  const tabs = [
-    ...p.levels.map((level) => { const k = kpi(byKey(level.key)?.area); return { key: level.key, label: level.tab[locale], figure: k?.figure, unit: k?.unit }; }),
-    (() => { const k = kpi(unit.usefulArea); return { key: "scheme", label: p.schemeTab[locale], figure: k?.figure, unit: k?.unit, caption: k ? ui.usefulShort[locale] : undefined }; })(),
-  ];
-  const views = [...p.levels.map((level) => <PlanSvg key={level.key} level={level} other={p.levels.find((item) => item.key !== level.key)} locale={locale} />), <SectionScheme key="scheme" x={x} unit={unit} locale={locale} />];
-  const sides = [...p.levels.map((level) => <div key={level.key}>{levelSide(level)}</div>), <div key="scheme">{overviewSide}</div>];
+  const side = (level: PlanLevel): ReactNode => {
+    const data = byKey(level.key);
+    return (
+      <>
+        {data?.height ? (
+          <dl className="lg-figs">
+            <div>
+              <dt>{ui.heights[locale]}</dt>
+              <dd>{`${data.heightEvidence === "APPROXIMATE" ? `${ui.approx[locale]} ` : ""}${fmtHeight(data.height, locale)}`}</dd>
+            </div>
+          </dl>
+        ) : null}
+        <details className="lg-plans__schedule">
+          <summary className="pm-link"><span className="is-show">{copy.showSchedule[locale]}</span><span className="is-hide">{copy.hideSchedule[locale]}</span><Icon name="down" /></summary>
+          <p className="lg-label">{copy.legend[locale]}</p>
+          <ul className="lg-legend">
+            {level.zones.filter((zone) => zone.no).map((zone) => (
+              <li key={zone.key}>
+                <span className="lg-legend__no">{zone.no}</span>
+                <span className="lg-legend__name">{zone.label[locale]}</span>
+                {zone.area ? <span className="lg-legend__area">{formatAreaExact(zone.area, locale)}</span> : null}
+              </li>
+            ))}
+          </ul>
+          {level.marks.filter((mark) => mark.kind !== "street").length ? (
+            <ul className="lg-legend lg-legend--marks" aria-label={copy.entrances[locale]}>
+              {level.marks.filter((mark) => mark.kind !== "street").map((mark) => (
+                <li key={mark.key}><span className={`lg-legend__arrow is-${mark.kind}`} aria-hidden="true" /><span className="lg-legend__name">{mark.label[locale]}</span></li>
+              ))}
+            </ul>
+          ) : null}
+        </details>
+      </>
+    );
+  };
 
   return (
     <LgSection id="plans" tone="white" labelledBy="lg-plans-title" className="lg-plans">
       <LgHead heading={p} locale={locale} id="lg-plans-title" area={formatArea(unit.area, locale)} layout="split" />
-      <PlanViewer tabs={tabs} views={views} sides={sides} label={copy.views[locale]} />
+      <PlanViewer
+        tabs={tabs}
+        views={levels.map((level) => <Drawing key={level.key} x={x} level={level} locale={locale} />)}
+        sides={levels.map((level) => <div key={level.key}>{side(level)}</div>)}
+        label={copy.views[locale]}
+        extra={extra}
+      />
       <div className="lg-plans__foot" data-reveal>
         <p className="lg-plans__note">{p.note[locale]}</p>
         <p className="lg-plans__actions">
