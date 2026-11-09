@@ -118,7 +118,8 @@ export const moscova20Experience: LeasingExperience = {
     rhythmTitle: T("Cum trăiește locația", "Как живёт локация", "How the location lives"),
     rhythmNote: T("Ritmul zilei după model: dimineața — constant, ziua — mediu, seara — vârf. Fără valori exacte până la numărătoare.", "Ритм дня по модели: утром — устойчиво, днём — средне, вечером — пик. Без точных значений до замера.", "The day's rhythm in the model: steady in the morning, medium in the day, a peak in the evening. No exact values before the count."),
     mapTab: T("Împrejurimi", "Окружение", "Surroundings"),
-    mapCaption: T("Raze orientative de acces pietonal: ≈ 400 / 800 / 1 200 m în linie dreaptă. Datele împrejurimilor © OpenStreetMap.", "Ориентировочные радиусы пешей доступности: ≈ 400 / 800 / 1 200 м по прямой. Данные окружения © OpenStreetMap.", "Approximate walking radii: ≈ 400 / 800 / 1,200 m in a straight line. Surroundings data © OpenStreetMap."),
+    // OWNER micro-fix 2026-11-09: straight-line radii, not pedestrian isochrones — no «пешая доступность», no minutes until real walking routes are calculated
+    mapCaption: T("Raze orientative ale împrejurimilor: ≈ 400 / 800 / 1 200 m în linie dreaptă. Datele împrejurimilor © OpenStreetMap.", "Ориентировочные радиусы окружения: ≈ 400 / 800 / 1 200 м по прямой. Данные окружения © OpenStreetMap.", "Approximate surroundings radii: ≈ 400 / 800 / 1,200 m in a straight line. Surroundings data © OpenStreetMap."),
     visibilityTab: T("Cum se vede obiectul", "Как виден объект", "How it is seen"),
     visibility: {
       photo: "context",

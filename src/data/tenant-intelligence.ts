@@ -41,7 +41,7 @@ export type LocationTraffic = {
   pedestrianHigh: number | null;
   /** "16:00–19:00" */
   peakPeriod: string | null;
-  /** public transport routes — "10+" as stated by the model */
+  /** public transport routes — a researched fact, not a model estimate: the routes at stops within 350 m in the current OpenStreetMap research (never a field count) */
   transportRoutes: string | null;
   measurementDate: string | null;
   measurementMethod: string | null;
@@ -65,10 +65,11 @@ export const locationTraffic: Record<string, LocationTraffic> = {
     pedestrianLow: 1300,
     pedestrianHigh: 2300,
     peakPeriod: "16:00–19:00",
-    transportRoutes: "10+",
+    // OWNER micro-fix 2026-11-09: 8 routes — current OSM research (docs/research/MOSCOVA_20_LOCATION_RESEARCH.md), stops within a 350 m radius; a researched fact, NOT a field count and NOT a traffic estimate (replaces the model's «10+»)
+    transportRoutes: "8",
     measurementDate: null,
     measurementMethod: null,
-    source: "OWNER brief «LOCATION INTELLIGENCE + VIEWING CONVERSION PASS», 2026-11-06 — PRELIMINARY MEGAPARC LOCATION MODEL (desk estimate). OSM research (docs/research) lists 8 routes at stops within 350 m; the model's «10+» awaits the field count.",
+    source: "Vehicles, pedestrians, peak and the day profile: OWNER brief «LOCATION INTELLIGENCE + VIEWING CONVERSION PASS», 2026-11-06 — PRELIMINARY MEGAPARC LOCATION MODEL (desk estimate, awaiting the field count). Public transport routes: 8 — current OpenStreetMap research (docs/research), stops within a 350 m radius; a researched fact, not a field count and not a model estimate (OWNER micro-fix 2026-11-09).",
     publishTraffic: true,
     publishScope: "OWNER_PREVIEW",
     ownerApproved: false,

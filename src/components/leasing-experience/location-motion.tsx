@@ -20,7 +20,7 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  *   1 · ADDRESS — the large real aerial with only Moscova 20, the boulevard, the
  *       entrance and the main movement drawn in turn, beside the statement
  *       «Адрес — часть бизнес-модели.»;
- *   2 · SURROUNDINGS — the walking radii and OSM points by category, the four
+ *   2 · SURROUNDINGS — the straight-line radii and OSM points by category, the four
  *       groups of everyday activity;
  *   3 · RHYTHM — the PRELIMINARY MEGAPARC LOCATION MODEL as one editorial line
  *       08 → 20 (auto · pedestrians · transport), the 16–19 peak in burgundy;
@@ -53,11 +53,12 @@ const copy = {
     services: { ro: "Servicii", ru: "Услуги", en: "Services" },
     roads: { ro: "Artere principale", ru: "Магистрали", en: "Main roads" },
   } satisfies Record<CatchmentCategory | "roads", Localized>,
-  minutes: { ro: "min", ru: "мин", en: "min" },
+  metres: { ro: "m", ru: "м", en: "m" },
   figure: {
     vehicles: { label: { ro: "Automobile", ru: "Автомобили", en: "Vehicles" }, unit: { ro: "auto / zi", ru: "авто / сутки", en: "vehicles / day" } },
     pedestrians: { label: { ro: "Pietoni", ru: "Пешеходы", en: "Pedestrians" }, unit: { ro: "deplasări / zi", ru: "перемещений / сутки", en: "movements / day" } },
-    transit: { label: { ro: "Transport public", ru: "Общественный транспорт", en: "Public transport" }, unit: { ro: "rute", ru: "маршрутов", en: "routes" } },
+    // a researched OSM fact, not a model figure (OWNER micro-fix 2026-11-09)
+    transit: { label: { ro: "Transport public", ru: "Общественный транспорт", en: "Public transport" }, unit: { ro: "rute conform datelor actuale OpenStreetMap", ru: "маршрутов по текущим данным OpenStreetMap", en: "routes per current OpenStreetMap data" } },
     peak: { label: { ro: "Vârf", ru: "Пик", en: "Peak" }, unit: { ro: "seara", ru: "вечером", en: "in the evening" } },
   },
   status: {
@@ -115,8 +116,10 @@ function CatchmentMap({ name, locale, caption }: { name: string; locale: SiteLoc
           const a = Math.PI / 4;
           const x = mid + ring.r * Math.cos(a);
           const y = mid - ring.r * Math.sin(a);
+          // straight-line radii in metres — never minutes (OWNER micro-fix 2026-11-09: not a pedestrian isochrone)
+          const metres = ring.m >= 1000 ? `${Math.floor(ring.m / 1000)}${locale === "en" ? "," : " "}${String(ring.m % 1000).padStart(3, "0")}` : String(ring.m);
           return (
-            <text key={ring.m} x={x + 8} y={y - 8} className="lg-catch__ringlabel">{`≈ ${ring.minutes} ${copy.minutes[locale]}`}</text>
+            <text key={ring.m} x={x + 8} y={y - 8} className="lg-catch__ringlabel">{`≈ ${metres} ${copy.metres[locale]}`}</text>
           );
         })}
         <circle cx={mid} cy={mid} r="26" className="lg-catch__halo" />
