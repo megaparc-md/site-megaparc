@@ -64,8 +64,8 @@ const photos: Record<string, Photo> = {
   approach: photo("m20-approach", 1278, 959, T("Cum se ajunge: trotuarul, scările și rampa spre intrare", "Как подойти: тротуар, лестница и пандус к входу", "How you arrive: the pavement, the steps and the ramp to the entrance")),
   // OWNER plan replacement pass 2026-11-09: crops of the OWNER PDFs (rotated to reading orientation, 2.4 px / pt;
   // geometry unchanged) — Plan_0.000_Moscova_20_Variant_1 (1).pdf and Plan_-2.950_-3.300_Moscova_20_Variant_1.pdf
-  planGround: photo("m20-plan-ground", 3199, 3005, T("Planul parterului, cota +0,000, scara 1:100 — anexa nr. 2 la contractul de locațiune", "План 1-го этажа, отметка +0,000, М 1:100 — приложение № 2 к договору аренды", "Ground floor plan, level +0.000, scale 1:100 — annex no. 2 to the lease agreement"), { evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
-  planLower: photo("m20-plan-lower", 2647, 1735, T("Planul demisolului, cotele −2,950 / −3,300, scara 1:100 — anexa nr. 1 la contractul de locațiune", "План цоколя, отметки −2,950 / −3,300, М 1:100 — приложение № 1 к договору аренды", "Lower ground plan, levels −2.950 / −3.300, scale 1:100 — annex no. 1 to the lease agreement"), { evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
+  planGround: photo("m20-plan-ground", 3199, 3005, T("Planul parterului, cota +0,000, scara 1:100 — anexa nr. 2 la contractul de locațiune", "План 1-го этажа, отметка +0,000, М 1:100 — приложение № 2 к договору аренды", "Ground floor plan, level +0.000, scale 1:100 — annex no. 2 to the lease agreement"), { smallWidth: 1400, evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
+  planLower: photo("m20-plan-lower", 2647, 1735, T("Planul demisolului, cotele −2,950 / −3,300, scara 1:100 — anexa nr. 1 la contractul de locațiune", "План цоколя, отметки −2,950 / −3,300, М 1:100 — приложение № 1 к договору аренды", "Lower ground plan, levels −2.950 / −3.300, scale 1:100 — annex no. 1 to the lease agreement"), { smallWidth: 1400, evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
 };
 
 /* ------------------------------------------------------------------ */

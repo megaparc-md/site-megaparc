@@ -24,6 +24,20 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 
 // level marks are stored with a decimal comma (as in RU / RO); English reads a decimal point
 const markOf = (mark: string, locale: SiteLocale) => (locale === "en" ? mark.replace(/,/g, ".") : mark);
+/**
+ * The drawing's real rendered width, for `sizes` (leasing-experience.css §08 plans + --xp-shell in experience.css):
+ * phones — shell 100% − 2.5rem, frame border 2 px, the sheet drawn at 230 % (ground) / 200 % (lower);
+ * tablets — shell 100% − 4rem, 150 % / 135 %; desktop — the 8.6 / 12 stage column of min(100% − 6rem, 1360 px)
+ * less the 3vw column gap and the 2 px border (941 px once the shell reaches 1360 px).
+ */
+const sheetScale = { ground: { phone: 2.3, tablet: 1.5 }, lower: { phone: 2, tablet: 1.35 } } as const;
+const sizesOf = (key: PlanLevel["key"]) =>
+  [
+    "(min-width: 1456px) 941px",
+    "(min-width: 1024px) calc((97vw - 96px) * 0.7167 - 2px)",
+    `(min-width: 720px) calc((100vw - 66px) * ${sheetScale[key].tablet})`,
+    `calc((100vw - 42px) * ${sheetScale[key].phone})`,
+  ].join(", ");
 const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB")} ${locale === "ru" ? "м" : "m"}`;
 
 const copy = {
@@ -56,7 +70,7 @@ function Drawing({ x, level, locale }: { x: LeasingExperience; level: PlanLevel;
       </figcaption>
       {/* phones pan the sheet; it opens on the premises (ground: the hall under the service wing; lower: the hall) */}
       <SheetPan start={level.key === "ground" ? 0.55 : 0.5} label={photo.alt[locale]}>
-        <LgPhoto photo={photo} locale={locale} ratio={`${photo.width} / ${photo.height}`} sizes="(min-width: 1024px) 72vw, 230vw" className="lg-drawing__img" />
+        <LgPhoto photo={photo} locale={locale} ratio={`${photo.width} / ${photo.height}`} sizes={sizesOf(level.key)} className="lg-drawing__img" />
       </SheetPan>
       <p className="lg-drawing__foot">
         <span className="lg-drawing__hint">{copy.swipe[locale]}</span>

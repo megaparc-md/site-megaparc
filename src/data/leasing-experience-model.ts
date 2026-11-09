@@ -44,6 +44,8 @@ export type Photo = {
   src: string;
   /** 640–820 px derivative. */
   small: string;
+  /** Intrinsic width of `small` when it is not the default 820 px (the plan drawings: 1400 px) — the srcset descriptor. */
+  smallWidth?: number;
   width: number;
   height: number;
   alt: Localized;

@@ -88,7 +88,7 @@ export function LgPhoto({ photo, locale, shot, sizes = "100vw", priority = false
   const position = shot?.position ?? photo.position;
   const style = { ...(ratio ? { "--lg-ratio": ratio } : {}), ...(position ? { "--lg-pos": position } : {}), ...(shot?.zoom ? { "--lg-zoom": String(shot.zoom) } : {}) } as CSSProperties;
   // a zoomed crop always draws from the full-size file so it stays above 1× at its size
-  const srcSet = shot?.zoom ? `${photo.src} ${photo.width}w` : `${photo.small} 820w, ${photo.src} ${photo.width}w`;
+  const srcSet = shot?.zoom ? `${photo.src} ${photo.width}w` : `${photo.small} ${photo.smallWidth ?? 820}w, ${photo.src} ${photo.width}w`;
   const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img src={photo.src} srcSet={srcSet} sizes={sizes} width={photo.width} height={photo.height} alt={photo.alt[locale]} loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : undefined} decoding="async" />
