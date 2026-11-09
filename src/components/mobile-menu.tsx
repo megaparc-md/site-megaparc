@@ -9,7 +9,8 @@ import { brand, ui, type SiteLocale } from "@/lib/site-data";
 
 /**
  * Phone / tablet navigation: a single menu button in the header opens a
- * full-screen panel with the routes, the corporate routes and RO · RU · EN.
+ * full-screen panel — the five primary routes large, then the utility routes
+ * (Offer a property · Careers · History) small, then RO · RU · EN.
  * Escape closes, route change closes, body scroll is locked while open.
  */
 export function MobileMenu({ locale, projects }: { locale: SiteLocale; projects?: Omit<ProjectsMenuData, "label" | "active"> }) {
@@ -46,12 +47,14 @@ export function MobileMenu({ locale, projects }: { locale: SiteLocale; projects?
           <i />
         </span>
       </button>
-
       <div id={panelId} className="menu__panel" hidden={!open}>
         <div className="shell menu__inner">
           <div>
             <SiteNav locale={locale} variant="mobile" projects={projects} />
-            <SiteNav locale={locale} variant="secondary-mobile" secondary />
+            <div className="r3-menu__more">
+              <SiteNav locale={locale} variant="secondary-mobile" group="utility" />
+              <SiteNav locale={locale} variant="secondary-mobile" group="secondary" />
+            </div>
           </div>
           <div className="menu__foot">
             <LanguageSwitcher locale={locale} variant="mobile" />

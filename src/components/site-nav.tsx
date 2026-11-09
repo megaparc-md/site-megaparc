@@ -3,37 +3,38 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ProjectsAccordion, ProjectsMenu, type ProjectsMenuData } from "@/components/projects-menu";
-import { localePath, navigation, secondaryNavigation, ui, type SiteLocale } from "@/lib/site-data";
+import { localePath, navigation, secondaryNavigation, ui, utilityNavigation, type NavItem, type SiteLocale } from "@/lib/site-data";
 
 /**
- * Primary navigation with route-aware active state.
- * Used by the header (desktop + mobile panel) and the footer.
- * `secondary` renders the secondary routes (History) that stay out of the primary bar.
+ * Navigation with route-aware active state (header desktop + mobile panel).
+ * `group`: primary (Projects · Leasing · Investment · About · Contact — OWNER "SITEWIDE R3" §12),
+ * utility (Offer a property · Careers — quieter, never competing with the primary five) or
+ * secondary (History).
  */
 export function SiteNav({
   locale,
   variant = "desktop",
-  secondary = false,
+  group = "primary",
   projects,
 }: {
   locale: SiteLocale;
-  variant?: "desktop" | "mobile" | "footer" | "secondary-mobile";
-  secondary?: boolean;
+  variant?: "desktop" | "mobile" | "utility" | "secondary-mobile";
+  group?: "primary" | "utility" | "secondary";
   /** the projects dropdown (OWNER preview edition only) */
   projects?: Omit<ProjectsMenuData, "label" | "active">;
 }) {
   const pathname = usePathname();
-  const items = secondary ? secondaryNavigation[locale] : navigation[locale];
-  const label = secondary ? ui.secondaryNavigation[locale] : variant === "mobile" ? ui.mobileNavigation[locale] : ui.navigation[locale];
+  const items: NavItem[] = group === "utility" ? utilityNavigation[locale] : group === "secondary" ? secondaryNavigation[locale] : navigation[locale];
+  const label = group === "primary" ? (variant === "mobile" ? ui.mobileNavigation[locale] : ui.navigation[locale]) : ui.secondaryNavigation[locale];
+  const normalized = pathname.replace(/\/$/, "") || "/";
 
   return (
     <nav className={`site-nav site-nav--${variant}`} aria-label={label}>
       {items.map((item) => {
         const href = localePath(locale, item.path);
-        const normalized = pathname.replace(/\/$/, "") || "/";
-        // Home is active only on itself; other items also cover their sub-routes and `also` prefixes.
-        const prefixes = item.path === "/" ? [] : [href, ...(item.also ?? []).map((path) => localePath(locale, path))];
-        const active = normalized === href || prefixes.some((prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`));
+        // an item also covers its sub-routes and its `also` prefixes (History under About, Offer under Investment)
+        const prefixes = [href, ...(group === "primary" ? item.also ?? [] : []).map((path) => localePath(locale, path))];
+        const active = prefixes.some((prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`));
         if (projects && item.path === "/projects" && (variant === "desktop" || variant === "mobile")) {
           const data = { ...projects, label: item.label, active };
           return variant === "desktop" ? <ProjectsMenu key={item.path} data={data} /> : <ProjectsAccordion key={item.path} data={data} />;

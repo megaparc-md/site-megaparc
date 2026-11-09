@@ -44,9 +44,8 @@ export function Brand({ locale, href, light = false }: { locale: SiteLocale; hre
 }
 
 /**
- * Compact sticky header: wordmark left, menu right.
- * Phone: 72px, logo + menu button only (languages live inside the menu).
- * Desktop: 88px, uppercase navigation right, RO · RU · EN at the far edge.
+ * Header (OWNER "SITEWIDE R3" §12): wordmark left; the five primary routes; a quieter utility group
+ * (Offer a property · Careers); RO · RU · EN at the far edge. Phone: logo + menu button only.
  */
 export function SiteHeader({ locale }: { locale: SiteLocale; variant?: "overlay" | "solid" }) {
   const menu = projectsMenu(locale);
@@ -56,6 +55,7 @@ export function SiteHeader({ locale }: { locale: SiteLocale; variant?: "overlay"
         <Brand locale={locale} />
         <div className="hdr__right">
           <SiteNav locale={locale} projects={menu} />
+          <SiteNav locale={locale} variant="utility" group="utility" />
           <LanguageSwitcher locale={locale} />
           <MobileMenu locale={locale} projects={menu} />
         </div>

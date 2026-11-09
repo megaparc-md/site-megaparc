@@ -9,6 +9,7 @@ import "../history.css";
 import "../alive.css";
 import "../premium.css";
 import "../leasing-experience.css";
+import "../r3.css";
 
 /** Root layout for the RO edition: static HTML is served with lang="ro". */
 export const metadata: Metadata = {

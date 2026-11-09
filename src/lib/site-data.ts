@@ -64,42 +64,40 @@ export const brand = {
 export type NavItem = { label: string; path: string; also?: string[] };
 
 /**
- * Primary navigation — OWNER correction 2026-10-08:
- * HOME · ABOUT · PROJECTS · LEASING · PARTNERSHIP · OFFER A PROPERTY · CAREERS · CONTACT
- * (PARTNERSHIP added by the OWNER brief "TRUST, SCALE & DESIRE", 2026-10-08).
- * Careers is in the top navigation, not only in the footer.
+ * Primary navigation — OWNER "SITEWIDE R3" §12 (2026-11-09): PROJECTS · LEASING · INVESTMENT · ABOUT · CONTACT.
+ * The logo is the way home. Investment = the investment & partnership page (/partnership, URL unchanged).
+ * Secondary routes (Offer a property · Careers) stay in the header as a quieter utility group
+ * (OWNER 2026-10-08: Careers in the top navigation) without competing with the primary five.
  */
 export const navigation: Record<SiteLocale, NavItem[]> = {
   ro: [
-    { label: "Acasă", path: "/" },
-    { label: "Despre companie", path: "/about", also: ["/history"] },
     { label: "Proiecte", path: "/projects" },
     { label: "Închiriere", path: "/leasing" },
-    { label: "Parteneriat", path: "/partnership" },
-    { label: "Propune un obiect", path: "/offer" },
-    { label: "Cariere", path: "/careers" },
+    { label: "Investiții", path: "/partnership", also: ["/offer"] },
+    { label: "Despre noi", path: "/about", also: ["/history"] },
     { label: "Contact", path: "/contact" },
   ],
   ru: [
-    { label: "Главная", path: "/" },
-    { label: "О компании", path: "/about", also: ["/history"] },
     { label: "Проекты", path: "/projects" },
     { label: "Аренда", path: "/leasing" },
-    { label: "Партнёрство", path: "/partnership" },
-    { label: "Предложить объект", path: "/offer" },
-    { label: "Вакансии", path: "/careers" },
+    { label: "Инвестиции", path: "/partnership", also: ["/offer"] },
+    { label: "О компании", path: "/about", also: ["/history"] },
     { label: "Контакты", path: "/contact" },
   ],
   en: [
-    { label: "Home", path: "/" },
-    { label: "About", path: "/about", also: ["/history"] },
     { label: "Projects", path: "/projects" },
     { label: "Leasing", path: "/leasing" },
-    { label: "Partnership", path: "/partnership" },
-    { label: "Offer a property", path: "/offer" },
-    { label: "Careers", path: "/careers" },
+    { label: "Investment", path: "/partnership", also: ["/offer"] },
+    { label: "About", path: "/about", also: ["/history"] },
     { label: "Contact", path: "/contact" },
   ],
+};
+
+/** Utility routes — header (quiet group), mobile menu and footer: offer a property, careers. */
+export const utilityNavigation: Record<SiteLocale, NavItem[]> = {
+  ro: [{ label: "Propuneți un obiect", path: "/offer" }, { label: "Cariere", path: "/careers" }],
+  ru: [{ label: "Предложить объект", path: "/offer" }, { label: "Вакансии", path: "/careers" }],
+  en: [{ label: "Offer a property", path: "/offer" }, { label: "Careers", path: "/careers" }],
 };
 
 /** Secondary routes (mobile menu, footer): the company history. */

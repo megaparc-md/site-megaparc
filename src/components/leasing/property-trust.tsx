@@ -10,7 +10,7 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * space for their business with them. Feasibility first, commercial terms second. No approval or feasibility is
  * promised; the official e-Cadastru verification appears only where the OWNER approved the cadastral number.
  */
-const copy = {
+export const trustCopy = {
   label: { ro: "Suport tehnic pentru chiriaș", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" },
   title: { ro: "Verificați spațiul pentru afacerea dumneavoastră.", ru: "Проверьте помещение под свой бизнес.", en: "Check the space for your business." },
   lead: {
@@ -33,7 +33,7 @@ const copy = {
   call: { ro: "Sunați", ru: "Позвонить", en: "Call" },
 } satisfies Record<string, Localized>;
 
-const items: Localized[] = [
+export const trustItems: Localized[] = [
   { ro: "Planificarea spațiului", ru: "Планировка", en: "Layout" },
   { ro: "Puterea electrică", ru: "Электрическая мощность", en: "Electrical power" },
   { ro: "Punctele de racordare", ru: "Точки подключения", en: "Connection points" },
@@ -50,23 +50,23 @@ export function TechSupport({ locale }: { locale: SiteLocale }) {
   return (
     <div className="tr-tech">
       <div className="tr-tech__head">
-        <p className="tr-label">{copy.label[locale]}</p>
-        <h2 className="tr-tech__title">{copy.title[locale]}</h2>
-        <p className="tr-tech__lead">{copy.lead[locale]}</p>
+        <p className="tr-label">{trustCopy.label[locale]}</p>
+        <h2 className="tr-tech__title">{trustCopy.title[locale]}</h2>
+        <p className="tr-tech__lead">{trustCopy.lead[locale]}</p>
       </div>
       <div className="tr-tech__body">
-        <p className="tr-tech__sub">{copy.checks[locale]}</p>
+        <p className="tr-tech__sub">{trustCopy.checks[locale]}</p>
         <ul className="tr-tech__list">
-          {items.map((item) => (
+          {trustItems.map((item) => (
             <li key={item.en}>{item[locale]}</li>
           ))}
         </ul>
-        <p className="tr-tech__principle">{copy.principle[locale]}</p>
+        <p className="tr-tech__principle">{trustCopy.principle[locale]}</p>
         <div className="tr-tech__actions">
-          <a className="btn" href={contactLinks.email}><span>{copy.discuss[locale]}</span><Icon /></a>
-          <a className="pm-link" href={contactLinks.mobile}><span>{copy.call[locale]} · {company.mobile.value[locale]}</span><Icon /></a>
+          <a className="btn" href={contactLinks.email}><span>{trustCopy.discuss[locale]}</span><Icon /></a>
+          <a className="pm-link" href={contactLinks.mobile}><span>{trustCopy.call[locale]} · {company.mobile.value[locale]}</span><Icon /></a>
         </div>
-        <p className="tr-tech__note">{copy.note[locale]}</p>
+        <p className="tr-tech__note">{trustCopy.note[locale]}</p>
       </div>
     </div>
   );

@@ -1,328 +1,230 @@
 import Link from "next/link";
-import { Fragment } from "react";
-import { HeroFigures, MaskTitle } from "@/components/experience";
-import { HistoryMap } from "@/components/history-map";
+import { MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { ProjectStatus } from "@/components/project-facts";
+import { NB, R3Label, R3Link, projectState } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { getProject, listProjects, publicSpaces } from "@/content/source";
-import { portfolioFigures } from "@/data/demo-content";
-import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, historyHeroImage, interludeImage, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
-import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { getProject, listProjects } from "@/content/source";
+import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, historyHeroImage, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
+import { localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
- * HISTORY — a premium editorial documentary (OWNER brief "PREMIUM REAL ESTATE
- * EXPERIENCE REBUILD", 2026-10-09). The chronology, chapters, episodes and
- * images are unchanged (src/lib/history.ts); only the reading changes.
- *
- * Opening: the archive photograph breaks the grid; the four heritage years are
- * the anchors into the chronicle. Every chapter has its own format — a
- * two-image spread, a staggered pair, a magazine page, an alternating essay,
- * the map, a portrait strip — so the page reads as a documentary, not a list.
- * 2005 is the strong break (the year at display size); 2020 is a full-bleed
- * moment on a real MEGAPARC building; today is in full colour.
- * Motion stays restrained: image reveals and one slow archive interlude.
+ * HISTORY — SITEWIDE R3 §7 (OWNER 2026-11-09): the approved retro direction at editorial-archive scale.
+ * Each era is a chapter, not a timeline item: a very large year (1991 · 1995 · 2005 · 2020 monumental, the
+ * intermediate periods smaller), one large archival photograph (60–100 % of the width), a documentary caption
+ * (chapter, years — never a source or a claim about what the frame shows), the chapter's episodes as an
+ * editorial register in which the group's companies carry real weight (names only from the OWNER source
+ * «Draft text»; unverified superlatives held back — docs/HISTORY_EDITORIAL.md). Fewer images per viewport,
+ * generous whitespace, no film filters, no scrapbook.
+ * Production edition: the period photographs are not approved — chapters read as typography; the real
+ * MEGAPARC photographs (2005, 2020, today) stay.
  */
+const copy = {
+  ro: { index: "Capitole", today: "Proiectele MEGAPARC astăzi", projects: "Toate proiectele", about: "Despre MEGAPARC astăzi", register: "Companiile grupului", registerTitle: "Afacerile pe care s-a construit experiența.", registerNote: "Afacerile grupului sunt istoria grupului — nu active actuale ale MEGAPARC.", places: "Unde a lucrat grupul", closeLabel: "Astăzi", closeTitle: "Istoria continuă în proiectele de azi." },
+  ru: { index: "Главы", today: "Проекты MEGAPARC сегодня", projects: "Все проекты", about: "О MEGAPARC сегодня", register: "Компании группы", registerTitle: `Бизнесы, на${NB}которых вырос опыт.`, registerNote: `Бизнесы группы${NB}— это история группы, а${NB}не${NB}текущие активы MEGAPARC.`, places: "Где работала группа", closeLabel: "Сегодня", closeTitle: `История продолжается в${NB}сегодняшних проектах.` },
+  en: { index: "Chapters", today: "MEGAPARC projects today", projects: "All projects", about: "About MEGAPARC today", register: "The group's companies", registerTitle: "The businesses the experience was built on.", registerNote: "The group's businesses are the group's history — not current MEGAPARC assets.", places: "Where the group worked", closeLabel: "Today", closeTitle: "The history continues in today's projects." },
+} satisfies Record<SiteLocale, Record<string, string>>;
 
-/** Current properties in colour — Creangă 78 joins with its real photograph (OWNER 2026-10-09). */
-const todaySlugs = ["dacia-31", "moscova-9", "moscova-20", "creanga-78", "vatra"];
+const placeName: Record<string, Localized> = {
+  romania: { ro: "România", ru: "Румыния", en: "Romania" },
+  ukraine: { ro: "Ucraina", ru: "Украина", en: "Ukraine" },
+  iraq: { ro: "Irak", ru: "Ирак", en: "Iraq" },
+  dakar: { ro: "Dakar, Senegal", ru: "Дакар, Сенегал", en: "Dakar, Senegal" },
+  china: { ro: "China", ru: "Китай", en: "China" },
+};
+
+/** The four monumental years and the chapter each one opens. */
+const monumental: Partial<Record<ChapterKey, string>> = { origins: "1991", group: "1995", megaparc: "2005", focus: "2020" };
+/** One photograph per chapter: the lead episode's frame (archive frames exist in the preview edition only). */
+const leadEpisode: Partial<Record<ChapterKey, string>> = { origins: "negruzzi", group: "ym-capitol", finance: "inseko", megaparc: "megaparc", expansion: "estate-industry", international: "valahia", consolidation: "china", focus: "focus-2020" };
+/** Episodes that name a place or an unnamed structure, not a company — kept out of the register. */
+const notCompanies = new Set(["negruzzi", "holding", "west-africa", "transfer", "china", "romania-logistics", "focus-2020"]);
+
 const byId = (id: string) => entries.find((entry) => entry.id === id)!;
-/** Heritage year → the chapter it opens. */
-const anchor: Record<string, ChapterKey> = { "1991": "origins", "1995": "group", "2005": "megaparc", "2020": "focus" };
-type Format = "spread" | "stagger" | "magazine" | "essay" | "strip" | "three";
-const format: Partial<Record<ChapterKey, Format>> = { origins: "spread", group: "stagger", finance: "magazine", expansion: "essay", international: "three", consolidation: "strip" };
 
-function EpisodeImage({ entry, locale, sizes, eager = false }: { entry: HistoryEntry; locale: SiteLocale; sizes: string; eager?: boolean }) {
-  const image = episodeImage[entry.id];
-  // production edition: no period image (OWNER "PRODUCTION V1" §3) — the episode keeps its text, never an invented picture
+function Frame({ id, sizes, priority = false, className = "" }: { id?: string; sizes: string; priority?: boolean; className?: string }) {
+  const image = id ? episodeImage[id] : undefined;
   if (!image) return null;
   if (image.kind === "asset") {
-    const project = getProject(image.slug)!;
-    return <ArtImage media={project.media!} alt={`${project.name} — ${entry.title[locale]}`} sizes={sizes} />;
+    const project = getProject(image.slug);
+    if (!project?.media) return null;
+    return <ArtImage media={project.media} alt={`${project.name}`} sizes={sizes} priority={priority} className={className} />;
   }
   return (
     <picture>
-      <source media="(min-width: 721px)" srcSet={`${publicAsset(`/assets/history/${image.key}-card.webp`)} 900w, ${publicAsset(`/assets/history/${image.key}.webp`)} 1800w`} sizes={sizes} />
-      <img src={publicAsset(`/assets/history/${image.key}-card.webp`)} alt="" loading={eager ? "eager" : "lazy"} decoding="async" />
+      <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${image.key}.webp`)} />
+      <img src={publicAsset(`/assets/history/${image.key}-mobile.webp`)} alt="" loading={priority ? "eager" : "lazy"} decoding="async" className={className} />
     </picture>
   );
 }
 
-function Meta({ entry, locale }: { entry: HistoryEntry; locale: SiteLocale }) {
-  return (
-    <p className="hc-ep__meta">
-      <span>{entry.year}</span>
-      <span>{sectorLabel[entry.sector][locale]}</span>
-      <span>{episodePlace[entry.id][locale]}</span>
-    </p>
-  );
+/** The subtitle without the company name it often starts with («Romitech — хаб…» → «Хаб…»); nothing when it only repeats the name. */
+function subtitle(entry: HistoryEntry, locale: SiteLocale) {
+  const title = entry.title[locale].trim();
+  if (!entry.name || !title.startsWith(entry.name)) return title;
+  const rest = title.slice(entry.name.length).replace(/^[\s\u00a0]*[—–-][\s\u00a0]*/, "").trim();
+  return rest ? rest.charAt(0).toLocaleUpperCase(locale) + rest.slice(1) : "";
 }
 
-function Episode({ entry, locale, sizes }: { entry: HistoryEntry; locale: SiteLocale; sizes: string }) {
+function Episode({ entry, locale }: { entry: HistoryEntry; locale: SiteLocale }) {
+  const sub = subtitle(entry, locale);
   return (
-    <li className={`hc-ep${episodeImage[entry.id] ? "" : " hc-ep--text"}`} data-reveal>
-      {episodeImage[entry.id] ? (
-        <figure className="hc-ep__media">
-          <EpisodeImage entry={entry} locale={locale} sizes={sizes} />
-        </figure>
-      ) : null}
-      <div className="hc-ep__body">
-        <Meta entry={entry} locale={locale} />
-        <h3 className="hc-ep__title">{entry.title[locale]}</h3>
-        <p className="hc-ep__text">{entry.text[locale]}</p>
-      </div>
+    <li className="r3-ep" data-reveal>
+      <p className="r3-ep__meta">{entry.year} · {sectorLabel[entry.sector][locale]} · {episodePlace[entry.id]?.[locale]}</p>
+      <h3 className="r3-ep__name">{entry.name || entry.title[locale]}</h3>
+      {entry.name && sub ? <p className="r3-ep__title">{sub}</p> : null}
+      <p className="r3-ep__text">{entry.text[locale]}</p>
     </li>
   );
 }
 
-function ChapterHead({ chapter, locale }: { chapter: Chapter; locale: SiteLocale }) {
+function ChapterScene({ chapter, locale, index }: { chapter: Chapter; locale: SiteLocale; index: number }) {
+  const big = monumental[chapter.key];
+  const lead = leadEpisode[chapter.key];
+  const hasFrame = Boolean(lead && episodeImage[lead]);
+  const tone = chapter.key === "megaparc" ? "megaparc" : chapter.key === "international" ? "dark" : index % 2 ? "paper" : "ivory";
+  const range = chapter.range || String(new Date().getFullYear());
+  const flip = index % 2 === 1;
   return (
-    <header className="hc2-head" data-reveal>
-      <p className="hc2-head__meta">
-        <span>{historyCopy.chapter[locale]} {chapter.no}</span>
-        <span>{chapter.label[locale]}</span>
-      </p>
-      <p className="hc2-head__range">{chapter.range}</p>
-      <h2 className="hc2-head__title">{chapter.title[locale]}</h2>
-      <p className="hc2-head__lead">{chapter.lead[locale]}</p>
-    </header>
-  );
-}
-
-const sizesFor: Record<Format, string[]> = {
-  spread: ["(min-width: 1024px) 58vw, 100vw", "(min-width: 1024px) 38vw, 100vw", "(min-width: 1024px) 25vw, 50vw"],
-  stagger: ["(min-width: 720px) 50vw, 100vw"],
-  magazine: ["(min-width: 1024px) 58vw, 100vw", "(min-width: 1024px) 20vw, 50vw"],
-  essay: ["(min-width: 1024px) 58vw, 100vw"],
-  strip: ["(min-width: 1024px) 33vw, 100vw"],
-  three: ["(min-width: 1024px) 33vw, (min-width: 720px) 50vw, 100vw"],
-};
-
-function Episodes({ ids, locale, kind }: { ids: string[]; locale: SiteLocale; kind: Format }) {
-  const sizes = sizesFor[kind];
-  const pick = (index: number) => sizes[Math.min(index, sizes.length - 1)];
-  return (
-    // a chapter whose episodes carry no image (production edition) reads as one quiet editorial list
-    <ol className={`hc-eps hc2-eps hc2-eps--${ids.some((id) => episodeImage[id]) ? kind : "text"}`}>
-      {ids.map((id, index) => (
-        <Episode key={id} entry={byId(id)} locale={locale} sizes={pick(kind === "spread" ? index : index === 0 ? 0 : 1)} />
-      ))}
-    </ol>
+    <section className={`r3-era r3-era--${tone}${big ? " r3-era--major" : " r3-era--minor"}${hasFrame ? "" : " r3-era--type"}${flip ? " r3-era--flip" : ""}`} id={chapter.key}>
+      <header className="r3-shell r3-era__head">
+        <p className="r3-era__year" aria-hidden="true" data-reveal>{big ?? range}</p>
+        <div className="r3-era__intro" data-reveal>
+          <p className="r3-era__label">{chapter.label[locale]} · {range}</p>
+          <h2 className="r3-era__title"><span className="sr-only">{range}. </span>{chapter.title[locale]}</h2>
+          <p className="r3-era__lead">{chapter.lead[locale]}</p>
+        </div>
+      </header>
+      {hasFrame ? (
+        <figure className="r3-era__frame al-reveal" data-reveal>
+          <Frame id={lead} sizes={big ? "100vw" : "(min-width: 1024px) 66vw, 100vw"} />
+          <figcaption className="r3-era__caption">{chapter.label[locale]} · {range}</figcaption>
+        </figure>
+      ) : null}
+      {chapter.key === "international" ? (
+        <div className="r3-shell r3-era__places" data-reveal>
+          <p className="r3-label r3-label--light">{copy[locale].places}</p>
+          <ul>
+            {internationalPlaces.map((place) => (
+              <li key={place.key}><span>{placeName[place.key]?.[locale] ?? place.key}</span><small>{place.years}</small></li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+      {chapter.ids.length ? (
+        <ol className="r3-shell r3-eps">
+          {chapter.ids.map((id) => <Episode key={id} entry={byId(id)} locale={locale} />)}
+        </ol>
+      ) : null}
+    </section>
   );
 }
 
 export function HistoryPage({ locale }: { locale: SiteLocale }) {
   const h = historyCopy;
+  const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
+  const anchor: Record<string, string> = { "1991": "origins", "1995": "group", "2005": "megaparc", "2020": "focus" };
+  const today = listProjects();
+  const register = entries.filter((entry) => entry.name && !notCompanies.has(entry.id));
 
   return (
-    <PageShell locale={locale} experience mainClassName="hc hc2">
-      {/* OPENING — the archive photograph breaks the grid; the years are the way in */}
-      <section className="hc2-hero">
-        <div className={`xp-shell hc2-hero__grid${historyHeroImage ? "" : " hc2-hero__grid--text"}`}>
-          <div className="hc2-hero__copy">
-            <p className="pm-kicker" data-reveal>{h.kicker[locale]}</p>
-            <MaskTitle as="h1" className="hc2-hero__title" lines={[...h.title[locale]]} />
-            <p className="hc2-hero__lead" data-reveal>{h.lead[locale]}</p>
+    <PageShell locale={locale} variant={historyHeroImage ? "overlay" : "solid"} experience mainClassName="r3-page r3-history">
+      {/* OPENING — one archival frame across the whole viewport; the four years are the way in */}
+      <section className={`r3-hhero${historyHeroImage ? "" : " r3-hhero--type"}`} data-xp-hero={historyHeroImage ? "" : undefined}>
+        {historyHeroImage ? (
+          <div className="r3-hhero__media" aria-hidden="true">
+            <picture>
+              <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${historyHeroImage}.webp`)} />
+              <img src={publicAsset(`/assets/history/${historyHeroImage}-mobile.webp`)} alt="" decoding="async" fetchPriority="high" />
+            </picture>
           </div>
-          {historyHeroImage ? (
-            <figure className="hc2-hero__media" data-reveal>
-              <picture>
-                <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${historyHeroImage}.webp`)} />
-                <img src={publicAsset(`/assets/history/${historyHeroImage}-mobile.webp`)} alt="" decoding="async" fetchPriority="high" />
-              </picture>
-            </figure>
-          ) : null}
-        </div>
-        <nav className="xp-shell hc2-years" aria-label={h.index[locale]} data-reveal>
-          <ol>
-            {heritage.map((item) => (
-              <li key={item.year} className={item.year === "2005" ? "is-megaparc" : undefined}>
-                <a href={`#${anchor[item.year]}`}>
-                  <span className="hc2-years__year">{item.year}</span>
-                  <span className="hc2-years__label">{item.label[locale]}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      </section>
-
-      {chapters.map((chapter) => {
-        if (chapter.key === "megaparc") {
-          const main = byId("megaparc");
-          const same = byId("imc-market");
-          return (
-            <Fragment key={chapter.key}>
-              {/* full-bleed archive pause before the company appears */}
-              {interludeImage ? (
-                <div className="hc-interlude hc-interlude--archive" data-xp-progress aria-hidden="true">
-                  <div className="hc-interlude__media">
-                    <picture>
-                      <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${interludeImage}.webp`)} />
-                      <img src={publicAsset(`/assets/history/${interludeImage}-mobile.webp`)} alt="" loading="lazy" decoding="async" />
-                    </picture>
-                  </div>
-                </div>
-              ) : null}
-              {/* 2005 — the break */}
-              <section className="hc-ch hc2-break" id={chapter.key}>
-                <div className="xp-shell">
-                  <p className="hc2-head__meta" data-reveal><span>{h.chapter[locale]} {chapter.no}</span><span>{chapter.label[locale]}</span></p>
-                  <p className="hc2-break__year" data-reveal aria-hidden="true">2005</p>
-                  <div className="hc2-break__grid">
-                    <h2 className="hc2-break__title" data-reveal>{chapter.title[locale]}</h2>
-                    <div className="hc2-break__copy" data-reveal>
-                      <p className="hc2-break__lead">{chapter.lead[locale]}</p>
-                      <p className="hc2-quote">
-                        {h.megaparcStatement[locale].map((line) => (
-                          <span key={line}>{line}</span>
-                        ))}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="hc2-break__story">
-                    <figure className="hc2-break__media al-reveal" data-reveal>
-                      <EpisodeImage entry={main} locale={locale} sizes="(min-width: 1024px) 66vw, 100vw" />
-                    </figure>
-                    <div className="hc2-break__text" data-reveal>
-                      <Meta entry={main} locale={locale} />
-                      <p className="hc-ep__text">{main.text[locale]}</p>
-                    </div>
-                  </div>
-                  <ol className="hc-eps hc2-eps hc2-eps--aside">
-                    <Episode entry={same} locale={locale} sizes="(min-width: 1024px) 33vw, 100vw" />
-                  </ol>
-                </div>
-              </section>
-            </Fragment>
-          );
-        }
-        if (chapter.key === "international") {
-          return (
-            <section key={chapter.key} className="hc-ch hc-ch--international" id={chapter.key}>
-              <div className="xp-shell">
-                <ChapterHead chapter={chapter} locale={locale} />
-                <div className="hc-world" data-reveal>
-                  <HistoryMap kind="international" locale={locale} />
-                  <ul className="hc-places">
-                    {internationalPlaces.map((place) => (
-                      <li key={place.key}>
-                        <b>{historyCopy.places[place.key as keyof typeof historyCopy.places][locale]}</b>
-                        <span>{place.years}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <Episodes ids={chapter.ids} locale={locale} kind="three" />
-              </div>
-            </section>
-          );
-        }
-        if (chapter.key === "focus") {
-          const main = byId("focus-2020");
-          const dacia = getProject("dacia-31")!;
-          return (
-            <section key={chapter.key} className="hc2-focus" id={chapter.key}>
-              <div className="hc2-focus__media" aria-hidden="true">
-                <ArtImage media={dacia.media!} variant="wide" alt="" sizes="100vw" />
-              </div>
-              <div className="xp-shell hc2-focus__over">
-                <p className="hc2-head__meta" data-reveal><span>{h.chapter[locale]} {chapter.no}</span><span>{chapter.label[locale]}</span></p>
-                <p className="hc2-focus__year" data-reveal aria-hidden="true">2020</p>
-                <h2 className="hc2-focus__title" data-reveal>{chapter.title[locale]}</h2>
-              </div>
-              <div className="xp-shell hc2-focus__grid">
-                <p className="hc2-quote hc2-quote--lg" data-reveal>
-                  {h.focusStatement[locale].map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </p>
-                <div className="hc2-focus__copy" data-reveal>
-                  <p className="hc2-head__lead">{chapter.lead[locale]}</p>
-                  <Meta entry={main} locale={locale} />
-                  <p className="hc-ep__text">{main.text[locale]}</p>
-                </div>
-              </div>
-            </section>
-          );
-        }
-        if (chapter.key === "today") {
-          return (
-            <section key={chapter.key} className="hc-ch hc-ch--today hc2-today" id={chapter.key}>
-              <div className="xp-shell">
-                <ChapterHead chapter={chapter} locale={locale} />
-                <div data-reveal>
-                  <HeroFigures className="hc-today__figures" items={[
-                    { value: portfolioFigures.operating.value[locale], label: h.todayFigures.operating[locale] },
-                    { value: String(listProjects().filter((project) => project.kind === "development").length).padStart(2, "0"), label: h.todayFigures.development[locale] },
-                    { value: portfolioFigures.area.value[locale], label: h.todayFigures.area[locale] },
-                    { value: String(publicSpaces.length).padStart(2, "0"), label: h.todayFigures.spaces[locale] },
-                  ]} />
-                </div>
-                <ul className="hc-today" id="today-projects">
-                  {todaySlugs.map((slug) => {
-                    const project = getProject(slug)!;
-                    return (
-                      <li key={slug} data-reveal>
-                        <Link href={p(`/projects/${slug}`)}>
-                          <figure className="hc-today__media">
-                            <ArtImage media={project.media!} variant="portrait" alt={`${project.name} — ${project.format[locale]}`} sizes="(min-width: 1200px) 20vw, (min-width: 720px) 33vw, 50vw" />
-                          </figure>
-                          <span className="hc-today__name">{project.name}</span>
-                          <span className="hc-today__format">{project.format[locale]}</span>
-                          <ProjectStatus project={project} locale={locale} as="span" className="hc-today__now" />
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </section>
-          );
-        }
-        return (
-          <section key={chapter.key} className={`hc-ch hc-ch--${chapter.tone} hc2-ch hc2-ch--${format[chapter.key]}`} id={chapter.key}>
-            <div className="xp-shell">
-              <ChapterHead chapter={chapter} locale={locale} />
-              <Episodes ids={chapter.ids} locale={locale} kind={format[chapter.key] ?? "three"} />
-            </div>
-          </section>
-        );
-      })}
-
-      {/* INDEX — the whole chronicle on one page */}
-      <section className="hc-register" id="index">
-        <div className="xp-shell">
-          <h2 className="hc-register__title" data-reveal>{h.indexTitle[locale]}</h2>
-          <ol className="hc2-register">
-            {entries.map((entry) => (
-              <li key={entry.id} className={entry.scope === "megaparc" ? "is-megaparc" : undefined}>
-                <span className="hc2-register__year">{entry.year}</span>
-                <span className="hc2-register__title">{entry.title[locale]}</span>
-                <span className="hc2-register__meta">{sectorLabel[entry.sector][locale]} · {episodePlace[entry.id][locale]}</span>
-              </li>
-            ))}
-          </ol>
+        ) : null}
+        <div className="r3-shell r3-hhero__inner">
+          <R3Label tone={historyHeroImage ? "light" : "dark"}>{h.kicker[locale]}</R3Label>
+          <MaskTitle as="h1" className="r3-display r3-hhero__title" lines={[...h.title[locale]]} />
+          <p className="r3-hhero__lead" data-reveal>{h.lead[locale]}</p>
         </div>
       </section>
 
-      {/* CLOSE — calm */}
-      <section className="pm-close">
-        <div className="xp-shell pm-close__grid">
-          <div data-reveal>
-            <p className="pm-kicker">{chapters[chapters.length - 1].label[locale]}</p>
-            <h2 className="pm-close__title hc2-close__title">{h.closeTitle[locale]}</h2>
+      {/* TWO LINES OF ONE STORY — the group and MEGAPARC; the four years as the chapter index */}
+      <section className="r3-sec r3-sec--ivory r3-hlines">
+        <div className="r3-shell">
+          <div className="r3-hlines__head" data-reveal>
+            <h2 className="r3-title">{h.linesTitle[locale]}</h2>
+            <p className="r3-lead">{h.linesText[locale]}</p>
           </div>
-          <nav className="pm-close__routes" aria-label={h.index[locale]} data-reveal>
-            {[...h.todayLinks, ["/careers#positions", { ro: "Vezi posturile", ru: "Смотреть вакансии", en: "See vacancies" }] as const].map(([path, label]) => (
-              <Link key={path} href={p(path)}>
-                <span>{label[locale]}</span>
-                <Icon name="arrow" size={18} />
-              </Link>
-            ))}
+          <nav aria-label={c.index}>
+            <ol className="r3-hyears">
+              {heritage.map((item) => (
+                <li key={item.year} className={item.year === "2005" || item.year === "2020" ? "is-megaparc" : undefined} data-reveal>
+                  <a href={`#${anchor[item.year]}`}>
+                    <span className="r3-hyears__year">{item.year}</span>
+                    <span className="r3-hyears__label">{item.label[locale]}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
           </nav>
+          <p className="r3-hlines__rule" data-reveal>{h.rule[locale]}</p>
+        </div>
+      </section>
+
+      {chapters.filter((chapter) => chapter.key !== "today").map((chapter, index) => (
+        <ChapterScene key={chapter.key} chapter={chapter} locale={locale} index={index} />
+      ))}
+
+      {/* THE GROUP'S COMPANIES — names with editorial weight; source-supported only */}
+      <section className="r3-sec r3-sec--paper r3-register" id="companies">
+        <div className="r3-shell">
+          <div className="r3-head r3-head--split" data-reveal>
+            <R3Label>{c.register}</R3Label>
+            <h2 className="r3-title">{c.registerTitle}</h2>
+            <p className="r3-note">{c.registerNote}</p>
+          </div>
+          <ol className="r3-register__list">
+            {register.map((entry) => (
+              <li key={entry.id} className={entry.scope === "megaparc" ? "is-megaparc" : undefined} data-reveal>
+                <span className="r3-register__name">{entry.name}</span>
+                <span className="r3-register__meta">{entry.year} · {sectorLabel[entry.sector][locale]} · {episodePlace[entry.id]?.[locale]}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* TODAY — in colour: the projects the history leads to */}
+      <section className="r3-sec r3-sec--ivory r3-htoday" id="today">
+        <div className="r3-shell">
+          <div className="r3-head r3-head--split" data-reveal>
+            <R3Label>{c.closeLabel}</R3Label>
+            <h2 className="r3-title">{c.closeTitle}</h2>
+            <p className="r3-lead">{chapters.find((chapter) => chapter.key === "today")!.lead[locale]}</p>
+          </div>
+          <ol className="r3-index" data-reveal>
+            {today.map((project) => {
+              const state = projectState(project, locale);
+              return (
+                <li key={project.slug}>
+                  <Link href={p(`/projects/${project.slug}`)}>
+                    <span className="r3-index__name">{project.name}</span>
+                    <span className="r3-index__meta">{project.format[locale]}</span>
+                    <span className={`r3-index__state is-${state.tone}`}>{state.text}</span>
+                    {project.media ? (
+                      <span className="r3-index__peek" aria-hidden="true">
+                        <ArtImage media={project.media} variant="card" alt="" sizes="22rem" />
+                      </span>
+                    ) : null}
+                    <Icon size={20} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
+          <div className="r3-actions">
+            <R3Link href={p("/projects")}>{c.projects}</R3Link>
+            <R3Link href={p("/about")}>{c.about}</R3Link>
+          </div>
         </div>
       </section>
     </PageShell>

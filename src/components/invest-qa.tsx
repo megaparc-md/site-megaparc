@@ -142,3 +142,6 @@ export function InvestQA({ locale, checks, partners, coop, legal }: { locale: Si
     </section>
   );
 }
+
+/** SITEWIDE R3: the approved questions, answers and lists, recomposed editorially on the Investment page. */
+export { q as investQuestions, considered as investConsidered, inputs as investInputs };

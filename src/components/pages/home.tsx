@@ -1,377 +1,350 @@
 import Link from "next/link";
-import { HeroDoors, HomePortals } from "@/components/home-portals";
-import { ConceptDisclosure, ConceptImage, HeroFigures, Ledger, MaskTitle, hasConceptImage } from "@/components/experience";
-import { SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
+import { ConceptDisclosure, ConceptImage, MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { Button, Icon } from "@/components/ui";
-import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces } from "@/content/source";
-import { caseStudyPublished, company, contactLinks, daciaDevelopment, drochiaProfile, portfolioFigures, vatraProfile } from "@/data/demo-content";
-import { CareersMoment } from "@/components/careers-moment";
-import { ProjectFacts, ProjectStatus } from "@/components/project-facts";
-import { eras, historyCopy, teaserImage } from "@/lib/history";
-import { isProductionEdition, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { Figure, NB, R3Label, R3Link, projectState, r3Href } from "@/components/r3";
+import { Icon } from "@/components/ui";
+import { formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, availabilityLabel, availabilityOf, propertyOccupancy } from "@/content/source";
+import { company, contactLinks, drochiaProfile, portfolioFigures } from "@/data/demo-content";
+import { businessStatement, holdOrSell, lifecycle, reinvestment } from "@/lib/business";
+import { historyCopy, teaserImage } from "@/lib/history";
+import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
- * HOME — premium experience rebuild (OWNER brief "PREMIUM REAL ESTATE EXPERIENCE
- * REBUILD", 2026-10-09). The first screen sells MEGAPARC the brand: a concept
- * architectural photograph (registered DEMO · CONCEPT_VISUAL, never captioned
- * or presented as a MEGAPARC asset) under deliberate typography — the business
- * statement apart from the heritage proof, one primary action. Real MEGAPARC
- * property begins on the second screen, as proof.
- * Rhythm: cinematic hero → real property, full bleed → light editorial
- * (directions) → available space → dark development → history → investment
- * partnership → careers film → calm contact close.
+ * HOME — SITEWIDE R3 (OWNER "VISUAL NO-GO → PREMIUM REBUILD", 2026-11-09). Seven scenes, not a chain of widgets:
+ * 01 hero (one architectural image, the approved headline, two paths) → 02 two businesses as architectural
+ * portals → 03 scale in oversized type → 04 an editorial property sequence (one dominant, one secondary, the
+ * rest as a typographic index) → 05 how value is created as one line narrative on real projects → 06 heritage
+ * (one archival image, a large year) → 07 two direct actions. Every status is derived from the content source.
+ * The hero image is the OWNER-approved illustration (ILLUSTRATIVE_APPROVED, disclosed).
  */
-const N = " ";
 const copy = {
   ro: {
-    scroll: "Derulează",
     heroTitle: ["Imobiliare comerciale —", "de la investiție", "la obiectul care funcționează."],
-    heroStatement: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale.",
-    heritage: [["1991", "Începe istoria antreprenorială a grupului"], ["2005", "Este fondată MEGAPARC"]],
-    ctaPartner: "Parteneriat investițional",
-    ctaSpace: "Spații libere",
-    ctaOffer: "Propuneți un obiect sau un teren",
-    proofKicker: "Imobiliarele MEGAPARC",
-    proofTitle: "Clădiri proprii în Chișinău.",
-    proofLead: "Obiectele în funcțiune ale companiei: clădiri de birouri și comerciale cu o suprafață totală de",
-    openProperty: "Vezi obiectul",
-    projectsAll: "Toate proiectele",
-    dirKicker: "Cum lucrăm",
-    dirTitle: "Investim. Dezvoltăm. Închiriem.",
-    dirLinks: { investment: "Parteneriat investițional", development: "Proiectele de dezvoltare", leasing: "Spații libere" },
-    availableKicker: "Liber acum",
-    availableTitle: "Spații libere în clădirile noastre.",
-    availableAll: "Toate spațiile",
-    viewing: "Solicită o vizionare",
-    devKicker: "Dezvoltare",
-    devTitle: "Construim proiecte proprii. Și cumpărăm teren pentru următoarele.",
-    devText: "VATRA este un proiect propriu în realizare. La Dacia 31 planificăm trei clădiri de ≈ 1.600 m². Drochia Gateway este un teren propriu de 2,0 ha la intrarea în oraș, cu concept în evaluare.",
-    devCta: "Proiectele de dezvoltare",
-    stage: "Etapă",
-    historyKicker: "Istoric",
-    historyCta: "Citiți cronica",
-    partnerKicker: "Parteneriat investițional",
-    partnerTitle: "Experiență confirmată de obiecte.",
-    partnerCta: "Discutăm o oportunitate",
-    partnerCase: "Studiu de caz · Moscova 9",
-    proof: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", area: "suprafața obiectelor în funcțiune", land: "terenuri" },
-    closeKicker: "Contact",
-    closeTitle: "Alegeți pasul următor.",
-    closeRoutes: [["Solicită o vizionare", "/contact?subject=lease#occupier"], ["Discutăm o oportunitate", "/contact?subject=partnership#partnership"], ["Propuneți un obiect sau un teren", "/offer"], ["Vezi posturile", "/careers#positions"], ["Întrebare generală", "/contact#question"]],
+    invest: "Investiții",
+    investNote: "Imobile, terenuri, parteneriat",
+    lease: "Închiriere",
+    leaseNow: "Liber acum",
+    investVerbs: ["Achiziționăm", "Dezvoltăm", "Deținem", "Reinvestim"],
+    investText: "Investim capital în active reale — și răspundem de rezultat.",
+    investLink: "Investiții și parteneriat",
+    leaseVerbs: ["Exploatăm", "Adaptăm", "Închiriem"],
+    leaseText: "Spații comerciale în clădirile noastre — cu suport tehnic înainte de semnarea contractului.",
+    leaseLink: "Spații disponibile",
+    scaleLabel: "Scara",
+    area: "suprafața obiectelor în funcțiune",
+    operating: "obiecte în funcțiune",
+    land: "terenuri pentru dezvoltare",
+    years: "ani de experiență a grupului",
+    assetsLabel: "Proiecte",
+    assetsTitle: "Imobiliarele MEGAPARC.",
+    open: "Vezi obiectul",
+    all: "Toate proiectele",
+    valueLabel: "Cum se creează valoarea",
+    valueTitle: "De la teren la clădirea care funcționează.",
+    stations: ["Imobil sau teren", "Dezvoltare", "Obiect în funcțiune", "Deținere pe termen lung · ieșire strategică"],
+    historyLabel: "Istoric",
+    historyCta: "Citiți istoria",
+    historyRule: "MEGAPARC a fost fondată în 2005. Anii de dinainte sunt istoria grupului.",
+    nextLabel: "Pasul următor",
+    owner: "Am un imobil sau un teren",
+    ownerNote: "Analizăm vânzarea sau dezvoltarea comună a imobilului.",
+    tenant: "Am nevoie de un spațiu comercial",
+    tenantNote: "Spații în clădirile noastre — cu suport tehnic înainte de contract.",
   },
   ru: {
-    scroll: "Листайте",
-    heroTitle: [`Коммерческая недвижимость${N}—`, `от${N}инвестиции`, `до${N}работающего объекта.`],
-    heroStatement: `MEGAPARC инвестирует в${N}недвижимость и${N}землю, развивает собственные проекты и${N}сдаёт коммерческие площади.`,
-    heritage: [["1991", `Начало предпринимательской истории группы`], ["2005", "Основана MEGAPARC"]],
-    ctaPartner: "Инвестиционное партнёрство",
-    ctaSpace: "Свободные помещения",
-    ctaOffer: `Предложить объект или${N}землю`,
-    proofKicker: "Недвижимость MEGAPARC",
-    proofTitle: `Собственные здания в${N}Кишинёве.`,
-    proofLead: `Действующие объекты компании: офисные и${N}торговые здания общей площадью`,
-    openProperty: "Смотреть объект",
-    projectsAll: "Все проекты",
-    dirKicker: "Как мы работаем",
-    dirTitle: `Инвестируем. Развиваем. Сдаём в${N}аренду.`,
-    dirLinks: { investment: "Инвестиционное партнёрство", development: "Проекты развития", leasing: "Свободные помещения" },
-    availableKicker: "Свободно сейчас",
-    availableTitle: `Свободные помещения в${N}наших зданиях.`,
-    availableAll: "Все помещения",
-    viewing: "Запросить просмотр",
-    devKicker: "Развитие",
-    devTitle: `Строим собственные проекты. И${N}покупаем землю для следующих.`,
-    devText: `VATRA уже в${N}работе. На${N}Dacia${N}31 планируем три здания по${N}≈${N}1${N}600${N}м². Drochia Gateway${N}— наш участок 2,0${N}га на${N}въезде в${N}город; концепцию сейчас оцениваем.`,
-    devCta: "Проекты развития",
-    stage: "Стадия",
-    historyKicker: "История",
-    historyCta: "Читать хронику",
-    partnerKicker: "Инвестиционное партнёрство",
-    partnerTitle: "Опыт, подтверждённый объектами.",
-    partnerCta: "Обсудить возможность",
-    partnerCase: "Кейс · Moscova 9",
-    proof: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", area: "площадь действующих объектов", land: "земельные участки" },
-    closeKicker: "Контакты",
-    closeTitle: "Выберите следующий шаг.",
-    closeRoutes: [["Запросить просмотр", "/contact?subject=lease#occupier"], ["Обсудить возможность", "/contact?subject=partnership#partnership"], [`Предложить объект или${N}землю`, "/offer"], ["Смотреть вакансии", "/careers#positions"], ["Общий вопрос", "/contact#question"]],
+    heroTitle: [`Коммерческая недвижимость${NB}—`, `от${NB}инвестиции`, `до${NB}работающего объекта.`],
+    invest: "Инвестиции",
+    investNote: `Объекты, земля, партнёрство`,
+    lease: "Аренда",
+    leaseNow: "Свободно сейчас",
+    investVerbs: ["Приобретаем", "Развиваем", "Владеем", "Реинвестируем"],
+    investText: `Вкладываем капитал в${NB}реальные объекты${NB}— и${NB}отвечаем за${NB}результат.`,
+    investLink: `Инвестиции и${NB}партнёрство`,
+    leaseVerbs: ["Эксплуатируем", "Адаптируем", `Сдаём в${NB}аренду`],
+    leaseText: `Коммерческие помещения в${NB}наших зданиях${NB}— с${NB}технической поддержкой до${NB}подписания договора.`,
+    leaseLink: "Свободные помещения",
+    scaleLabel: "Масштаб",
+    area: "площадь действующих объектов",
+    operating: "действующих объекта",
+    land: "земли под развитие",
+    years: "лет опыта группы",
+    assetsLabel: "Проекты",
+    assetsTitle: "Недвижимость MEGAPARC.",
+    open: "Смотреть объект",
+    all: "Все проекты",
+    valueLabel: "Как создаётся стоимость",
+    valueTitle: `От${NB}участка до${NB}работающего здания.`,
+    stations: [`Объект или участок`, "Девелопмент", "Действующий объект", `Долгосрочное владение · стратегический выход`],
+    historyLabel: "История",
+    historyCta: "Читать историю",
+    historyRule: `MEGAPARC основана в${NB}2005${NB}году. Годы до${NB}этого${NB}— история группы.`,
+    nextLabel: "Следующий шаг",
+    owner: `У${NB}меня есть объект или${NB}земля`,
+    ownerNote: `Рассмотрим продажу или совместное развитие недвижимости.`,
+    tenant: `Мне нужно коммерческое помещение`,
+    tenantNote: `Помещения в${NB}наших зданиях${NB}— с${NB}технической поддержкой до${NB}договора.`,
   },
   en: {
-    scroll: "Scroll",
     heroTitle: ["Commercial real estate —", "from investment", "to a working property."],
-    heroStatement: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space.",
-    heritage: [["1991", "The group's entrepreneurial history begins"], ["2005", "MEGAPARC is founded"]],
-    ctaPartner: "Investment partnership",
-    ctaSpace: "Available spaces",
-    ctaOffer: "Offer a property or land",
-    proofKicker: "MEGAPARC real estate",
-    proofTitle: "Our own buildings in Chișinău.",
-    proofLead: "The company's operating properties: office and retail buildings with a total area of",
-    openProperty: "View the property",
-    projectsAll: "All projects",
-    dirKicker: "How we work",
-    dirTitle: "We invest. We develop. We lease.",
-    dirLinks: { investment: "Investment partnership", development: "Development projects", leasing: "Available spaces" },
-    availableKicker: "Available now",
-    availableTitle: "Free space in our buildings.",
-    availableAll: "All spaces",
-    viewing: "Request a viewing",
-    devKicker: "Development",
-    devTitle: "We build our own projects. And buy land for the next ones.",
-    devText: "VATRA is our own project in delivery. At Dacia 31 we are planning three buildings of ≈ 1,600 m². Drochia Gateway is our own 2.0 ha site at the town entrance, with a concept under evaluation.",
-    devCta: "Development projects",
-    stage: "Stage",
-    historyKicker: "History",
-    historyCta: "Read the chronicle",
-    partnerKicker: "Investment partnership",
-    partnerTitle: "Experience proven by property.",
-    partnerCta: "Discuss an opportunity",
-    partnerCase: "Case study · Moscova 9",
-    proof: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", area: "operating property area", land: "land plots" },
-    closeKicker: "Contact",
-    closeTitle: "Choose the next step.",
-    closeRoutes: [["Request a viewing", "/contact?subject=lease#occupier"], ["Discuss an opportunity", "/contact?subject=partnership#partnership"], ["Offer a property or land", "/offer"], ["See vacancies", "/careers#positions"], ["General question", "/contact#question"]],
+    invest: "Investment",
+    investNote: "Property, land, partnership",
+    lease: "Leasing",
+    leaseNow: "Available now",
+    investVerbs: ["Acquire", "Develop", "Own", "Reinvest"],
+    investText: "We put capital into real assets — and stay responsible for the result.",
+    investLink: "Investment and partnership",
+    leaseVerbs: ["Operate", "Adapt", "Lease"],
+    leaseText: "Commercial space in our own buildings — with technical support before you sign.",
+    leaseLink: "Available spaces",
+    scaleLabel: "Scale",
+    area: "operating property area",
+    operating: "operating properties",
+    land: "land for development",
+    years: "years of the group's experience",
+    assetsLabel: "Projects",
+    assetsTitle: "MEGAPARC real estate.",
+    open: "View the property",
+    all: "All projects",
+    valueLabel: "How value is created",
+    valueTitle: "From a plot of land to a working building.",
+    stations: ["Property or land", "Development", "Operating property", "Long-term ownership · strategic exit"],
+    historyLabel: "History",
+    historyCta: "Read the history",
+    historyRule: "MEGAPARC was founded in 2005. The years before are the group's history.",
+    nextLabel: "Next step",
+    owner: "I have a property or land",
+    ownerNote: "We consider a sale or a joint development of the property.",
+    tenant: "I need commercial space",
+    tenantNote: "Space in our own buildings — with technical support before the lease.",
   },
 } as const;
 
-const ribbon = ["1991", "1995", "2005", "2020"];
 const groupYears = Math.floor((2026 - 1991) / 5) * 5;
+const stage = (key: string) => lifecycle.find((item) => item.key === key)!;
 
 export function HomePage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const href = (value: string) => {
-    const [pathQuery, hash] = value.split("#");
-    const [path, query] = pathQuery.split("?");
-    return `${p(path)}${query ? `?${query}` : ""}${hash ? `#${hash}` : ""}`;
-  };
   const spaces = sortSpaces(publicSpaces);
-  const projects = listProjects();
-  const feature = getProject("dacia-31")!;
-  const stories = ["moscova-9", "creanga-78"].map((slug) => getProject(slug)!);
+  const now = spaces.find((space) => availabilityOf(space).key === "now") ?? spaces[0] ?? null;
+  const nowProject = now ? getProject(now.project) ?? null : null;
+  const dacia = getProject("dacia-31")!;
+  const m20 = getProject("moscova-20")!;
   const vatra = getProject("vatra")!;
   const drochia = getProject("drochia-gateway")!;
-  const daciaDev = getProject("dacia-31-development")!;
-  const vacancies = listVacancies();
-  const single = spaces.length === 1 ? spaces[0] : null;
-  const singleProject = single ? getProject(single.project)! : null;
+  const creanga = getProject("creanga-78")!;
+  const index = listProjects().filter((project) => project.slug !== dacia.slug && project.slug !== m20.slug);
+  const daciaState = projectState(dacia, locale);
+  const m20State = projectState(m20, locale);
+  const creangaFull = propertyOccupancy("creanga-78").fullyLet;
+  const leaseLine = now && nowProject ? `${availabilityLabel(now, locale)}: ${nowProject.name} · ${formatAreaRange(now.areaMin, now.area, locale)}` : c.leaseLink;
+  const figures = [
+    { value: portfolioFigures.operating.value[locale], label: c.operating },
+    { value: portfolioFigures.land.value[locale], label: c.land },
+    { value: `${groupYears}+`, label: c.years },
+  ];
+  const stations = [
+    { title: c.stations[0], text: stage("acquire").text[locale], proof: `${drochia.name} · ${drochiaProfile.site.value[locale]}`, href: p(`/projects/${drochia.slug}`) },
+    { title: c.stations[1], text: stage("develop").text[locale], proof: `${vatra.name} · ${vatra.card.status[locale]}`, href: p(`/projects/${vatra.slug}`) },
+    { title: c.stations[2], text: stage("operate").text[locale], proof: `${dacia.name} · ${dacia.card.size[locale]}`, href: p(`/projects/${dacia.slug}`) },
+    { title: c.stations[3], text: `${holdOrSell[locale]} ${reinvestment[locale]}`, proof: creangaFull ? `${creanga.name} · ${projectState(creanga, locale).text}` : `${portfolioFigures.area.value[locale]}`, href: p(`/projects/${creanga.slug}`) },
+  ];
 
   return (
-    <PageShell locale={locale} variant="overlay" experience>
-      {/* 1 HERO — the brand: concept architecture, deliberate typography, one primary action */}
-      <section className="pm-hero" id="home" data-xp-hero>
-        <div className="pm-hero__media" aria-hidden="true">
+    <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-home">
+      {/* 01 HERO — one architectural image, the headline, two paths only */}
+      <section className="r3-hero" id="home" data-xp-hero>
+        <div className="r3-hero__media" aria-hidden="true">
           <ConceptImage id="home.hero" locale={locale} priority sizes="100vw" />
         </div>
-        <div className="pm-hero__veil" aria-hidden="true" />
+        <div className="r3-hero__veil" aria-hidden="true" />
         <ConceptDisclosure id="home.hero" locale={locale} />
-        <div className="xp-shell pm-hero__inner">
-          <MaskTitle as="h1" className="pm-hero__title" lines={[...c.heroTitle]} />
-          {/* the statement, then the two MEGAPARC directions on the first screen (OWNER overnight release §2 / §3) */}
-          <p className="pm-hero__statement hm2-hero__statement">{c.heroStatement}</p>
-          <HeroDoors locale={locale} />
+        <div className="r3-shell r3-hero__inner">
+          <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.heroTitle]} />
+          <nav className="r3-hero__paths" aria-label={`${c.invest} · ${c.lease}`}>
+            <Link href={p("/partnership")} className="r3-path">
+              <span className="r3-path__name">{c.invest}<Icon size={22} /></span>
+              <span className="r3-path__note">{c.investNote}</span>
+            </Link>
+            <Link href={`${p("/leasing")}#available`} className="r3-path">
+              <span className="r3-path__name">{c.lease}<Icon size={22} /></span>
+              <span className="r3-path__note">{leaseLine}</span>
+            </Link>
+          </nav>
         </div>
-        <a className="pm-hero__cue" href="#directions">{c.scroll}<Icon name="down" /></a>
       </section>
 
-      {/* 2 TWO ENGINES — investment & partnership · leasing of MEGAPARC's own property, at photographic scale */}
-      <HomePortals locale={locale} />
-
-      {/* 3 REAL MEGAPARC — proof: one dominant building full bleed, two supporting stories */}
-      <section className="pm-proof" id="proof">
-        <div className="xp-shell pm-head" data-reveal>
-          <p className="pm-kicker">{c.proofKicker}</p>
-          <h2 className="pm-h2">{c.proofTitle}</h2>
-          <p className="pm-head__lead">{c.proofLead} {portfolioFigures.area.value[locale]}.</p>
+      {/* 02 TWO BUSINESSES — investment · operations and leasing, as two architectural portals */}
+      <section className="r3-sec r3-sec--ivory r3-two" id="directions">
+        <div className="r3-shell r3-two__intro" data-reveal>
+          <p className="r3-statement">{businessStatement[locale]}</p>
         </div>
-        <Link href={p(`/projects/${feature.slug}`)} className="pm-feature al-reveal" data-reveal>
-          <figure className="pm-feature__media">
-            <ArtImage media={feature.media!} variant="wide" alt={`${feature.name} — ${feature.format[locale]}`} sizes="100vw" position="50% 50%" />
+        <div className="r3-portals">
+          <Link href={p("/partnership")} className="r3-portal" data-reveal>
+            <figure className="r3-portal__media">
+              <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 900px) 50vw, 100vw" position="38% 60%" />
+            </figure>
+            <span className="r3-portal__veil" aria-hidden="true" />
+            <span className="r3-portal__copy">
+              <span className="r3-portal__title">{c.invest}</span>
+              <span className="r3-portal__verbs">{c.investVerbs.map((verb) => <span key={verb}>{verb}</span>)}</span>
+              <span className="r3-portal__text">{c.investText}</span>
+              <span className="r3-portal__more">{c.investLink}<Icon size={16} /></span>
+            </span>
+          </Link>
+          <Link href={`${p("/leasing")}#available`} className="r3-portal" data-reveal>
+            <figure className="r3-portal__media">
+              <ArtImage media={m20.media!} variant="portrait" alt={`${m20.name} — ${m20.format[locale]}`} sizes="(min-width: 900px) 50vw, 100vw" position="40% 60%" />
+            </figure>
+            <span className="r3-portal__veil" aria-hidden="true" />
+            <span className="r3-portal__copy">
+              <span className="r3-portal__title">{c.lease}</span>
+              <span className="r3-portal__verbs">{c.leaseVerbs.map((verb) => <span key={verb}>{verb}</span>)}</span>
+              <span className="r3-portal__text">{c.leaseText}</span>
+              <span className="r3-portal__more">{c.leaseLink}<Icon size={16} /></span>
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      {/* 03 SCALE — confirmed figures as architecture, not a KPI board */}
+      <section className="r3-sec r3-sec--paper r3-scale" id="scale">
+        <div className="r3-shell">
+          <R3Label>{c.scaleLabel}</R3Label>
+          <p className="r3-scale__lead" data-reveal>
+            <Figure className="r3-scale__value" value={portfolioFigures.area.value[locale]} />
+            <span className="r3-scale__label">{c.area}</span>
+          </p>
+          <dl className="r3-scale__row" data-reveal>
+            {figures.map((figure) => (
+              <div key={figure.label}>
+                <dt>{figure.label}</dt>
+                <dd><Figure value={figure.value} /></dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* 04 SELECTED ASSETS — one dominant building, one secondary, the rest revealed as an index */}
+      <section className="r3-sec r3-sec--ivory r3-assets" id="projects">
+        <div className="r3-shell r3-head" data-reveal>
+          <R3Label>{c.assetsLabel}</R3Label>
+          <h2 className="r3-title">{c.assetsTitle}</h2>
+        </div>
+        <Link href={p(`/projects/${dacia.slug}`)} className="r3-feature" data-reveal>
+          <figure className="r3-feature__media">
+            <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="100vw" position="50% 58%" />
           </figure>
-          <span className="xp-shell pm-feature__caption">
-            <span className="pm-feature__name">{feature.name}</span>
-            <ProjectFacts project={feature} locale={locale} className="pj-facts--light" />
-            {feature.editorial ? <span className="pm-feature__line">{feature.editorial.headline[locale]}</span> : null}
-            <span className="pm-more pm-more--light">{c.openProperty}<Icon /></span>
+          <span className="r3-shell r3-feature__copy">
+            <span className="r3-feature__name">{dacia.name}</span>
+            <span className="r3-feature__line">{dacia.editorial?.headline[locale] ?? dacia.line[locale]}</span>
+            <span className="r3-feature__meta">
+              <span>{dacia.city[locale]} · {dacia.district[locale]}</span>
+              <span className={`r3-state is-${daciaState.tone}`}>{daciaState.text}</span>
+              <span className="r3-more">{c.open}<Icon size={16} /></span>
+            </span>
           </span>
         </Link>
-        <div className="xp-shell pm-stories">
-          {stories.map((project, index) => (
-            <Link key={project.slug} href={p(`/projects/${project.slug}`)} className={`pm-story pm-story--${index === 0 ? "major" : "minor"}`} data-reveal>
-              <figure className="pm-story__media al-hover">
-                <ArtImage media={project.media!} variant="card" alt={`${project.name} — ${project.format[locale]}`} sizes={index === 0 ? "(min-width: 1024px) 58vw, 100vw" : "(min-width: 1024px) 36vw, 100vw"} />
-              </figure>
-              <span className="pm-story__name">{project.name}</span>
-              <ProjectFacts project={project} locale={locale} />
-              <span className="pm-story__line">{project.line[locale]}</span>
-              <ProjectStatus project={project} locale={locale} as="span" />
-              <span className="pm-more">{c.openProperty}<Icon /></span>
-            </Link>
-          ))}
+        <div className="r3-shell r3-second">
+          <Link href={p(`/projects/${m20.slug}`)} className="r3-second__media" data-reveal tabIndex={-1} aria-hidden="true">
+            <ArtImage media={m20.media!} variant="card" alt="" sizes="(min-width: 900px) 58vw, 100vw" position="50% 55%" />
+          </Link>
+          <div className="r3-second__copy" data-reveal>
+            <h3 className="r3-second__name"><Link href={p(`/projects/${m20.slug}`)}>{m20.name}</Link></h3>
+            <p className="r3-second__line">{m20.line[locale]}</p>
+            <p className={`r3-state is-${m20State.tone}`}>{m20State.text}</p>
+            <R3Link href={p(`/projects/${m20.slug}`)}>{c.open}</R3Link>
+          </div>
         </div>
-        <div className="xp-shell pm-proof__foot" data-reveal>
-          <Link className="pm-link" href={p("/projects")}>{c.projectsAll} · {String(projects.length).padStart(2, "0")}<Icon /></Link>
-        </div>
-      </section>
-
-      {/* 4 AVAILABLE SPACE — the commercial offer, as a place */}
-      {spaces.length ? (
-        <section className="pm-sec pm-sec--warm" id="available">
-          <div className="xp-shell">
-            {single && singleProject ? (
-              <div className="pm-offer" data-reveal>
-                <figure className="pm-offer__media al-reveal">
-                  <SpaceImage photo={single.photos[0]} space={single} locale={locale} sizes="(min-width: 1024px) 60vw, 100vw" />
-                </figure>
-                <div className="pm-offer__copy">
-                  <p className="pm-kicker">{c.availableKicker}</p>
-                  <h2 className="pm-h2">{single.unit[locale]}</h2>
-                  <p className="pm-offer__meta">{singleProject.name} · {singleProject.district[locale]} · {formatAreaRange(single.areaMin, single.area, locale)}</p>
-                  <p className="pm-offer__line">{single.headline[locale]}</p>
-                  <div className="pm-actions pm-actions--dark">
-                    <Button href={viewingHref(locale, single)}>{c.viewing}</Button>
-                    <Link className="pm-link" href={`${p("/leasing")}#available`}>{c.availableAll}<Icon /></Link>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="pm-head pm-head--split" data-reveal>
-                  <p className="pm-kicker">{c.availableKicker}</p>
-                  <h2 className="pm-h2">{c.availableTitle}</h2>
-                </div>
-                <div className="lx-rail lx-rail--home">
-                  {spaces.slice(0, 4).map((space, i) => (
-                    <UnitCard key={space.id} space={space} locale={locale} compact priority={i === 0} />
-                  ))}
-                </div>
-                <div className="pm-proof__foot" data-reveal>
-                  <Link className="pm-link" href={`${p("/leasing")}#available`}>{c.availableAll}<Icon /></Link>
-                </div>
-              </>
-            )}
-          </div>
-        </section>
-      ) : null}
-
-      {/* 5 DEVELOPMENT — the dark signature moment */}
-      <section className="pm-sec pm-sec--ink" id="development">
-        <div className="xp-shell">
-          <div className="pm-head pm-head--split pm-head--dark" data-reveal>
-            <p className="pm-kicker">{c.devKicker}</p>
-            <h2 className="pm-h2">{c.devTitle}</h2>
-            <p className="pm-head__lead">{c.devText}</p>
-          </div>
-          <div className="pm-dev">
-            <Link href={p(`/projects/${vatra.slug}`)} className="pm-dev__main al-reveal" data-reveal>
-              <figure className="pm-dev__media">
-                <ArtImage media={vatra.media!} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 1024px) 66vw, 100vw" />
-              </figure>
-              <span className="pm-dev__name">{vatra.name}</span>
-              <Ledger locale={locale} tone="dark" className="xp-ledger--pair" items={[
-                { label: c.stage, point: vatraProfile.stage },
-              ]} />
-            </Link>
-            <div className="pm-dev__side" data-reveal>
-              <Link href={p(`/projects/${daciaDev.slug}`)} className="pm-dev__item">
-                <span className="pm-dev__kind">{daciaDev.card.status[locale]}</span>
-                <span className="pm-dev__title">{daciaDev.name}</span>
-                <span className="pm-dev__value">{daciaDevelopment.buildings.value[locale]} × {daciaDevelopment.each.value[locale]} · {daciaDevelopment.total.value[locale]}</span>
-              </Link>
-              <Link href={p(`/projects/${drochia.slug}`)} className="pm-dev__item">
-                <span className="pm-dev__kind">{drochia.card.status[locale]}</span>
-                <span className="pm-dev__title">{drochia.name}</span>
-                <span className="pm-dev__value">{drochiaProfile.site.value[locale]} · {drochiaProfile.status.value[locale]}</span>
-              </Link>
-              <Link className="pm-link pm-link--light" href={`${p("/projects")}#development`}>{c.devCta}<Icon /></Link>
-            </div>
-          </div>
+        <ol className="r3-shell r3-index" data-reveal>
+          {index.map((project) => {
+            const state = projectState(project, locale);
+            return (
+              <li key={project.slug}>
+                <Link href={p(`/projects/${project.slug}`)}>
+                  <span className="r3-index__name">{project.name}</span>
+                  <span className="r3-index__meta">{project.format[locale]}</span>
+                  <span className={`r3-index__state is-${state.tone}`}>{state.text}</span>
+                  {project.media ? (
+                    <span className="r3-index__peek" aria-hidden="true">
+                      <ArtImage media={project.media} variant="card" alt="" sizes="22rem" />
+                    </span>
+                  ) : null}
+                  <Icon size={20} />
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+        <div className="r3-shell r3-assets__foot">
+          <R3Link href={p("/projects")}>{c.all} · {String(listProjects().length).padStart(2, "0")}</R3Link>
         </div>
       </section>
 
-      {/* 6 HISTORY — archive */}
-      <section className="hs-teaser pm-history" id="history">
-        <div className="xp-shell hs-teaser__grid">
-          <div className="hs-teaser__copy" data-reveal>
-            <p className="pm-kicker">{c.historyKicker}</p>
-            <h2 className="hs-teaser__title">{historyCopy.title[locale].join(" ")}</h2>
-            <p className="hs-teaser__lead">{historyCopy.lead[locale]}</p>
-            <ol className="hs-teaser__ribbon" aria-label={c.historyKicker}>
-              {ribbon.map((year) => {
-                const era = eras.find((item) => item.range.startsWith(year)) ?? eras.find((item) => item.range === year)!;
-                return (
-                  <li key={year} className={era.scope === "megaparc" ? "is-megaparc" : undefined}>
-                    <span>{year}</span>
-                    <small>{era.label[locale]}</small>
-                  </li>
-                );
-              })}
-            </ol>
-            <Link className="pm-link" href={p("/history")}>{c.historyCta}<Icon /></Link>
+      {/* 05 HOW VALUE IS CREATED — one visual narrative on real projects, not process cards */}
+      <section className="r3-sec r3-sec--ink r3-value" id="value">
+        <div className="r3-shell">
+          <div className="r3-head r3-head--light" data-reveal>
+            <R3Label tone="light">{c.valueLabel}</R3Label>
+            <h2 className="r3-title">{c.valueTitle}</h2>
           </div>
-          {/* production edition: the period photograph is a placeholder for the group archive — not published */}
-          {teaserImage.home ? (
-            <figure className="hs-teaser__figure al-reveal" data-reveal>
-              <picture>
-                <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${teaserImage.home}.webp`)} />
-                <img src={publicAsset(`/assets/history/${teaserImage.home}-mobile.webp`)} alt="" loading="lazy" decoding="async" />
-              </picture>
-            </figure>
-          ) : null}
+          <ol className="r3-line" data-reveal>
+            {stations.map((station, i) => (
+              <li key={station.title} className="r3-line__station" style={{ ["--i" as string]: i }}>
+                <span className="r3-line__dot" aria-hidden="true" />
+                <h3 className="r3-line__title">{station.title}</h3>
+                <p className="r3-line__text">{station.text}</p>
+                <Link className="r3-line__proof" href={station.href}>{station.proof}<Icon size={14} /></Link>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {/* 7 INVESTMENT PARTNERSHIP — figures over a full-bleed scene, one investor action */}
-      <section className="hm-proof" id="partnership">
-        {/* production edition: no concept visual here (OWNER "PRODUCTION V1" §3) — the frame is not rendered */}
-        {hasConceptImage("home.proof") ? (
-          <figure className="hm-proof__media" aria-hidden="true">
-            <ConceptImage id="home.proof" locale={locale} sizes="100vw" />
+      {/* 06 HERITAGE — one archival image, a large year, a short narrative */}
+      <section className={`r3-sec r3-sec--paper r3-heritage${teaserImage.home ? "" : " r3-heritage--type"}`} id="history">
+        {teaserImage.home ? (
+          <figure className="r3-heritage__media" data-reveal>
+            <picture>
+              <source media="(min-width: 721px)" srcSet={publicAsset(`/assets/history/${teaserImage.home}.webp`)} />
+              <img src={publicAsset(`/assets/history/${teaserImage.home}-mobile.webp`)} alt="" loading="lazy" decoding="async" />
+            </picture>
           </figure>
         ) : null}
-        <div className="xp-shell hm-proof__copy">
-          <p className="pm-kicker pm-kicker--light" data-reveal>{c.partnerKicker}</p>
-          <h2 className="hm-proof__title" data-reveal>{c.partnerTitle}</h2>
-          <div data-reveal>
-            <HeroFigures className="hm-proof__figures" items={[
-              { value: `${groupYears}+`, label: c.proof.years },
-              { value: "2005", label: c.proof.founded },
-              { value: portfolioFigures.operating.value[locale], label: c.proof.operating },
-              { value: portfolioFigures.area.value[locale], label: c.proof.area },
-              { value: portfolioFigures.land.value[locale], label: c.proof.land },
-            ]} />
-          </div>
-          <div className="pm-actions" data-reveal>
-            <Button href={href("/contact?subject=partnership#partnership")} variant="light">{c.partnerCta}</Button>
-            {caseStudyPublished() ? <Link className="pm-link pm-link--light" href={`${p("/partnership")}#case`}>{c.partnerCase}<Icon /></Link> : null}
-          </div>
+        <p className="r3-heritage__year" aria-hidden="true" data-reveal>1991</p>
+        <div className="r3-heritage__copy" data-reveal>
+          <R3Label>{c.historyLabel}</R3Label>
+          <h2 className="r3-title r3-heritage__title">{historyCopy.title[locale].join(" ")}</h2>
+          <p className="r3-lead">{historyCopy.lead[locale]}</p>
+          <p className="r3-heritage__rule">{c.historyRule}</p>
+          <R3Link href={p("/history")} large>{c.historyCta}</R3Link>
         </div>
       </section>
 
-      {/* 8 PEOPLE — careers film (preview edition only: the film is concept footage, OWNER "PRODUCTION V1" §3) */}
-      {isProductionEdition ? null : <CareersMoment locale={locale} variant="section" href={`${p("/careers")}#positions`} count={vacancies.length} />}
-
-      {/* 9 CALM CONTACT CLOSE — the next step and the confirmed contacts */}
-      <section className="pm-close" id="next">
-        <div className="xp-shell pm-close__grid">
-          <div data-reveal>
-            <p className="pm-kicker">{c.closeKicker}</p>
-            <h2 className="pm-close__title">{c.closeTitle}</h2>
-            <ul className="pm-close__contacts">
-              <li><a href={contactLinks.email}>{company.email.value[locale]}</a></li>
-              <li><a href={contactLinks.mobile}>{company.mobile.value[locale]}</a></li>
-              <li><a href={contactLinks.landline}>{company.landline.value[locale]}</a></li>
-            </ul>
+      {/* 07 OPPORTUNITY — two direct actions, large and calm */}
+      <section className="r3-sec r3-sec--stone r3-next" id="next">
+        <div className="r3-shell">
+          <R3Label>{c.nextLabel}</R3Label>
+          <div className="r3-next__grid">
+            <Link className="r3-next__action" href={p("/offer")} data-reveal>
+              <span className="r3-next__title">{c.owner}</span>
+              <span className="r3-next__note">{c.ownerNote}</span>
+              <Icon size={28} />
+            </Link>
+            <Link className="r3-next__action" href={`${p("/leasing")}#available`} data-reveal>
+              <span className="r3-next__title">{c.tenant}</span>
+              <span className="r3-next__note">{c.tenantNote}</span>
+              <Icon size={28} />
+            </Link>
           </div>
-          <nav className="pm-close__routes" aria-label={c.closeKicker} data-reveal>
-            {c.closeRoutes.map(([label, value]) => (
-              <Link key={label} href={href(value)}>
-                <span>{label}</span>
-                <Icon name="arrow" size={18} />
-              </Link>
-            ))}
-          </nav>
+          <ul className="r3-next__contacts">
+            <li><a href={contactLinks.email}>{company.email.value[locale]}</a></li>
+            <li><a href={contactLinks.mobile}>{company.mobile.value[locale]}</a></li>
+            <li><a href={contactLinks.landline}>{company.landline.value[locale]}</a></li>
+            <li><Link href={r3Href(locale, "/contact?subject=partnership#partnership")}>{locale === "ru" ? "Обсудить партнёрство" : locale === "ro" ? "Discutăm un parteneriat" : "Discuss a partnership"}</Link></li>
+          </ul>
         </div>
       </section>
     </PageShell>
