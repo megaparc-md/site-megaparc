@@ -1,48 +1,56 @@
+import type { CSSProperties } from "react";
 import { LgPhoto, ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
 import { publishable, type LeasingExperience } from "@/data/leasing-experience-model";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
- * SCENE 04 — CAPITAL READINESS · PROOF with emotion (OWNER "FINAL VIEWING
- * CONVERSION PASS", 2026-11-06): one large real interior, «Вкладывайте в свой
- * бизнес. / Не в базовое восстановление помещения.», «Основные капитальные
- * работы уже выполнены.», then УЖЕ ГОТОВО (five) and ПОД ВАШ БИЗНЕС (five) —
- * on the photograph on wide screens, below it on phones. Never "zero CAPEX".
- * The detail (what we still confirm, what opening involves, terms) is one tap
- * away in the readiness drawer.
+ * SCENE — CAPITAL BASE · the one truly dark scene (OWNER "FINAL ART DIRECTION
+ * & VISUAL CONVERSION PASS", 2026-11-09, §20): graphite, one large real
+ * interior that stays bright — the photograph is the argument, never dimmed
+ * under a gradient — «Вкладывайте в свой бизнес. / Не в базовое восстановление.»,
+ * then УЖЕ ГОТОВО and ПОД ВАШ БИЗНЕС in a few words each. Never "zero CAPEX".
+ * The detail (what we still confirm, what opening involves, the technical rows)
+ * is one tap away in the drawers.
  */
 export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteLocale }) {
   const c = x.capex;
   return (
     <section id="capex" className="lg-capex" aria-labelledby="lg-capex-title">
-      <div className="lg-capex__stage">
-        <LgPhoto photo={x.photos[c.photo]} locale={locale} sizes="(min-width: 1600px) 1600px, 100vw" className="lg-capex__photo" />
-        <div className="xp-shell lg-capex__over">
-          <header className="lg-capex__head" data-reveal>
-            <p className="pm-kicker">{c.kicker[locale]}</p>
-            <h2 className="lg-capex__title" id="lg-capex-title">{c.title[locale]}</h2>
-            {c.lead ? <p className="lg-capex__lead">{c.lead[locale]}</p> : null}
-          </header>
-          <div className="lg-capex__lists" data-reveal>
-            <div className="lg-capex__col is-ready">
-              <h3 className="lg-label">{c.readyTitle[locale]}</h3>
-              <ul className="lg-ticks">
-                {c.ready.filter((item) => publishable(item.evidence)).map((item) => (
-                  <li key={item.text.en}>{item.text[locale]}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="lg-capex__col is-tenant">
-              <h3 className="lg-label">{c.tenantTitle[locale]}</h3>
-              <ul className="lg-dashes">
-                {c.tenant.map((item) => (
-                  <li key={item.text.en}>{item.text[locale]}</li>
-                ))}
-              </ul>
-            </div>
-            <a className="pm-link lg-capex__more" href="#readiness" data-drawer="readiness" aria-haspopup="dialog"><span>{ui.chReadiness[locale]}</span><Icon /></a>
+      <div className="xp-shell lg-capex__grid">
+        <header className="lg-capex__head">
+          <p className="pm-kicker" data-reveal>{c.kicker[locale]}</p>
+          <h2 className="xp-mask lg-display lg-capex__title" id="lg-capex-title" data-reveal>
+            {c.title[locale].split("\n").map((line, i) => (
+              <span key={line} className="xp-mask__line"><span style={{ "--i": i } as CSSProperties}>{line}</span></span>
+            ))}
+          </h2>
+          {c.lead ? <p className="lg-capex__lead" data-reveal>{c.lead[locale]}</p> : null}
+        </header>
+        <figure className="lg-capex__media" data-reveal>
+          <LgPhoto photo={x.photos[c.photo]} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" className="lg-capex__photo" />
+        </figure>
+        <div className="lg-capex__lists">
+          <div className="lg-capex__col is-ready" data-reveal>
+            <h3 className="lg-capex__label">{c.readyTitle[locale]}</h3>
+            <ul className="lg-capex__words is-ready">
+              {c.ready.filter((item) => publishable(item.evidence)).map((item) => (
+                <li key={item.text.en}>{item.text[locale]}</li>
+              ))}
+            </ul>
           </div>
+          <div className="lg-capex__col is-tenant" data-reveal>
+            <h3 className="lg-capex__label">{c.tenantTitle[locale]}</h3>
+            <ul className="lg-capex__words is-tenant">
+              {c.tenant.map((item) => (
+                <li key={item.text.en}>{item.text[locale]}</li>
+              ))}
+            </ul>
+          </div>
+          <p className="lg-capex__more" data-reveal>
+            <a className="pm-link" href="#readiness" data-drawer="readiness" aria-haspopup="dialog"><span>{ui.chReadiness[locale]}</span><Icon /></a>
+            <a className="pm-link" href="#tech" data-drawer="tech" aria-haspopup="dialog"><span>{ui.chTech[locale]}</span><Icon /></a>
+          </p>
         </div>
       </div>
     </section>

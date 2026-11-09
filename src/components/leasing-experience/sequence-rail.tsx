@@ -5,10 +5,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 /**
  * SEQUENCE RAIL — the photo sequence as one horizontal row that snaps frame by
  * frame (01 · address → 06 · possibility). Swipe on phones, arrows or the
- * keyboard on desktop; the counter shows the first frame in view. Without
- * JavaScript it is a plain scrollable row.
+ * keyboard; the counter shows the first frame in view. Without JavaScript it is
+ * a plain scrollable row. From 1024 px the same list is laid out as the
+ * editorial sequence (leasing-experience.css) and the arrows step aside.
  */
-export function SequenceRail({ items, labels }: { items: ReactNode[]; labels: { prev: string; next: string; of: string } }) {
+export function SequenceRail({ items, labels, classes = [] }: { items: ReactNode[]; labels: { prev: string; next: string; of: string }; classes?: string[] }) {
   const rail = useRef<HTMLOListElement>(null);
   const [index, setIndex] = useState(0);
   const [atEnd, setAtEnd] = useState(false);
@@ -53,7 +54,7 @@ export function SequenceRail({ items, labels }: { items: ReactNode[]; labels: { 
     <div className="lg-seq">
       <ol className="lg-seq__rail" ref={rail} tabIndex={0} aria-label={labels.of}>
         {items.map((item, i) => (
-          <li key={i} className="lg-seq__item">{item}</li>
+          <li key={i} className={`lg-seq__item ${classes[i] ?? ""}`.trim()}>{item}</li>
         ))}
       </ol>
       <div className="lg-seq__nav">

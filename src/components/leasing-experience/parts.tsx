@@ -42,7 +42,36 @@ export const ui = {
   status: { ro: "Status", ru: "Статус", en: "Status" },
   contacts: { ro: "Contacte", ru: "Контакты", en: "Contacts" },
   film: { ro: "Filmul", ru: "Фильм", en: "The film" },
+  // OWNER "FINAL ART DIRECTION & VISUAL CONVERSION PASS" (2026-11-09): UI actions only — never a price or a term
+  offer: { ro: "Primește oferta comercială", ru: "Получить коммерческое предложение", en: "Get the commercial proposal" },
+  call: { ro: "Sunați", ru: "Позвонить", en: "Call" },
+  plansFull: { ro: "Primește planurile complete", ru: "Получить полные планы", en: "Get the full plans" },
+  economicsGo: { ro: "Verificați economia", ru: "Проверить экономику", en: "Check the economics" },
 } satisfies Record<string, Localized>;
+
+/** Splits a formatted area («625,7 м²») into the figure and the unit, so the figure can be set as display type. */
+export const splitArea = (area: string) => {
+  const at = area.search(/[\s ](?=\S+$)/);
+  return at < 0 ? { figure: area, unit: "" } : { figure: area.slice(0, at), unit: area.slice(at + 1) };
+};
+
+/**
+ * A restrained data drawing for the economics entry (portal 04 and the closed state of the tool):
+ * how the visitors a model needs fall as conversion rises — a shape, never figures (the tool's
+ * example is DEMO and is not a Moscova 20 characteristic).
+ */
+export function EconomicsGlyph({ className = "" }: { className?: string }) {
+  const pts = [0.05, 0.08, 0.11, 0.14, 0.17, 0.2].map((c, i) => [40 + i * 64, 24 + (0.05 / c) * 150] as const);
+  const curve = `M${pts.map(([x, y]) => `${x} ${y.toFixed(1)}`).join(" L")}`;
+  return (
+    <svg className={`lg-glyph ${className}`.trim()} viewBox="0 0 400 200" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
+      {[40, 104, 168, 232, 296, 360].map((x) => <line key={x} x1={x} x2={x} y1="16" y2="184" className="lg-glyph__grid" />)}
+      <line x1="40" x2="360" y1="184" y2="184" className="lg-glyph__base" />
+      <path d={curve} className="lg-glyph__line" pathLength={1} />
+      {pts.map(([x, y], i) => <circle key={x} cx={x} cy={y} r={i === 2 ? 5 : 3} className={i === 2 ? "lg-glyph__dot is-on" : "lg-glyph__dot"} />)}
+    </svg>
+  );
+}
 
 /**
  * The OWNER preview (GitHub Pages build) and `next dev` show the decision modules

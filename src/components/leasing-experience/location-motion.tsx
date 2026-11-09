@@ -1,12 +1,12 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { LocationStage } from "@/components/leasing-experience/location-stage";
 import { OpenFrom } from "@/components/leasing-experience/open-from";
-import { LgHead, ownerPreview, ui } from "@/components/leasing-experience/parts";
+import { EconomicsGlyph, ownerPreview, ui } from "@/components/leasing-experience/parts";
 import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
 import { LocationMap } from "@/components/location-section";
 import { Icon } from "@/components/ui";
 import { viewingEnabled, type ProjectEntry } from "@/content/source";
-import { publishable, type LeasingExperience, type Pt, type VisibilityMark } from "@/data/leasing-experience-model";
+import { T, publishable, type LeasingExperience, type Pt, type VisibilityMark } from "@/data/leasing-experience-model";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { moscova20Catchment, type CatchmentCategory } from "@/data/moscova-20-catchment";
 import { locationTraffic, toolVisible, trafficVisible, type LocationTraffic } from "@/data/tenant-intelligence";
@@ -14,23 +14,28 @@ import { googleDirectionsUrl, googleMapsUrl } from "@/lib/assets";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
- * SCENE 02 — «ЛОКАЦИЯ В ДВИЖЕНИИ» · PROOF, the visual centre (OWNER "LOCATION
- * INTELLIGENCE + VIEWING CONVERSION PASS" and "FINAL VIEWING CONVERSION PASS",
- * 2026-11-06). The address as movement: the surroundings map (≈ 5 / 10 / 15 min
- * walk, OSM points by category), how the property is seen from the boulevard
- * (confirmed elements on the real aerial), the PRELIMINARY MEGAPARC LOCATION
- * MODEL and the rhythm of the day, the ecosystem in four groups, then the
- * verdict and the action. Wording rule: activity «вокруг локации», never
- * «станут вашими покупателями».
+ * SCENE — «ЛОКАЦИЯ В ДВИЖЕНИИ» as a hero scene with progressive reveal (OWNER
+ * "FINAL ART DIRECTION & VISUAL CONVERSION PASS", 2026-11-09, §15–16; content
+ * from "LOCATION INTELLIGENCE + VIEWING CONVERSION PASS", 2026-11-06). Never the
+ * whole data set at once:
+ *   1 · ADDRESS — the large real aerial with only Moscova 20, the boulevard, the
+ *       entrance and the main movement drawn in turn, beside the statement
+ *       «Адрес — часть бизнес-модели.»;
+ *   2 · SURROUNDINGS — the walking radii and OSM points by category, the four
+ *       groups of everyday activity;
+ *   3 · RHYTHM — the PRELIMINARY MEGAPARC LOCATION MODEL as one editorial line
+ *       08 → 20 (auto · pedestrians · transport), the 16–19 peak in burgundy;
+ * then the verdict, the actions and — OWNER preview — the closed state of the
+ * economics tool. Wording rule: activity «вокруг локации», never «станут вашими
+ * покупателями».
  *
  * Gating (src/data/tenant-intelligence.ts): the model, the map, the visibility
- * marks and the economics link render only in the OWNER preview until the
+ * marks and the economics entry render only in the OWNER preview until the
  * OWNER approves them; a production build shows the OSM location module, the
  * plain aerial and the ecosystem copy.
  */
 
 const copy = {
-  stage: { ro: "Vederi ale locației", ru: "Виды локации", en: "Location views" },
   filters: { ro: "Straturi ale hărții", ru: "Слои карты", en: "Map layers" },
   cat: {
     education: { ro: "Educație", ru: "Образование", en: "Education" },
@@ -41,7 +46,6 @@ const copy = {
     roads: { ro: "Artere principale", ru: "Магистрали", en: "Main roads" },
   } satisfies Record<CatchmentCategory | "roads", Localized>,
   minutes: { ro: "min", ru: "мин", en: "min" },
-  walk: { ro: "pe jos", ru: "пешком", en: "walk" },
   figure: {
     vehicles: { label: { ro: "Automobile", ru: "Автомобили", en: "Vehicles" }, unit: { ro: "auto / zi", ru: "авто / сутки", en: "vehicles / day" } },
     pedestrians: { label: { ro: "Pietoni", ru: "Пешеходы", en: "Pedestrians" }, unit: { ro: "deplasări / zi", ru: "перемещений / сутки", en: "movements / day" } },
@@ -54,9 +58,9 @@ const copy = {
     VERIFIED: { ro: "Date verificate", ru: "Проверенные данные", en: "Verified data" },
   },
   series: {
-    auto: { ro: "Auto", ru: "Авто", en: "Vehicles" },
+    auto: { ro: "Auto", ru: "Авто", en: "Auto" },
     pedestrian: { ro: "Pietoni", ru: "Пешеходы", en: "Pedestrians" },
-    transit: { ro: "Transport public", ru: "Транспорт", en: "Transit" },
+    transit: { ro: "Transport", ru: "Транспорт", en: "Transport" },
   },
   peakBand: { ro: "vârf", ru: "пик", en: "peak" },
   hour: {
@@ -66,6 +70,11 @@ const copy = {
     late: { ro: "seara târziu: scădere", ru: "поздний вечер: спад", en: "late evening: easing" },
   },
   chartLabel: { ro: "Ritmul zilei 08–20 după modelul preliminar: dimineața constant, ziua mediu, seara vârf între 16 și 19. Fără valori.", ru: "Ритм дня 08–20 по предварительной модели: утром устойчиво, днём средне, вечером пик с 16 до 19. Без значений.", en: "The day's rhythm 08–20 in the preliminary model: steady in the morning, medium in the day, a peak from 16 to 19. No values." },
+  // the closed state of the economics tool (OWNER §19) — OWNER preview only, like the tool
+  teaser: {
+    title: T("De câți clienți pe zi are nevoie afacerea dumneavoastră?", "Сколько клиентов в день нужно вашему бизнесу?", "How many customers a day does your business need?"),
+    text: T("Verificați-vă modelul înainte de a decide asupra locației.", "Проверьте свою модель до того, как принимать решение по локации.", "Check your model before you decide on the location."),
+  },
 } as const;
 
 const fmt = (n: number, locale: SiteLocale) => n.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB");
@@ -87,7 +96,7 @@ function CatchmentMap({ name, locale, caption }: { name: string; locale: SiteLoc
         <path d={c.roads.major} className="lg-catch__road is-major-case" />
         <path d={c.roads.major} className="lg-catch__road is-major" />
         {c.rings.map((ring, i) => (
-          <circle key={ring.m} cx={mid} cy={mid} r={ring.r} className={`lg-catch__ring is-${i}`} />
+          <circle key={ring.m} cx={mid} cy={mid} r={ring.r} className={`lg-catch__ring is-${i}`} style={{ "--i": i } as CSSProperties} />
         ))}
         {cats.map((cat) => (
           <g key={cat} className={`lg-catch__poi is-${cat}`}>
@@ -113,8 +122,9 @@ function CatchmentMap({ name, locale, caption }: { name: string; locale: SiteLoc
 
 /* ------------------------------------------------------------ day rhythm */
 
+/** One editorial line 08 → 20: three thin series, the peak band and the parts of the lines inside it in burgundy. No values. */
 function DayRhythm({ traffic, locale }: { traffic: LocationTraffic; locale: SiteLocale }) {
-  const W = 640, H = 212, X0 = 30, X1 = 548, Y0 = 182, YH = 148;
+  const W = 1200, H = 214, X0 = 40, X1 = 1060, Y0 = 178, YH = 142;
   const hours = traffic.dayProfile;
   const first = hours[0].hour;
   const last = hours[hours.length - 1].hour;
@@ -122,35 +132,41 @@ function DayRhythm({ traffic, locale }: { traffic: LocationTraffic; locale: Site
   const y = (level: number) => Y0 - level * YH;
   const line = (key: "auto" | "pedestrian" | "transit") => hours.map((h, i) => `${i ? "L" : "M"}${x(h.hour).toFixed(1)} ${y(h[key]).toFixed(1)}`).join("");
   const [p0, p1] = (traffic.peakPeriod ?? "16:00–19:00").split("–").map((part) => Number(part.slice(0, 2)));
-  // direct labels at the right edge, kept at least 15 units apart
   const ends = (["auto", "pedestrian", "transit"] as const).map((key) => ({ key, y: y(hours[hours.length - 1][key]) })).sort((a, b) => a.y - b.y);
-  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 15) ends[i].y = ends[i - 1].y + 15;
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 18) ends[i].y = ends[i - 1].y + 18;
   const word = (hour: number) => (hour < 10 ? copy.hour.morning : hour >= p0 && hour < p1 ? copy.hour.peak : hour >= p1 ? copy.hour.late : copy.hour.day)[locale];
+  const clip = "lg-rhythm-peak";
   return (
     <figure className="lg-rhythm">
-      <ul className="lg-rhythm__legend">
-        {(["auto", "pedestrian", "transit"] as const).map((key) => (
-          <li key={key} className={`is-${key}`}><i aria-hidden="true" />{copy.series[key][locale]}</li>
-        ))}
-      </ul>
       <svg viewBox={`0 0 ${W} ${H}`} className="lg-rhythm__svg" role="img" aria-label={copy.chartLabel[locale]}>
-        <rect x={x(p0)} y={Y0 - YH - 14} width={x(p1) - x(p0)} height={YH + 14} className="lg-rhythm__peak" />
-        <text x={(x(p0) + x(p1)) / 2} y={Y0 - YH - 20} textAnchor="middle" className="lg-rhythm__peaklabel">{`${copy.peakBand[locale]} ${traffic.peakPeriod ?? ""}`}</text>
-        <line x1={X0} x2={X1} y1={Y0} y2={Y0} className="lg-rhythm__base" />
+        <defs>
+          <clipPath id={clip}><rect x={x(p0)} y="0" width={x(p1) - x(p0)} height={H} /></clipPath>
+        </defs>
+        <rect x={x(p0)} y={Y0 - YH - 18} width={x(p1) - x(p0)} height={YH + 18} className="lg-rhythm__peak" />
+        <text x={x(p0) + 10} y={Y0 - YH - 2} className="lg-rhythm__peaklabel">{`${copy.peakBand[locale]} ${traffic.peakPeriod ?? ""}`}</text>
         {hours.filter((h) => h.hour % 2 === 0).map((h) => (
-          <text key={h.hour} x={x(h.hour)} y={Y0 + 20} textAnchor="middle" className="lg-rhythm__tick">{String(h.hour).padStart(2, "0")}</text>
+          <g key={h.hour}>
+            <line x1={x(h.hour)} x2={x(h.hour)} y1={Y0 - YH - 18} y2={Y0} className="lg-rhythm__grid" />
+            <text x={x(h.hour)} y={Y0 + 28} textAnchor="middle" className="lg-rhythm__tick">{String(h.hour).padStart(2, "0")}</text>
+          </g>
         ))}
-        <path d={line("transit")} className="lg-rhythm__line is-transit" />
-        <path d={line("pedestrian")} className="lg-rhythm__line is-pedestrian" />
-        <path d={line("auto")} className="lg-rhythm__line is-auto" />
+        <line x1={X0} x2={X1} y1={Y0} y2={Y0} className="lg-rhythm__base" />
+        {(["transit", "pedestrian", "auto"] as const).map((key) => (
+          <path key={key} d={line(key)} className={`lg-rhythm__line is-${key}`} pathLength={1} />
+        ))}
+        <g clipPath={`url(#${clip})`}>
+          {(["transit", "pedestrian", "auto"] as const).map((key) => (
+            <path key={key} d={line(key)} className={`lg-rhythm__hot is-${key}`} pathLength={1} />
+          ))}
+        </g>
         {ends.map((end) => (
-          <text key={end.key} x={X1 + 10} y={end.y + 4} className={`lg-rhythm__end is-${end.key}`}>{copy.series[end.key][locale]}</text>
+          <text key={end.key} x={X1 + 16} y={end.y + 4} className={`lg-rhythm__end is-${end.key}`}>{copy.series[end.key][locale]}</text>
         ))}
         {hours.map((h, i) => {
           const left = i ? (x(hours[i - 1].hour) + x(h.hour)) / 2 : X0;
           const right = i < hours.length - 1 ? (x(h.hour) + x(hours[i + 1].hour)) / 2 : X1;
           return (
-            <rect key={h.hour} x={left} y={Y0 - YH - 14} width={right - left} height={YH + 34} className="lg-rhythm__hit">
+            <rect key={h.hour} x={left} y={Y0 - YH - 18} width={right - left} height={YH + 48} className="lg-rhythm__hit">
               <title>{`${String(h.hour).padStart(2, "0")}:00 — ${word(h.hour)}`}</title>
             </rect>
           );
@@ -160,12 +176,13 @@ function DayRhythm({ traffic, locale }: { traffic: LocationTraffic; locale: Site
   );
 }
 
-/* ------------------------------------------------------------ visibility */
+/* ------------------------------------------------------------ the address on the aerial */
 
-function markDrawing(mark: VisibilityMark): ReactNode {
+function markDrawing(mark: VisibilityMark, i: number): ReactNode {
   const [a, b] = mark.shape as [Pt, Pt];
-  if (mark.kind === "object") return <path key={mark.key} d={pathOf(mark.shape)} className="lg-vis__object" />;
-  if (mark.kind === "glazing") return <path key={mark.key} d={pathOf(mark.shape, false)} className="lg-vis__glazing" />;
+  const style = { "--i": i } as CSSProperties;
+  if (mark.kind === "object") return <path key={mark.key} d={pathOf(mark.shape)} className="lg-vis__object" style={style} pathLength={1} />;
+  if (mark.kind === "glazing") return <path key={mark.key} d={pathOf(mark.shape, false)} className="lg-vis__glazing" style={style} pathLength={1} />;
   // arrows: a line with a head at the end (entrance) or at both ends (pavement, road)
   const head = (from: Pt, to: Pt) => {
     const ang = Math.atan2(to[1] - from[1], to[0] - from[0]);
@@ -176,15 +193,15 @@ function markDrawing(mark: VisibilityMark): ReactNode {
   };
   const both = mark.kind !== "entrance";
   return (
-    <g key={mark.key} className={`lg-vis__arrow is-${mark.kind}`}>
-      <path d={`M${a[0]} ${a[1]} L${b[0]} ${b[1]}`} />
+    <g key={mark.key} className={`lg-vis__arrow is-${mark.kind}`} style={style}>
+      <path d={`M${a[0]} ${a[1]} L${b[0]} ${b[1]}`} pathLength={1} />
       <path d={head(a, b)} />
       {both ? <path d={head(b, a)} /> : null}
     </g>
   );
 }
 
-function VisibilityStudy({ x, locale, marked }: { x: LeasingExperience; locale: SiteLocale; marked: boolean }) {
+function AddressAerial({ x, locale, marked }: { x: LeasingExperience; locale: SiteLocale; marked: boolean }) {
   const v = x.motion.visibility;
   const marks = marked ? v.marks.filter((mark) => publishable(mark.evidence)) : [];
   return (
@@ -192,7 +209,7 @@ function VisibilityStudy({ x, locale, marked }: { x: LeasingExperience; locale: 
       <PhotoScene
         photo={x.photos[v.photo]}
         locale={locale}
-        sizes="(min-width: 1024px) 56vw, 100vw"
+        sizes="(min-width: 1024px) 64vw, 100vw"
         drawing={marks.map(markDrawing)}
         labels={marks.map((mark, i) => ({ key: mark.key, no: String(i + 1), text: mark.label[locale], at: mark.at, tone: "mark" }))}
       />
@@ -220,15 +237,6 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
   const economicsOn = toolVisible(`${x.project}.economics-tool`, ownerPreview);
   const map = project.asset?.map ?? null;
 
-  const views = [
-    mapOn ? (
-      <CatchmentMap key="map" name={project.name} locale={locale} caption={m.mapCaption[locale]} />
-    ) : (
-      <LocationMap key="map" locale={locale} mapKey={x.project} name={project.name} place={x.hero.place[locale]} className="lg-motion__osm" />
-    ),
-    <VisibilityStudy key="vis" x={x} locale={locale} marked={marksOn} />,
-  ];
-
   const figures =
     modelOn && traffic
       ? [
@@ -239,79 +247,112 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
         ].filter((figure) => figure.value)
       : [];
 
-  const ecosystem = (
-    <ul className="lg-eco">
-      {m.ecosystem.map((group) => (
-        <li key={group.key} className={`lg-eco__item is-${group.category}`}>
-          <h3>{group.title[locale]}</h3>
-          <p>{group.text[locale]}</p>
-        </li>
-      ))}
-    </ul>
+  const mapView = mapOn ? (
+    <CatchmentMap key="map" name={project.name} locale={locale} caption={m.mapCaption[locale]} />
+  ) : (
+    <LocationMap key="map" locale={locale} mapKey={x.project} name={project.name} place={x.hero.place[locale]} className="lg-motion__osm" />
+  );
+
+  const teaser = (
+    <a className="lg-teaser" href="#economics" data-drawer="economics" aria-haspopup="dialog" data-reveal>
+      <span className="lg-teaser__kicker">{ui.economics[locale]}</span>
+      <EconomicsGlyph className="lg-teaser__glyph" />
+      <span className="lg-teaser__title">{copy.teaser.title[locale]}</span>
+      <span className="lg-teaser__text">{copy.teaser.text[locale]}</span>
+      <span className="lg-teaser__go">{ui.economicsGo[locale]}<Icon /></span>
+    </a>
   );
 
   return (
-    <section id="location" className="lg-sec lg-sec--paper lg-motion" aria-labelledby="lg-motion-title">
-      <div className="xp-shell">
-        <LgHead heading={m} locale={locale} id="lg-motion-title" layout="split" />
-        <div className="lg-motion__grid">
-          <div className="lg-motion__stage" data-reveal>
-            <LocationStage
-              label={copy.stage[locale]}
-              filterLabel={copy.filters[locale]}
-              tabs={[{ key: "map", label: m.mapTab[locale] }, { key: "vis", label: m.visibilityTab[locale] }]}
-              views={views}
-              filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).map((key) => ({ key, label: copy.cat[key][locale] })) : []}
-            />
-            {map ? (
-              <p className="lg-motion__links">
-                <a className="pm-link" href={googleDirectionsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.route[locale]}</span><Icon name="up-right" /></a>
-                <a className="pm-link pm-link--quiet" href={googleMapsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.openMap[locale]}</span><Icon name="up-right" /></a>
-              </p>
-            ) : null}
+    <section id="location" className="lg-motion" aria-labelledby="lg-motion-title">
+      {/* 1 · the address */}
+      <div className="xp-shell lg-motion__address">
+        <header className="lg-motion__head">
+          <p className="pm-kicker" data-reveal>{m.kicker[locale]}</p>
+          <h2 className="lg-display lg-motion__title" id="lg-motion-title" data-reveal>{m.title[locale]}</h2>
+          {m.lead ? <p className="lg-motion__lead" data-reveal>{m.lead[locale]}</p> : null}
+          {map ? (
+            <p className="lg-motion__links" data-reveal>
+              <a className="pm-link" href={googleDirectionsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.route[locale]}</span><Icon name="up-right" /></a>
+              <a className="pm-link pm-link--quiet" href={googleMapsUrl(map)} target="_blank" rel="noopener noreferrer"><span>{ui.openMap[locale]}</span><Icon name="up-right" /></a>
+            </p>
+          ) : null}
+        </header>
+        <div className="lg-motion__aerial" data-reveal>
+          <p className="lg-step"><span>{m.visibilityTab[locale]}</span></p>
+          <AddressAerial x={x} locale={locale} marked={marksOn} />
+        </div>
+      </div>
+
+      {/* 2 · the surroundings */}
+      <div className="xp-shell lg-motion__around">
+        <div className="lg-motion__map" data-reveal>
+          <p className="lg-step"><span>{m.mapTab[locale]}</span></p>
+          <LocationStage
+            label={m.mapTab[locale]}
+            filterLabel={copy.filters[locale]}
+            tabs={[{ key: "map", label: m.mapTab[locale] }]}
+            views={[mapView]}
+            filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).map((key) => ({ key, label: copy.cat[key][locale] })) : []}
+          />
+        </div>
+        <div className="lg-motion__eco" data-reveal>
+          <p className="lg-motion__eco-title">{m.ecosystemTitle[locale]}</p>
+          <ul className="lg-eco">
+            {m.ecosystem.map((group, i) => (
+              <li key={group.key} className={`lg-eco__item is-${group.category}`} style={{ "--i": i } as CSSProperties}>
+                <h3>{group.title[locale]}</h3>
+                <p>{group.text[locale]}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* 3 · the rhythm (preliminary model — OWNER preview) and, beside it, the closed state of the economics tool */}
+      {figures.length && traffic ? (
+        <div className={`xp-shell lg-motion__rhythm${economicsOn ? " has-teaser" : ""}`}>
+          <div className="lg-model" data-reveal>
+            <p className="lg-step"><span>{m.rhythmTitle[locale]}</span></p>
+            <p className="lg-label lg-model__status">{traffic.trafficStatus === "MODELLED" ? m.modelTitle[locale] : copy.status[traffic.trafficStatus][locale]}{traffic.measurementDate ? ` · ${traffic.measurementDate}` : ""}</p>
+            <dl className="lg-model__figs">
+              {figures.map((figure) => (
+                <div key={figure.key} className={`is-${figure.key}`}>
+                  <dt>{figure.label[locale]}</dt>
+                  <dd><strong>{figure.value}</strong><span>{figure.unit[locale]}</span></dd>
+                </div>
+              ))}
+            </dl>
+            <OpenFrom min={720} className="lg-model__line" summary={<span className="lg-label">{m.rhythmTitle[locale]}</span>}>
+              <ul className="lg-rhythm__legend">
+                {(["auto", "pedestrian", "transit"] as const).map((key) => (
+                  <li key={key} className={`is-${key}`}><i aria-hidden="true" />{copy.series[key][locale]}</li>
+                ))}
+              </ul>
+              <DayRhythm traffic={traffic} locale={locale} />
+              <p className="lg-model__note">{m.rhythmNote[locale]}</p>
+            </OpenFrom>
+            <p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption[locale] : traffic.source}</p>
           </div>
-          <div className="lg-motion__data">
-            {figures.length && traffic ? (
-              <div className="lg-model" data-reveal>
-                <p className="lg-label lg-model__status">{traffic.trafficStatus === "MODELLED" ? m.modelTitle[locale] : copy.status[traffic.trafficStatus][locale]}{traffic.measurementDate ? ` · ${traffic.measurementDate}` : ""}</p>
-                <dl className="lg-model__figs">
-                  {figures.map((figure) => (
-                    <div key={figure.key} className={`is-${figure.key}`}>
-                      <dt>{figure.label[locale]}</dt>
-                      <dd><strong>{figure.value}</strong><span>{figure.unit[locale]}</span></dd>
-                    </div>
-                  ))}
-                </dl>
-                <p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption[locale] : traffic.source}</p>
-                <OpenFrom min={720} className="lg-model__rhythm" summary={<span className="lg-label">{m.rhythmTitle[locale]}</span>}>
-                  <DayRhythm traffic={traffic} locale={locale} />
-                  <p className="lg-model__note">{m.rhythmNote[locale]}</p>
-                </OpenFrom>
-              </div>
-            ) : null}
-            <div className={`lg-motion__eco${figures.length ? "" : " is-first"}`} data-reveal>
-              <p className="lg-label">{m.ecosystemTitle[locale]}</p>
-              {ecosystem}
-            </div>
+          {economicsOn ? teaser : null}
+        </div>
+      ) : null}
+
+      {/* verdict · actions (+ the economics entry when there is no rhythm step) */}
+      <div className={`xp-shell lg-motion__close${economicsOn && !figures.length ? " has-teaser" : ""}`}>
+        <div className="lg-motion__verdict" data-reveal>
+          <p className="lg-motion__verdict-title">{m.verdict.title[locale]}</p>
+          <p>{m.verdict.text[locale]}</p>
+        </div>
+        <div className="lg-motion__verdict lg-motion__ask" data-reveal>
+          <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
+          <p className="lg-motion__cta-text">{m.cta.text[locale]}</p>
+          <div className="lg-motion__actions">
+            <a className="btn" href="#format"><span>{ui.checkForMe[locale]}</span><Icon /></a>
+            <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><Icon /></a>
           </div>
         </div>
-        <div className="lg-motion__close" data-reveal>
-          <div className="lg-motion__verdict">
-            <p className="lg-motion__verdict-title">{m.verdict.title[locale]}</p>
-            <p>{m.verdict.text[locale]}</p>
-          </div>
-          <div className="lg-motion__cta">
-            <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
-            <p>{m.cta.text[locale]}</p>
-            <div className="lg-motion__actions">
-              <a className="btn" href="#format"><span>{ui.checkForMe[locale]}</span><Icon /></a>
-              <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><Icon /></a>
-            </div>
-            {economicsOn ? (
-              <a className="pm-link lg-motion__economics" href="#economics" data-drawer="economics" aria-haspopup="dialog"><span>{ui.economics[locale]}</span><Icon /></a>
-            ) : null}
-          </div>
-        </div>
+        {economicsOn && !figures.length ? teaser : null}
       </div>
     </section>
   );

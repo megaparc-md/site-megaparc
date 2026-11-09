@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { LgHead, LgSection, ui } from "@/components/leasing-experience/parts";
+import { LgHead, LgSection, splitArea, ui } from "@/components/leasing-experience/parts";
 import { PlanViewer } from "@/components/leasing-experience/plan-viewer";
 import { Icon } from "@/components/ui";
 import { formatArea, formatAreaExact } from "@/content/source";
@@ -17,6 +17,12 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * together with their line in the legend. Beside the plan: three or four
  * figures of the level (from the unit record), the legend, the caveat, «Получить
  * планы». Third view: the section through both levels.
+ *
+ * Art direction (OWNER "FINAL ART DIRECTION & VISUAL CONVERSION PASS",
+ * 2026-11-09, §17): a premium architectural drawing — the plan on a drawing
+ * board kept inside its frame, the level area as display type (240,96 · 293,70
+ * · 458,86 useful on the overview), the room schedule hidden, «Получить полные
+ * планы». PlanSvg also draws the white plan fragment of portal 02 (decor).
  */
 
 const VIEW = { x: -700, y: -16200, w: 32700, h: 33700 };
@@ -49,12 +55,12 @@ function Arrow({ mark }: { mark: PlanMark }) {
   return <path className={`lg-plan__arrow is-${mark.kind}`} d={d} />;
 }
 
-/** One level as SVG: the other level as a faint outline, the zones, the stairs, the columns, the numbers and the entrance arrows. */
-function PlanSvg({ level, other, locale }: { level: PlanLevel; other: PlanLevel | undefined; locale: SiteLocale }) {
-  const hatch = `lg-hatch-${level.key}`;
-  const terrace = `lg-terrace-${level.key}`;
+/** One level as SVG: the other level as a faint outline, the zones, the stairs, the columns, the numbers and the entrance arrows. `decor` draws it as a background fragment (portal 02): no title, no ids shared with the plans scene. */
+export function PlanSvg({ level, other, locale, decor = false }: { level: PlanLevel; other: PlanLevel | undefined; locale: SiteLocale; decor?: boolean }) {
+  const hatch = `lg-hatch-${level.key}${decor ? "-decor" : ""}`;
+  const terrace = `lg-terrace-${level.key}${decor ? "-decor" : ""}`;
   return (
-    <svg className="lg-plan" viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`} role="img" aria-label={`${copy.planLabel[locale]} — ${level.label[locale]} ${level.mark}`}>
+    <svg className={`lg-plan${decor ? " is-decor" : ""}`} viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`} preserveAspectRatio="xMidYMid meet" role={decor ? undefined : "img"} aria-hidden={decor ? true : undefined} aria-label={decor ? undefined : `${copy.planLabel[locale]} — ${level.label[locale]} ${level.mark}`}>
       <defs>
         <pattern id={hatch} patternUnits="userSpaceOnUse" width="520" height="520" patternTransform="rotate(45)">
           <line x1="0" y1="0" x2="0" y2="520" className="lg-plan__hatch" />
@@ -126,6 +132,18 @@ export function SectionScheme({ x, unit, locale, compact = false }: { x: Leasing
   );
 }
 
+/** The level's area as display type (OWNER art direction §17: 240,96 · 293,70 · 458,86 as visual typography). */
+function BigArea({ value, label }: { value: string; label: string }) {
+  const { figure, unit } = splitArea(value);
+  return (
+    <p className="lg-plans__big">
+      <strong>{figure}</strong>
+      <span className="lg-plans__bigunit">{unit}</span>
+      <span className="lg-plans__biglabel">{label}</span>
+    </p>
+  );
+}
+
 function Figures({ items }: { items: { label: string; value: string }[] }) {
   return (
     <dl className="lg-figs">
@@ -148,7 +166,6 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
   const levelSide = (level: PlanLevel): ReactNode => {
     const data = byKey(level.key);
     const figures = [
-      ...(data ? [{ label: copy.total[locale], value: formatAreaExact(data.area, locale) }] : []),
       ...(data?.useful ? [{ label: ui.useful[locale], value: formatAreaExact(data.useful, locale) }] : []),
       ...(data?.height ? [{ label: ui.heights[locale], value: `${data.heightEvidence === "APPROXIMATE" ? `${ui.approx[locale]} ` : ""}${fmtHeight(data.height, locale)}` }] : []),
       ...(level.key === "ground" && terrace ? [{ label: terrace.label[locale], value: formatAreaExact(terrace.area, locale) }] : []),
@@ -156,6 +173,7 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
     return (
       <>
         <p className="lg-plans__level">{level.label[locale]} <span>{level.mark}</span></p>
+        {data ? <BigArea value={formatAreaExact(data.area, locale)} label={copy.total[locale]} /> : null}
         <Figures items={figures} />
         <details className="lg-plans__schedule">
           <summary className="pm-link"><span className="is-show">{copy.showSchedule[locale]}</span><span className="is-hide">{copy.hideSchedule[locale]}</span><Icon name="down" /></summary>
@@ -188,10 +206,10 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
   const overviewSide = (
     <>
       <p className="lg-plans__level">{p.schemeTab[locale]}</p>
+      {unit.usefulArea ? <BigArea value={formatAreaExact(unit.usefulArea, locale)} label={ui.useful[locale]} /> : null}
       <Figures
         items={[
           { label: ui.offered[locale], value: formatArea(unit.area, locale) },
-          ...(unit.usefulArea ? [{ label: ui.useful[locale], value: formatArea(unit.usefulArea, locale) }] : []),
           ...(terrace ? [{ label: terrace.label[locale], value: formatAreaExact(terrace.area, locale) }] : []),
         ]}
       />
@@ -212,7 +230,7 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
         <p className="lg-plans__note">{p.note[locale]}</p>
         <p className="lg-plans__actions">
           <a className="pm-link" href="#tech" data-drawer="tech" aria-haspopup="dialog"><span>{ui.chTech[locale]}</span><Icon /></a>
-          <a className="btn btn--ghost" href="#viewing" data-intent="plans"><span>{ui.plansGet[locale]}</span><Icon /></a>
+          <a className="btn" href="#viewing" data-intent="plans"><span>{ui.plansFull[locale]}</span><Icon /></a>
         </p>
       </div>
     </LgSection>

@@ -88,7 +88,8 @@ export const moscova20Experience: LeasingExperience = {
     title: T("Spațiu pentru următorul pas al afacerii dumneavoastră.", "Пространство для следующего шага вашего бизнеса.", "Space for your business's next step."),
     place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
-    support: T("Baza capitală este deja gata. Spațiul se adaptează formatului dumneavoastră.", "Капитальная база уже готова. Пространство адаптируется под ваш формат.", "The capital base is already in place. The space adapts to your format."),
+    // OWNER art direction 2026-11-09 §3: short — «Капитальная база уже готова.»; the adaptation line lives in the reasons («Гибкость»)
+    support: T("Baza capitală este deja gata.", "Капитальная база уже готова.", "The capital base is already in place."),
   },
 
   reasons: {
@@ -102,8 +103,9 @@ export const moscova20Experience: LeasingExperience = {
 
   motion: {
     kicker: T("Locația în mișcare", "Локация в движении", "Location in motion"),
-    title: T("Adresa nu este un punct pe hartă. Este mișcarea din jurul afacerii dumneavoastră.", "Адрес — это не точка на карте. Это движение вокруг вашего бизнеса.", "An address is not a point on a map. It is the movement around your business."),
-    lead: T("Moscova 20 se află pe unul dintre coridoarele urbane active din Rîșcani — înconjurat de locuințe, transport, educație, comerț și servicii zilnice.", "Moscova 20 находится на одном из активных городских коридоров сектора Рышкань — в окружении жилья, транспорта, образования, торговли и ежедневных сервисов.", "Moscova 20 sits on one of Rîșcani's active city corridors — surrounded by housing, transport, education, retail and everyday services."),
+    // OWNER art direction 2026-11-09 §12: the statement of the location scene; the earlier title stays as its line
+    title: T("Adresa face parte din modelul de afaceri.", "Адрес — часть бизнес-модели.", "The address is part of the business model."),
+    lead: T("Adresa nu este un punct pe hartă. Este mișcarea din jurul afacerii dumneavoastră.", "Адрес — это не точка на карте. Это движение вокруг вашего бизнеса.", "An address is not a point on a map. It is the movement around your business."),
     ecosystemTitle: T("Ce creează activitate regulată în jurul locației", "Что создаёт регулярную активность вокруг локации", "What creates regular activity around the location"),
     ecosystem: [
       { key: "residential", category: "residential", title: T("Cartier rezidențial", "Жилой район", "Residential district"), text: T("Un public local constant pe parcursul zilei.", "Постоянная локальная аудитория в течение дня.", "A steady local audience throughout the day.") },
@@ -307,9 +309,10 @@ export const moscova20Experience: LeasingExperience = {
 
   capex: {
     kicker: T("Baza capitală", "Капитальная база", "Capital base"),
-    title: T("Investiți în afacerea dumneavoastră.\nNu în refacerea de bază a spațiului.", "Вкладывайте в свой бизнес.\nНе в базовое восстановление помещения.", "Invest in your business.\nNot in restoring the space."),
+    // OWNER art direction 2026-11-09 §12 · §20: the headline of the dark scene
+    title: T("Investiți în afacerea dumneavoastră.\nNu în refacerea de bază.", "Вкладывайте в свой бизнес.\nНе в базовое восстановление.", "Invest in your business.\nNot in basic restoration."),
     lead: T("Principalele lucrări capitale sunt deja executate.", "Основные капитальные работы уже выполнены.", "The main capital works are already done."),
-    photo: "groundHall",
+    photo: "lowerHall",
     readyTitle: T("Deja gata", "Уже готово", "Already done"),
     ready: [
       fact(T("Suprafețele de bază", "Базовые поверхности", "Base surfaces"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
@@ -332,13 +335,14 @@ export const moscova20Experience: LeasingExperience = {
     kicker: T("Fotografii", "Фотографии", "Photographs"),
     title: T("Spațiul așa cum este astăzi.", "Пространство таким, какое оно есть сегодня.", "The space as it is today."),
     lead: T("Fotografii reale: lumina și culoarea corectate, arhitectura și starea — fără schimbări.", "Реальные фотографии: свет и цвет выправлены, архитектура и состояние — без изменений.", "Real photographs: light and colour corrected; the architecture and condition unchanged."),
+    // OWNER art direction 2026-11-09 §11: ADDRESS · ARRIVAL · SPACE · LIGHT · CONNECTION · READY BASE (crops only)
     frames: [
-      { key: "address", no: "01", shot: { photo: "frontage", position: "50% 70%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova, Rîșcani.", "Первая линия бульвара Москова, Рышкань.", "The first line of Moscova Boulevard, Rîșcani.") },
-      { key: "arrival", no: "02", shot: { photo: "entrance", position: "40% 60%" }, label: T("Sosirea", "Прибытие", "Arrival"), caption: T("Din trotuar, prin terasă: scări, rampă, ușă de sticlă.", "С тротуара через террасу: лестница, пандус, стеклянная дверь.", "From the pavement through the terrace: steps, a ramp, a glass door.") },
-      { key: "space", no: "03", shot: { photo: "lowerFinish", position: "50% 55%" }, label: T("Spațiul", "Пространство", "Space"), caption: T("Săli deschise cu stâlpi pe o rețea regulată.", "Открытые залы с колоннами по регулярной сетке.", "Open halls with columns on a regular grid.") },
-      { key: "connection", no: "04", shot: { photo: "stairs", position: "62% 55%" }, label: T("Legătura", "Связь уровней", "Connection"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
-      { key: "base", no: "05", shot: { photo: "engineering", position: "52% 40%" }, label: T("Baza gata", "Готовая база", "Ready base"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
-      { key: "possibility", no: "06", shot: { photo: "lowerHall", position: "50% 55%" }, label: T("Posibilitatea", "Возможность", "Possibility"), caption: T("Un spațiu liber, gata pentru conceptul dumneavoastră.", "Свободное пространство, готовое к вашей концепции.", "A free space, ready for your concept.") },
+      { key: "address", no: "01", shot: { photo: "frontage", position: "50% 68%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova, Rîșcani.", "Первая линия бульвара Москова, Рышкань.", "The first line of Moscova Boulevard, Rîșcani.") },
+      { key: "arrival", no: "02", shot: { photo: "entrance", position: "38% 62%" }, label: T("Sosirea", "Прибытие", "Arrival"), caption: T("Din trotuar, prin terasă: scări, rampă, ușă de sticlă.", "С тротуара через террасу: лестница, пандус, стеклянная дверь.", "From the pavement through the terrace: steps, a ramp, a glass door.") },
+      { key: "space", no: "03", shot: { photo: "groundHall", position: "50% 52%" }, label: T("Spațiul", "Пространство", "Space"), caption: T("Săli deschise cu stâlpi pe o rețea regulată.", "Открытые залы с колоннами по регулярной сетке.", "Open halls with columns on a regular grid.") },
+      { key: "light", no: "04", shot: { photo: "groundGlazing", position: "40% 45%" }, label: T("Lumina", "Свет", "Light"), caption: T("Vitrina continuă spre bulevard: sala se vede de pe trotuar.", "Сплошное остекление к бульвару: зал виден с тротуара.", "Continuous glazing to the boulevard: the hall is visible from the pavement.") },
+      { key: "connection", no: "05", shot: { photo: "stairs", position: "64% 55%" }, label: T("Legătura", "Связь уровней", "Connection"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
+      { key: "base", no: "06", shot: { photo: "engineering", position: "52% 36%", zoom: 1.3 }, label: T("Baza gata", "Готовая база", "Ready base"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
     ],
   },
 
@@ -445,14 +449,15 @@ export const moscova20Experience: LeasingExperience = {
 
   viewing: {
     kicker: T("Vizionare", "Просмотр", "Viewing"),
-    title: T("Nu decideți după fotografii.", "Не решайте по фотографиям.", "Don't decide from photographs."),
-    lead: T("Vedeți spațiul personal. Clarificăm din timp formatul afacerii dumneavoastră și pregătim pentru vizionare doar datele care contează pentru decizia dumneavoastră.", "Посмотрите пространство лично. Мы заранее уточним формат вашего бизнеса и подготовим к просмотру только те данные, которые имеют значение для вашего решения.", "See the space in person. We clarify your business format beforehand and prepare for the viewing only the data that matters for your decision."),
+    // OWNER art direction 2026-11-09 §21: the statement, then «Посмотрите пространство лично.» on its own line, then the supporting line
+    title: T("Nu decideți după fotografii.\nVedeți spațiul personal.", "Не решайте по фотографиям.\nПосмотрите пространство лично.", "Don't decide from photographs.\nSee the space in person."),
+    lead: T("Clarificăm din timp formatul afacerii dumneavoastră și pregătim pentru vizionare datele care contează tocmai pentru decizia dumneavoastră.", "Мы заранее уточним формат вашего бизнеса и подготовим к просмотру данные, которые имеют значение именно для вашего решения.", "We clarify your business format beforehand and prepare for the viewing the data that matters for your decision specifically."),
     steps: [
       { title: T("Înainte", "До просмотра", "Before"), text: T("formatul, cerințele tehnice, suprafața, termenul deschiderii", "формат, технические требования, площадь, срок открытия", "format, technical requirements, area, opening date") },
       { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("spațiul, intrările, punctele inginerești, planurile, accesul", "пространство, входы, инженерные точки, планы, доступ", "the space, entrances, engineering points, plans, access") },
       { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "the technical requirements checked, then the commercial terms") },
     ],
-    photo: "entrance",
+    photo: "approach",
     contactsLine: T("Sau direct:", "Или напрямую:", "Or directly:"),
     // the film «Ваш следующий шаг» plugs in here when it exists — poster first, plays on request, never autoplay
     film: null,
