@@ -141,14 +141,25 @@ export function leasingCounts() {
  * unit becomes LEASED / HIDDEN / TO_CONFIRM the property falls back to its
  * regular page (and, if nothing is left to let, reads «Занят на 100 %»).
  */
+/**
+ * OWNER «LEASING TEMPLATE LOCK» (2026-11-10): every leasing object renders the one template from its dataset; the unit is
+ * the published record that drives the status (Moscova 20, Moscova 9) or null for a property-level offer (Dacia 31,
+ * Creangă 78) — and null too when the dataset's unit stops being published (LEASED / HIDDEN / TO_CONFIRM): the page then
+ * reads its status from the property (fully let → the waiting list).
+ */
 export function leasingExperienceFor(projectSlug: string) {
-  const unit = spacesFor(projectSlug).find((space) => leasingExperiences[space.id]);
-  return unit ? { unit, experience: leasingExperiences[unit.id] } : null;
+  const experience = leasingExperiences[projectSlug];
+  if (!experience) return null;
+  const unit = experience.unitId ? spacesFor(projectSlug).find((space) => space.id === experience.unitId) ?? null : null;
+  return { unit, experience };
 }
 
+/** A published unit with its own template (its /leasing/<id> page is the project page) — never a duplicate route. */
 export function leasingExperienceForSpace(spaceId: string) {
   const unit = getSpace(spaceId);
-  return unit && leasingExperiences[unit.id] ? { unit, experience: leasingExperiences[unit.id] } : null;
+  if (!unit || !publicSpaces.includes(unit)) return null;
+  const experience = Object.values(leasingExperiences).find((item) => item.unitId === unit.id);
+  return experience ? { unit, experience } : null;
 }
 
 /** Public order: available now, then soon (by date), then reserved; within a group records built on confirmed facts lead, then by area. */

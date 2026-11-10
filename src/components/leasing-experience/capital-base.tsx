@@ -18,7 +18,7 @@ import type { SiteLocale } from "@/lib/site-data";
 export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteLocale }) {
   const c = x.capex;
   return (
-    <section id="capex" className="lg-capex" aria-labelledby="lg-capex-title">
+    <section id="capex" className={`lg-capex${c.photo ? "" : " lg-capex--nomedia"}`} aria-labelledby="lg-capex-title">
       <div className="xp-shell lg-capex__grid">
         <header className="lg-capex__head">
           <p className="pm-kicker" data-reveal>{c.kicker[locale]}</p>
@@ -29,9 +29,12 @@ export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteL
           </h2>
           {c.lead ? <p className="lg-capex__lead" data-reveal>{c.lead[locale]}</p> : null}
         </header>
-        <figure className="lg-capex__media" data-reveal>
-          <LgPhoto photo={x.photos[c.photo]} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" className="lg-capex__photo" />
-        </figure>
+        {/* the photograph is the argument; a dataset without a second real photograph keeps the scene without one — never a repeat */}
+        {c.photo && x.photos[c.photo] ? (
+          <figure className="lg-capex__media" data-reveal>
+            <LgPhoto photo={x.photos[c.photo]} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" className="lg-capex__photo" />
+          </figure>
+        ) : null}
         <div className="lg-capex__lists">
           <div className="lg-card lg-capex__col is-ready" data-reveal>
             <h3 className="lg-capex__label">{c.readyTitle[locale]}</h3>

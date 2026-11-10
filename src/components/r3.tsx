@@ -9,6 +9,7 @@ import { company, contactLinks, drochiaProfile, occupancyOf, type OperatingSlug 
 import { holdOrSell, lifecycle, reinvestment } from "@/lib/business";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
+import { registeredData } from "@/data/registered";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -82,8 +83,18 @@ export function projectState(project: ProjectEntry, locale: SiteLocale): { text:
  * условия.»), then the official e-Cadastru verification where the OWNER approved the cadastral number
  * (copy + open the portal; no invented deep link). No permit or design service is promised.
  */
-export function R3Trust({ slug, locale, tone = "paper", id = "technical-support" }: { slug?: string; locale: SiteLocale; tone?: "paper" | "ivory" | "stone"; id?: string }) {
+export function R3Trust({ slug, locale, tone = "paper", id = "technical-support", verify = false }: { slug?: string; locale: SiteLocale; tone?: "paper" | "ivory" | "stone"; id?: string; /** the leasing template (OWNER «LEASING TEMPLATE LOCK» §11): the verification block always shows — one number, the registered premises, or «проверяется» */ verify?: boolean }) {
   const number = slug ? cadastreNumbers[slug] : undefined;
+  const reg = slug ? registeredData[slug] : undefined;
+  const fmt = (m2: number) => `${m2.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 }).replace(/\s/g, "\u00a0")}\u00a0${locale === "ru" ? "м²" : "m²"}`;
+  const many = !number && reg && reg.premises.length > 1 ? reg.premises.map((premise) => ({ cadastral: premise.cadastral, area: fmt(premise.area) })) : null;
+  const cadastre = number ? (
+    <CadastreVerify number={number} portal={eCadastruPortal} locale={locale} />
+  ) : many ? (
+    <CadastreVerify numbers={many} total={fmt(reg!.area)} portal={eCadastruPortal} locale={locale} />
+  ) : verify ? (
+    <CadastreVerify pending portal={eCadastruPortal} locale={locale} />
+  ) : null;
   return (
     <section className={`r3-sec r3-sec--${tone} r3-trust`} id={id}>
       <div className="r3-shell">
@@ -106,9 +117,9 @@ export function R3Trust({ slug, locale, tone = "paper", id = "technical-support"
           </div>
           <p className="r3-note">{trustCopy.note[locale]}</p>
         </div>
-        {number ? (
+        {cadastre ? (
           <div className="r3-trust__cad" data-reveal>
-            <CadastreVerify number={number} portal={eCadastruPortal} locale={locale} />
+            {cadastre}
           </div>
         ) : null}
       </div>

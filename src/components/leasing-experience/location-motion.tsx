@@ -1,12 +1,13 @@
 import type { CSSProperties, ReactNode } from "react";
 import { LocationExplorer, type ExplorerOption } from "@/components/leasing-experience/location-stage";
+import { decisionTitle } from "@/components/leasing-experience/decision-zone";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { EconomicsGlyph, ownerPreview, ui } from "@/components/leasing-experience/parts";
 import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
 import { LocationMap } from "@/components/location-section";
 import { Icon } from "@/components/ui";
-import { viewingEnabled, type ProjectEntry } from "@/content/source";
+import type { ProjectEntry } from "@/content/source";
 import { T, publishable, type LeasingExperience, type Pt, type VisibilityMark } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
 import { moscova20Catchment, type CatchmentCategory } from "@/data/moscova-20-catchment";
 import { locationTraffic, toolVisible, trafficVisible, type LocationTraffic } from "@/data/tenant-intelligence";
 import { googleDirectionsUrl, googleMapsUrl } from "@/lib/assets";
@@ -79,11 +80,8 @@ const copy = {
     late: { ro: "seara târziu: scădere", ru: "поздний вечер: спад", en: "late evening: easing" },
   },
   chartLabel: { ro: "Ritmul zilei 08–20 după modelul preliminar: dimineața constant, ziua mediu, seara vârf între 16 și 19. Fără valori.", ru: "Ритм дня 08–20 по предварительной модели: утром устойчиво, днём средне, вечером пик с 16 до 19. Без значений.", en: "The day's rhythm 08–20 in the preliminary model: steady in the morning, medium in the day, a peak from 16 to 19. No values." },
-  // the closed state of the economics tool (OWNER §19) — OWNER preview only, like the tool
-  teaser: {
-    title: T("De câți clienți pe zi are nevoie afacerea dumneavoastră?", "Сколько клиентов в день нужно вашему бизнесу?", "How many customers a day does your business need?"),
-    text: T("Verificați-vă modelul înainte de a decide asupra locației.", "Проверьте свою модель до того, как принимать решение по локации.", "Check your model before you decide on the location."),
-  },
+  // the closed state of the decision tool (OWNER §19): its title and text come from the dataset (x.decision.teaser); the action word by kind
+  go: { office: T("Calculați suprafața", "Посчитать площадь", "Calculate the area") },
 } as const;
 
 const fmt = (n: number, locale: SiteLocale) => n.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB");
@@ -215,6 +213,7 @@ function markDrawing(mark: VisibilityMark, i: number): ReactNode {
 
 function AddressAerial({ x, locale, marked }: { x: LeasingExperience; locale: SiteLocale; marked: boolean }) {
   const v = x.motion.visibility;
+  if (!v) return null;
   const marks = marked ? v.marks.filter((mark) => publishable(mark.evidence)) : [];
   return (
     <figure className="lg-vis">
@@ -239,14 +238,14 @@ function AddressAerial({ x, locale, marked }: { x: LeasingExperience; locale: Si
 
 /* ------------------------------------------------------------ scene */
 
-export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
+export function LocationMotion({ x, offer, project, locale, decision }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale; /** the decision zone is shown (property-template decisionOn) */ decision: boolean }) {
   const m = x.motion;
-  const open = viewingEnabled(unit);
+  const v = m.visibility;
   const traffic = locationTraffic[x.project];
   const modelOn = trafficVisible(traffic, ownerPreview) && toolVisible(`${x.project}.location-model`, ownerPreview);
   const mapOn = toolVisible(`${x.project}.catchment-map`, ownerPreview);
   const marksOn = toolVisible(`${x.project}.visibility-study`, ownerPreview);
-  const economicsOn = toolVisible(`${x.project}.economics-tool`, ownerPreview);
+  const economicsOn = decision;
   const map = project.asset?.map ?? null;
 
   const figures =
@@ -267,11 +266,11 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
 
   const teaser = (
     <a className="lg-teaser" href="#economics" data-drawer="economics" aria-haspopup="dialog" data-reveal>
-      <span className="lg-teaser__kicker">{ui.economics[locale]}</span>
+      <span className="lg-teaser__kicker">{decisionTitle(x, locale)}</span>
       <EconomicsGlyph className="lg-teaser__glyph" />
-      <span className="lg-teaser__title">{copy.teaser.title[locale]}</span>
-      <span className="lg-teaser__text">{copy.teaser.text[locale]}</span>
-      <span className="lg-teaser__go">{ui.economicsGo[locale]}<Icon /></span>
+      <span className="lg-teaser__title">{x.decision.teaser.title[locale]}</span>
+      <span className="lg-teaser__text">{x.decision.teaser.text[locale]}</span>
+      <span className="lg-teaser__go">{x.decision.kind === "economics" ? ui.economicsGo[locale] : x.decision.kind === "office" ? copy.go.office[locale] : offer.primary}<Icon /></span>
     </a>
   );
 
@@ -288,7 +287,7 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
   const rhythmView =
     figures.length && traffic ? (
       <div className="lg-model">
-        <p className="lg-label lg-model__status">{traffic.trafficStatus === "MODELLED" ? m.modelTitle[locale] : copy.status[traffic.trafficStatus][locale]}{traffic.measurementDate ? ` · ${traffic.measurementDate}` : ""}</p>
+        <p className="lg-label lg-model__status">{traffic.trafficStatus === "MODELLED" ? m.modelTitle?.[locale] ?? "" : copy.status[traffic.trafficStatus][locale]}{traffic.measurementDate ? ` · ${traffic.measurementDate}` : ""}</p>
         <dl className="lg-model__figs">
           {figures.map((figure) => (
             <div key={figure.key} className={`is-${figure.key}`}>
@@ -308,7 +307,8 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
     ) : null;
 
   const options: ExplorerOption[] = [
-    { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: "aerial", detail: <><p className="lg-explorer__text">{marksOn ? m.visibility.caption[locale] : x.photos[m.visibility.photo].alt[locale]}</p>{routeLinks}</> },
+    // no aerial photograph (Moscova 9 · Dacia 31 · Creangă 78): the address card shows the OSM location map and the address line
+    { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <><p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
     {
       key: "around",
       label: m.mapTab[locale],
@@ -324,13 +324,15 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
     },
     ...(mapOn && transportGroup
       ? [{ key: "transport", label: copy.cat.transport[locale], title: transportGroup.text[locale], visual: "map", cat: "transport", detail: <p className="lg-explorer__text">{m.mapCaption[locale]}</p> }]
-      : []),
+      : !mapOn && m.transport
+        ? [{ key: "transport", label: copy.cat.transport[locale], title: m.transport.title[locale], visual: "map", detail: <p className="lg-explorer__text">{m.transport.text[locale]}</p> }]
+        : []),
     ...(rhythmView && traffic
-      ? [{ key: "rhythm", label: copy.option.rhythm[locale], title: `${copy.figure.peak.label[locale]} ${traffic.peakPeriod ?? ""}`.trim(), visual: "rhythm", detail: <><p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption[locale] : traffic.source}</p><p className="lg-model__note">{m.rhythmNote[locale]}</p></> }]
+      ? [{ key: "rhythm", label: copy.option.rhythm[locale], title: `${copy.figure.peak.label[locale]} ${traffic.peakPeriod ?? ""}`.trim(), visual: "rhythm", detail: <><p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption?.[locale] ?? "" : traffic.source}</p><p className="lg-model__note">{m.rhythmNote?.[locale] ?? ""}</p></> }]
       : []),
   ];
   const visuals = [
-    { key: "aerial", node: <AddressAerial x={x} locale={locale} marked={marksOn} /> },
+    ...(v ? [{ key: "aerial", node: <AddressAerial x={x} locale={locale} marked={marksOn} /> }] : []),
     { key: "map", node: mapView },
     ...(rhythmView ? [{ key: "rhythm", node: rhythmView }] : []),
   ];
@@ -360,8 +362,8 @@ export function LocationMotion({ x, unit, project, locale }: { x: LeasingExperie
             <p>{m.verdict.text[locale]}</p>
             <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
             <div className="lg-motion__actions">
-              <a className="btn" href="#format"><span>{ui.checkForMe[locale]}</span><Icon /></a>
-              <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><Icon /></a>
+              <a className="btn" href="#format"><span>{ui.checkForMe[locale].replace("Moscova 20", project.name)}</span><Icon /></a>
+              <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{offer.primary}</span><Icon /></a>
             </div>
           </div>
           {economicsOn ? teaser : null}

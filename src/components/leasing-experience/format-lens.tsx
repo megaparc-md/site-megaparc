@@ -2,9 +2,8 @@ import { FormatPicker } from "@/components/leasing-experience/format-picker";
 import { LgHead, ui } from "@/components/leasing-experience/parts";
 import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
 import { Icon } from "@/components/ui";
-import { viewingEnabled } from "@/content/source";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { publishable, type LeasingExperience, type LensFormat, type LensRef } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
@@ -30,12 +29,21 @@ const target: Record<LensRef, { href: string; drawer?: string }> = {
   capex: { href: "#capex" },
 };
 
-function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensFormat; locale: SiteLocale; open: boolean }) {
+function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: LensFormat; locale: SiteLocale; offer: TemplateOffer }) {
   const l = x.lens;
   const o = format.overlay;
-  const photo = x.photos[o.photo];
+  const photo = o ? x.photos[o.photo] : undefined;
   return (
     <div className="lg-lens__grid">
+      {/* no interior photograph yet: the same frame says where the organisation is shown — never a borrowed or repeated photo */}
+      {!o || !photo ? (
+        <figure className="lg-lens__visual">
+          <div className="lg-lens__nophoto">
+            <span className="lg-lens__nophoto-label">{l.scenarioNote[locale]}</span>
+            <p className="lg-lens__nophoto-text">{l.noPhoto?.[locale] ?? ""}</p>
+          </div>
+        </figure>
+      ) : (
       <figure className="lg-lens__visual">
         <PhotoScene
           photo={photo}
@@ -54,9 +62,10 @@ function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensF
           </ol>
         </figcaption>
       </figure>
+      )}
       <div className="lg-lens__ask">
         <p className="lg-lens__question">{format.question[locale]}</p>
-        <a className="btn" href="#viewing" data-intent="viewing" data-format={format.label[locale]}><span>{open ? ui.viewingPersonal[locale] : ui.waitlist[locale]}</span><Icon /></a>
+        <a className="btn" href="#viewing" data-intent="viewing" data-format={format.label[locale]}><span>{x.cta || !offer.open ? offer.primary : ui.viewingPersonal[locale]}</span><Icon /></a>
         <div className="lg-lens__checkwrap">
           <p className="lg-label">{(format.checksTitle ?? l.checksTitle)[locale]}</p>
           <ul className="lg-circles lg-lens__checks">
@@ -85,9 +94,8 @@ function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensF
   );
 }
 
-export function FormatLens({ x, unit, locale }: { x: LeasingExperience; unit: AvailableSpace; locale: SiteLocale }) {
+export function FormatLens({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {
   const l = x.lens;
-  const open = viewingEnabled(unit);
   return (
     <section id="format" className="lg-sec lg-sec--white lg-lens" aria-labelledby="lg-format-title">
       <div className="xp-shell">
@@ -95,7 +103,7 @@ export function FormatLens({ x, unit, locale }: { x: LeasingExperience; unit: Av
         <FormatPicker
           label={l.title[locale]}
           formats={l.formats.map((format, i) => ({ key: format.key, no: String(i + 1).padStart(2, "0"), label: format.label[locale] }))}
-          panes={l.formats.map((format) => <Pane key={format.key} x={x} format={format} locale={locale} open={open} />)}
+          panes={l.formats.map((format) => <Pane key={format.key} x={x} format={format} locale={locale} offer={offer} />)}
         />
         <div className="lg-lens__foot" data-reveal>
           <p className="lg-lens__honesty">{l.honesty[locale]}</p>

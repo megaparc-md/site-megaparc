@@ -1,7 +1,8 @@
 import type { CSSProperties } from "react";
 import { formatAreaExact } from "@/content/source";
+import { withArea } from "@/components/leasing-experience/parts";
 import { T, publishable, type LeasingExperience } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
@@ -21,10 +22,11 @@ const copy = {
   levels: { label: T("Niveluri", "Этажность", "Levels"), title: (n: number, locale: SiteLocale) => (locale === "ru" ? `${n} уровня` : locale === "ro" ? `${n} niveluri` : `${n} levels`) },
 };
 
-export function SummaryCards({ x, unit, locale }: { x: LeasingExperience; unit: AvailableSpace; locale: SiteLocale }) {
-  const floors = (unit.breakdown ?? []).filter((level) => level.key !== "terrace");
+export function SummaryCards({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {
+  const floors = offer.breakdown.filter((level) => level.key !== "terrace");
   const glazing = x.lens.formats.find((format) => format.key === "retail")?.evidence.find((item) => item.ref === "photos" && publishable(item.evidence));
-  const cards = [
+  // a dataset with its own confirmed lines (Moscova 9 · Dacia 31 · Creangă 78) — the master computes them from the unit record
+  const cards = x.summary ? x.summary.map((card) => ({ key: card.key, label: card.label[locale], title: withArea(card.title[locale], offer.figure), text: withArea(card.text[locale], offer.figure) })) : [
     { key: "readiness", label: copy.readiness.label[locale], title: copy.readiness.title[locale], text: copy.readiness.text[locale] },
     { key: "visibility", label: copy.visibility.label[locale], title: copy.visibility.title[locale], text: glazing?.text[locale] ?? "" },
     { key: "levels", label: copy.levels.label[locale], title: copy.levels.title(floors.length, locale), text: floors.map((level) => `${level.label[locale]} ${formatAreaExact(level.area, locale)}`).join(" · ") },

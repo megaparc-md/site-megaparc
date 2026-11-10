@@ -468,7 +468,8 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Chișinău. Location and access information is available on request.",
     },
     connectivity: [],
-    map: null,
+    // the property name is its street address (str. Ion Creangă 78) — the OSM location map exists; used for the route links of the leasing template
+    map: { address: "Str. Ion Creangă 78, Chișinău", query: "Strada Ion Creangă 78, Chișinău, Moldova" },
     building: { text: { ro: "", ru: "", en: "" }, programme: [], features: [] },
     operatingLogic: { text: { ro: "", ru: "", en: "" }, points: [] },
     character: { ro: "", ru: "", en: "" },

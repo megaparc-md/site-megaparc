@@ -1405,3 +1405,50 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 /* OWNER «MOSCOVA 20 — MAIN LEASING IMAGE» (2026-11-10): the Moscova 20 card (Home · Projects) shows the entrance photograph — on phones the
    container follows the frame (4 : 3) instead of a 4 : 5 crop that cut the door; the asset focal point (34 % 60 %) keeps door, glazing and ramp */
 .r3-second__media { aspect-ratio: 4 / 3; }
+/* ==================================================================
+   LEASING TEMPLATE LOCK — MOSCOVA 20 = EXACT MASTER TEMPLATE (OWNER 2026-11-10)
+   One template, four datasets: the honest states of a scene whose data is not confirmed
+   keep the scene's frame (never a borrowed or repeated photograph). docs/DESIGN_SYSTEM.md §30.
+   ================================================================== */
+
+/* format lens — no interior photograph yet: the visual's frame on the drafting board */
+.lg-lens__nophoto { display: grid; align-content: end; gap: .7rem; aspect-ratio: 3 / 2; padding: clamp(1.2rem, 2.6vw, 2.2rem); border: 1px solid var(--lg-card-line); border-radius: var(--lg-radius); background-color: var(--lg-board); background-image: linear-gradient(rgba(17, 18, 22, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 18, 22, .05) 1px, transparent 1px); background-size: 28px 28px; }
+.lg-lens__nophoto-label { color: var(--brand); font-size: .72rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+.lg-lens__nophoto-text { max-width: 26ch; margin: 0; font-family: var(--font-serif), Georgia, serif; font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 350; line-height: 1.2; letter-spacing: -.015em; text-wrap: balance; }
+
+/* photographs — one real frame keeps the sequence's place at a size the photograph holds */
+@media (min-width: 1024px) { .lg-seq__item:only-child { grid-column: 1 / span 7; } }
+.lg-seq:has(.lg-seq__item:only-child) .lg-seq__nav { display: none; }
+
+/* plans — «Планы предоставляются по запросу» in the dossier frame, the confirmed floor logic and registered premises beside it */
+.lg-request { display: grid; align-content: center; justify-items: start; gap: 1.1rem; min-height: clamp(20rem, 40vw, 32rem); padding: clamp(1.6rem, 4vw, 3.4rem); background-color: #fff; background-image: linear-gradient(rgba(17, 18, 22, .045) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 18, 22, .045) 1px, transparent 1px); background-size: 24px 24px; }
+.lg-request__status { max-width: 16ch; margin: 0; font-family: var(--font-serif), Georgia, serif; font-size: clamp(1.7rem, 2.8vw, 2.6rem); font-weight: 350; line-height: 1.06; letter-spacing: -.02em; text-wrap: balance; }
+.lg-request__text { max-width: 34rem; margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.55; }
+.lg-plans__floors { display: grid; gap: .45rem; margin: .5rem 0 1.3rem; padding: 0; list-style: none; }
+.lg-plans__floors li { position: relative; padding-left: 1.1rem; font-size: .95rem; line-height: 1.4; }
+.lg-plans__floors li::before { content: ""; position: absolute; left: 0; top: .68em; width: .55rem; height: 1px; background: var(--brand); }
+.lg-legend--reg .lg-legend__name { font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.lg-plans__regnote { margin: .9rem 0 0; color: var(--muted); font-size: .85rem; line-height: 1.45; }
+
+/* the dark technical scene without a second photograph — the headline beside the two cards */
+@media (min-width: 1024px) {
+  .lg-capex--nomedia .lg-capex__grid { grid-template-columns: minmax(0, 5.4fr) minmax(0, 6.6fr); grid-template-areas: "head lists"; grid-template-rows: auto; align-items: end; }
+  .lg-capex--nomedia .lg-capex__lists { align-self: end; }
+}
+
+/* e-Cadastru — the registered premises (Dacia 31) and the number being verified (Moscova 9) */
+.tr-cad__list { display: grid; margin: .4rem 0 0; padding: 0; list-style: none; }
+.tr-cad__list li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .55rem 0; border-bottom: 1px solid var(--line); font-size: .98rem; font-variant-numeric: tabular-nums; }
+.tr-cad__total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: .9rem 0 0; }
+.tr-cad__total span { color: var(--muted); font-size: .9rem; }
+.tr-cad__total strong { font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.r3-trust__cad .tr-cad__number--pending { color: var(--brand); font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: 0; user-select: text; }
+@media (min-width: 1200px) { .tr-cad--many .tr-cad__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.5rem, 3vw, 3rem); } }
+.tr-cad__list li { flex-wrap: wrap; }
+
+/* the waiting list (Creangă 78) — three steps in the decision drawer */
+.lg-waitlist__steps { display: grid; gap: .7rem; margin: 1.2rem 0 1.4rem; padding: 0; list-style: none; }
+.lg-waitlist__steps li { display: grid; gap: .3rem; padding: 1rem 1.1rem; }
+.lg-waitlist__steps strong { font-weight: 600; }
+.lg-waitlist__steps li > span:last-child { color: var(--muted); font-size: .95rem; line-height: 1.45; }
+@media (min-width: 720px) { .lg-waitlist__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

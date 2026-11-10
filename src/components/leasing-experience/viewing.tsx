@@ -2,10 +2,10 @@ import { ui } from "@/components/leasing-experience/parts";
 import { DirectContact } from "@/components/direct-contact";
 import { ViewingForm } from "@/components/leasing-experience/viewing-form";
 import { Icon } from "@/components/ui";
-import { formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
+import type { ProjectEntry } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
 import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -23,10 +23,11 @@ import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
  * the one public line on terms and the telephone; the form beside the steps,
  * without the photograph (the film slot stays).
  */
-export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
+export function ViewingScene({ x, offer, project, locale }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale }) {
   const v = x.viewing;
-  const open = viewingEnabled(unit);
-  const label = `${project.name} · ${unit.unit[locale]} · ${formatArea(unit.area, locale)}`;
+  const open = offer.open;
+  const label = offer.unitLabel;
+  const second = v.second ? { label: v.second.label[locale], meta: v.second.meta[locale], intent: v.second.intent } : { label: ui.offer[locale], meta: x.terms.pending[locale], intent: "offer" };
   const [title, sub] = v.title[locale].split("\n");
   return (
     <section id="viewing" className="lg-viewing" aria-labelledby="lg-viewing-title">
@@ -41,8 +42,8 @@ export function ViewingScene({ x, unit, project, locale }: { x: LeasingExperienc
         </header>
         {/* three actions as premium action cards: one primary, two secondary (OWNER card & air pass §17) */}
         <ul className="lg-actions" data-reveal>
-          <li><a className="lg-card lg-action is-primary" href="#lg-form" data-intent="viewing"><span className="lg-action__label">{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><span className="lg-action__meta">{label}</span><Icon /></a></li>
-          <li><a className="lg-card lg-action" href="#lg-form" data-intent="offer"><span className="lg-action__label">{ui.offer[locale]}</span><span className="lg-action__meta">{x.terms.pending[locale]}</span><Icon /></a></li>
+          <li><a className="lg-card lg-action is-primary" href="#lg-form" data-intent="viewing"><span className="lg-action__label">{offer.primary}</span><span className="lg-action__meta">{label}</span><Icon /></a></li>
+          <li><a className="lg-card lg-action" href="#lg-form" data-intent={second.intent}><span className="lg-action__label">{second.label}</span><span className="lg-action__meta">{second.meta}</span><Icon /></a></li>
           <li><a className="lg-card lg-action" href={contactLinks.mobile}><span className="lg-action__label">{ui.call[locale]}</span><span className="lg-action__meta">{company.mobile.value[locale]}</span><Icon /></a></li>
         </ul>
         <div className="lg-viewing__grid">

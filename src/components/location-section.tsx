@@ -11,7 +11,8 @@ const copy = {
   route: { ro: "Construiește ruta", ru: "Построить маршрут", en: "Get directions" },
   newTab: { ro: "se deschide într-o filă nouă", ru: "откроется в новой вкладке", en: "opens in a new tab" },
   stops: { ro: "Stații de transport public", ru: "Остановки транспорта", en: "Public transport stops" },
-  walk: { ro: "300 m · circa 4 minute pe jos", ru: "300 м · около 4 минут пешком", en: "300 m · about 4 minutes on foot" },
+  // OWNER Moscova 20 micro-fix (2026-11-09), applied by the leasing template to every map: a straight-line radius — never walking minutes until real routes are calculated
+  walk: { ro: "Rază de 300 m în linie dreaptă", ru: "Радиус 300 м по прямой", en: "300 m radius in a straight line" },
   map: { ro: "Hartă: amplasarea obiectului", ru: "Карта: расположение объекта", en: "Map: where the property is" },
 } satisfies Record<string, Localized>;
 

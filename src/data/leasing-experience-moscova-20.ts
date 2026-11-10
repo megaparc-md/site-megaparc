@@ -87,6 +87,14 @@ export const moscova20Experience: LeasingExperience = {
   project: "moscova-20",
   address: T("Bd. Moscova 20", "бул. Москова, 20", "20 Moscova Blvd"),
   photos,
+  // the master configuration of the leasing template (OWNER «LEASING TEMPLATE LOCK», 2026-11-10): the decision zone is the full calculator
+  decision: {
+    kind: "economics",
+    teaser: {
+      title: T("De câți clienți pe zi are nevoie afacerea dumneavoastră?", "Сколько клиентов в день нужно вашему бизнесу?", "How many customers a day does your business need?"),
+      text: T("Verificați-vă modelul înainte de a decide asupra locației.", "Проверьте свою модель до того, как принимать решение по локации.", "Check your model before you decide on the location."),
+    },
+  },
 
   hero: {
     // OWNER R3.1 §5: the facade crops are rejected for large format — the hero shows the real ground-floor hall

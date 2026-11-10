@@ -106,6 +106,9 @@ export const previewTools: PreviewTool[] = [
   { key: "moscova-20.catchment-map", property: "moscova-20", label: "Catchment map ≈ 5 / 10 / 15 min walk (OSM points, straight-line radii)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER R3.3 §2 (2026-11-10) — published with decision-support labels. OSM research not yet field-checked; radii are not isochrones" },
   { key: "moscova-20.visibility-study", property: "moscova-20", label: "Visibility study on the aerial photograph (boulevard · object · customer entrance · pavement)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER R3.3 §2 (2026-11-10) — published with decision-support labels. Confirmed elements only; public transport direction not drawn (unconfirmed in the frame)" },
   { key: "moscova-20.economics-tool", property: "moscova-20", label: "Tenant economics tool «Проверить экономику точки» (reverse calculation)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER R3.3 §2 (2026-11-10) — published with decision-support labels. Formulas, wording and the example need OWNER approval; no rent is ever pre-filled" },
+  // OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10): the same decision-support zone on every leasing object — the tool differs, no location data is used outside Moscova 20
+  { key: "moscova-9.economics-tool", property: "moscova-9", label: "Tenant scenario — the same reverse calculation on the visitor’s own figures (no location data)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10) — «Moscova 9: use tenant scenario block with parameters entered by user»" },
+  { key: "dacia-31.office-tool", property: "dacia-31", label: "Office scenario — how much space the tenant’s team needs (workplaces × area + shared part)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10) — «Dacia 31: use office / whole-building tenant scenario»; never compared with the registered area, no rent" },
 ];
 
 /**
@@ -114,6 +117,9 @@ export const previewTools: PreviewTool[] = [
  * month → ≈ 50 sales a day over 30 days → ≈ 333 visitors a day at 15 %.
  */
 export const economicsExample = { ticket: 800, revenue: 1200000, conversion: 15, days: 30, evidence: "DEMO" as const, source: "OWNER addendum «TENANT ECONOMICS & DECISION TOOL», 2026-11-06 §21" };
+
+/** «ПРИМЕР РАСЧЁТА» of the office scenario (Dacia 31) — illustrative numbers loaded only on request, never a property figure or an offer of area. */
+export const officeExample = { people: 120, perSeat: 8, shared: 30, evidence: "DEMO" as const, source: "OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10) — sample values of the office scenario" };
 
 /** Conversion rates of the sensitivity line (OWNER addendum §28). */
 export const sensitivityRates = [5, 10, 15, 20];

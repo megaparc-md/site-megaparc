@@ -6,7 +6,7 @@ import { AvailabilityChip, SpaceImage, UnitCard, labelOfUse, viewingHref } from 
 import { UnitPlan } from "@/components/leasing/unit-plan";
 import { PageShell } from "@/components/page-shell";
 import { Button, Icon, TextLink } from "@/components/ui";
-import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
+import { LeasingPropertyTemplate } from "@/components/leasing-experience/property-template";
 import { availabilityCopy, availabilityOf, formatDate, spaceArea, getProject, isDemoField, leasingExperienceForSpace, publicSpaces, sortSpaces } from "@/content/source";
 import { leasingProcess, tenantFit, shown } from "@/data/demo-content";
 import type { AvailableSpace, SpaceField } from "@/data/leasing-inventory";
@@ -73,10 +73,10 @@ function Row({ label, value, demo }: { label: string; value: string; demo?: bool
 }
 
 export function UnitPage({ locale, space }: { locale: SiteLocale; space: AvailableSpace }) {
-  // Gold-standard leasing experience (OWNER 2026-11-06): the unit with an experience
-  // record opens the tenant-decision page; every other unit keeps this template.
+  // OWNER «LEASING TEMPLATE LOCK» (2026-11-10): a unit whose property has a leasing dataset opens the shared
+  // leasing template (canonical: the project page); every other unit keeps this template.
   const experience = leasingExperienceForSpace(space.id);
-  if (experience) return <LeasingExperiencePage locale={locale} project={getProject(space.project)!} unit={experience.unit} experience={experience.experience} />;
+  if (experience) return <LeasingPropertyTemplate locale={locale} project={getProject(space.project)!} unit={experience.unit} experience={experience.experience} />;
   return <UnitTemplate locale={locale} space={space} />;
 }
 

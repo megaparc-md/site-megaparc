@@ -2,9 +2,9 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { LgPhoto, splitArea, ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatArea, viewingEnabled, type ProjectEntry } from "@/content/source";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
+import type { ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -28,10 +28,8 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  * shell with a restrained radius, «м²» set apart from 625,7 (top right, never
  * touching the digits).
  */
-export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
-  const state = availabilityOf(unit).key;
-  const open = viewingEnabled(unit);
-  const area = splitArea(formatArea(unit.area, locale));
+export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale }) {
+  const area = splitArea(offer.figure);
   return (
     <section className="lg-hero" aria-labelledby="lg-hero-title">
       <div className="xp-shell lg-hero__grid">
@@ -49,16 +47,16 @@ export function LeasingHero({ x, unit, project, locale }: { x: LeasingExperience
               <span className="lg-hero__unit">{area.unit}</span>
             </p>
             <p className="lg-hero__offered">{x.hero.offer[locale]}</p>
-            <p className={`lg-hero__status is-${state}`}><i aria-hidden="true" />{availabilityLabel(unit, locale)}</p>
+            <p className={`lg-hero__status is-${offer.state}`}><i aria-hidden="true" />{offer.status}</p>
           </div>
           <p className="lg-hero__support lg-rise" style={{ "--d": 4 } as CSSProperties}>{x.hero.support[locale]}</p>
           <div className="lg-hero__actions lg-rise" style={{ "--d": 5 } as CSSProperties}>
             <a className="btn" href="#viewing" data-intent="viewing">
-              <span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span>
+              <span>{offer.primary}</span>
               <Icon />
             </a>
-            <a className="pm-link" href="#plans">
-              <span>{ui.plansSee[locale]}</span>
+            <a className="pm-link" href={offer.secondary.href}>
+              <span>{offer.secondary.label}</span>
               <Icon />
             </a>
           </div>

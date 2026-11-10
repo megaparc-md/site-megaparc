@@ -5,7 +5,8 @@ import { SheetPan } from "@/components/leasing-experience/sheet-pan";
 import { Icon } from "@/components/ui";
 import { formatArea, formatAreaExact } from "@/content/source";
 import type { LeasingExperience, PlanLevel } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
+import { registeredData } from "@/data/registered";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
@@ -54,6 +55,11 @@ const copy = {
   stairs: { ro: "Scări între niveluri", ru: "Лестницы между уровнями", en: "Stairs between the levels" },
   showSchedule: { ro: "Arată explicația încăperilor", ru: "Показать экспликацию", en: "Show the room schedule" },
   hideSchedule: { ro: "Ascunde explicația încăperilor", ru: "Скрыть экспликацию", en: "Hide the room schedule" },
+  // no approved drawing (OWNER «LEASING TEMPLATE LOCK» §2): the same frame, «Планы предоставляются по запросу», the confirmed floor logic and registered premises
+  onRequestShort: { ro: "La cerere", ru: "По запросу", en: "On request" },
+  registered: { ro: "înregistrată", ru: "зарегистрированная", en: "registered" },
+  registeredNote: { ro: "Suprafața spațiilor înregistrate (date cadastrale / fiscale) — nu este suprafața disponibilă pentru închiriere.", ru: "Площадь зарегистрированных помещений (кадастр / налоговый учёт) — это не свободная площадь для аренды.", en: "The area of the registered premises (cadastral / tax records) — not the area available for lease." },
+  floors: { ro: "Niveluri și spațiu", ru: "Уровни и помещение", en: "Levels and space" },
 } satisfies Record<string, Localized>;
 
 /** The drawing of one level in its dossier frame. */
@@ -80,9 +86,9 @@ function Drawing({ x, level, locale }: { x: LeasingExperience; level: PlanLevel;
   );
 }
 
-export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: AvailableSpace; locale: SiteLocale }) {
+export function PlansScene({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {
   const p = x.plans;
-  const breakdown = unit.breakdown ?? [];
+  const breakdown = offer.breakdown;
   const byKey = (key: string) => breakdown.find((level) => level.key === key);
   const terrace = byKey("terrace");
   const levels = p.levels.filter((level) => level.drawing);
@@ -108,7 +114,7 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
 
   // the KPIs that do not switch: commercial total and terrace
   const fixed = [
-    ...(unit.usefulArea ? [{ key: "commercial", label: copy.commercialTotal[locale], value: splitArea(formatArea(unit.usefulArea, locale)) }] : []),
+    ...(offer.usefulArea ? [{ key: "commercial", label: copy.commercialTotal[locale], value: splitArea(formatArea(offer.usefulArea, locale)) }] : []),
     ...(terrace ? [{ key: "terrace", label: terrace.label[locale], value: splitArea(formatAreaExact(terrace.area, locale)) }] : []),
   ];
   const extra = (
@@ -122,7 +128,7 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
         ))}
       </dl>
       <p className="lg-plans__line">{x.area.propertyLine[locale]}</p>
-      <p className="lg-plans__line">{x.area.groundOnly.text[locale]} — <span className="lg-plans__status">{ui.toConfirm[locale].toLowerCase()}</span></p>
+      {x.area.groundOnly ? <p className="lg-plans__line">{x.area.groundOnly.text[locale]} — <span className="lg-plans__status">{ui.toConfirm[locale].toLowerCase()}</span></p> : null}
     </>
   );
 
@@ -162,21 +168,63 @@ export function PlansScene({ x, unit, locale }: { x: LeasingExperience; unit: Av
     );
   };
 
+  const req = !levels.length ? p.onRequest ?? null : null;
+  const reg = registeredData[x.project] ?? null;
+  const regFigure = reg ? splitArea(formatArea(reg.area, locale)) : null;
+  const requestTab = req
+    ? {
+        key: "request",
+        label: req.tab[locale],
+        body: (
+          <>
+            <span className="lg-kpi__head"><b>01</b>{req.tab[locale]}</span>
+            {regFigure ? <span className="lg-kpi__figure"><strong>{regFigure.figure}</strong><span className="lg-kpi__unit">{regFigure.unit}</span><em>{copy.registered[locale]}</em></span> : null}
+          </>
+        ),
+      }
+    : null;
+  const requestView = req ? (
+    <figure className="lg-drawing lg-drawing--request">
+      <figcaption className="lg-drawing__head">
+        <span className="lg-drawing__title">{req.title[locale]}</span>
+        <span className="lg-drawing__note">{copy.onRequestShort[locale]}</span>
+      </figcaption>
+      <div className="lg-request">
+        <p className="lg-request__status">{req.text[locale]}</p>
+        <a className="btn" href="#lg-form" data-intent="plans"><span>{ui.plansGet[locale]}</span><Icon /></a>
+      </div>
+    </figure>
+  ) : null;
+  const requestSide = req ? (
+    <div>
+      <p className="lg-label">{copy.floors[locale]}</p>
+      <ul className="lg-plans__floors">
+        {req.floors.map((floor) => <li key={floor.en}>{floor[locale]}</li>)}
+      </ul>
+      {reg ? <p className="lg-plans__regnote">{copy.registeredNote[locale]}</p> : null}
+    </div>
+  ) : null;
+  const requestExtra = req ? (
+    <>
+      <p className="lg-plans__line">{x.area.propertyLine[locale]}</p>
+    </>
+  ) : null;
+
   return (
-    <LgSection id="plans" tone="white" labelledBy="lg-plans-title" className="lg-plans">
-      <LgHead heading={p} locale={locale} id="lg-plans-title" area={formatArea(unit.area, locale)} layout="split" />
+    <LgSection id="plans" tone="white" labelledBy="lg-plans-title" className={`lg-plans${req ? " lg-plans--request" : ""}`}>
+      <LgHead heading={p} locale={locale} id="lg-plans-title" area={offer.figure} layout="split" />
       <PlanViewer
-        tabs={tabs}
-        views={levels.map((level) => <Drawing key={level.key} x={x} level={level} locale={locale} />)}
-        sides={levels.map((level) => <div key={level.key}>{side(level)}</div>)}
+        tabs={requestTab ? [requestTab] : tabs}
+        views={requestView ? [requestView] : levels.map((level) => <Drawing key={level.key} x={x} level={level} locale={locale} />)}
+        sides={requestSide ? [requestSide] : levels.map((level) => <div key={level.key}>{side(level)}</div>)}
         label={copy.views[locale]}
-        extra={extra}
+        extra={requestExtra ?? extra}
       />
       <div className="lg-plans__foot" data-reveal>
         <p className="lg-plans__note">{p.note[locale]}</p>
         <p className="lg-plans__actions">
           <a className="pm-link" href="#tech" data-drawer="tech" aria-haspopup="dialog"><span>{ui.chTech[locale]}</span><Icon /></a>
-          <a className="btn" href="#viewing" data-intent="plans"><span>{ui.plansFull[locale]}</span><Icon /></a>
+          <a className="btn" href="#viewing" data-intent="plans"><span>{req ? ui.plansGet[locale] : ui.plansFull[locale]}</span><Icon /></a>
         </p>
       </div>
     </LgSection>

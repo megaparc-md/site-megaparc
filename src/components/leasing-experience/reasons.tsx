@@ -1,8 +1,7 @@
 import type { CSSProperties } from "react";
-import { LgPhoto } from "@/components/leasing-experience/parts";
-import { formatArea } from "@/content/source";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
+import { LgPhoto, withArea } from "@/components/leasing-experience/parts";
 import { T, type LeasingExperience } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
@@ -21,10 +20,11 @@ const copy = {
   concept: T("Un singur concept.", "Одна концепция.", "One concept."),
 };
 
-export function Reasons({ x, unit, locale }: { x: LeasingExperience; unit: AvailableSpace; locale: SiteLocale }) {
-  const levels = (unit.breakdown ?? []).filter((level) => level.key !== "terrace").length || 2;
-  const lines = [`${formatArea(unit.area, locale)}.`, copy.levels(levels, locale), copy.concept[locale]];
-  const photo = x.photos.lowerFinish;
+export function Reasons({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {
+  const levels = offer.breakdown.filter((level) => level.key !== "terrace").length || 2;
+  // a dataset's own statement («{area}» = the hero figure); the master reads it from the unit record
+  const lines = x.statement ? x.statement.lines.map((line) => withArea(line[locale], offer.figure)) : [`${offer.figure}.`, copy.levels(levels, locale), copy.concept[locale]];
+  const photo = x.statement ? (x.statement.photo ? x.photos[x.statement.photo] : undefined) : x.photos.lowerFinish;
   return (
     <section className="lg-statement" aria-labelledby="lg-statement-title">
       <div className="xp-shell lg-statement__head">

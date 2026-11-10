@@ -80,7 +80,7 @@ export type LensRef = "location" | "tech" | "readiness" | "plans" | "photos" | "
  */
 export type PhotoZone = { label: Localized; shape: Pt[]; at: Pt };
 export type LensFormat = {
-  key: "retail" | "showroom" | "service" | "office";
+  key: "retail" | "showroom" | "service" | "office" | "headquarters" | "commercial";
   label: Localized;
   /** the format's own question about the location and the space */
   question: Localized;
@@ -91,7 +91,8 @@ export type LensFormat = {
   /** the format's own headings of the two lists (absent → the section's «Что говорит в пользу» / «Что проверим вместе») */
   evidenceTitle?: Localized;
   checksTitle?: Localized;
-  overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string };
+  /** null where no interior photograph exists — the visual keeps its frame and says the organisation is shown on the plan at the viewing */
+  overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string } | null;
 };
 
 /**
@@ -133,14 +134,37 @@ export type EcosystemGroup = { key: string; title: Localized; text: Localized; c
 /** A mark of the visibility study on the aerial photograph — confirmed elements only (pixel space of the photo). */
 export type VisibilityMark = { key: string; kind: "object" | "entrance" | "pavement" | "road" | "glazing"; label: Localized; shape: Pt[]; at: Pt; evidence: Evidence; source: string };
 
+/**
+ * OWNER «LEASING TEMPLATE LOCK · MOSCOVA 20 = EXACT MASTER TEMPLATE» (2026-11-10): one page system, four datasets.
+ * Moscova 20 is the canonical master configuration; Moscova 9, Dacia 31 and Creangă 78 fill the same fields. A field
+ * that has no confirmed data keeps its section and renders its honest «по запросу» state — the structure never changes.
+ */
+export type CtaCopy = { primary: Localized; secondary: { label: Localized; href: string } };
+/** The decision-support zone (portal 04, the teaser card, the drawer): the economics reverse calculation, the office scenario, or the waiting list. */
+export type DecisionKind = "economics" | "office" | "waitlist";
+
 export type LeasingExperience = {
-  unitId: string;
+  /** the published unit whose status drives the page (Moscova 20, Moscova 9) — null for a property-level offer (Dacia 31, Creangă 78) */
+  unitId: string | null;
   project: string;
   address: Localized;
   photos: Record<string, Photo>;
+  /** missing photograph slots of the sixteen-shot brief — internal OWNER INPUT, never rendered */
+  ownerInput?: string[];
 
   /** SCENE 01 — DESIRE: the building first (a crop without the neighbour's lettering), the positioning line, the offer. */
   hero: { photo: string; phonePhoto: string; title: Localized; place: Localized; offer: Localized; support: Localized };
+  /** fixed actions for a property-level story (early interest · viewing · waiting list); absent → read from the unit status (Moscova 20) */
+  cta?: CtaCopy;
+  /** the hero figure when the marketed area is not confirmed — the registered area, labelled as such by `hero.offer` */
+  figure?: number;
+  /** portal words where the property's story differs (absent → the Moscova 20 words) */
+  portals?: Partial<Record<"location" | "plans" | "ready" | "decision", { label: Localized; word: Localized }>>;
+  /** summary cards (absent → computed from the unit record, Moscova 20) */
+  summary?: { key: string; label: Localized; title: Localized; text: Localized }[];
+  /** the statement scene (absent → «{area}. / N уровня. / Одна концепция.» from the unit record, Moscova 20) */
+  statement?: { lines: Localized[]; photo: string | null };
+  decision: { kind: DecisionKind; teaser: { title: Localized; text: Localized } };
 
   /** Three reasons visible at once, right after the decision bar. */
   reasons: { label: Localized; items: { key: string; no: string; label: Localized; text: Localized }[] };
@@ -149,14 +173,20 @@ export type LeasingExperience = {
   motion: Heading & {
     ecosystemTitle: Localized;
     ecosystem: EcosystemGroup[];
-    modelTitle: Localized;
-    modelCaption: Localized;
-    rhythmTitle: Localized;
-    rhythmNote: Localized;
+    /** the location-model copy — only where a traffic record is shown (Moscova 20) */
+    modelTitle?: Localized;
+    modelCaption?: Localized;
+    rhythmTitle?: Localized;
+    rhythmNote?: Localized;
     mapTab: Localized;
     mapCaption: Localized;
     visibilityTab: Localized;
-    visibility: { photo: string; caption: Localized; marks: VisibilityMark[] };
+    /** the real aerial with the confirmed marks — null where no aerial photograph exists (the address card shows the OSM map) */
+    visibility: { photo: string; caption: Localized; marks: VisibilityMark[] } | null;
+    /** the address card's line when there is no aerial */
+    addressText?: Localized;
+    /** the transport card where the catchment map is not shown (OSM stops on the location map) */
+    transport?: { title: Localized; text: Localized };
     verdict: { title: Localized; text: Localized };
     cta: { title: Localized; text: Localized };
   };
@@ -165,7 +195,7 @@ export type LeasingExperience = {
   drawers: { tech: { title: Localized; lead: Localized }; readiness: { title: Localized; lead: Localized } };
   specs: TechRow[];
   location: { lead: Localized; points: Fact[]; metrics: LocationMetric[]; internal: HistoricalNote[]; internalNote: string };
-  area: { propertyLine: Localized; groundOnly: Fact };
+  area: { propertyLine: Localized; groundOnly: Fact | null };
   access: TechRow[];
   engineering: { rows: TechRow[]; note: Localized };
   readiness: { confirmTitle: Localized; confirm: Fact[]; costTitle: Localized; cost: CostRow[] };
@@ -173,19 +203,34 @@ export type LeasingExperience = {
   terms: { title: Localized; pending: Localized; covers: Localized[]; rows: Term[] };
 
   /** SCENE 05 — DETAIL: plans and areas, two levels traced from the architectural plans + the section scheme; the room schedule on request. */
-  plans: Heading & { levels: PlanLevel[]; schemeTab: Localized; note: Localized; source: string; marks: { ground: string; lower: string; evidence: Evidence; source: string } | null };
+  plans: Heading & {
+    levels: PlanLevel[];
+    schemeTab: Localized;
+    note: Localized;
+    source: string;
+    marks: { ground: string; lower: string; evidence: Evidence; source: string } | null;
+    /** no approved drawing: the same plan frame with «Планы предоставляются по запросу» and the floor logic that is confirmed */
+    onRequest?: { tab: Localized; title: Localized; text: Localized; floors: Localized[] };
+  };
 
   /** SCENE 04 — PROOF with emotion: the capital base, one large photograph and two lists of five. */
-  capex: Heading & { photo: string; readyTitle: Localized; ready: Fact[]; tenantTitle: Localized; tenant: Fact[] };
+  capex: Heading & { photo: string | null; readyTitle: Localized; ready: Fact[]; tenantTitle: Localized; tenant: Fact[] };
 
   /** SCENE 06 — DETAIL: the photo sequence 01 · address → 06 · possibility, each frame answering one question. */
   story: Heading & { frames: { key: string; no: string; shot: Shot; label: Localized; caption: Localized }[] };
 
   /** SCENE 03 — «Какой бизнес вы рассматриваете?»: four formats, one shown at a time. */
-  lens: Heading & { formats: LensFormat[]; honesty: Localized; regulated: Localized; scenarioNote: Localized; evidenceTitle: Localized; checksTitle: Localized };
+  lens: Heading & { formats: LensFormat[]; honesty: Localized; regulated: Localized; scenarioNote: Localized; evidenceTitle: Localized; checksTitle: Localized; /** the visual's text where no interior photograph exists yet */ noPhoto?: Localized };
 
   /** SCENE 07 — CONVERSION: «Не решайте по фотографиям.», two actions, the short form. The film plugs in here when it exists (poster first, never autoplay). */
-  viewing: Heading & { photo: string; contactsLine: Localized; steps: { title: Localized; text: Localized }[]; film: { src: string; poster: string; title: Localized; duration: string } | null };
+  viewing: Heading & {
+    photo: string | null;
+    contactsLine: Localized;
+    steps: { title: Localized; text: Localized }[];
+    film: { src: string; poster: string; title: Localized; duration: string } | null;
+    /** the second action card (absent → «Получить коммерческое предложение» + the one public line on terms) */
+    second?: { label: Localized; meta: Localized; intent: string };
+  };
 };
 
 /* ------------------------------------------------------------------ */

@@ -2,7 +2,7 @@ import { ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
 import { formatAreaExact, type ProjectEntry } from "@/content/source";
 import { publishable, type CostState, type LeasingExperience, type TechRow } from "@/data/leasing-experience-model";
-import type { AvailableSpace } from "@/data/leasing-inventory";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { googleDirectionsUrl } from "@/lib/assets";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
@@ -19,7 +19,7 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 type Row = { key: string; label: string; value: string; state?: TechRow["state"] };
 const visible = (row: TechRow) => publishable(row.evidence) || row.state === "confirm";
 const toRow = (row: TechRow, locale: SiteLocale): Row => ({ key: row.key, label: row.label[locale], value: row.value[locale], state: row.state });
-const says = /уточня|clarific|confirm/i;
+const says = /уточня|подтвержда|clarific|confirm/i;
 const joined = (names: string[], locale: SiteLocale) => names.map((name, i) => (i && locale !== "en" ? name.charAt(0).toLocaleLowerCase(locale) + name.slice(1) : name));
 const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB")} ${locale === "ru" ? "м" : "m"}`;
 
@@ -58,8 +58,8 @@ function Rows({ rows, locale }: { rows: Row[]; locale: SiteLocale }) {
   );
 }
 
-export function TechSheet({ x, unit, project, locale }: { x: LeasingExperience; unit: AvailableSpace; project: ProjectEntry; locale: SiteLocale }) {
-  const levels = unit.breakdown ?? [];
+export function TechSheet({ x, offer, project, locale }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale }) {
+  const levels = offer.breakdown;
   const floors = levels.filter((level) => level.key !== "terrace");
   const heights = floors.filter((level) => level.height);
   const power = x.engineering.rows.find((row) => row.key === "power" && publishable(row.evidence));
@@ -75,14 +75,14 @@ export function TechSheet({ x, unit, project, locale }: { x: LeasingExperience; 
   return (
     <div className="lg-sheet">
       <p className="lg-sheet__lead">{x.drawers.tech.lead[locale]}</p>
-      <dl className="lg-sheet__big lg-facts">
+      {big.length ? <dl className="lg-sheet__big lg-facts">
         {big.map((item) => (
           <div key={item.label} className="lg-card lg-fact">
             <dt>{item.label}</dt>
             <dd>{item.value}</dd>
           </div>
         ))}
-      </dl>
+      </dl> : null}
       <section className="lg-sheet__part">
         <h3 className="lg-label">{copy.areas[locale]}</h3>
         <Rows
@@ -91,7 +91,7 @@ export function TechSheet({ x, unit, project, locale }: { x: LeasingExperience; 
             ...levels.map((level) => ({ key: level.key, label: level.label[locale], value: `${formatAreaExact(level.area, locale)}${level.useful ? ` · ${ui.usefulShort[locale]} ${formatAreaExact(level.useful, locale)}` : ""}` })),
             ...(heights.length ? [{ key: "heights", label: ui.heights[locale], value: heights.map((level, i) => `${joined(heights.map((item) => item.label[locale]), locale)[i]} ${level.heightEvidence === "APPROXIMATE" ? `${ui.approx[locale]} ` : ""}${fmtHeight(level.height!, locale)}`).join(" · "), state: "fact" as const }] : []),
             { key: "property", label: project.name, value: x.area.propertyLine[locale], state: "fact" as const },
-            { key: "ground-only", label: x.area.groundOnly.text[locale], value: ui.toConfirm[locale], state: "confirm" as const },
+            ...(x.area.groundOnly ? [{ key: "ground-only", label: x.area.groundOnly.text[locale], value: ui.toConfirm[locale], state: "confirm" as const }] : []),
           ]}
         />
       </section>
@@ -113,7 +113,7 @@ export function TechSheet({ x, unit, project, locale }: { x: LeasingExperience; 
   );
 }
 
-export function ReadinessSheet({ x, locale, open }: { x: LeasingExperience; locale: SiteLocale; open: boolean }) {
+export function ReadinessSheet({ x, locale, offer }: { x: LeasingExperience; locale: SiteLocale; offer: TemplateOffer }) {
   return (
     <div className="lg-sheet">
       <p className="lg-sheet__lead">{x.drawers.readiness.lead[locale]}</p>
@@ -145,7 +145,7 @@ export function ReadinessSheet({ x, locale, open }: { x: LeasingExperience; loca
         ) : null}
       </section>
       <p className="lg-sheet__links">
-        <a className="btn" href="#lg-form" data-intent="viewing"><span>{open ? ui.viewing[locale] : ui.waitlist[locale]}</span><Icon /></a>
+        <a className="btn" href="#lg-form" data-intent="viewing"><span>{offer.primary}</span><Icon /></a>
       </p>
     </div>
   );
