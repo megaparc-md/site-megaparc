@@ -1110,3 +1110,6 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 /* R3.1 — the heritage title is sized to its column, never capped narrower than its longest word */
 .r3-heritage .r3-heritage__title { max-width: none; font-size: clamp(1.9rem, 2.9vw, 3.4rem); }
 @media (max-width: 719px) { .r3-heritage .r3-heritage__title { font-size: 1.72rem; } }
+
+/* R3.1 — legacy split titles in the serif: the ch cap measured for Geist is too tight for 16-letter Russian words («Профессиональный») */
+.xp-split__title { max-width: 22ch; }
