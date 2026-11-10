@@ -257,8 +257,9 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
             <div><dt>{c.figLand}</dt><dd><Figure value={portfolioFigures.land.value[locale]} /></dd></div>
             <div><dt>{c.figOperating}</dt><dd>{portfolioFigures.operating.value[locale]}</dd></div>
             <div><dt>{c.figDev}</dt><dd>{String(developmentCount).padStart(2, "0")}</dd></div>
-            <div><dt>{c.figFounded}</dt><dd>2005</dd></div>
+            {/* chronological, and never read as "founded … 1991": the group's origins first, then MEGAPARC 2005 */}
             <div><dt>{c.figGroup}</dt><dd>1991</dd></div>
+            <div><dt>{c.figFounded}</dt><dd>2005</dd></div>
           </dl>
         </div>
         <Link href={p(`/projects/${dacia.slug}`)} className="r3-band r3-band--link" data-reveal>

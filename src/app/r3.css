@@ -1103,3 +1103,10 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 /* R3.1 PASS 2 — thesis separator: breakable after the dot (a pre-formatted gap made the words the only break point) */
 .r3-thesis__verbs li { overflow-wrap: normal; }
 @media (min-width: 900px) { .r3-thesis__verbs li::after { content: "\00a0\00a0\00b7  "; white-space: normal; } }
+
+/* R3.1 — phone measure for long Russian words in the heritage title («предпринимательства.») */
+@media (max-width: 719px) { .r3-heritage__title { font-size: 1.72rem; } }
+
+/* R3.1 — the heritage title is sized to its column, never capped narrower than its longest word */
+.r3-heritage .r3-heritage__title { max-width: none; font-size: clamp(1.9rem, 2.9vw, 3.4rem); }
+@media (max-width: 719px) { .r3-heritage .r3-heritage__title { font-size: 1.72rem; } }
