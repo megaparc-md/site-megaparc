@@ -5,7 +5,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 
 /**
  * PROJECTS DROPDOWN — the header's compact architectural mega-menu (OWNER brief "HEADER / NAVIGATION SYSTEM",
- * 2026-11-09). OWNER preview edition only until OWNER review (the production header keeps the plain link).
+ * 2026-11-09); accepted for production by OWNER «FINAL R3.1» §14 / §43.
  * Desktop: opens on hover (short close delay), click and keyboard focus; Escape and a click outside close it;
  * aria-expanded / aria-controls; arrow keys move through the list. Left: the projects; right: the selected
  * project's real photograph, name, confirmed descriptor and derived status. Mobile: an accordion, no hover.
@@ -31,7 +31,14 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
     return () => document.removeEventListener("mousedown", onDown);
   }, [open]);
 
-  const show = () => { window.clearTimeout(timer.current); setOpen(true); };
+  // when the panel was just opened by hover or by the focus a click gives the button, that same click must not close it
+  const openedAt = useRef(0);
+  const show = () => { window.clearTimeout(timer.current); if (!open) openedAt.current = Date.now(); setOpen(true); };
+  const onToggle = () => {
+    if (open && Date.now() - openedAt.current < 600) return;
+    if (!open) openedAt.current = Date.now();
+    setOpen((value) => !value);
+  };
   const hideSoon = () => { window.clearTimeout(timer.current); timer.current = window.setTimeout(() => setOpen(false), 220); };
   const links = () => Array.from(root.current?.querySelectorAll<HTMLAnchorElement>(".pmenu__list a, .pmenu__all") ?? []);
   const onKey = (event: KeyboardEvent) => {
@@ -55,7 +62,7 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
         aria-expanded={open}
         aria-controls={panelId}
         aria-current={data.active ? "page" : undefined}
-        onClick={() => setOpen((value) => !value)}
+        onClick={onToggle}
         onFocus={() => { if (suppressFocus.current) { suppressFocus.current = false; return; } show(); }}
       >
         {data.label}

@@ -1113,3 +1113,6 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 
 /* R3.1 — legacy split titles in the serif: the ch cap measured for Geist is too tight for 16-letter Russian words («Профессиональный») */
 .xp-split__title { max-width: 22ch; }
+
+/* R3.1 — mobile menu on overlay pages: a backdrop-filter on the open header made it the containing block of the fixed panel (0 px high); the header is already opaque ivory when the menu is open */
+html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -webkit-backdrop-filter: none; backdrop-filter: none; }

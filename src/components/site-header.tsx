@@ -5,15 +5,17 @@ import type { ProjectsMenuData } from "@/components/projects-menu";
 import { SiteNav } from "@/components/site-nav";
 import { availabilityLabel, availabilityOf, formatAreaRange, getProject, kindLabel, propertyOccupancy, spacesFor } from "@/content/source";
 import type { OperatingSlug } from "@/data/demo-content";
-import { brand, isProductionEdition, localePath, ui, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
 
 const menuOrder = ["dacia-31", "moscova-9", "moscova-20", "creanga-78", "vatra", "drochia-gateway"];
 const allProjects = { ro: "Toate proiectele →", ru: "Все проекты →", en: "All projects →" } as const;
 const fullyLetLabel = { ro: "Ocupat 100 %", ru: "Занят на 100 %", en: "100% occupied" } as const;
 
-/** The projects dropdown data (OWNER preview edition only until OWNER review): real images, confirmed descriptors, derived status. */
-function projectsMenu(locale: SiteLocale): Omit<ProjectsMenuData, "label" | "active"> | undefined {
-  if (isProductionEdition) return undefined;
+/**
+ * The projects dropdown data: real images, confirmed descriptors, status derived from the register. Preview-only until
+ * the OWNER review; OWNER «FINAL R3.1» §14 / §43 (2026-11-09) keeps it and accepts it on production — both editions.
+ */
+function projectsMenu(locale: SiteLocale): Omit<ProjectsMenuData, "label" | "active"> {
   const items = menuOrder.flatMap((slug) => {
     const project = getProject(slug);
     if (!project) return [];
