@@ -1674,6 +1674,7 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 
 /* LEVEL 3 — three groups (a disclosure that phones fold) */
 .lg-pass__groups { margin-top: clamp(2rem, 4vw, 2.8rem); border-top: 1px solid var(--r3-hair-strong); }
+.lg-pass__group dd { margin: 0; }
 .lg-pass__group { border-bottom: 1px solid var(--r3-hair-strong); }
 .lg-pass__summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .2rem 1rem; padding: 1.15rem 0; cursor: pointer; list-style: none; }
 .lg-pass__summary::-webkit-details-marker { display: none; }
@@ -1684,17 +1685,41 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 .lg-pass__group:not([open]) .lg-pass__preview { display: block; }
 .lg-pass__chev { grid-column: 2; grid-row: 1 / span 2; width: 1.25rem; height: 1.25rem; fill: none; stroke: var(--r3-ink); stroke-width: 1.5; transition: transform .35s var(--r3-ease, ease); }
 .lg-pass__group[open] .lg-pass__chev { transform: rotate(180deg); }
-.lg-pass__items { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 2.2rem; padding: 0 0 1.5rem; }
-.lg-pass__item { min-width: 0; padding: 1rem 0 1.05rem; border-top: 1px solid var(--r3-hair); }
-.lg-pass__item:first-child { border-top: 0; padding-top: .25rem; }
-.lg-pass__ititle { margin: 0 0 .35rem; color: var(--r3-muted); font-family: var(--font); font-size: .84rem; font-weight: 550; line-height: 1.35; letter-spacing: 0; }
-.lg-pass__value { margin: 0; color: var(--r3-ink); font-size: 1.08rem; font-weight: 550; line-height: 1.35; }
-.lg-pass__note { max-width: 30rem; margin: .4rem 0 0; color: var(--r3-text); font-size: .92rem; line-height: 1.5; opacity: .86; }
-@container (min-width: 40rem) {
-  .lg-pass__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .lg-pass__item:nth-child(2) { border-top: 0; padding-top: .25rem; }
-  .lg-pass__item.is-levels { grid-column: 1 / -1; }
+/* one specification sheet (OWNER technical data update 2026-11-10): term · value · a short explanation; two columns of groups on wide screens */
+.lg-pass__items { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0 0 1.2rem; }
+.lg-pass__item { min-width: 0; padding: .72rem 0 .78rem; border-top: 1px solid var(--r3-hair); }
+.lg-pass__item:first-child { border-top: 0; padding-top: .15rem; }
+.lg-pass__ititle { margin: 0 0 .22rem; color: var(--r3-muted); font-family: var(--font); font-size: .8rem; font-weight: 550; line-height: 1.35; letter-spacing: 0; }
+.lg-pass__value { margin: 0; color: var(--r3-ink); font-size: 1.04rem; font-weight: 550; line-height: 1.35; }
+.lg-pass__note { max-width: 30rem; margin: .3rem 0 0; color: var(--r3-text); font-size: .88rem; line-height: 1.5; opacity: .86; }
+.lg-pass__gnote { margin: -.3rem 0 1.3rem; padding-left: .8rem; border-left: 2px solid var(--r3-burgundy); color: var(--r3-ink); font-size: .9rem; font-weight: 500; line-height: 1.5; }
+@container (min-width: 42rem) {
+  .lg-pass__groups { columns: 2; column-gap: 2.6rem; border-top: 0; }
+  .lg-pass__group { break-inside: avoid; margin-bottom: 1.2rem; border-top: 1px solid var(--r3-hair-strong); border-bottom: 0; }
+  .lg-pass__summary { padding: 1rem 0 .8rem; }
 }
+
+/* the two sides of the property — the boulevard above, the courtyard below, the premises between (directions, not to scale) */
+.lg-pass__sides { margin-top: clamp(2rem, 4vw, 2.8rem); }
+.lg-pass__sidemap { display: grid; gap: 0; border: 1px solid var(--r3-hair-strong); }
+.lg-pass__side { display: grid; grid-template-columns: minmax(0, 1fr); gap: .45rem; padding: .95rem 1.1rem; }
+.lg-pass__sidename { margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: 1.15rem; font-weight: 400; line-height: 1.2; color: var(--r3-ink); }
+.lg-pass__sideitems { display: flex; flex-wrap: wrap; gap: .35rem 1.3rem; margin: 0; padding: 0; list-style: none; }
+.lg-pass__sideitems li { display: inline-flex; align-items: baseline; gap: .45rem; font-size: .95rem; line-height: 1.4; }
+.lg-pass__sideitems li::before { flex: none; color: var(--r3-burgundy); font-weight: 600; }
+.lg-pass__side.is-up .lg-pass__sideitems li::before { content: "↑"; }
+.lg-pass__side.is-down .lg-pass__sideitems li::before { content: "↓"; }
+.lg-pass__core { margin: 0; padding: .8rem 1.1rem; background: var(--r3-graphite); color: #fff; font-size: .9rem; font-weight: 550; letter-spacing: .01em; }
+.lg-pass__caption { margin: .55rem 0 0; color: var(--r3-muted); font-size: .8rem; line-height: 1.4; }
+@container (min-width: 46rem) {
+  .lg-pass__side { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); align-items: baseline; gap: 1.4rem; padding: 1.05rem 1.4rem; }
+  .lg-pass__core { padding: .85rem 1.4rem; }
+}
+
+/* the levels table as its own block */
+.lg-pass__levelsblock { margin-top: 0; }
+.lg-pass__levelsblock .lg-pass__levelsnote { margin-bottom: 1.3rem; }
+@container (min-width: 42rem) { .lg-pass__levelsblock { margin-top: .2rem; } .lg-pass__levelsblock .lg-pass__group { margin-bottom: 0; border-bottom: 1px solid var(--r3-hair-strong); } }
 .lg-pass__levels { width: 100%; margin: .35rem 0 0; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
 .lg-pass__levels th, .lg-pass__levels td { padding: .6rem .7rem .6rem 0; border-bottom: 1px solid var(--r3-hair); text-align: left; vertical-align: baseline; font-size: .98rem; line-height: 1.3; white-space: nowrap; }
 .lg-pass__levels thead th { padding-top: 0; color: var(--r3-muted); font-size: .78rem; font-weight: 550; }

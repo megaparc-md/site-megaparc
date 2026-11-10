@@ -66,11 +66,18 @@ export type TechRow = { key: string; label: Localized; value: Localized; state: 
 
 /** One key fact of the technical passport: a figure (or the clear heights read from the unit's level breakdown) and its unit as separate boxes. */
 export type PassportFact = { key: string; figure: Localized | "heights"; unit: Localized; label: Localized; evidence: Evidence; source: string };
-/** One item of a passport group; `levels` renders the unit's level breakdown (gross · useful · clear height) instead of a value. */
-export type PassportItem = { key: string; title: Localized; value?: Localized; note?: Localized; kind?: "levels"; evidence: Evidence; source: string };
+/** One specification row of a passport group: term · value · an optional short explanation. */
+export type PassportItem = { key: string; title: Localized; value: Localized; note?: Localized; evidence: Evidence; source: string };
+/** One side of the property and what opens onto it (OWNER technical data update 2026-11-10 — directions only, never positions). */
+export type PassportSide = { key: string; name: Localized; items: Localized[]; evidence: Evidence; source: string };
 export type TechPassport = {
   facts: PassportFact[];
-  groups: { key: string; title: Localized; items: PassportItem[] }[];
+  /** the access / logistics directions: the boulevard and the courtyard, with the premises between them (a diagram of directions, not to scale) */
+  sides?: { title: Localized; core: Localized; sides: PassportSide[]; caption: Localized };
+  /** one specification sheet: engineering · logistics · access · sanitary · fit-out (two columns on wide screens, folded groups on phones) */
+  groups: { key: string; title: Localized; items: PassportItem[]; note?: Localized }[];
+  /** the unit's level breakdown (gross · useful · clear height) with the offered area against the property */
+  levelsTitle: Localized;
   ready: { title: Localized; items: Localized[] };
   capex: Localized;
   check: { title: Localized; lead: Localized; items: Localized[] };

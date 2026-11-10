@@ -3,7 +3,7 @@ import { PassportFold } from "@/components/leasing-experience/passport-fold";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { Icon } from "@/components/ui";
 import { formatAreaExact } from "@/content/source";
-import { publishable, type LeasingExperience, type PassportFact, type PassportItem, type TechPassport } from "@/data/leasing-experience-model";
+import { publishable, type LeasingExperience, type PassportFact, type PassportItem, type PassportSide, type TechPassport } from "@/data/leasing-experience-model";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
@@ -11,7 +11,8 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * drawer as a hierarchy instead of a spreadsheet:
  *   1 title + one sentence (drawer head + lead)
  *   2 four key facts — Source Serif figures, the unit as its own box, a Geist label
- *   3 three groups (engineering · access and operation · safety) that explain the facts instead of repeating them
+ *   3 the two sides (boulevard · courtyard) and one specification sheet — engineering · logistics · access · sanitary
+ *     rooms · fit-out (OWNER technical data update 2026-11-10) — then the levels table
  *   4 what is already in the building + the approved tenant-investment line · what we check for your format
  *   5 the owner principle on a graphite band with the viewing action
  * Every value comes from the dataset's confirmed records (the unit's level breakdown for areas and heights); an item
@@ -89,22 +90,44 @@ function Levels({ offer, x, locale }: { offer: TemplateOffer; x: LeasingExperien
   );
 }
 
-function Item({ item, offer, x, locale }: { item: PassportItem; offer: TemplateOffer; x: LeasingExperience; locale: SiteLocale }) {
-  if (item.kind === "levels") {
-    if (!offer.breakdown.length) return null;
-    return (
-      <div className="lg-pass__item is-levels">
-        <h4 className="lg-pass__ititle">{item.title[locale]}</h4>
-        <Levels offer={offer} x={x} locale={locale} />
-      </div>
-    );
-  }
+function Item({ item, locale }: { item: PassportItem; locale: SiteLocale }) {
   return (
     <div className="lg-pass__item">
-      <h4 className="lg-pass__ititle">{item.title[locale]}</h4>
-      {item.value ? <p className="lg-pass__value">{item.value[locale]}</p> : null}
-      {item.note ? <p className="lg-pass__note">{item.note[locale]}</p> : null}
+      <dt className="lg-pass__ititle">{item.title[locale]}</dt>
+      <dd className="lg-pass__value">{item.value[locale]}</dd>
+      {item.note ? <dd className="lg-pass__note">{item.note[locale]}</dd> : null}
     </div>
+  );
+}
+
+function Side({ side, dir, locale }: { side: PassportSide; dir: "up" | "down"; locale: SiteLocale }) {
+  return (
+    <div className={`lg-pass__side is-${dir}`}>
+      <p className="lg-pass__sidename">{side.name[locale]}</p>
+      <ul className="lg-pass__sideitems">
+        {side.items.map((item) => (
+          <li key={item.en}>{item[locale]}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** The two sides of the property and what opens onto each — directions only, never positions (no fourth exit is drawn). */
+function Sides({ sides, locale }: { sides: NonNullable<TechPassport["sides"]>; locale: SiteLocale }) {
+  const shown = sides.sides.filter((side) => publishable(side.evidence));
+  if (shown.length < 2) return null;
+  const [top, bottom] = shown;
+  return (
+    <section className="lg-pass__sides">
+      <h3 className="lg-pass__htitle">{sides.title[locale]}</h3>
+      <div className="lg-pass__sidemap">
+        <Side side={top} dir="up" locale={locale} />
+        <p className="lg-pass__core">{sides.core[locale]}</p>
+        <Side side={bottom} dir="down" locale={locale} />
+      </div>
+      <p className="lg-pass__caption">{sides.caption[locale]}</p>
+    </section>
   );
 }
 
@@ -122,22 +145,35 @@ export function TechPassport({ x, passport: p, offer, locale }: { x: LeasingExpe
         ))}
       </dl>
 
-      {/* LEVEL 3 — three groups; phones fold them (the facts above stay open) */}
+      {/* the boulevard and the courtyard: what opens onto each side (OWNER technical data update 2026-11-10) */}
+      {p.sides ? <Sides sides={p.sides} locale={locale} /> : null}
+
+      {/* LEVEL 3 — one specification sheet: two columns on wide screens; phones fold the groups (the facts above stay open) */}
       <div className="lg-pass__groups">
         {p.groups.map((group) => {
           const items = group.items.filter((item) => publishable(item.evidence));
           if (!items.length) return null;
           return (
             <PassportFold key={group.key} summary={group.title[locale]} preview={items.map((item) => item.title[locale]).join(" · ")}>
-              <div className="lg-pass__items">
+              <dl className="lg-pass__items">
                 {items.map((item) => (
-                  <Item key={item.key} item={item} offer={offer} x={x} locale={locale} />
+                  <Item key={item.key} item={item} locale={locale} />
                 ))}
-              </div>
+              </dl>
+              {group.note ? <p className="lg-pass__gnote">{group.note[locale]}</p> : null}
             </PassportFold>
           );
         })}
       </div>
+
+      {/* the levels table — open on wide screens, folded on phones like the groups */}
+      {offer.breakdown.length ? (
+        <div className="lg-pass__levelsblock">
+          <PassportFold summary={p.levelsTitle[locale]} preview={offer.breakdown.map((level) => level.label[locale]).join(" · ")}>
+            <Levels offer={offer} x={x} locale={locale} />
+          </PassportFold>
+        </div>
+      ) : null}
 
       {/* LEVEL 4 — what the building already has · the approved tenant-investment line · what we check for your format */}
       <section className="lg-pass__ready">
