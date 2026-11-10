@@ -1116,3 +1116,165 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 
 /* R3.1 — mobile menu on overlay pages: a backdrop-filter on the open header made it the containing block of the fixed panel (0 px high); the header is already opaque ivory when the menu is open */
 html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* ==================================================================
+   R3.2 — REFERENCE-LED ART DIRECTION (OWNER 2026-11-10)
+   FINMENTOR editorial discipline · Yellow Tree investment authority ·
+   Inamstro real-estate scale · Moscova 20 decision depth.
+   One idea per scene; the claim, then its evidence; buildings are the
+   content; strong photo large, weak photo small, rejected photo never.
+   Serif (Source Serif 4) for statements, names, years and large
+   figures; Geist for navigation, data, labels, actions.
+   docs/DESIGN_SYSTEM.md §27.
+   ================================================================== */
+
+/* ---- Home 01 · hero: positioning line, statement, one sentence, two quiet typographic paths ---- */
+.r32-hero .r3-label { margin-bottom: 1.5rem; }
+.r32-paths { display: flex; flex-wrap: wrap; gap: .6rem 2.6rem; }
+.r32-path { display: inline-flex; align-items: center; gap: .7rem; padding: .2rem 0 .45rem; border-bottom: 1px solid rgba(255, 255, 255, .5); color: #fff; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.45rem, 2.1vw, 2.15rem); font-weight: 350; line-height: 1.1; letter-spacing: -.012em; text-decoration: none; transition: border-color .3s ease; }
+.r32-path svg { flex: none; transition: transform .45s var(--r3-ease); }
+.r32-path:hover, .r32-path:focus-visible { border-bottom-color: #fff; }
+.r32-path:hover svg, .r32-path:focus-visible svg { transform: translateX(5px); }
+
+/* ---- Home 02 · positioning: one statement, then its evidence ---- */
+.r32-position .r3-shell { display: grid; }
+.r32-position__statement { margin: 0; max-width: 20ch; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(2.15rem, 5.3vw, 6.4rem); font-weight: 300; line-height: 1.04; letter-spacing: -.024em; text-wrap: balance; }
+.r32-position__note { margin-top: clamp(1.6rem, 3vw, 2.6rem); max-width: 34rem; }
+.r32-proof { display: grid; gap: 2.6rem; margin-top: clamp(4rem, 8vw, 7.5rem); padding-top: 2.2rem; border-top: 1px solid var(--r3-hair-strong); }
+.r32-proof__lead { display: grid; gap: .9rem; margin: 0; }
+.r32-proof__value { font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(4.2rem, 12.5vw, 13.5rem); font-weight: 300; line-height: .8; letter-spacing: -.04em; }
+.r32-proof__value .r3-fig__u { margin-top: .2em; font-size: .24em; }
+.r32-proof__label { color: var(--r3-muted); font-size: 1rem; }
+.r32-proof__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin: 0; }
+.r32-proof__row > div { display: flex; flex-direction: column-reverse; justify-content: start; gap: .6rem; min-width: 0; }
+.r32-proof__row dd { margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(2rem, 4.4vw, 5rem); font-weight: 300; line-height: .9; letter-spacing: -.03em; }
+.r32-proof__row dt { color: var(--r3-muted); font-size: .88rem; line-height: 1.35; }
+@media (min-width: 1024px) {
+  .r32-position__note { justify-self: end; max-width: 30rem; margin-top: -1rem; }
+  .r32-proof { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: end; column-gap: clamp(2.5rem, 5vw, 6rem); }
+  .r32-proof__row { gap: 2rem; padding-bottom: .4rem; }
+}
+
+/* ---- Home 03 · projects: large → secondary → large; the rest as an index ---- */
+.r32-assets .r3-head { padding-top: calc(var(--r3-sec) * .2); }
+.r32-scene { display: block; margin-top: clamp(5rem, 11vw, 11rem); color: inherit; text-decoration: none; }
+.r32-scene__media { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; background: var(--r3-stone); }
+.r32-scene__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.8s var(--r3-ease); }
+.r32-scene:hover .r32-scene__media img { transform: scale(1.02); }
+.r32-scene__copy { display: grid; gap: .7rem; padding-top: clamp(1.4rem, 2.6vw, 2.2rem); }
+.r32-scene__name { font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(2.5rem, 5.2vw, 5.6rem); font-weight: 350; line-height: .92; letter-spacing: -.022em; }
+.r32-scene__meta { color: var(--r3-muted); font-size: .95rem; }
+.r32-scene .r3-more { color: var(--r3-text); }
+.r32-scene:hover .r3-more svg { transform: translateX(4px); }
+@media (min-width: 720px) { .r32-scene__media { aspect-ratio: 21 / 9; } }
+@media (min-width: 1024px) { .r32-scene__copy { grid-template-columns: minmax(0, 6fr) minmax(0, 4fr) minmax(0, 2.4fr); align-items: baseline; column-gap: clamp(2rem, 4vw, 4.5rem); } }
+.r32-index { margin-top: clamp(4rem, 8vw, 7rem); }
+
+/* ---- Value sequence (Home on ink · Investment on paper): one line, four verbs ---- */
+.r3-seq__verb { margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(2rem, 2.85vw, 3.4rem); font-weight: 300; line-height: 1; letter-spacing: -.02em; overflow-wrap: normal; }
+.r3-seq .r3-line__station { gap: 1rem; }
+.r3-seq--light::before { background: var(--r3-hair-strong); }
+.r3-seq--light::after { background: var(--r3-burgundy); }
+.r3-seq--light .r3-line__dot { background: var(--r3-ivory); border-color: var(--r3-text); }
+.r3-seq--light .r3-line__text { color: var(--r3-muted); }
+.r3-seq--light .r3-line__proof { color: var(--r3-text); border-bottom-color: var(--r3-hair-strong); }
+.r3-seq--light .r3-line__proof:hover { color: var(--r3-burgundy); border-bottom-color: var(--r3-burgundy); }
+.r32-value__foot { margin-top: clamp(3.4rem, 6vw, 5.5rem); }
+.r32-ivalue .r3-head .r3-lead { max-width: 38rem; }
+
+/* ---- Home 05 · what can I lease now ---- */
+.r32-lease__grid { display: grid; gap: 3rem; }
+.r32-lease__head { display: grid; gap: 1.4rem; align-content: start; }
+.r32-lease__head .r3-label { margin: 0; }
+.r32-lease__head .r3-title { max-width: 12ch; }
+.r32-lease__group + .r32-lease__group { margin-top: clamp(2.6rem, 5vw, 4rem); }
+.r32-lease__when { margin: 0 0 .9rem; color: var(--r3-muted); font-size: .92rem; font-weight: 500; }
+.r32-lease__group ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--r3-hair-strong); }
+.r32-lease__group li { border-bottom: 1px solid var(--r3-hair); }
+.r32-offer { display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; grid-template-areas: "media name icon" "media unit icon" "media state icon"; column-gap: 1.2rem; row-gap: .35rem; align-items: center; padding: 1.3rem 0; color: inherit; text-decoration: none; }
+.r32-offer__media { grid-area: media; align-self: stretch; aspect-ratio: 4 / 3; overflow: hidden; background: var(--r3-stone); }
+.r32-offer__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--r3-ease); }
+.r32-offer__name { grid-area: name; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.55rem, 2.5vw, 2.6rem); font-weight: 350; line-height: 1; letter-spacing: -.02em; transition: color .3s ease; }
+.r32-offer__unit { grid-area: unit; color: var(--r3-muted); font-size: .95rem; line-height: 1.4; }
+.r32-offer__unit .r3-fig__u { margin-top: 0; font-size: .7em; }
+.r32-offer .r3-state { grid-area: state; font-size: .86rem; }
+.r32-offer > svg { grid-area: icon; transition: transform .45s var(--r3-ease), color .3s ease; }
+.r32-offer:hover .r32-offer__name, .r32-offer:hover > svg { color: var(--r3-burgundy); }
+.r32-offer:hover > svg { transform: translateX(6px); }
+.r32-offer:hover .r32-offer__media img { transform: scale(1.04); }
+@media (min-width: 1024px) {
+  .r32-lease__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(3rem, 6vw, 7rem); }
+  .r32-offer { grid-template-columns: 9rem minmax(0, 1fr) auto; column-gap: 1.8rem; padding: 1.6rem 0; }
+}
+
+/* ---- Home 06 · history: one large year ---- */
+.r32-heritage .r3-heritage__year { font-size: clamp(6.4rem, 22vw, 25rem); }
+@media (min-width: 1024px) { .r32-heritage.r3-heritage--type .r3-heritage__copy { align-self: end; } }
+
+/* ---- Investment ---- */
+.r32-ivalue { padding-bottom: calc(var(--r3-sec) * .9); }
+
+/* ---- Leasing: the upcoming offer is compact (weak photograph small); why lease with MEGAPARC ---- */
+@media (min-width: 1024px) {
+  .r3-space.r32-space--compact { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+  .r3-space.r32-space--compact .r3-space__media { grid-column: 1; grid-row: 1; aspect-ratio: 4 / 3; }
+  .r3-space.r32-space--compact .r3-space__copy { grid-column: 2; grid-row: 1; }
+}
+.r32-why__list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--r3-hair-strong); }
+.r32-why__list li { display: grid; gap: .7rem; align-content: start; padding: 1.6rem 0 1.8rem; border-bottom: 1px solid var(--r3-hair); }
+.r32-why__list h3 { margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.45rem, 2.2vw, 2.2rem); font-weight: 350; line-height: 1.1; letter-spacing: -.015em; text-wrap: balance; }
+.r32-why__list p { margin: 0; max-width: 30rem; color: var(--r3-muted); font-size: 1rem; line-height: 1.6; }
+.r32-why .r3-actions { margin-top: clamp(2.4rem, 4vw, 3.4rem); }
+.r32-why__note { margin-top: 1.6rem; }
+@media (min-width: 900px) {
+  .r32-why__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2.5rem, 5vw, 5.5rem); }
+}
+@media (min-width: 1280px) {
+  .r32-why__list { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(1.6rem, 2.6vw, 3rem); border-top: 0; }
+  .r32-why__list li { padding-top: 1.4rem; border-top: 1px solid var(--r3-hair-strong); border-bottom: 0; }
+}
+
+/* ---- History: each major era occupies the page — the year across the width, the chapter below it ---- */
+.r3-era--major .r3-era__year { font-size: clamp(6.6rem, 31vw, 34rem); line-height: .74; margin-left: -.04em; }
+@media (min-width: 1024px) {
+  .r3-era--major .r3-era__year { font-size: clamp(11rem, 29vw, 34rem); }
+  .r3-era--major .r3-era__head { grid-template-columns: minmax(0, 1fr); row-gap: clamp(2.2rem, 4vw, 3.6rem); }
+  .r3-era--major .r3-era__intro { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2.5rem, 5vw, 5.5rem); align-items: end; }
+  .r3-era--major .r3-era__label { grid-column: 1 / -1; }
+  .r3-era--major .r3-era__title { grid-column: 1; max-width: 18ch; }
+  .r3-era--major .r3-era__lead { grid-column: 2; }
+}
+.r3-era--major { padding-block: calc(var(--r3-sec) * 1.1); }
+
+/* ---- Moscova 9 (future availability): the weak photograph held smaller, right-aligned in the shell ---- */
+@media (min-width: 1024px) {
+  .r3-phero--soft .r3-phero__media { width: calc(var(--r3-shell) * .62); height: auto; aspect-ratio: 3 / 2; margin-left: auto; margin-right: calc((100% - var(--r3-shell)) / 2); }
+}
+
+/* ---- Moscova 20 (the benchmark) in the global system: the hero line gets a real measure; kickers in sentence case ---- */
+.lg-page .lg-hero__title { max-width: 24ch; }
+@media (min-width: 1024px) { .lg-page .lg-hero__title { font-size: clamp(1.3rem, 1.75vw, 1.9rem); } }
+
+/* ---- Investment · what each side brings: MEGAPARC leads (R3.2 §7 · 04); the rule always sits between the columns ---- */
+@media (min-width: 720px) {
+  .r3-brings__col:first-child .r3-brings__list { grid-template-columns: none; }
+  .r3-brings__col:not(.r3-brings__col--mp) .r3-brings__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+}
+@media (min-width: 1024px) {
+  .r3-brings__col--mp { padding: 0 clamp(2.5rem, 4.5vw, 5rem) 0 0; border-left: 0; }
+  .r3-brings__col--mp + .r3-brings__col { padding: 0 0 0 clamp(2.5rem, 4.5vw, 5rem); border-left: 1px solid var(--r3-hair-strong); }
+}
+
+/* ---- R3.2 PASS 2 — art-director corrections ---- */
+/* Home hero: the statement never sits on the bright facade — a deeper veil on the reading side only */
+.r32-hero .r3-hero__veil { background: linear-gradient(180deg, rgba(10, 11, 13, .45) 0%, rgba(10, 11, 13, 0) 20%, rgba(10, 11, 13, 0) 38%, rgba(10, 11, 13, .78) 100%), linear-gradient(90deg, rgba(10, 11, 13, .58) 0%, rgba(10, 11, 13, .34) 45%, rgba(10, 11, 13, 0) 78%); }
+/* Home · VATRA: a panoramic band that holds the buildings, not the water above them */
+@media (min-width: 720px) { .r32-scene__media { aspect-ratio: 5 / 2; } .r32-scene__media img { object-position: 45% 88% !important; } }
+@media (min-width: 1280px) { .r32-scene__media { aspect-ratio: 3 / 1; } }
+/* Home · leasing rows: the thumbnail is sized by its column, never by the row height (phones overlapped the text) */
+.r32-offer__media { width: 100%; align-self: start; }
+@media (max-width: 719px) { .r32-offer { grid-template-columns: 5.2rem minmax(0, 1fr) auto; column-gap: 1rem; } .r32-offer__name { font-size: 1.45rem; } }
+/* Moscova 20 · capital base on phones: long Russian words hyphenate instead of breaking mid-word («Специализирован|ная») */
+@media (max-width: 719px) { .lg-page .lg-capex__col li { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: normal; } }
+/* Value sequence: the longest verb («Эксплуатируем», «Реинвестируем», «Achiziționăm») always fits its quarter column, 1024 → 1920 */
+.r3-seq__verb { font-size: clamp(1.7rem, 2.45vw, 2.85rem); }

@@ -6,7 +6,7 @@ import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
 import { storyLine } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
-import { Figure, NB, R3Button, R3Label, R3Link, R3Trust, viewableNow } from "@/components/r3";
+import { Figure, NB, R3Button, R3Label, R3Link, R3Trust, tel, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
 import { availabilityLabel, availabilityOf, formatAreaRange, formatDate, isDemoField, leasingExperienceFor, nextProject, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
@@ -52,8 +52,11 @@ const copy = {
   planEarly: { ro: "Planificați din timp următoarea locație.", ru: `Запланируйте следующую локацию заранее.`, en: "Plan your next location early." },
   discussEarly: { ro: "Discutați înainte de eliberare", ru: "Обсудить до освобождения", en: "Discuss before it is released" },
   seeSpaces: { ro: "Vedeți suprafețele", ru: "Смотреть площади", en: "See the spaces" },
-  upcoming: (unit: string, date: string, locale: SiteLocale) =>
-    locale === "ru" ? `${unit}${NB}— с${NB}${date}.` : locale === "ro" ? `${unit} — din ${date}.` : `${unit} — from ${date}.`,
+  // the date never breaks inside («с 1 / января» left a hanging «с 1» — RU typesetting §5)
+  upcoming: (unit: string, date: string, locale: SiteLocale) => {
+    const d = date.replace(/ /g, NB);
+    return locale === "ru" ? `${unit}${NB}— с${NB}${d}.` : locale === "ro" ? `${unit} — din ${d}.` : `${unit} — from ${d}.`;
+  },
   earlyTitle: { ro: "Rezervați primul pas acum.", ru: `Займите очередь на${NB}просмотр заранее.`, en: "Take the first step now." },
   earlyText: {
     ro: "Spațiul se eliberează la data indicată. Lăsați o cerere — vă contactăm pentru vizionare și verificarea tehnică a formatului dumneavoastră.",
@@ -168,7 +171,8 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
   const caps = fit.capabilities;
   const confirmedCap = (key: Requirement) => (caps && caps[key].status !== "DEMO" && !(fullyLet && offerKeys.includes(key)) ? caps[key] : null);
   const access = accessKeys.map((key) => ({ key, cap: confirmedCap(key) })).filter((row) => row.cap);
-  const keyFacts = asset.keyFacts.filter((fact) => !/^(Общая площадь|Total|Suprafața totală)/.test(fact.label[locale]));
+  // the total area and the format are already shown from the profile — never twice (R3.2 review: Dacia 31 listed «Формат» twice)
+  const keyFacts = asset.keyFacts.filter((fact) => !/^(Общая площадь|Total|Suprafața totală)/.test(fact.label[locale]) && fact.label[locale] !== copy.format[locale]);
   const first = units[0] ?? null;
   const firstDate = first && availabilityOf(first).date ? formatDate(availabilityOf(first).date!, locale) : null;
   const viewingAction = first ? (mode === "upcoming" ? copy.early[locale] : copy.viewing[locale]) : null;
@@ -231,13 +235,13 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
               <p className="r3-upcoming__date">{firstDate}</p>
             </div>
             <div className="r3-upcoming__copy" data-reveal>
-              <h2 className="r3-upcoming__title">{copy.planEarly[locale]}</h2>
-              <p className="r3-statement">{copy.upcoming(first.unit[locale], firstDate, locale)}</p>
+              {/* the hero already says «Запланируйте следующую локацию заранее.» — the scene names the unit and the date once */}
+              <h2 className="r3-upcoming__title">{copy.upcoming(first.unit[locale], firstDate, locale)}</h2>
               <p className="r3-upcoming__area"><Figure value={formatAreaRange(first.areaMin, first.area, locale)} /></p>
               <p className="r3-lead">{first.headline[locale]}</p>
               <div className="r3-actions">
                 <R3Button href={viewingHref(locale, first)} tone="light">{copy.early[locale]}</R3Button>
-                <a className="r3-link r3-link--light" href={contactLinks.mobile}><span>{copy.discussEarly[locale]} · {company.mobile.value[locale]}</span><Icon size={16} /></a>
+                <a className="r3-link r3-link--light" href={contactLinks.mobile}><span>{copy.discussEarly[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a>
               </div>
             </div>
           </div>
@@ -358,7 +362,7 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
             {mode === "upcoming" ? <p className="r3-lead">{copy.earlyText[locale]}</p> : null}
             <div className="r3-actions">
               {first && viewingAction ? <R3Button href={viewingHref(locale, first)}>{viewingAction}</R3Button> : fullyLet ? <R3Button href={p("/projects")}>{copy.allProjects[locale]}</R3Button> : <R3Button href={`${p("/contact")}?subject=general&property=${slug}#question`}>{copy.ask[locale]}</R3Button>}
-              {first ? <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{copy.call[locale]} · {company.mobile.value[locale]}</span><Icon size={16} /></a> : null}
+              {first ? <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{copy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a> : null}
             </div>
           </div>
           <nav className="r3-routes__list r3-routes__list--side" aria-label={copy.closeLabel[locale]} data-reveal>

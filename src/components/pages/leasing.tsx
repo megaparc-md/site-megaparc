@@ -3,10 +3,12 @@ import { MaskTitle, Val } from "@/components/experience";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
 import { SpaceImage, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
-import { Figure, R3Button, R3Label, R3Link, R3Trust, viewableNow } from "@/components/r3";
+import { trustCopy } from "@/components/leasing/property-trust";
+import { Figure, NB, R3Button, R3Label, R3Link, tel, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { availabilityLabel, availabilityOf, formatAreaRange, getProject, publicSpaces, sortSpaces } from "@/content/source";
-import { leasingProcess, shown } from "@/data/demo-content";
+import { company, contactLinks, leasingProcess, shown } from "@/data/demo-content";
+import { cadastreNumbers } from "@/data/property-trust";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { areaBands, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
 import { localePath, type SiteLocale } from "@/lib/site-data";
@@ -138,12 +140,12 @@ const advisorCopy: Record<SiteLocale, AdvisorCopy> = {
 };
 
 /** Each published space as an editorial row (image + the facts that decide a viewing). Filterable: `data-space`. */
-function SpaceRow({ space, locale, index, c }: { space: AvailableSpace; locale: SiteLocale; index: number; c: { viewingCta: string; earlyCta: string; offerSpace: string } }) {
+function SpaceRow({ space, locale, index, c, compact = false }: { space: AvailableSpace; locale: SiteLocale; index: number; c: { viewingCta: string; earlyCta: string; offerSpace: string }; compact?: boolean }) {
   const p = (path: string) => localePath(locale, path);
   const project = getProject(space.project)!;
   const a = availabilityOf(space);
   return (
-    <article className={`r3-space${index % 2 ? " r3-space--flip" : ""}`} data-space={space.id} data-reveal>
+    <article className={`r3-space${index % 2 && !compact ? " r3-space--flip" : ""}${compact ? " r32-space--compact" : ""}`} data-space={space.id} data-reveal>
       <Link href={p(`/leasing/${space.id}`)} className="r3-space__media" tabIndex={-1} aria-hidden="true">
         <SpaceImage photo={space.photos[0]} space={space} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" priority={index === 0} />
       </Link>
@@ -185,6 +187,60 @@ const r3Copy = {
     count: (now: number, soon: number) => `${now} ${now === 1 ? "offer" : "offers"} to view now · ${soon} coming up`,
   },
 } as const;
+
+/**
+ * WHY LEASE WITH MEGAPARC — R3.2 §14 (OWNER 2026-11-10). Claim → evidence only: the technical team (Technical Director +
+ * Architect), feasibility before commercial terms, the owner directly, verifiable data (confirmed areas and statuses; the
+ * architectural plans and the cadastral number where the OWNER approved them). No permit or design service is promised.
+ */
+const whyCopy = {
+  label: { ro: "De ce MEGAPARC", ru: "Почему MEGAPARC", en: "Why MEGAPARC" },
+  title: { ro: "De ce să închiriați de la MEGAPARC.", ru: `Почему арендовать у${NB}MEGAPARC.`, en: "Why lease from MEGAPARC." },
+  team: { ro: "Directorul tehnic și arhitectul", ru: `Технический директор и${NB}архитектор`, en: "The Technical Director and the Architect" },
+  feasibility: { ro: "Mai întâi tehnica, apoi condițiile", ru: `Сначала техника, потом условия`, en: "Technical first, terms second" },
+  owner: { ro: "Direct cu proprietarul", ru: "Напрямую с собственником", en: "Directly with the owner" },
+  ownerText: { ro: "Spațiul îl discutați cu MEGAPARC — proprietarul clădirii.", ru: `Помещение вы обсуждаете с${NB}MEGAPARC${NB}— владельцем здания.`, en: "You discuss the space with MEGAPARC — the owner of the building." },
+  data: { ro: "Date verificabile", ru: "Проверяемые данные", en: "Verifiable data" },
+  dataText: (names: string, locale: SiteLocale) =>
+    locale === "ru"
+      ? `Подтверждённые площади и${NB}статус каждого помещения; по${NB}${names}${NB}— архитектурные планы и${NB}кадастровый номер для официальной проверки в${NB}e‑Cadastru.`
+      : locale === "ro"
+        ? `Suprafețe confirmate și statutul fiecărui spațiu; pentru ${names} — planurile arhitecturale și numărul cadastral pentru verificarea oficială în e‑Cadastru.`
+        : `Confirmed areas and the status of every space; for ${names} — the architectural plans and the cadastral number for official verification in e‑Cadastru.`,
+} as const;
+
+function LeasingWhy({ locale }: { locale: SiteLocale }) {
+  const names = Object.keys(cadastreNumbers).map((slug) => getProject(slug)?.name).filter(Boolean).join(", ");
+  const reasons = [
+    { title: whyCopy.team[locale], text: trustCopy.lead[locale] },
+    { title: whyCopy.feasibility[locale], text: trustCopy.principle[locale] },
+    { title: whyCopy.owner[locale], text: whyCopy.ownerText[locale] },
+    { title: whyCopy.data[locale], text: whyCopy.dataText(names, locale) },
+  ];
+  return (
+    <section className="r3-sec r3-sec--paper r32-why" id="technical-support">
+      <div className="r3-shell">
+        <div className="r3-head" data-reveal>
+          <R3Label>{whyCopy.label[locale]}</R3Label>
+          <h2 className="r3-title">{whyCopy.title[locale]}</h2>
+        </div>
+        <ol className="r32-why__list" data-reveal>
+          {reasons.map((reason) => (
+            <li key={reason.title}>
+              <h3>{reason.title}</h3>
+              <p>{reason.text}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="r3-actions" data-reveal>
+          <a className="r3-btn r3-btn--dark" href={contactLinks.email}><span>{trustCopy.discuss[locale]}</span><Icon size={16} /></a>
+          <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{trustCopy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a>
+        </div>
+        <p className="r3-note r32-why__note">{trustCopy.note[locale]}</p>
+      </div>
+    </section>
+  );
+}
 
 export function LeasingPage({ locale }: { locale: SiteLocale }) {
   const c = { ...copy[locale], ...r3Copy[locale] };
@@ -228,7 +284,7 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
               <h2 className="r3-avail__title">{c.soonTitle}<span>{String(soon.length).padStart(2, "0")}</span></h2>
               <p className="r3-lead">{c.soonNote}</p>
               <div className="r3-avail__list">
-                {soon.map((space, i) => <SpaceRow key={space.id} space={space} locale={locale} index={now.length + i} c={c} />)}
+                {soon.map((space, i) => <SpaceRow key={space.id} space={space} locale={locale} index={now.length + i} c={c} compact />)}
               </div>
             </div>
           ) : null}
@@ -238,8 +294,9 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* TRUST — technical feasibility first, then commercial terms (the cadastral verification lives on each property) */}
-      <R3Trust locale={locale} tone="paper" />
+      {/* WHY LEASE WITH MEGAPARC (R3.2 §14) — Moscova 20-level trust: the technical team, feasibility first, the owner
+          directly, verified data; the full check list and the cadastral verification live on each property page */}
+      <LeasingWhy locale={locale} />
 
       {/* TENANT ADVISOR — kept, folded: one question opens it */}
       <section className="r3-sec r3-sec--ivory r3-advisor" id="advisor">

@@ -10,7 +10,7 @@ import { localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/
  * property (commercial space). Real photographs only; the leasing portal lists the offer derived from the status
  * model (never typed twice).
  */
-const N = " ";
+const N = " ";
 const copy = {
   kicker: { ro: "Două direcții MEGAPARC", ru: "Два направления MEGAPARC", en: "Two MEGAPARC directions" },
   lead: {

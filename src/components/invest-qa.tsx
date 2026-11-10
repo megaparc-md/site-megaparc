@@ -9,7 +9,7 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  * considers (§12), the useful inputs (§14), the six assessment disciplines and the partner audiences approved
  * earlier (premium phase 2 / trust copy patch, 2026-10-09), the legal note. No criteria or figures are invented.
  */
-const N = " ";
+const N = " ";
 const q = {
   consider: { ro: "Ce analizează MEGAPARC?", ru: "Что рассматривает MEGAPARC?", en: "What does MEGAPARC consider?" },
   considerLine: {

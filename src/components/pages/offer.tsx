@@ -10,7 +10,7 @@ import { getProject } from "@/content/source";
 import { acquisitionTypes, geography } from "@/lib/business";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
-const N = " ";
+const N = " ";
 
 /**
  * OFFER A PROPERTY — MEGAPARC buys real estate and land (OWNER correction

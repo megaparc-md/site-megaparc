@@ -3,8 +3,9 @@ import type { ReactNode } from "react";
 import { CadastreVerify } from "@/components/leasing/cadastre-verify";
 import { trustCopy, trustItems } from "@/components/leasing/property-trust";
 import { Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, kindLabel, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
-import { company, contactLinks, occupancyOf, type OperatingSlug } from "@/data/demo-content";
+import { availabilityLabel, availabilityOf, formatAreaRange, getProject, kindLabel, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
+import { company, contactLinks, daciaDevelopment, drochiaProfile, occupancyOf, type OperatingSlug } from "@/data/demo-content";
+import { holdOrSell, lifecycle, reinvestment } from "@/lib/business";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -15,7 +16,11 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  * Styles: src/app/r3.css (class prefix `r3-`). No card component lives here on purpose.
  */
 
-export const NB = " ";
+/** A real no-break space (U+00A0) — R3.2 found the R3 constant was a plain space, so RU prepositions and dates still hung. */
+export const NB = " ";
+
+/** A telephone number never breaks between its digit groups («+373 78 803 / 010» on phones). */
+export const tel = (value: string) => value.replace(/ /g, NB);
 
 /** Locale path with an optional ?query and #hash ("/contact?subject=lease#occupier"). */
 export function r3Href(locale: SiteLocale, value: string) {
@@ -93,7 +98,7 @@ export function R3Trust({ slug, locale, tone = "paper", id = "technical-support"
           </ol>
           <div className="r3-actions">
             <a className="r3-btn r3-btn--dark" href={contactLinks.email}><span>{trustCopy.discuss[locale]}</span><Icon size={16} /></a>
-            <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{trustCopy.call[locale]} · {company.mobile.value[locale]}</span><Icon size={16} /></a>
+            <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{trustCopy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a>
           </div>
           <p className="r3-note">{trustCopy.note[locale]}</p>
         </div>
@@ -104,6 +109,46 @@ export function R3Trust({ slug, locale, tone = "paper", id = "technical-support"
         ) : null}
       </div>
     </section>
+  );
+}
+
+/**
+ * HOW VALUE IS CREATED — R3.2 «REFERENCE-LED» §6 scene 04 / §7 (OWNER 2026-11-10). One typographic sequence, never four
+ * boxes: Acquire · Develop · Operate · Reinvest, each verb in the serif with one confirmed sentence and its proof on a
+ * real MEGAPARC project (claim → evidence). Texts come from the business model (`src/lib/business.ts`); statuses are
+ * derived. Used on Home (ink) and Investment (paper).
+ */
+const valueVerbs: Record<"acquire" | "develop" | "operate" | "reinvest", Localized> = {
+  acquire: { ro: "Achiziționăm", ru: "Приобретаем", en: "Acquire" },
+  develop: { ro: "Dezvoltăm", ru: "Развиваем", en: "Develop" },
+  operate: { ro: "Exploatăm", ru: "Эксплуатируем", en: "Operate" },
+  reinvest: { ro: "Reinvestim", ru: "Реинвестируем", en: "Reinvest" },
+};
+
+export function ValueSequence({ locale, tone = "dark" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
+  const p = (path: string) => localePath(locale, path);
+  const stage = (key: string) => lifecycle.find((item) => item.key === key)!;
+  const drochia = getProject("drochia-gateway")!;
+  const vatra = getProject("vatra")!;
+  const creanga = getProject("creanga-78")!;
+  const daciaDev = getProject("dacia-31-development")!;
+  const steps = [
+    { verb: valueVerbs.acquire[locale], text: stage("acquire").text[locale], proof: `${drochia.name} · ${drochiaProfile.site.value[locale]}`, href: p(`/projects/${drochia.slug}`) },
+    { verb: valueVerbs.develop[locale], text: stage("develop").text[locale], proof: `${vatra.name} · ${vatra.card.status[locale]}`, href: p(`/projects/${vatra.slug}`) },
+    { verb: valueVerbs.operate[locale], text: stage("operate").text[locale], proof: `${creanga.name} · ${projectState(creanga, locale).text}`, href: p(`/projects/${creanga.slug}`) },
+    { verb: valueVerbs.reinvest[locale], text: `${reinvestment[locale]} ${holdOrSell[locale]}`, proof: `${daciaDev.name} · ${daciaDevelopment.total.value[locale]}`, href: p(`/projects/${daciaDev.slug}`) },
+  ];
+  return (
+    <ol className={`r3-line r3-seq r3-seq--${tone}`} data-reveal>
+      {steps.map((step, i) => (
+        <li key={step.verb} className="r3-line__station" style={{ ["--i" as string]: i }}>
+          <span className="r3-line__dot" aria-hidden="true" />
+          <h3 className="r3-seq__verb">{step.verb}</h3>
+          <p className="r3-line__text">{step.text}</p>
+          <Link className="r3-line__proof" href={step.href}>{step.proof}<Icon size={14} /></Link>
+        </li>
+      ))}
+    </ol>
   );
 }
 

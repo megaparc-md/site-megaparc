@@ -2,37 +2,36 @@ import Link from "next/link";
 import { ConceptDisclosure, ConceptImage, MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { Figure, NB, R3Label, R3Link, projectState, r3Href } from "@/components/r3";
+import { Figure, NB, R3Label, R3Link, ValueSequence, projectState, r3Href, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, availabilityLabel, availabilityOf, propertyOccupancy } from "@/content/source";
-import { company, contactLinks, drochiaProfile, portfolioFigures } from "@/data/demo-content";
-import { businessStatement, holdOrSell, lifecycle, reinvestment } from "@/lib/business";
+import { availabilityLabel, availabilityOf, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces } from "@/content/source";
+import { company, contactLinks, portfolioFigures } from "@/data/demo-content";
+import { businessStatement, positioning } from "@/lib/business";
+import { noPrice } from "@/lib/leasing";
 import { historyCopy, teaserImage } from "@/lib/history";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
- * HOME — SITEWIDE R3 (OWNER "VISUAL NO-GO → PREMIUM REBUILD", 2026-11-09). Seven scenes, not a chain of widgets:
- * 01 hero (one architectural image, the approved headline, two paths) → 02 two businesses as architectural
- * portals → 03 scale in oversized type → 04 an editorial property sequence (one dominant, one secondary, the
- * rest as a typographic index) → 05 how value is created as one line narrative on real projects → 06 heritage
- * (one archival image, a large year) → 07 two direct actions. Every status is derived from the content source.
- * The hero image is the OWNER-approved illustration (ILLUSTRATIVE_APPROVED, disclosed).
+ * HOME — R3.2 «REFERENCE-LED ART DIRECTION» (OWNER 2026-11-10). Seven deliberate editorial scenes:
+ * FINMENTOR editorial discipline (one idea per scene, the claim followed by its evidence) · Yellow Tree investment
+ * authority · Inamstro real-estate scale (buildings are the content) · Moscova 20 decision depth (derived statuses).
+ *   01 hero — one architectural composition: positioning line, the approved headline, the OWNER business sentence,
+ *      two quiet typographic paths (Investment · Leasing);
+ *   02 positioning — one large statement, then the confirmed evidence (10 939 m² · 04 · 5,05 ha · group years);
+ *   03 projects — one large scene (Dacia 31) → one secondary (Moscova 20) → one large scene (VATRA), the rest as an index;
+ *   04 investment — Acquire · Develop · Operate · Reinvest as one typographic sequence on real projects;
+ *   05 leasing — what can be leased now, and what comes next, read from the status model;
+ *   06 history — one large year, the short story (an archival frame only where approved);
+ *   07 two direct actions.
+ * Strong photograph = large, weak photograph = small (Moscova 9, Creangă 78), rejected photograph = never.
  */
 const copy = {
   ro: {
     heroTitle: ["Imobiliare comerciale —", "de la investiție", "la obiectul care funcționează."],
-    heroSub: "MEGAPARC investește în imobiliare — și închiriază obiectele comerciale pe care le deține.",
     invest: "Investiții",
-    investNote: "Imobile, terenuri, parteneriat",
     lease: "Închiriere",
-    leaseNow: "Liber acum",
-    investVerbs: ["Achiziționăm", "Dezvoltăm", "Deținem", "Reinvestim"],
-    investText: "Investim capital în active reale — și răspundem de rezultat.",
-    investLink: "Investiții și parteneriat",
-    leaseVerbs: ["Exploatăm", "Adaptăm", "Închiriem"],
-    leaseText: "Spații comerciale în clădirile noastre — cu suport tehnic înainte de semnarea contractului.",
-    leaseLink: "Spații disponibile",
-    scaleLabel: "Scara",
+    statement: "Investim capital în active reale — și rămânem responsabili de rezultatul lor.",
+    statementNote: "Clădirile și terenurile rămân în proprietatea MEGAPARC: le dezvoltăm, le exploatăm și le închiriem singuri.",
     area: "suprafața obiectelor în funcțiune",
     operating: "obiecte în funcțiune",
     land: "terenuri pentru dezvoltare",
@@ -40,10 +39,16 @@ const copy = {
     assetsLabel: "Proiecte",
     assetsTitle: "Imobiliarele MEGAPARC.",
     open: "Vezi obiectul",
+    openProject: "Vezi proiectul",
     all: "Toate proiectele",
-    valueLabel: "Cum se creează valoarea",
+    valueLabel: "Investiții",
     valueTitle: "De la teren la clădirea care funcționează.",
-    stations: ["Imobil sau teren", "Dezvoltare", "Obiect în funcțiune", "Deținere pe termen lung · ieșire strategică"],
+    valueLink: "Investiții și parteneriat",
+    leaseLabel: "Închiriere",
+    leaseTitle: "Ce se poate închiria acum.",
+    nowTitle: "Se poate vedea acum",
+    soonTitle: "În curând",
+    leaseAll: "Toate spațiile disponibile",
     historyLabel: "Istoric",
     historyCta: "Citiți istoria",
     historyRule: "MEGAPARC a fost fondată în 2005. Anii de dinainte sunt istoria grupului.",
@@ -52,21 +57,14 @@ const copy = {
     ownerNote: "Analizăm vânzarea sau dezvoltarea comună a imobilului.",
     tenant: "Am nevoie de un spațiu comercial",
     tenantNote: "Spații în clădirile noastre — cu suport tehnic înainte de contract.",
+    partnership: "Discutăm un parteneriat",
   },
   ru: {
     heroTitle: [`Коммерческая недвижимость${NB}—`, `от${NB}инвестиции`, `до${NB}работающего объекта.`],
-    heroSub: `MEGAPARC инвестирует в${NB}недвижимость${NB}— и${NB}сдаёт в${NB}аренду собственные коммерческие объекты.`,
     invest: "Инвестиции",
-    investNote: `Объекты, земля, партнёрство`,
     lease: "Аренда",
-    leaseNow: "Свободно сейчас",
-    investVerbs: ["Приобретаем", "Развиваем", "Владеем", "Реинвестируем"],
-    investText: `Вкладываем капитал в${NB}реальные объекты${NB}— и${NB}отвечаем за${NB}результат.`,
-    investLink: `Инвестиции и${NB}партнёрство`,
-    leaseVerbs: ["Эксплуатируем", "Адаптируем", `Сдаём в${NB}аренду`],
-    leaseText: `Коммерческие помещения в${NB}наших зданиях${NB}— с${NB}технической поддержкой до${NB}подписания договора.`,
-    leaseLink: "Свободные помещения",
-    scaleLabel: "Масштаб",
+    statement: `Мы вкладываем капитал в${NB}реальные объекты${NB}— и${NB}остаёмся ответственными за${NB}их результат.`,
+    statementNote: `Здания и${NB}земля остаются в${NB}собственности MEGAPARC: мы${NB}их развиваем, эксплуатируем и${NB}сдаём в${NB}аренду сами.`,
     area: "площадь действующих объектов",
     operating: "действующих объекта",
     land: "земли под развитие",
@@ -74,10 +72,16 @@ const copy = {
     assetsLabel: "Проекты",
     assetsTitle: "Недвижимость MEGAPARC.",
     open: "Смотреть объект",
+    openProject: "Открыть проект",
     all: "Все проекты",
-    valueLabel: "Как создаётся стоимость",
+    valueLabel: "Инвестиции",
     valueTitle: `От${NB}участка до${NB}работающего здания.`,
-    stations: [`Объект или участок`, "Девелопмент", "Действующий объект", `Долгосрочное владение · стратегический выход`],
+    valueLink: `Инвестиции и${NB}партнёрство`,
+    leaseLabel: "Аренда",
+    leaseTitle: `Что можно арендовать сейчас.`,
+    nowTitle: "Можно посмотреть сейчас",
+    soonTitle: "Скоро",
+    leaseAll: "Все свободные помещения",
     historyLabel: "История",
     historyCta: "Читать историю",
     historyRule: `MEGAPARC основана в${NB}2005${NB}году. Годы до${NB}этого${NB}— история группы.`,
@@ -86,21 +90,14 @@ const copy = {
     ownerNote: `Рассмотрим продажу или совместное развитие недвижимости.`,
     tenant: `Мне нужно коммерческое помещение`,
     tenantNote: `Помещения в${NB}наших зданиях${NB}— с${NB}технической поддержкой до${NB}договора.`,
+    partnership: "Обсудить партнёрство",
   },
   en: {
     heroTitle: ["Commercial real estate —", "from investment", "to a working property."],
-    heroSub: "MEGAPARC invests in real estate — and leases the commercial properties it owns.",
     invest: "Investment",
-    investNote: "Property, land, partnership",
     lease: "Leasing",
-    leaseNow: "Available now",
-    investVerbs: ["Acquire", "Develop", "Own", "Reinvest"],
-    investText: "We put capital into real assets — and stay responsible for the result.",
-    investLink: "Investment and partnership",
-    leaseVerbs: ["Operate", "Adapt", "Lease"],
-    leaseText: "Commercial space in our own buildings — with technical support before you sign.",
-    leaseLink: "Available spaces",
-    scaleLabel: "Scale",
+    statement: "We put capital into real assets — and remain responsible for how they perform.",
+    statementNote: "The buildings and land stay in MEGAPARC ownership: we develop, operate and lease them ourselves.",
     area: "operating property area",
     operating: "operating properties",
     land: "land for development",
@@ -108,10 +105,16 @@ const copy = {
     assetsLabel: "Projects",
     assetsTitle: "MEGAPARC real estate.",
     open: "View the property",
+    openProject: "View the project",
     all: "All projects",
-    valueLabel: "How value is created",
+    valueLabel: "Investment",
     valueTitle: "From a plot of land to a working building.",
-    stations: ["Property or land", "Development", "Operating property", "Long-term ownership · strategic exit"],
+    valueLink: "Investment and partnership",
+    leaseLabel: "Leasing",
+    leaseTitle: "What you can lease now.",
+    nowTitle: "Can be viewed now",
+    soonTitle: "Coming up",
+    leaseAll: "All available spaces",
     historyLabel: "History",
     historyCta: "Read the history",
     historyRule: "MEGAPARC was founded in 2005. The years before are the group's history.",
@@ -120,116 +123,80 @@ const copy = {
     ownerNote: "We consider a sale or a joint development of the property.",
     tenant: "I need commercial space",
     tenantNote: "Space in our own buildings — with technical support before the lease.",
+    partnership: "Discuss a partnership",
   },
 } as const;
 
 const groupYears = Math.floor((2026 - 1991) / 5) * 5;
-const stage = (key: string) => lifecycle.find((item) => item.key === key)!;
 
 export function HomePage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const spaces = sortSpaces(publicSpaces);
-  const now = spaces.find((space) => availabilityOf(space).key === "now") ?? spaces[0] ?? null;
-  const nowProject = now ? getProject(now.project) ?? null : null;
+  const now = spaces.filter((space) => viewableNow(space));
+  const soon = spaces.filter((space) => !viewableNow(space));
   const dacia = getProject("dacia-31")!;
   const m20 = getProject("moscova-20")!;
   const vatra = getProject("vatra")!;
-  const drochia = getProject("drochia-gateway")!;
-  const creanga = getProject("creanga-78")!;
-  const index = listProjects().filter((project) => project.slug !== dacia.slug && project.slug !== m20.slug);
+  const index = listProjects().filter((project) => ![dacia.slug, m20.slug, vatra.slug].includes(project.slug));
   const daciaState = projectState(dacia, locale);
   const m20State = projectState(m20, locale);
-  const creangaFull = propertyOccupancy("creanga-78").fullyLet;
-  const leaseLine = now && nowProject ? `${availabilityLabel(now, locale)}: ${nowProject.name} · ${formatAreaRange(now.areaMin, now.area, locale)}` : c.leaseLink;
-  const figures = [
+  const evidence = [
     { value: portfolioFigures.operating.value[locale], label: c.operating },
     { value: portfolioFigures.land.value[locale], label: c.land },
     { value: `${groupYears}+`, label: c.years },
   ];
-  const stations = [
-    { title: c.stations[0], text: stage("acquire").text[locale], proof: `${drochia.name} · ${drochiaProfile.site.value[locale]}`, href: p(`/projects/${drochia.slug}`) },
-    { title: c.stations[1], text: stage("develop").text[locale], proof: `${vatra.name} · ${vatra.card.status[locale]}`, href: p(`/projects/${vatra.slug}`) },
-    { title: c.stations[2], text: stage("operate").text[locale], proof: `${dacia.name} · ${dacia.card.size[locale]}`, href: p(`/projects/${dacia.slug}`) },
-    { title: c.stations[3], text: `${holdOrSell[locale]} ${reinvestment[locale]}`, proof: creangaFull ? `${creanga.name} · ${projectState(creanga, locale).text}` : `${portfolioFigures.area.value[locale]}`, href: p(`/projects/${creanga.slug}`) },
-  ];
+  const leaseGroups = [
+    { title: c.nowTitle, list: now },
+    { title: c.soonTitle, list: soon },
+  ].filter((group) => group.list.length);
 
   return (
-    <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-home">
-      {/* 01 HERO — one architectural image, the headline, two paths only */}
-      <section className="r3-hero" id="home" data-xp-hero>
+    <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-home r32-home">
+      {/* 01 HERO — one architectural composition: positioning · statement · one sentence · two quiet paths */}
+      <section className="r3-hero r32-hero" id="home" data-xp-hero>
         <div className="r3-hero__media" aria-hidden="true">
           <ConceptImage id="home.hero" locale={locale} priority sizes="100vw" />
         </div>
         <div className="r3-hero__veil" aria-hidden="true" />
         <ConceptDisclosure id="home.hero" locale={locale} />
         <div className="r3-shell r3-hero__inner">
+          <R3Label tone="light">{positioning[locale]}</R3Label>
           <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.heroTitle]} />
-          {/* R3.1 §9: one composition — the statement, then two quiet paths inside it (no cards, no notes) */}
           <div className="r3-hero__foot" data-reveal>
-            <p className="r3-hero__sub">{c.heroSub}</p>
-            <nav className="r3-hero__paths" aria-label={`${c.invest} · ${c.lease}`}>
-              <Link href={p("/partnership")} className="r3-path">{c.invest}<Icon size={18} /></Link>
-              <Link href={`${p("/leasing")}#available`} className="r3-path" title={leaseLine}>{c.lease}<Icon size={18} /></Link>
+            <p className="r3-hero__sub">{businessStatement[locale]}</p>
+            <nav className="r32-paths" aria-label={`${c.invest} · ${c.lease}`}>
+              <Link href={p("/partnership")} className="r32-path">{c.invest}<Icon size={20} /></Link>
+              <Link href={`${p("/leasing")}#available`} className="r32-path">{c.lease}<Icon size={20} /></Link>
             </nav>
           </div>
         </div>
       </section>
 
-      {/* 02 TWO BUSINESSES — investment · operations and leasing, as two architectural portals */}
-      <section className="r3-sec r3-sec--ivory r3-two" id="directions">
-        <div className="r3-shell r3-two__intro" data-reveal>
-          <p className="r3-statement">{businessStatement[locale]}</p>
-        </div>
-        <div className="r3-portals">
-          <Link href={p("/partnership")} className="r3-portal" data-reveal>
-            <figure className="r3-portal__media">
-              <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 900px) 50vw, 100vw" position="38% 60%" />
-            </figure>
-            <span className="r3-portal__veil" aria-hidden="true" />
-            <span className="r3-portal__copy">
-              <span className="r3-portal__title">{c.invest}</span>
-              <span className="r3-portal__verbs">{c.investVerbs.map((verb) => <span key={verb}>{verb}</span>)}</span>
-              <span className="r3-portal__text">{c.investText}</span>
-              <span className="r3-portal__more">{c.investLink}<Icon size={16} /></span>
-            </span>
-          </Link>
-          <Link href={`${p("/leasing")}#available`} className="r3-portal" data-reveal>
-            <figure className="r3-portal__media">
-              <ArtImage media={m20.media!} variant="portrait" alt={`${m20.name} — ${m20.format[locale]}`} sizes="(min-width: 900px) 50vw, 100vw" position="40% 60%" />
-            </figure>
-            <span className="r3-portal__veil" aria-hidden="true" />
-            <span className="r3-portal__copy">
-              <span className="r3-portal__title">{c.lease}</span>
-              <span className="r3-portal__verbs">{c.leaseVerbs.map((verb) => <span key={verb}>{verb}</span>)}</span>
-              <span className="r3-portal__text">{c.leaseText}</span>
-              <span className="r3-portal__more">{c.leaseLink}<Icon size={16} /></span>
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      {/* 03 SCALE — confirmed figures as architecture, not a KPI board */}
-      <section className="r3-sec r3-sec--paper r3-scale" id="scale">
+      {/* 02 POSITIONING — one statement, then its evidence (FINMENTOR: claim → proof) */}
+      <section className="r3-sec r3-sec--ivory r32-position" id="position">
         <div className="r3-shell">
-          <R3Label>{c.scaleLabel}</R3Label>
-          <p className="r3-scale__lead" data-reveal>
-            <Figure className="r3-scale__value" value={portfolioFigures.area.value[locale]} />
-            <span className="r3-scale__label">{c.area}</span>
-          </p>
-          <dl className="r3-scale__row" data-reveal>
-            {figures.map((figure) => (
-              <div key={figure.label}>
-                <dt>{figure.label}</dt>
-                <dd><Figure value={figure.value} /></dd>
-              </div>
-            ))}
-          </dl>
+          <p className="r32-position__statement" data-reveal>{c.statement}</p>
+          <p className="r3-lead r32-position__note" data-reveal>{c.statementNote}</p>
+          <div className="r32-proof" data-reveal>
+            <p className="r32-proof__lead">
+              <Figure className="r32-proof__value" value={portfolioFigures.area.value[locale]} />
+              <span className="r32-proof__label">{c.area}</span>
+            </p>
+            <dl className="r32-proof__row">
+              {evidence.map((figure) => (
+                <div key={figure.label}>
+                  <dt>{figure.label}</dt>
+                  <dd><Figure value={figure.value} /></dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </section>
 
-      {/* 04 SELECTED ASSETS — one dominant building, one secondary, the rest revealed as an index */}
-      <section className="r3-sec r3-sec--ivory r3-assets" id="projects">
+      {/* 03 PROJECTS — architecture first: one large scene → one secondary → one large scene, the rest as an index */}
+      <section className="r3-sec r3-sec--ivory r3-sec--flush-top r3-assets r32-assets" id="projects">
         <div className="r3-shell r3-head" data-reveal>
           <R3Label>{c.assetsLabel}</R3Label>
           <h2 className="r3-title">{c.assetsTitle}</h2>
@@ -259,7 +226,17 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             <R3Link href={p(`/projects/${m20.slug}`)}>{c.open}</R3Link>
           </div>
         </div>
-        <ol className="r3-shell r3-index" data-reveal>
+        <Link href={p(`/projects/${vatra.slug}`)} className="r32-scene" data-reveal>
+          <figure className="r32-scene__media">
+            <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="45% 62%" />
+          </figure>
+          <span className="r3-shell r32-scene__copy">
+            <span className="r32-scene__name">{vatra.name}</span>
+            <span className="r32-scene__meta">{vatra.format[locale]} · {vatra.card.status[locale]}</span>
+            <span className="r3-more">{c.openProject}<Icon size={16} /></span>
+          </span>
+        </Link>
+        <ol className="r3-shell r3-index r32-index" data-reveal>
           {index.map((project) => {
             const state = projectState(project, locale);
             return (
@@ -284,28 +261,60 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 05 HOW VALUE IS CREATED — one visual narrative on real projects, not process cards */}
-      <section className="r3-sec r3-sec--ink r3-value" id="value">
+      {/* 04 INVESTMENT — one statement, then Acquire · Develop · Operate · Reinvest as one sequence on real projects */}
+      <section className="r3-sec r3-sec--ink r3-value r32-value" id="value">
         <div className="r3-shell">
           <div className="r3-head r3-head--light" data-reveal>
             <R3Label tone="light">{c.valueLabel}</R3Label>
             <h2 className="r3-title">{c.valueTitle}</h2>
           </div>
-          <ol className="r3-line" data-reveal>
-            {stations.map((station, i) => (
-              <li key={station.title} className="r3-line__station" style={{ ["--i" as string]: i }}>
-                <span className="r3-line__dot" aria-hidden="true" />
-                <h3 className="r3-line__title">{station.title}</h3>
-                <p className="r3-line__text">{station.text}</p>
-                <Link className="r3-line__proof" href={station.href}>{station.proof}<Icon size={14} /></Link>
-              </li>
-            ))}
-          </ol>
+          <ValueSequence locale={locale} tone="dark" />
+          <div className="r32-value__foot" data-reveal>
+            <R3Link href={p("/partnership")} tone="light" large>{c.valueLink}</R3Link>
+          </div>
         </div>
       </section>
 
-      {/* 06 HERITAGE — one archival image, a large year, a short narrative */}
-      <section className={`r3-sec r3-sec--paper r3-heritage${teaserImage.home ? "" : " r3-heritage--type"}`} id="history">
+      {/* 05 LEASING — what can I lease now? Read from the status model, grouped by when it can be seen */}
+      <section className="r3-sec r3-sec--paper r32-lease" id="leasing">
+        <div className="r3-shell r32-lease__grid">
+          <div className="r32-lease__head" data-reveal>
+            <R3Label>{c.leaseLabel}</R3Label>
+            <h2 className="r3-title">{c.leaseTitle}</h2>
+            <p className="r3-lead">{noPrice[locale]}</p>
+            <R3Link href={`${p("/leasing")}#available`}>{c.leaseAll}</R3Link>
+          </div>
+          <div className="r32-lease__list">
+            {leaseGroups.map((group) => (
+              <div key={group.title} className="r32-lease__group" data-reveal>
+                <p className="r32-lease__when">{group.title}</p>
+                <ul>
+                  {group.list.map((space) => {
+                    const project = getProject(space.project)!;
+                    const a = availabilityOf(space);
+                    return (
+                      <li key={space.id}>
+                        <Link href={project.slug === "moscova-20" ? p(`/projects/${project.slug}`) : p(`/leasing/${space.id}`)} className="r32-offer">
+                          <span className="r32-offer__media" aria-hidden="true">
+                            {project.media ? <ArtImage media={project.media} variant="card" alt="" sizes="9rem" /> : null}
+                          </span>
+                          <span className="r32-offer__name">{project.name}</span>
+                          <span className="r32-offer__unit">{space.unit[locale]} · <Figure value={formatAreaRange(space.areaMin, space.area, locale)} /></span>
+                          <span className={`r3-state is-${a.key === "now" ? "now" : "soon"}`}>{availabilityLabel(space, locale)}</span>
+                          <Icon size={20} />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 06 HISTORY — one large year, the short story; an archival frame only where approved */}
+      <section className={`r3-sec r3-sec--ivory r3-heritage r32-heritage${teaserImage.home ? "" : " r3-heritage--type"}`} id="history">
         {teaserImage.home ? (
           <figure className="r3-heritage__media" data-reveal>
             <picture>
@@ -324,7 +333,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 07 OPPORTUNITY — two direct actions, large and calm */}
+      {/* 07 NEXT — two direct actions, large and calm */}
       <section className="r3-sec r3-sec--stone r3-next" id="next">
         <div className="r3-shell">
           <R3Label>{c.nextLabel}</R3Label>
@@ -344,7 +353,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             <li><a href={contactLinks.email}>{company.email.value[locale]}</a></li>
             <li><a href={contactLinks.mobile}>{company.mobile.value[locale]}</a></li>
             <li><a href={contactLinks.landline}>{company.landline.value[locale]}</a></li>
-            <li><Link href={r3Href(locale, "/contact?subject=partnership#partnership")}>{locale === "ru" ? "Обсудить партнёрство" : locale === "ro" ? "Discutăm un parteneriat" : "Discuss a partnership"}</Link></li>
+            <li><Link href={r3Href(locale, "/contact?subject=partnership#partnership")}>{c.partnership}</Link></li>
           </ul>
         </div>
       </section>

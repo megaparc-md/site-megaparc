@@ -3,7 +3,7 @@ import { ConceptDisclosure, ConceptImage, MaskTitle } from "@/components/experie
 import { investInputs, investQuestions } from "@/components/invest-qa";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { Figure, NB, R3Button, R3Label, R3Link, projectState, r3Href } from "@/components/r3";
+import { Figure, NB, R3Button, R3Label, R3Link, ValueSequence, projectState, r3Href } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { getProject, listProjects } from "@/content/source";
 import { assetProfiles, company, contactLinks, portfolioFigures } from "@/data/demo-content";
@@ -13,7 +13,8 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 /**
  * INVESTMENT — SITEWIDE R3.1 §11–12 (OWNER 2026-11-09). Priority #1: MEGAPARC deploys capital into real assets and
  * stays responsible for the result. Five scenes:
- *   A thesis (hero) — the one statement and what MEGAPARC can do with an asset;
+ *   A thesis (hero) — the one statement;
+ *   B how value is created (R3.2) — Acquire · Develop · Operate · Reinvest on real projects, what MEGAPARC can do with an asset;
  *   B what we consider — four kinds of opportunity on the confirmed business model, one real development scene;
  *   C what each side brings — the owner / partner · MEGAPARC (confirmed capabilities only);
  *   D evidence — confirmed portfolio facts as calm editorial numbers, one strong building, the owned ledger;
@@ -27,6 +28,9 @@ const copy = {
     thesis: "MEGAPARC investește capital în imobile și terenuri — și rămâne responsabilă de rezultat.",
     can: "Investim în active pe care le putem",
     verbs: ["achiziționa", "dezvolta", "repoziționa", "exploata", "deține pe termen lung", "vinde strategic, atunci când este justificat"],
+    valueLabel: "Cum se creează valoarea",
+    valueTitle: "Cum creează MEGAPARC valoare.",
+    or: "sau",
     discuss: "Discutăm o oportunitate",
     offer: "Propuneți un obiect sau un teren",
     considerLabel: "Ce analizăm",
@@ -68,6 +72,9 @@ const copy = {
     thesis: `MEGAPARC вкладывает капитал в${NB}недвижимость и${NB}землю${NB}— и${NB}отвечает за${NB}результат.`,
     can: `Мы инвестируем в${NB}объекты, которые можем`,
     verbs: ["приобрести", "развить", "перепрофилировать", "эксплуатировать", "держать долгосрочно", `продать, когда это стратегически оправдано`],
+    valueLabel: "Как создаётся стоимость",
+    valueTitle: `Как MEGAPARC создаёт стоимость.`,
+    or: "или",
     discuss: "Обсудить возможность",
     offer: `Предложить объект или${NB}землю`,
     considerLabel: "Что рассматриваем",
@@ -109,6 +116,9 @@ const copy = {
     thesis: "MEGAPARC puts capital into real estate and land — and stays responsible for the result.",
     can: "We invest in assets we can",
     verbs: ["acquire", "develop", "reposition", "operate", "hold for the long term", "exit when it is strategically right"],
+    valueLabel: "How value is created",
+    valueTitle: "How MEGAPARC creates value.",
+    or: "or",
     discuss: "Discuss an opportunity",
     offer: "Offer a property or land",
     considerLabel: "What we consider",
@@ -185,12 +195,15 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
           </div>
         </div>
       </section>
-      <section className="r3-sec r3-sec--ivory r3-thesis">
-        <div className="r3-shell r3-thesis__grid" data-reveal>
-          <p className="r3-thesis__can">{c.can}</p>
-          <ol className="r3-thesis__verbs">
-            {c.verbs.map((verb) => <li key={verb}>{verb}</li>)}
-          </ol>
+      {/* B — HOW VALUE IS CREATED (R3.2 §7 · 03): Acquire · Develop · Operate · Reinvest on real projects; what MEGAPARC can do with an asset as one sentence */}
+      <section className="r3-sec r3-sec--ivory r32-ivalue" id="value">
+        <div className="r3-shell">
+          <div className="r3-head r3-head--split" data-reveal>
+            <R3Label>{c.valueLabel}</R3Label>
+            <h2 className="r3-title">{c.valueTitle}</h2>
+            <p className="r3-lead">{c.can} {c.verbs.slice(0, -1).join(", ")} {c.or} {c.verbs[c.verbs.length - 1]}.</p>
+          </div>
+          <ValueSequence locale={locale} tone="light" />
         </div>
       </section>
 
@@ -224,14 +237,6 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
         <div className="r3-shell">
           <R3Label>{c.bringsLabel}</R3Label>
           <div className="r3-brings__grid">
-            <div className="r3-brings__col" data-reveal>
-              <h2 className="r3-brings__title">{c.partnerBrings}</h2>
-              <p className="r3-lead">{q.inputsNote[locale]}</p>
-              <ul className="r3-brings__list">
-                {investInputs.map((item) => <li key={item.en}>{item[locale]}</li>)}
-              </ul>
-              <p className="r3-note r3-brings__extra">{c.partnerExtra}</p>
-            </div>
             <div className="r3-brings__col r3-brings__col--mp" data-reveal>
               <h2 className="r3-brings__title">{c.megaparcBrings}</h2>
               <p className="r3-lead">{q.assessLine[locale]}</p>
@@ -240,6 +245,14 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
                   <div key={title}><dt>{title}</dt><dd>{text}</dd></div>
                 ))}
               </dl>
+            </div>
+            <div className="r3-brings__col" data-reveal>
+              <h2 className="r3-brings__title">{c.partnerBrings}</h2>
+              <p className="r3-lead">{q.inputsNote[locale]}</p>
+              <ul className="r3-brings__list">
+                {investInputs.map((item) => <li key={item.en}>{item[locale]}</li>)}
+              </ul>
+              <p className="r3-note r3-brings__extra">{c.partnerExtra}</p>
             </div>
           </div>
         </div>

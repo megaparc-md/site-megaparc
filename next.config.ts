@@ -3,7 +3,20 @@ import type { NextConfig } from "next";
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+/**
+ * Production edition (release/2026-11-09-production-v1 default; OWNER "PRODUCTION V1"): preview-only client modules
+ * are replaced by empty stubs at build time so their code and copy never reach the artifact — the enquiry and
+ * viewing forms (no form backend yet; production pages render DirectContact) and the tenant economics tool.
+ */
+const productionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") === "production";
+const productionStubs = {
+  "@/components/enquiry-form": "./src/editions/production/enquiry-form.tsx",
+  "@/components/leasing-experience/viewing-form": "./src/editions/production/viewing-form.tsx",
+  "@/components/leasing-experience/economics-tool": "./src/editions/production/economics-tool.tsx",
+};
+
 const nextConfig: NextConfig = {
+  ...(productionEdition ? { turbopack: { resolveAlias: productionStubs } } : {}),
   // Three locale root layouts (RO / RU / EN) need a global 404 for unmatched URLs.
   experimental: {
     globalNotFound: true,
