@@ -14,7 +14,10 @@ export type MenuProject = { slug: string; name: string; href: string; image: str
 export type ProjectsMenuData = { label: string; href: string; allLabel: string; items: MenuProject[]; active: boolean };
 
 export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
+  // the live open state for handlers that run before React re-renders (hover / focus + click in the same frame — a tap)
+  const openRef = useRef(false);
+  const setOpen = (value: boolean) => { openRef.current = value; setOpenState(value); };
   const [current, setCurrent] = useState(0);
   const root = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
@@ -32,17 +35,24 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
   }, [open]);
 
   // when the panel was just opened by hover or by the focus a click gives the button, that same click must not close it
+  // (R3.2: read through openRef — a tap fires mouseenter and click before the re-render, so `open` was still false)
   const openedAt = useRef(0);
-  const show = () => { window.clearTimeout(timer.current); if (!open) openedAt.current = Date.now(); setOpen(true); };
+  const show = () => { window.clearTimeout(timer.current); if (!openRef.current) openedAt.current = Date.now(); setOpen(true); };
   const onToggle = () => {
-    if (open && Date.now() - openedAt.current < 600) return;
-    if (!open) openedAt.current = Date.now();
-    setOpen((value) => !value);
+    if (openRef.current && Date.now() - openedAt.current < 600) return;
+    if (!openRef.current) openedAt.current = Date.now();
+    setOpen(!openRef.current);
   };
   const hideSoon = () => { window.clearTimeout(timer.current); timer.current = window.setTimeout(() => setOpen(false), 220); };
   const links = () => Array.from(root.current?.querySelectorAll<HTMLAnchorElement>(".pmenu__list a, .pmenu__all") ?? []);
   const onKey = (event: KeyboardEvent) => {
-    if (event.key === "Escape") { window.clearTimeout(timer.current); suppressFocus.current = true; setOpen(false); button.current?.focus(); return; }
+    if (event.key === "Escape") {
+      window.clearTimeout(timer.current);
+      setOpen(false);
+      // only a focus that actually moves back to the toggle is suppressed (an already focused toggle fires no focus event)
+      if (document.activeElement !== button.current) { suppressFocus.current = true; button.current?.focus(); }
+      return;
+    }
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
     event.preventDefault();
     setOpen(true);
