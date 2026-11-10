@@ -12,7 +12,7 @@ const copy = {
   newTab: { ro: "se deschide într-o filă nouă", ru: "откроется в новой вкладке", en: "opens in a new tab" },
   stops: { ro: "Stații de transport public", ru: "Остановки транспорта", en: "Public transport stops" },
   // OWNER Moscova 20 micro-fix (2026-11-09), applied by the leasing template to every map: a straight-line radius — never walking minutes until real routes are calculated
-  walk: { ro: "Rază de 300 m în linie dreaptă", ru: "Радиус 300 м по прямой", en: "300 m radius in a straight line" },
+  walk: { ro: "Rază de {m} m în linie dreaptă", ru: "Радиус {m} м по прямой", en: "{m} m radius in a straight line" },
   map: { ro: "Hartă: amplasarea obiectului", ru: "Карта: расположение объекта", en: "Map: where the property is" },
 } satisfies Record<string, Localized>;
 
@@ -127,7 +127,7 @@ export function LocationMap({ locale, mapKey, name, place, className = "" }: { l
       </div>
       <figcaption className="loc__legend">
         {data.stops ? <span className="loc__key loc__key--stop">{copy.stops[locale]}</span> : null}
-        <span className="loc__key loc__key--ring">{copy.walk[locale]}</span>
+        <span className="loc__key loc__key--ring">{copy.walk[locale].replace("{m}", data.ring.meters >= 1000 && locale !== "en" ? data.ring.meters.toLocaleString(locale === "ru" ? "ru-RU" : "ro-RO").replace(/\s/g, "\u00a0") : data.ring.meters.toLocaleString("en-GB"))}</span>
       </figcaption>
     </figure>
   );

@@ -23,8 +23,9 @@ export const portfolioCategories: { key: PortfolioKey; anchor: string; label: Lo
   {
     key: "land",
     anchor: "land",
-    label: { ro: "Terenuri pentru dezvoltare", ru: "Земля для развития", en: "Land for development" },
-    title: { ro: "Terenuri pentru proiectele următoare.", ru: "Земля для следующих проектов.", en: "Land for the next projects." },
+    // OWNER «LAND DEVELOPMENT OPPORTUNITIES» §20 (2026-11-10): land appears as development opportunities, not generic projects
+    label: { ro: "Oportunități de dezvoltare", ru: "Возможности для девелопмента", en: "Development opportunities" },
+    title: { ro: "Terenul ca oportunitate de dezvoltare.", ru: "Земля как возможность для девелопмента.", en: "Land as a development opportunity." },
     lead: { ro: "Terenuri în proprietatea MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.", ru: "Участки в собственности MEGAPARC. Планы по каждому участку публикуем после утверждения.", en: "Plots owned by MEGAPARC. Plans for each plot are published once approved." },
   },
   {
@@ -65,10 +66,11 @@ const landArea = (slug: string): Localized | null => {
 };
 export const landPortfolio: LandItem[] = [
   { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, place: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: landArea("hincesti"), page: null },
-  { slug: "drochia-gateway", name: { ro: "Drochia Gateway", ru: "Drochia Gateway", en: "Drochia Gateway" }, place: { ro: "Drochia", ru: "Дрокия", en: "Drochia" }, area: landArea("drochia-gateway"), page: "drochia-gateway" },
+  { slug: "drochia", name: { ro: "Drochia", ru: "Drochia", en: "Drochia" }, place: { ro: "Drochia", ru: "Дрокия", en: "Drochia" }, area: landArea("drochia"), page: "drochia" },
   { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, place: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: landArea("orhei"), page: null },
   { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, place: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, area: null, page: null },
-  { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, place: null, area: landArea("florilor-32-2"), page: null },
+  // a repositioning / redevelopment opportunity: 0,847 ha of land + 1 490 m² of registered existing construction (OWNER, LAND brief §18)
+  { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, place: null, area: { ro: "0,847 ha + construcție 1.490 m²", ru: "0,847 га + постройка 1 490 м²", en: "0.847 ha + 1,490 m² building" }, page: null },
 ];
 export const landWithoutArea = landPortfolio.filter((plot) => !plot.area).length;
 

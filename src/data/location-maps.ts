@@ -173,8 +173,8 @@ export const locationMaps: Record<string, LocationMapData> = {
     ],
     "stops": 7
   },
-  "drochia-gateway": {
-    "src": "/assets/maps/drochia-gateway.svg",
+  "drochia": {
+    "src": "/assets/maps/drochia.svg",
     "span": 1600,
     "ring": {
       "r": 18.8,
@@ -219,5 +219,23 @@ export const locationMaps: Record<string, LocationMapData> = {
       }
     ],
     "stops": 0
+  },
+  "drochia-region": {
+    "src": "/assets/maps/drochia-region.svg",
+    "span": 4800,
+    "ring": {
+      "r": 20.8,
+      "meters": 1000,
+      "label": {
+        "x": 65,
+        "y": 30
+      }
+    },
+    "scale": {
+      "meters": 500,
+      "width": 10.4
+    },
+    "labels": [],
+    "stops": 1
   }
 } as const;

@@ -495,7 +495,7 @@ export const availableAssets = portfolioAssets.filter((asset) => asset.availabil
 /* Development                                                          */
 /* ------------------------------------------------------------------ */
 
-export type ProjectSlug = "vatra" | "drochia-gateway";
+export type ProjectSlug = "vatra" | "drochia";
 
 export type DevelopmentProject = {
   slug: ProjectSlug;
@@ -567,8 +567,8 @@ export const developmentProjects: DevelopmentProject[] = [
     statement: { ro: "Construim pentru o exploatare îndelungată.", ru: "Строим, чтобы служило долго.", en: "We build for long-term use." },
   },
   {
-    slug: "drochia-gateway",
-    name: "Drochia Gateway",
+    slug: "drochia",
+    name: "Drochia",
     place: { ro: "Drochia", ru: "Дрокия", en: "Drochia" },
     map: { address: "Bd. Independenței 65, Drochia", query: "Bd. Independenței 65, Drochia, Moldova" },
     location: {

@@ -138,7 +138,7 @@ const occupancyPoints = (slug: OperatingSlug) => {
 export type LandRecord = { slug: string; name: Localized; area: number | null; published: boolean; project?: string; point: DataPoint };
 /** Land plots (OWNER 2026-10-09; R3.3 §5 2026-11-10: Hîncești and Chișinău are listed publicly by name — their areas are OWNER inputs, never totalled). No project concepts are invented. */
 export const landRecords: LandRecord[] = [
-  { slug: "drochia-gateway", name: { ro: "Drochia Gateway", ru: "Drochia Gateway", en: "Drochia Gateway" }, area: 20000, published: true, project: "drochia-gateway", point: confirmed("land.drochia.area", "DEVELOPMENT", "Land · Drochia Gateway", "Land area", ha(20000), "Confirmed — same parcel as dev.drochia.site") },
+  { slug: "drochia", name: { ro: "Drochia", ru: "Drochia", en: "Drochia" }, area: 20000, published: true, project: "drochia", point: confirmed("land.drochia.area", "DEVELOPMENT", "Land · Drochia", "Land area", ha(20000), "Confirmed — same parcel as dev.drochia.site") },
   { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, area: 8470, published: true, point: confirmed("land.florilor-32-2.area", "DEVELOPMENT", "Land · Florilor 32/2", "Land area", ha(8470), "OWNER 2026-10-09") },
   { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: 22000, published: true, point: confirmed("land.orhei.area", "DEVELOPMENT", "Land · Orhei", "Land area", ha(22000), "OWNER 2026-10-09") },
   { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: 38000, published: true, point: confirmed("land.hincesti.area", "DEVELOPMENT", "Land · Hîncești", "Land area", ha(38000), "OWNER tax data (R3.3.1 §13, 2026-11-10) — 3,8 ha in total") },
@@ -426,7 +426,7 @@ export const projectNow: Record<string, DataPoint> = {
   "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
-  "drochia-gateway": NOW("drochia-gateway", { ro: "Evaluăm conceptul terenului de 2,0 ha.", ru: `Оцениваем концепцию участка 2,0 га.`, en: "Evaluating the concept for the 2.0 ha site." }, "CONFIRMED"),
+  "drochia": NOW("drochia", { ro: "Evaluăm conceptul terenului de 2,0 ha.", ru: `Оцениваем концепцию участка 2,0 га.`, en: "Evaluating the concept for the 2.0 ha site." }, "CONFIRMED"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -547,11 +547,11 @@ export const vatraProfile = {
 };
 
 export const drochiaProfile = {
-  site: confirmed("dev.drochia.site", "DEVELOPMENT", "Development · Drochia Gateway", "Site area", { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" }),
-  fronts: confirmed("dev.drochia.fronts", "DEVELOPMENT", "Development · Drochia Gateway", "Road fronts", "2"),
-  potential: demo("dev.drochia.potential", "DEVELOPMENT", "Development · Drochia Gateway", "Potential built area", { ro: "12.000–18.000 m²", ru: "12 000–18 000 м²", en: "12,000–18,000 m²" }, "OWNER — feasibility study (internal site study indicates 7,000–9,000 m² built scenarios; not published)"),
-  status: confirmed("dev.drochia.status", "DEVELOPMENT", "Development · Drochia Gateway", "Status", { ro: "În evaluare", ru: "Идёт оценка", en: "Under evaluation" }),
-  decision: demo("dev.drochia.decision", "DEVELOPMENT", "Development · Drochia Gateway", "Concept decision", "2027", "OWNER — project timeline"),
+  site: confirmed("dev.drochia.site", "DEVELOPMENT", "Development · Drochia", "Site area", { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" }),
+  fronts: confirmed("dev.drochia.fronts", "DEVELOPMENT", "Development · Drochia", "Road fronts", "2"),
+  potential: demo("dev.drochia.potential", "DEVELOPMENT", "Development · Drochia", "Potential built area", { ro: "12.000–18.000 m²", ru: "12 000–18 000 м²", en: "12,000–18,000 m²" }, "OWNER — feasibility study (internal site study indicates 7,000–9,000 m² built scenarios; not published)"),
+  status: confirmed("dev.drochia.status", "DEVELOPMENT", "Development · Drochia", "Status", { ro: "În evaluare", ru: "Идёт оценка", en: "Under evaluation" }),
+  decision: demo("dev.drochia.decision", "DEVELOPMENT", "Development · Drochia", "Concept decision", "2027", "OWNER — project timeline"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -698,7 +698,7 @@ place("business.leasing.inset", "About", "Business · 03 leasing inset", null, "
 illustrate("partnership.hero", "Partnership", "Hero", "cv-dev-frame", "Capital at work — a commercial frame going up, project scale, human scale", "MEGAPARC development site from above (drone), daylight", A.devFrame, "50% 55%");
 place("home.route.owner", "Home", "Routes · offer a property or land", null, "cv-field", "BRAND", "Owner route — land", "MEDIUM", "Land at a town entrance (MEGAPARC site visit)", A.field);
 // Projects
-place("development.drochia", "Projects", "Collection · Drochia Gateway", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway DRONE — the real site, both road fronts", A.field);
+place("development.drochia", "Projects", "Collection · Drochia", "Drochia", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia DRONE — the real site, both road fronts", A.field);
 // Project pages and leasing units
 place("asset.dacia-31.gallery.1", "Projects · Dacia 31", "Gallery · Leasing", "Dacia 31", "cv-office-light", "PROPERTY_DIRECTION", "Interior direction", "HIGH", "Dacia 31 INTERIOR / AVAILABLE UNIT", A.officeLight);
 place("asset.dacia-31.gallery.2", "Projects · Dacia 31", "Gallery · Leasing", "Dacia 31", "cv-loft-team", "PROPERTY_DIRECTION", "Interior direction", "MEDIUM", "Dacia 31 INTERIOR — typical floor", A.loftTeam);
@@ -707,8 +707,8 @@ place("asset.moscova-9.gallery.2", "Projects · Moscova 9", "Gallery · Leasing"
 place("asset.moscova-20.gallery.1", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-cafe", "PROPERTY_DIRECTION", "Tenant activity direction", "HIGH", "Moscova 20 TENANT ACTIVITY", A.cafe);
 place("asset.moscova-20.gallery.2", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-manage", "PROPERTY_DIRECTION", "Street activity direction", "MEDIUM", "Moscova 20 ENTRANCE at street level", A.street);
 place("project.vatra.team", "Projects · VATRA", "Current reality · on site", "VATRA", "cv-rebar-crew", "PROPERTY_DIRECTION", "Construction team direction", "MEDIUM", "VATRA HUMAN SCALE — construction team, morning", A.rebarCrew);
-place("project.drochia.hero", "Projects · Drochia Gateway", "Hero", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway HERO — the real site from the entrance road", A.field, "50% 62%");
-place("project.drochia.road", "Projects · Drochia Gateway", "Current reality · the land", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "The site as it is today — open land", "HIGH", "Drochia Gateway ACCESS — approach road and visibility", A.field, "50% 78%");
+place("project.drochia.hero", "Projects · Drochia", "Hero", "Drochia", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia HERO — the real site from the entrance road", A.field, "50% 62%");
+place("project.drochia.road", "Projects · Drochia", "Current reality · the land", "Drochia", "cv-field", "PROPERTY_DIRECTION", "The site as it is today — open land", "HIGH", "Drochia ACCESS — approach road and visibility", A.field, "50% 78%");
 // About — the owner model: acquire · develop · lease · operate use real MEGAPARC photographs; the two decisions use brand frames
 // Offer a property
 place("offer.land", "Offer a property", "What we buy · land", null, "cv-field", "BRAND", "Land for development", "LOW", "Open land at a town entrance", A.field);

@@ -63,7 +63,7 @@ export const shots: Shot[] = [
 ];
 
 export type PropertyBrief = {
-  slug: "dacia-31" | "moscova-9" | "moscova-20" | "creanga-78" | "vatra" | "drochia-gateway";
+  slug: "dacia-31" | "moscova-9" | "moscova-20" | "creanga-78" | "vatra" | "drochia";
   name: string;
   status: string;
   mood: Localized;
@@ -210,8 +210,8 @@ export const propertyBriefs: PropertyBrief[] = [
     },
   },
   {
-    slug: "drochia-gateway",
-    name: "Drochia Gateway",
+    slug: "drochia",
+    name: "Drochia",
     status: "Development land · 2.0 ha, Bd. Independenței 65, Drochia · CONCEPT · UNDER EVALUATION (confirmed). No building is approved.",
     mood: L("Potențial și deschidere: terenul la intrarea în oraș, ambele fronturi stradale, cer larg.", "Потенциал и простор: участок на въезде в город, оба фронта к дорогам, широкое небо.", "Potential and openness: the land at the town entrance, both road fronts, wide sky."),
     avoid: L("Orice clădire nemarcată ca viziune ilustrativă; identificatori cadastrali; proprietatea privată a vecinilor.", "Любые здания без пометки «иллюстративное видение»; кадастровые номера; частная собственность соседей.", "Any building visual not labelled illustrative vision; cadastral identifiers; neighbours' private property."),
@@ -222,7 +222,7 @@ export const propertyBriefs: PropertyBrief[] = [
       context: "The town entrance, the traffic heading into Drochia",
       access: "Each road front and possible separate accesses for customers and freight",
       parking: "Where parking could go (land only)",
-      entrance: "The gateway position as seen by arriving traffic",
+      entrance: "The town-entrance position as seen by arriving traffic",
       human: "Optional: a site visit by the MEGAPARC team (no third parties)",
       drone: "The 2.0 ha outline, both road fronts, the town entrance",
       evening: "Optional: the road at dusk with traffic lights",

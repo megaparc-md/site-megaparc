@@ -220,7 +220,8 @@ export type ProjectEntry = {
   name: string;
   kind: ProjectKind;
   /** income = operating property page · development = VATRA / Drochia template · programme = a development record with an OWNER-confirmed programme only (Dacia 31 · Development). */
-  template: "income" | "development" | "programme";
+  /** land = the land development opportunity template (OWNER «LAND DEVELOPMENT OPPORTUNITIES», 2026-11-10; Drochia first) */
+  template: "income" | "development" | "programme" | "land";
   /** CMS flag "for sale" — false for every project today (not every asset is for sale). */
   forSale: boolean;
   district: Localized;
@@ -347,22 +348,22 @@ export const projects: ProjectEntry[] = [
     programme: { buildings: daciaDevelopment.buildings, each: daciaDevelopment.each, total: daciaDevelopment.total, related: "dacia-31" },
   },
   {
-    slug: "drochia-gateway",
-    name: "Drochia Gateway",
+    slug: "drochia",
+    name: "Drochia",
     kind: "land",
-    template: "development",
+    template: "land",
     forSale: false,
-    district: dev("drochia-gateway").place,
-    city: dev("drochia-gateway").place,
-    format: dev("drochia-gateway").kind,
+    district: dev("drochia").place,
+    city: dev("drochia").place,
+    format: dev("drochia").kind,
     formatDemo: false,
     line: { ro: "2,0 ha la intrarea în Drochia — teren propriu, concept în evaluare.", ru: "2,0 га на въезде в Дрокию — наша земля; концепцию сейчас оцениваем.", en: "2.0 ha at the entrance to Drochia — our own land, concept under evaluation." },
-    now: projectNow["drochia-gateway"],
+    now: projectNow["drochia"],
     media: null,
     conceptUse: "development.drochia",
     facts: [{ label: label.site, point: drochiaProfile.site }, { label: label.status, point: drochiaProfile.status }],
-    card: { place: dev("drochia-gateway").place, size: { ro: "2,0 ha", ru: "2,0 га", en: "2.0 ha" }, sizeDemo: drochiaProfile.site.status === "DEMO", status: cardStatus.land },
-    development: dev("drochia-gateway"),
+    card: { place: dev("drochia").place, size: { ro: "2,0 ha", ru: "2,0 га", en: "2.0 ha" }, sizeDemo: drochiaProfile.site.status === "DEMO", status: cardStatus.land },
+    development: dev("drochia"),
   },
 ];
 
@@ -370,7 +371,7 @@ export function listProjects() {
   return projects;
 }
 
-/** Published land plots (OWNER 2026-10-09): Drochia Gateway (its own page), Florilor 32/2, Orhei. Hîncești stays internal until its area is supplied. */
+/** Published land plots (OWNER 2026-10-09): Drochia (its own page), Florilor 32/2, Orhei. Hîncești stays internal until its area is supplied. */
 export function listLand() {
   return publicLand;
 }

@@ -63,9 +63,9 @@ export const pageSeo = {
   projects: {
     title: { ro: "Proiecte MEGAPARC — obiecte, dezvoltare, terenuri", ru: "Проекты MEGAPARC — объекты, девелопмент, земля", en: "MEGAPARC projects — properties, development, land" },
     description: {
-      ro: "Obiectele comerciale MEGAPARC din Chișinău, proiectul VATRA și terenul Drochia Gateway: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
-      ru: "Коммерческие объекты MEGAPARC в Кишинёве, проект VATRA и участок Drochia Gateway: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
-      en: "MEGAPARC's commercial properties in Chișinău, the VATRA project and the Drochia Gateway site: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      ro: "Obiectele comerciale MEGAPARC din Chișinău, proiectul VATRA și terenul Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      ru: "Коммерческие объекты MEGAPARC в Кишинёве, проект VATRA и участок Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      en: "MEGAPARC's commercial properties in Chișinău, the VATRA project and the Drochia site: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
     },
   },
   leasing: {

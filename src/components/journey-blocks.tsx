@@ -44,9 +44,9 @@ export const ownerIntents: { key: OwnerIntent; label: Localized; thinking: Local
 ];
 
 const compassCopy: Record<SiteLocale, { have: string; consider: string; thinking: string; assess: string; proof: string; submit: string; proofTitle: string; proofText: string; proofCta: string }> = {
-  ro: { have: "Ce aveți?", consider: "Ce luați în calcul?", thinking: "Cum privim lucrurile", assess: "Ce verificăm mai întâi", proof: "Exemplu real", submit: "Trimite obiectul", proofTitle: "Drochia Gateway, 2,0 ha.", proofText: "Un teren al MEGAPARC la intrarea în oraș, cu două fronturi stradale — trei concepte se evaluează în paralel.", proofCta: "Vezi proiectul" },
-  ru: { have: "Что у вас есть?", consider: "Что вы рассматриваете?", thinking: "Как мы на это смотрим", assess: "Что проверяем в первую очередь", proof: "Реальный пример", submit: "Отправить объект", proofTitle: "Drochia Gateway, 2,0 га.", proofText: "Участок MEGAPARC на въезде в город выходит на две дороги. Сейчас параллельно оцениваем три концепции.", proofCta: "Смотреть проект" },
-  en: { have: "What do you have?", consider: "What are you considering?", thinking: "How we see it", assess: "What we check first", proof: "A real example", submit: "Send the property", proofTitle: "Drochia Gateway, 2.0 ha.", proofText: "MEGAPARC's own site at the town entrance with two road fronts — three concepts are assessed in parallel.", proofCta: "View the project" },
+  ro: { have: "Ce aveți?", consider: "Ce luați în calcul?", thinking: "Cum privim lucrurile", assess: "Ce verificăm mai întâi", proof: "Exemplu real", submit: "Trimite obiectul", proofTitle: "Drochia, 2,0 ha.", proofText: "Un teren al MEGAPARC la intrarea în oraș, cu două fronturi stradale — trei concepte se evaluează în paralel.", proofCta: "Vezi proiectul" },
+  ru: { have: "Что у вас есть?", consider: "Что вы рассматриваете?", thinking: "Как мы на это смотрим", assess: "Что проверяем в первую очередь", proof: "Реальный пример", submit: "Отправить объект", proofTitle: "Drochia, 2,0 га.", proofText: "Участок MEGAPARC на въезде в город выходит на две дороги. Сейчас параллельно оцениваем три концепции.", proofCta: "Смотреть проект" },
+  en: { have: "What do you have?", consider: "What are you considering?", thinking: "How we see it", assess: "What we check first", proof: "A real example", submit: "Send the property", proofTitle: "Drochia, 2.0 ha.", proofText: "MEGAPARC's own site at the town entrance with two road fronts — three concepts are assessed in parallel.", proofCta: "View the project" },
 };
 
 /** `formHref`: where the prefilled form lives (the Offer page itself — a full reload carries the choice into the form). */
@@ -59,7 +59,7 @@ export function OwnerCompassBlock({ locale, formHref }: { locale: SiteLocale; fo
       assets={acquisitionTypes.map((a) => ({ key: a.key, label: a.title[locale] }))}
       intents={ownerIntents.map((i) => ({ key: i.key, label: i.label[locale], thinking: i.thinking[locale], assess: i.assess.map((x) => x[locale]) }))}
       copy={{ have: c.have, consider: c.consider, thinking: c.thinking, assess: c.assess, proof: c.proof, submit: c.submit }}
-      proof={{ title: c.proofTitle, text: c.proofText, href: localePath(locale, "/projects/drochia-gateway"), cta: c.proofCta }}
+      proof={{ title: c.proofTitle, text: c.proofText, href: localePath(locale, "/projects/drochia"), cta: c.proofCta }}
       contactHref={formHref}
       reload
     />

@@ -17,7 +17,7 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  * future vision → timeline → gallery → contact.
  * VATRA: real aerial photograph, programme figures DEMO, final architecture is
  * never shown before approval (masterplan frame awaits the approved scheme).
- * Drochia Gateway: own land, CONCEPT · UNDER EVALUATION, an illustrative zoning
+ * Drochia: own land, CONCEPT · UNDER EVALUATION, an illustrative zoning
  * diagram explicitly labelled "not an approved scheme".
  */
 const copy = {
@@ -67,10 +67,10 @@ const vision: Record<string, Localized> = {
     ru: "Малоэтажный квартал с общественными пространствами, рассчитанный на долгую жизнь и простую эксплуатацию. После завершения здания остаются у MEGAPARC — или проект переходит на следующий этап.",
     en: "A low-rise neighbourhood with public spaces, designed for a long life and simple operation. Once complete, the buildings stay with MEGAPARC or move to the next stage — as the company decides.",
   },
-  "drochia-gateway": {
+  "drochia": {
     ro: "O poartă comercială și logistică pentru oraș și regiune: comerț în față, spre drum, logistică în spate, cu accese separate. Una din trei direcții va fi aleasă după verificări.",
     ru: "Торговые и логистические ворота города и региона: торговля спереди, к дороге, логистика сзади, с раздельными подъездами. Одно из трёх направлений будет выбрано после проверок.",
-    en: "A retail and logistics gateway for the town and the region: retail at the front facing the road, logistics at the rear, with separate access. One of three directions will be chosen after review.",
+    en: "A retail and logistics site for the town and the region: retail at the front facing the road, logistics at the rear, with separate access. One of three directions will be chosen after review.",
   },
 };
 

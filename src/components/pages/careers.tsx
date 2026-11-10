@@ -28,7 +28,7 @@ const copy = {
       "moscova-20": "Lansarea spațiului pentru un nou format din august 2026.",
       "creanga-78": "Exploatarea unei clădiri cu mulți chiriași.",
       vatra: "Construcție: calitate, buget, grafic.",
-      "drochia-gateway": "Evaluarea terenului: urbanism, concepte, economie.",
+      "drochia": "Evaluarea terenului: urbanism, concepte, economie.",
     } as Record<string, string>,
     pillars: [
       ["Echipă", "Achiziții, finanțe, dezvoltare, construcție, închiriere și exploatare stau la aceeași masă. O decizie bună are nevoie de toate."],
@@ -59,7 +59,7 @@ const copy = {
       "moscova-20": "Запуск помещения под новый формат с августа 2026 года.",
       "creanga-78": "Здание, где много арендаторов: обслуживание и сервис.",
       vatra: "Строительство: качество, бюджет, график.",
-      "drochia-gateway": "Оценка участка: градостроительство, концепции, экономика.",
+      "drochia": "Оценка участка: градостроительство, концепции, экономика.",
     } as Record<string, string>,
     pillars: [
       ["Команда", "Приобретения, финансы, девелопмент, строительство, аренда и эксплуатация — за одним столом. Хорошему решению нужны все."],
@@ -90,7 +90,7 @@ const copy = {
       "moscova-20": "Launching the space for a new format from August 2026.",
       "creanga-78": "Running a multi-tenant building.",
       vatra: "Construction: quality, budget, schedule.",
-      "drochia-gateway": "Assessing the site: planning, concepts, economics.",
+      "drochia": "Assessing the site: planning, concepts, economics.",
     } as Record<string, string>,
     pillars: [
       ["Team", "Acquisitions, finance, development, construction, leasing and operations at one table. A good decision needs all of them."],
@@ -117,7 +117,7 @@ const copy = {
 const pillarImages = ["careers.team", "careers.responsibility", "careers.growth", "careers.field"];
 
 /** Projects without an approved photograph use their registered concept image (DEMO, src/data/demo-content.ts). */
-const workConcept: Partial<Record<string, string>> = { "drochia-gateway": "project.drochia.road" };
+const workConcept: Partial<Record<string, string>> = { "drochia": "project.drochia.road" };
 
 /** Production careers state (OWNER "PRODUCTION V1", 2026-11-09 §3): no vacancies published, no film, no culture claims. */
 const productionCopy = {

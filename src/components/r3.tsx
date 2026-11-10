@@ -145,7 +145,7 @@ const devLabel: Localized = { ro: "proiect nou în lucru", ru: "новый пр�
 export function ValueSequence({ locale, tone = "dark" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
   const p = (path: string) => localePath(locale, path);
   const stage = (key: string) => lifecycle.find((item) => item.key === key)!;
-  const drochia = getProject("drochia-gateway")!;
+  const drochia = getProject("drochia")!;
   const vatra = getProject("vatra")!;
   const creanga = getProject("creanga-78")!;
   const steps = [

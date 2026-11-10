@@ -184,9 +184,9 @@ export const eras: Era[] = [
     label: L("Astăzi", "Сегодня", "Today"),
     title: L("Cumpărăm. Dezvoltăm. Închiriem.", "Покупаем. Развиваем. Сдаём в аренду.", "We acquire. We develop. We lease."),
     lead: L(
-      "MEGAPARC cumpără imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spațiile comerciale din clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia Gateway.",
-      "MEGAPARC покупает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинёве; проекты развития — VATRA и Drochia Gateway.",
-      "MEGAPARC buys real estate and land, develops its own projects and leases the commercial space in its buildings. Its operating properties are in Chișinău; its development projects are VATRA and Drochia Gateway.",
+      "MEGAPARC cumpără imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spațiile comerciale din clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
+      "MEGAPARC покупает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинёве; проекты развития — VATRA и Drochia.",
+      "MEGAPARC buys real estate and land, develops its own projects and leases the commercial space in its buildings. Its operating properties are in Chișinău; its development projects are VATRA and Drochia.",
     ),
   },
 ];
@@ -834,9 +834,9 @@ export const chapters: Chapter[] = [
     label: L("Astăzi", "Сегодня", "Today"),
     title: L("MEGAPARC astăzi.", "MEGAPARC сегодня.", "MEGAPARC today."),
     lead: L(
-      "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia Gateway.",
-      "MEGAPARC приобретает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинёве; проекты развития — VATRA и Drochia Gateway.",
-      "MEGAPARC acquires real estate and land, develops its own projects and leases commercial space in its buildings. The operating properties are in Chișinău; the development projects are VATRA and Drochia Gateway.",
+      "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
+      "MEGAPARC приобретает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинёве; проекты развития — VATRA и Drochia.",
+      "MEGAPARC acquires real estate and land, develops its own projects and leases commercial space in its buildings. The operating properties are in Chișinău; the development projects are VATRA and Drochia.",
     ),
     ids: [],
     tone: "today",
