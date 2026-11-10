@@ -64,6 +64,19 @@ export type Heading = { kicker: Localized; title: Localized; lead?: Localized };
 export type TechState = "ready" | "tenant" | "confirm" | "fact";
 export type TechRow = { key: string; label: Localized; value: Localized; state: TechState; evidence: Evidence; source: string };
 
+/** One key fact of the technical passport: a figure (or the clear heights read from the unit's level breakdown) and its unit as separate boxes. */
+export type PassportFact = { key: string; figure: Localized | "heights"; unit: Localized; label: Localized; evidence: Evidence; source: string };
+/** One item of a passport group; `levels` renders the unit's level breakdown (gross · useful · clear height) instead of a value. */
+export type PassportItem = { key: string; title: Localized; value?: Localized; note?: Localized; kind?: "levels"; evidence: Evidence; source: string };
+export type TechPassport = {
+  facts: PassportFact[];
+  groups: { key: string; title: Localized; items: PassportItem[] }[];
+  ready: { title: Localized; items: Localized[] };
+  capex: Localized;
+  check: { title: Localized; lead: Localized; items: Localized[] };
+  principle: Localized;
+};
+
 /**
  * Format lens (OWNER "TENANT PSYCHOLOGY / CONVERSION INTELLIGENCE PASS", 2026-11-06, §4):
  * the same confirmed facts, reordered and interpreted for one business format —
@@ -195,6 +208,10 @@ export type LeasingExperience = {
 
   /** Technical characteristics drawer: areas, levels and heights come from the unit record; these rows add the rest. */
   drawers: { tech: { title: Localized; lead: Localized }; readiness: { title: Localized; lead: Localized } };
+  /** TENANT TECHNICAL PASSPORT (OWNER «TECHNICAL READINESS — OWNER REDESIGN», 2026-11-10) — when present, the technical
+   *  drawer renders it instead of the row list: four key facts → three groups → what is already in place → what we check
+   *  for your format → the owner principle. Values repeat the confirmed records above (never new facts). */
+  passport?: TechPassport;
   specs: TechRow[];
   location: { lead: Localized; points: Fact[]; metrics: LocationMetric[]; internal: HistoricalNote[]; internalNote: string };
   area: { propertyLine: Localized; groundOnly: Fact | null };

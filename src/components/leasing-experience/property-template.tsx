@@ -83,7 +83,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       <R3Trust slug={project.slug} locale={locale} tone="stone" verify />
       <ViewingScene x={x} offer={offer} project={project} locale={locale} />
       <StickyCta name={project.name} meta={`${offer.figure} · ${offer.status}`} label={offer.primary} />
-      <LgDrawer id="tech" title={x.drawers.tech.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
+      <LgDrawer id="tech" title={x.drawers.tech.title[locale]} kicker={project.name} closeLabel={ui.close[locale]} className={x.passport ? "is-passport" : undefined}>
         <TechSheet x={x} offer={offer} project={project} locale={locale} />
       </LgDrawer>
       <LgDrawer id="gallery" title={galleryTitle[locale]} kicker={project.name} closeLabel={ui.close[locale]} wide>

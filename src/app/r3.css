@@ -1642,3 +1642,85 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
   .lg-page .lg-hero__media { align-self: center; }
   .lg-page .lg-hero__photo { position: relative; inset: auto; aspect-ratio: 3 / 2; }
 }
+
+/* OWNER «MOSCOVA 20 · TECHNICAL READINESS — OWNER REDESIGN» (2026-11-10): the technical drawer as a tenant technical
+   passport — four key facts (Source Serif figures, the unit as its own box) → three groups that explain them → what is
+   already in the building + the tenant-investment line → what we check for your format → the owner principle on a
+   graphite band. Warm ivory, graphite, burgundy micro-accents; no card per value, no spreadsheet rows. */
+.lg-drawer.is-passport { width: min(60rem, 100vw); background: var(--r3-ivory); }
+.lg-drawer.is-passport .lg-drawer__head { background: var(--r3-ivory); }
+.site .lg-drawer.is-passport .lg-drawer__title { font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.75rem, 3vw, 2.4rem); font-weight: 400; letter-spacing: -.02em; }
+.lg-drawer.is-passport .lg-drawer__body { padding-bottom: 0; }
+.lg-pass { container-type: inline-size; color: var(--r3-text); }
+.lg-pass__lead { max-width: 40rem; margin: 0 0 clamp(1.4rem, 3vw, 2rem); color: var(--r3-text); font-size: clamp(1rem, 1.4vw, 1.12rem); line-height: 1.55; }
+
+/* LEVEL 2 — the fact strip */
+.lg-pass__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.1rem; margin: 0; border-top: 2px solid var(--r3-ink); }
+.lg-pass__fact { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: .55rem; min-width: 0; padding: 1.05rem 0 1.15rem; border-bottom: 1px solid var(--r3-hair); }
+.lg-pass__figure { display: flex; align-items: baseline; gap: .3rem; margin: 0; color: var(--r3-ink); }
+.lg-pass__unit { align-self: flex-start; }
+.lg-pass__num { font-family: var(--r3-serif); font-optical-sizing: auto; font-variant-numeric: lining-nums; font-size: clamp(1.8rem, 8cqi, 3rem); font-weight: 300; line-height: .95; letter-spacing: -.02em; white-space: nowrap; }
+.lg-pass__approx { font-family: var(--r3-serif); font-size: clamp(1.1rem, 4.4cqi, 1.6rem); font-weight: 300; line-height: 1.2; color: var(--r3-muted); }
+.lg-pass__unit { min-width: 0; padding-top: .2rem; font-size: clamp(.8rem, 2.6cqi, .95rem); font-weight: 550; line-height: 1.25; color: var(--r3-ink); }
+.lg-pass__label { max-width: 15rem; margin: 0; color: var(--r3-muted); font-size: .84rem; font-weight: 450; line-height: 1.4; }
+@container (min-width: 46rem) {
+  .lg-pass__facts { grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr) minmax(0, .85fr) minmax(0, 1.15fr); gap: 0; }
+  .lg-pass__fact { padding: 1.3rem 1.2rem 1.4rem; border-bottom: 0; }
+  .lg-pass__fact:first-child { padding-left: 0; }
+  .lg-pass__fact + .lg-pass__fact { border-left: 1px solid var(--r3-hair); }
+  .lg-pass__num { font-size: clamp(2.2rem, 5.1cqi, 2.95rem); }
+  .lg-pass__approx { font-size: 1.5rem; }
+}
+
+/* LEVEL 3 — three groups (a disclosure that phones fold) */
+.lg-pass__groups { margin-top: clamp(2rem, 4vw, 2.8rem); border-top: 1px solid var(--r3-hair-strong); }
+.lg-pass__group { border-bottom: 1px solid var(--r3-hair-strong); }
+.lg-pass__summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .2rem 1rem; padding: 1.15rem 0; cursor: pointer; list-style: none; }
+.lg-pass__summary::-webkit-details-marker { display: none; }
+.lg-pass__summary:focus-visible { outline: 2px solid var(--r3-red); outline-offset: 3px; }
+.lg-pass__gtitle { display: flex; align-items: center; gap: .75rem; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 400; line-height: 1.2; letter-spacing: -.01em; color: var(--r3-ink); }
+.lg-pass__gtitle::before { content: ""; flex: none; width: 1.4rem; height: 2px; background: var(--r3-burgundy); }
+.lg-pass__preview { grid-column: 1; display: none; padding-left: 2.15rem; color: var(--r3-muted); font-size: .84rem; line-height: 1.4; }
+.lg-pass__group:not([open]) .lg-pass__preview { display: block; }
+.lg-pass__chev { grid-column: 2; grid-row: 1 / span 2; width: 1.25rem; height: 1.25rem; fill: none; stroke: var(--r3-ink); stroke-width: 1.5; transition: transform .35s var(--r3-ease, ease); }
+.lg-pass__group[open] .lg-pass__chev { transform: rotate(180deg); }
+.lg-pass__items { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 2.2rem; padding: 0 0 1.5rem; }
+.lg-pass__item { min-width: 0; padding: 1rem 0 1.05rem; border-top: 1px solid var(--r3-hair); }
+.lg-pass__item:first-child { border-top: 0; padding-top: .25rem; }
+.lg-pass__ititle { margin: 0 0 .35rem; color: var(--r3-muted); font-family: var(--font); font-size: .84rem; font-weight: 550; line-height: 1.35; letter-spacing: 0; }
+.lg-pass__value { margin: 0; color: var(--r3-ink); font-size: 1.08rem; font-weight: 550; line-height: 1.35; }
+.lg-pass__note { max-width: 30rem; margin: .4rem 0 0; color: var(--r3-text); font-size: .92rem; line-height: 1.5; opacity: .86; }
+@container (min-width: 40rem) {
+  .lg-pass__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lg-pass__item:nth-child(2) { border-top: 0; padding-top: .25rem; }
+  .lg-pass__item.is-levels { grid-column: 1 / -1; }
+}
+.lg-pass__levels { width: 100%; margin: .35rem 0 0; border-collapse: collapse; font-variant-numeric: tabular-nums lining-nums; }
+.lg-pass__levels th, .lg-pass__levels td { padding: .6rem .7rem .6rem 0; border-bottom: 1px solid var(--r3-hair); text-align: left; vertical-align: baseline; font-size: .98rem; line-height: 1.3; white-space: nowrap; }
+.lg-pass__levels thead th { padding-top: 0; color: var(--r3-muted); font-size: .78rem; font-weight: 550; }
+.lg-pass__levels tbody th { font-weight: 550; color: var(--r3-ink); white-space: normal; }
+.lg-pass__levels td:last-child, .lg-pass__levels th:last-child { padding-right: 0; }
+.lg-pass__levelsnote { max-width: 40rem; margin: .8rem 0 0; color: var(--r3-muted); font-size: .86rem; line-height: 1.5; }
+@media (max-width: 419px) { .lg-pass__levels th, .lg-pass__levels td { padding-right: .45rem; font-size: .86rem; } }
+
+/* LEVEL 4 — what is already in the building · what we check for your format */
+.lg-pass__htitle { margin: 0 0 1rem; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.45rem, 2.6vw, 1.9rem); font-weight: 400; line-height: 1.15; letter-spacing: -.015em; color: var(--r3-ink); }
+.lg-pass__ready { margin-top: clamp(2.2rem, 4.4vw, 3rem); }
+.lg-pass__marks { display: grid; grid-template-columns: minmax(0, 1fr); gap: .1rem 2rem; margin: 0; padding: 0; list-style: none; }
+.lg-pass__marks li { position: relative; padding: .5rem 0 .5rem 1.6rem; border-bottom: 1px solid var(--r3-hair); font-size: .98rem; line-height: 1.4; }
+.lg-pass__marks li::before { content: ""; position: absolute; left: .1rem; top: .95rem; width: .5rem; height: .5rem; border-radius: 50%; }
+.lg-pass__marks.is-ready li::before { background: var(--r3-burgundy); }
+.lg-pass__marks.is-check li::before { border: 1.5px solid var(--r3-burgundy); }
+@container (min-width: 36rem) { .lg-pass__marks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lg-pass__capex { max-width: 44rem; margin: 1.4rem 0 0; padding-left: 1rem; border-left: 2px solid var(--r3-burgundy); color: var(--r3-ink); font-size: 1.02rem; font-weight: 500; line-height: 1.5; }
+.lg-pass__check { margin-top: clamp(2.2rem, 4.4vw, 3rem); padding: clamp(1.3rem, 3vw, 2rem); background: var(--r3-paper); }
+.lg-pass__checklead { max-width: 42rem; margin: -.3rem 0 1.2rem; color: var(--r3-text); font-size: 1rem; line-height: 1.55; }
+
+/* LEVEL 5 — the owner principle on a graphite band (full bleed inside the drawer) */
+.lg-pass__principle { margin: clamp(2.2rem, 4.4vw, 3rem) calc(-1 * clamp(1.25rem, 3vw, 2.2rem)) 0; padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.25rem, 3vw, 2.2rem) clamp(2rem, 4.4vw, 3rem); background: var(--r3-graphite); color: #fff; }
+.lg-pass__statement { max-width: 34rem; margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.5rem, 3vw, 2.15rem); font-weight: 400; line-height: 1.2; letter-spacing: -.015em; text-wrap: balance; }
+.lg-pass__statement::before { content: ""; display: block; width: 1.6rem; height: 2px; margin-bottom: 1.1rem; background: var(--r3-red); }
+.lg-pass__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.8rem; margin: 1.6rem 0 0; }
+.lg-pass__btn { border-color: #fff; background: #fff; color: var(--r3-ink); }
+.lg-pass__btn:hover { border-color: var(--r3-ivory); background: var(--r3-ivory); color: var(--r3-ink); }
+.lg-pass__link { color: #fff; }

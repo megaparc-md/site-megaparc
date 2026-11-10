@@ -1,0 +1,173 @@
+import { ui } from "@/components/leasing-experience/parts";
+import { PassportFold } from "@/components/leasing-experience/passport-fold";
+import type { TemplateOffer } from "@/components/leasing-experience/offer";
+import { Icon } from "@/components/ui";
+import { formatAreaExact } from "@/content/source";
+import { publishable, type LeasingExperience, type PassportFact, type PassportItem, type TechPassport } from "@/data/leasing-experience-model";
+import type { Localized, SiteLocale } from "@/lib/site-data";
+
+/**
+ * TENANT TECHNICAL PASSPORT (OWNER «MOSCOVA 20 · TECHNICAL READINESS — OWNER REDESIGN», 2026-11-10) — the technical
+ * drawer as a hierarchy instead of a spreadsheet:
+ *   1 title + one sentence (drawer head + lead)
+ *   2 four key facts — Source Serif figures, the unit as its own box, a Geist label
+ *   3 three groups (engineering · access and operation · safety) that explain the facts instead of repeating them
+ *   4 what is already in the building + the approved tenant-investment line · what we check for your format
+ *   5 the owner principle on a graphite band with the viewing action
+ * Every value comes from the dataset's confirmed records (the unit's level breakdown for areas and heights); an item
+ * whose evidence is not publishable is never shown.
+ */
+
+const copy = {
+  facts: { ro: "Faptele principale", ru: "Ключевые факты", en: "Key facts" },
+  level: { ro: "Nivel", ru: "Уровень", en: "Level" },
+  gross: { ro: "Totală", ru: "Общая", en: "Gross" },
+  useful: { ro: "Utilă", ru: "Полезная", en: "Useful" },
+  height: { ro: "Înălțime", ru: "Высота", en: "Height" },
+  offered: { ro: "În chirie se oferă {a} — {levels}.", ru: "В аренду предлагается {a} — {levels}.", en: "{a} is offered for lease — {levels}." },
+  and: { ro: " și ", ru: " и ", en: " and " },
+} satisfies Record<string, Localized>;
+
+const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB" };
+const metres = (m: number, locale: SiteLocale) => m.toLocaleString(intl[locale], { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const lower = (text: string, locale: SiteLocale) => (locale === "en" ? text.charAt(0).toLocaleLowerCase("en") + text.slice(1) : text.charAt(0).toLocaleLowerCase(locale) + text.slice(1));
+const list = (names: string[], locale: SiteLocale) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")}${copy.and[locale]}${names[names.length - 1]}`);
+
+function Fact({ fact, offer, locale }: { fact: PassportFact; offer: TemplateOffer; locale: SiteLocale }) {
+  let approx = false;
+  let figure: string | null;
+  if (fact.figure === "heights") {
+    const floors = offer.breakdown.filter((level) => level.height);
+    approx = floors.some((level) => level.heightEvidence === "APPROXIMATE");
+    figure = floors.length ? floors.map((level) => metres(level.height!, locale)).join(" / ") : null;
+  } else figure = fact.figure[locale];
+  if (!figure) return null;
+  return (
+    <div className="lg-pass__fact">
+      <dt className="lg-pass__label">{fact.label[locale]}</dt>
+      <dd className="lg-pass__figure">
+        {approx ? <span className="lg-pass__approx" aria-label={ui.approx[locale]}>≈</span> : null}
+        <span className="lg-pass__num">{figure}</span>
+        <span className="lg-pass__unit">{fact.unit[locale]}</span>
+      </dd>
+    </div>
+  );
+}
+
+function Levels({ offer, x, locale }: { offer: TemplateOffer; x: LeasingExperience; locale: SiteLocale }) {
+  const levels = offer.breakdown;
+  if (!levels.length) return null;
+  const names = levels.map((level, i) => (i ? lower(level.label[locale], locale) : level.label[locale]));
+  return (
+    <>
+      <table className="lg-pass__levels">
+        <thead>
+          <tr>
+            <th scope="col">{copy.level[locale]}</th>
+            <th scope="col">{copy.gross[locale]}</th>
+            <th scope="col">{copy.useful[locale]}</th>
+            <th scope="col">{copy.height[locale]}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {levels.map((level) => (
+            <tr key={level.key}>
+              <th scope="row">{level.label[locale]}</th>
+              <td>{formatAreaExact(level.area, locale)}</td>
+              <td>{level.useful ? formatAreaExact(level.useful, locale) : "—"}</td>
+              <td>{level.height ? `${level.heightEvidence === "APPROXIMATE" ? "≈ " : ""}${metres(level.height, locale)} ${locale === "ru" ? "м" : "m"}` : "—"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="lg-pass__levelsnote">
+        {offer.area ? `${copy.offered[locale].replace("{a}", offer.figure).replace("{levels}", lower(list(names, locale), locale))} ` : null}
+        {x.area.propertyLine[locale]}
+        {x.area.groundOnly ? ` ${x.area.groundOnly.text[locale]} — ${lower(ui.toConfirm[locale], locale)}.` : null}
+      </p>
+    </>
+  );
+}
+
+function Item({ item, offer, x, locale }: { item: PassportItem; offer: TemplateOffer; x: LeasingExperience; locale: SiteLocale }) {
+  if (item.kind === "levels") {
+    if (!offer.breakdown.length) return null;
+    return (
+      <div className="lg-pass__item is-levels">
+        <h4 className="lg-pass__ititle">{item.title[locale]}</h4>
+        <Levels offer={offer} x={x} locale={locale} />
+      </div>
+    );
+  }
+  return (
+    <div className="lg-pass__item">
+      <h4 className="lg-pass__ititle">{item.title[locale]}</h4>
+      {item.value ? <p className="lg-pass__value">{item.value[locale]}</p> : null}
+      {item.note ? <p className="lg-pass__note">{item.note[locale]}</p> : null}
+    </div>
+  );
+}
+
+export function TechPassport({ x, passport: p, offer, locale }: { x: LeasingExperience; passport: TechPassport; offer: TemplateOffer; locale: SiteLocale }) {
+  const facts = p.facts.filter((fact) => publishable(fact.evidence));
+  return (
+    <div className="lg-pass">
+      <p className="lg-pass__lead">{x.drawers.tech.lead[locale]}</p>
+
+      {/* LEVEL 2 — the four facts that answer «what is there» before any detail */}
+      <h3 className="sr-only">{copy.facts[locale]}</h3>
+      <dl className="lg-pass__facts">
+        {facts.map((fact) => (
+          <Fact key={fact.key} fact={fact} offer={offer} locale={locale} />
+        ))}
+      </dl>
+
+      {/* LEVEL 3 — three groups; phones fold them (the facts above stay open) */}
+      <div className="lg-pass__groups">
+        {p.groups.map((group) => {
+          const items = group.items.filter((item) => publishable(item.evidence));
+          if (!items.length) return null;
+          return (
+            <PassportFold key={group.key} summary={group.title[locale]} preview={items.map((item) => item.title[locale]).join(" · ")}>
+              <div className="lg-pass__items">
+                {items.map((item) => (
+                  <Item key={item.key} item={item} offer={offer} x={x} locale={locale} />
+                ))}
+              </div>
+            </PassportFold>
+          );
+        })}
+      </div>
+
+      {/* LEVEL 4 — what the building already has · the approved tenant-investment line · what we check for your format */}
+      <section className="lg-pass__ready">
+        <h3 className="lg-pass__htitle">{p.ready.title[locale]}</h3>
+        <ul className="lg-pass__marks is-ready">
+          {p.ready.items.map((item) => (
+            <li key={item.en}>{item[locale]}</li>
+          ))}
+        </ul>
+        <p className="lg-pass__capex">{p.capex[locale]}</p>
+      </section>
+
+      <section className="lg-pass__check">
+        <h3 className="lg-pass__htitle">{p.check.title[locale]}</h3>
+        <p className="lg-pass__checklead">{p.check.lead[locale]}</p>
+        <ul className="lg-pass__marks is-check">
+          {p.check.items.map((item) => (
+            <li key={item.en}>{item[locale]}</li>
+          ))}
+        </ul>
+      </section>
+
+      {/* LEVEL 5 — the owner principle and the one action */}
+      <section className="lg-pass__principle">
+        <p className="lg-pass__statement">{p.principle[locale]}</p>
+        <p className="lg-pass__actions">
+          <a className="btn lg-pass__btn" href="#lg-form" data-intent="viewing"><span>{offer.primary}</span><Icon /></a>
+          <a className="pm-link lg-pass__link" href="#plans"><span>{ui.plansSee[locale]}</span><Icon name="down" /></a>
+        </p>
+      </section>
+    </div>
+  );
+}

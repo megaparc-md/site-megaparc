@@ -11,7 +11,7 @@ import { useCallback, useEffect, useRef, type ReactNode } from "react";
  * phones. Opened by any element carrying data-drawer="<id>" or by the #<id> hash.
  * Content is rendered on the server and passed in.
  */
-export function LgDrawer({ id, title, kicker, closeLabel, wide = false, children }: { id: string; title: string; kicker?: string; closeLabel: string; wide?: boolean; children: ReactNode }) {
+export function LgDrawer({ id, title, kicker, closeLabel, wide = false, className, children }: { id: string; title: string; kicker?: string; closeLabel: string; wide?: boolean; className?: string; children: ReactNode }) {
   const ref = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLElement | null>(null);
 
@@ -70,7 +70,7 @@ export function LgDrawer({ id, title, kicker, closeLabel, wide = false, children
   }, [id, open]);
 
   return (
-    <dialog ref={ref} id={`lg-drawer-${id}`} className={`lg-drawer${wide ? " is-wide" : ""}`} aria-labelledby={`lg-drawer-${id}-title`}>
+    <dialog ref={ref} id={`lg-drawer-${id}`} className={`lg-drawer${wide ? " is-wide" : ""}${className ? ` ${className}` : ""}`} aria-labelledby={`lg-drawer-${id}-title`}>
       <div className="lg-drawer__panel">
         <header className="lg-drawer__head">
           <div>

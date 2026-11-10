@@ -3,6 +3,7 @@ import { Icon } from "@/components/ui";
 import { formatAreaExact, type ProjectEntry } from "@/content/source";
 import { publishable, type CostState, type LeasingExperience, type TechRow } from "@/data/leasing-experience-model";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
+import { TechPassport } from "@/components/leasing-experience/tech-passport";
 import { googleDirectionsUrl } from "@/lib/assets";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
@@ -59,6 +60,8 @@ function Rows({ rows, locale }: { rows: Row[]; locale: SiteLocale }) {
 }
 
 export function TechSheet({ x, offer, project, locale }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale }) {
+  // the tenant technical passport where the dataset has one (Moscova 20, OWNER 2026-11-10); the row list otherwise
+  if (x.passport) return <TechPassport x={x} passport={x.passport} offer={offer} locale={locale} />;
   const levels = offer.breakdown;
   const floors = levels.filter((level) => level.key !== "terrace");
   const heights = floors.filter((level) => level.height);
