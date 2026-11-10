@@ -278,7 +278,7 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
   };
 
   return (
-    <PageShell locale={locale} experience mainClassName="r3-page r3-leasing lx-page">
+    <PageShell locale={locale} experience mainClassName="r3-page r3-leasing lx-page r4-page r4-leasing">
       {/* THE QUESTION — what can I lease? Answered right below, grouped by when it can be seen */}
       <section className="r3-sec r3-sec--ivory r3-opening r3-opening--leasing">
         <div className="r3-shell">

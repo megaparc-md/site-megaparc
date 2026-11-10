@@ -20,6 +20,7 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     label: "Proiecte", title: ["Imobiliarele", "MEGAPARC."],
+    statement: "Active reale, în etape diferite — și o singură abordare de proprietar.",
     lead: "Portofoliul în trei părți: clădiri în închiriere, terenuri pentru dezvoltare și proiecte proprii în lucru.",
     open: "Vezi obiectul", openProject: "Vezi proiectul", ofLand: "teren", landTotal: "Suprafață confirmată",
     landNote: "Chișinău — parametrii terenului se verifică.", mapLabel: "Hartă: amplasarea terenului Drochia",
@@ -28,6 +29,7 @@ const copy = {
   },
   ru: {
     label: "Проекты", title: ["Недвижимость", "MEGAPARC."],
+    statement: "Реальные активы на разных стадиях — и один подход собственника.",
     lead: "Портфель из трёх частей: объекты в аренде, земля для развития и собственные проекты в работе.",
     open: "Смотреть объект", openProject: "Открыть проект", ofLand: "земли", landTotal: "Подтверждённая площадь",
     landNote: "Кишинёв — параметры участка уточняются.", mapLabel: "Карта: расположение участка Drochia",
@@ -36,6 +38,7 @@ const copy = {
   },
   en: {
     label: "Projects", title: ["MEGAPARC", "real estate."],
+    statement: "Real assets at different stages — and one owner’s approach.",
     lead: "The portfolio in three parts: buildings for lease, land for development and our own projects in progress.",
     open: "View the property", openProject: "View the project", ofLand: "of land", landTotal: "Confirmed area",
     landNote: "Chișinău — the plot parameters are under verification.", mapLabel: "Map: where the Drochia site is",
@@ -74,12 +77,13 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
   };
 
   return (
-    <PageShell locale={locale} mainClassName="r3-page r3-projects r33-projects">
-      {/* OPENING — the title and the three categories, readable at once */}
+    <PageShell locale={locale} mainClassName="r3-page r3-projects r33-projects r4-page r4-projects">
+      {/* OPENING — the title, one statement about the portfolio (R4 §22), the three categories readable at once */}
       <section className="r3-sec r3-sec--ivory r3-opening r3-opening--projects">
         <div className="r3-shell">
           <R3Label>{c.label}</R3Label>
           <MaskTitle as="h1" className="r3-opening__title" lines={[...c.title]} />
+          <p className="r4-projects__statement" data-reveal>{c.statement}</p>
           <p className="r3-lead r3-opening__lead" data-reveal>{c.lead}</p>
           <nav className="r3-split r33-split" aria-label={c.label} data-reveal>
             {portfolioCategories.map((category) => (

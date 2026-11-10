@@ -2,10 +2,10 @@ import Link from "next/link";
 import { MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { Figure, NB, R3Label, R3Link, ValueSequence, projectState, r3Href } from "@/components/r3";
+import { Figure, NB, R3Label, R3Link, ValueSequence, projectState, r3Href, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { getProject, spaceArea, spacesFor } from "@/content/source";
-import { itemHref, leasingProjects, portfolioCategories, portfolioCounts } from "@/lib/portfolio";
+import { itemHref, leasingOnRequest, leasingProjects, portfolioCategories, portfolioCounts, waitlistHref, waitlistLabel } from "@/lib/portfolio";
 import { company, contactLinks, portfolioFigures } from "@/data/demo-content";
 import { businessStatement, positioning } from "@/lib/business";
 import { noPrice } from "@/lib/leasing";
@@ -141,6 +141,17 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
   /** the index after the three large scenes: the other leasing buildings, then the two other categories (R3.3 §5) */
   const indexLeasing = leasing.filter((project) => project.slug !== m20.slug);
   const m20State = projectState(m20, locale);
+  // R4 §13 — the leasing hierarchy from the status model: viewable now (an available unit, or a building that can be visited
+  // today — Dacia 31 on request) · upcoming (occupied until a date — Moscova 9) · fully let (Creangă 78, a waiting list)
+  const offers = leasing.map((project) => {
+    const unit = spacesFor(project.slug)[0] ?? null;
+    const state = projectState(project, locale);
+    const now = unit ? viewableNow(unit) : Boolean(leasingOnRequest[project.slug]);
+    return { project, unit, state, now, full: state.tone === "full" };
+  });
+  const offersNow = offers.filter((offer) => !offer.full && offer.now);
+  const offersSoon = offers.filter((offer) => !offer.full && !offer.now);
+  const offersFull = offers.filter((offer) => offer.full);
   const evidence = [
     { value: portfolioFigures.operating.value[locale], label: c.operating },
     { value: portfolioFigures.land.value[locale], label: c.land },
@@ -148,7 +159,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
   ];
 
   return (
-    <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-home r32-home">
+    <PageShell locale={locale} variant="solid" experience mainClassName="r3-page r3-home r32-home r4-page r4-home">
       {/* 01 HERO — R3.3.1 §1: architecture leads with the typography. The strongest real MEGAPARC exterior — Dacia 31, the
           whole building in its park — in an intentional split (58 % from 1280 px; on top, 45–67 % of the viewport below);
           the frame is chosen so the building is never cut. cv-hero-plaza stays OWNER REJECTED. */}
@@ -278,28 +289,39 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             <R3Link href={`${p("/leasing")}#available`}>{c.leaseAll}</R3Link>
           </div>
           <div className="r32-lease__list">
-            <div className="r32-lease__group" data-reveal>
-              <ul>
-                {leasing.map((project) => {
-                  const unit = spacesFor(project.slug)[0] ?? null;
-                  const state = projectState(project, locale);
-                  const area = unit ? spaceArea(unit, locale) : null;
-                  return (
-                    <li key={project.slug}>
-                      <Link href={p(`/projects/${project.slug}`)} className="r32-offer">
-                        <span className="r32-offer__media" aria-hidden="true">
-                          {project.media ? <ArtImage media={project.media} variant="card" alt="" sizes="9rem" /> : null}
-                        </span>
-                        <span className="r32-offer__name">{project.name}</span>
-                        <span className="r32-offer__unit">{unit ? unit.unit[locale] : project.format[locale]}{area ? <> · <Figure value={area} /></> : null}</span>
-                        <span className={`r3-state is-${state.tone}`}>{state.text}</span>
-                        <Icon size={20} />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+            {/* R4 (OWNER overnight mandate §13): available now leads, upcoming follows; a fully let building never competes */}
+            {[{ key: "now", items: offersNow, title: c.nowTitle }, { key: "soon", items: offersSoon, title: c.soonTitle }].map((group) =>
+              group.items.length ? (
+                <div key={group.key} className={`r32-lease__group r4-lease__group r4-lease__group--${group.key}`} data-reveal>
+                  <p className={`r4-lease__when is-${group.key}`}>{group.title}<small>{String(group.items.length).padStart(2, "0")}</small></p>
+                  <ul>
+                    {group.items.map(({ project, unit, state }) => {
+                      const area = unit ? spaceArea(unit, locale) : null;
+                      return (
+                        <li key={project.slug}>
+                          <Link href={p(`/projects/${project.slug}`)} className="r32-offer">
+                            <span className="r32-offer__media" aria-hidden="true">
+                              {project.media ? <ArtImage media={project.media} variant="card" alt="" sizes="9rem" /> : null}
+                            </span>
+                            <span className="r32-offer__name">{project.name}</span>
+                            <span className="r32-offer__unit">{unit ? unit.unit[locale] : project.format[locale]}{area ? <> · <Figure value={area} /></> : null}</span>
+                            <span className={`r3-state is-${state.tone}`}>{state.text}</span>
+                            <Icon size={20} />
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : null,
+            )}
+            {offersFull.length ? (
+              <p className="r4-lease__full" data-reveal>
+                {offersFull.map(({ project, state }, i) => (
+                  <span key={project.slug}>{i ? " · " : ""}{project.name} — {state.text} · <Link href={waitlistHref(locale, project.slug)}>{waitlistLabel[locale]}</Link></span>
+                ))}
+              </p>
+            ) : null}
           </div>
         </div>
       </section>

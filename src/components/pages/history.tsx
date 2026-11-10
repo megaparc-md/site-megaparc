@@ -141,7 +141,7 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
   const register = entries.filter((entry) => entry.name && !notCompanies.has(entry.id));
 
   return (
-    <PageShell locale={locale} variant={historyHeroImage ? "overlay" : "solid"} experience mainClassName="r3-page r3-history">
+    <PageShell locale={locale} variant={historyHeroImage ? "overlay" : "solid"} experience mainClassName="r3-page r3-history r4-page r4-history">
       {/* OPENING — one archival frame across the whole viewport; the four years are the way in */}
       <section className={`r3-hhero${historyHeroImage ? "" : " r3-hhero--type"}`} data-xp-hero={historyHeroImage ? "" : undefined}>
         {historyHeroImage ? (

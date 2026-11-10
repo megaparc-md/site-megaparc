@@ -106,7 +106,7 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
   };
 
   return (
-    <PageShell locale={locale} mainClassName="r3-page r3-about">
+    <PageShell locale={locale} mainClassName="r3-page r3-about r4-page r4-about">
       {/* WHO WE ARE TODAY — the three directions at monumental scale, the company in one sentence */}
       <section className="r3-sec r3-sec--ivory r3-opening">
         <div className="r3-shell">

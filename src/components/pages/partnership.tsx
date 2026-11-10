@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ConceptDisclosure, ConceptImage, MaskTitle } from "@/components/experience";
+import { ConceptDisclosure, ConceptImage, MaskTitle, hasConceptImage } from "@/components/experience";
 import { investInputs, investQuestions } from "@/components/invest-qa";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
@@ -177,26 +177,28 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
   const t = (value: Localized | string) => (typeof value === "string" ? value : value[locale]);
 
   return (
-    <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-invest">
-      {/* A — THESIS: one statement; what MEGAPARC can do with an asset (OWNER-approved illustration, disclosed) */}
-      <section className="r3-hero r3-hero--invest" data-xp-hero>
-        <div className="r3-hero__media" aria-hidden="true">
-          <ConceptImage id="partnership.hero" locale={locale} priority sizes="100vw" />
-        </div>
-        <div className="r3-hero__veil" aria-hidden="true" />
-        <ConceptDisclosure id="partnership.hero" locale={locale} />
-        <div className="r3-shell r3-hero__inner">
-          <R3Label tone="light">{c.label}</R3Label>
-          <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.title]} />
-          <div className="r3-hero__foot" data-reveal>
-            <p className="r3-hero__sub">{c.thesis}</p>
+    <PageShell locale={locale} variant="solid" experience mainClassName="r3-page r3-invest r4-page r4-invest">
+      {/* A — THESIS (R4, OWNER overnight mandate §16): the statement as typography first — Yellow Tree authority, FINMENTOR
+          discipline — then the OWNER-approved illustration as a controlled band, always disclosed («Концептуальное изображение») */}
+      <section className="r3-sec r3-sec--ivory r3-opening r4-iopen" id="thesis">
+        <div className="r3-shell">
+          <R3Label>{c.label}</R3Label>
+          <MaskTitle as="h1" className="r3-display r4-iopen__title" lines={[...c.title]} />
+          <div className="r4-iopen__base" data-reveal>
+            <p className="r4-iopen__thesis">{c.thesis}</p>
             <div className="r3-actions">
-              <R3Button href={discussHref} tone="light">{c.discuss}</R3Button>
-              <R3Link href={p("/offer")} tone="light">{c.offer}</R3Link>
+              <R3Button href={discussHref}>{c.discuss}</R3Button>
+              <R3Link href={p("/offer")}>{c.offer}</R3Link>
             </div>
           </div>
         </div>
       </section>
+      {hasConceptImage("partnership.hero") ? (
+        <figure className="r4-iband" data-reveal>
+          <ConceptImage id="partnership.hero" locale={locale} priority sizes="100vw" />
+          <ConceptDisclosure id="partnership.hero" locale={locale} />
+        </figure>
+      ) : null}
       {/* B — HOW VALUE IS CREATED (R3.2 §7 · 03): Acquire · Develop · Operate · Reinvest on real projects; what MEGAPARC can do with an asset as one sentence */}
       <section className="r3-sec r3-sec--ivory r32-ivalue" id="value">
         <div className="r3-shell">
