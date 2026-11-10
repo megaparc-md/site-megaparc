@@ -130,6 +130,10 @@ const copy = {
   checkArea: { ro: "Suprafața exactă a spațiului", ru: "Точная площадь помещения", en: "The exact area of the space" },
   checkTerms: { ro: "Suprafața oferită și termenul de disponibilitate", ru: "Предлагаемая площадь и срок доступности", en: "The area offered and the availability date" },
   checkCadastre: { ro: "Numărul cadastral — la cerere, pentru verificarea în e‑Cadastru", ru: `Кадастровый номер${NB}— по${NB}запросу, для проверки в${NB}e‑Cadastru`, en: "The cadastral number — on request, for verification in e‑Cadastru" },
+  // a fully let building (Creangă 78): 04 is the decision for a future tenant — confirmed operating facts · what we check when a space frees up
+  fullDecideTitle: { ro: "Când se eliberează un spațiu — verificăm mai întâi formatul dumneavoastră.", ru: `Когда помещение освободится${NB}— сначала проверим ваш формат.`, en: "When a space frees up — we check your format first." },
+  fullCheckLabel: { ro: "Verificăm împreună, când se eliberează spațiul", ru: "Проверим вместе, когда помещение освободится", en: "We check together when a space frees up" },
+  checkRelease: { ro: "Suprafața și termenul de eliberare a spațiului", ru: `Площадь и${NB}срок освобождения помещения`, en: "The area and the release date of the space" },
   checkNote: { ro: "Directorul tehnic și arhitectul MEGAPARC evaluează aceste puncte pentru formatul dumneavoastră.", ru: `Технический директор и${NB}архитектор MEGAPARC оценят эти пункты под${NB}ваш формат.`, en: "MEGAPARC's Technical Director and Architect assess these points for your format." },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
   investment: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" },
@@ -240,6 +244,15 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
     ...(onRequest ? [copy.checkTerms[locale]] : []),
     ...(cadastreNumbers[slug] ? [] : [copy.checkCadastre[locale]]),
   ];
+  /** 04 for every leasing object: a fully let building shows its confirmed operating facts and the checks for a future tenant —
+   *  topics only, never values (LEASING OBJECTS · MOSCOVA 20 STANDARD: no empty section, nothing invented). */
+  const decideRows: { key: string; dt: string; dd: string }[] = mode === "full"
+    ? [
+        { key: "owner", dt: copy.ownedBy[locale], dd: copy.ownedValue[locale] },
+        { key: "status", dt: copy.status[locale], dd: statusLine },
+      ]
+    : access.map(({ key, cap }) => ({ key, dt: needCopy[key].label[locale], dd: cap!.note[locale] }));
+  const decideChecks: string[] = mode === "full" ? [copy.checkRelease[locale], needCopy.power.label[locale], needCopy.ventilation.label[locale], needCopy.delivery.label[locale]] : checks;
 
   return (
     <PageShell locale={locale} variant={hero === "bleed" ? "overlay" : "solid"} experience mainClassName={`r3-page r3-prop r3-prop--${mode}`}>
@@ -445,34 +458,39 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
         </section>
       ) : null}
 
-      {/* DECISION PANEL (R3.3 §4, the Moscova 20 standard): what is confirmed · what we check together — no value is invented */}
-      {access.length || checks.length ? (
+      {/* 03 · LOCATION — the light editorial map */}
+      <div className="r3-loc">
+        <LocationSection locale={locale} no="03" mapKey={slug} name={asset.name} place={district ?? asset.city[locale]} area={district ? asset.city[locale] : ""} text={isCreanga ? copy.locationCreanga[locale] : asset.location[locale]} points={asset.connectivity} map={asset.map} />
+      </div>
+
+      {/* 04 · DECISION PANEL (R3.3 §4, the Moscova 20 standard): what is confirmed · what we check together — no value is invented */}
+      {decideRows.length || decideChecks.length ? (
         <section className="r3-sec r3-sec--ivory r3-caps r33-decide">
           <div className="r3-shell">
             <div className="r3-head r3-head--split" data-reveal>
               <R3Label>{copy.part4[locale]}</R3Label>
-              <h2 className="r3-title">{checks.length ? copy.decideTitle[locale] : copy.accessTitle[locale]}</h2>
+              <h2 className="r3-title">{mode === "full" ? copy.fullDecideTitle[locale] : checks.length ? copy.decideTitle[locale] : copy.accessTitle[locale]}</h2>
               {first && first.technical.power[locale] !== OMITTED && first.confirmed.includes("power") ? <p className="r3-lead">{first.technical.power[locale]}</p> : null}
             </div>
-            <div className={`r33-decide__grid${checks.length ? "" : " r33-decide__grid--single"}`}>
-              {access.length ? (
+            <div className={`r33-decide__grid${decideChecks.length ? "" : " r33-decide__grid--single"}`}>
+              {decideRows.length ? (
                 <div data-reveal>
                   <p className="r33-decide__label">{copy.confirmedLabel[locale]}</p>
                   <dl className="r3-rows">
-                    {access.map(({ key, cap }) => (
+                    {decideRows.map(({ key, dt, dd }) => (
                       <div key={key}>
-                        <dt>{needCopy[key].label[locale]}</dt>
-                        <dd>{cap!.note[locale]}</dd>
+                        <dt>{dt}</dt>
+                        <dd>{dd}</dd>
                       </div>
                     ))}
                   </dl>
                 </div>
               ) : null}
-              {checks.length ? (
+              {decideChecks.length ? (
                 <div className="r33-decide__checks" data-reveal>
-                  <p className="r33-decide__label">{copy.checkLabel[locale]}</p>
+                  <p className="r33-decide__label">{mode === "full" ? copy.fullCheckLabel[locale] : copy.checkLabel[locale]}</p>
                   <ul className="r33-decide__list">
-                    {checks.map((check) => <li key={check}>{check}</li>)}
+                    {decideChecks.map((check) => <li key={check}>{check}</li>)}
                   </ul>
                   <p className="r3-note">{copy.checkNote[locale]}</p>
                 </div>
@@ -481,11 +499,6 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
           </div>
         </section>
       ) : null}
-
-      {/* LOCATION — the light editorial map */}
-      <div className="r3-loc">
-        <LocationSection locale={locale} no="03" mapKey={slug} name={asset.name} place={district ?? asset.city[locale]} area={district ? asset.city[locale] : ""} text={isCreanga ? copy.locationCreanga[locale] : asset.location[locale]} points={asset.connectivity} map={asset.map} />
-      </div>
 
       {/* TRUST — technical feasibility first; e-Cadastru where the OWNER approved the number */}
       <R3Trust slug={slug} locale={locale} tone="stone" />
