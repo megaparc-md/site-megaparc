@@ -14,7 +14,7 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  * viewport edge, the type stands on warm ivory beside it — no box over the
  * building, the neighbour's lettering stays outside the crop (crop only). Only:
  * MOSCOVA 20 · «Пространство для следующего шага вашего бизнеса.» · the place ·
- * 625,7 м² as display figure · the status · «Капитальная база уже готова.» ·
+ * 625,7 м² as display figure · the status · the core-capital-works line (OWNER copy correction 2026-11-10) ·
  * ЗАПРОСИТЬ ПРОСМОТР / ПОСМОТРЕТЬ ПЛАНЫ. Area and status are read from the unit
  * record (M20-01). The photograph stays at ≈ 1× of its 1278 px source: the hero
  * height is capped so it is never stretched.

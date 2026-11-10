@@ -58,7 +58,7 @@ function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensF
         <p className="lg-lens__question">{format.question[locale]}</p>
         <a className="btn" href="#viewing" data-intent="viewing" data-format={format.label[locale]}><span>{open ? ui.viewingPersonal[locale] : ui.waitlist[locale]}</span><Icon /></a>
         <div className="lg-lens__checkwrap">
-          <p className="lg-label">{l.checksTitle[locale]}</p>
+          <p className="lg-label">{(format.checksTitle ?? l.checksTitle)[locale]}</p>
           <ul className="lg-circles lg-lens__checks">
             {format.checks.map((check) => (
               <li key={check.en}>{check[locale]}</li>
@@ -67,12 +67,15 @@ function Pane({ x, format, locale, open }: { x: LeasingExperience; format: LensF
         </div>
       </div>
       <div className="lg-lens__proof">
-        <p className="lg-label">{l.evidenceTitle[locale]}</p>
+        <p className="lg-label">{(format.evidenceTitle ?? l.evidenceTitle)[locale]}</p>
         <ul className="lg-lens__cards">
           {format.evidence.filter((item) => publishable(item.evidence)).map((item, i) => (
             <li key={item.text.en} className="lg-card lg-lens__card">
               <span className="lg-card__no">{String(i + 1).padStart(2, "0")}</span>
-              <span className="lg-lens__cardtext">{item.text[locale]}</span>
+              <span className="lg-lens__cardtext">
+                {item.title ? <strong className="lg-lens__cardtitle">{item.title[locale]}</strong> : null}
+                {item.text[locale]}
+              </span>
               <a href={target[item.ref].href} data-drawer={target[item.ref].drawer} className="lg-lens__see" aria-label={`${ui.see[locale]}: ${item.text[locale]}`}>{ui.see[locale]}</a>
             </li>
           ))}

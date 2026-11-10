@@ -93,15 +93,16 @@ export const moscova20Experience: LeasingExperience = {
     title: T("Spațiu pentru următorul pas al afacerii dumneavoastră.", "Пространство для следующего шага вашего бизнеса.", "Space for your business's next step."),
     place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
-    // OWNER art direction 2026-11-09 §3: short — «Капитальная база уже готова.»; the adaptation line lives in the reasons («Гибкость»)
-    support: T("Baza capitală este deja gata.", "Капитальная база уже готова.", "The capital base is already in place."),
+    // OWNER copy correction 2026-11-10 (capex / tenant investment): replaces «Капитальная база уже готова.» — the core capital works are done,
+    // the tenant invests primarily in adapting the space to its format (never zero investment, never fit-out included)
+    support: T("Lucrările capitale de bază sunt deja realizate — investiția chiriașului vizează în primul rând adaptarea spațiului la propriul format de afaceri.", "Базовые капитальные работы уже выполнены — инвестиции арендатора нужны прежде всего для адаптации пространства под свой формат.", "The core capital works are already complete — the tenant’s investment can focus primarily on adapting the space to its business format."),
   },
 
   reasons: {
     label: T("Trei motive pentru o vizionare", "Три причины для просмотра", "Three reasons for a viewing"),
     items: [
       { key: "location", no: "01", label: T("Locație", "Локация", "Location"), text: T("Context urban activ.", "Активный городской контекст.", "An active city setting.") },
-      { key: "base", no: "02", label: T("Baza gata", "Готовая база", "Ready base"), text: T("Baza capitală principală este deja executată.", "Основная капитальная база уже выполнена.", "The main capital base is already done.") },
+      { key: "base", no: "02", label: T("Lucrări de bază", "Базовые работы", "Core works"), text: T("Lucrările capitale de bază sunt deja realizate.", "Базовые капитальные работы уже выполнены.", "The core capital works are already complete.") },
       { key: "flex", no: "03", label: T("Flexibilitate", "Гибкость", "Flexibility"), text: T("Spațiul se adaptează formatului afacerii după verificarea tehnică.", "Пространство адаптируется под формат бизнеса после технической проверки.", "The space adapts to the business format after a technical check.") },
     ],
   },
@@ -319,10 +320,10 @@ export const moscova20Experience: LeasingExperience = {
   },
 
   capex: {
-    kicker: T("Baza capitală", "Капитальная база", "Capital base"),
+    kicker: T("Lucrările capitale de bază", "Базовые капитальные работы", "Core capital works"),
     // OWNER art direction 2026-11-09 §12 · §20: the headline of the dark scene
     title: T("Investiți în afacerea dumneavoastră.\nNu în refacerea de bază.", "Вкладывайте в свой бизнес.\nНе в базовое восстановление.", "Invest in your business.\nNot in basic restoration."),
-    lead: T("Principalele lucrări capitale sunt deja executate.", "Основные капитальные работы уже выполнены.", "The main capital works are already done."),
+    lead: T("Infrastructura principală a obiectului există deja. Înainte de lansare rămâne de stabilit ce cere formatul concret și cât de amplă trebuie să fie adaptarea spațiului.", "Основная инфраструктура объекта уже создана. Перед запуском бизнеса остаётся определить требования конкретного формата и объём необходимой адаптации помещения.", "The building’s core infrastructure is already in place. Before opening, what remains is to define the requirements of the specific format and the extent of adaptation the space needs."),
     photo: "lowerHall",
     readyTitle: T("Deja gata", "Уже готово", "Already done"),
     ready: [
@@ -355,19 +356,19 @@ export const moscova20Experience: LeasingExperience = {
       { key: "space", no: "03", shot: { photo: "groundHall", position: "50% 52%" }, label: T("Spațiul", "Пространство", "Space"), caption: T("Săli deschise cu stâlpi pe o rețea regulată.", "Открытые залы с колоннами по регулярной сетке.", "Open halls with columns on a regular grid.") },
       { key: "connection", no: "04", shot: { photo: "stairs", position: "64% 55%" }, label: T("Legătura", "Связь уровней", "Connection"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
       { key: "lower", no: "05", shot: { photo: "lowerHall", position: "50% 55%" }, label: T("Demisolul", "Цоколь", "Lower ground"), caption: T("Demisolul: o sală lungă cu pardoseală finisată și climatizare.", "Цоколь: длинный зал с готовым полом и кондиционированием.", "The lower ground: a long hall with a finished floor and air-conditioning.") },
-      { key: "base", no: "06", shot: { photo: "engineering", position: "52% 36%", zoom: 1.3 }, label: T("Baza gata", "Готовая база", "Ready base"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
+      { key: "base", no: "06", shot: { photo: "engineering", position: "52% 36%", zoom: 1.3 }, label: T("Inginerie", "Инженерия", "Engineering"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
     ],
   },
 
   lens: {
     kicker: T("Formatul dumneavoastră", "Ваш формат", "Your format"),
     title: T("Ce afacere luați în considerare?", "Какой бизнес вы рассматриваете?", "Which business are you considering?"),
-    lead: T("Aceleași fapte, citite pentru formatul dumneavoastră: întrebarea principală, argumentele și ce verificăm împreună.", "Те же факты — для вашего формата: главный вопрос, аргументы и что проверим вместе.", "The same facts, read for your format: the main question, the arguments and what we check together."),
+    lead: T("Aceleași caracteristici ale obiectului — cerințe diferite față de spațiu. Alegeți formatul ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Те же характеристики объекта — разные требования к помещению. Выберите формат, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same property characteristics — different requirements for the space. Choose a format to see what deserves attention in your case."),
     evidenceTitle: T("Ce spune în favoarea", "Что говорит в пользу", "What speaks for it"),
     checksTitle: T("Ce verificăm împreună", "Что проверим вместе", "What we check together"),
     scenarioNote: T("Scenariu posibil de organizare", "Возможный сценарий организации", "A possible way to organise it"),
-    honesty: T("Dacă obiectul nu corespunde modelului dumneavoastră, e mai bine să aflați asta înainte de semnarea contractului.", "Если объект не соответствует вашей модели — лучше понять это до подписания договора.", "If the property does not match your model, it is better to know before signing."),
-    regulated: T("Restaurant, clinică, servicii medicale și alte activități reglementate — doar după verificarea tehnică a ingineriei.", "Ресторан, клиника, медицинские услуги и другие регулируемые форматы — только после технической проверки инженерии.", "Restaurants, clinics, medical services and other regulated uses — only after a technical check of the engineering."),
+    honesty: T("Dacă obiectul se potrivește ca locație și format, următorul pas este verificarea fezabilității tehnice a scenariului dumneavoastră.", "Если объект подходит по локации и формату, следующим шагом проверим техническую реализуемость вашего сценария.", "If the property suits you in location and format, the next step is to check the technical feasibility of your scenario."),
+    regulated: T("Pentru formatele reglementate — clinici, servicii medicale, alimentație publică și alte activități — se verifică suplimentar cerințele tehnice speciale și cele de autorizare.", "Для регулируемых форматов — клиники, медицинских услуг, общепита и других видов деятельности — дополнительно проверяются специальные технические и разрешительные требования.", "For regulated formats — clinics, medical services, food service and other activities — special technical and permit requirements are checked as well."),
     formats: [
       {
         key: "retail",
@@ -416,14 +417,24 @@ export const moscova20Experience: LeasingExperience = {
       {
         key: "service",
         label: T("Servicii pentru clienți", "Клиентский сервис", "Client service"),
-        question: T("Le va fi comod clienților să ajungă?", "Удобно ли клиенту добираться?", "Is it easy for clients to get here?"),
+        question: T("Le este comod clienților să ajungă?", "Удобно ли клиентам добираться?", "Is it easy for clients to get here?"),
+        // OWNER copy 2026-11-10 — titled cards; facts as before (OWNER §12 public location wording · the 8 OSM routes · the plans)
+        evidenceTitle: T("De ce locația se potrivește serviciilor pentru clienți", "Почему локация подходит для клиентского сервиса", "Why the location suits client service"),
         evidence: [
-          { text: T("Transport public în apropiere.", "Общественный транспорт рядом.", "Public transport close by."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { text: T("Cartier rezidențial dens — un public local constant.", "Плотный жилой район — постоянная локальная аудитория.", "A dense residential district — a steady local audience."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { text: T("Intrare direct din trotuar, prin terasă: scări și rampă.", "Вход прямо с тротуара через террасу: лестница и пандус.", "Entrance straight from the pavement through the terrace: steps and a ramp."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
-          { text: T("Primirea clienților la parter, partea de serviciu — la demisol.", "Приём клиентов на 1-м этаже, служебная часть — в цоколе.", "Client reception on the ground floor, the back office in the lower ground."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Transport public în apropiere", "Общественный транспорт рядом", "Public transport close by"), text: T("Stații și rute în imediata apropiere a obiectului.", "Остановки и маршруты в непосредственной близости от объекта.", "Stops and routes in the immediate vicinity of the property."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · 8 routes at stops within 350 m — current OSM research (OWNER micro-fix 2026-11-09)` },
+          { title: T("Cartier rezidențial format", "Сформированный жилой район", "An established residential district"), text: T("Un public local constant în jurul obiectului.", "Постоянная локальная аудитория вокруг объекта.", "A steady local audience around the property."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { title: T("Acces direct din stradă", "Прямой доступ с улицы", "Direct access from the street"), text: T("Intrare din trotuar, scări și rampă — fără un traseu complicat prin clădire.", "Вход с тротуара, лестница и пандус — без сложного маршрута через здание.", "An entrance from the pavement, steps and a ramp — no complicated route through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
+          { title: T("Zona clienților separată de cea de serviciu", "Разделение клиентской и служебной зон", "Client and service areas apart"), text: T("Parterul se potrivește pentru primirea clienților, nivelul inferior — pentru funcțiile auxiliare.", "Первый этаж подходит для приёма клиентов, нижний уровень — для вспомогательных функций.", "The ground floor suits client reception, the lower level the support functions."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
         ],
-        checks: [T("programul de lucru", "режим работы", "opening hours"), T("autorizațiile pentru activitatea dumneavoastră", "разрешения под ваш вид деятельности", "permits for your activity"), T("internetul și rețelele de curenți slabi", "интернет и слаботочные сети", "internet and low-current networks")],
+        checksTitle: T("Ce este important de verificat înainte de decizie", "Что важно проверить до принятия решения", "What to check before you decide"),
+        checks: [
+          T("accesul cu automobilul și cu transportul public", "доступность на автомобиле и общественном транспорте", "access by car and by public transport"),
+          T("comoditatea intrării și a traseului clientului", "удобство входа и маршрута клиента", "the entrance and the client's route"),
+          T("posibilitatea de a amplasa firma și semnalizarea", "возможность размещения вывески и навигации", "room for signage and wayfinding"),
+          T("programul de lucru și accesul în spațiu", "режим работы и доступ в помещение", "opening hours and access to the premises"),
+          T("internetul, rețelele de curenți slabi și infrastructura tehnică", "интернет, слаботочные сети и техническую инфраструктуру", "internet, low-current networks and technical infrastructure"),
+          T("conformitatea spațiului cu cerințele activității dumneavoastră", "соответствие помещения требованиям вашего вида деятельности", "how the premises meet the requirements of your activity"),
+        ],
         overlay: {
           photo: "lowerStairs",
           evidence: "DEMO",

@@ -84,10 +84,13 @@ export type LensFormat = {
   label: Localized;
   /** the format's own question about the location and the space */
   question: Localized;
-  /** 3–4 arguments, each pointing to where it is shown */
-  evidence: { text: Localized; ref: LensRef; evidence: Evidence; source: string }[];
-  /** 2–3 checks made together before a decision */
+  /** 3–4 arguments, each pointing to where it is shown — an optional short title above the text (OWNER copy 2026-11-10, client service) */
+  evidence: { title?: Localized; text: Localized; ref: LensRef; evidence: Evidence; source: string }[];
+  /** the checks made together before a decision */
   checks: Localized[];
+  /** the format's own headings of the two lists (absent → the section's «Что говорит в пользу» / «Что проверим вместе») */
+  evidenceTitle?: Localized;
+  checksTitle?: Localized;
   overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string };
 };
 
