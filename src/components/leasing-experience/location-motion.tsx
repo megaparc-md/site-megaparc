@@ -62,7 +62,7 @@ const copy = {
     peak: { label: { ro: "Vârf", ru: "Пик", en: "Peak" }, unit: { ro: "seara", ru: "вечером", en: "in the evening" } },
   },
   status: {
-    MODELLED: { ro: "Model preliminar MEGAPARC", ru: "Предварительная модель MEGAPARC", en: "Preliminary MEGAPARC model" },
+    MODELLED: { ro: "Analiză preliminară a locației · scenariu modelat", ru: "Предварительный анализ локации · моделируемый сценарий", en: "Preliminary location analysis · modelled scenario" },
     MEASURED: { ro: "Numărătoare pe teren MEGAPARC", ru: "Полевой замер MEGAPARC", en: "MEGAPARC field count" },
     VERIFIED: { ro: "Date verificate", ru: "Проверенные данные", en: "Verified data" },
   },

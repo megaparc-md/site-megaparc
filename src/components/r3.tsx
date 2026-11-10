@@ -3,8 +3,9 @@ import type { ReactNode } from "react";
 import { CadastreVerify } from "@/components/leasing/cadastre-verify";
 import { trustCopy, trustItems } from "@/components/leasing/property-trust";
 import { Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, getProject, kindLabel, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
-import { company, contactLinks, daciaDevelopment, drochiaProfile, occupancyOf, type OperatingSlug } from "@/data/demo-content";
+import { availabilityOf, getProject, kindLabel, propertyOccupancy, spaceStatusLine, spacesFor, type ProjectEntry } from "@/content/source";
+import { leasingOnRequest } from "@/lib/portfolio";
+import { company, contactLinks, drochiaProfile, occupancyOf, type OperatingSlug } from "@/data/demo-content";
 import { holdOrSell, lifecycle, reinvestment } from "@/lib/business";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
@@ -64,9 +65,12 @@ export function projectState(project: ProjectEntry, locale: SiteLocale): { text:
     const own = spacesFor(project.slug);
     if (own.length) {
       const first = own[0];
-      return { text: `${availabilityLabel(first, locale)} · ${formatAreaRange(first.areaMin, first.area, locale)}`, tone: availabilityOf(first).key === "now" ? "now" : "soon" };
+      return { text: spaceStatusLine(first, locale), tone: availabilityOf(first).key === "now" ? "now" : "soon" };
     }
     if (propertyOccupancy(project.slug as OperatingSlug).fullyLet) return { text: `${kindLabel.operating[locale]} · ${fullyLet[locale]}`, tone: "full" };
+    // R3.3: a leasing building without a confirmed offer (Dacia 31) — «for lease · area and timing on request»
+    const onRequest = leasingOnRequest[project.slug];
+    if (onRequest) return { text: onRequest[locale], tone: "soon" };
     return { text: kindLabel.operating[locale], tone: "quiet" };
   }
   return { text: project.card.status[locale], tone: "quiet" };
@@ -125,18 +129,19 @@ const valueVerbs: Record<"acquire" | "develop" | "operate" | "reinvest", Localiz
   reinvest: { ro: "Reinvestim", ru: "Реинвестируем", en: "Reinvest" },
 };
 
+const devLabel: Localized = { ro: "proiect nou în lucru", ru: "новый проект в работе", en: "a new project in progress" };
+
 export function ValueSequence({ locale, tone = "dark" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
   const p = (path: string) => localePath(locale, path);
   const stage = (key: string) => lifecycle.find((item) => item.key === key)!;
   const drochia = getProject("drochia-gateway")!;
   const vatra = getProject("vatra")!;
   const creanga = getProject("creanga-78")!;
-  const daciaDev = getProject("dacia-31-development")!;
   const steps = [
     { verb: valueVerbs.acquire[locale], text: stage("acquire").text[locale], proof: `${drochia.name} · ${drochiaProfile.site.value[locale]}`, href: p(`/projects/${drochia.slug}`) },
     { verb: valueVerbs.develop[locale], text: stage("develop").text[locale], proof: `${vatra.name} · ${vatra.card.status[locale]}`, href: p(`/projects/${vatra.slug}`) },
     { verb: valueVerbs.operate[locale], text: stage("operate").text[locale], proof: `${creanga.name} · ${projectState(creanga, locale).text}`, href: p(`/projects/${creanga.slug}`) },
-    { verb: valueVerbs.reinvest[locale], text: `${reinvestment[locale]} ${holdOrSell[locale]}`, proof: `${daciaDev.name} · ${daciaDevelopment.total.value[locale]}`, href: p(`/projects/${daciaDev.slug}`) },
+    { verb: valueVerbs.reinvest[locale], text: `${reinvestment[locale]} ${holdOrSell[locale]}`, proof: `Vasile Lupu 48/3 · ${devLabel[locale]}`, href: `${p("/projects")}#development` },
   ];
   return (
     <ol className={`r3-line r3-seq r3-seq--${tone}`} data-reveal>

@@ -9,12 +9,14 @@ import { ArtImage } from "@/components/primitives";
 import { Figure, NB, R3Button, R3Label, R3Link, R3Trust, tel, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
-import { availabilityLabel, availabilityOf, formatAreaRange, formatDate, isDemoField, leasingExperienceFor, nextProject, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
+import { availabilityLabel, availabilityOf, formatAreaRange, formatDate, isDemoField, spaceArea, spaceStatusLine, leasingExperienceFor, nextProject, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
 import { assetProfiles, company, contactLinks, creangaProfile, occupancyOf, tenantFit, type Requirement } from "@/data/demo-content";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import type { AssetSlug } from "@/lib/assets";
 import { operations } from "@/lib/business";
 import { needs as needCopy } from "@/lib/leasing";
+import { leasingOnRequest, viewingPropertyHref, waitlistHref, waitlistLabel } from "@/lib/portfolio";
+import { cadastreNumbers } from "@/data/property-trust";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -84,6 +86,14 @@ const copy = {
     en: "The building stays in MEGAPARC ownership and works as part of the company portfolio.",
   },
   allProjects: { ro: "Toate proiectele", ru: "Все проекты", en: "All projects" },
+  // R3.3 §4 — the Moscova 20 decision logic on every property: what is confirmed, what we check together
+  decideTitle: { ro: "Ce este confirmat — și ce verificăm împreună.", ru: `Что подтверждено${NB}— и${NB}что проверим вместе.`, en: "What is confirmed — and what we check together." },
+  confirmedLabel: { ro: "Confirmat", ru: "Подтверждено", en: "Confirmed" },
+  checkLabel: { ro: "Verificăm împreună, înainte de contract", ru: `Проверим вместе до${NB}договора`, en: "We check together before the lease" },
+  checkArea: { ro: "Suprafața exactă a spațiului", ru: "Точная площадь помещения", en: "The exact area of the space" },
+  checkTerms: { ro: "Suprafața oferită și termenul de disponibilitate", ru: "Предлагаемая площадь и срок доступности", en: "The area offered and the availability date" },
+  checkCadastre: { ro: "Numărul cadastral — la cerere, pentru verificarea în e‑Cadastru", ru: `Кадастровый номер${NB}— по${NB}запросу, для проверки в${NB}e‑Cadastru`, en: "The cadastral number — on request, for verification in e‑Cadastru" },
+  checkNote: { ro: "Directorul tehnic și arhitectul MEGAPARC evaluează aceste puncte pentru formatul dumneavoastră.", ru: `Технический директор и${NB}архитектор MEGAPARC оценят эти пункты под${NB}ваш формат.`, en: "MEGAPARC's Technical Director and Architect assess these points for your format." },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
   investment: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" },
   ask: { ro: "Scrieți-ne despre obiect", ru: "Написать об объекте", en: "Write about the property" },
@@ -161,7 +171,9 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
    *  a building that can be visited now (Dacia 31, 551 of 5 541 m² occupied) is an active leasing asset with a viewing. */
   const occupiedNow = occupancyOf(slug).occupied >= occupancyOf(slug).total - 1;
   const upcoming = units.length > 0 && units.every((unit) => availabilityOf(unit).key === "soon") && occupiedNow;
-  const mode: "lease" | "upcoming" | "full" | "plain" = fullyLet ? "full" : upcoming ? "upcoming" : units.length ? "lease" : "plain";
+  /** R3.3: a leasing building without a confirmed offer — «for lease · area and timing on request» (Dacia 31) */
+  const onRequest = !units.length && !fullyLet ? leasingOnRequest[slug] ?? null : null;
+  const mode: "lease" | "upcoming" | "full" | "request" | "plain" = fullyLet ? "full" : upcoming ? "upcoming" : units.length ? "lease" : onRequest ? "request" : "plain";
   /** A district is shown only when confirmed (Creangă 78's district is not yet). */
   const district = isCreanga && creangaProfile.district.status === "DEMO" ? null : project.district[locale];
   const placeLine = [asset.city[locale], district].filter(Boolean).join(" · ");
@@ -175,10 +187,18 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
   const keyFacts = asset.keyFacts.filter((fact) => !/^(Общая площадь|Total|Suprafața totală)/.test(fact.label[locale]) && fact.label[locale] !== copy.format[locale]);
   const first = units[0] ?? null;
   const firstDate = first && availabilityOf(first).date ? formatDate(availabilityOf(first).date!, locale) : null;
-  const viewingAction = first ? (mode === "upcoming" ? copy.early[locale] : copy.viewing[locale]) : null;
-  const statusLine = first ? `${availabilityLabel(first, locale)} · ${formatAreaRange(first.areaMin, first.area, locale)}` : fullyLet ? `${copy.proofLabel[locale]} · 100${NB}% ${copy.occupied[locale]}` : project.card.status[locale];
+  const viewingAction = first ? (mode === "upcoming" ? copy.early[locale] : copy.viewing[locale]) : onRequest ? copy.viewing[locale] : null;
+  const viewHref = first ? viewingHref(locale, first) : viewingPropertyHref(locale, slug);
+  const statusLine = first ? spaceStatusLine(first, locale) : fullyLet ? `${copy.proofLabel[locale]} · 100${NB}% ${copy.occupied[locale]}` : onRequest ? onRequest[locale] : project.card.status[locale];
 
   const hero = slug === "dacia-31" ? "bleed" : isCreanga ? "contained" : "stacked";
+  /** What a tenant still needs before a lease — unconfirmed topics as checks, never as values (R3.3 §4). */
+  const checks: string[] = mode === "full" ? [] : [
+    ...accessKeys.filter((key) => !confirmedCap(key)).map((key) => needCopy[key].label[locale]),
+    ...(first && isDemoField(first, "area") ? [copy.checkArea[locale]] : []),
+    ...(onRequest ? [copy.checkTerms[locale]] : []),
+    ...(cadastreNumbers[slug] ? [] : [copy.checkCadastre[locale]]),
+  ];
 
   return (
     <PageShell locale={locale} variant={hero === "bleed" ? "overlay" : "solid"} experience mainClassName={`r3-page r3-prop r3-prop--${mode}`}>
@@ -196,7 +216,7 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
               <p className="r3-hero__lead">{project.editorial?.headline[locale] ?? narrative}</p>
               <div className="r3-prop__heroacts">
                 <p className={`r3-state r3-state--light is-${mode === "lease" ? "now" : "soon"}`}>{statusLine}</p>
-                {first && viewingAction ? <R3Button href={viewingHref(locale, first)} tone="light">{viewingAction}</R3Button> : null}
+                {viewingAction ? <R3Button href={viewHref} tone="light">{viewingAction}</R3Button> : null}
                 {first ? <a className="r3-link r3-link--light" href="#available"><span>{copy.seeSpaces[locale]}</span><Icon name="down" size={16} /></a> : null}
               </div>
             </div>
@@ -237,7 +257,7 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
             <div className="r3-upcoming__copy" data-reveal>
               {/* the hero already says «Запланируйте следующую локацию заранее.» — the scene names the unit and the date once */}
               <h2 className="r3-upcoming__title">{copy.upcoming(first.unit[locale], firstDate, locale)}</h2>
-              <p className="r3-upcoming__area"><Figure value={formatAreaRange(first.areaMin, first.area, locale)} /></p>
+              {spaceArea(first, locale) ? <p className="r3-upcoming__area"><Figure value={spaceArea(first, locale)!} /></p> : null}
               <p className="r3-lead">{first.headline[locale]}</p>
               <div className="r3-actions">
                 <R3Button href={viewingHref(locale, first)} tone="light">{copy.early[locale]}</R3Button>
@@ -304,7 +324,7 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
                 <article key={unit.id} className="r3-unit" data-reveal>
                   <div className="r3-unit__copy">
                     <h2 className="r3-unit__name">{unit.unit[locale]}</h2>
-                    <p className="r3-unit__area"><Figure value={formatAreaRange(unit.areaMin, unit.area, locale)} /></p>
+                    {spaceArea(unit, locale) ? <p className="r3-unit__area"><Figure value={spaceArea(unit, locale)!} /></p> : null}
                     <p className={`r3-state is-${a.key === "now" ? "now" : "soon"}`}>{availabilityLabel(unit, locale)}</p>
                     <p className="r3-unit__floor">{unit.floorLabel[locale]}</p>
                     {unit.confirmed.includes("highlights") && unit.highlights.length ? (
@@ -315,7 +335,8 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
                       <R3Link href={p(`/leasing/${unit.id}`)}>{copy.unitOpen[locale]}</R3Link>
                     </div>
                   </div>
-                  <UnitBlocks unit={unit} locale={locale} name={asset.name} />
+                  {/* the zone / floor scheme only when the plan is confirmed (R3.3 data gate) */}
+                  {isDemoField(unit, "plan") ? null : <UnitBlocks unit={unit} locale={locale} name={asset.name} />}
                 </article>
               );
             })}
@@ -324,23 +345,39 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
         </section>
       ) : null}
 
-      {/* ACCESS · ADAPTATION · TECHNICAL — confirmed capabilities only */}
-      {access.length ? (
-        <section className="r3-sec r3-sec--ivory r3-caps">
+      {/* DECISION PANEL (R3.3 §4, the Moscova 20 standard): what is confirmed · what we check together — no value is invented */}
+      {access.length || checks.length ? (
+        <section className="r3-sec r3-sec--ivory r3-caps r33-decide">
           <div className="r3-shell">
             <div className="r3-head r3-head--split" data-reveal>
               <R3Label>{copy.accessLabel[locale]}</R3Label>
-              <h2 className="r3-title">{copy.accessTitle[locale]}</h2>
+              <h2 className="r3-title">{checks.length ? copy.decideTitle[locale] : copy.accessTitle[locale]}</h2>
               {first && first.technical.power[locale] !== OMITTED && first.confirmed.includes("power") ? <p className="r3-lead">{first.technical.power[locale]}</p> : null}
             </div>
-            <dl className="r3-rows">
-              {access.map(({ key, cap }) => (
-                <div key={key} data-reveal>
-                  <dt>{needCopy[key].label[locale]}</dt>
-                  <dd>{cap!.note[locale]}</dd>
+            <div className={`r33-decide__grid${checks.length ? "" : " r33-decide__grid--single"}`}>
+              {access.length ? (
+                <div data-reveal>
+                  <p className="r33-decide__label">{copy.confirmedLabel[locale]}</p>
+                  <dl className="r3-rows">
+                    {access.map(({ key, cap }) => (
+                      <div key={key}>
+                        <dt>{needCopy[key].label[locale]}</dt>
+                        <dd>{cap!.note[locale]}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
-              ))}
-            </dl>
+              ) : null}
+              {checks.length ? (
+                <div className="r33-decide__checks" data-reveal>
+                  <p className="r33-decide__label">{copy.checkLabel[locale]}</p>
+                  <ul className="r33-decide__list">
+                    {checks.map((check) => <li key={check}>{check}</li>)}
+                  </ul>
+                  <p className="r3-note">{copy.checkNote[locale]}</p>
+                </div>
+              ) : null}
+            </div>
           </div>
         </section>
       ) : null}
@@ -351,18 +388,18 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
       </div>
 
       {/* TRUST — technical feasibility first; e-Cadastru where the OWNER approved the number */}
-      {units.length ? <R3Trust slug={slug} locale={locale} tone="stone" /> : null}
+      {units.length || onRequest ? <R3Trust slug={slug} locale={locale} tone="stone" /> : null}
 
       {/* CLOSE — a viewing / early interest where a unit is offered; a fully let building has no leasing action */}
       <section className="r3-sec r3-sec--ivory r3-pclose">
         <div className="r3-shell r3-pclose__grid">
           <div data-reveal>
             <R3Label>{asset.name}</R3Label>
-            <h2 className="r3-title">{mode === "upcoming" ? copy.earlyTitle[locale] : first ? copy.viewTitle[locale] : fullyLet ? copy.closeFull[locale] : copy.ask[locale]}</h2>
+            <h2 className="r3-title">{mode === "upcoming" ? copy.earlyTitle[locale] : first || onRequest ? copy.viewTitle[locale] : fullyLet ? copy.closeFull[locale] : copy.ask[locale]}</h2>
             {mode === "upcoming" ? <p className="r3-lead">{copy.earlyText[locale]}</p> : null}
             <div className="r3-actions">
-              {first && viewingAction ? <R3Button href={viewingHref(locale, first)}>{viewingAction}</R3Button> : fullyLet ? <R3Button href={p("/projects")}>{copy.allProjects[locale]}</R3Button> : <R3Button href={`${p("/contact")}?subject=general&property=${slug}#question`}>{copy.ask[locale]}</R3Button>}
-              {first ? <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{copy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a> : null}
+              {viewingAction ? <R3Button href={viewHref}>{viewingAction}</R3Button> : fullyLet ? <R3Button href={waitlistHref(locale, slug)}>{waitlistLabel[locale]}</R3Button> : <R3Button href={`${p("/contact")}?subject=general&property=${slug}#question`}>{copy.ask[locale]}</R3Button>}
+              {first || onRequest ? <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{copy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a> : null}
             </div>
           </div>
           <nav className="r3-routes__list r3-routes__list--side" aria-label={copy.closeLabel[locale]} data-reveal>

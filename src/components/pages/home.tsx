@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { ConceptDisclosure, ConceptImage, MaskTitle } from "@/components/experience";
+import { MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { Figure, NB, R3Label, R3Link, ValueSequence, projectState, r3Href, viewableNow } from "@/components/r3";
+import { Figure, NB, R3Label, R3Link, ValueSequence, projectState, r3Href } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces } from "@/content/source";
+import { getProject, spaceArea, spacesFor } from "@/content/source";
+import { itemHref, leasingProjects, portfolioCategories, portfolioCounts } from "@/lib/portfolio";
 import { company, contactLinks, portfolioFigures } from "@/data/demo-content";
 import { businessStatement, positioning } from "@/lib/business";
 import { noPrice } from "@/lib/leasing";
@@ -45,7 +46,7 @@ const copy = {
     valueTitle: "De la teren la clădirea care funcționează.",
     valueLink: "Investiții și parteneriat",
     leaseLabel: "Închiriere",
-    leaseTitle: "Ce se poate închiria acum.",
+    leaseTitle: "Ce se poate închiria.",
     nowTitle: "Se poate vedea acum",
     soonTitle: "În curând",
     leaseAll: "Toate spațiile disponibile",
@@ -78,7 +79,7 @@ const copy = {
     valueTitle: `От${NB}участка до${NB}работающего здания.`,
     valueLink: `Инвестиции и${NB}партнёрство`,
     leaseLabel: "Аренда",
-    leaseTitle: `Что можно арендовать сейчас.`,
+    leaseTitle: `Что можно арендовать.`,
     nowTitle: "Можно посмотреть сейчас",
     soonTitle: "Скоро",
     leaseAll: "Все свободные помещения",
@@ -111,7 +112,7 @@ const copy = {
     valueTitle: "From a plot of land to a working building.",
     valueLink: "Investment and partnership",
     leaseLabel: "Leasing",
-    leaseTitle: "What you can lease now.",
+    leaseTitle: "What you can lease.",
     nowTitle: "Can be viewed now",
     soonTitle: "Coming up",
     leaseAll: "All available spaces",
@@ -132,13 +133,13 @@ const groupYears = Math.floor((2026 - 1991) / 5) * 5;
 export function HomePage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const spaces = sortSpaces(publicSpaces);
-  const now = spaces.filter((space) => viewableNow(space));
-  const soon = spaces.filter((space) => !viewableNow(space));
   const dacia = getProject("dacia-31")!;
   const m20 = getProject("moscova-20")!;
   const vatra = getProject("vatra")!;
-  const index = listProjects().filter((project) => ![dacia.slug, m20.slug, vatra.slug].includes(project.slug));
+  const leasing = leasingProjects();
+  const counts = portfolioCounts();
+  /** the index after the three large scenes: the other leasing buildings, then the two other categories (R3.3 §5) */
+  const indexLeasing = leasing.filter((project) => project.slug !== dacia.slug && project.slug !== m20.slug);
   const daciaState = projectState(dacia, locale);
   const m20State = projectState(m20, locale);
   const evidence = [
@@ -146,20 +147,12 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
     { value: portfolioFigures.land.value[locale], label: c.land },
     { value: `${groupYears}+`, label: c.years },
   ];
-  const leaseGroups = [
-    { title: c.nowTitle, list: now },
-    { title: c.soonTitle, list: soon },
-  ].filter((group) => group.list.length);
 
   return (
     <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-home r32-home">
-      {/* 01 HERO — one architectural composition: positioning · statement · one sentence · two quiet paths */}
-      <section className="r3-hero r32-hero" id="home" data-xp-hero>
-        <div className="r3-hero__media" aria-hidden="true">
-          <ConceptImage id="home.hero" locale={locale} priority sizes="100vw" />
-        </div>
-        <div className="r3-hero__veil" aria-hidden="true" />
-        <ConceptDisclosure id="home.hero" locale={locale} />
+      {/* 01 HERO — R3.3 §1: typography-led. The former concept photograph (cv-hero-plaza) is OWNER REJECTED (the building
+          was cut at the side) and no other strong wide image is approved — no image, so no broken architecture at any width. */}
+      <section className="r3-hero r32-hero r33-hero" id="home" data-xp-hero>
         <div className="r3-shell r3-hero__inner">
           <R3Label tone="light">{positioning[locale]}</R3Label>
           <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.heroTitle]} />
@@ -237,7 +230,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           </span>
         </Link>
         <ol className="r3-shell r3-index r32-index" data-reveal>
-          {index.map((project) => {
+          {indexLeasing.map((project) => {
             const state = projectState(project, locale);
             return (
               <li key={project.slug}>
@@ -255,9 +248,19 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
               </li>
             );
           })}
+          {portfolioCategories.filter((category) => category.key !== "leasing").map((category) => (
+            <li key={category.key}>
+              <Link href={itemHref(locale, null, category.anchor)}>
+                <span className="r3-index__name">{category.label[locale]}</span>
+                <span className="r3-index__meta">{category.lead[locale]}</span>
+                <span className="r3-index__state">{String(counts[category.key]).padStart(2, "0")}</span>
+                <Icon size={20} />
+              </Link>
+            </li>
+          ))}
         </ol>
         <div className="r3-shell r3-assets__foot">
-          <R3Link href={p("/projects")}>{c.all} · {String(listProjects().length).padStart(2, "0")}</R3Link>
+          <R3Link href={p("/projects")}>{c.all} · {String(counts.leasing + counts.land + counts.development).padStart(2, "0")}</R3Link>
         </div>
       </section>
 
@@ -275,7 +278,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 05 LEASING — what can I lease now? Read from the status model, grouped by when it can be seen */}
+      {/* 05 LEASING — the leasing portfolio (R3.3 §5): four buildings, each with its own status — never copied */}
       <section className="r3-sec r3-sec--paper r32-lease" id="leasing">
         <div className="r3-shell r32-lease__grid">
           <div className="r32-lease__head" data-reveal>
@@ -285,30 +288,28 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             <R3Link href={`${p("/leasing")}#available`}>{c.leaseAll}</R3Link>
           </div>
           <div className="r32-lease__list">
-            {leaseGroups.map((group) => (
-              <div key={group.title} className="r32-lease__group" data-reveal>
-                <p className="r32-lease__when">{group.title}</p>
-                <ul>
-                  {group.list.map((space) => {
-                    const project = getProject(space.project)!;
-                    const a = availabilityOf(space);
-                    return (
-                      <li key={space.id}>
-                        <Link href={project.slug === "moscova-20" ? p(`/projects/${project.slug}`) : p(`/leasing/${space.id}`)} className="r32-offer">
-                          <span className="r32-offer__media" aria-hidden="true">
-                            {project.media ? <ArtImage media={project.media} variant="card" alt="" sizes="9rem" /> : null}
-                          </span>
-                          <span className="r32-offer__name">{project.name}</span>
-                          <span className="r32-offer__unit">{space.unit[locale]} · <Figure value={formatAreaRange(space.areaMin, space.area, locale)} /></span>
-                          <span className={`r3-state is-${a.key === "now" ? "now" : "soon"}`}>{availabilityLabel(space, locale)}</span>
-                          <Icon size={20} />
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
+            <div className="r32-lease__group" data-reveal>
+              <ul>
+                {leasing.map((project) => {
+                  const unit = spacesFor(project.slug)[0] ?? null;
+                  const state = projectState(project, locale);
+                  const area = unit ? spaceArea(unit, locale) : null;
+                  return (
+                    <li key={project.slug}>
+                      <Link href={p(`/projects/${project.slug}`)} className="r32-offer">
+                        <span className="r32-offer__media" aria-hidden="true">
+                          {project.media ? <ArtImage media={project.media} variant="card" alt="" sizes="9rem" /> : null}
+                        </span>
+                        <span className="r32-offer__name">{project.name}</span>
+                        <span className="r32-offer__unit">{unit ? unit.unit[locale] : project.format[locale]}{area ? <> · <Figure value={area} /></> : null}</span>
+                        <span className={`r3-state is-${state.tone}`}>{state.text}</span>
+                        <Icon size={20} />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

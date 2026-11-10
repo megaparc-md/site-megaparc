@@ -21,7 +21,7 @@ export const trustCopy = {
   checks: { ro: "Ce putem evalua împreună", ru: "Что можно оценить вместе", en: "What we can assess together" },
   principle: {
     ro: "Mai întâi verificăm fezabilitatea tehnică — apoi discutăm condițiile comerciale.",
-    ru: "Сначала проверяем техническую реализуемость — затем обсуждаем коммерческие условия.",
+    ru: "Сначала проверяем техническую реализуемость — затем обсуждаем коммерческие условия.",
     en: "First we check technical feasibility — then we discuss commercial terms.",
   },
   note: {

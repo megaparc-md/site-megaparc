@@ -229,7 +229,9 @@ const allSpaces: AvailableSpace[] = [
     },
     photos: [{ kind: "asset", slug: "moscova-9" }],
     dataStatus: "PROVISIONAL",
-    confirmed: ["area", "floor", "availableFrom", "uses", "parking", "entrance", "visibility", "highlights", "plan"],
+    // R3.3 data gate (2026-11-10): the 1st-floor area (1 289,93 m², the sum of the record zones) and the zone scheme are NOT
+    // OWNER-confirmed (OWNER data 2026-10-09: «Moscova 9 shows no 1 289,93 m²») — only the floor and the date are (overnight brief)
+    confirmed: ["floor", "availableFrom", "uses", "parking", "entrance", "visibility", "highlights"],
     updated: "2026-10-03",
     futureSource: "CMS — Available space record (leasing team); minimum part, date, height and technical values are DEMO; support-room area is derived (total − sales − unloading)",
   },
@@ -242,7 +244,7 @@ const allSpaces: AvailableSpace[] = [
     floorLabel: L("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический", "Lower ground + 3 floors + technical"),
     area: 5223,
     uses: ["office"],
-    status: "AVAILABLE_FROM_DATE", // OWNER overnight release 2026-11-09 §8: Dacia 31 is a leasing destination — the record's offer (whole building, from 1 January 2027; OWNER-approved card copy 2026-10-09)
+    status: "TO_CONFIRM", // R3.3 data gate (2026-11-10): «5 223 m² from 1 January 2027» is a draft record (OWNER data 2026-10-09: unpublished until confirmed; R3.3 §7: do not assume 01.01.2027) — not published; Dacia 31 shows «for lease · area and timing on request» (src/lib/portfolio.ts) until the OWNER confirms
     availableFrom: "2027-01-01",
     headline: L(
       "O clădire separată pentru sediul unei singure companii — cu numele ei pe fațadă.",

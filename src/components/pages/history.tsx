@@ -4,7 +4,8 @@ import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { NB, R3Label, R3Link, projectState } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { getProject, listProjects } from "@/content/source";
+import { getProject } from "@/content/source";
+import { itemHref, leasingProjects, portfolioCategories, portfolioCounts } from "@/lib/portfolio";
 import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, historyHeroImage, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
 import { localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -127,7 +128,9 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const anchor: Record<string, string> = { "1991": "origins", "1995": "group", "2005": "megaparc", "2020": "focus" };
-  const today = listProjects();
+  // R3.3 §5: today = the leasing buildings, then land and projects in development as categories
+  const today = leasingProjects();
+  const counts = portfolioCounts();
   const register = entries.filter((entry) => entry.name && !notCompanies.has(entry.id));
 
   return (
@@ -222,6 +225,16 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
                 </li>
               );
             })}
+            {portfolioCategories.filter((category) => category.key !== "leasing").map((category) => (
+              <li key={category.key}>
+                <Link href={itemHref(locale, null, category.anchor)}>
+                  <span className="r3-index__name">{category.label[locale]}</span>
+                  <span className="r3-index__meta">{category.lead[locale]}</span>
+                  <span className="r3-index__state">{String(counts[category.key]).padStart(2, "0")}</span>
+                  <Icon size={20} />
+                </Link>
+              </li>
+            ))}
           </ol>
           <div className="r3-actions">
             <R3Link href={p("/projects")}>{c.projects}</R3Link>

@@ -5,7 +5,8 @@ import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Figure, NB, R3Button, R3Label, R3Link, ValueSequence, projectState, r3Href } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { getProject, listProjects } from "@/content/source";
+import { getProject } from "@/content/source";
+import { developmentPortfolio } from "@/lib/portfolio";
 import { assetProfiles, company, contactLinks, portfolioFigures } from "@/data/demo-content";
 import { acquisitionTypes, geography } from "@/lib/business";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -166,7 +167,8 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
   const p = (path: string) => localePath(locale, path);
   const vatra = getProject("vatra")!;
   const dacia = getProject("dacia-31")!;
-  const developmentCount = listProjects().filter((project) => project.kind !== "operating").length;
+  // R3.3 §5: projects under development / construction (VATRA · Vasile Lupu 48/3); land is its own figure
+  const developmentCount = developmentPortfolio().length;
   const discussHref = r3Href(locale, "/contact?subject=partnership#partnership");
   const consider: { title: Localized | string; text: Localized | string }[] = [
     ...considerKeys.map((key) => acquisitionTypes.find((type) => type.key === key)!),

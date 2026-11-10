@@ -4,7 +4,8 @@ import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Figure, NB, R3Label, R3Link, projectState } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { getProject, listProjects } from "@/content/source";
+import { getProject } from "@/content/source";
+import { developmentPortfolio } from "@/lib/portfolio";
 import { assetProfiles, portfolioFigures } from "@/data/demo-content";
 import { businessStatement, directions, geography, operations, principles } from "@/lib/business";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
@@ -97,7 +98,8 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const dacia = getProject("dacia-31")!;
-  const developmentCount = listProjects().filter((project) => project.kind !== "operating").length;
+  // R3.3 §5: projects under development / construction (VATRA · Vasile Lupu 48/3)
+  const developmentCount = developmentPortfolio().length;
   const linkTo = (value: string) => {
     const [path, hash] = value.split("#");
     return `${p(path)}${hash ? `#${hash}` : ""}`;

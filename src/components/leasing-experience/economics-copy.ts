@@ -35,7 +35,7 @@ type Copy = {
 
 export const economicsCopy: Record<SiteLocale, Copy> = {
   ru: {
-    kicker: "Экономика точки",
+    kicker: "Экономика точки · оценка для принятия решения",
     sub: "Сколько клиентов в день потребуется именно вашему бизнесу?",
     principle: "Это не прогноз продаж. Это способ понять, какой уровень клиентской активности потребуется вашей бизнес-модели.",
     presetsLabel: "Формат",
@@ -57,7 +57,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     sensitivityUnit: "в день",
     need: (n) => `Для вашей модели требуется примерно ${n} потенциальных посетителей в день.`,
     compare: "Сравнить с локацией",
-    status: { MODELLED: "Предварительная модель локации", MEASURED: "Полевой замер MEGAPARC", VERIFIED: "Проверенные данные" },
+    status: { MODELLED: "Предварительный анализ локации · моделируемый сценарий", MEASURED: "Полевой замер MEGAPARC", VERIFIED: "Проверенные данные" },
     figures: { pedestrians: "перемещений / сутки", vehicles: "авто / сутки" },
     compareText: (n) => `Вашей модели требуется около ${n} посетителей в день. Локация показывает определённый уровень активности, но релевантность этого потока для вашей аудитории необходимо проверить.`,
     compareNone: "Данные о потоке появятся после полевого замера MEGAPARC; релевантность потока для вашей аудитории проверим на просмотре.",
@@ -76,7 +76,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     approx: "≈",
   },
   ro: {
-    kicker: "Economia punctului",
+    kicker: "Economia punctului · estimare pentru decizie",
     sub: "Câți clienți pe zi îi vor trebui afacerii dumneavoastră?",
     principle: "Nu este o prognoză de vânzări. Este un mod de a înțelege ce nivel de activitate a clienților îi trebuie modelului dumneavoastră de afaceri.",
     presetsLabel: "Format",
@@ -98,7 +98,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     sensitivityUnit: "pe zi",
     need: (n) => `Modelului dumneavoastră îi trebuie aproximativ ${n} vizitatori potențiali pe zi.`,
     compare: "Comparați cu locația",
-    status: { MODELLED: "Model preliminar al locației", MEASURED: "Numărătoare pe teren MEGAPARC", VERIFIED: "Date verificate" },
+    status: { MODELLED: "Analiză preliminară a locației · scenariu modelat", MEASURED: "Numărătoare pe teren MEGAPARC", VERIFIED: "Date verificate" },
     figures: { pedestrians: "deplasări / zi", vehicles: "auto / zi" },
     compareText: (n) => `Modelului dumneavoastră îi trebuie circa ${n} vizitatori pe zi. Locația arată un anumit nivel de activitate, dar relevanța acestui flux pentru publicul dumneavoastră trebuie verificată.`,
     compareNone: "Datele despre flux apar după numărătoarea pe teren MEGAPARC; relevanța fluxului pentru publicul dumneavoastră o verificăm la vizionare.",
@@ -117,7 +117,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     approx: "≈",
   },
   en: {
-    kicker: "Unit economics",
+    kicker: "Unit economics · decision-support estimate",
     sub: "How many customers a day will your business need?",
     principle: "This is not a sales forecast. It is a way to understand what level of customer activity your business model needs.",
     presetsLabel: "Format",
@@ -139,7 +139,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     sensitivityUnit: "a day",
     need: (n) => `Your model needs roughly ${n} potential visitors a day.`,
     compare: "Compare with the location",
-    status: { MODELLED: "Preliminary location model", MEASURED: "MEGAPARC field count", VERIFIED: "Verified data" },
+    status: { MODELLED: "Preliminary location analysis · modelled scenario", MEASURED: "MEGAPARC field count", VERIFIED: "Verified data" },
     figures: { pedestrians: "movements / day", vehicles: "vehicles / day" },
     compareText: (n) => `Your model needs about ${n} visitors a day. The location shows a certain level of activity, but how relevant this flow is to your audience has to be checked.`,
     compareNone: "Flow data will follow the MEGAPARC field count; we check how relevant the flow is to your audience at the viewing.",

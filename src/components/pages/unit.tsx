@@ -7,7 +7,7 @@ import { UnitPlan } from "@/components/leasing/unit-plan";
 import { PageShell } from "@/components/page-shell";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
-import { availabilityCopy, availabilityOf, formatAreaRange, formatDate, getProject, isDemoField, leasingExperienceForSpace, publicSpaces, sortSpaces } from "@/content/source";
+import { availabilityCopy, availabilityOf, formatDate, spaceArea, getProject, isDemoField, leasingExperienceForSpace, publicSpaces, sortSpaces } from "@/content/source";
 import { leasingProcess, tenantFit, shown } from "@/data/demo-content";
 import type { AvailableSpace, SpaceField } from "@/data/leasing-inventory";
 import { fitCopy, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
@@ -111,7 +111,7 @@ function UnitTemplate({ locale, space }: { locale: SiteLocale; space: AvailableS
               <span>{project.name}</span>
               {space.unit[locale]}
             </h1>
-            <p className="lx-unit__area">{formatAreaRange(space.areaMin, space.area, locale)}{demo("area") ? <DemoMark /> : null}</p>
+            {spaceArea(space, locale) ? <p className="lx-unit__area">{spaceArea(space, locale)}</p> : null}
             <p className="lx-unit__headline">{space.headline[locale]}</p>
             <div className="xp-actions">
               <Button href={viewing}>{reserved ? t.waitlist[locale] : t.viewing[locale]}</Button>
@@ -134,7 +134,7 @@ function UnitTemplate({ locale, space }: { locale: SiteLocale; space: AvailableS
             <dl className="lx-data">
               <Row label={t.property[locale]} value={`${project.name} · ${project.district[locale]}`} />
               <Row label={t.unit[locale]} value={`${space.unit[locale]} · ${space.code}`} />
-              <Row label={t.area[locale]} value={formatAreaRange(space.areaMin, space.area, locale)} demo={demo("area")} />
+              {spaceArea(space, locale) ? <Row label={t.area[locale]} value={spaceArea(space, locale)!} /> : null}
               <Row label={t.floor[locale]} value={space.floorLabel[locale]} demo={demo("floor")} />
               <Row label={t.use[locale]} value={useList} demo={demo("uses")} />
               <Row label={t.date[locale]} value={when.key === "soon" && when.date ? formatDate(when.date, locale) : t.now[locale]} demo={demo("availableFrom")} />
@@ -170,7 +170,7 @@ function UnitTemplate({ locale, space }: { locale: SiteLocale; space: AvailableS
         <div className={`xp-shell lx-unit__split lx-unit__split--plan${more.length ? "" : " lx-unit__split--single"}`}>
           <div data-reveal>
             <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">02</span><span>{t.planLabel[locale]}</span></p>
-            <UnitPlan plan={space.plan} locale={locale} demo={demo("plan")} title={`${project.name} — ${space.unit[locale]}`} uid={space.id} />
+            {demo("plan") ? null : <UnitPlan plan={space.plan} locale={locale} demo={false} title={`${project.name} — ${space.unit[locale]}`} uid={space.id} />}
           </div>
           {more.length ? (
             <div data-reveal>

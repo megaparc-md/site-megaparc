@@ -3,7 +3,7 @@
 import { useId, useMemo, useState, type ChangeEvent, type MouseEvent } from "react";
 import { economicsCopy, type PresetKey } from "@/components/leasing-experience/economics-copy";
 import type { EconomicsHandoff } from "@/components/leasing-experience/viewing-form";
-import type { SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 
 /**
  * «ПРОВЕРИТЬ ЭКОНОМИКУ ТОЧКИ» (OWNER addendum "TENANT ECONOMICS & DECISION
@@ -214,7 +214,8 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
         <p className="lg-eco-tool__closing">{t.closing}</p>
         <p className="lg-eco-tool__disclaimer">{t.disclaimer}</p>
         <div className="lg-eco-tool__actions">
-          <button type="button" className="btn" onClick={handoff}><span>{t.handoff}</span></button>
+          {/* production has no form backend (DirectContact): the calculation is not handed to a form there */}
+          {isProductionEdition ? null : <button type="button" className="btn" onClick={handoff}><span>{t.handoff}</span></button>}
           <a className="btn btn--ghost" href="#lg-form" data-intent="viewing"><span>{visitLabel ?? t.visit(property)}</span></a>
         </div>
       </div>

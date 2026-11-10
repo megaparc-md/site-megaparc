@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { availabilityLabel, getProject, listProjects, publicSpaces, sortSpaces } from "@/content/source";
+import { projectState } from "@/components/r3";
+import { developmentPortfolio, itemHref, landPortfolio, leasingProjects, portfolioCategories } from "@/lib/portfolio";
 import { company, contactLinks } from "@/data/demo-content";
 import { businessStatement } from "@/lib/business";
 import { brand, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -49,8 +50,9 @@ function href(locale: SiteLocale, value: string) {
 }
 
 export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; statement?: boolean }) {
-  const offers = sortSpaces(publicSpaces);
-  const projects = listProjects();
+  // R3.3 §5: the footer follows the three portfolio categories (leasing · land · development)
+  const leasing = leasingProjects();
+  const [, land, development] = portfolioCategories;
   return (
     <footer className="ftr r3-ftr">
       <div className="r3-shell r3-ftr__top">
@@ -78,14 +80,11 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
             {leasingLinks.slice(0, 1).map((link) => (
               <li key={link.path}><Link href={href(locale, link.path)}>{link.label[locale]}</Link></li>
             ))}
-            {offers.map((space) => {
-              const project = getProject(space.project);
-              return project ? (
-                <li key={space.id}>
-                  <Link href={localePath(locale, `/projects/${project.slug}`)}>{project.name}<small>{availabilityLabel(space, locale)}</small></Link>
-                </li>
-              ) : null;
-            })}
+            {leasing.map((project) => (
+              <li key={project.slug}>
+                <Link href={localePath(locale, `/projects/${project.slug}`)}>{project.name}<small>{projectState(project, locale).text}</small></Link>
+              </li>
+            ))}
             {leasingLinks.slice(1).map((link) => (
               <li key={link.path}><Link href={href(locale, link.path)}>{link.label[locale]}</Link></li>
             ))}
@@ -94,9 +93,8 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
         <nav className="r3-ftr__col" aria-label={copy.projects[locale]}>
           <p className="r3-ftr__head">{copy.projects[locale]}</p>
           <ul>
-            {projects.map((project) => (
-              <li key={project.slug}><Link href={localePath(locale, `/projects/${project.slug}`)}>{project.name}</Link></li>
-            ))}
+            <li><Link href={itemHref(locale, null, land.anchor)}>{land.label[locale]}<small>{landPortfolio.map((plot) => plot.name[locale]).join(" · ")}</small></Link></li>
+            <li><Link href={itemHref(locale, null, development.anchor)}>{development.label[locale]}<small>{developmentPortfolio().map((item) => item.name).join(" · ")}</small></Link></li>
           </ul>
         </nav>
         <nav className="r3-ftr__col" aria-label={copy.company[locale]}>

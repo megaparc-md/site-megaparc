@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ConceptImage, DemoMark } from "@/components/experience";
 import { ArtImage } from "@/components/primitives";
 import { Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, getProject, isDemoField } from "@/content/source";
+import { availabilityLabel, availabilityOf, getProject, isDemoField, spaceArea } from "@/content/source";
 import type { AvailableSpace, SpacePhoto } from "@/data/leasing-inventory";
 import { uses as useTaxonomy } from "@/lib/leasing";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -77,8 +77,8 @@ export function UnitCard({ space, locale, priority = false, compact = false }: {
           <span>{project.district[locale]}</span>
         </p>
         <p className="lx-card__area">
-          {formatAreaRange(space.areaMin, space.area, locale)}
-          {isDemoField(space, "area") ? <DemoMark /> : null}
+          {spaceArea(space, locale)}
+          {isDemoField(space, "area") && spaceArea(space, locale) ? <DemoMark /> : null}
         </p>
         <h3 className="lx-card__unit">
           <Link href={href}>{space.unit[locale]}</Link>

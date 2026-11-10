@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { formatArea, getProject, getSpace, leasingExperienceForSpace } from "@/content/source";
+import { getProject, getSpace, leasingExperienceForSpace, spaceArea } from "@/content/source";
 import { creangaProfile, demoContentPresent } from "@/data/demo-content";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -171,7 +171,7 @@ export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
   const space = getSpace(id);
   if (!space) return {};
   const project = getProject(space.project)!;
-  const title = Object.fromEntries((["ro", "ru", "en"] as SiteLocale[]).map((l) => [l, `${project.name} · ${formatArea(space.area, l)} — ${space.unit[l]} · MEGAPARC`])) as Localized;
+  const title = Object.fromEntries((["ro", "ru", "en"] as SiteLocale[]).map((l) => [l, `${[project.name, spaceArea(space, l)].filter(Boolean).join(" · ")} — ${space.unit[l]} · MEGAPARC`])) as Localized;
   // A unit with a gold-standard leasing experience renders the same page as its property: the property URL is canonical (OWNER 2026-11-06).
   const path = leasingExperienceForSpace(space.id) ? `/projects/${project.slug}` : `/leasing/${space.id}`;
   return buildMetadata(locale, path, { title, description: space.headline }, { image: project.media?.wide });

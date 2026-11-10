@@ -136,17 +136,20 @@ const occupancyPoints = (slug: OperatingSlug) => {
 };
 
 export type LandRecord = { slug: string; name: Localized; area: number | null; published: boolean; project?: string; point: DataPoint };
-/** Land plots (OWNER 2026-10-09). Hîncești exists but its area is pending: kept internal, never published or totalled. No project concepts are invented. */
+/** Land plots (OWNER 2026-10-09; R3.3 §5 2026-11-10: Hîncești and Chișinău are listed publicly by name — their areas are OWNER inputs, never totalled). No project concepts are invented. */
 export const landRecords: LandRecord[] = [
   { slug: "drochia-gateway", name: { ro: "Drochia Gateway", ru: "Drochia Gateway", en: "Drochia Gateway" }, area: 20000, published: true, project: "drochia-gateway", point: confirmed("land.drochia.area", "DEVELOPMENT", "Land · Drochia Gateway", "Land area", ha(20000), "Confirmed — same parcel as dev.drochia.site") },
   { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, area: 8470, published: true, point: confirmed("land.florilor-32-2.area", "DEVELOPMENT", "Land · Florilor 32/2", "Land area", ha(8470), "OWNER 2026-10-09") },
   { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: 22000, published: true, point: confirmed("land.orhei.area", "DEVELOPMENT", "Land · Orhei", "Land area", ha(22000), "OWNER 2026-10-09") },
-  { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: null, published: false, point: confirmed("land.hincesti.exists", "DEVELOPMENT", "Land · Hîncești (internal)", "Land asset exists — area pending, not published", "—", "OWNER 2026-10-09 — area to be supplied") },
+  { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: null, published: true, point: confirmed("land.hincesti.exists", "DEVELOPMENT", "Land · Hîncești", "Land plot listed by name — area pending", "—", "OWNER 2026-10-09 (exists) · R3.3 §5 (listed) — area to be supplied") },
+  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, area: null, published: true, point: confirmed("land.chisinau.exists", "DEVELOPMENT", "Land · Chișinău", "Land plot listed by name — area pending", "—", "OWNER R3.3 §5 (2026-11-10) — address and area to be supplied") },
 ];
 export const publicLand = landRecords.filter((plot) => plot.published && plot.area);
 export const landTotal = publicLand.reduce((sum, plot) => sum + (plot.area ?? 0), 0);
 /** Headline figure rounded to two decimals (5,05 га); the exact total is landTotalExact (5,047 га · 50 470 м²). */
-export const landTotalLabel: Localized = (() => { const t = (Math.round((landTotal / 10000) * 100) / 100).toFixed(2); return { ro: `${t.replace(".", ",")} ha`, ru: `${t.replace(".", ",")}${NB}га`, en: `${t} ha` }; })();
+/** «+» while a listed plot has no confirmed area yet (Hîncești, Chișinău — R3.3): the total is a minimum, never a guess. */
+export const landTotalPending = landRecords.some((plot) => plot.published && !plot.area);
+export const landTotalLabel: Localized = (() => { const t = (Math.round((landTotal / 10000) * 100) / 100).toFixed(2); const plus = landTotalPending ? "+" : ""; return { ro: `${t.replace(".", ",")}${plus} ha`, ru: `${t.replace(".", ",")}${plus}${NB}га`, en: `${t}${plus} ha` }; })();
 export const landTotalExact: Localized = ha(landTotal);
 
 /** Dacia 31 · Development — a separate record from the operating Dacia 31 building (OWNER 2026-10-09). No timeline, CAPEX, use mix, permits or completion date until supplied. */
@@ -683,7 +686,7 @@ place("home.direction.development", "Home", "Directions · 02 development", null
 place("home.direction.leasing", "Home", "Directions · 03 leasing", null, "cv-loft-cafe", "BRAND", "Leasing — tenant activity at street level", "HIGH", "People entering a MEGAPARC property", A.loftCafe);
 // Home hero — a concept architectural photograph that sells the brand, never a MEGAPARC asset (OWNER premium brief 2026-10-09). Source: Unsplash, Wolfgang Weiser, Hamburg (Unsplash License).
 // OWNER "PRODUCTION V1" (2026-11-09) §2A: approved for production as an illustration — disclosed «Концептуальное изображение».
-illustrate("home.hero", "Home", "Hero · brand", "cv-hero-plaza", "Brand — scale, capital, city, architecture", "Commissioned architectural photograph or an approved MEGAPARC brand image", A.heroPlaza, "50% 60%");
+// home.hero (cv-hero-plaza) — OWNER REJECTED 2026-11-10 (R3.3 §1: the building is cut at the side). Not registered; the Home hero is typography-led.
 place("home.proof", "Home", "Proof · full-bleed scene", null, "cv-crane", "BRAND", "Execution — work in progress behind the figures", "MEDIUM", "VATRA construction, wide, daylight", A.crane);
 place("home.route.partner", "Home", "Routes · investment partnership", null, "cv-model", "BRAND", "Partnership — a meeting over plans", "MEDIUM", "MEGAPARC meeting over drawings", A.model);
 // About · the business (three scenes): real property photographs carry the scene; these insets add human scale.

@@ -10,7 +10,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
  * aria-expanded / aria-controls; arrow keys move through the list. Left: the projects; right: the selected
  * project's real photograph, name, confirmed descriptor and derived status. Mobile: an accordion, no hover.
  */
-export type MenuProject = { slug: string; name: string; href: string; image: string | null; descriptor: string; status: string; tone: string };
+export type MenuProject = { slug: string; name: string; href: string; image: string | null; descriptor: string; status: string; tone: string; group?: string; compact?: boolean };
 export type ProjectsMenuData = { label: string; href: string; allLabel: string; items: MenuProject[]; active: boolean };
 
 export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
@@ -61,7 +61,7 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
     const next = event.key === "ArrowDown" ? (index + 1) % all.length : (index <= 0 ? all.length - 1 : index - 1);
     window.requestAnimationFrame(() => all[next]?.focus());
   };
-  const item = data.items[current];
+  const item = data.items[current]?.image ? data.items[current] : data.items.find((entry) => entry.image) ?? data.items[current];
 
   return (
     <div ref={root} className={`pmenu${open ? " is-open" : ""}`} onMouseEnter={show} onMouseLeave={hideSoon} onKeyDown={onKey}>
@@ -82,10 +82,11 @@ export function ProjectsMenu({ data }: { data: ProjectsMenuData }) {
         <div className="pmenu__grid">
           <ul className="pmenu__list">
             {data.items.map((project, index) => (
-              <li key={project.slug}>
+              <li key={project.slug} className={project.compact ? "is-compact" : undefined}>
+                {project.group && project.group !== data.items[index - 1]?.group ? <p className="pmenu__group">{project.group}</p> : null}
                 <Link href={project.href} className={index === current ? "is-current" : undefined} onMouseEnter={() => setCurrent(index)} onFocus={() => setCurrent(index)} onClick={() => setOpen(false)}>
                   <span className="pmenu__name">{project.name}</span>
-                  <span className={`pmenu__status is-${project.tone}`}>{project.status}</span>
+                  {project.status ? <span className={`pmenu__status is-${project.tone}`}>{project.status}</span> : null}
                 </Link>
               </li>
             ))}
@@ -121,9 +122,10 @@ export function ProjectsAccordion({ data }: { data: ProjectsMenuData }) {
         <svg width="12" height="12" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5 5 7l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
       </button>
       <ul id={panelId} className="pacc__list" hidden={!open}>
-        {data.items.map((project) => (
+        {data.items.map((project, index) => (
           <li key={project.slug}>
-            <Link href={project.href}><span>{project.name}</span><small className={`is-${project.tone}`}>{project.status}</small></Link>
+            {project.group && project.group !== data.items[index - 1]?.group ? <p className="pacc__group">{project.group}</p> : null}
+            <Link href={project.href}><span>{project.name}</span>{project.status ? <small className={`is-${project.tone}`}>{project.status}</small> : null}</Link>
           </li>
         ))}
         <li><Link className="pacc__all" href={data.href}>{data.allLabel}</Link></li>

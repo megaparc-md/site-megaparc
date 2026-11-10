@@ -175,6 +175,16 @@ export function isDemoField(space: AvailableSpace, field: SpaceField) {
   return space.dataStatus !== "CONFIRMED" && !space.confirmed.includes(field);
 }
 
+/** The unit area, only when confirmed (R3.3 data gate: the Moscova 9 1st-floor area is not) — never a guessed figure. */
+export function spaceArea(space: AvailableSpace, locale: SiteLocale): string | null {
+  return isDemoField(space, "area") ? null : formatAreaRange(space.areaMin, space.area, locale);
+}
+
+/** The unit status line: availability, then the area when it is confirmed. */
+export function spaceStatusLine(space: AvailableSpace, locale: SiteLocale) {
+  return [availabilityLabel(space, locale), spaceArea(space, locale)].filter(Boolean).join(" · ");
+}
+
 export const availabilityCopy = {
   now: { ro: "Liber acum", ru: "Свободно сейчас", en: "Available now" } satisfies Localized,
   soon: { ro: "Liber din", ru: "Свободно с", en: "Available from" } satisfies Localized,

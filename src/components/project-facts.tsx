@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { viewingHref } from "@/components/leasing/unit-card";
 import { TextLink } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, formatDate, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
+import { availabilityOf, formatDate, propertyOccupancy, spaceArea, spaceStatusLine, spacesFor, type ProjectEntry } from "@/content/source";
 import type { OperatingSlug } from "@/data/demo-content";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -45,7 +45,7 @@ export function ProjectStatus({ project, locale, tone, as: Tag = "p", className 
   let kind = "";
   // availability-aware (OWNER overnight release §10): «Свободно сейчас · 625,7 м²» differs visibly from «Свободно с 1 января 2027 · …»
   if (spaces.length) {
-    text = spaces.map((space) => `${availabilityLabel(space, locale)} · ${formatAreaRange(space.areaMin, space.area, locale)}`).join(" · ");
+    text = spaces.map((space) => spaceStatusLine(space, locale)).join(" · ");
     kind = spaces.some((space) => availabilityOf(space).key === "now") ? " is-open is-now" : " is-open is-soon";
   }
   // derived from the unit register (OWNER CMS brief 2026-11-06): the last unit set to LEASED turns this into «Занят на 100 %»
@@ -88,7 +88,7 @@ export function ProjectEditorial({ project, locale, nameAs: Name = "h2", nameCla
       {space && status ? (
         <div className="pj-ed__offer">
           <p className="pj-ed__status">{status}</p>
-          <p className="pj-ed__scope">{editorial.scope[locale]} · {formatAreaRange(space.areaMin, space.area, locale)}</p>
+          {spaceArea(space, locale) ? <p className="pj-ed__scope">{editorial.scope[locale]} · {spaceArea(space, locale)}</p> : null}
         </div>
       ) : null}
       <div className="pj-ed__actions">

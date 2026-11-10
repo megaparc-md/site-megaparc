@@ -1278,3 +1278,63 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 @media (max-width: 719px) { .lg-page .lg-capex__col li { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: normal; } }
 /* Value sequence: the longest verb («Эксплуатируем», «Реинвестируем», «Achiziționăm») always fits its quarter column, 1024 → 1920 */
 .r3-seq__verb { font-size: clamp(1.7rem, 2.45vw, 2.85rem); }
+
+/* ==================================================================
+   R3.3 — STRICT OWNER CORRECTION (2026-11-10)
+   Typography-led Home hero (the concept photograph is OWNER REJECTED),
+   the three portfolio categories, the Moscova 20 decision logic on
+   every property page. Tokens, fonts and colours unchanged.
+   docs/DESIGN_SYSTEM.md §28.
+   ================================================================== */
+
+/* ---- Home hero: typography-led — no image, so no broken architecture at any width ---- */
+.r33-hero { min-height: max(34rem, 88svh); background: var(--r3-ink); }
+.r33-hero .r3-hero__inner { padding-top: calc(var(--header-h) + clamp(4.5rem, 10vw, 9rem)); padding-bottom: clamp(2.6rem, 5vw, 4.6rem); }
+.r33-hero .r3-label { margin-bottom: clamp(1.6rem, 3vw, 2.4rem); }
+.site .r33-hero .r3-hero__title { max-width: 15ch; font-size: clamp(2.7rem, 7.2vw, 9.4rem); line-height: .98; }
+.r33-hero .r3-hero__foot { margin-top: clamp(2.6rem, 5.5vw, 5rem); padding-top: clamp(1.4rem, 2.4vw, 2rem); border-top: 1px solid rgba(255, 255, 255, .2); }
+.r33-hero .r3-hero__sub { color: rgba(255, 255, 255, .8); }
+
+/* ---- Projects: the three categories at once ---- */
+@media (min-width: 900px) {
+  .r33-split { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .r33-split a { padding-right: clamp(1.4rem, 3vw, 3rem); }
+  .r33-split a + a { padding-left: clamp(1.4rem, 3vw, 3rem); }
+}
+.r33-split .r3-split__label { font-size: clamp(1.45rem, 2.4vw, 2.5rem); }
+.r33-feature { margin-top: clamp(4.5rem, 9vw, 8rem); }
+.r33-waitlist { display: inline-flex; align-items: center; gap: .45rem; width: fit-content; margin: -.4rem 0 1.4rem; padding-bottom: .15rem; border-bottom: 1px solid currentColor; color: var(--r3-burgundy); font-size: .9rem; font-weight: 500; text-decoration: none; }
+.r33-waitlist svg { transition: transform .45s var(--r3-ease); }
+.r33-waitlist:hover svg { transform: translateX(4px); }
+@media (min-width: 900px) { .r33-waitlist { margin-left: calc(13rem + clamp(1.5rem, 3vw, 3rem)); } }
+@media (min-width: 1024px) { .r33-pjdev__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.r33-land__list li > span:last-child { color: var(--r3-muted); }
+
+/* ---- Property pages: what is confirmed · what we check together (the Moscova 20 decision logic) ---- */
+.r33-decide__grid { display: grid; gap: 3rem; }
+@media (min-width: 1024px) {
+  .r33-decide__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(3rem, 6vw, 6rem); align-items: start; }
+  .r33-decide__grid--single { grid-template-columns: minmax(0, 1fr); }
+}
+.r33-decide__label { display: flex; align-items: center; gap: .85rem; margin: 0 0 1.1rem; color: var(--r3-muted); font-size: .9rem; font-weight: 500; }
+.r33-decide__label::before { content: ""; width: 1.6rem; height: 1px; background: var(--r3-burgundy); }
+.r33-decide__checks { padding-left: clamp(1.2rem, 2.4vw, 2rem); border-left: 2px solid var(--r3-burgundy); }
+.r33-decide__list { margin: 0 0 1.4rem; padding: 0; list-style: none; }
+.r33-decide__list li { padding: .85rem 0; border-bottom: 1px solid var(--r3-hair); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.1rem, 1.4vw, 1.35rem); font-weight: 350; line-height: 1.3; letter-spacing: -.008em; }
+
+/* ---- Projects dropdown + mobile accordion: group headings, compact land / development rows ---- */
+.pmenu__group, .pacc__group { margin: 1rem 0 .25rem; color: var(--r3-muted); font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.pmenu__list li:first-child .pmenu__group, .pacc__list li:first-child .pacc__group { margin-top: 0; }
+.pmenu__list li.is-compact a { padding: .42rem 0; }
+.pmenu__list li.is-compact .pmenu__name { font-size: 1.08rem; }
+.pmenu__list li.is-compact + li.is-compact { border-top-color: transparent; }
+.pmenu__panel { max-height: calc(100svh - var(--header-h) - 1.5rem); overflow-y: auto; }
+/* R3.3 PASS 2 — the grouped dropdown fits a 900 px viewport: tighter leasing rows, land / development on one line each */
+.pmenu__panel { padding-top: 1.6rem; padding-bottom: 1.2rem; }
+.pmenu__list a { padding: .62rem 0; }
+.pmenu__name { font-size: 1.3rem; }
+.pmenu__list li.is-compact a { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem .9rem; padding: .24rem 0; }
+.pmenu__list li.is-compact .pmenu__status { font-size: .78rem; }
+.pmenu__group { margin-top: .8rem; }
+.pmenu__preview { min-height: 0; }
+.pmenu__all { margin-top: .9rem; }

@@ -1,38 +1,30 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { MobileMenu } from "@/components/mobile-menu";
-import type { ProjectsMenuData } from "@/components/projects-menu";
+import type { MenuProject, ProjectsMenuData } from "@/components/projects-menu";
 import { SiteNav } from "@/components/site-nav";
-import { availabilityLabel, availabilityOf, formatAreaRange, getProject, kindLabel, propertyOccupancy, spacesFor } from "@/content/source";
-import type { OperatingSlug } from "@/data/demo-content";
+import { getProject } from "@/content/source";
+import { projectState } from "@/components/r3";
+import { developmentPortfolio, itemHref, landPortfolio, leasingProjects, portfolioCategories } from "@/lib/portfolio";
 import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
 
-const menuOrder = ["dacia-31", "moscova-9", "moscova-20", "creanga-78", "vatra", "drochia-gateway"];
 const allProjects = { ro: "Toate proiectele →", ru: "Все проекты →", en: "All projects →" } as const;
-const fullyLetLabel = { ro: "Ocupat 100 %", ru: "Занят на 100 %", en: "100% occupied" } as const;
 
 /**
- * The projects dropdown data: real images, confirmed descriptors, status derived from the register. Preview-only until
- * the OWNER review; OWNER «FINAL R3.1» §14 / §43 (2026-11-09) keeps it and accepts it on production — both editions.
+ * The projects dropdown data — R3.3 §5 (OWNER 2026-11-10): the three portfolio categories in OWNER order. Leasing buildings
+ * carry their real photograph and their own derived status; land and development items are compact (their page, or their
+ * category on the Projects page). OWNER «FINAL R3.1» §14 / §43 keeps the dropdown on production.
  */
 function projectsMenu(locale: SiteLocale): Omit<ProjectsMenuData, "label" | "active"> {
-  const items = menuOrder.flatMap((slug) => {
-    const project = getProject(slug);
-    if (!project) return [];
-    let status = kindLabel[project.kind][locale];
-    let tone: string = project.kind;
-    if (project.kind === "operating") {
-      const spaces = spacesFor(project.slug);
-      if (spaces.length) {
-        status = spaces.map((space) => `${availabilityLabel(space, locale)} · ${formatAreaRange(space.areaMin, space.area, locale)}`).join(" · ");
-        tone = spaces.some((space) => availabilityOf(space).key === "now") ? "now" : "soon";
-      } else if (propertyOccupancy(project.slug as OperatingSlug).fullyLet) {
-        status = `${kindLabel.operating[locale]} · ${fullyLetLabel[locale]}`;
-        tone = "full";
-      }
-    }
-    return [{ slug, name: project.name, href: localePath(locale, `/projects/${slug}`), image: project.media?.card ?? null, descriptor: project.format[locale], status, tone }];
-  });
+  const [leasing, land, development] = portfolioCategories;
+  const items: MenuProject[] = [
+    ...leasingProjects().map((project) => {
+      const state = projectState(project, locale);
+      return { slug: project.slug, name: project.name, href: localePath(locale, `/projects/${project.slug}`), image: project.media?.card ?? null, descriptor: project.format[locale], status: state.text, tone: state.tone, group: leasing.label[locale] };
+    }),
+    ...landPortfolio.map((plot) => ({ slug: plot.slug, name: plot.name[locale], href: itemHref(locale, plot.page, land.anchor), image: null, descriptor: land.label[locale], status: plot.area?.[locale] ?? "", tone: "quiet", group: land.label[locale], compact: true })),
+    ...developmentPortfolio().map((item) => ({ slug: item.slug, name: item.name, href: itemHref(locale, item.page, development.anchor), image: item.page ? getProject(item.page)?.media?.card ?? null : null, descriptor: development.label[locale], status: "", tone: "quiet", group: development.label[locale], compact: true })),
+  ];
   return { href: localePath(locale, "/projects"), allLabel: allProjects[locale], items };
 }
 
