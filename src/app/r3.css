@@ -1397,3 +1397,5 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 .r331-scenario__tool { background: transparent; }
 /* R3.3.1 PASS 2 — the split-hero headline is never clipped: no ch cap (Cyrillic serif glyphs are wider than «0») */
 @media (min-width: 1280px) { .site .r33-hero.r331-hero .r3-hero__title { max-width: none; font-size: clamp(2.5rem, 3.5vw, 4.7rem); } }
+/* OWNER «MOSCOVA 20 — HERO TYPOGRAPHY CORRECTION» (2026-11-10): the property name reads first — weight only (600); size, line-height, spacing and layout unchanged; the subtitle stays lighter (400) */
+.lg-page .lg-hero__name { font-weight: 600; }
