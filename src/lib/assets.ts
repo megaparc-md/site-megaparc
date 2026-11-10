@@ -331,14 +331,14 @@ export const portfolioAssets: PortfolioAsset[] = [
     status: operating,
     positioning: { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" },
     headline: {
-      ro: "Spațiu comercial pe prima linie, la un colț de bulevard.",
-      ru: "Торговое помещение первой линии на углу бульвара.",
-      en: "A first-line retail space on a boulevard corner.",
+      ro: "Spațiu comercial pe prima linie, pe bulevardul Moscova.",
+      ru: "Торговое помещение первой линии на бульваре Москова.",
+      en: "A first-line retail space on Moscova Boulevard.",
     },
     narrative: {
-      ro: "Vitrină de colț, flux zilnic al cartierului.",
-      ru: "Угловая витрина и ежедневный поток района.",
-      en: "A corner shop window and the neighbourhood's daily flow.",
+      ro: "Vitrină spre bulevard, flux zilnic al cartierului.",
+      ru: "Витрина к бульвару и ежедневный поток района.",
+      en: "A shop window to the boulevard and the neighbourhood's daily flow.",
     },
     use: { ro: "Comerț · servicii · prima linie", ru: "Торговля · услуги · первая линия", en: "Retail · services · first line" },
     audience: {
@@ -347,23 +347,23 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Food retailers, service operators, pharmacies and showrooms that work with the daily flow of the neighbourhood's residents.",
     },
     lead: {
-      ro: "Spațiu comercial de 625,7 m² la intersecția bulevardului Moscova cu strada Matei Basarab: poziție de colț, fațadă panoramică, intrare pentru clienți și acces separat de serviciu.",
-      ru: "Торговое помещение площадью 625,7 м² на пересечении бульвара Москова и улицы Матей Басараб: угловое расположение, панорамный фасад, вход для покупателей и отдельный служебный доступ.",
-      en: "A 625.7 m² retail space at the corner of Moscova Boulevard and Matei Basarab Street: a corner position, a panoramic frontage, a customer entrance and separate service access.",
+      ro: "Spațiu comercial de 625,7 m² la intersecția bulevardului Moscova cu strada Matei Basarab: fațadă panoramică, intrare pentru clienți și acces separat de serviciu.",
+      ru: "Торговое помещение площадью 625,7 м² на пересечении бульвара Москова и улицы Матей Басараб: панорамный фасад, вход для покупателей и отдельный служебный доступ.",
+      en: "A 625.7 m² retail space at the intersection of Moscova Boulevard and Matei Basarab Street: a panoramic frontage, a customer entrance and separate service access.",
     },
     story: {
       ro: [
-        "Moscova 20 se află la un colț pe care locuitorii cartierului îl traversează zilnic: transport public în apropiere, blocuri dense, magazine și servicii, parcare dedicată.",
+        "Moscova 20 se află pe bulevardul pe care locuitorii cartierului îl parcurg zilnic: transport public în apropiere, blocuri dense, magazine și servicii, parcare dedicată.",
         "Fațada panoramică transformă spațiul într-o vitrină continuă. Intrarea pentru clienți și accesul separat de serviciu, cu rampă, despart aprovizionarea de clienți.",
         "Spațiul ocupă parterul și demisolul: 458,86 m² suprafață netă de vânzare și o terasă. Se potrivește pentru retail alimentar, servicii, showroom sau comerț specializat.",
       ],
       ru: [
-        "Moscova 20 стоит на углу, через который жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка.",
+        "Moscova 20 стоит на бульваре, по которому жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка.",
         "Панорамный фасад превращает помещение в сплошную витрину. Вход для покупателей и отдельный служебный доступ с рампой разводят покупателей и товар.",
         "Помещение занимает первый и цокольный этажи: чистая торговая площадь 458,86 м² и терраса. Подходит для продуктового ритейла, услуг, шоурума или специализированной торговли.",
       ],
       en: [
-        "Moscova 20 stands on a corner the neighbourhood's residents cross every day: public transport close by, dense housing, shops and services, dedicated parking.",
+        "Moscova 20 stands on the boulevard the neighbourhood's residents walk every day: public transport close by, dense housing, shops and services, dedicated parking.",
         "The panoramic frontage turns the space into a continuous shop window. The customer entrance and the separate service access with ramp keep deliveries and customers apart.",
         "The space occupies the ground and lower-ground floors: 458.86 m² of net sales area and a terrace. It suits food retail, services, a showroom or specialist retail.",
       ],
@@ -376,10 +376,10 @@ export const portfolioAssets: PortfolioAsset[] = [
     location: {
       ro: "Sectorul Rîșcani, intersecția bulevardului Moscova cu strada Matei Basarab: transport public în apropiere, zonă rezidențială densă, magazine și servicii în jur, parcare dedicată.",
       ru: "Сектор Рышкань, пересечение бульвара Москова и улицы Матей Басараб: общественный транспорт рядом, плотная жилая застройка, магазины и сервисы вокруг, выделенная парковка.",
-      en: "Rîșcani district, at the corner of Moscova Boulevard and Matei Basarab Street: public transport close by, dense housing, shops and services around, dedicated parking.",
+      en: "Rîșcani district, at the intersection of Moscova Boulevard and Matei Basarab Street: public transport close by, dense housing, shops and services around, dedicated parking.",
     },
     connectivity: [
-      { ro: "Intersecția bd. Moscova cu str. Matei Basarab", ru: "Пересечение бул. Москова и ул. Матей Басараб", en: "Corner of Moscova Boulevard and Matei Basarab Street" },
+      { ro: "Intersecția bd. Moscova cu str. Matei Basarab", ru: "Пересечение бул. Москова и ул. Матей Басараб", en: "Intersection of Moscova Boulevard and Matei Basarab Street" },
       { ro: "Poziție pe prima linie", ru: "Положение на первой линии", en: "First-line position" },
       { ro: "Transport public în apropiere", ru: "Общественный транспорт рядом", en: "Public transport close by" },
       { ro: "Cartier rezidențial dens și parcare", ru: "Плотная жилая застройка и парковка", en: "Dense housing and parking" },
@@ -407,9 +407,9 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     operatingLogic: {
       text: {
-        ro: "Spațiul lucrează cu fluxul zilnic al cartierului: clienții intră de la colț, marfa intră prin rampă, terasa se deschide spre stradă.",
-        ru: "Помещение работает на ежедневном потоке района: покупатели входят с угла, товары поступают через рампу, терраса выходит на улицу.",
-        en: "The space works with the neighbourhood's daily flow: customers enter from the corner, goods arrive via the ramp, the terrace opens onto the street.",
+        ro: "Spațiul lucrează cu fluxul zilnic al cartierului: clienții intră din stradă, marfa intră prin rampă, terasa se deschide spre stradă.",
+        ru: "Помещение работает на ежедневном потоке района: покупатели входят с улицы, товары поступают через рампу, терраса выходит на улицу.",
+        en: "The space works with the neighbourhood's daily flow: customers enter from the street, goods arrive via the ramp, the terrace opens onto the street.",
       },
       points: [
         { ro: "Retail alimentar, servicii, showroom sau comerț specializat", ru: "Продуктовый ритейл, услуги, шоурум или специализированная торговля", en: "Food retail, services, showroom or specialist retail" },
@@ -418,14 +418,14 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     character: {
-      ro: "Spațiu de colț pe prima linie, cu vitrină continuă pe două străzi, intrare de la colț, acces separat de serviciu, terasă și parcare în apropiere.",
-      ru: "Угловое помещение первой линии со сплошной витриной на две улицы, входом с угла, отдельным служебным доступом, террасой и парковкой рядом.",
-      en: "A first-line corner space with a continuous shop window on two streets, an entrance from the corner, separate service access, a terrace and parking close by.",
+      ro: "Spațiu comercial pe prima linie, cu vitrină continuă spre bulevard, intrare prin terasă, acces separat de serviciu și parcare în apropiere.",
+      ru: "Торговое помещение первой линии со сплошной витриной к бульвару, входом через террасу, отдельным служебным доступом и парковкой рядом.",
+      en: "A first-line retail space with a continuous shop window to the boulevard, an entrance through the terrace, separate service access and parking close by.",
     },
     relevance: {
-      ro: "Fluxul zilnic și poziția de colț își păstrează valoarea indiferent de format. Spațiul poate fi adaptat la ceea ce are nevoie cartierul.",
-      ru: "Ежедневный поток и угловое расположение сохраняют ценность при любом формате. Помещение можно адаптировать под то, что нужно району.",
-      en: "The daily flow and the corner position keep their value whatever the format. The space can be adapted to what the neighbourhood needs.",
+      ro: "Fluxul zilnic și prima linie își păstrează valoarea indiferent de format. Spațiul poate fi adaptat la ceea ce are nevoie cartierul.",
+      ru: "Ежедневный поток и первая линия сохраняют ценность при любом формате. Помещение можно адаптировать под то, что нужно району.",
+      en: "The daily flow and the first-line position keep their value whatever the format. The space can be adapted to what the neighbourhood needs.",
     },
     // status, area and date of the unit on offer live only in the unit record M20-01 (src/data/leasing-inventory.ts) — OWNER 2026-11-06
     availability: null,

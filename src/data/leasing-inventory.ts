@@ -128,7 +128,7 @@ const allSpaces: AvailableSpace[] = [
     id: "moscova-20-corner",
     code: "M20-01",
     project: "moscova-20",
-    unit: L("Spațiu de colț · parter + demisol", "Угловое помещение · 1‑й этаж + цоколь", "Corner space · ground + lower ground"),
+    unit: L("Spațiu comercial · parter + demisol", "Торговое помещение · 1‑й этаж + цоколь", "Retail space · ground + lower ground"),
     floor: "multi",
     floorLabel: L("Parter + demisol", "1‑й этаж + цоколь", "Ground + lower ground"),
     // OWNER Moscova 20 mandate 2026-11-06 §3–4: marketed area ≠ total property area (704 m², src/data/demo-content.ts → assetOccupancy)
@@ -145,9 +145,9 @@ const allSpaces: AvailableSpace[] = [
     availableFrom: null,
     ctaEnabled: true,
     headline: L(
-      "Spațiu comercial de colț pe prima linie: parter, demisol și terasă.",
-      "Угловое коммерческое пространство на первой линии: 1‑й этаж, цоколь и терраса.",
-      "A corner commercial space on the first line: ground floor, lower ground and terrace.",
+      "Spațiu comercial pe prima linie: parter, demisol și terasă.",
+      "Коммерческое пространство на первой линии: 1‑й этаж, цоколь и терраса.",
+      "A commercial space on the first line: ground floor, lower ground and terrace.",
     ),
     // the four hero micro-facts (OWNER mandate §7) — the same record feeds Leasing, Home and the property page
     highlights: [
@@ -158,7 +158,7 @@ const allSpaces: AvailableSpace[] = [
     ],
     parking: L("Zonă de parcare dedicată lângă obiect", "Выделенная парковочная зона у объекта", "A dedicated parking area by the property"),
     entrance: L("Intrare separată din stradă, cu scări și rampă · acces de serviciu separat", "Отдельный вход с улицы, лестница и пандус · отдельный служебный доступ", "Separate street entrance with steps and a ramp · separate service access"),
-    visibility: L("Colț pe prima linie, vitrină panoramică spre bulevard", "Угол на первой линии, панорамное остекление на бульвар", "A first-line corner, panoramic glazing to the boulevard"),
+    visibility: L("Prima linie, vitrină panoramică spre bulevard", "Первая линия, панорамное остекление на бульвар", "The first line, panoramic glazing to the boulevard"),
     technical: {
       power: L("3 faze · 38 kW (conform documentelor)", "3 фазы · 38 кВт (по документам)", "3 phases · 38 kW (documented)"),
       ventilation: L("Sistem de ventilație și climatizare existent", "Существующая система вентиляции и кондиционирования", "Existing ventilation and air-conditioning system"),

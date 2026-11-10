@@ -159,7 +159,7 @@ export const moscova20Experience: LeasingExperience = {
   ],
 
   location: {
-    lead: T("Intersecția bulevardului Moscova cu strada Matei Basarab, sectorul Rîșcani.", "Пересечение бульвара Москова и улицы Матей Басараб, сектор Рышкань.", "The corner of Moscova Boulevard and Matei Basarab Street, Rîșcani district."),
+    lead: T("Intersecția bulevardului Moscova cu strada Matei Basarab, sectorul Rîșcani.", "Пересечение бульвара Москова и улицы Матей Басараб, сектор Рышкань.", "The intersection of Moscova Boulevard and Matei Basarab Street, Rîșcani district."),
     points: [
       fact(T("Cartier rezidențial dens", "Плотный жилой район", "A dense residential district"), "OWNER_CONFIRMED", `${OWNER} §12 — public wording; background: historical Rîșcani study`),
       fact(T("Artera principală de transport a sectorului", "Основная транспортная артерия района", "The district's main traffic artery"), "OWNER_CONFIRMED", `${OWNER} §12`),
@@ -397,7 +397,7 @@ export const moscova20Experience: LeasingExperience = {
         question: T("Vor putea clienții să ajungă comod?", "Смогут ли клиенты удобно приехать?", "Can customers get here easily?"),
         evidence: [
           { text: T("Bulevardul Moscova — artera principală de transport a sectorului.", "Бульвар Москова — основная транспортная артерия района.", "Moscova Boulevard — the district's main traffic artery."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { text: T("Colțul bulevardului Moscova cu strada Matei Basarab — o adresă clară, fațadă bine vizibilă.", "Угол бульвара Москова и улицы Матей Басараб — понятный адрес, заметный фасад.", "The corner of Moscova Boulevard and Matei Basarab Street — a clear address, a visible frontage."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { text: T("Intersecția bulevardului Moscova cu strada Matei Basarab — o adresă clară, fațadă bine vizibilă.", "Пересечение бульвара Москова и улицы Матей Басараб — понятный адрес, заметный фасад.", "The intersection of Moscova Boulevard and Matei Basarab Street — a clear address, a visible frontage."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
           { text: T("Intrare separată din stradă, prin terasă: scări și rampă.", "Отдельный вход с улицы через террасу: лестница и пандус.", "A separate street entrance through the terrace: steps and a ramp."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
           { text: T("Zonă de parcare dedicată lângă obiect; numărul de locuri se clarifică.", "Выделенная парковочная зона у объекта; количество мест уточняется.", "A dedicated parking area by the property; the number of spaces to be confirmed."), ref: "tech", evidence: "OWNER_CONFIRMED", source: "OWNER 2026-10-09 (dedicated parking confirmed; count not)" },
         ],

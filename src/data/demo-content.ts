@@ -254,7 +254,7 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
     repositioned: demo("asset.moscova-20.repositioned", "PROJECTS", P("moscova-20"), "Repositioned", "2023", "OWNER — last major works"),
     // availability: not stored here — derived from the unit record M20-01 (OWNER 2026-11-06, one source of truth)
     levers: [
-      lever("corner", "moscova-20", { ro: "Colțul ca punct de reper", ru: "Угол как ориентир района", en: "The corner as a landmark" }, { ro: "Vitrina continuă pe două străzi transformă spațiul într-un reper zilnic al cartierului.", ru: "Сплошная витрина на две улицы делает помещение ежедневным ориентиром района.", en: "A continuous window on two streets makes the space a daily landmark for the neighbourhood." }),
+      lever("frontage", "moscova-20", { ro: "Prima linie ca punct de reper", ru: "Первая линия как ориентир района", en: "The first line as a landmark" }, { ro: "Vitrina continuă spre bulevard transformă spațiul într-un reper zilnic al cartierului.", ru: "Сплошная витрина к бульвару делает помещение ежедневным ориентиром района.", en: "A continuous window to the boulevard makes the space a daily landmark for the neighbourhood." }),
       lever("terrace", "moscova-20", { ro: "Terasa activează strada", ru: "Терраса оживляет улицу", en: "The terrace activates the street" }, { ro: "Pentru cafenea, servicii sau retail alimentar terasa prelungește spațiul în exterior.", ru: "Для кафе, сервисов или продуктового ритейла терраса продолжает помещение на улицу.", en: "For a café, services or food retail the terrace extends the space outdoors." }),
       lever("fitout", "moscova-20", { ro: "Gata pentru amenajarea brandului", ru: "Готово к оформлению под бренд", en: "Ready for brand fit-out" }, { ro: "Trasee existente de ventilație și utilități scurtează amenajarea noului chiriaș.", ru: "Существующие трассы вентиляции и инженерии сокращают срок отделки для нового арендатора.", en: "Existing ventilation and utility routes shorten the new tenant's fit-out." }),
     ],
@@ -363,20 +363,20 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
   },
   "moscova-20": {
-    reason: { ro: "Pentru o afacere care trăiește din fluxul zilnic al cartierului — vitrină de colț, prima linie.", ru: "Для бизнеса, который живёт ежедневным потоком района: угловая витрина, первая линия.", en: "For a business that lives on the neighbourhood's daily flow — a corner window on the first line." },
+    reason: { ro: "Pentru o afacere care trăiește din fluxul zilnic al cartierului — vitrină spre bulevard, prima linie.", ru: "Для бизнеса, который живёт ежедневным потоком района: витрина к бульвару, первая линия.", en: "For a business that lives on the neighbourhood's daily flow — a shop window to the boulevard on the first line." },
     bestFor: ["retail", "services", "clinic", "fnb", "showroom"],
     bestForStatus: "DEMO",
     why: [
-      { ro: "Colț vizibil, vitrină continuă pe două străzi", ru: "Заметный угол, сплошная витрина на две улицы", en: "A visible corner, a continuous window on two streets" },
+      { ro: "Prima linie, vitrină continuă spre bulevard", ru: "Первая линия, сплошная витрина к бульвару", en: "The first line, a continuous window to the boulevard" },
       { ro: "Scară interioară între niveluri", ru: "Внутренняя лестница между уровнями", en: "An internal staircase between levels" },
       { ro: "Intrare pentru clienți și acces de serviciu separat", ru: "Вход для покупателей и отдельный служебный доступ", en: "Customer entrance and separate service access" },
       { ro: "Terasă și parcare dedicată", ru: "Терраса и выделенная парковка", en: "A terrace and dedicated parking" },
     ],
     capabilities: {
-      visibility: cap("moscova-20", "visibility", "strong", { ro: "Colț, fațadă panoramică, prima linie", ru: "Угол, панорамный фасад, первая линия", en: "Corner, panoramic frontage, first line" }, "CONFIRMED"),
+      visibility: cap("moscova-20", "visibility", "strong", { ro: "Prima linie, fațadă panoramică", ru: "Первая линия, панорамный фасад", en: "First line, panoramic frontage" }, "CONFIRMED"),
       ground: cap("moscova-20", "ground", "strong", { ro: "Parter 240,96 m² + demisol 293,70 m²", ru: "1‑й этаж 240,96 м² + цоколь 293,70 м²", en: "Ground 240.96 m² + lower ground 293.70 m²" }, "CONFIRMED"),
       parking: cap("moscova-20", "parking", "possible", { ro: "Parcare dedicată în apropiere", ru: "Выделенная парковка рядом", en: "Dedicated parking nearby" }, "CONFIRMED"),
-      entrance: cap("moscova-20", "entrance", "strong", { ro: "Intrare de la colț + acces de serviciu cu rampă", ru: "Вход с угла + служебный доступ с рампой", en: "Corner entrance + service access with ramp" }, "CONFIRMED"),
+      entrance: cap("moscova-20", "entrance", "strong", { ro: "Intrare pentru clienți + acces de serviciu cu rampă", ru: "Вход для покупателей + служебный доступ с рампой", en: "Customer entrance + service access with ramp" }, "CONFIRMED"),
       power: cap("moscova-20", "power", "possible", { ro: "3 faze · 38 kW conform documentelor", ru: "3 фазы · 38 кВт по документам", en: "3 phases · 38 kW documented" }, "CONFIRMED"),
       ventilation: cap("moscova-20", "ventilation", "possible", { ro: "Trasee de ventilație existente", ru: "Существующие трассы вентиляции", en: "Existing ventilation routes" }, "CONFIRMED"),
       delivery: cap("moscova-20", "delivery", "strong", { ro: "Acces de serviciu separat, cu rampă", ru: "Отдельный служебный доступ с рампой", en: "Separate service access with ramp" }, "CONFIRMED"),
@@ -422,7 +422,7 @@ const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", sourc
 export const projectNow: Record<string, DataPoint> = {
   "moscova-9": NOW("moscova-9", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31": NOW("dacia-31", { ro: "Clădire de birouri în proprietatea MEGAPARC.", ru: "Офисное здание в собственности MEGAPARC.", en: "An office building owned by MEGAPARC." }, "CONFIRMED"),
-  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de colț de pe prima linie.", ru: "Сдаём угловое коммерческое пространство на первой линии.", en: "Leasing the first-line corner commercial space." }, "CONFIRMED"),
+  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de pe prima linie.", ru: "Сдаём коммерческое пространство на первой линии.", en: "Leasing the first-line commercial space." }, "CONFIRMED"),
   "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
@@ -705,7 +705,7 @@ place("asset.dacia-31.gallery.2", "Projects · Dacia 31", "Gallery · Leasing", 
 place("asset.moscova-9.gallery.1", "Projects · Moscova 9", "Gallery · Leasing", "Moscova 9", "cv-salesfloor", "PROPERTY_DIRECTION", "Sales-floor direction", "HIGH", "Moscova 9 AVAILABLE UNIT — sales floor", A.salesfloor);
 place("asset.moscova-9.gallery.2", "Projects · Moscova 9", "Gallery · Leasing", "Moscova 9", "cv-boutique", "PROPERTY_DIRECTION", "Shopfront ready for a tenant", "MEDIUM", "Moscova 9 AVAILABLE UNIT — the frontage from the boulevard", A.boutique);
 place("asset.moscova-20.gallery.1", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-cafe", "PROPERTY_DIRECTION", "Tenant activity direction", "HIGH", "Moscova 20 TENANT ACTIVITY", A.cafe);
-place("asset.moscova-20.gallery.2", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-manage", "PROPERTY_DIRECTION", "Street corner activity direction", "MEDIUM", "Moscova 20 ENTRANCE / corner at street level", A.street);
+place("asset.moscova-20.gallery.2", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-manage", "PROPERTY_DIRECTION", "Street activity direction", "MEDIUM", "Moscova 20 ENTRANCE at street level", A.street);
 place("project.vatra.team", "Projects · VATRA", "Current reality · on site", "VATRA", "cv-rebar-crew", "PROPERTY_DIRECTION", "Construction team direction", "MEDIUM", "VATRA HUMAN SCALE — construction team, morning", A.rebarCrew);
 place("project.drochia.hero", "Projects · Drochia Gateway", "Hero", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway HERO — the real site from the entrance road", A.field, "50% 62%");
 place("project.drochia.road", "Projects · Drochia Gateway", "Current reality · the land", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "The site as it is today — open land", "HIGH", "Drochia Gateway ACCESS — approach road and visibility", A.field, "50% 78%");
