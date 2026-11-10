@@ -200,7 +200,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
         <div className="r3-shell r3-second">
           <Link href={p(`/projects/${m20.slug}`)} className="r3-second__media" data-reveal tabIndex={-1} aria-hidden="true">
-            <ArtImage media={m20.media!} variant="card" alt="" sizes="(min-width: 900px) 58vw, 100vw" position="50% 55%" />
+            <ArtImage media={m20.media!} variant="card" alt="" sizes="(min-width: 900px) 58vw, 100vw" />
           </Link>
           <div className="r3-second__copy" data-reveal>
             <h3 className="r3-second__name"><Link href={p(`/projects/${m20.slug}`)}>{m20.name}</Link></h3>

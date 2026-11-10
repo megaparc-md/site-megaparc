@@ -1401,3 +1401,7 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 .lg-page .lg-hero__name { font-weight: 600; }
 /* OWNER copy 2026-11-10 — «Какой бизнес вы рассматриваете?»: a card may carry a short title above its text */
 .lg-lens__cardtitle { display: block; margin: 0 0 .35rem; color: var(--ink); font-weight: 600; letter-spacing: -.005em; }
+
+/* OWNER «MOSCOVA 20 — MAIN LEASING IMAGE» (2026-11-10): the Moscova 20 card (Home · Projects) shows the entrance photograph — on phones the
+   container follows the frame (4 : 3) instead of a 4 : 5 crop that cut the door; the asset focal point (34 % 60 %) keeps door, glazing and ramp */
+.r3-second__media { aspect-ratio: 4 / 3; }

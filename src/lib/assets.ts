@@ -327,7 +327,10 @@ export const portfolioAssets: PortfolioAsset[] = [
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     // OWNER R3.1 §5 (2026-11-09): the elevated facade shot (portfolio/moscova-20 and its m20-facade / m20-approach crops)
     // is OWNER_REJECTED_FOR_LARGE_FORMAT — the property is represented by its real ground-floor hall (OWNER photograph).
-    media: media("portfolio", "moscova-20-hall", "50% 55%"),
+    // OWNER «MOSCOVA 20 — MAIN LEASING IMAGE» (2026-11-10): the OWNER-approved processed photograph of the real entrance (glazing,
+    // street-level access, stairs, ramp; the «Chirie» sign removed) is the leasing cover — every card that presents Moscova 20 as
+    // available. Full frame in every variant; the focal point keeps the door, the glazing and the ramp (checked at 390–1920).
+    media: media("portfolio", "moscova-20-entrance", "34% 60%"),
     status: operating,
     positioning: { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" },
     headline: {

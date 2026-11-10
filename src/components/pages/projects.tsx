@@ -103,7 +103,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
 
         <div className="r3-shell r3-second r3-second--page">
           <Link href={p(`/projects/${m20.slug}`)} className="r3-second__media" data-reveal tabIndex={-1} aria-hidden="true">
-            <ArtImage media={m20.media!} variant="card" alt="" sizes="(min-width: 900px) 58vw, 100vw" position="50% 55%" />
+            <ArtImage media={m20.media!} variant="card" alt="" sizes="(min-width: 900px) 58vw, 100vw" />
           </Link>
           <Link href={p(`/projects/${m20.slug}`)} className="r3-second__copy r3-pj" data-reveal>
             <span className="r3-second__name">{m20.name}</span>
