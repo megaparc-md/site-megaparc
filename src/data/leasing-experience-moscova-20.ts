@@ -87,8 +87,9 @@ export const moscova20Experience: LeasingExperience = {
   photos,
 
   hero: {
-    photo: "facadeWide",
-    phonePhoto: "facadePhone",
+    // OWNER R3.1 §5: the facade crops are rejected for large format — the hero shows the real ground-floor hall
+    photo: "groundHall",
+    phonePhoto: "groundHall",
     title: T("Spațiu pentru următorul pas al afacerii dumneavoastră.", "Пространство для следующего шага вашего бизнеса.", "Space for your business's next step."),
     place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
@@ -468,7 +469,8 @@ export const moscova20Experience: LeasingExperience = {
       { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("spațiul, intrările, punctele inginerești, planurile, accesul", "пространство, входы, инженерные точки, планы, доступ", "the space, entrances, engineering points, plans, access") },
       { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "the technical requirements checked, then the commercial terms") },
     ],
-    photo: "approach",
+    // OWNER R3.1 §5: the approach crop belongs to the rejected facade shot — the ground-level entrance photograph instead
+    photo: "entrance",
     contactsLine: T("Sau direct:", "Или напрямую:", "Or directly:"),
     // the film «Ваш следующий шаг» plugs in here when it exists — poster first, plays on request, never autoplay
     film: null,

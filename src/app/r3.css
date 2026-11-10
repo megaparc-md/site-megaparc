@@ -915,3 +915,191 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
   .motion-ready .r3-unit:not(.is-revealed) .r3-stack__bar { transform: none; }
   .r3-pair__media img, .r3-space__media img { transition: none; }
 }
+
+/* ==================================================================
+   R3.1 — SERIF + SANS (OWNER "FINAL R3.1", 2026-11-09)
+   One serif — Source Serif 4 (variable weight + optical size, full
+   Cyrillic) — for H1, editorial H2, project names, years and selected
+   oversized figures; one sans — Geist — for navigation, body, buttons,
+   data, labels, plans, captions, cadastral data, status, footer UI.
+   Authority from scale and lighter weights, not bold. §26.
+   ================================================================== */
+:root { --r3-serif: var(--font-serif), "Source Serif 4", Georgia, serif; }
+
+/* sitewide: every page heading in the serif (legacy templates included) */
+.site main :is(h1, h2) { font-family: var(--r3-serif); font-optical-sizing: auto; font-weight: 400; letter-spacing: -.015em; }
+.site main :is(.lx-adv, .xp-form, .lg-form, .lg-drawer, .lg-eco-tool, .cmsx, form) :is(h1, h2) { font-family: var(--font); letter-spacing: -.01em; }
+
+/* R3 serif roles */
+.site :is(.r3-display, .r3-title, .r3-statement, .r3-verb, .r3-opening__title, .r3-era__year, .r3-era__title, .r3-hyears__year, .r3-heritage__year,
+  .r3-scale__value, .r3-scale__row dd, .r3-feature__name, .r3-feature__line, .r3-second__name, .r3-index__name, .r3-portal__title, .r3-line__title,
+  .r3-next__title, .r3-types h3, .r3-biglist li, .r3-brings__title, .r3-ledger__name, .r3-ledger__area, .r3-evidence__figs dd, .r3-numbers dd,
+  .r3-rules__list h3, .r3-dirs__title, .r3-dirs__statement, .r3-from__years, .r3-ep__name, .r3-register__name, .r3-pjdev__name, .r3-pjdev__figure,
+  .r3-land__total .r3-fig, .r3-lhero__title, .r3-space__unit, .r3-space__area, .r3-fold__title, .r3-trust__principle, .r3-prop__name,
+  .r3-upcoming__date, .r3-upcoming__title, .r3-upcoming__area, .r3-pid__facts .is-lead dd, .r3-proof__list h3, .r3-proof__fig, .r3-unit__name,
+  .r3-unit__area, .r3-ftr__position, .pmenu__name, .r3-split__label, .r3-split__count, .r3-compact__name, .r3-avail__title, .r3-thesis__verbs,
+  .r3-caps-list dt, .r3-phero__big, .r3-phero__lead, .r3-pair__name, .r3-era__places li > span, .r3-stack__area, .r3-zones .r3-fig) {
+  font-family: var(--r3-serif); font-optical-sizing: auto; font-variant-numeric: lining-nums;
+}
+
+/* lighter, calmer display — confident, not loud */
+.site .r3-display { font-weight: 300; letter-spacing: -.022em; line-height: 1; }
+.site .r3-hero__title { max-width: none; font-size: clamp(2.6rem, 6.3vw, 8.4rem); }
+.site .r3-title { font-weight: 350; letter-spacing: -.018em; line-height: 1.06; max-width: 19ch; }
+.site .r3-statement { font-weight: 350; letter-spacing: -.008em; line-height: 1.24; }
+.site .r3-verb { font-weight: 300; letter-spacing: -.03em; }
+.site .r3-opening__title { font-weight: 300; letter-spacing: -.035em; line-height: .94; }
+.site :is(.r3-era__year, .r3-hyears__year, .r3-heritage__year, .r3-from__years, .r3-upcoming__date) { font-weight: 300; letter-spacing: -.035em; }
+.site :is(.r3-scale__value, .r3-scale__row dd, .r3-numbers dd, .r3-evidence__figs dd, .r3-reinvest__total, .r3-land__total .r3-fig, .r3-space__area, .r3-unit__area, .r3-upcoming__area, .r3-proof__fig, .r3-pjdev__figure, .r3-phero__big, .r3-ledger__area) { font-weight: 300; letter-spacing: -.03em; }
+.site :is(.r3-feature__name, .r3-second__name, .r3-prop__name, .r3-portal__title, .r3-pair__name, .r3-compact__name, .r3-ledger__name, .r3-index__name, .r3-register__name, .r3-ep__name, .r3-pjdev__name, .r3-dirs__title, .r3-split__label) { font-weight: 350; letter-spacing: -.022em; }
+.site :is(.r3-feature__line, .r3-types h3, .r3-biglist li, .r3-brings__title, .r3-rules__list h3, .r3-next__title, .r3-line__title, .r3-space__unit, .r3-unit__name, .r3-proof__list h3, .r3-fold__title, .r3-trust__principle, .r3-era__title, .r3-caps-list dt, .r3-avail__title, .r3-lhero__title, .r3-upcoming__title, .r3-phero__lead, .r3-dirs__statement, .pmenu__name) { font-weight: 350; letter-spacing: -.012em; }
+.site .r3-ftr__position { font-weight: 300; letter-spacing: -.01em; }
+.site .r3-fig__u { font-family: var(--font); font-weight: 500; }
+
+/* fewer tiny uppercase labels: a quiet sentence-case line with the burgundy rule */
+.r3-label { font-size: .9rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.r3-label--light { color: rgba(255, 255, 255, .72); }
+.r3-portal__verbs { font-size: .95rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.r3-era__label, .r3-trust__sub, .r3-blocks__label, .r3-trust__cad .tr-label, .r3-ftr__head { font-size: .86rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.r3-ep__meta { font-size: .8rem; letter-spacing: 0; text-transform: none; }
+
+/* header: the five primary routes lead; the utility group and the languages are quieter and compact */
+@media (min-width: 1100px) {
+  .languages--header { font-size: .66rem; }
+  .languages--header a, .languages--header span { padding: 0 .38rem; opacity: .42; }
+  .languages--header .is-active { opacity: .9; }
+  .languages--header .is-active::after { left: .38rem; right: .38rem; height: 1px; }
+  .site-nav--utility { font-size: .76rem; }
+}
+
+/* ---- Home hero: one composition — statement, one line, two quiet paths ---- */
+.r3-hero__foot { display: grid; gap: 1.4rem; margin-top: clamp(1.8rem, 3.4vw, 3rem); }
+.r3-hero__sub { margin: 0; max-width: 36rem; color: rgba(255, 255, 255, .88); font-size: clamp(1.05rem, 1.35vw, 1.3rem); line-height: 1.5; }
+.r3-hero__foot .r3-hero__paths { display: flex; flex-wrap: wrap; gap: .8rem 2.4rem; margin: 0; border: 0; }
+.r3-hero__foot .r3-path { display: inline-flex; flex-direction: row; align-items: center; gap: .6rem; padding: .25rem 0 .4rem; border: 0; border-bottom: 1px solid rgba(255, 255, 255, .55); color: #fff; font-size: clamp(1.02rem, 1.25vw, 1.2rem); font-weight: 500; }
+.r3-hero__foot .r3-path + .r3-path { border-top: 0; }
+.r3-hero__foot .r3-path svg { transition: transform .45s var(--r3-ease); }
+.r3-hero__foot .r3-path:hover { border-bottom-color: #fff; }
+.r3-hero__foot .r3-path:hover svg { transform: translateX(5px); }
+.r3-hero__foot .r3-actions { margin-top: 0; }
+@media (min-width: 900px) { .r3-hero__foot { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 3rem; } }
+
+/* ---- Investment ---- */
+.r3-thesis { padding-block: calc(var(--r3-sec) * .8); }
+.r3-thesis__grid { display: grid; gap: 1.2rem; }
+.r3-thesis__can { margin: 0; color: var(--r3-muted); font-size: 1.05rem; }
+.r3-thesis__verbs { margin: 0; padding: 0; list-style: none; font-size: clamp(1.8rem, 4vw, 4.4rem); font-weight: 300; line-height: 1.14; letter-spacing: -.02em; text-wrap: balance; }
+.r3-thesis__verbs li { display: inline; }
+.r3-thesis__verbs li::after { content: "  ·  "; color: var(--r3-burgundy); white-space: pre; }
+.r3-thesis__verbs li:last-child::after { content: "."; color: inherit; }
+@media (min-width: 1024px) { .r3-thesis__grid { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); column-gap: 3rem; align-items: baseline; } }
+.r3-consider { padding-top: 0; }
+.r3-consider .r3-wide { margin-bottom: clamp(3.5rem, 7vw, 6rem); }
+.r3-caps-list { margin: .6rem 0 0; border-top: 1px solid var(--r3-hair); }
+.r3-caps-list div { display: grid; gap: .35rem; padding: 1.05rem 0; border-bottom: 1px solid var(--r3-hair); }
+.r3-caps-list dt { font-size: clamp(1.25rem, 1.8vw, 1.7rem); line-height: 1.15; }
+.r3-caps-list dd { margin: 0; color: var(--r3-muted); font-size: .98rem; line-height: 1.5; }
+.r3-numbers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.6rem 1.6rem; margin: 0 0 clamp(3.5rem, 7vw, 6rem); padding-top: 2rem; border-top: 1px solid var(--r3-hair-strong); }
+.r3-numbers div { display: flex; flex-direction: column-reverse; justify-content: start; gap: .6rem; min-width: 0; }
+.r3-numbers dd { margin: 0; font-size: clamp(2.6rem, 5vw, 5.4rem); line-height: .9; }
+.r3-numbers dt { color: var(--r3-muted); font-size: .95rem; }
+.r3-numbers .is-lead { grid-column: 1 / -1; }
+.r3-numbers .is-lead dd { font-size: clamp(4rem, 12vw, 13rem); }
+@media (min-width: 900px) { .r3-numbers { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.r3-band--link { display: block; color: #fff; text-decoration: none; }
+.r3-band--link img { transition: transform 1.8s var(--r3-ease); }
+.r3-band--link:hover img { transform: scale(1.02); }
+.r3-ledger--after { margin-top: clamp(3.5rem, 7vw, 6rem); }
+
+/* ---- Projects: operating vs development at once; Tier 1 large, Tier 2 compact ---- */
+.r3-opening__lead { margin-top: clamp(1.8rem, 3vw, 2.6rem); max-width: 42rem; }
+.r3-split { display: grid; margin-top: clamp(2.6rem, 5vw, 4.5rem); border-top: 1px solid var(--r3-hair-strong); }
+.r3-split a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem 1.5rem; align-items: end; padding: 1.6rem 0; border-bottom: 1px solid var(--r3-hair); color: inherit; text-decoration: none; }
+.r3-split__label { font-size: clamp(1.6rem, 3vw, 3rem); line-height: 1.05; transition: color .3s ease; }
+.r3-split__count { grid-row: 1 / span 2; grid-column: 2; color: var(--r3-burgundy); font-size: clamp(3rem, 6vw, 6.4rem); font-weight: 300; line-height: .85; }
+.r3-split__meta { color: var(--r3-muted); font-size: .95rem; }
+.r3-split a:hover .r3-split__label { color: var(--r3-burgundy); }
+@media (min-width: 900px) {
+  .r3-split { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .r3-split a { padding-right: clamp(2rem, 4vw, 4rem); border-bottom: 0; }
+  .r3-split a + a { padding: 1.6rem 0 1.6rem clamp(2rem, 4vw, 4rem); border-left: 1px solid var(--r3-hair); }
+}
+.r3-pjs__head { padding-top: calc(var(--r3-sec) * .6); margin-bottom: clamp(2.4rem, 4vw, 3.6rem); }
+.r3-compact { margin: clamp(5rem, 9vw, 8rem) auto 0; padding: 0; list-style: none; border-top: 1px solid var(--r3-hair-strong); }
+.r3-compact li { border-bottom: 1px solid var(--r3-hair); }
+.r3-compact__row { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .8rem 1.3rem; align-items: start; padding: 1.4rem 0; color: inherit; text-decoration: none; }
+.r3-compact__media { grid-row: 1 / span 2; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--r3-stone); }
+.r3-compact__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--r3-ease); }
+.r3-compact__name { font-size: clamp(1.7rem, 3vw, 3rem); line-height: 1; transition: color .3s ease; }
+.r3-compact__copy { display: grid; gap: .5rem; }
+.r3-compact__row:hover .r3-compact__name { color: var(--r3-burgundy); }
+.r3-compact__row:hover .r3-compact__media img { transform: scale(1.03); }
+@media (min-width: 900px) {
+  .r3-compact__row { grid-template-columns: 13rem minmax(0, 4fr) minmax(0, 5fr); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: center; padding: 1.8rem 0; }
+  .r3-compact__media { grid-row: auto; }
+}
+
+/* ---- Leasing: what can I lease — now · coming up ---- */
+.r3-opening--leasing .r3-opening__base .r3-statement { max-width: 26ch; }
+.r3-avail__group + .r3-avail__group { margin-top: clamp(5rem, 10vw, 9rem); }
+.r3-avail__title { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0 0 clamp(2.4rem, 4vw, 3.4rem); padding-bottom: 1rem; border-bottom: 1px solid var(--r3-hair-strong); font-size: clamp(1.9rem, 3.4vw, 3.4rem); }
+.r3-avail__title span { color: var(--r3-burgundy); font-size: .62em; font-weight: 300; }
+.r3-avail__group--soon > .r3-lead { margin: -1.4rem 0 2.8rem; }
+.r3-avail__list { display: grid; gap: clamp(4rem, 8vw, 7rem); }
+
+/* ---- Moscova 9: the message first; the weaker photograph held inside the page ---- */
+.r3-phero__lead { margin: 1.2rem 0 0; max-width: 22ch; font-size: clamp(1.6rem, 3vw, 3.1rem); line-height: 1.1; color: var(--r3-burgundy); }
+.r3-phero--soft .r3-phero__media { width: var(--r3-shell); margin-inline: auto; aspect-ratio: 4 / 3; }
+@media (min-width: 720px) { .r3-phero--soft .r3-phero__media { aspect-ratio: 21 / 9; } }
+@media (min-width: 1024px) { .r3-phero--soft .r3-phero__media { aspect-ratio: auto; height: min(52svh, 34rem); } }
+.r3-upcoming__title { margin: 0; font-size: clamp(2.2rem, 4.4vw, 4.8rem); font-weight: 300; line-height: 1.04; }
+
+/* ---- Moscova 20 (the quality reference) joins the serif system; data, plans and UI stay sans ---- */
+.lg-page :is(.lg-hero__name, .lg-hero__title, .lg-hero__figure, .lg-statement__title, .lg-lens__question, .lg-motion__title, .lg-teaser__title,
+  .lg-story__statement, .lg-capex__title, .lg-viewing__statement, .lg-viewing__sub, .lg-viewing__title, .lg-head__title, .lg-explorer__title, .lg-summary__title,
+  .lg-kpi__figure, .lg-sheet__big, .lg-catch__name) { font-family: var(--r3-serif); font-optical-sizing: auto; font-variant-numeric: lining-nums; letter-spacing: -.015em; }
+.lg-page :is(.lg-hero__name, .lg-hero__figure, .lg-kpi__figure, .lg-sheet__big) { font-weight: 300; }
+.lg-page :is(.lg-statement__title, .lg-motion__title, .lg-capex__title, .lg-viewing__statement, .lg-lens__question, .lg-head__title) { font-weight: 350; }
+.lg-page :is(.lg-hero__title, .lg-teaser__title, .lg-story__statement, .lg-viewing__sub, .lg-viewing__title, .lg-explorer__title, .lg-summary__title, .lg-catch__name) { font-weight: 400; }
+
+/* ---- R3.1 PASS 2 — corrections after the art-director review ---- */
+/* Investment thesis: words never break; inline on wide screens, a calm vertical list on phones */
+.r3-thesis__verbs { overflow-wrap: normal; word-break: normal; hyphens: manual; }
+@media (max-width: 899px) {
+  .r3-thesis__verbs li { display: block; padding: .35rem 0; border-top: 1px solid var(--r3-hair); font-size: clamp(1.5rem, 6.4vw, 2.2rem); }
+  .r3-thesis__verbs li::after, .r3-thesis__verbs li:last-child::after { content: none; }
+}
+/* Home: the statement after the hero gets a real measure */
+.r3-two__intro .r3-statement { max-width: 32ch; font-size: clamp(1.6rem, 3.1vw, 3.3rem); line-height: 1.16; }
+/* footer positioning: a wider measure in the serif */
+.r3-ftr__position { max-width: 36ch; }
+/* cadastral number: sans, one line, never broken */
+.r3-trust__cad .tr-cad__number { font-family: var(--font); white-space: nowrap; overflow-wrap: normal; word-break: normal; font-size: clamp(1.55rem, 4vw, 4rem); letter-spacing: -.01em; }
+/* Moscova 20 statements: sentence case in the serif (the global system), not uppercase posters */
+.lg-page .lg-display { font-family: var(--r3-serif); font-optical-sizing: auto; font-weight: 300; text-transform: none; letter-spacing: -.02em; line-height: 1.02; }
+/* Home phone: the VATRA portal is shorter and holds the buildings, not the reeds */
+@media (max-width: 899px) {
+  .r3-portal { height: min(72svh, 36rem); }
+  .r3-portals .r3-portal:first-child .r3-portal__media img { object-position: 30% 78% !important; }
+}
+
+/* ---- R3.1 PASS 2 — framing: frames follow the photograph, never the other way round (§6) ---- */
+/* bands: the 21:9 crop in a 21:9 frame from 720 px (no side cut of the building), the art-directed 4:5 crop on phones */
+.r3-band { height: auto; max-height: none; aspect-ratio: 4 / 5; }
+@media (min-width: 720px) { .r3-band { aspect-ratio: 21 / 9; } }
+/* wide scenes (VATRA): a landscape frame on phones too — the buildings stay whole */
+@media (max-width: 719px) { .r3-wide__media { aspect-ratio: 16 / 10; } }
+/* portals below 900 px: the photograph in its own 4:3 frame, the words beneath it on ink */
+@media (max-width: 899px) {
+  .r3-portal { display: grid; height: auto; max-height: none; }
+  .r3-portal__media { position: relative; inset: auto; aspect-ratio: 4 / 3; }
+  .r3-portal__veil { display: none; }
+  .r3-portal__copy { position: relative; inset: auto; padding: 1.6rem var(--r3-g) 2.6rem; background: var(--r3-ink); }
+}
+
+/* R3.1 PASS 2 — portal frames below 900 px: 16:10 keeps more of the VATRA cluster */
+@media (max-width: 899px) { .r3-portal__media { aspect-ratio: 16 / 10; } .r3-portals .r3-portal:first-child .r3-portal__media img { object-position: 40% 75% !important; } }
+
+/* R3.1 PASS 2 — thesis separator: breakable after the dot (a pre-formatted gap made the words the only break point) */
+.r3-thesis__verbs li { overflow-wrap: normal; }
+@media (min-width: 900px) { .r3-thesis__verbs li::after { content: "\00a0\00a0\00b7  "; white-space: normal; } }

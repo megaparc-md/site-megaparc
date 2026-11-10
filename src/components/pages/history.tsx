@@ -81,7 +81,9 @@ function Episode({ entry, locale }: { entry: HistoryEntry; locale: SiteLocale })
 function ChapterScene({ chapter, locale, index }: { chapter: Chapter; locale: SiteLocale; index: number }) {
   const big = monumental[chapter.key];
   const lead = leadEpisode[chapter.key];
-  const hasFrame = Boolean(lead && episodeImage[lead]);
+  // R3.1 §21: fewer images, larger — one full-width frame for the major chapters only (1991 · 1995 · 2020); 2005 is a
+  // typographic chapter (its only photograph, Moscova 9, is too weak for 100 %); the intermediate periods are text interludes
+  const hasFrame = Boolean(big && chapter.key !== "megaparc" && lead && episodeImage[lead]);
   const tone = chapter.key === "megaparc" ? "megaparc" : chapter.key === "international" ? "dark" : index % 2 ? "paper" : "ivory";
   const range = chapter.range || String(new Date().getFullYear());
   const flip = index % 2 === 1;

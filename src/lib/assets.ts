@@ -325,7 +325,9 @@ export const portfolioAssets: PortfolioAsset[] = [
     name: "Moscova 20",
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
-    media: media("portfolio", "moscova-20", "50% 48%"),
+    // OWNER R3.1 §5 (2026-11-09): the elevated facade shot (portfolio/moscova-20 and its m20-facade / m20-approach crops)
+    // is OWNER_REJECTED_FOR_LARGE_FORMAT — the property is represented by its real ground-floor hall (OWNER photograph).
+    media: media("portfolio", "moscova-20-hall", "50% 55%"),
     status: operating,
     positioning: { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" },
     headline: {

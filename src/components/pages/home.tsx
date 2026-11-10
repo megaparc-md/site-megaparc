@@ -21,6 +21,7 @@ import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     heroTitle: ["Imobiliare comerciale —", "de la investiție", "la obiectul care funcționează."],
+    heroSub: "MEGAPARC investește în imobiliare — și închiriază obiectele comerciale pe care le deține.",
     invest: "Investiții",
     investNote: "Imobile, terenuri, parteneriat",
     lease: "Închiriere",
@@ -54,6 +55,7 @@ const copy = {
   },
   ru: {
     heroTitle: [`Коммерческая недвижимость${NB}—`, `от${NB}инвестиции`, `до${NB}работающего объекта.`],
+    heroSub: `MEGAPARC инвестирует в${NB}недвижимость${NB}— и${NB}сдаёт в${NB}аренду собственные коммерческие объекты.`,
     invest: "Инвестиции",
     investNote: `Объекты, земля, партнёрство`,
     lease: "Аренда",
@@ -87,6 +89,7 @@ const copy = {
   },
   en: {
     heroTitle: ["Commercial real estate —", "from investment", "to a working property."],
+    heroSub: "MEGAPARC invests in real estate — and leases the commercial properties it owns.",
     invest: "Investment",
     investNote: "Property, land, partnership",
     lease: "Leasing",
@@ -162,16 +165,14 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         <ConceptDisclosure id="home.hero" locale={locale} />
         <div className="r3-shell r3-hero__inner">
           <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.heroTitle]} />
-          <nav className="r3-hero__paths" aria-label={`${c.invest} · ${c.lease}`}>
-            <Link href={p("/partnership")} className="r3-path">
-              <span className="r3-path__name">{c.invest}<Icon size={22} /></span>
-              <span className="r3-path__note">{c.investNote}</span>
-            </Link>
-            <Link href={`${p("/leasing")}#available`} className="r3-path">
-              <span className="r3-path__name">{c.lease}<Icon size={22} /></span>
-              <span className="r3-path__note">{leaseLine}</span>
-            </Link>
-          </nav>
+          {/* R3.1 §9: one composition — the statement, then two quiet paths inside it (no cards, no notes) */}
+          <div className="r3-hero__foot" data-reveal>
+            <p className="r3-hero__sub">{c.heroSub}</p>
+            <nav className="r3-hero__paths" aria-label={`${c.invest} · ${c.lease}`}>
+              <Link href={p("/partnership")} className="r3-path">{c.invest}<Icon size={18} /></Link>
+              <Link href={`${p("/leasing")}#available`} className="r3-path" title={leaseLine}>{c.lease}<Icon size={18} /></Link>
+            </nav>
+          </div>
         </div>
       </section>
 

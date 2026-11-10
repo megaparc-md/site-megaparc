@@ -24,6 +24,7 @@ const copy = {
     figOperating: "obiecte în funcțiune", figDevelopment: "proiecte de dezvoltare", figLand: "terenuri", figArea: "suprafața obiectelor în funcțiune",
     index: [["Obiecte în funcțiune", "#collection"], ["Dezvoltare", "#development"], ["Terenuri", "#land"]],
     open: "Vezi obiectul", openProject: "Vezi proiectul",
+    operatingTitle: "Obiecte în funcțiune.", devTitleShort: "Dezvoltare și terenuri", ofLand: "de teren",
     devKicker: "Dezvoltare", devTitle: "Proiecte proprii — de la teren la clădirea care funcționează.",
     buildings: "3 clădiri", landKicker: "Terenuri", landTitle: "Teren pentru proiectele următoare.",
     landLead: "Terenuri în proprietatea MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.", landTotal: "Total",
@@ -36,6 +37,7 @@ const copy = {
     figOperating: "действующих объекта", figDevelopment: "проекта развития", figLand: "земли", figArea: "площадь действующих объектов",
     index: [["Действующие объекты", "#collection"], ["Развитие", "#development"], ["Земля", "#land"]],
     open: "Смотреть объект", openProject: "Открыть проект",
+    operatingTitle: "Действующие объекты.", devTitleShort: `Развитие и${NB}земля`, ofLand: "земли",
     devKicker: "Развитие", devTitle: `Собственные проекты${NB}— от${NB}участка до${NB}работающего здания.`,
     buildings: "3 здания", landKicker: "Земля", landTitle: `Земля для следующих проектов.`,
     landLead: `Участки в${NB}собственности MEGAPARC. Планы по${NB}каждому участку публикуем после утверждения.`, landTotal: "Всего",
@@ -48,6 +50,7 @@ const copy = {
     figOperating: "operating properties", figDevelopment: "development projects", figLand: "of land", figArea: "operating property area",
     index: [["Operating properties", "#collection"], ["Development", "#development"], ["Land", "#land"]],
     open: "View the property", openProject: "View the project",
+    operatingTitle: "Operating properties.", devTitleShort: "Development and land", ofLand: "of land",
     devKicker: "Development", devTitle: "Our own projects — from site to a working building.",
     buildings: "3 buildings", landKicker: "Land", landTitle: "Land for the next projects.",
     landLead: "Plots owned by MEGAPARC. Plans for each plot are published once approved.", landTotal: "Total",
@@ -93,23 +96,28 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
         <div className="r3-shell">
           <R3Label>{c.label}</R3Label>
           <MaskTitle as="h1" className="r3-opening__title" lines={[...c.title]} />
-          <div className="r3-opening__base" data-reveal>
-            <p className="r3-lead">{c.lead(portfolioFigures.area.value[locale])}</p>
-            <dl className="r3-evidence__figs">
-              <div><dt>{c.figArea}</dt><dd><Figure value={portfolioFigures.area.value[locale]} /></dd></div>
-              <div><dt>{c.figOperating}</dt><dd>{portfolioFigures.operating.value[locale]}</dd></div>
-              <div><dt>{c.figDevelopment}</dt><dd>{String(developmentCount).padStart(2, "0")}</dd></div>
-              <div><dt>{c.figLand}</dt><dd><Figure value={portfolioFigures.land.value[locale]} /></dd></div>
-            </dl>
-          </div>
-          <nav className="r3-anchors" aria-label={c.label}>
-            {c.index.map(([label, hash]) => <a key={hash} href={hash}>{label}<Icon name="down" size={14} /></a>)}
+          <p className="r3-lead r3-opening__lead" data-reveal>{c.lead(portfolioFigures.area.value[locale])}</p>
+          {/* R3.1 §13: operating assets and development are told apart at once */}
+          <nav className="r3-split" aria-label={c.label} data-reveal>
+            <a href="#collection">
+              <span className="r3-split__label">{c.index[0][0]}</span>
+              <span className="r3-split__count">{portfolioFigures.operating.value[locale]}</span>
+              <span className="r3-split__meta"><Figure value={portfolioFigures.area.value[locale]} /> · {c.figArea}</span>
+            </a>
+            <a href="#development">
+              <span className="r3-split__label">{c.devTitleShort}</span>
+              <span className="r3-split__count">{String(developmentCount).padStart(2, "0")}</span>
+              <span className="r3-split__meta"><Figure value={portfolioFigures.land.value[locale]} /> {c.ofLand} · {c.figDevelopment}</span>
+            </a>
           </nav>
         </div>
       </section>
 
       {/* OPERATING — one dominant building, one secondary, then a pair at different scales */}
       <section className="r3-sec r3-sec--ivory r3-sec--flush-top r3-pjs" id="collection" aria-label={c.index[0][0]}>
+        <div className="r3-shell r3-pjs__head" data-reveal>
+          <h2 className="r3-title">{c.operatingTitle}</h2>
+        </div>
         <Link href={p(`/projects/${dacia.slug}`)} className="r3-feature" data-reveal>
           <figure className="r3-feature__media">
             <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="100vw" position="50% 58%" />
@@ -131,17 +139,19 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
           </Link>
         </div>
 
-        <div className="r3-shell r3-pair">
-          {[m9, creanga].map((project, i) => (
-            <Link key={project.slug} href={p(`/projects/${project.slug}`)} className={`r3-pair__item r3-pair__item--${i ? "minor" : "major"} r3-pj`} data-reveal>
-              <figure className="r3-pair__media">
-                <ArtImage media={project.media!} variant="card" alt={`${project.name} — ${project.format[locale]}`} sizes={i ? "(min-width: 900px) 30vw, 100vw" : "(min-width: 900px) 56vw, 100vw"} />
-              </figure>
-              <span className="r3-pair__name">{project.name}</span>
-              <Caption project={project} locale={locale} open={c.open} />
-            </Link>
+        <ol className="r3-shell r3-compact">
+          {[m9, creanga].map((project) => (
+            <li key={project.slug} data-reveal>
+              <Link href={p(`/projects/${project.slug}`)} className="r3-compact__row r3-pj">
+                <span className="r3-compact__media">
+                  <ArtImage media={project.media!} variant="card" alt="" sizes="(min-width: 900px) 22vw, 40vw" />
+                </span>
+                <span className="r3-compact__name">{project.name}</span>
+                <span className="r3-compact__copy"><Caption project={project} locale={locale} open={c.open} /></span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       {/* DEVELOPMENT — the one dark chapter */}
@@ -155,7 +165,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
             <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="45% 60%" />
           </figure>
         </Link>
-        <div className="r3-shell r3-pjdev__grid">
+        <div className="r3-shell r3-pjdev__grid r3-pjdev__grid--tiers">
           <Link href={p(`/projects/${vatra.slug}`)} className="r3-pjdev__item" data-reveal>
             <span className="r3-pjdev__name">{vatra.name}</span>
             <span className="r3-pjdev__meta">{vatra.card.status[locale]}</span>

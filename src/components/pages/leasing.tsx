@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { MaskTitle, Val } from "@/components/experience";
-import { LeasingInventory, type InventoryCopy } from "@/components/leasing/inventory";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
 import { SpaceImage, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
-import { ArtImage } from "@/components/primitives";
 import { Figure, R3Button, R3Label, R3Link, R3Trust, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
-import { availabilityLabel, availabilityOf, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, spacesFor } from "@/content/source";
+import { availabilityLabel, availabilityOf, formatAreaRange, getProject, publicSpaces, sortSpaces } from "@/content/source";
 import { leasingProcess, shown } from "@/data/demo-content";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { areaBands, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
@@ -132,11 +130,6 @@ const copy = {
   },
 } as const;
 
-const inventoryCopy: Record<SiteLocale, InventoryCopy> = {
-  ro: { label: "Filtre", use: "Ce deschideți?", area: "Ce suprafață vă trebuie?", project: "Clădirea", all: "Toate", anyArea: "Oricare", allProjects: "Toate clădirile", nowOnly: "Doar libere acum", found: ["spațiu găsit", "spații găsite", "spații găsite"], reset: "Resetează filtrele", emptyTitle: "Acum nu avem exact acest spațiu.", emptyText: "Lăsați o cerere — vă scriem când se eliberează un spațiu potrivit.", emptyCta: "Lasă o cerere" },
-  ru: { label: "Фильтры", use: "Что вы открываете?", area: "Какая площадь нужна?", project: "Здание", all: "Все", anyArea: "Любая", allProjects: "Все здания", nowOnly: "Только свободные сейчас", found: ["помещение", "помещения", "помещений"], reset: "Сбросить фильтры", emptyTitle: "Сейчас именно такого помещения нет.", emptyText: "Оставьте запрос — напишем, когда освободится подходящее помещение.", emptyCta: "Оставить запрос" },
-  en: { label: "Filters", use: "What are you opening?", area: "How much space do you need?", project: "Building", all: "All", anyArea: "Any", allProjects: "All buildings", nowOnly: "Available now only", found: ["space", "spaces", "spaces"], reset: "Reset filters", emptyTitle: "We don't have exactly this space right now.", emptyText: "Leave a request — we write when a suitable space frees up.", emptyCta: "Leave a request" },
-};
 
 const advisorCopy: Record<SiteLocale, AdvisorCopy> = {
   ro: { stepUse: "Ce deschideți?", stepNeeds: "Ce contează pentru afacere?", stepArea: "Ce suprafață?", typical: "Pentru „{type}” contează de obicei punctele marcate cu roșu.", anyArea: "Nu contează", result: "Recomandare", more: "Alte variante", why: "De ce se potrivește", check: "De verificat împreună", quality: { strong: "Potrivire puternică", good: "Potrivire bună", partial: "Potrivire parțială" }, useFits: "Spațiul este gândit pentru: {type}", useMiss: "", areaFits: "Suprafața se încadrează", areaMiss: "", reserved: "Spațiul este rezervat — vă anunțăm dacă se eliberează", details: "Vezi spațiul", viewing: "Solicită o vizionare", emptyTitle: "Acum nu avem un spațiu potrivit.", emptyText: "Lăsați cerințele — vă scriem când se eliberează un spațiu sau apare un obiect nou.", emptyCta: "Lasă o cerere", demo: "Datele acestui spațiu sunt demonstrative." },
@@ -170,19 +163,36 @@ function SpaceRow({ space, locale, index, c }: { space: AvailableSpace; locale: 
 }
 
 const r3Copy = {
-  ro: { earlyCta: "Anunțați interesul din timp", stepsLabel: "Cum închiriem", advisorOpen: "Alegeți spațiul după formatul afacerii" },
-  ru: { earlyCta: "Заявить интерес заранее", stepsLabel: "Как мы сдаём", advisorOpen: "Подобрать помещение под формат бизнеса" },
-  en: { earlyCta: "Register early interest", stepsLabel: "How we lease", advisorOpen: "Match a space to your business format" },
+  ro: {
+    earlyCta: "Anunțați interesul din timp", stepsLabel: "Cum închiriem", advisorOpen: "Alegeți spațiul după formatul afacerii",
+    question: ["Ce puteți", "închiria."],
+    nowTitle: "Se poate vedea acum", soonTitle: "În curând",
+    soonNote: "Clădirea este ocupată până la data indicată — planificați locația din timp.",
+    count: (now: number, soon: number) => `${now} ${now === 1 ? "ofertă se poate vedea" : "oferte se pot vedea"} acum · ${soon} în curând`,
+  },
+  ru: {
+    earlyCta: "Заявить интерес заранее", stepsLabel: "Как мы сдаём", advisorOpen: "Подобрать помещение под формат бизнеса",
+    question: ["Что можно", "арендовать."],
+    nowTitle: "Можно посмотреть сейчас", soonTitle: "Скоро",
+    soonNote: "Здание занято до указанной даты — планируйте локацию заранее.",
+    count: (now: number, soon: number) => `${now} ${now === 1 ? "предложение можно посмотреть" : "предложения можно посмотреть"} сейчас · ${soon} скоро`,
+  },
+  en: {
+    earlyCta: "Register early interest", stepsLabel: "How we lease", advisorOpen: "Match a space to your business format",
+    question: ["What you", "can lease."],
+    nowTitle: "Can be viewed now", soonTitle: "Coming up",
+    soonNote: "The building is occupied until the date shown — plan the location early.",
+    count: (now: number, soon: number) => `${now} ${now === 1 ? "offer" : "offers"} to view now · ${soon} coming up`,
+  },
 } as const;
 
 export function LeasingPage({ locale }: { locale: SiteLocale }) {
   const c = { ...copy[locale], ...r3Copy[locale] };
   const p = (path: string) => localePath(locale, path);
   const list = sortSpaces(publicSpaces);
-  const withSpace = listProjects().filter((project) => spacesFor(project.slug).length);
-  /** The opening offer: the first published space in public order (available now first). */
-  const lead = list[0] ?? null;
-  const leadProject = lead ? getProject(lead.project) ?? null : null;
+  /** R3.1 §15: what can be viewed now (available now, or a building that can be visited today) · what comes later. */
+  const now = list.filter((space) => viewableNow(space));
+  const soon = list.filter((space) => !viewableNow(space));
   const linkTo = (value: string) => {
     const [pathQuery, hash] = value.split("#");
     const [route, query] = pathQuery.split("?");
@@ -191,59 +201,40 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
 
   return (
     <PageShell locale={locale} experience mainClassName="r3-page r3-leasing lx-page">
-      {/* HERO — desire first: the first available space, large, before any filter */}
-      <section className={`r3-lhero${lead ? "" : " r3-lhero--none"}`}>
-        {lead && leadProject ? (
-          <Link href={p(`/leasing/${lead.id}`)} className="r3-lhero__media" tabIndex={-1} aria-hidden="true">
-            {/* the real building; the frame is held to its left part, clear of the temporary lettering on the glazing */}
-            <ArtImage media={leadProject.media!} alt="" priority sizes="(min-width: 1024px) 58vw, 100vw" position="0% 50%" />
-          </Link>
-        ) : null}
-        <div className="r3-lhero__copy">
+      {/* THE QUESTION — what can I lease? Answered right below, grouped by when it can be seen */}
+      <section className="r3-sec r3-sec--ivory r3-opening r3-opening--leasing">
+        <div className="r3-shell">
           <R3Label>{c.label}</R3Label>
-          <MaskTitle as="h1" className="r3-lhero__title" lines={[...c.heroTitle]} />
-          {lead && leadProject ? (
-            <div className="r3-lhero__offer" data-reveal>
-              <p className="r3-space__where"><Link href={p(`/projects/${leadProject.slug}`)}>{leadProject.name}</Link><span>{leadProject.district[locale]}</span></p>
-              <p className="r3-lhero__unit">{lead.unit[locale]}</p>
-              <p className="r3-lhero__area"><Figure value={formatAreaRange(lead.areaMin, lead.area, locale)} /></p>
-              <p className={`r3-state is-${availabilityOf(lead).key === "now" ? "now" : "soon"}`}>{availabilityLabel(lead, locale)}</p>
-              <div className="r3-actions">
-                <R3Button href={viewingHref(locale, lead)}>{c.viewingCta}</R3Button>
-                <R3Link href={p(`/leasing/${lead.id}`)}>{c.offerSpace}</R3Link>
-              </div>
-              <a className="r3-lhero__more" href="#available">{c.offerMore} · {String(list.length).padStart(2, "0")}<Icon name="down" size={14} /></a>
-            </div>
-          ) : (
-            <div className="r3-lhero__offer" data-reveal>
-              <p className="r3-lhero__unit">{c.noneTitle}</p>
-              <div className="r3-actions"><R3Button href={`${p("/contact")}?subject=lease#occupier`}>{c.routes[0][0]}</R3Button></div>
-            </div>
-          )}
+          <MaskTitle as="h1" className="r3-opening__title" lines={[...c.question]} />
+          <div className="r3-opening__base" data-reveal>
+            <p className="r3-statement">{list.length ? c.count(now.length, soon.length) : c.noneTitle}</p>
+            <p className="r3-lead">{noPrice[locale]}</p>
+          </div>
         </div>
       </section>
 
-      {/* AVAILABLE — every published space as an editorial row; three quiet filters above */}
-      <section className="r3-sec r3-sec--ivory r3-avail" id="available">
+      <section className="r3-sec r3-sec--ivory r3-sec--flush-top r3-avail" id="available">
         <div className="r3-shell">
-          <div className="r3-head r3-head--split" data-reveal>
-            <R3Label>{c.availableLabel}</R3Label>
-            <h2 className="r3-title">{c.availableTitle}</h2>
-            <p className="r3-lead">{noPrice[locale]}</p>
-          </div>
-          <LeasingInventory
-            locale={locale}
-            items={list.map((s) => ({ id: s.id, uses: s.uses, area: s.area, areaMin: s.areaMin ?? s.area, project: s.project, avail: availabilityOf(s).key }))}
-            uses={uses.map((u) => ({ key: u.key, label: u.label[locale] }))}
-            bands={areaBands.map((b) => ({ key: b.key, label: b.label[locale], min: b.min, max: b.max }))}
-            projects={withSpace.map((project) => ({ key: project.slug, label: project.name }))}
-            copy={inventoryCopy[locale]}
-            contactHref={`${p("/contact")}?subject=lease#occupier`}
-          >
-            {list.map((space, i) => (
-              <SpaceRow key={space.id} space={space} locale={locale} index={i} c={c} />
-            ))}
-          </LeasingInventory>
+          {now.length ? (
+            <div className="r3-avail__group">
+              <h2 className="r3-avail__title">{c.nowTitle}<span>{String(now.length).padStart(2, "0")}</span></h2>
+              <div className="r3-avail__list">
+                {now.map((space, i) => <SpaceRow key={space.id} space={space} locale={locale} index={i} c={c} />)}
+              </div>
+            </div>
+          ) : null}
+          {soon.length ? (
+            <div className="r3-avail__group r3-avail__group--soon">
+              <h2 className="r3-avail__title">{c.soonTitle}<span>{String(soon.length).padStart(2, "0")}</span></h2>
+              <p className="r3-lead">{c.soonNote}</p>
+              <div className="r3-avail__list">
+                {soon.map((space, i) => <SpaceRow key={space.id} space={space} locale={locale} index={now.length + i} c={c} />)}
+              </div>
+            </div>
+          ) : null}
+          {!list.length ? (
+            <div className="r3-actions"><R3Button href={`${p("/contact")}?subject=lease#occupier`}>{c.routes[0][0]}</R3Button></div>
+          ) : null}
         </div>
       </section>
 
@@ -255,7 +246,6 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
         <div className="r3-shell">
           <details className="r3-fold">
             <summary>
-              <span className="r3-label">{c.advisorLabel}</span>
               <span className="r3-fold__title">{c.advisorOpen}</span>
               <Icon name="down" size={22} />
             </summary>

@@ -49,6 +49,9 @@ const copy = {
   unitOpen: { ro: "Vezi spațiul", ru: "Смотреть помещение", en: "View the space" },
   call: { ro: "Sunați", ru: "Позвонить", en: "Call" },
   upcomingLabel: { ro: "Oportunitate în curând", ru: "Скоро освобождается", en: "Coming up" },
+  planEarly: { ro: "Planificați din timp următoarea locație.", ru: `Запланируйте следующую локацию заранее.`, en: "Plan your next location early." },
+  discussEarly: { ro: "Discutați înainte de eliberare", ru: "Обсудить до освобождения", en: "Discuss before it is released" },
+  seeSpaces: { ro: "Vedeți suprafețele", ru: "Смотреть площади", en: "See the spaces" },
   upcoming: (unit: string, date: string, locale: SiteLocale) =>
     locale === "ru" ? `${unit}${NB}— с${NB}${date}.` : locale === "ro" ? `${unit} — din ${date}.` : `${unit} — from ${date}.`,
   earlyTitle: { ro: "Rezervați primul pas acum.", ru: `Займите очередь на${NB}просмотр заранее.`, en: "Take the first step now." },
@@ -190,15 +193,17 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
               <div className="r3-prop__heroacts">
                 <p className={`r3-state r3-state--light is-${mode === "lease" ? "now" : "soon"}`}>{statusLine}</p>
                 {first && viewingAction ? <R3Button href={viewingHref(locale, first)} tone="light">{viewingAction}</R3Button> : null}
+                {first ? <a className="r3-link r3-link--light" href="#available"><span>{copy.seeSpaces[locale]}</span><Icon name="down" size={16} /></a> : null}
               </div>
             </div>
           </div>
         </section>
       ) : (
-        <section className={`r3-phero r3-phero--${hero}`}>
+        <section className={`r3-phero r3-phero--${hero}${mode === "upcoming" ? " r3-phero--soft" : ""}`}>
           <div className="r3-shell r3-phero__head" data-reveal>
             <Link href={p("/projects")} className="r3-back"><Icon name="left" size={14} /> {copy.back[locale]}</Link>
             <h1 className="r3-display r3-prop__name">{asset.name}</h1>
+            {mode === "upcoming" ? <p className="r3-phero__lead">{copy.planEarly[locale]}</p> : null}
             <dl className="r3-phero__facts">
               <div><dt>{copy.place[locale]}</dt><dd>{placeLine}</dd></div>
               <div><dt>{copy.totalArea[locale]}</dt><dd>{profile.area.value[locale]}</dd></div>
@@ -226,12 +231,13 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
               <p className="r3-upcoming__date">{firstDate}</p>
             </div>
             <div className="r3-upcoming__copy" data-reveal>
+              <h2 className="r3-upcoming__title">{copy.planEarly[locale]}</h2>
               <p className="r3-statement">{copy.upcoming(first.unit[locale], firstDate, locale)}</p>
               <p className="r3-upcoming__area"><Figure value={formatAreaRange(first.areaMin, first.area, locale)} /></p>
               <p className="r3-lead">{first.headline[locale]}</p>
               <div className="r3-actions">
                 <R3Button href={viewingHref(locale, first)} tone="light">{copy.early[locale]}</R3Button>
-                <R3Link href={p(`/leasing/${first.id}`)} tone="light">{copy.unitOpen[locale]}</R3Link>
+                <a className="r3-link r3-link--light" href={contactLinks.mobile}><span>{copy.discussEarly[locale]} · {company.mobile.value[locale]}</span><Icon size={16} /></a>
               </div>
             </div>
           </div>

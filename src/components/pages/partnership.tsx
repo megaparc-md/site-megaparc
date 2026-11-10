@@ -1,165 +1,172 @@
 import Link from "next/link";
 import { ConceptDisclosure, ConceptImage, MaskTitle } from "@/components/experience";
-import { investConsidered, investInputs, investQuestions } from "@/components/invest-qa";
+import { investInputs, investQuestions } from "@/components/invest-qa";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Figure, NB, R3Button, R3Label, R3Link, projectState, r3Href } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { getProject, listProjects } from "@/content/source";
-import { assetProfiles, company, contactLinks, daciaDevelopment, drochiaProfile, portfolioFigures, publicLand } from "@/data/demo-content";
-import { acquisitionTypes, geography, holdOrSell, lifecycle, operations, reinvestment } from "@/lib/business";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { assetProfiles, company, contactLinks, portfolioFigures } from "@/data/demo-content";
+import { acquisitionTypes, geography } from "@/lib/business";
+import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
- * INVESTMENT — SITEWIDE R3 §3 + §4 (OWNER 2026-11-09). Investment is as important as Leasing: MEGAPARC deploys
- * capital into real assets and stays responsible for the result. Audience: owners of property and land,
- * investors, banks, institutional and development partners.
- * Hero → ACQUIRE · DEVELOP · OPERATE · REINVEST as four large scenes on real MEGAPARC assets → what MEGAPARC
- * considers → what the owner / partner brings → what MEGAPARC brings → evidence (the owned portfolio) → submit.
- * One strong question per scene; no process cards, no returns, no investment metrics, no finance illustrations.
- * Language rule (OWNER 2026-10-08): no impression of a regulated or public investment product.
+ * INVESTMENT — SITEWIDE R3.1 §11–12 (OWNER 2026-11-09). Priority #1: MEGAPARC deploys capital into real assets and
+ * stays responsible for the result. Five scenes:
+ *   A thesis (hero) — the one statement and what MEGAPARC can do with an asset;
+ *   B what we consider — four kinds of opportunity on the confirmed business model, one real development scene;
+ *   C what each side brings — the owner / partner · MEGAPARC (confirmed capabilities only);
+ *   D evidence — confirmed portfolio facts as calm editorial numbers, one strong building, the owned ledger;
+ *   E opportunity — two conversations.
+ * No AUM, IRR, returns, pipeline value, partner logos or performance; no regulated-product impression.
  */
 const copy = {
   ro: {
     label: "Investiții și parteneriat",
-    title: ["Investiții", "în active reale."],
-    lead: "MEGAPARC investește capital în imobile și terenuri — și rămâne responsabilă de rezultat: de la achiziție la clădirea care funcționează.",
-    audience: "Pentru proprietari de imobile și terenuri, investitori, bănci și parteneri de dezvoltare.",
+    title: ["Capital investit", "în active reale."],
+    thesis: "MEGAPARC investește capital în imobile și terenuri — și rămâne responsabilă de rezultat.",
+    can: "Investim în active pe care le putem",
+    verbs: ["achiziționa", "dezvolta", "repoziționa", "exploata", "deține pe termen lung", "vinde strategic, atunci când este justificat"],
     discuss: "Discutăm o oportunitate",
     offer: "Propuneți un obiect sau un teren",
-    acquire: "Achiziționăm",
-    acquireTitle: "Imobile existente și terenuri.",
-    develop: "Dezvoltăm",
-    developTitle: "Construcție, reconstrucție, repoziționare.",
-    operate: "Exploatăm",
-    reinvest: "Reinvestim",
-    reinvestTitle: "Disciplina capitalului și oportunitățile următoare.",
-    landLabel: "Terenuri pentru proiectele următoare",
-    stage: "Etapă",
-    programme: "3 clădiri",
-    considerLabel: "Ce analizează MEGAPARC",
+    considerLabel: "Ce analizăm",
+    considerTitle: "Ce oportunități analizează MEGAPARC?",
+    partnershipTitle: "Parteneriate structurate clar",
+    partnershipText: "Participare la un proiect concret sau dezvoltare comună a imobilului; condițiile se discută individual.",
     bringsLabel: "Parteneriat",
     partnerBrings: "Ce aduce proprietarul sau partenerul",
-    partnerExtra: "Investitori, bănci și parteneri financiari — participarea sau finanțarea unui proiect concret; condițiile se discută individual.",
+    partnerExtra: "Investitori, bănci și parteneri financiari — participarea sau finanțarea unui proiect concret.",
     megaparcBrings: "Ce aduce MEGAPARC",
     brings: [
-      "Evaluarea inițială din șase perspective: economie, drept, tehnică, dezvoltare, închiriere, exploatare.",
-      "Capital și decizia proprietarului care rămâne cu obiectul.",
-      "Dezvoltare: proiectare, construcție, reconstrucție.",
-      "Directorul tehnic și arhitectul companiei.",
-      "Închiriere și exploatare cu echipa proprie.",
+      ["Disciplina capitalului", "Decizia vine după verificarea economiei, a dreptului și a tehnicii — nu înainte."],
+      ["Dezvoltare imobiliară", "Proiectare, construcție, reconstrucție — proiecte proprii."],
+      ["Directorul tehnic", "Structura, instalațiile, puterile și adaptarea — verificate de echipa proprie."],
+      ["Arhitectul", "Ce poate deveni obiectul: funcție, suprafață, etape."],
+      ["Exploatare", "Clădirile noastre le administrăm noi: întreținere, instalații, îmbunătățiri."],
+      ["Închiriere", "Relația cu chiriașii în obiectele proprii."],
+      ["Abordarea proprietarului pe termen lung", "Clădirile rămân la noi, deci calitatea se vede în costurile de mâine."],
     ],
     evidenceLabel: "Dovada",
     evidenceTitle: "Ce deținem astăzi.",
-    operating: "obiecte în funcțiune",
-    area: "suprafața obiectelor în funcțiune",
-    land: "terenuri",
-    dev: "proiecte de dezvoltare",
-    submitLabel: "Pasul următor",
-    submitTitle: "Aveți un obiect, un teren sau un proiect?",
+    figArea: "suprafața obiectelor în funcțiune",
+    figOperating: "obiecte în funcțiune",
+    figLand: "terenuri",
+    figDev: "proiecte de dezvoltare",
+    figFounded: "este fondată MEGAPARC",
+    figGroup: "începe istoria grupului",
+    nextLabel: "Pasul următor",
+    owner: "Am un activ sau un teren",
+    ownerNote: "Trimiteți adresa, suprafața și documentele pe care le aveți.",
+    partner: "Vreau să discut un parteneriat investițional",
+    partnerNote: "Un proiect concret, o discuție directă.",
     note: "MEGAPARC nu oferă produse de investiții publice. Fiecare parteneriat se discută separat, pentru un proiect concret.",
     coop: "Constructori și proiectanți — scrieți despre colaborare",
   },
   ru: {
     label: `Инвестиции и${NB}партнёрство`,
-    title: ["Инвестиции", `в${NB}реальные объекты.`],
-    lead: `MEGAPARC вкладывает капитал в${NB}недвижимость и${NB}землю${NB}— и${NB}отвечает за${NB}результат: от${NB}покупки до${NB}работающего здания.`,
-    audience: `Для собственников недвижимости и${NB}земли, инвесторов, банков и${NB}партнёров по${NB}девелопменту.`,
+    title: ["Капитал", `в${NB}реальных объектах.`],
+    thesis: `MEGAPARC вкладывает капитал в${NB}недвижимость и${NB}землю${NB}— и${NB}отвечает за${NB}результат.`,
+    can: `Мы инвестируем в${NB}объекты, которые можем`,
+    verbs: ["приобрести", "развить", "перепрофилировать", "эксплуатировать", "держать долгосрочно", `продать, когда это стратегически оправдано`],
     discuss: "Обсудить возможность",
     offer: `Предложить объект или${NB}землю`,
-    acquire: "Приобретаем",
-    acquireTitle: `Существующие здания и${NB}земля.`,
-    develop: "Развиваем",
-    developTitle: `Строительство, реконструкция, новая функция.`,
-    operate: "Эксплуатируем",
-    reinvest: "Реинвестируем",
-    reinvestTitle: `Дисциплина капитала и${NB}следующие возможности.`,
-    landLabel: `Земля под следующие проекты`,
-    stage: "Стадия",
-    programme: "3 здания",
-    considerLabel: "Что рассматривает MEGAPARC",
+    considerLabel: "Что рассматриваем",
+    considerTitle: `Какие возможности рассматривает MEGAPARC?`,
+    partnershipTitle: `Чётко структурированные партнёрства`,
+    partnershipText: `Участие в${NB}конкретном проекте или совместное развитие недвижимости; условия обсуждаются индивидуально.`,
     bringsLabel: "Партнёрство",
     partnerBrings: `Что приносит собственник или${NB}партнёр`,
-    partnerExtra: `Инвесторы, банки и${NB}финансовые партнёры${NB}— участие или финансирование конкретного проекта; условия обсуждаются индивидуально.`,
+    partnerExtra: `Инвесторы, банки и${NB}финансовые партнёры${NB}— участие или финансирование конкретного проекта.`,
     megaparcBrings: "Что приносит MEGAPARC",
     brings: [
-      `Первичную оценку с${NB}шести сторон: экономика, право, техника, девелопмент, аренда, эксплуатация.`,
-      `Капитал и${NB}решение собственника, который остаётся с${NB}объектом.`,
-      `Девелопмент: проектирование, строительство, реконструкция.`,
-      `Технического директора и${NB}архитектора компании.`,
-      `Аренду и${NB}эксплуатацию собственной командой.`,
+      ["Дисциплина капитала", `Решение${NB}— после проверки экономики, права и${NB}техники, а${NB}не${NB}до${NB}неё.`],
+      ["Девелопмент", `Проектирование, строительство, реконструкция${NB}— собственные проекты.`],
+      ["Технический директор", `Конструкции, инженерия, мощности и${NB}адаптация${NB}— проверяет своя команда.`],
+      ["Архитектор", `Чем может стать объект: функция, площадь, этапы.`],
+      ["Эксплуатация", `Свои здания ведём сами: обслуживание, инженерия, улучшения.`],
+      ["Аренда", `Работа с${NB}арендаторами в${NB}собственных объектах.`],
+      ["Подход долгосрочного собственника", `Здания остаются у${NB}нас, поэтому качество видно в${NB}завтрашних расходах.`],
     ],
     evidenceLabel: "Подтверждение",
     evidenceTitle: `Чем мы владеем сегодня.`,
-    operating: "действующих объекта",
-    area: "площадь действующих объектов",
-    land: "земли",
-    dev: "проекта развития",
-    submitLabel: "Следующий шаг",
-    submitTitle: `Есть объект, участок или${NB}проект?`,
+    figArea: "площадь действующих объектов",
+    figOperating: "действующих объекта",
+    figLand: "земли",
+    figDev: "проекта развития",
+    figFounded: "основана MEGAPARC",
+    figGroup: "начало истории группы",
+    nextLabel: "Следующий шаг",
+    owner: `У${NB}меня есть объект или${NB}земля`,
+    ownerNote: `Пришлите адрес, площадь и${NB}документы, которые есть.`,
+    partner: `Хочу обсудить инвестиционное партнёрство`,
+    partnerNote: `Конкретный проект, прямой разговор.`,
     note: `MEGAPARC не${NB}предлагает публичных инвестиционных продуктов. Каждое партнёрство обсуждается отдельно, по${NB}конкретному проекту.`,
     coop: `Подрядчики и${NB}проектировщики${NB}— написать о${NB}сотрудничестве`,
   },
   en: {
     label: "Investment and partnership",
-    title: ["Investment", "in real assets."],
-    lead: "MEGAPARC puts capital into real estate and land — and stays responsible for the result: from the purchase to a working building.",
-    audience: "For owners of property and land, investors, banks and development partners.",
+    title: ["Capital", "in real assets."],
+    thesis: "MEGAPARC puts capital into real estate and land — and stays responsible for the result.",
+    can: "We invest in assets we can",
+    verbs: ["acquire", "develop", "reposition", "operate", "hold for the long term", "exit when it is strategically right"],
     discuss: "Discuss an opportunity",
     offer: "Offer a property or land",
-    acquire: "Acquire",
-    acquireTitle: "Existing buildings and land.",
-    develop: "Develop",
-    developTitle: "Construction, redevelopment, repositioning.",
-    operate: "Operate",
-    reinvest: "Reinvest",
-    reinvestTitle: "Capital discipline and the next opportunities.",
-    landLabel: "Land for the next projects",
-    stage: "Stage",
-    programme: "3 buildings",
-    considerLabel: "What MEGAPARC considers",
+    considerLabel: "What we consider",
+    considerTitle: "Which opportunities does MEGAPARC consider?",
+    partnershipTitle: "Clearly structured partnerships",
+    partnershipText: "Taking part in a specific project or developing a property together; terms are discussed individually.",
     bringsLabel: "Partnership",
     partnerBrings: "What the owner or partner brings",
-    partnerExtra: "Investors, banks and financial partners — taking part in, or financing, a specific project; terms are discussed individually.",
+    partnerExtra: "Investors, banks and financial partners — taking part in, or financing, a specific project.",
     megaparcBrings: "What MEGAPARC brings",
     brings: [
-      "An initial assessment from six sides: economics, legal, technical, development, leasing, operations.",
-      "Capital, and the decision of an owner who stays with the property.",
-      "Development: design, construction, redevelopment.",
-      "The company's Technical Director and Architect.",
-      "Leasing and operations by our own team.",
+      ["Capital discipline", "The decision comes after the economics, legal and technical checks — not before."],
+      ["Real-estate development", "Design, construction, redevelopment — our own projects."],
+      ["The Technical Director", "Structure, building services, power and adaptation — checked by our own team."],
+      ["The Architect", "What the property can become: use, area, phases."],
+      ["Operations", "We run our own buildings ourselves: upkeep, building services, improvements."],
+      ["Leasing", "Working with tenants in our own properties."],
+      ["A long-term owner's approach", "The buildings stay with us, so quality shows in tomorrow's costs."],
     ],
     evidenceLabel: "Evidence",
     evidenceTitle: "What we own today.",
-    operating: "operating properties",
-    area: "operating property area",
-    land: "of land",
-    dev: "development projects",
-    submitLabel: "Next step",
-    submitTitle: "Do you have a property, a site or a project?",
+    figArea: "operating property area",
+    figOperating: "operating properties",
+    figLand: "of land",
+    figDev: "development projects",
+    figFounded: "MEGAPARC founded",
+    figGroup: "the group's history begins",
+    nextLabel: "Next step",
+    owner: "I have an asset or land",
+    ownerNote: "Send the address, the area and the documents you have.",
+    partner: "I want to discuss an investment partnership",
+    partnerNote: "A specific project, a direct conversation.",
     note: "MEGAPARC does not offer public investment products. Every partnership is discussed separately, around a specific project.",
     coop: "Contractors and designers — write about cooperation",
   },
 } as const;
 
-const stage = (key: string) => lifecycle.find((item) => item.key === key)!;
 const operatingOrder = ["dacia-31", "moscova-9", "creanga-78", "moscova-20"] as const;
+/** The four kinds of opportunity (R3.1 §11 B) — three from the approved acquisition types, then partnerships. */
+const considerKeys = ["operating", "land", "redevelop"] as const;
 
 export function PartnershipPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const q = investQuestions;
   const p = (path: string) => localePath(locale, path);
-  const m9 = getProject("moscova-9")!;
   const vatra = getProject("vatra")!;
   const dacia = getProject("dacia-31")!;
-  const daciaDev = getProject("dacia-31-development")!;
-  const drochia = getProject("drochia-gateway")!;
-  const development = listProjects().filter((project) => project.kind === "development");
+  const developmentCount = listProjects().filter((project) => project.kind !== "operating").length;
   const discussHref = r3Href(locale, "/contact?subject=partnership#partnership");
+  const consider: { title: Localized | string; text: Localized | string }[] = [
+    ...considerKeys.map((key) => acquisitionTypes.find((type) => type.key === key)!),
+    { title: c.partnershipTitle, text: c.partnershipText },
+  ];
+  const t = (value: Localized | string) => (typeof value === "string" ? value : value[locale]);
 
   return (
     <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-invest">
-      {/* HERO — capital at work (OWNER-approved illustration, disclosed) */}
+      {/* A — THESIS: one statement; what MEGAPARC can do with an asset (OWNER-approved illustration, disclosed) */}
       <section className="r3-hero r3-hero--invest" data-xp-hero>
         <div className="r3-hero__media" aria-hidden="true">
           <ConceptImage id="partnership.hero" locale={locale} priority sizes="100vw" />
@@ -169,135 +176,51 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
         <div className="r3-shell r3-hero__inner">
           <R3Label tone="light">{c.label}</R3Label>
           <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.title]} />
-          <div className="r3-hero__base">
-            <p className="r3-hero__lead">{c.lead}</p>
+          <div className="r3-hero__foot" data-reveal>
+            <p className="r3-hero__sub">{c.thesis}</p>
             <div className="r3-actions">
               <R3Button href={discussHref} tone="light">{c.discuss}</R3Button>
               <R3Link href={p("/offer")} tone="light">{c.offer}</R3Link>
             </div>
           </div>
-          <p className="r3-hero__aside">{c.audience}</p>
+        </div>
+      </section>
+      <section className="r3-sec r3-sec--ivory r3-thesis">
+        <div className="r3-shell r3-thesis__grid" data-reveal>
+          <p className="r3-thesis__can">{c.can}</p>
+          <ol className="r3-thesis__verbs">
+            {c.verbs.map((verb) => <li key={verb}>{verb}</li>)}
+          </ol>
         </div>
       </section>
 
-      {/* ACQUIRE — existing property and land */}
-      <section className="r3-sec r3-sec--ivory r3-chapter r3-chapter--acquire" id="acquire">
-        <div className="r3-shell r3-chapter__verbrow" data-reveal><h2 className="r3-verb">{c.acquire}</h2></div>
-        <div className="r3-chapter__split">
-          <Link href={p(`/projects/${m9.slug}`)} className="r3-chapter__media" tabIndex={-1} aria-hidden="true" data-reveal>
-            <ArtImage media={m9.media!} variant="portrait" alt="" sizes="(min-width: 1024px) 58vw, 100vw" position="50% 55%" />
-          </Link>
-          <div className="r3-chapter__copy" data-reveal>
-            <p className="r3-statement">{c.acquireTitle}</p>
-            <p className="r3-lead">{stage("acquire").text[locale]}</p>
-          </div>
-        </div>
-        <ol className="r3-shell r3-types" data-reveal>
-          {acquisitionTypes.map((type) => (
-            <li key={type.key}>
-              <h3>{type.title[locale]}</h3>
-              <p>{type.text[locale]}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* DEVELOP — construction, redevelopment, repositioning */}
-      <section className="r3-sec r3-sec--paper r3-chapter r3-chapter--develop" id="develop">
-        <div className="r3-shell r3-chapter__head" data-reveal>
-          <h2 className="r3-verb">{c.develop}</h2>
-          <p className="r3-statement">{c.developTitle}</p>
-        </div>
+      {/* B — WHAT WE CONSIDER: one real development scene, four kinds of opportunity as editorial rows */}
+      <section className="r3-sec r3-sec--paper r3-consider" id="consider">
         <Link href={p(`/projects/${vatra.slug}`)} className="r3-wide" data-reveal>
           <figure className="r3-wide__media">
-            <ArtImage media={vatra.media!} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="50% 60%" />
+            <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="45% 60%" />
           </figure>
           <span className="r3-wide__caption">{vatra.name} · {vatra.card.status[locale]}</span>
         </Link>
-        <div className="r3-shell r3-proofs" data-reveal>
-          <p className="r3-lead">{stage("develop").text[locale]}</p>
-          <ul>
-            {development.map((project) => (
-              <li key={project.slug}>
-                <Link href={p(`/projects/${project.slug}`)}>
-                  <span className="r3-proofs__name">{project.name}</span>
-                  <span className="r3-proofs__meta">
-                    {project.slug === daciaDev.slug ? `${c.programme} × ${daciaDevelopment.each.value[locale]} · ${daciaDevelopment.total.value[locale]}` : projectState(project, locale).text}
-                  </span>
-                </Link>
-              </li>
-            ))}
-            <li>
-              <Link href={p(`/projects/${drochia.slug}`)}>
-                <span className="r3-proofs__name">{drochia.name}</span>
-                <span className="r3-proofs__meta">{drochiaProfile.site.value[locale]} · {drochiaProfile.status.value[locale]}</span>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* OPERATE — our own assets, run by our own team */}
-      <section className="r3-sec r3-sec--ivory r3-chapter r3-chapter--operate" id="operate">
-        <div className="r3-shell r3-chapter__verbrow" data-reveal><h2 className="r3-verb">{c.operate}</h2></div>
-        <div className="r3-chapter__split r3-chapter__split--flip">
-          <Link href={p(`/projects/${dacia.slug}`)} className="r3-chapter__media" tabIndex={-1} aria-hidden="true" data-reveal>
-            <ArtImage media={dacia.media!} alt="" sizes="(min-width: 1024px) 58vw, 100vw" position="50% 56%" />
-          </Link>
-          <div className="r3-chapter__copy" data-reveal>
-            <p className="r3-statement">{operations.title[locale]}</p>
-            <p className="r3-lead">{operations.text[locale]}</p>
-            <ul className="r3-ticks">
-              {operations.points.map((point) => (
-                <li key={point.en}>{point[locale]}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* REINVEST — capital discipline and the next opportunities */}
-      <section className="r3-sec r3-sec--ink r3-chapter r3-chapter--reinvest" id="reinvest">
-        <div className="r3-shell r3-reinvest">
-          <h2 className="r3-verb r3-reinvest__verb" data-reveal>{c.reinvest}</h2>
-          <p className="r3-statement" data-reveal>{c.reinvestTitle}</p>
-          <div className="r3-reinvest__text" data-reveal>
-            <p className="r3-lead">{reinvestment[locale]} {holdOrSell[locale]}</p>
-            <p className="r3-lead">{geography.text[locale]}</p>
-          </div>
-          <div className="r3-reinvest__land" data-reveal>
-            <p className="r3-label r3-label--light">{c.landLabel}</p>
-            <p className="r3-reinvest__total"><Figure value={portfolioFigures.land.value[locale]} /></p>
-            <ul>
-              {publicLand.map((plot) => (
-                <li key={plot.slug}>
-                  {plot.project ? <Link href={p(`/projects/${plot.project}`)}>{plot.name[locale]}</Link> : <span>{plot.name[locale]}</span>}
-                  <span>{plot.point.value[locale]}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT MEGAPARC CONSIDERS — one question */}
-      <section className="r3-sec r3-sec--ivory r3-question" id="consider">
         <div className="r3-shell">
           <div className="r3-question__head" data-reveal>
             <R3Label>{c.considerLabel}</R3Label>
-            <h2 className="r3-title">{q.consider[locale]}</h2>
-            <p className="r3-lead">{q.considerLine[locale]}</p>
+            <h2 className="r3-title">{c.considerTitle}</h2>
+            <p className="r3-lead">{q.considerLine[locale]} {geography.text[locale]}</p>
           </div>
-          <ul className="r3-biglist" data-reveal>
-            {investConsidered.map((item) => (
-              <li key={item.en}>{item[locale]}</li>
+          <ol className="r3-types" data-reveal>
+            {consider.map((item) => (
+              <li key={t(item.title)}>
+                <h3>{t(item.title)}</h3>
+                <p>{t(item.text)}</p>
+              </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </section>
 
-      {/* WHAT EACH SIDE BRINGS — owner / partner · MEGAPARC */}
-      <section className="r3-sec r3-sec--paper r3-brings" id="partnership">
+      {/* C — WHAT EACH SIDE BRINGS */}
+      <section className="r3-sec r3-sec--ivory r3-brings" id="partnership">
         <div className="r3-shell">
           <R3Label>{c.bringsLabel}</R3Label>
           <div className="r3-brings__grid">
@@ -305,38 +228,45 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
               <h2 className="r3-brings__title">{c.partnerBrings}</h2>
               <p className="r3-lead">{q.inputsNote[locale]}</p>
               <ul className="r3-brings__list">
-                {investInputs.map((item) => (
-                  <li key={item.en}>{item[locale]}</li>
-                ))}
+                {investInputs.map((item) => <li key={item.en}>{item[locale]}</li>)}
               </ul>
               <p className="r3-note r3-brings__extra">{c.partnerExtra}</p>
             </div>
             <div className="r3-brings__col r3-brings__col--mp" data-reveal>
               <h2 className="r3-brings__title">{c.megaparcBrings}</h2>
               <p className="r3-lead">{q.assessLine[locale]}</p>
-              <ol className="r3-brings__list r3-brings__list--mp">
-                {c.brings.map((item) => (
-                  <li key={item}>{item}</li>
+              <dl className="r3-caps-list">
+                {c.brings.map(([title, text]) => (
+                  <div key={title}><dt>{title}</dt><dd>{text}</dd></div>
                 ))}
-              </ol>
+              </dl>
             </div>
           </div>
         </div>
       </section>
 
-      {/* EVIDENCE — the owned portfolio, the sum that proves it */}
-      <section className="r3-sec r3-sec--ivory r3-evidence" id="evidence">
+      {/* D — EVIDENCE: calm editorial numbers, one strong building, the owned ledger */}
+      <section className="r3-sec r3-sec--paper r3-evidence" id="evidence">
         <div className="r3-shell">
-          <div className="r3-head r3-head--split" data-reveal>
+          <div className="r3-head" data-reveal>
             <R3Label>{c.evidenceLabel}</R3Label>
             <h2 className="r3-title">{c.evidenceTitle}</h2>
-            <dl className="r3-evidence__figs">
-              <div><dt>{c.operating}</dt><dd>{portfolioFigures.operating.value[locale]}</dd></div>
-              <div><dt>{c.land}</dt><dd><Figure value={portfolioFigures.land.value[locale]} /></dd></div>
-              <div><dt>{c.dev}</dt><dd>{String(listProjects().filter((project) => project.kind !== "operating").length).padStart(2, "0")}</dd></div>
-            </dl>
           </div>
-          <ol className="r3-ledger" data-reveal>
+          <dl className="r3-numbers" data-reveal>
+            <div className="is-lead"><dt>{c.figArea}</dt><dd><Figure value={portfolioFigures.area.value[locale]} /></dd></div>
+            <div><dt>{c.figLand}</dt><dd><Figure value={portfolioFigures.land.value[locale]} /></dd></div>
+            <div><dt>{c.figOperating}</dt><dd>{portfolioFigures.operating.value[locale]}</dd></div>
+            <div><dt>{c.figDev}</dt><dd>{String(developmentCount).padStart(2, "0")}</dd></div>
+            <div><dt>{c.figFounded}</dt><dd>2005</dd></div>
+            <div><dt>{c.figGroup}</dt><dd>1991</dd></div>
+          </dl>
+        </div>
+        <Link href={p(`/projects/${dacia.slug}`)} className="r3-band r3-band--link" data-reveal>
+          <ArtImage media={dacia.media!} variant="wide" alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="100vw" position="50% 55%" />
+          <span className="r3-shell r3-band__caption">{dacia.name} · {dacia.card.size[locale]}</span>
+        </Link>
+        <div className="r3-shell">
+          <ol className="r3-ledger r3-ledger--after" data-reveal>
             {operatingOrder.map((slug) => {
               const project = getProject(slug)!;
               const state = projectState(project, locale);
@@ -350,28 +280,23 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
                 </li>
               );
             })}
-            <li className="r3-ledger__sum">
-              <span className="r3-ledger__name">{c.area}</span>
-              <span className="r3-ledger__area"><Figure value={portfolioFigures.area.value[locale]} /></span>
-            </li>
           </ol>
         </div>
       </section>
 
-      {/* SUBMIT — the opportunity */}
-      <section className="r3-sec r3-sec--stone r3-next r3-submit" id="next">
+      {/* E — OPPORTUNITY: two conversations */}
+      <section className="r3-sec r3-sec--stone r3-next" id="next">
         <div className="r3-shell">
-          <R3Label>{c.submitLabel}</R3Label>
-          <h2 className="r3-title r3-submit__title">{c.submitTitle}</h2>
+          <R3Label>{c.nextLabel}</R3Label>
           <div className="r3-next__grid">
             <Link className="r3-next__action" href={p("/offer")} data-reveal>
-              <span className="r3-next__title">{c.offer}</span>
-              <span className="r3-next__note">{q.nextLine[locale]}</span>
+              <span className="r3-next__title">{c.owner}</span>
+              <span className="r3-next__note">{c.ownerNote}</span>
               <Icon size={28} />
             </Link>
             <Link className="r3-next__action" href={discussHref} data-reveal>
-              <span className="r3-next__title">{c.discuss}</span>
-              <span className="r3-next__note">{c.partnerExtra}</span>
+              <span className="r3-next__title">{c.partner}</span>
+              <span className="r3-next__note">{c.partnerNote}</span>
               <Icon size={28} />
             </Link>
           </div>
