@@ -240,7 +240,11 @@ export type LeasingExperience = {
   };
 
   /** SCENE 04 — PROOF with emotion: the capital base, one large photograph and two lists of five. */
-  capex: Heading & { photo: string | null; readyTitle: Localized; ready: Fact[]; tenantTitle: Localized; tenant: Fact[] };
+  capex: Heading & {
+    photo: string | null; readyTitle: Localized; ready: Fact[]; tenantTitle: Localized; tenant: Fact[];
+    /** the technical-feasibility principle under the comparison, with who carries it (OWNER «READINESS BLOCK» correction, 2026-11-10) */
+    principle?: { text: Localized; by: Localized };
+  };
 
   /** SCENE 06 — DETAIL: the photo sequence 01 · address → 06 · possibility, each frame answering one question. */
   story: Heading & { frames: { key: string; no: string; shot: Shot; label: Localized; caption: Localized }[] };

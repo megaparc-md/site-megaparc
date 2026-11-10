@@ -27,10 +27,12 @@ const COMPACT = "OWNER compact brief 2026-11-06";
 const PHOTO = "OWNER photographs 16.10.2026 — current condition";
 const NET = "Certificat contabil — rețele tehnico-edilitare exterioare, 30.09.2026";
 const PLANS = "Plan_0.000 (Anexa 2) and Plan_-2.950 / -3.300 (Anexa 1), Moscova 20 Variant 1, project 15/19 SA, arch. A. Novicov, 06.21 — OWNER files";
-const FINAL = "OWNER final viewing conversion pass 2026-11-06 (capital readiness lists)";
 // OWNER «MOSCOVA 20 — OWNER TECHNICAL DATA UPDATE» (2026-11-10): heating, HVAC per level, sanitary rooms, 4 exits, 15 parking spaces,
 // loading from both sides, lighting connection points, illuminated signage by a separate design
 const TECH = "OWNER technical data update 2026-11-10";
+// OWNER «FINAL TECHNICAL CORRECTIONS» (2026-11-10): heating = Termoelectrica · security = Justar · sanitary = 3 toilets + a separate cleaning-inventory room
+const TECH_FINAL = "OWNER final technical corrections 2026-11-10";
+const READINESS = "OWNER readiness block correction 2026-11-10 — concept-dependent fit-out items";
 const SCENARIO = "Possible organisation — generic zones on a real photograph (OWNER final viewing pass 2026-11-06); never a tenant layout";
 const fact = (text: ReturnType<typeof T>, evidence: Evidence, source: string) => ({ text, evidence, source });
 
@@ -169,9 +171,8 @@ export const moscova20Experience: LeasingExperience = {
 
   // TENANT TECHNICAL PASSPORT — every value repeats a confirmed record (this file, the OWNER technical data update
   // 2026-11-10, the unit's level breakdown); nothing new is stated. Open points live in docs/OWNER_INPUTS_R3.md §F, never here:
-  //  · heating «Just Ar» — OWNER_TO_CONFIRM — exact supplier branding (and its role beside «централизованное отопление»)
+  //  · heating = Termoelectrica · security = Justar · sanitary = 3 toilets + a separate cleaning-inventory room (OWNER final, resolved)
   //  · 4 exits total; 3 specifically described by OWNER — 4th exit role/location TO_CONFIRM
-  //  · shower: the 2026-11-06 mandate said «3 санузла и душевая», the 2026-11-10 update lists 3 toilets + a cleaning-inventory room — shower withheld until confirmed
   //  · parking: 15 spaces only — not exclusive, reserved, free or 24/7 unless confirmed
   //  · «Alco Market» — relationship to Moscova 20 not documented: OWNER_TO_CONFIRM, not published
   passport: {
@@ -196,8 +197,7 @@ export const moscova20Experience: LeasingExperience = {
         title: T("Inginerie", "Инженерия", "Engineering"),
         items: [
           { key: "power", title: T("Alimentare electrică", "Электроснабжение", "Power supply"), value: T("3 faze · 38 kW conform documentelor", "3 фазы · 38 кВт по документам", "3 phases · 38 kW, documented"), note: T("Dacă puterea este suficientă se verifică după cerințele formatului concret.", "Достаточность мощности проверяется под требования конкретного формата.", "Whether the capacity is enough is checked against the needs of the specific format."), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-          // «Just Ar» — OWNER_TO_CONFIRM — exact supplier branding (shown as supplied by the OWNER; no company details, certificates or warranty)
-          { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Centralizată, calorifere pe ambele niveluri", "Централизованное, радиаторы на обоих уровнях", "Central, radiators on both levels"), note: T("Sistemul de încălzire: Just Ar.", "Система отопления: Just Ar.", "Heating system: Just Ar."), evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO} · ${NET} · ${TECH} (supplier name)` },
+          { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica", "Termoelectrica", "Termoelectrica"), note: T("Încălzire centralizată, calorifere pe ambele niveluri.", "Централизованное отопление, радиаторы на обоих уровнях.", "Central heating, radiators on both levels."), evidence: "OWNER_CONFIRMED", source: `${TECH_FINAL} · ${OWNER} §4 · ${PHOTO} · ${NET}` },
           { key: "ac-ground", title: T("Climatizare · parter", "Кондиционирование · 1‑й этаж", "Air-conditioning · ground floor"), value: T("Sisteme split", "Сплит-системы", "Split systems"), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "ac-lower", title: T("Climatizare · demisol", "Кондиционирование · цоколь", "Air-conditioning · lower ground"), value: T("Sistem de climatizare pe canale", "Канальная система кондиционирования", "A ducted air-conditioning system"), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "ventilation", title: T("Ventilație", "Вентиляция", "Ventilation"), value: T("Prevăzută în infrastructura tehnică", "Предусмотрена в составе технической инфраструктуры", "Provided for in the technical infrastructure"), evidence: "OWNER_CONFIRMED", source: TECH },
@@ -225,7 +225,7 @@ export const moscova20Experience: LeasingExperience = {
           { key: "customer", title: T("Clienții", "Клиенты", "Customers"), value: T("Intrare directă dinspre bulevard", "Прямой вход с бульвара", "A direct entrance from the boulevard"), note: T("Din trotuar, prin terasă: scări și rampă.", "С тротуара через террасу: лестница и пандус.", "From the pavement through the terrace: steps and a ramp."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${OWNER} §4, §7 · ${PHOTO} · ${PLANS}` },
           { key: "parking", title: T("Parcare", "Парковка", "Parking"), value: T("15 locuri de parcare", "15 парковочных мест", "15 parking spaces"), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "fire", title: T("Securitate la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții", "Выходы в нескольких направлениях", "Exits in several directions"), note: T("Cerințele finale de securitate la incendiu se evaluează după conceptul chiriașului și cerințele tehnice aplicabile.", "Итоговые требования пожарной безопасности оцениваются под концепцию арендатора и применимые технические требования.", "Final fire-safety requirements are assessed against the tenant’s concept and the applicable technical requirements."), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "security", title: T("Pază", "Охрана", "Security"), value: T("Sistem de pază existent", "Существующая система охраны", "An existing security system"), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4` },
+          { key: "security", title: T("Pază", "Охрана", "Security"), value: T("Justar", "Justar", "Justar"), evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
         ],
       },
       {
@@ -340,14 +340,14 @@ export const moscova20Experience: LeasingExperience = {
     rows: [
       { key: "power", label: T("Alimentare electrică", "Электроснабжение", "Power"), value: T("3 faze · 38 kW conform documentelor", "3 фазы · 38 кВт по документам", "3 phases · 38 kW documented"), state: "ready", evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
       { key: "reserve", label: T("Rezervă de putere", "Резерв мощности", "Power reserve"), value: T("Se clarifică pentru formatul dumneavoastră", "Уточняется под ваш формат", "Confirmed for your format"), state: "confirm", evidence: "TO_CONFIRM", source: `${OWNER} §19` },
-      { key: "heating", label: T("Încălzire", "Отопление", "Heating"), value: T("Centralizată; calorifere pe ambele niveluri", "Централизованное; радиаторы на обоих уровнях", "Central; radiators on both levels"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO} · ${NET} · ${TECH}: system «Just Ar» — OWNER_TO_CONFIRM — exact supplier branding` },
+      { key: "heating", label: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica; calorifere pe ambele niveluri", "Termoelectrica; радиаторы на обоих уровнях", "Termoelectrica; radiators on both levels"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${TECH_FINAL} · ${OWNER} §4 · ${PHOTO} · ${NET}` },
       { key: "ventilation", label: T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), value: T("Parter — sisteme split; demisol — climatizare pe canale; ventilație prevăzută", "1-й этаж — сплит-системы; цоколь — канальное кондиционирование; вентиляция предусмотрена", "Ground floor — split systems; lower ground — ducted air-conditioning; ventilation provided for"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "extraction", label: T("Hotă", "Вытяжка", "Extraction"), value: T("Se evaluează după conceptul comercial concret", "Оценивается под конкретную коммерческую концепцию", "Assessed for the specific commercial concept"), state: "confirm", evidence: "OWNER_CONFIRMED", source: TECH },
-      { key: "water", label: T("Apă și canalizare", "Водоснабжение и канализация", "Water and sewer"), value: T("Conectate: 3 grupuri sanitare", "Подключены: 3 санузла", "Connected: 3 toilets"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${NET} · ${TECH} (shower of the 2026-11-06 mandate withheld until confirmed)` },
+      { key: "water", label: T("Apă și canalizare", "Водоснабжение и канализация", "Water and sewer"), value: T("Conectate: 3 grupuri sanitare", "Подключены: 3 санузла", "Connected: 3 toilets"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${NET} · ${TECH} · ${TECH_FINAL}` },
       { key: "cleaning", label: T("Inventar de curățenie", "Уборочный инвентарь", "Cleaning inventory"), value: T("Încăpere separată pentru inventarul de curățenie", "Отдельное помещение для уборочного инвентаря", "A separate cleaning-inventory room"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "internet", label: T("Curenți slabi și internet", "Слаботочные сети и интернет", "Low-current and internet"), value: T("Traseele există; internetul îl conectează chiriașul", "Трассы есть; интернет арендатор подключает сам", "Routes in place; the tenant connects the internet"), state: "tenant", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §18` },
       { key: "fire", label: T("Siguranță la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții: 2 spre bulevard, 1 spre curte", "Выходы в нескольких направлениях: 2 к бульвару, 1 во двор", "Exits in several directions: 2 to the boulevard, 1 to the courtyard"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
-      { key: "security", label: T("Pază", "Охрана", "Security"), value: T("Sistem de pază existent", "Существующая система охраны", "An existing security system"), state: "ready", evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4` },
+      { key: "security", label: T("Pază", "Охрана", "Security"), value: T("Justar", "Justar", "Justar"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
       { key: "lighting", label: T("Iluminat", "Освещение", "Lighting"), value: T("Puncte de racord pregătite pentru nivelul de iluminare cerut de concept", "Выводы под светильники подготовлены под требуемый уровень освещённости концепции", "Connection points prepared for the illumination level the concept requires"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
     ],
     note: T("Pentru cafenea sau restaurant, hota și puterea se confirmă pentru conceptul concret.", "Для кафе или ресторана вытяжку и мощность подтверждаем под конкретную концепцию.", "For a café or restaurant, extraction and power are confirmed for the specific concept."),
@@ -451,34 +451,49 @@ export const moscova20Experience: LeasingExperience = {
     marks: { ground: "+0,000", lower: "−2,950 / −3,300", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
   },
 
+  // OWNER «MOSCOVA 20 — REWRITE THE BASIC WORKS / READINESS BLOCK» (2026-11-10): one idea — the premises already have the
+  // base infrastructure; the tenant invests in its own format, not in starting the property from zero. PROPERTY BASE (what
+  // the premises provide) and TENANT FIT-OUT (what depends on the concept) never mix; never turnkey, never «no further cost».
   capex: {
-    kicker: T("Lucrările capitale de bază", "Базовые капитальные работы", "Core capital works"),
-    // OWNER art direction 2026-11-09 §12 · §20: the headline of the dark scene
-    title: T("Investiți în afacerea dumneavoastră.\nNu în refacerea de bază.", "Вкладывайте в свой бизнес.\nНе в базовое восстановление.", "Invest in your business.\nNot in basic restoration."),
-    lead: T("Infrastructura principală a obiectului există deja. Înainte de lansare rămâne de stabilit ce cere formatul concret și cât de amplă trebuie să fie adaptarea spațiului.", "Основная инфраструктура объекта уже создана. Перед запуском бизнеса остаётся определить требования конкретного формата и объём необходимой адаптации помещения.", "The building’s core infrastructure is already in place. Before opening, what remains is to define the requirements of the specific format and the extent of adaptation the space needs."),
+    kicker: T("Infrastructura de bază este pregătită", "Базовая инфраструктура уже готова", "The base infrastructure is in place"),
+    title: T("Investiți în afacerea dumneavoastră,\nnu în pregătirea spațiului.", "Вкладывайте в свой бизнес,\nа не в подготовку помещения.", "Invest in your business,\nnot in preparing the premises."),
+    lead: T("Sistemele inginerești principale și infrastructura de bază sunt deja prevăzute. Vă rămâne să adaptați spațiul la formatul afacerii, să instalați echipamentele și mobilierul și să amenajați interiorul.", "Основные инженерные системы и базовая инфраструктура уже предусмотрены. Вам остаётся адаптировать пространство под формат бизнеса, установить оборудование, мебель и оформить интерьер.", "The main building systems and the base infrastructure are already in place. What remains is to adapt the space to your business format, install equipment and furniture, and fit out the interior."),
     photo: "lowerHall",
-    readyTitle: T("Deja gata", "Уже готово", "Already done"),
+    readyTitle: T("Deja prevăzut", "Уже предусмотрено", "Already provided"),
     ready: [
-      fact(T("Suprafețele de bază", "Базовые поверхности", "Base surfaces"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
-      fact(T("Baza inginerească", "Инженерная база", "The engineering base"), "DOCUMENT_CONFIRMED", `${COMPACT} §1 · ${OWNER} §4`),
-      fact(T("Scările", "Лестницы", "The stairs"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO} · ${PLANS}`),
-      fact(T("Vitrina", "Остекление", "The glazing"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
-      fact(T("Intrarea", "Входная группа", "The entrance"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
+      fact(T("Suprafețe de finisaj de bază", "Базовые отделочные поверхности", "Base finished surfaces"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
+      fact(T("Infrastructura inginerească", "Инженерная инфраструктура", "Engineering infrastructure"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${OWNER} §4 · ${TECH}`),
+      fact(T("Încălzire", "Отопление", "Heating"), "OWNER_CONFIRMED", `${OWNER} §4 · ${TECH_FINAL}`),
+      fact(T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), "OWNER_CONFIRMED", TECH),
+      fact(T("3 grupuri sanitare", "3 санузла", "3 toilets"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
+      fact(T("Cameră pentru inventarul de curățenie", "Комната уборочного инвентаря", "A cleaning-inventory room"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
+      fact(T("Scări și intrări", "Лестницы и входные группы", "Stairs and entrances"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO} · ${PLANS}`),
+      fact(T("Puncte de racord pentru iluminat", "Точки подключения освещения", "Lighting connection points"), "OWNER_CONFIRMED", TECH),
+      fact(T("Zonă de descărcare", "Зона загрузки", "A loading area"), "OWNER_CONFIRMED", TECH),
+      fact(T("Rampă dinspre curte", "Рампа со стороны двора", "A courtyard-side ramp"), "OWNER_CONFIRMED", `${TECH} · ${PLANS}`),
     ],
-    tenantTitle: T("Pentru afacerea dumneavoastră", "Под ваш бизнес", "For your business"),
+    tenantTitle: T("Se adaptează formatului dumneavoastră", "Адаптируется под ваш формат", "Adapted to your format"),
+    // concept-dependent items — never a statement of who pays for or performs the fit-out
     tenant: [
-      fact(T("Brandul", "Бренд", "The brand"), "OWNER_CONFIRMED", FINAL),
-      fact(T("Echipamentele", "Оборудование", "Equipment"), "OWNER_CONFIRMED", FINAL),
-      fact(T("Mobilierul", "Мебель", "Furniture"), "OWNER_CONFIRMED", FINAL),
-      fact(T("Interiorul", "Интерьер", "The interior"), "OWNER_CONFIRMED", FINAL),
-      fact(T("Adaptarea specializată", "Специализированная адаптация", "Specialised adaptation"), "OWNER_CONFIRMED", FINAL),
+      fact(T("Planificarea și zonarea", "Планировка и зонирование", "Layout and zoning"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Echipamente comerciale sau de servicii", "Торговое или сервисное оборудование", "Retail or service equipment"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Mobilier și interior", "Мебель и интерьер", "Furniture and interior"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Iluminat și corpuri de iluminat", "Освещение и светильники", "Lighting and fixtures"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Hotă pentru conceptul concret", "Вытяжка под конкретную концепцию", "Extraction for the specific concept"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Amplasarea echipamentelor", "Размещение оборудования", "Equipment placement"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Firmă și panou luminos după un proiect de design separat", "Вывеска и световое панно по отдельному дизайн-проекту", "Signage and a light panel under a separate design project"), "OWNER_CONFIRMED", READINESS),
     ],
+    principle: {
+      text: T("Mai întâi verificăm fezabilitatea tehnică a conceptului dumneavoastră — apoi discutăm condițiile comerciale.", "Сначала проверяем техническую реализуемость вашей концепции — затем обсуждаем коммерческие условия.", "First we check the technical feasibility of your concept — then we discuss commercial terms."),
+      by: T("Directorul tehnic și arhitectul MEGAPARC vă evaluează conceptul înainte de semnarea contractului.", "Технический директор и архитектор MEGAPARC оценивают вашу концепцию до подписания договора.", "MEGAPARC’s Technical Director and Architect review your concept before the lease is signed."),
+    },
   },
 
   story: {
     kicker: T("Fotografii", "Фотографии", "Photographs"),
     title: T("Spațiul așa cum este astăzi.", "Пространство таким, какое оно есть сегодня.", "The space as it is today."),
-    lead: T("Fotografii reale: lumina și culoarea corectate, arhitectura și starea — fără schimbări.", "Реальные фотографии: свет и цвет выправлены, архитектура и состояние — без изменений.", "Real photographs: light and colour corrected; the architecture and condition unchanged."),
+    // OWNER «PHOTO SECTION» copy fix (2026-11-10): authenticity of the premises as the base for the tenant concept — no word on processing
+    lead: T("Spațiu real. Stare reală. Baza pentru conceptul dumneavoastră.", "Реальное пространство. Реальное состояние. Основа для вашей концепции.", "Real space. Real condition. The base for your concept."),
     // OWNER art direction 2026-11-09 §11 + card & air pass §15: the four best first — ADDRESS · LIGHT · SPACE · CONNECTION — then ARRIVAL · READY BASE in «Смотреть все фотографии» (crops only)
     frames: [
       // R3.2 §17 (OWNER 2026-11-10): the elevated frontage frame belongs to the rejected aerial set (roof plane cut, the

@@ -93,7 +93,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
         <ReadinessSheet x={x} locale={locale} offer={offer} />
       </LgDrawer>
       {decision ? (
-        <LgDrawer id="economics" title={decisionTitle(x, locale)} kicker={decisionKicker(x, project.name, locale)} closeLabel={ui.close[locale]} wide>
+        <LgDrawer id="economics" title={decisionTitle(x, locale)} kicker={decisionKicker(x, project.name, locale)} closeLabel={ui.close[locale]} wide className={x.decision.kind === "economics" ? "is-calc" : undefined}>
           <DecisionSheet x={x} offer={offer} project={project} locale={locale} />
         </LgDrawer>
       ) : null}

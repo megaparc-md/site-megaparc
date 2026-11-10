@@ -1749,3 +1749,121 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 .lg-pass__btn { border-color: #fff; background: #fff; color: var(--r3-ink); }
 .lg-pass__btn:hover { border-color: var(--r3-ivory); background: var(--r3-ivory); color: var(--r3-ink); }
 .lg-pass__link { color: #fff; }
+
+/* OWNER «MOSCOVA 20 — REWRITE THE BASIC WORKS / READINESS BLOCK» (2026-11-10): the long comparison (ten items the
+   premises provide · seven that adapt to the format) — on wide screens the two cards run under the headline + photograph
+   row, two inner columns each, so the photograph keeps its place beside the headline; on phones the cards stack and
+   the words stay whole; the technical-feasibility principle closes the comparison. Other datasets keep their scene. */
+.lg-capex--long .lg-capex__words { gap: .5rem; }
+.lg-capex--long .lg-capex__words li { font-size: clamp(.95rem, 1.1vw, 1.05rem); line-height: 1.3; }
+.lg-capex__principle { grid-column: 1 / -1; margin: clamp(.6rem, 1.4vw, 1.1rem) 0 0; }
+.lg-capex__principle::before { content: ""; display: block; width: 1.6rem; height: 2px; margin-bottom: 1rem; background: var(--signal); }
+.lg-capex__principletext { max-width: 46rem; margin: 0; color: #fff; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.25rem, 2vw, 1.7rem); font-weight: 350; line-height: 1.25; letter-spacing: -.012em; text-wrap: balance; }
+.lg-capex__principleby { max-width: 40rem; margin: .7rem 0 0; color: rgba(255, 255, 255, .74); font-size: .95rem; line-height: 1.5; }
+@media (min-width: 1024px) {
+  .lg-capex--long .lg-capex__grid { grid-template-areas: "head media" "lists lists"; grid-template-rows: auto auto; align-items: center; }
+  .lg-capex--long .lg-capex__lists { align-self: start; gap: 1rem; }
+  .lg-capex--long .lg-capex__words { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.8rem; }
+}
+@media (max-width: 719px) {
+  .lg-capex--long .lg-capex__lists { grid-template-columns: minmax(0, 1fr); gap: .7rem; }
+  .lg-capex--long .lg-capex__col { padding: 1rem 1.05rem 1.1rem; }
+  .lg-page .lg-capex--long .lg-capex__col li { font-size: .95rem; -webkit-hyphens: manual; hyphens: manual; overflow-wrap: normal; }
+  .lg-capex__principletext { font-size: 1.22rem; }
+}
+
+/* OWNER «MOSCOVA 20 — REBUILD POINT ECONOMICS CALCULATOR» (2026-11-10): a two-level decision instrument — quick check
+   (four fields, the visitors a day as the one large Source Serif number, sales per month / day beside it, the
+   sensitivity scale, the conclusion, the viewing action) and the advanced calculation behind a disclosure (two columns
+   of fields at most, four results in one calm area). Fields are boxed, the unit sits inside the box, numbers are
+   tabular; nothing may scroll sideways. Namespaced lg-calc — the office and land tools keep their own styles. */
+.lg-drawer.is-calc { width: min(54rem, 100vw); background: var(--r3-ivory); }
+.lg-drawer.is-calc .lg-drawer__head { background: var(--r3-ivory); }
+.lg-calc { container-type: inline-size; color: var(--r3-text); }
+.lg-calc__title { max-width: 30ch; margin: 0; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.45rem, 2.6vw, 2rem); font-weight: 400; line-height: 1.18; letter-spacing: -.015em; text-wrap: balance; }
+.lg-calc__principle { max-width: 38rem; margin: .7rem 0 0; color: var(--r3-muted); font-size: .95rem; line-height: 1.5; }
+.lg-calc__bar { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .6rem 1.4rem; margin-top: 1.4rem; }
+.lg-calc__presets { display: flex; flex-wrap: wrap; gap: .1rem 1.15rem; }
+.lg-calc__presets button { padding: .3rem 0; border: 0; border-bottom: 1px solid transparent; background: none; color: var(--r3-muted); font: inherit; font-size: .92rem; cursor: pointer; }
+.lg-calc__presets button:hover { color: var(--r3-ink); }
+.lg-calc__presets button.is-on { border-bottom-color: var(--r3-burgundy); color: var(--r3-ink); }
+.lg-calc__tools { display: flex; gap: 1.1rem; }
+.lg-calc__link { padding: .15rem 0; border: 0; border-bottom: 1px solid var(--r3-ink); background: none; color: var(--r3-ink); font: inherit; font-size: .9rem; font-weight: 550; cursor: pointer; }
+.lg-calc__link.is-quiet { border-bottom-color: var(--r3-hair-strong); color: var(--r3-muted); font-weight: 450; }
+.lg-calc__link.is-arrow { border-bottom-color: var(--r3-burgundy); color: var(--r3-burgundy); }
+.lg-calc :is(button, a):focus-visible { outline: 2px solid var(--r3-red); outline-offset: 3px; }
+.lg-calc__example { margin: .7rem 0 0; color: var(--r3-burgundy); font-size: .84rem; line-height: 1.4; }
+
+/* fields: label · [value · unit] · hint */
+.lg-calc__fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem 1.4rem; margin-top: 1.3rem; }
+.lg-calc__field { display: flex; flex-direction: column; gap: .4rem; min-width: 0; }
+.lg-calc__label { color: var(--r3-ink); font-size: .86rem; font-weight: 550; line-height: 1.3; }
+.lg-calc__control { display: flex; align-items: center; gap: .6rem; min-width: 0; height: 3.1rem; padding: 0 .95rem; border: 1px solid var(--r3-hair-strong); border-radius: 3px; background: #fff; transition: border-color .2s ease, box-shadow .2s ease; }
+.lg-calc__control:focus-within { border-color: var(--r3-ink); box-shadow: 0 0 0 3px rgba(116, 32, 47, .16); }
+.lg-calc__input { flex: 1 1 auto; width: 100%; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: var(--r3-ink); font: inherit; font-size: 1.12rem; font-weight: 500; font-variant-numeric: tabular-nums lining-nums; }
+.lg-calc__unit { flex: none; color: var(--r3-muted); font-size: .84rem; font-weight: 550; letter-spacing: .01em; white-space: nowrap; }
+.lg-calc__hint { color: var(--r3-muted); font-size: .8rem; line-height: 1.4; }
+@container (min-width: 34rem) { .lg-calc__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* the result — the visitors a day dominate, sales per month / day are secondary */
+.lg-calc__result { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem 2rem; margin-top: 1.7rem; padding: 1.3rem 0 0; border-top: 2px solid var(--r3-ink); }
+.lg-calc__focal { display: flex; align-items: baseline; gap: .35rem; margin: 0; color: var(--r3-burgundy); }
+.lg-calc__approx { font-family: var(--r3-serif); font-size: clamp(1.8rem, 6cqi, 2.6rem); font-weight: 300; line-height: 1; }
+.lg-calc__focalnum { font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(3.2rem, 12cqi, 5.2rem); font-weight: 300; line-height: .95; letter-spacing: -.025em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.lg-calc__result:not(.is-ready) .lg-calc__focal { color: var(--r3-hair-strong); }
+.lg-calc__focallabel { margin: .45rem 0 0; color: var(--r3-ink); font-size: .95rem; font-weight: 500; line-height: 1.35; }
+.lg-calc__secondary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem 1.4rem; margin: 0; }
+.lg-calc__secondary div { min-width: 0; padding-top: .6rem; border-top: 1px solid var(--r3-hair); }
+.lg-calc__secondary dt { color: var(--r3-muted); font-size: .82rem; line-height: 1.35; }
+.lg-calc__secondary dd { margin: .25rem 0 0; color: var(--r3-ink); font-size: 1.45rem; font-weight: 500; letter-spacing: -.01em; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.lg-calc__days { margin: 0; color: var(--r3-muted); font-size: .82rem; line-height: 1.45; }
+@container (min-width: 34rem) {
+  .lg-calc__result { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: end; }
+  .lg-calc__days { grid-column: 1 / -1; }
+}
+
+/* sensitivity: one thin scale, four calm values, the chosen conversion in burgundy */
+.lg-calc__sens { margin-top: 1.5rem; }
+.lg-calc__senslabel { margin: 0 0 .75rem; color: var(--r3-muted); font-size: .84rem; font-weight: 550; }
+.lg-calc__sens ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--r3-hair-strong); }
+.lg-calc__sens li { position: relative; min-width: 0; padding-top: .85rem; }
+.lg-calc__sens li::before { content: ""; position: absolute; top: -4px; left: 0; width: 7px; height: 7px; border: 1px solid var(--r3-hair-strong); border-radius: 50%; background: var(--r3-ivory); }
+.lg-calc__sens li.is-on::before { border-color: var(--r3-burgundy); background: var(--r3-burgundy); }
+.lg-calc__rate { display: block; color: var(--r3-muted); font-size: .8rem; }
+.lg-calc__sens strong { display: block; margin-top: .2rem; color: var(--r3-ink); font-size: 1.02rem; font-weight: 550; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.lg-calc__sens li.is-on :is(strong, .lg-calc__rate) { color: var(--r3-burgundy); }
+.lg-calc__sensunit { margin: .5rem 0 0; color: var(--r3-muted); font-size: .8rem; }
+
+/* the plain conclusion · the location comparison · the viewing action */
+.lg-calc__conclusion { margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid var(--r3-hair); }
+.lg-calc__need { max-width: 36rem; margin: 0 0 .7rem; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 400; line-height: 1.3; text-wrap: balance; }
+.lg-calc__location { margin-top: .5rem; padding: 1rem 1.1rem; background: var(--r3-paper); font-size: .92rem; line-height: 1.5; }
+.lg-calc__location p { margin: 0 0 .5rem; }
+.lg-calc__locstatus { color: var(--r3-burgundy); font-size: .8rem; font-weight: 550; }
+.lg-calc__ranges { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; }
+.lg-calc__ranges strong { font-variant-numeric: tabular-nums; }
+.lg-calc__actions { display: flex; flex-wrap: wrap; gap: .8rem 1rem; margin-top: 1.5rem; }
+
+/* level 2 */
+.lg-calc__adv { margin-top: 1.9rem; border-top: 1px solid var(--r3-hair-strong); border-bottom: 1px solid var(--r3-hair-strong); }
+.lg-calc__adv summary { display: grid; gap: .25rem; padding: 1rem 0; cursor: pointer; list-style: none; }
+.lg-calc__adv summary::-webkit-details-marker { display: none; }
+.lg-calc__adv summary:focus-visible { outline: 2px solid var(--r3-red); outline-offset: 3px; }
+.lg-calc__advtitle { color: var(--r3-burgundy); font-size: 1rem; font-weight: 600; }
+.lg-calc__advlead { color: var(--r3-muted); font-size: .86rem; line-height: 1.45; }
+.lg-calc__fields.is-adv { margin-top: .2rem; }
+.lg-calc__advresult { margin: 1.3rem 0 1.4rem; padding: 1.1rem 1.2rem; background: var(--r3-paper); }
+.lg-calc__advnote { margin: 0; color: var(--r3-ink); font-size: .95rem; font-weight: 500; line-height: 1.5; }
+.lg-calc__advout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem 1.6rem; margin: 0; }
+.lg-calc__advout div { min-width: 0; }
+.lg-calc__advout dt { color: var(--r3-muted); font-size: .82rem; line-height: 1.35; }
+.lg-calc__advout dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .45rem; margin: .25rem 0 0; color: var(--r3-ink); font-size: 1.4rem; font-weight: 500; font-variant-numeric: tabular-nums lining-nums; }
+.lg-calc__advout dd span { color: var(--r3-muted); font-size: .82rem; font-weight: 550; }
+.lg-calc__advout dd.is-negative { color: var(--r3-burgundy); }
+.lg-calc__advout dd.is-note { color: var(--r3-text); font-size: .9rem; font-weight: 450; line-height: 1.45; }
+@container (min-width: 34rem) { .lg-calc__advout { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* the principle, small and calm */
+.lg-calc__foot { margin-top: 1.6rem; padding-bottom: .4rem; }
+.lg-calc__closing { margin: 0 0 .45rem; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: 1.1rem; font-weight: 400; line-height: 1.3; }
+.lg-calc__disclaimer { max-width: 40rem; margin: .2rem 0 0; color: var(--r3-muted); font-size: .8rem; line-height: 1.5; }
