@@ -53,7 +53,7 @@ const photos: Record<string, Photo> = {
   context: photo("m20-context", 1278, 959, T("Bulevardul Moscova, blocurile de locuit și obiectul pe prima linie", "Бульвар Москова, жилой массив и объект на первой линии", "Moscova Boulevard, the housing blocks and the property on the first line")),
   entrance: photo("m20-entrance", 1600, 1066, T("Intrarea: scări, rampă și ușa de sticlă", "Вход: лестница, пандус и стеклянная дверь", "The entrance: steps, ramp and the glass door")),
   // OWNER «MOSCOVA 20 — MAIN LEASING IMAGE» (2026-11-10): the OWNER-approved processed photograph of the same entrance («Chirie» sign removed) — the primary exterior frame
-  entranceProcessed: photo("m20-entrance-processed", 1600, 900, T("Intrarea Moscova 20: vitrina, ușa de sticlă, scările și rampa de acces", "Вход Moscova 20: витрина, стеклянная дверь, лестница и пандус", "The Moscova 20 entrance: the shop window, the glass door, the steps and the access ramp"), { source: "OWNER-approved processed photograph 2026-11-10 (the m20-entrance frame retouched: «Chirie» sign removed)" }),
+  entranceProcessed: photo("m20-entrance-processed", 1600, 900, T("Intrarea Moscova 20: vitrina, ușa de sticlă, scările și rampa de acces", "Вход Moscova 20: витрина, стеклянная дверь, лестница и пандус", "The Moscova 20 entrance: the shop window, the glass door, the steps and the access ramp"), { position: "18% 62%", source: "OWNER-approved processed photograph 2026-11-10 (the m20-entrance frame retouched: «Chirie» sign removed)" }),
   groundHall: photo("m20-ground-hall", 1600, 1066, T("Parterul astăzi: gresie, pereți vopsiți, calorifere, climatizare tip casetă, trasee de ventilație", "1-й этаж сегодня: плитка, окрашенные стены, радиаторы, кассетный кондиционер, трассы вентиляции", "The ground floor today: tiles, painted walls, radiators, cassette air-conditioning, ventilation ducts")),
   groundGlazing: photo("m20-ground-glazing", 1600, 1066, T("Parterul de-a lungul vitrinei: calorifere sub geam și golul scării spre demisol", "1-й этаж вдоль витрины: радиаторы под остеклением и проём лестницы в цоколь", "The ground floor along the glazing: radiators under the windows and the stair opening to the lower ground")),
   stairs: photo("m20-stairs", 1600, 1066, T("Scara interioară dintre parter și demisol", "Внутренняя лестница между 1-м этажом и цоколем", "The internal staircase between the ground floor and the lower ground")),
@@ -96,9 +96,11 @@ export const moscova20Experience: LeasingExperience = {
   },
 
   hero: {
-    // OWNER R3.1 §5: the facade crops are rejected for large format — the hero shows the real ground-floor hall
-    photo: "groundHall",
-    phonePhoto: "groundHall",
+    // OWNER «MOSCOVA 20 — REPLACE PRIMARY HERO PHOTO» (2026-11-10): the OWNER-approved processed exterior (entrance, glazing, stairs,
+    // ramp, no «Chirie» sign) is the primary hero image — the same image as the Leasing cover; focal 18 % 62 % keeps the door and the ramp
+    // (the interior hall stays in the gallery). The R3.1 rejection concerned the elevated facade frames, not this ground-level entrance.
+    photo: "entranceProcessed",
+    phonePhoto: "entranceProcessed",
     title: T("Spațiu pentru următorul pas al afacerii dumneavoastră.", "Пространство для следующего шага вашего бизнеса.", "Space for your business's next step."),
     place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),

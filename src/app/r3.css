@@ -1632,3 +1632,13 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 /* inactive panes keep their place in the stack (not [hidden]: the Tailwind preflight forces display: none) */
 .lg-lens__pane.is-off { visibility: hidden; pointer-events: none; }
 .lg-lens__closing { margin: clamp(1.1rem, 2.2vw, 1.6rem) 0 0; padding-top: 1rem; border-top: 1px solid var(--r3-hair); color: var(--r3-text); font-size: 1.02rem; font-weight: 500; line-height: 1.5; max-width: 52rem; }
+
+/* OWNER «MOSCOVA 20 — REPLACE PRIMARY HERO PHOTO» (2026-11-10): the exterior is a wide frame — the hero photograph keeps a wide ratio
+   (4 : 3 phones · 16 : 9 tablets · 3 : 2 beside the text) instead of stretching to the full hero height, which cropped it to a near-square
+   and cut the ramp; the same template frame on every leasing object */
+.lg-page .lg-hero__photo { --lg-ratio: 4 / 3; }
+@media (min-width: 720px) and (max-width: 1023px) { .lg-page .lg-hero__photo { --lg-ratio: 16 / 9; } }
+@media (min-width: 1024px) {
+  .lg-page .lg-hero__media { align-self: center; }
+  .lg-page .lg-hero__photo { position: relative; inset: auto; aspect-ratio: 3 / 2; }
+}
