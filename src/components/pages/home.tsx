@@ -139,8 +139,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
   const leasing = leasingProjects();
   const counts = portfolioCounts();
   /** the index after the three large scenes: the other leasing buildings, then the two other categories (R3.3 §5) */
-  const indexLeasing = leasing.filter((project) => project.slug !== dacia.slug && project.slug !== m20.slug);
-  const daciaState = projectState(dacia, locale);
+  const indexLeasing = leasing.filter((project) => project.slug !== m20.slug);
   const m20State = projectState(m20, locale);
   const evidence = [
     { value: portfolioFigures.operating.value[locale], label: c.operating },
@@ -150,10 +149,15 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
 
   return (
     <PageShell locale={locale} variant="overlay" experience mainClassName="r3-page r3-home r32-home">
-      {/* 01 HERO — R3.3 §1: typography-led. The former concept photograph (cv-hero-plaza) is OWNER REJECTED (the building
-          was cut at the side) and no other strong wide image is approved — no image, so no broken architecture at any width. */}
-      <section className="r3-hero r32-hero r33-hero" id="home" data-xp-hero>
-        <div className="r3-shell r3-hero__inner">
+      {/* 01 HERO — R3.3.1 §1: architecture leads with the typography. The strongest real MEGAPARC exterior — Dacia 31, the
+          whole building in its park — in an intentional split (58 % from 1280 px; on top, 45–67 % of the viewport below);
+          the frame is chosen so the building is never cut. cv-hero-plaza stays OWNER REJECTED. */}
+      <section className="r3-hero r32-hero r33-hero r331-hero" id="home" data-xp-hero>
+        <figure className="r331-hero__media">
+          <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}, ${dacia.city[locale]}`} priority sizes="(min-width: 1280px) 58vw, 100vw" position="52% 54%" />
+          <figcaption className="r331-hero__caption">{dacia.name} · {dacia.city[locale]}</figcaption>
+        </figure>
+        <div className="r3-shell r3-hero__inner r331-hero__copy">
           <R3Label tone="light">{positioning[locale]}</R3Label>
           <MaskTitle as="h1" className="r3-display r3-hero__title" lines={[...c.heroTitle]} />
           <div className="r3-hero__foot" data-reveal>
@@ -194,20 +198,6 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           <R3Label>{c.assetsLabel}</R3Label>
           <h2 className="r3-title">{c.assetsTitle}</h2>
         </div>
-        <Link href={p(`/projects/${dacia.slug}`)} className="r3-feature" data-reveal>
-          <figure className="r3-feature__media">
-            <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="100vw" position="50% 58%" />
-          </figure>
-          <span className="r3-shell r3-feature__copy">
-            <span className="r3-feature__name">{dacia.name}</span>
-            <span className="r3-feature__line">{dacia.editorial?.headline[locale] ?? dacia.line[locale]}</span>
-            <span className="r3-feature__meta">
-              <span>{dacia.city[locale]} · {dacia.district[locale]}</span>
-              <span className={`r3-state is-${daciaState.tone}`}>{daciaState.text}</span>
-              <span className="r3-more">{c.open}<Icon size={16} /></span>
-            </span>
-          </span>
-        </Link>
         <div className="r3-shell r3-second">
           <Link href={p(`/projects/${m20.slug}`)} className="r3-second__media" data-reveal tabIndex={-1} aria-hidden="true">
             <ArtImage media={m20.media!} variant="card" alt="" sizes="(min-width: 900px) 58vw, 100vw" position="50% 55%" />

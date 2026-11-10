@@ -1338,3 +1338,62 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 .pmenu__group { margin-top: .8rem; }
 .pmenu__preview { min-height: 0; }
 .pmenu__all { margin-top: .9rem; }
+
+/* ==================================================================
+   R3.3.1 — OWNER VISUAL COMPLETION + LEASING OBJECTS · MOSCOVA 20 STANDARD (2026-11-10)
+   Architecture in the Home hero (Dacia 31, split), History as photographic chapters,
+   one decision system for every leasing property (01 property · 02 space · 03 location ·
+   04 technical). docs/DESIGN_SYSTEM.md §29.
+   ================================================================== */
+
+/* ---- Home hero: real architecture + typography (photo on top below 1280 px, a 58 % split above) ---- */
+.r33-hero.r331-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; min-height: 0; background: var(--r3-ink); }
+.r331-hero__media { position: relative; margin: 0; aspect-ratio: 4 / 5; overflow: hidden; background: var(--r3-graphite); }
+.r331-hero__media img { width: 100%; height: 100%; object-fit: cover; }
+.r331-hero__media::after { content: ""; position: absolute; inset: 0 0 auto; height: 34%; background: linear-gradient(180deg, rgba(10, 11, 13, .62) 0%, rgba(10, 11, 13, 0) 100%); pointer-events: none; }
+.r331-hero__caption { position: absolute; z-index: 2; left: var(--r3-g); bottom: .9rem; color: rgba(255, 255, 255, .86); font-size: .74rem; font-weight: 500; letter-spacing: .04em; text-shadow: 0 1px 10px rgba(0, 0, 0, .45); }
+.r33-hero.r331-hero .r331-hero__copy { padding-top: clamp(2rem, 6vw, 3.4rem); padding-bottom: clamp(2.4rem, 6vw, 3.8rem); }
+@media (min-width: 720px) { .r331-hero__media { aspect-ratio: 16 / 10; } }
+@media (min-width: 1024px) { .r331-hero__media { aspect-ratio: 2 / 1; } }
+@media (min-width: 1280px) {
+  .r33-hero.r331-hero { grid-template-columns: minmax(0, 42fr) minmax(0, 58fr); min-height: max(40rem, 92svh); }
+  .r331-hero__media { order: 2; aspect-ratio: auto; height: 100%; min-height: max(40rem, 92svh); }
+  .r33-hero.r331-hero .r331-hero__copy { order: 1; align-self: end; width: auto; margin: 0; padding: calc(var(--header-h) + 3rem) clamp(2rem, 3.5vw, 4rem) clamp(2.6rem, 5vw, 4.4rem) var(--r3-g); }
+  .site .r33-hero.r331-hero .r3-hero__title { max-width: 12ch; font-size: clamp(2.6rem, 3.75vw, 5rem); }
+  .r33-hero.r331-hero .r3-hero__foot { grid-template-columns: minmax(0, 1fr); }
+  .r331-hero__caption { left: auto; right: var(--r3-g); }
+}
+
+/* ---- History: 2005 — MEGAPARC's own building, a large inset (not stretched to 100 %) ---- */
+.r331-era__frame--inset { width: var(--r3-shell); margin-inline: auto; }
+.r331-era__frame--inset .r3-era__caption { width: auto; margin-inline: 0; }
+@media (min-width: 1024px) {
+  .r331-era__frame--inset { width: min(66%, 64rem); margin-left: auto; margin-right: calc((100% - var(--r3-shell)) / 2); }
+  .r3-era--major .r331-era__frame--inset img { height: auto; aspect-ratio: 3 / 2; }
+}
+
+/* ---- Property pages: hero status + actions, the space section, plan on request, registered premises ---- */
+.r331-phero__status { margin: 1.6rem 0 0; }
+.r331-phero__acts { margin-top: 1.2rem; }
+.r331-space__grid { display: grid; gap: 2.6rem; }
+@media (min-width: 1024px) { .r331-space__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); column-gap: clamp(2.5rem, 5vw, 5.5rem); align-items: start; } }
+.r3-unit.r331-space__offer { display: block; padding-bottom: 0; }
+.r331-formats { margin: .3rem 0 0; color: var(--r3-text); font-size: 1rem; line-height: 1.5; }
+.r331-formats span { color: var(--r3-muted); margin-right: .35rem; }
+.r331-plan { display: grid; gap: .9rem; align-content: start; min-height: 15rem; padding: clamp(1.6rem, 3vw, 2.6rem); border-top: 2px solid var(--r3-burgundy); background: var(--r3-ivory); }
+.r331-plan__title { margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.7rem, 2.7vw, 2.8rem); font-weight: 350; line-height: 1.04; letter-spacing: -.015em; }
+.r331-plan__status { margin: 0; color: var(--r3-burgundy); font-size: .92rem; font-weight: 600; }
+.r331-plan__text { margin: 0; max-width: 30rem; color: var(--r3-muted); font-size: 1rem; line-height: 1.6; }
+.r331-reg { margin-top: clamp(3rem, 6vw, 5rem); padding-top: 2rem; border-top: 1px solid var(--r3-hair-strong); }
+.r331-reg__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.r331-reg__list li { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid var(--r3-hair); }
+.r331-reg__no { font-size: .98rem; font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.r331-reg__list .r3-fig { font-family: var(--r3-serif); font-size: 1.35rem; font-weight: 300; }
+.r331-reg__total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 1.4rem 0 .9rem; }
+.r331-reg__total span { color: var(--r3-muted); font-size: .95rem; }
+.r331-reg__total .r3-fig { font-family: var(--r3-serif); font-size: clamp(2.4rem, 4.4vw, 4rem); font-weight: 300; letter-spacing: -.03em; }
+.r331-reg .r3-link { margin-top: 1.2rem; }
+@media (min-width: 900px) { .r331-reg__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem); } }
+.r331-scenario__tool { background: transparent; }
+/* R3.3.1 PASS 2 — the split-hero headline is never clipped: no ch cap (Cyrillic serif glyphs are wider than «0») */
+@media (min-width: 1280px) { .site .r33-hero.r331-hero .r3-hero__title { max-width: none; font-size: clamp(2.5rem, 3.5vw, 4.7rem); } }

@@ -909,12 +909,19 @@ const allEpisodeImages: Record<string, { kind: "archive"; key: string } | { kind
 };
 
 /**
- * Production edition (OWNER "PRODUCTION V1" §3): the period images are placeholders for the group archive and are
- * not approved for production — episodes keep their confirmed text and show no image (never an invented one).
- * The real MEGAPARC photographs (asset episodes) stay.
+ * OWNER «R3.3.1 VISUAL COMPLETION MANDATE» §3 Option A (2026-11-10): the period images of the 1991 and 1995 chapter
+ * frames are approved for production as clearly labelled illustrations of the era — never as photographs of the group
+ * or its companies. Every archive frame carries `illustrativeLabel` in its caption.
+ */
+export const illustrativeArchive: readonly string[] = ["negruzzi", "ym-capitol"];
+export const illustrativeLabel = L("Imagine de arhivă ilustrativă a epocii", "Иллюстративный архивный кадр эпохи", "Illustrative archival image of the era");
+
+/**
+ * Production edition (OWNER "PRODUCTION V1" §3, R3.3.1): the other period images stay placeholders for the group
+ * archive and are not published; the approved illustrative frames and the real MEGAPARC photographs are.
  */
 export const episodeImage: Record<string, { kind: "archive"; key: string } | { kind: "asset"; slug: string }> = productionEdition
-  ? Object.fromEntries(Object.entries(allEpisodeImages).filter(([, image]) => image.kind === "asset"))
+  ? Object.fromEntries(Object.entries(allEpisodeImages).filter(([id, image]) => image.kind === "asset" || illustrativeArchive.includes(id)))
   : allEpisodeImages;
 
 /** The archive photograph that opens the page (a period image) — preview edition only. */

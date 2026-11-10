@@ -6,7 +6,7 @@ import { NB, R3Label, R3Link, projectState } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { getProject } from "@/content/source";
 import { itemHref, leasingProjects, portfolioCategories, portfolioCounts } from "@/lib/portfolio";
-import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, historyHeroImage, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
+import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, historyHeroImage, illustrativeLabel, internationalPlaces, sectorLabel, type Chapter, type ChapterKey, type HistoryEntry } from "@/lib/history";
 import { localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -25,6 +25,9 @@ const copy = {
   ru: { index: "Главы", today: "Проекты MEGAPARC сегодня", projects: "Все проекты", about: "О MEGAPARC сегодня", register: "Компании группы", registerTitle: `Бизнесы, на${NB}которых вырос опыт.`, registerNote: `Бизнесы группы${NB}— это история группы, а${NB}не${NB}текущие активы MEGAPARC.`, places: "Где работала группа", closeLabel: "Сегодня", closeTitle: `История продолжается в${NB}сегодняшних проектах.` },
   en: { index: "Chapters", today: "MEGAPARC projects today", projects: "All projects", about: "About MEGAPARC today", register: "The group's companies", registerTitle: "The businesses the experience was built on.", registerNote: "The group's businesses are the group's history — not current MEGAPARC assets.", places: "Where the group worked", closeLabel: "Today", closeTitle: "The history continues in today's projects." },
 } satisfies Record<SiteLocale, Record<string, string>>;
+
+/** A real MEGAPARC photograph in a chapter frame is today's photograph — said so, never dated into the past. */
+const assetCaption: Localized = { ro: "imobil MEGAPARC, fotografie actuală", ru: "объект MEGAPARC, фото сегодня", en: "a MEGAPARC property, photographed today" };
 
 const placeName: Record<string, Localized> = {
   romania: { ro: "România", ru: "Румыния", en: "Romania" },
@@ -82,11 +85,15 @@ function Episode({ entry, locale }: { entry: HistoryEntry; locale: SiteLocale })
 function ChapterScene({ chapter, locale, index }: { chapter: Chapter; locale: SiteLocale; index: number }) {
   const big = monumental[chapter.key];
   const lead = leadEpisode[chapter.key];
-  // R3.1 §21: fewer images, larger — one full-width frame for the major chapters only (1991 · 1995 · 2020); 2005 is a
-  // typographic chapter (its only photograph, Moscova 9, is too weak for 100 %); the intermediate periods are text interludes
-  const hasFrame = Boolean(big && chapter.key !== "megaparc" && lead && episodeImage[lead]);
-  const tone = chapter.key === "megaparc" ? "megaparc" : chapter.key === "international" ? "dark" : index % 2 ? "paper" : "ivory";
+  // R3.3.1 §2 / §4: every principal era is a visual chapter — 1991 · 1995 labelled illustrations of the era (full width),
+  // 2005 MEGAPARC's own building photographed today (a large inset — the photograph is not strong enough for 100 %),
+  // 2020 the real Dacia 31 (full width); the intermediate periods stay text interludes
+  const image = lead ? episodeImage[lead] : undefined;
+  const hasFrame = Boolean(big && image);
+  const imageProject = image?.kind === "asset" ? getProject(image.slug) : undefined;
   const range = chapter.range || String(new Date().getFullYear());
+  const caption = image?.kind === "archive" ? `${illustrativeLabel[locale]} · ${chapter.label[locale]} · ${range}` : imageProject ? `${imageProject.name} · ${assetCaption[locale]}` : `${chapter.label[locale]} · ${range}`;
+  const tone = chapter.key === "megaparc" ? "megaparc" : chapter.key === "international" ? "dark" : index % 2 ? "paper" : "ivory";
   const flip = index % 2 === 1;
   return (
     <section className={`r3-era r3-era--${tone}${big ? " r3-era--major" : " r3-era--minor"}${hasFrame ? "" : " r3-era--type"}${flip ? " r3-era--flip" : ""}`} id={chapter.key}>
@@ -99,9 +106,9 @@ function ChapterScene({ chapter, locale, index }: { chapter: Chapter; locale: Si
         </div>
       </header>
       {hasFrame ? (
-        <figure className="r3-era__frame al-reveal" data-reveal>
-          <Frame id={lead} sizes={big ? "100vw" : "(min-width: 1024px) 66vw, 100vw"} />
-          <figcaption className="r3-era__caption">{chapter.label[locale]} · {range}</figcaption>
+        <figure className={`r3-era__frame al-reveal${chapter.key === "megaparc" ? " r331-era__frame--inset" : ""}`} data-reveal>
+          <Frame id={lead} sizes={chapter.key === "megaparc" ? "(min-width: 1024px) 66vw, 100vw" : "100vw"} />
+          <figcaption className="r3-era__caption">{caption}</figcaption>
         </figure>
       ) : null}
       {chapter.key === "international" ? (

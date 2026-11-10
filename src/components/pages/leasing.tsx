@@ -222,12 +222,13 @@ const whyCopy = {
   owner: { ro: "Direct cu proprietarul", ru: "Напрямую с собственником", en: "Directly with the owner" },
   ownerText: { ro: "Spațiul îl discutați cu MEGAPARC — proprietarul clădirii.", ru: `Помещение вы обсуждаете с${NB}MEGAPARC${NB}— владельцем здания.`, en: "You discuss the space with MEGAPARC — the owner of the building." },
   data: { ro: "Date verificabile", ru: "Проверяемые данные", en: "Verifiable data" },
+  // the architectural plans exist for Moscova 20 only; the cadastral numbers for every property the OWNER approved
   dataText: (names: string, locale: SiteLocale) =>
     locale === "ru"
-      ? `Подтверждённые площади и${NB}статус каждого помещения; по${NB}${names}${NB}— архитектурные планы и${NB}кадастровый номер для официальной проверки в${NB}e‑Cadastru.`
+      ? `Подтверждённые площади и${NB}статус каждого помещения; архитектурные планы Moscova${NB}20; кадастровые номера ${names}${NB}— для официальной проверки в${NB}e‑Cadastru.`
       : locale === "ro"
-        ? `Suprafețe confirmate și statutul fiecărui spațiu; pentru ${names} — planurile arhitecturale și numărul cadastral pentru verificarea oficială în e‑Cadastru.`
-        : `Confirmed areas and the status of every space; for ${names} — the architectural plans and the cadastral number for official verification in e‑Cadastru.`,
+        ? `Suprafețe confirmate și statutul fiecărui spațiu; planurile arhitecturale Moscova 20; numerele cadastrale ${names} — pentru verificarea oficială în e‑Cadastru.`
+        : `Confirmed areas and the status of every space; the Moscova 20 architectural plans; the cadastral numbers of ${names} — for official verification in e‑Cadastru.`,
 } as const;
 
 function LeasingWhy({ locale }: { locale: SiteLocale }) {

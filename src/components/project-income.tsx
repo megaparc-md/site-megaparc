@@ -6,7 +6,7 @@ import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
 import { storyLine } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
-import { Figure, NB, R3Button, R3Label, R3Link, R3Trust, tel, viewableNow } from "@/components/r3";
+import { Figure, NB, R3Button, R3Label, R3Link, R3Trust, tel } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { LeasingExperiencePage } from "@/components/leasing-experience/experience-page";
 import { availabilityLabel, availabilityOf, formatAreaRange, formatDate, isDemoField, spaceArea, spaceStatusLine, leasingExperienceFor, nextProject, propertyOccupancy, spacesFor, type ProjectEntry } from "@/content/source";
@@ -16,7 +16,11 @@ import type { AssetSlug } from "@/lib/assets";
 import { operations } from "@/lib/business";
 import { needs as needCopy } from "@/lib/leasing";
 import { leasingOnRequest, viewingPropertyHref, waitlistHref, waitlistLabel } from "@/lib/portfolio";
-import { cadastreNumbers } from "@/data/property-trust";
+import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
+import { registeredData } from "@/data/registered";
+import { EconomicsTool } from "@/components/leasing-experience/economics-tool";
+import { economicsExample, sensitivityRates } from "@/data/tenant-intelligence";
+import { uses as useCopy } from "@/lib/leasing";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -86,6 +90,39 @@ const copy = {
     en: "The building stays in MEGAPARC ownership and works as part of the company portfolio.",
   },
   allProjects: { ro: "Toate proiectele", ru: "Все проекты", en: "All projects" },
+  // R3.3.1 / «LEASING OBJECTS · MOSCOVA 20 STANDARD» — one decision system: 01 property · 02 space · 03 location · 04 technical
+  part1: { ro: "01 · Obiectul", ru: "01 · Объект", en: "01 · The property" },
+  part2: { ro: "02 · Spațiul", ru: "02 · Пространство", en: "02 · The space" },
+  part4: { ro: "04 · Tehnică și decizie", ru: "04 · Техника и решение", en: "04 · Technical and decision" },
+  status: { ro: "Statut", ru: "Статус", en: "Status" },
+  registered: { ro: "Suprafață înregistrată", ru: "Зарегистрированная площадь", en: "Registered area" },
+  registeredNote: { ro: "Suprafața spațiilor înregistrate (date cadastrale / fiscale) — nu este suprafața disponibilă pentru închiriere.", ru: `Площадь зарегистрированных помещений (кадастр / налоговый учёт)${NB}— это не${NB}свободная площадь для аренды.`, en: "The area of the registered premises (cadastral / tax records) — not the area available for lease." },
+  leasable: { ro: "Suprafață disponibilă", ru: "Свободная площадь", en: "Available area" },
+  onRequestShort: { ro: "la cerere", ru: "по запросу", en: "on request" },
+  noneFree: { ro: "nu există — ocupat 100 %", ru: `нет${NB}— занято на${NB}100${NB}%`, en: "none — 100% occupied" },
+  cadastral: { ro: "Număr cadastral", ru: "Кадастровый номер", en: "Cadastral number" },
+  cadastralMany: (n: number, locale: SiteLocale) => (locale === "ru" ? `${n}${NB}зарегистрированных помещений${NB}— список в${NB}разделе 02` : locale === "ro" ? `${n} spații înregistrate — lista în secțiunea 02` : `${n} registered premises — listed in section 02`),
+  cadastralLater: { ro: "se publică după verificarea formatului", ru: "публикуем после проверки формата", en: "published once the format is verified" },
+  ownedBy: { ro: "Proprietar și administrator", ru: "Собственник и управление", en: "Owner and operator" },
+  ownedValue: { ro: "MEGAPARC", ru: "MEGAPARC", en: "MEGAPARC" },
+  premisesTitle: { ro: "Spațiile înregistrate", ru: "Зарегистрированные помещения", en: "Registered premises" },
+  total: { ro: "Total", ru: "Итого", en: "Total" },
+  verifyPortal: { ro: "Verificați numerele în e‑Cadastru ↗", ru: "Проверить номера в e‑Cadastru ↗", en: "Verify the numbers in e‑Cadastru ↗" },
+  planTitle: { ro: "Plan / amenajare", ru: "План / планировка", en: "Plan / layout" },
+  planOnRequest: { ro: "Disponibil la cerere", ru: "Предоставляется по запросу", en: "Available on request" },
+  planText: { ro: "Planul se pregătește pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră — nu publicăm o schemă neconfirmată.", ru: `План подготовим к${NB}просмотру и${NB}технической проверке вашего формата${NB}— неподтверждённую схему не${NB}публикуем.`, en: "We prepare the plan for the viewing and the technical check of your format — an unconfirmed scheme is not published." },
+  planCta: { ro: "Solicitați planul", ru: "Запросить план", en: "Request the plan" },
+  formats: { ro: "Formate potrivite", ru: "Подходящие форматы", en: "Suitable formats" },
+  requestTitle: { ro: "Suprafața și termenul — la cerere", ru: `Площадь и${NB}сроки${NB}— по${NB}запросу`, en: "Area and timing on request" },
+  requestText: { ro: "Clădirea se închiriază; suprafața și termenul exact se confirmă individual, după o vizionare.", ru: `Здание сдаётся в${NB}аренду; точную площадь и${NB}сроки подтверждаем индивидуально, после просмотра.`, en: "The building is for lease; the exact area and timing are confirmed individually, after a viewing." },
+  fullTitle: { ro: "Nu sunt spații libere acum", ru: `Свободных помещений сейчас нет`, en: "No space is free right now" },
+  fullText: { ro: "Clădirea este închiriată integral. Lăsați o cerere — vă anunțăm când se eliberează un spațiu.", ru: `Здание занято полностью. Оставьте заявку${NB}— сообщим, когда освободится помещение.`, en: "The building is fully let. Leave a request — we tell you when a space frees up." },
+  techCta: { ro: "Discutați cerințele tehnice", ru: "Обсудить технические требования", en: "Discuss technical requirements" },
+  futureCta: { ro: "Discutați disponibilitatea viitoare", ru: "Обсудить будущую доступность", en: "Discuss future availability" },
+  scenarioLabel: { ro: "Scenariul chiriașului", ru: "Сценарий арендатора", en: "Tenant scenario" },
+  scenarioTitle: { ro: "Câți clienți pe zi îi trebuie afacerii dumneavoastră?", ru: `Сколько клиентов в${NB}день нужно вашему бизнесу?`, en: "How many customers a day does your business need?" },
+  scenarioNote: { ro: "Scenariul chiriașului — un calcul invers pe datele dumneavoastră, nu o caracteristică a obiectului și nu o prognoză.", ru: `Сценарий арендатора${NB}— обратный расчёт на${NB}ваших данных, а${NB}не${NB}характеристика объекта и${NB}не${NB}прогноз.`, en: "Tenant scenario — a reverse calculation on your own figures, not a property fact and not a forecast." },
+  locationCreanga: { ro: "Obiect comercial în funcțiune pe strada Ion Creangă din Chișinău. Pe hartă — stațiile de transport public din apropiere (OpenStreetMap).", ru: `Действующий коммерческий объект на${NB}улице Иона Крянгэ в${NB}Кишинёве. На${NB}карте${NB}— ближайшие остановки общественного транспорта (OpenStreetMap).`, en: "An operating commercial property on Ion Creangă Street in Chișinău. The map shows the nearby public transport stops (OpenStreetMap)." },
   // R3.3 §4 — the Moscova 20 decision logic on every property: what is confirmed, what we check together
   decideTitle: { ro: "Ce este confirmat — și ce verificăm împreună.", ru: `Что подтверждено${NB}— и${NB}что проверим вместе.`, en: "What is confirmed — and what we check together." },
   confirmedLabel: { ro: "Confirmat", ru: "Подтверждено", en: "Confirmed" },
@@ -192,6 +229,10 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
   const statusLine = first ? spaceStatusLine(first, locale) : fullyLet ? `${copy.proofLabel[locale]} · 100${NB}% ${copy.occupied[locale]}` : onRequest ? onRequest[locale] : project.card.status[locale];
 
   const hero = slug === "dacia-31" ? "bleed" : isCreanga ? "contained" : "stacked";
+  /** registered premises from the OWNER records (R3.3.1) — registered area, never the available area */
+  const registered = registeredData[slug] ?? null;
+  /** suitable formats: the unit's confirmed uses, or the building's own proposition (Dacia 31: one company's office) */
+  const formats: string[] = first && first.confirmed.includes("uses") ? first.uses.map((key) => useCopy.find((u) => u.key === key)?.label[locale]).filter((v): v is string => Boolean(v)) : onRequest && project.editorial ? [project.editorial.headline[locale].replace(/\.$/, "")] : [];
   /** What a tenant still needs before a lease — unconfirmed topics as checks, never as values (R3.3 §4). */
   const checks: string[] = mode === "full" ? [] : [
     ...accessKeys.filter((key) => !confirmedCap(key)).map((key) => needCopy[key].label[locale]),
@@ -233,6 +274,11 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
               <div><dt>{copy.totalArea[locale]}</dt><dd>{profile.area.value[locale]}</dd></div>
               <div><dt>{copy.format[locale]}</dt><dd>{profile.format.value[locale]}</dd></div>
             </dl>
+            <p className={`r3-state r331-phero__status is-${mode === "full" ? "full" : "soon"}`}>{statusLine}</p>
+            <div className="r3-actions r331-phero__acts">
+              {viewingAction ? <R3Button href={viewHref}>{viewingAction}</R3Button> : fullyLet ? <R3Button href={waitlistHref(locale, slug)}>{waitlistLabel[locale]}</R3Button> : null}
+              {mode === "upcoming" ? <a className="r3-link r3-link--dark" href={contactLinks.email}><span>{copy.techCta[locale]}</span><Icon size={16} /></a> : fullyLet ? <Link className="r3-link r3-link--dark" href={`${p("/contact")}?subject=lease&property=${slug}#occupier`}><span>{copy.futureCta[locale]}</span><Icon size={16} /></Link> : null}
+            </div>
           </div>
           <figure className="r3-phero__media" data-reveal>
             <ArtImage media={asset.media!} variant={isCreanga ? "card" : "wide"} alt={`${asset.name} — ${asset.positioning[locale]}`} priority sizes={isCreanga ? "(min-width: 1024px) 50vw, 100vw" : "100vw"} position={heroPosition[slug]} />
@@ -272,7 +318,7 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
       <section className="r3-sec r3-sec--ivory r3-pid">
         <div className="r3-shell r3-pid__grid">
           <div data-reveal>
-            <R3Label>{copy.propertyLabel[locale]}</R3Label>
+            <R3Label>{copy.part1[locale]}</R3Label>
             <h2 className="r3-title">{narrative}</h2>
           </div>
           <div className="r3-pid__text" data-reveal>
@@ -283,6 +329,11 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
               {hero === "bleed" ? <div><dt>{copy.place[locale]}</dt><dd>{placeLine}</dd></div> : null}
               {hero === "bleed" ? <div><dt>{copy.format[locale]}</dt><dd>{profile.format.value[locale]}</dd></div> : null}
               {keyFacts.map((fact) => <div key={fact.label.en}><dt>{fact.label[locale]}</dt><dd>{fact.value[locale]}</dd></div>)}
+              <div><dt>{copy.status[locale]}</dt><dd>{statusLine}</dd></div>
+              {registered ? <div><dt>{copy.registered[locale]}</dt><dd>{formatAreaRange(undefined, registered.area, locale)}</dd></div> : null}
+              <div><dt>{copy.leasable[locale]}</dt><dd>{first && spaceArea(first, locale) ? spaceArea(first, locale) : fullyLet ? copy.noneFree[locale] : copy.onRequestShort[locale]}</dd></div>
+              <div><dt>{copy.cadastral[locale]}</dt><dd>{cadastreNumbers[slug] ?? (registered && registered.premises.length > 1 ? copy.cadastralMany(registered.premises.length, locale) : copy.cadastralLater[locale])}</dd></div>
+              <div><dt>{copy.ownedBy[locale]}</dt><dd>{copy.ownedValue[locale]}</dd></div>
             </dl>
           </div>
         </div>
@@ -313,34 +364,83 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
         </section>
       ) : null}
 
-      {/* AVAILABLE SPACE(S) — any number of units, each with its blocks / zones; set apart from the property */}
-      {units.length ? (
-        <section className="r3-sec r3-sec--paper r3-units" id="available">
+      {/* 02 · SPACE — the offer (or its honest absence), the plan / layout block, the registered premises; never an empty column */}
+      <section className="r3-sec r3-sec--paper r3-units r331-space" id="available">
+        <div className="r3-shell">
+          <R3Label>{copy.part2[locale]}</R3Label>
+          <div className="r331-space__grid">
+            <article className="r3-unit r331-space__offer" data-reveal>
+              <div className="r3-unit__copy">
+                {first ? (
+                  <>
+                    <h2 className="r3-unit__name">{first.unit[locale]}</h2>
+                    {spaceArea(first, locale) ? <p className="r3-unit__area"><Figure value={spaceArea(first, locale)!} /></p> : null}
+                    <p className={`r3-state is-${availabilityOf(first).key === "now" ? "now" : "soon"}`}>{availabilityLabel(first, locale)}</p>
+                    <p className="r3-unit__floor">{first.floorLabel[locale]}</p>
+                    {first.confirmed.includes("highlights") && first.highlights.length ? <ul className="r3-ticks">{first.highlights.map((point) => <li key={point.en}>{point[locale]}</li>)}</ul> : null}
+                  </>
+                ) : onRequest ? (
+                  <>
+                    <h2 className="r3-unit__name">{copy.requestTitle[locale]}</h2>
+                    <p className="r3-state is-soon">{onRequest[locale]}</p>
+                    <p className="r3-unit__floor">{copy.requestText[locale]}</p>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="r3-unit__name">{copy.fullTitle[locale]}</h2>
+                    <p className="r3-state is-full">{statusLine}</p>
+                    <p className="r3-unit__floor">{copy.fullText[locale]}</p>
+                  </>
+                )}
+                {formats.length ? <p className="r331-formats"><span>{copy.formats[locale]}</span> {formats.join(" · ")}</p> : null}
+                <div className="r3-actions">
+                  {viewingAction ? <R3Button href={viewHref}>{viewingAction}</R3Button> : fullyLet ? <R3Button href={waitlistHref(locale, slug)}>{waitlistLabel[locale]}</R3Button> : null}
+                  {first ? <R3Link href={p(`/leasing/${first.id}`)}>{copy.unitOpen[locale]}</R3Link> : null}
+                </div>
+              </div>
+            </article>
+            {first && !isDemoField(first, "plan") ? (
+              <div data-reveal><UnitBlocks unit={first} locale={locale} name={asset.name} /></div>
+            ) : (
+              <div className="r331-plan" data-reveal>
+                <p className="r331-plan__title">{copy.planTitle[locale]}</p>
+                <p className="r331-plan__status">{copy.planOnRequest[locale]}</p>
+                <p className="r331-plan__text">{copy.planText[locale]}</p>
+                <a className="r3-link r3-link--dark" href={contactLinks.email}><span>{copy.planCta[locale]}</span><Icon size={16} /></a>
+              </div>
+            )}
+          </div>
+          {registered ? (
+            <div className="r331-reg" data-reveal>
+              <p className="r33-decide__label">{copy.premisesTitle[locale]}</p>
+              {registered.premises.length > 1 ? (
+                <ol className="r331-reg__list">
+                  {registered.premises.map((premise) => (
+                    <li key={premise.cadastral}><span className="r331-reg__no">{premise.cadastral}</span><Figure value={formatAreaRange(undefined, premise.area, locale)} /></li>
+                  ))}
+                </ol>
+              ) : null}
+              <p className="r331-reg__total"><span>{registered.premises.length > 1 ? copy.total[locale] : registered.premises.length === 1 ? `${copy.cadastral[locale]} ${registered.premises[0].cadastral}` : copy.registered[locale]}</span><Figure value={formatAreaRange(undefined, registered.area, locale)} /></p>
+              <p className="r3-note">{copy.registeredNote[locale]}</p>
+              {registered.premises.length > 1 ? <a className="r3-link r3-link--dark" href={eCadastruPortal} target="_blank" rel="noopener noreferrer"><span>{copy.verifyPortal[locale]}</span></a> : null}
+            </div>
+          ) : null}
+          {asset.caveat ? <p className="r3-note r3-units__caveat">{asset.caveat[locale]}</p> : null}
+        </div>
+      </section>
+
+      {/* TENANT SCENARIO — a retail first floor (Moscova 9): the reverse calculation, labelled; never a property fact */}
+      {first && first.uses.includes("retail") ? (
+        <section className="r3-sec r3-sec--ivory r331-scenario">
           <div className="r3-shell">
-            <R3Label>{units.length > 1 ? copy.spacesLabel[locale] : copy.spaceLabel[locale]}</R3Label>
-            {units.map((unit) => {
-              const a = availabilityOf(unit);
-              return (
-                <article key={unit.id} className="r3-unit" data-reveal>
-                  <div className="r3-unit__copy">
-                    <h2 className="r3-unit__name">{unit.unit[locale]}</h2>
-                    {spaceArea(unit, locale) ? <p className="r3-unit__area"><Figure value={spaceArea(unit, locale)!} /></p> : null}
-                    <p className={`r3-state is-${a.key === "now" ? "now" : "soon"}`}>{availabilityLabel(unit, locale)}</p>
-                    <p className="r3-unit__floor">{unit.floorLabel[locale]}</p>
-                    {unit.confirmed.includes("highlights") && unit.highlights.length ? (
-                      <ul className="r3-ticks">{unit.highlights.map((point) => <li key={point.en}>{point[locale]}</li>)}</ul>
-                    ) : null}
-                    <div className="r3-actions">
-                      <R3Button href={viewingHref(locale, unit)}>{viewableNow(unit) ? copy.viewing[locale] : copy.early[locale]}</R3Button>
-                      <R3Link href={p(`/leasing/${unit.id}`)}>{copy.unitOpen[locale]}</R3Link>
-                    </div>
-                  </div>
-                  {/* the zone / floor scheme only when the plan is confirmed (R3.3 data gate) */}
-                  {isDemoField(unit, "plan") ? null : <UnitBlocks unit={unit} locale={locale} name={asset.name} />}
-                </article>
-              );
-            })}
-            {asset.caveat ? <p className="r3-note r3-units__caveat">{asset.caveat[locale]}</p> : null}
+            <div className="r3-head r3-head--split" data-reveal>
+              <R3Label>{copy.scenarioLabel[locale]}</R3Label>
+              <h2 className="r3-title">{copy.scenarioTitle[locale]}</h2>
+              <p className="r3-lead">{copy.scenarioNote[locale]}</p>
+            </div>
+            <div className="lg-page r331-scenario__tool" data-reveal>
+              <EconomicsTool locale={locale} property={asset.name} example={economicsExample} rates={sensitivityRates} traffic={null} visitLabel={viewingAction ?? undefined} />
+            </div>
           </div>
         </section>
       ) : null}
@@ -350,7 +450,7 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
         <section className="r3-sec r3-sec--ivory r3-caps r33-decide">
           <div className="r3-shell">
             <div className="r3-head r3-head--split" data-reveal>
-              <R3Label>{copy.accessLabel[locale]}</R3Label>
+              <R3Label>{copy.part4[locale]}</R3Label>
               <h2 className="r3-title">{checks.length ? copy.decideTitle[locale] : copy.accessTitle[locale]}</h2>
               {first && first.technical.power[locale] !== OMITTED && first.confirmed.includes("power") ? <p className="r3-lead">{first.technical.power[locale]}</p> : null}
             </div>
@@ -384,14 +484,14 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
 
       {/* LOCATION — the light editorial map */}
       <div className="r3-loc">
-        <LocationSection locale={locale} no="" mapKey={slug} name={asset.name} place={district ?? asset.city[locale]} area={district ? asset.city[locale] : ""} text={isCreanga ? "" : asset.location[locale]} points={asset.connectivity} map={asset.map} />
+        <LocationSection locale={locale} no="03" mapKey={slug} name={asset.name} place={district ?? asset.city[locale]} area={district ? asset.city[locale] : ""} text={isCreanga ? copy.locationCreanga[locale] : asset.location[locale]} points={asset.connectivity} map={asset.map} />
       </div>
 
       {/* TRUST — technical feasibility first; e-Cadastru where the OWNER approved the number */}
-      {units.length || onRequest ? <R3Trust slug={slug} locale={locale} tone="stone" /> : null}
+      <R3Trust slug={slug} locale={locale} tone="stone" />
 
       {/* CLOSE — a viewing / early interest where a unit is offered; a fully let building has no leasing action */}
-      <section className="r3-sec r3-sec--ivory r3-pclose">
+      <section className="r3-sec r3-sec--ivory r3-pclose" id="lg-form">
         <div className="r3-shell r3-pclose__grid">
           <div data-reveal>
             <R3Label>{asset.name}</R3Label>
@@ -399,7 +499,8 @@ function IncomePropertyPage({ locale, project }: { locale: SiteLocale; project: 
             {mode === "upcoming" ? <p className="r3-lead">{copy.earlyText[locale]}</p> : null}
             <div className="r3-actions">
               {viewingAction ? <R3Button href={viewHref}>{viewingAction}</R3Button> : fullyLet ? <R3Button href={waitlistHref(locale, slug)}>{waitlistLabel[locale]}</R3Button> : <R3Button href={`${p("/contact")}?subject=general&property=${slug}#question`}>{copy.ask[locale]}</R3Button>}
-              {first || onRequest ? <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{copy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a> : null}
+              {mode === "upcoming" ? <a className="r3-link r3-link--dark" href={contactLinks.email}><span>{copy.techCta[locale]}</span><Icon size={16} /></a> : fullyLet ? <Link className="r3-link r3-link--dark" href={`${p("/contact")}?subject=lease&property=${slug}#occupier`}><span>{copy.futureCta[locale]}</span><Icon size={16} /></Link> : null}
+              {first || onRequest || fullyLet ? <a className="r3-link r3-link--dark" href={contactLinks.mobile}><span>{copy.call[locale]} · {tel(company.mobile.value[locale])}</span><Icon size={16} /></a> : null}
             </div>
           </div>
           <nav className="r3-routes__list r3-routes__list--side" aria-label={copy.closeLabel[locale]} data-reveal>

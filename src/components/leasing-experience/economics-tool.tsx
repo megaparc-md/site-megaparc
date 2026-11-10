@@ -117,7 +117,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
           <button type="button" className="lg-eco-tool__link is-quiet" onClick={clear}>{t.clear}</button>
         </div>
       </div>
-      {isExample ? <p className="lg-eco-tool__example">{t.exampleNote}</p> : null}
+      {isExample ? <p className="lg-eco-tool__example">{t.exampleNote.replace("Moscova 20", property)}</p> : null}
 
       <div className="lg-eco-tool__grid">
         {field("ticket", t.inputs.ticket, t.units.mdl, p.ticket)}

@@ -51,7 +51,7 @@ export const leasingOnRequest: Partial<Record<string, Localized>> = {
 };
 
 /** A fully let building in the leasing portfolio keeps a waiting list (OWNER 2026-10-09: «only fully let and a waitlist»). */
-export const waitlistLabel: Localized = { ro: "Lista de așteptare", ru: "Лист ожидания", en: "Waiting list" };
+export const waitlistLabel: Localized = { ro: "Înscrieți-vă pe lista de așteptare", ru: "Встать в лист ожидания", en: "Join the waiting list" };
 export const waitlistHref = (locale: SiteLocale, slug: string) => `${localePath(locale, "/contact")}?subject=lease&property=${slug}#occupier`;
 export const viewingPropertyHref = (locale: SiteLocale, slug: string) => `${localePath(locale, "/contact")}?subject=lease&property=${slug}#occupier`;
 
@@ -78,7 +78,8 @@ export const developmentPortfolio = (): DevelopmentItem[] => {
   const vatra = getProject("vatra");
   return [
     ...(vatra ? [{ slug: vatra.slug, name: vatra.name, status: vatra.card.status, page: vatra.slug }] : []),
-    { slug: "vasile-lupu-48-3", name: "Vasile Lupu 48/3", status: { ro: "Proiect propriu · parametrii se publică după aprobare", ru: "Собственный проект · параметры публикуем после утверждения", en: "Own project · parameters published once approved" }, page: null },
+    // OWNER tax data (R3.3.1 §14): the plot and the registered existing building — never read as the future project's GBA
+    { slug: "vasile-lupu-48-3", name: "Vasile Lupu 48/3", status: { ro: "Teren 1 000 m² · construcție existentă înregistrată 172,1 m²", ru: "Участок 1 000 м² · зарегистрированная существующая постройка 172,1 м²", en: "Plot 1,000 m² · registered existing building 172.1 m²" }, page: null },
   ];
 };
 
