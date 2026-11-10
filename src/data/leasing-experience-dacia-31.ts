@@ -191,6 +191,7 @@ export const dacia31Experience: LeasingExperience = {
           { text: T("Fațadă vizibilă — numele companiei pe clădire.", "Заметный фасад — название компании на здании.", "A visible facade — the company's name on the building."), ref: "photos", evidence: "OWNER_CONFIRMED", source: ASSET },
         ],
         checks: [T("suprafața și termenul închirierii", "площадь и сроки аренды", "the area and timing of the lease"), T("puterea și redundanța — prin audit tehnic", "мощность и резервирование по техническому аудиту", "power and redundancy by technical audit"), T("numărul de locuri de muncă pentru procesul dumneavoastră", "количество рабочих мест под ваш процесс", "the number of workplaces for your process")],
+        closing: sharedLens.honesty,
         overlay: null,
       },
     ],

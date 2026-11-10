@@ -29,7 +29,6 @@ const PHOTO = "OWNER photographs 16.10.2026 — current condition";
 const NET = "Certificat contabil — rețele tehnico-edilitare exterioare, 30.09.2026";
 const PLANS = "Plan_0.000 (Anexa 2) and Plan_-2.950 / -3.300 (Anexa 1), Moscova 20 Variant 1, project 15/19 SA, arch. A. Novicov, 06.21 — OWNER files";
 const FINAL = "OWNER final viewing conversion pass 2026-11-06 (capital readiness lists)";
-const LOCATION = "OSM research 2026-11-06 (docs/research/MOSCOVA_20_LOCATION_RESEARCH.md) — background, not published as figures";
 const SCENARIO = "Possible organisation — generic zones on a real photograph (OWNER final viewing pass 2026-11-06); never a tenant layout";
 const fact = (text: ReturnType<typeof T>, evidence: Evidence, source: string) => ({ text, evidence, source });
 
@@ -105,7 +104,7 @@ export const moscova20Experience: LeasingExperience = {
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
     // OWNER copy correction 2026-11-10 (capex / tenant investment): replaces «Капитальная база уже готова.» — the core capital works are done,
     // the tenant invests primarily in adapting the space to its format (never zero investment, never fit-out included)
-    support: T("Lucrările capitale de bază sunt deja realizate — investiția chiriașului vizează în primul rând adaptarea spațiului la propriul format de afaceri.", "Базовые капитальные работы уже выполнены — инвестиции арендатора нужны прежде всего для адаптации пространства под свой формат.", "The core capital works are already complete — the tenant’s investment can focus primarily on adapting the space to its business format."),
+    support: T("Lucrările capitale de bază sunt deja realizate — investiția chiriașului va fi necesară în primul rând pentru adaptarea spațiului la propriul format.", "Базовые капитальные работы уже выполнены — инвестиции арендатора потребуются прежде всего для адаптации пространства под собственный формат.", "The core capital works are already complete — the tenant’s investment will be needed primarily to adapt the space to its own format."),
   },
 
   reasons: {
@@ -373,9 +372,9 @@ export const moscova20Experience: LeasingExperience = {
   lens: {
     kicker: T("Formatul dumneavoastră", "Ваш формат", "Your format"),
     title: T("Ce afacere luați în considerare?", "Какой бизнес вы рассматриваете?", "Which business are you considering?"),
-    lead: T("Aceleași caracteristici ale obiectului — cerințe diferite față de spațiu. Alegeți formatul ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Те же характеристики объекта — разные требования к помещению. Выберите формат, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same property characteristics — different requirements for the space. Choose a format to see what deserves attention in your case."),
-    evidenceTitle: T("Ce spune în favoarea", "Что говорит в пользу", "What speaks for it"),
-    checksTitle: T("Ce verificăm împreună", "Что проверим вместе", "What we check together"),
+    lead: T("Același spațiu poate fi privit diferit — în funcție de formatul dumneavoastră, de traseul clienților și de cerințele operaționale. Alegeți varianta ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Одно и то же помещение можно рассматривать по-разному — в зависимости от вашего формата, клиентского сценария и операционных требований. Выберите вариант, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same space can be read in different ways — depending on your format, your client journey and your operating requirements. Choose an option to see what deserves attention in your case."),
+    evidenceTitle: T("De ce se poate potrivi formatul", "Почему формат может подойти", "Why the format may fit"),
+    checksTitle: T("Ce este important de verificat înainte de decizie", "Что важно проверить до принятия решения", "What to check before you decide"),
     scenarioNote: T("Scenariu posibil de organizare", "Возможный сценарий организации", "A possible way to organise it"),
     honesty: T("Dacă obiectul se potrivește ca locație și format, următorul pas este verificarea fezabilității tehnice a scenariului dumneavoastră.", "Если объект подходит по локации и формату, следующим шагом проверим техническую реализуемость вашего сценария.", "If the property suits you in location and format, the next step is to check the technical feasibility of your scenario."),
     regulated: T("Pentru formatele reglementate — clinici, servicii medicale, alimentație publică și alte activități — se verifică suplimentar cerințele tehnice speciale și cele de autorizare.", "Для регулируемых форматов — клиники, медицинских услуг, общепита и других видов деятельности — дополнительно проверяются специальные технические и разрешительные требования.", "For regulated formats — clinics, medical services, food service and other activities — special technical and permit requirements are checked as well."),
@@ -385,12 +384,21 @@ export const moscova20Experience: LeasingExperience = {
         label: T("Retail", "Ритейл", "Retail"),
         question: T("Mă vor observa?", "Увидят ли меня?", "Will they notice me?"),
         evidence: [
-          { text: T("Vitrină continuă spre bulevard — sala se vede de pe trotuar.", "Сплошное остекление к бульвару — зал виден с тротуара.", "Continuous glazing to the boulevard — the hall is visible from the pavement."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
-          { text: T("Trotuarul bulevardului trece chiar de-a lungul vitrinei.", "Тротуар бульвара проходит прямо вдоль витрины.", "The boulevard pavement runs right along the shop window."), ref: "location", evidence: "OWNER_CONFIRMED", source: PHOTO },
-          { text: T("Cartier rezidențial dens și servicii zilnice în jur.", "Вокруг — плотный жилой район и ежедневные сервисы.", "A dense residential district and everyday services around."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · ${LOCATION}` },
-          { text: T("Transport public în apropiere.", "Общественный транспорт рядом.", "Public transport close by."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { title: T("Vitrina se vede din stradă", "Витрина просматривается с улицы", "The shop window is seen from the street"), text: T("Vitrina continuă face punctul de vânzare vizibil dinspre bulevard.", "Сплошное остекление помогает сделать торговую точку заметной со стороны бульвара.", "Continuous glazing makes the shop visible from the boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
+          { title: T("Intrarea este clară pentru client", "Вход понятен клиенту", "The entrance is clear to customers"), text: T("Traseul de pe trotuar până în spațiu se citește ușor, fără un parcurs complicat prin clădire.", "Маршрут от тротуара к помещению считывается без сложного прохода через здание.", "The route from the pavement into the space reads at a glance, with no complicated path through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
+          { title: T("Cartier rezidențial format", "Сформированный жилой район", "An established residential district"), text: T("Împrejurimile creează un public local constant pentru cumpărături și servicii zilnice.", "Окружение создаёт постоянную локальную аудиторию для повседневных покупок и сервисов.", "The surroundings create a steady local audience for everyday shopping and services."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { title: T("Transport public în apropiere", "Общественный транспорт рядом", "Public transport close by"), text: T("Stațiile și rutele simplifică accesul pentru cumpărători și personal.", "Остановки и маршруты упрощают доступ покупателям и персоналу.", "Stops and routes make access easy for shoppers and staff."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · 8 routes at stops within 350 m — current OSM research` },
         ],
-        checks: [T("formatul și dimensiunile firmei", "формат и размеры вывески", "signage format and size"), T("accesul transportului de marfă și orele de descărcare", "подъезд грузового транспорта и часы разгрузки", "delivery vehicle access and unloading hours"), T("programul de lucru", "режим работы", "opening hours")],
+        checks: [
+          T("formatul și dimensiunile firmei", "формат и размеры вывески", "the signage format and size"),
+          T("vizibilitatea vitrinei și a intrării", "заметность витрины и входа", "how visible the window and entrance are"),
+          T("traseul clientului de pe trotuar", "маршрут клиента с тротуара", "the customer's route from the pavement"),
+          T("accesul transportului de marfă", "подъезд грузового транспорта", "delivery vehicle access"),
+          T("orele de descărcare", "часы разгрузки", "unloading hours"),
+          T("programul de lucru", "режим работы", "opening hours"),
+          T("conformitatea spațiului cu cerințele formatului", "соответствие помещения требованиям формата", "how the space meets the format's requirements"),
+        ],
+        closing: T("Dacă locația și formatul se potrivesc, următorul pas este verificarea tehnică și comercială a scenariului de funcționare.", "Если локация и формат совпадают, следующим шагом становится техническая и коммерческая проверка сценария работы.", "If the location and the format match, the next step is a technical and commercial check of how the business will run."),
         overlay: {
           photo: "groundGlazing",
           evidence: "DEMO",
@@ -405,46 +413,53 @@ export const moscova20Experience: LeasingExperience = {
       {
         key: "showroom",
         label: T("Showroom", "Шоурум", "Showroom"),
-        question: T("Vor putea clienții să ajungă comod?", "Смогут ли клиенты удобно приехать?", "Can customers get here easily?"),
+        question: T("Se poate prezenta bine produsul aici?", "Можно ли здесь хорошо показать продукт?", "Can the product be shown well here?"),
         evidence: [
-          { text: T("Bulevardul Moscova — artera principală de transport a sectorului.", "Бульвар Москова — основная транспортная артерия района.", "Moscova Boulevard — the district's main traffic artery."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { text: T("Intersecția bulevardului Moscova cu strada Matei Basarab — o adresă clară, fațadă bine vizibilă.", "Пересечение бульвара Москова и улицы Матей Басараб — понятный адрес, заметный фасад.", "The intersection of Moscova Boulevard and Matei Basarab Street — a clear address, a visible frontage."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { text: T("Intrare separată din stradă, prin terasă: scări și rampă.", "Отдельный вход с улицы через террасу: лестница и пандус.", "A separate street entrance through the terrace: steps and a ramp."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
-          { text: T("Zonă de parcare dedicată lângă obiect; numărul de locuri se clarifică.", "Выделенная парковочная зона у объекта; количество мест уточняется.", "A dedicated parking area by the property; the number of spaces to be confirmed."), ref: "tech", evidence: "OWNER_CONFIRMED", source: "OWNER 2026-10-09 (dedicated parking confirmed; count not)" },
+          { title: T("Spațiul se citește deschis", "Пространство читается открыто", "The space reads as open"), text: T("Planul deschis permite o prezentare clară a produsului.", "Открытая планировка позволяет выстроить понятную презентацию продукта.", "The open layout allows a clear presentation of the product."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
+          { title: T("Există potențial de zonare", "Есть потенциал для зонирования", "There is room for zoning"), text: T("Expoziția, consultanța și partea auxiliară se pot separa.", "Можно разделить экспозицию, консультационную и вспомогательную части.", "Display, consultation and support areas can be kept apart."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Traseu comod pentru client", "Удобный клиентский маршрут", "A comfortable client route"), text: T("Intrarea și logica interioară permit un scenariu de vizită coerent.", "Вход и внутренняя логика помещения позволяют организовать последовательный сценарий визита.", "The entrance and the inner logic of the space allow a coherent visit sequence."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PLANS}` },
+          { title: T("Locația se potrivește vizitelor țintite", "Локация подходит для целевых визитов", "The location suits planned visits"), text: T("Spațiul poate primi atât vizite programate, cât și fluxul natural de clienți.", "Объект можно использовать и для посещений по записи, и для естественного клиентского потока.", "The property can serve both appointments and the natural flow of customers."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
         ],
-        checks: [T("descărcarea mărfii voluminoase", "разгрузка крупногабаритного товара", "unloading of large goods"), T("iluminatul expoziției — dotarea se clarifică", "освещение экспозиции — комплектация уточняется", "display lighting — fittings to be confirmed"), T("formatul firmei", "формат вывески", "signage format")],
+        checks: [
+          T("traseul clientului", "клиентский маршрут", "the client route"),
+          T("calitatea luminii naturale", "качество естественного света", "the quality of daylight"),
+          T("posibilitatea de a organiza expoziția", "возможность организации экспозиции", "how the display can be organised"),
+          T("zonarea spațiului", "зонирование помещения", "the zoning of the space"),
+          T("locul pentru zona de discuții / consultanță", "место для переговорной / консультационной зоны", "room for a meeting / consultation area"),
+          T("comoditatea accesului auto", "удобство подъезда", "how easy it is to drive up"),
+          T("cerințele tehnice ale formatului", "технические требования формата", "the format's technical requirements"),
+        ],
+        closing: T("Pentru un showroom contează nu doar spațiul, ci și felul în care clientul intră, se mișcă prin el și percepe produsul.", "Для шоурума важно не только само помещение, но и то, как клиент входит, двигается по нему и воспринимает продукт.", "For a showroom, what matters is not only the space but how the client enters, moves through it and experiences the product."),
         overlay: {
           photo: "lowerHall",
           evidence: "DEMO",
           source: SCENARIO,
           zones: [
             { label: T("Expoziție", "Экспозиция", "Display"), shape: [[300, 1010], [1340, 1010], [1120, 712], [530, 712]], at: [830, 880] },
-            { label: T("Consultanță", "Консультация", "Consultation"), shape: [[540, 700], [1110, 700], [1035, 620], [640, 620]], at: [835, 655] },
-            { label: T("Depozitare", "Склад", "Stock room"), shape: [[655, 606], [1020, 606], [985, 568], [705, 568]], at: [840, 585] },
+            { label: T("Zona clienților", "Клиентская зона", "Client area"), shape: [[540, 700], [1110, 700], [1035, 620], [640, 620]], at: [835, 655] },
+            { label: T("Zona de serviciu", "Подсобная зона", "Back of house"), shape: [[655, 606], [1020, 606], [985, 568], [705, 568]], at: [840, 585] },
           ],
         },
       },
       {
         key: "service",
         label: T("Servicii pentru clienți", "Клиентский сервис", "Client service"),
-        question: T("Le este comod clienților să ajungă?", "Удобно ли клиентам добираться?", "Is it easy for clients to get here?"),
-        // OWNER copy 2026-11-10 — titled cards; facts as before (OWNER §12 public location wording · the 8 OSM routes · the plans)
-        evidenceTitle: T("De ce locația se potrivește serviciilor pentru clienți", "Почему локация подходит для клиентского сервиса", "Why the location suits client service"),
+        question: T("Le este comod clienților să ajungă aici?", "Удобно ли клиентам добираться сюда?", "Is it easy for clients to get here?"),
         evidence: [
-          { title: T("Transport public în apropiere", "Общественный транспорт рядом", "Public transport close by"), text: T("Stații și rute în imediata apropiere a obiectului.", "Остановки и маршруты в непосредственной близости от объекта.", "Stops and routes in the immediate vicinity of the property."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · 8 routes at stops within 350 m — current OSM research (OWNER micro-fix 2026-11-09)` },
-          { title: T("Cartier rezidențial format", "Сформированный жилой район", "An established residential district"), text: T("Un public local constant în jurul obiectului.", "Постоянная локальная аудитория вокруг объекта.", "A steady local audience around the property."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { title: T("Acces direct din stradă", "Прямой доступ с улицы", "Direct access from the street"), text: T("Intrare din trotuar, scări și rampă — fără un traseu complicat prin clădire.", "Вход с тротуара, лестница и пандус — без сложного маршрута через здание.", "An entrance from the pavement, steps and a ramp — no complicated route through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
-          { title: T("Zona clienților separată de cea de serviciu", "Разделение клиентской и служебной зон", "Client and service areas apart"), text: T("Parterul se potrivește pentru primirea clienților, nivelul inferior — pentru funcțiile auxiliare.", "Первый этаж подходит для приёма клиентов, нижний уровень — для вспомогательных функций.", "The ground floor suits client reception, the lower level the support functions."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Transport public în apropiere", "Общественный транспорт рядом", "Public transport close by"), text: T("Stațiile și rutele se află în imediata apropiere a obiectului.", "Остановки и маршруты находятся в непосредственной близости от объекта.", "Stops and routes are right next to the property."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · 8 routes at stops within 350 m — current OSM research (OWNER micro-fix 2026-11-09)` },
+          { title: T("Cartier rezidențial format", "Сформированный жилой район", "An established residential district"), text: T("Un public local constant susține serviciile de cerere zilnică.", "Постоянная локальная аудитория поддерживает сервисные форматы повседневного спроса.", "A steady local audience supports everyday service formats."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { title: T("O intrare clară", "Понятный вход", "A clear entrance"), text: T("Traseul din stradă până în spațiu poate fi simplu și evident pentru client.", "Маршрут от улицы до помещения можно сделать простым и очевидным для клиента.", "The route from the street into the space can be simple and obvious for clients."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
+          { title: T("Partea clienților și cea de serviciu se pot separa", "Можно разделить клиентскую и служебную части", "Client and service areas can be separated"), text: T("Primul nivel se potrivește pentru primirea vizitatorilor, cel inferior — pentru funcțiile auxiliare.", "Первый уровень подходит для приёма посетителей, нижний — для вспомогательных функций.", "The first level suits visitor reception, the lower one the support functions."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
         ],
-        checksTitle: T("Ce este important de verificat înainte de decizie", "Что важно проверить до принятия решения", "What to check before you decide"),
         checks: [
           T("accesul cu automobilul și cu transportul public", "доступность на автомобиле и общественном транспорте", "access by car and by public transport"),
-          T("comoditatea intrării și a traseului clientului", "удобство входа и маршрута клиента", "the entrance and the client's route"),
+          T("comoditatea intrării și a traseului clientului", "удобство входа и клиентского маршрута", "the entrance and the client route"),
           T("posibilitatea de a amplasa firma și semnalizarea", "возможность размещения вывески и навигации", "room for signage and wayfinding"),
-          T("programul de lucru și accesul în spațiu", "режим работы и доступ в помещение", "opening hours and access to the premises"),
-          T("internetul, rețelele de curenți slabi și infrastructura tehnică", "интернет, слаботочные сети и техническую инфраструктуру", "internet, low-current networks and technical infrastructure"),
-          T("conformitatea spațiului cu cerințele activității dumneavoastră", "соответствие помещения требованиям вашего вида деятельности", "how the premises meet the requirements of your activity"),
+          T("programul de lucru și accesul", "режим работы и доступ", "opening hours and access"),
+          T("internetul și infrastructura de curenți slabi", "интернет и слаботочная инфраструктура", "internet and low-current infrastructure"),
+          T("conformitatea cu cerințele activității concrete", "соответствие требованиям конкретного вида деятельности", "how the space meets the requirements of your specific activity"),
         ],
+        closing: T("Dacă obiectul corespunde modelului dumneavoastră, următorul pas este verificarea fezabilității tehnice a scenariului înainte de semnarea contractului.", "Если объект соответствует вашей модели, следующим шагом нужно проверить техническую реализуемость сценария до подписания договора.", "If the property fits your model, the next step is to check the technical feasibility of your scenario before signing."),
         overlay: {
           photo: "lowerStairs",
           evidence: "DEMO",
@@ -459,14 +474,23 @@ export const moscova20Experience: LeasingExperience = {
       {
         key: "office",
         label: T("Birou · centru pentru clienți", "Офис · клиентский центр", "Office · customer centre"),
-        question: T("Este adresa comodă și pentru clienți, și pentru echipă?", "Удобен ли адрес и клиентам, и команде?", "Does the address work for clients and for the team?"),
+        // set by hand: the automatic typesetting glued «и для команды,» into one unbreakable run that broke mid-word in the narrow question column
+        question: { ro: "Se potrivește spațiul și pentru echipă, și pentru clienți?", ru: "Подходит ли пространство и для команды, и для клиентов?", en: "Does the space work for the team and for clients alike?" },
         evidence: [
-          { text: T("Transport public în apropiere — pentru angajați și clienți.", "Общественный транспорт рядом — для сотрудников и клиентов.", "Public transport close by — for staff and clients."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
-          { text: T("Intrare separată pentru clienți și intrare de serviciu în spate.", "Отдельный вход для клиентов и служебный вход с тыльной стороны.", "A separate customer entrance and a service entrance at the back."), ref: "tech", evidence: "DOCUMENT_CONFIRMED", source: `${OFFER} · ${PLANS}` },
-          { text: T("Alimentare, farmacii, cafenele și servicii — în jur.", "Продукты, аптеки, кафе и услуги — вокруг.", "Groceries, pharmacies, cafés and services — around."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} — ecosystem wording · ${LOCATION}` },
-          { text: T("Se poate împărți: zona clienților la parter, locurile de muncă — la demisol.", "Можно разделить: клиентская зона на 1-м этаже, рабочие места — в цоколе.", "It can be split: the client area on the ground floor, workplaces in the lower ground."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Spațiul se poate împărți pe funcții", "Пространство можно разделить по функциям", "The space can be divided by function"), text: T("Există potențial pentru zone de lucru, pentru clienți și auxiliare.", "Есть потенциал для организации рабочих, клиентских и вспомогательных зон.", "There is room to organise work, client and support areas."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Partea pentru clienți poate funcționa separat", "Клиентская часть может работать отдельно", "The client area can work on its own"), text: T("Primirea vizitatorilor se poate separa de munca internă a echipei.", "Это позволяет отделить приём посетителей от внутренней работы команды.", "Visitor reception can be kept apart from the team's internal work."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Potrivit pentru formatul de consultanță", "Подходит для консультационного формата", "Suited to a consultation format"), text: T("Spațiul poate găzdui întâlniri, consultații și munca zilnică a angajaților.", "Помещение можно использовать для встреч, консультаций и постоянной работы сотрудников.", "The space can host meetings, consultations and the daily work of staff."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PLANS}` },
+          { title: T("Lucrările capitale de bază sunt deja realizate", "Базовые капитальные работы уже выполнены", "The core capital works are already complete"), text: T("Investiția chiriașului va fi necesară în primul rând pentru adaptarea spațiului la propriul format.", "Инвестиции арендатора потребуются прежде всего для адаптации пространства под собственный формат.", "The tenant's investment will be needed primarily to adapt the space to its own format."), ref: "capex", evidence: "OWNER_CONFIRMED", source: "OWNER copy correction 2026-11-10 (capex / tenant investment)" },
         ],
-        checks: [T("rezerva de putere pentru echipamente", "резерв мощности под оборудование", "power reserve for equipment"), T("internetul și rețelele de curenți slabi", "интернет и слаботочные сети", "internet and low-current networks"), T("numărul de locuri de muncă pentru procesul dumneavoastră", "количество рабочих мест под ваш процесс", "the number of workplaces for your process")],
+        checks: [
+          T("separarea zonei pentru clienți de zona de lucru", "разделение клиентской и рабочей зон", "separating the client and work areas"),
+          T("numărul și formatul locurilor de muncă", "количество и формат рабочих мест", "the number and type of workplaces"),
+          T("zona de discuții / consultanță", "переговорная / консультационная зона", "a meeting / consultation area"),
+          T("internetul și infrastructura de curenți slabi", "интернет и слаботочная инфраструктура", "internet and low-current infrastructure"),
+          T("regimul de acces pentru angajați și clienți", "режим доступа сотрудников и клиентов", "access rules for staff and clients"),
+          T("cerințele inginerești ale scenariului de birou", "инженерные требования офисного сценария", "the engineering requirements of an office scenario"),
+        ],
+        closing: T("Înainte de lansarea biroului verificăm planul, cerințele inginerești și traseele angajaților și ale clienților.", "Перед запуском офиса проверяем планировку, инженерные требования и сценарий движения сотрудников и клиентов.", "Before the office opens, we check the layout, the engineering requirements and how staff and clients will move through the space."),
         overlay: {
           photo: "lowerService",
           evidence: "DEMO",
@@ -474,7 +498,7 @@ export const moscova20Experience: LeasingExperience = {
           zones: [
             { label: T("Zona clienților", "Клиентская зона", "Client area"), shape: [[620, 562], [1000, 552], [1078, 650], [612, 662]], at: [840, 606] },
             { label: T("Zona de lucru", "Рабочая зона", "Work area"), shape: [[0, 700], [1380, 690], [1450, 1066], [0, 1066]], at: [640, 880] },
-            { label: T("Sală de ședințe", "Переговорная", "Meeting room"), shape: [[1040, 540], [1342, 506], [1372, 622], [1082, 600]], at: [1210, 566] },
+            { label: T("Zona de serviciu", "Служебная зона", "Service area"), shape: [[1040, 540], [1342, 506], [1372, 622], [1082, 600]], at: [1210, 566] },
           ],
         },
       },

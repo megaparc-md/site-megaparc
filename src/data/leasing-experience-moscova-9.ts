@@ -182,6 +182,7 @@ export const moscova9Experience: LeasingExperience = {
           { text: T("Cartier rezidențial dens în jur.", "Вокруг — плотный жилой район.", "A dense residential district around."), ref: "location", evidence: "OWNER_CONFIRMED", source: ASSET },
         ],
         checks: [T("suprafața etajului 1 pentru formatul dumneavoastră", "площадь 1-го этажа под ваш формат", "the 1st-floor area for your format"), T("puterea electrică și ventilația", "мощность и вентиляция", "power and ventilation"), T("formatul și dimensiunile firmei", "формат и размеры вывески", "signage format and size")],
+        closing: sharedLens.honesty,
         overlay: null,
       },
       {
@@ -194,6 +195,7 @@ export const moscova9Experience: LeasingExperience = {
           { text: T("Clădire independentă, în afara centrelor comerciale — fațadă și firmă proprii.", "Отдельное здание вне торговых центров — собственный фасад и вывеска.", "A stand-alone building outside the malls — its own facade and signage."), ref: "photos", evidence: "OWNER_CONFIRMED", source: ASSET },
         ],
         checks: [T("descărcarea mărfii voluminoase", "разгрузка крупногабаритного товара", "unloading of large goods"), T("iluminatul expoziției", "освещение экспозиции", "display lighting"), T("formatul firmei", "формат вывески", "signage format")],
+        closing: sharedLens.honesty,
         overlay: null,
       },
     ],

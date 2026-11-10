@@ -176,6 +176,7 @@ export const creanga78Experience: LeasingExperience = {
           { text: T("Strada Ion Creangă și stațiile de transport din apropiere — pe hartă.", "Улица Иона Крянгэ и остановки транспорта рядом — на карте.", "Ion Creangă Street and the nearby transport stops — on the map."), ref: "location", evidence: "DOCUMENT_CONFIRMED", source: OSM },
         ],
         checks: [T("suprafața și termenul eliberării", "площадь и срок освобождения", "the area and the release date"), T("puterea și ventilația pentru formatul dumneavoastră", "мощность и вентиляция под ваш формат", "power and ventilation for your format"), T("autorizațiile pentru activitatea dumneavoastră", "разрешения под ваш вид деятельности", "permits for your activity")],
+        closing: sharedLens.honesty,
         overlay: null,
       },
     ],

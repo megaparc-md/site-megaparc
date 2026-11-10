@@ -88,9 +88,11 @@ export type LensFormat = {
   evidence: { title?: Localized; text: Localized; ref: LensRef; evidence: Evidence; source: string }[];
   /** the checks made together before a decision */
   checks: Localized[];
-  /** the format's own headings of the two lists (absent → the section's «Что говорит в пользу» / «Что проверим вместе») */
+  /** the format's own headings of the two lists (absent → the section's «Почему формат может подойти» / «Что важно проверить до принятия решения») */
   evidenceTitle?: Localized;
   checksTitle?: Localized;
+  /** one closing decision-support statement of the format (OWNER «YOUR FORMAT», 2026-11-10) */
+  closing?: Localized;
   /** null where no interior photograph exists — the visual keeps its frame and says the organisation is shown on the plan at the viewing */
   overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string } | null;
 };

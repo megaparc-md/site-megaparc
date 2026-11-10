@@ -58,7 +58,7 @@ export function FormatPicker({ formats, panes, label }: { formats: { key: string
       </div>
       <div className="lg-lens__panes">
         {panes.map((pane, index) => (
-          <div key={formats[index].key} role="tabpanel" id={`lg-formatpane-${formats[index].key}`} aria-labelledby={`lg-format-${formats[index].key}`} hidden={index !== active} className="lg-lens__pane">
+          <div key={formats[index].key} role="tabpanel" id={`lg-formatpane-${formats[index].key}`} aria-labelledby={`lg-format-${formats[index].key}`} aria-hidden={index !== active} inert={index !== active} className={`lg-lens__pane ${index === active ? "is-on" : "is-off"}`}>
             {pane}
           </div>
         ))}

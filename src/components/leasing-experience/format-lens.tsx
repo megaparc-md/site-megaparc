@@ -89,6 +89,7 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
             </li>
           ))}
         </ul>
+        {format.closing ? <p className="lg-lens__closing">{format.closing[locale]}</p> : null}
       </div>
     </div>
   );
@@ -105,8 +106,9 @@ export function FormatLens({ x, offer, locale }: { x: LeasingExperience; offer: 
           formats={l.formats.map((format, i) => ({ key: format.key, no: String(i + 1).padStart(2, "0"), label: format.label[locale] }))}
           panes={l.formats.map((format) => <Pane key={format.key} x={x} format={format} locale={locale} offer={offer} />)}
         />
+        {/* the closing statement lives in each format; a dataset without per-format closings keeps the section line */}
         <div className="lg-lens__foot" data-reveal>
-          <p className="lg-lens__honesty">{l.honesty[locale]}</p>
+          {l.formats.every((format) => format.closing) ? null : <p className="lg-lens__honesty">{l.honesty[locale]}</p>}
           <p className="lg-lens__regulated">{l.regulated[locale]}</p>
         </div>
       </div>
