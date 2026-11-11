@@ -94,6 +94,16 @@
 
 /* share · toast */
 .lp-share__list { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+/* R2 (OWNER 2026-11-11 §14 · §22): the icon row — line icons, icon + short label on desktop, compact icons on phones; small inline feedback, no large toast */
+.lp-share__row { display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; margin: 0; padding: .8rem 0; border-top: 1px solid var(--r3-hair-strong, rgba(20, 21, 24, .4)); border-bottom: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); list-style: none; }
+.lp-share__item { display: inline-flex; align-items: center; gap: .55rem; min-height: 2.4rem; padding: 0; border: 0; background: none; color: var(--r3-ink, #0f1012); font: inherit; font-size: .9rem; cursor: pointer; text-decoration: none; }
+.lp-share__item .uicon { color: var(--r3-burgundy, #74202f); flex: none; transition: transform .2s ease; }
+.lp-share__item:hover span { color: var(--r3-burgundy, #74202f); }
+.lp-share__item:hover .uicon { transform: translateY(-1px); }
+.lp-share__item:focus-visible { outline: 2px solid var(--r3-red, #ed1c2e); outline-offset: 3px; }
+.lp-share__feedback { display: inline-block; margin-left: .8rem; color: var(--r3-burgundy, #74202f); font-size: .82rem; opacity: 0; transition: opacity .25s ease; }
+.lp-share__feedback[data-on="true"] { opacity: 1; }
+@media (max-width: 520px) { .lp-share__row { gap: .2rem 1.1rem; justify-content: space-between; } .lp-share__item { min-width: 2.6rem; justify-content: center; } .lp-share__item span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } .lp-share__item .uicon { width: 22px; height: 22px; } }
 .lp-share__url { margin: .9rem 0 0; font-size: .86rem; color: var(--r3-muted, #6a6d75); }
 .lp-share__url a { color: inherit; }
 .lp-toast { position: fixed; left: 50%; bottom: 5.4rem; z-index: 200; margin: 0; padding: .6rem 1rem; border-radius: 2px; background: var(--r3-ink, #0f1012); color: #fff; font-size: .86rem; transform: translate(-50%, .5rem); opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease; }

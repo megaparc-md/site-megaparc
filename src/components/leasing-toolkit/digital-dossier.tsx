@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui";
+import { UtilityIcon } from "@/components/utility-icons";
 import { track } from "@/lib/track";
 
 /**
@@ -33,7 +34,7 @@ export function DigitalDossier({ copy, packHref, pdfHref, plansHref }: { copy: D
               <a className="lt-dossier__row" href={pdfHref} download="" onClick={() => track("m20_dossier_download", { from: "property" })}>
                 <span className="lt-dossier__row-label">{copy.pdf}</span>
                 <span className="lt-dossier__row-meta">{copy.pdfMeta}</span>
-                <Icon name="down" size={18} />
+                <UtilityIcon name="download" size={18} />
               </a>
             </li>
             <li>
@@ -45,7 +46,7 @@ export function DigitalDossier({ copy, packHref, pdfHref, plansHref }: { copy: D
             </li>
           </ul>
           <a className="lt-dossier__qr" href="#qr" data-drawer="qr" aria-haspopup="dialog" onClick={() => track("m20_qr_open", { from: "property" })}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true" focusable="false"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z" /></svg>
+            <UtilityIcon name="qr" size={14} />
             <span>{copy.qr}</span>
           </a>
         </div>
