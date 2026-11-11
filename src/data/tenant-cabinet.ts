@@ -15,6 +15,8 @@ export const tenantCabinet = {
   /** reserved route (site-relative, before the locale prefix) — or a future dedicated tenant application URL */
   path: "/tenant",
   externalUrl: null as string | null,
+  /** the non-public OWNER demo on synthetic data (2026-11-11) — never linked from the public site; not the reserved route above */
+  ownerDemo: "/ru/owner-demo/tenant-cabinet/",
   label: { ro: "Pentru chiriașii actuali", ru: "Для действующих арендаторов", en: "For existing tenants" } satisfies Localized,
   action: { ro: "Intră în cabinet", ru: "Войти в кабинет", en: "Tenant portal" } satisfies Localized,
   /** the informational page (OPTION B) — kept for the day the OWNER prefers it before launch; not rendered under OPTION A */

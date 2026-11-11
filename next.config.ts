@@ -16,6 +16,9 @@ const productionStubs = {
   // Digital Leasing Toolkit (OWNER 2026-11-11): the pre-check and viewing-request forms follow the same rule
   "@/components/leasing-toolkit/pre-check-form": "./src/editions/production/pre-check-form.tsx",
   "@/components/leasing-toolkit/viewing-request": "./src/editions/production/viewing-request.tsx",
+  // Tenant Cabinet OWNER demo (2026-11-11): non-public — no demo module, synthetic data, client code or stylesheet in production bundles
+  "@/components/tenant-demo/screens": "./src/editions/production/tenant-demo-screens.tsx",
+  "@/app/ru/owner-demo/tenant-cabinet/tenant-cabinet.css": "./src/editions/production/empty.css",
 };
 
 const nextConfig: NextConfig = {
