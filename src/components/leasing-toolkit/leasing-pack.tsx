@@ -19,9 +19,10 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * DIGITAL LEASING PACK — the compact hub of the Moscova 20 toolkit (OWNER mandate §3, 2026-11-11): a digital property passport,
- * quick on a phone after the QR scan. 01 the property · 02 the verified facts (read from the approved dataset — the passport cards
- * and the unit record, never typed again) · 03 the actions (plans · dossier · technical check · viewing · e-Cadastru · share) ·
- * the interactive plan layer · contacts · the QR for the same page · the virtual-tour slot (nothing while the URL is null).
+ * quick on a phone after the QR scan. OWNER «LEASING PACK / DOSSIER CORRECTIONS» §2 (2026-11-11) — a fast decision hub:
+ * 01 the four quick facts (passport figures, read from the approved dataset, never typed again) · 02 the actions (plans · dossier ·
+ * technical check · viewing · e-Cadastru · share) · 03 the interactive plan layer · 04 the property with the detailed infrastructure
+ * folded (secondary, nothing removed) · 05 contacts · the QR for the same page · the virtual-tour slot (nothing while the URL is null).
  * Rows and hairlines, not a dashboard. The pre-check, the viewing request and the share flow live in drawers.
  */
 const ORIGIN = "https://www.megaparc.md";
@@ -45,8 +46,11 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const packUrl = `${ORIGIN}${localePath(locale, m20Toolkit.packPath)}/`;
   const propertyPath = localePath(locale, `/projects/${project.slug}`);
   const hero = x.photos[x.hero.photo];
+  // OWNER «LEASING PACK / DOSSIER CORRECTIONS» §1: the toolkit's «коммерческое помещение» in place of the unit record's label
+  const unitLine = unit ? c.unit[locale] : c.levelsLine[locale];
+  const unitLabel = unit ? offer.unitLabel.replace(unit.unit[locale], c.unit[locale]) : offer.unitLabel;
 
-  // 02 · the four key facts of the passport (the clear heights from the unit record, as on the property page)
+  // 01 · the four key facts of the passport (the clear heights from the unit record, as on the property page)
   const keys = passport.facts.filter((fact) => publishable(fact.evidence)).map((fact) => {
     const floors = offer.breakdown.filter((level) => level.height);
     const figure = fact.figure === "heights" ? (floors.length ? `${floors.some((l) => l.heightEvidence === "APPROXIMATE") ? "≈ " : ""}${floors.map((l) => metres(l.height!, locale)).join(" / ")}` : null) : fact.figure[locale];
@@ -116,7 +120,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
             <p className="lp-lead">{c.lead[locale]}</p>
             <p className="lp-status">
               <span className="lp-status__fig">{offer.figure}</span>
-              <span className="lp-status__line">{unit?.unit[locale] ?? c.levelsLine[locale]} · {project.city[locale]}</span>
+              <span className="lp-status__line">{unitLine} · {project.city[locale]}</span>
               <span className={`lp-status__line${offer.state === "now" ? " lp-status__now" : ""}`}>{offer.status}</span>
             </p>
           </div>
@@ -124,20 +128,10 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
         </div>
       </header>
 
-      {/* 01 · the property */}
-      <section className="lp-sec" aria-labelledby="lp-summary">
-        <div className="lp-shell">
-          <div className="lp-sec__head"><span className="lp-no">01</span><h2 className="lp-h2" id="lp-summary">{c.summary[locale]}</h2></div>
-          <p className="lp-lead" style={{ marginTop: 0 }}>{x.hero.title[locale]}</p>
-          <p className="lp-status__line">{x.address[locale]} · {x.location.lead[locale]}</p>
-          <p className="lp-meta"><Link href={propertyPath}>{c.page[locale]} →</Link></p>
-        </div>
-      </section>
-
-      {/* 02 · verified facts */}
+      {/* 01 · quick facts — the four passport figures, nothing else (OWNER «LEASING PACK / DOSSIER CORRECTIONS» §2: a fast decision hub) */}
       <section className="lp-sec lp-sec--paper" aria-labelledby="lp-facts">
         <div className="lp-shell">
-          <div className="lp-sec__head"><span className="lp-no">02</span><h2 className="lp-h2" id="lp-facts">{c.facts[locale]}</h2></div>
+          <div className="lp-sec__head"><span className="lp-no">01</span><h2 className="lp-h2" id="lp-facts">{c.quick[locale]}</h2></div>
           <dl className="lp-keys">
             {keys.map((k) => (
               <div key={k.key} className="lp-key">
@@ -147,30 +141,43 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
               </div>
             ))}
           </dl>
-          <dl className="lp-rows">
-            {cards.map((card) => (
-              <div key={card.key}><dt>{card.title[locale]}</dt><dd>{card.value[locale]}<small>{card.text[locale]}</small></dd></div>
-            ))}
-            <div><dt>{ui.status[locale]}</dt><dd>{offer.status}</dd></div>
-            <div><dt>e‑Cadastru</dt><dd>{number}</dd></div>
-          </dl>
         </div>
       </section>
 
-      {/* 03 · actions */}
+      {/* 02 · actions — right after the quick facts */}
       <section className="lp-sec" aria-labelledby="lp-actions">
         <div className="lp-shell">
-          <div className="lp-sec__head"><span className="lp-no">03</span><h2 className="lp-h2" id="lp-actions">{c.actions[locale]}</h2></div>
+          <div className="lp-sec__head"><span className="lp-no">02</span><h2 className="lp-h2" id="lp-actions">{c.actions[locale]}</h2></div>
           <PackActions items={actions} />
         </div>
       </section>
 
-      {/* the plan layer — explanatory; the official drawing and its PDF stay authoritative */}
+      {/* 03 · the plan layer — explanatory; the official drawing and its PDF stay authoritative */}
       <section className="lp-sec lp-sec--paper" id="pack-plans" aria-labelledby="lp-plans-title">
         <div className="lp-shell">
-          <div className="lp-sec__head"><span className="lp-no">04</span><h2 className="lp-h2" id="lp-plans-title">{pc.title[locale]}</h2></div>
+          <div className="lp-sec__head"><span className="lp-no">03</span><h2 className="lp-h2" id="lp-plans-title">{pc.title[locale]}</h2></div>
           <p className="lp-lead" style={{ marginTop: 0, marginBottom: "1.2rem" }}>{pc.lead[locale]}</p>
           <PlanLayers levels={levels} facts={facts} copy={layerCopy} />
+        </div>
+      </section>
+
+      {/* 04 · the property + the detailed infrastructure, secondary and folded (nothing removed — one level lower) */}
+      <section className="lp-sec" aria-labelledby="lp-summary">
+        <div className="lp-shell">
+          <div className="lp-sec__head"><span className="lp-no">04</span><h2 className="lp-h2" id="lp-summary">{c.summary[locale]}</h2></div>
+          <p className="lp-lead" style={{ marginTop: 0 }}>{x.hero.title[locale]}</p>
+          <p className="lp-status__line">{x.address[locale]} · {x.location.lead[locale]}</p>
+          <p className="lp-meta"><Link href={propertyPath}>{c.page[locale]} →</Link></p>
+          <details className="lp-more">
+            <summary><span>{c.details[locale]}</span><small>{c.detailsMeta[locale].replace("{n}", String(cards.length))}</small></summary>
+            <dl className="lp-rows">
+              {cards.map((card) => (
+                <div key={card.key}><dt>{card.title[locale]}</dt><dd>{card.value[locale]}<small>{card.text[locale]}</small></dd></div>
+              ))}
+              <div><dt>{ui.status[locale]}</dt><dd>{offer.status}</dd></div>
+              <div><dt>e‑Cadastru</dt><dd>{number}</dd></div>
+            </dl>
+          </details>
         </div>
       </section>
 
@@ -186,7 +193,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
         <div className="lp-shell lp-aside">
           <div>
             <div className="lp-sec__head"><span className="lp-no">05</span><h2 className="lp-h2" id="lp-contacts">{c.contacts[locale]}</h2></div>
-            <DirectContact locale={locale} subject="lease" title={null} note={null} context={offer.unitLabel} />
+            <DirectContact locale={locale} subject="lease" title={null} note={null} context={unitLabel} />
             {/* secondary service entry for existing tenants (OWNER «TENANT CABINET ENTRY», 2026-11-11) — nothing until the cabinet exists */}
             <TenantEntry locale={locale} className="lp-meta" />
           </div>
@@ -206,7 +213,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
         <PreCheck locale={locale} />
       </LgDrawer>
       <LgDrawer id="book" title={c.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
-        <BookViewing locale={locale} unitLabel={offer.unitLabel} />
+        <BookViewing locale={locale} unitLabel={unitLabel} />
       </LgDrawer>
       <LgDrawer id="share" title={toolkitCopy.share.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
         <ShareProperty url={packUrl} locale={locale} />

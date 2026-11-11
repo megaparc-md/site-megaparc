@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OperatorProof } from "@/components/operator-proof";
 import { MaskTitle, Val } from "@/components/experience";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
 import { SpaceImage, viewingHref } from "@/components/leasing/unit-card";
@@ -303,6 +304,8 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       {/* WHY LEASE WITH MEGAPARC (R3.2 §14) — Moscova 20-level trust: the technical team, feasibility first, the owner
           directly, verified data; the full check list and the cadastral verification live on each property page */}
       <LeasingWhy locale={locale} />
+      {/* OPERATOR PROOF — renders nothing until a brand passes the triple gate (OWNER «THIRD-PARTY BRAND SAFETY LOCK», 2026-11-11) */}
+      <OperatorProof locale={locale} />
 
       {/* TENANT ADVISOR — kept, folded: one question opens it */}
       <section className="r3-sec r3-sec--ivory r3-advisor" id="advisor">

@@ -11,9 +11,9 @@ import { isProductionEdition, type Localized, type SiteLocale } from "@/lib/site
  */
 const productionNote: Record<"precheck" | "book", Localized> = {
   precheck: {
-    ro: "Verificarea tehnică a conceptului se solicită deocamdată direct — scrieți-ne sau sunați; directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea înainte de condițiile comerciale.",
-    ru: "Техническую проверку концепции пока запрашивают напрямую — напишите или позвоните; технический директор и архитектор MEGAPARC проверяют реализуемость до коммерческих условий.",
-    en: "For now the technical concept check is requested directly — write or call; MEGAPARC's Technical Director and Architect check feasibility before commercial terms.",
+    ro: "Verificarea tehnică a conceptului se solicită deocamdată direct — scrieți-ne sau sunați; directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea tehnică a conceptului înainte de convenirea condițiilor comerciale.",
+    ru: "Техническую проверку концепции пока запрашивают напрямую — напишите или позвоните; технический директор и архитектор MEGAPARC проверяют техническую реализуемость концепции до согласования коммерческих условий.",
+    en: "For now the technical concept check is requested directly — write or call; MEGAPARC's Technical Director and Architect check the technical feasibility of the concept before commercial terms are agreed.",
   },
   book: {
     ro: "Cererea de vizionare se trimite deocamdată direct — scrieți-ne sau sunați și propuneți ziua și intervalul; confirmăm ora personal.",

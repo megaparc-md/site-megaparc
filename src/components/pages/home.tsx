@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OperatorProof } from "@/components/operator-proof";
 import { MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
@@ -325,6 +326,9 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           </div>
         </div>
       </section>
+
+      {/* OPERATOR PROOF — renders nothing until a brand passes the triple gate (OWNER «THIRD-PARTY BRAND SAFETY LOCK», 2026-11-11) */}
+      <OperatorProof locale={locale} />
 
       {/* 06 HISTORY — one large year, the short story; an archival frame only where approved */}
       <section className={`r3-sec r3-sec--ivory r3-heritage r32-heritage${teaserImage.home ? "" : " r3-heritage--type"}`} id="history">

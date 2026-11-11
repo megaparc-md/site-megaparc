@@ -1,7 +1,7 @@
 import { templateOffer } from "@/components/leasing-experience/offer";
 import { SiteMap } from "@/components/site-map";
 import { formatAreaExact, getProject, getSpace } from "@/content/source";
-import { company } from "@/data/demo-content";
+import { company, contactLinks } from "@/data/demo-content";
 import { publishable } from "@/data/leasing-experience-model";
 import { moscova20Experience as x } from "@/data/leasing-experience-moscova-20";
 import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
@@ -14,6 +14,9 @@ import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
  * 09 trust + next step (QR). Printed to PDF by scripts/moscova-20-dossier.mjs (headless Chrome, A4, no margins); the route is
  * internal (noindex, removed from the production artifact by scripts/package-production.mjs). Every URL in the PDF is the
  * production canonical. Facts come from the approved dataset only; «Updated: DD.MM.YYYY» and the version on every page.
+ * OWNER «LEASING PACK / DOSSIER CORRECTIONS» (2026-11-11): every URL, e-mail, telephone and next-step action is a real absolute
+ * link (Chrome writes URI annotations only for <a href>; a relative href would resolve to the print server, so none is used);
+ * the toolkit wording (§1 «коммерческое помещение», §3–§6) replaces the dataset lines by key — the facts are unchanged.
  */
 const ORIGIN = "https://www.megaparc.md";
 const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB" };
@@ -51,6 +54,13 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
     <header className="dp-head"><span className="dp-head__no">{no}</span><h2 className="dp-head__title">{title}</h2><span className="dp-head__name">Moscova 20 · MEGAPARC</span></header>
   );
   const sides = passport.sides?.sides.filter((side) => publishable(side.evidence)) ?? [];
+  // toolkit wording in place of the dataset lines (OWNER «LEASING PACK / DOSSIER CORRECTIONS» §1 · §3–§6)
+  const unitLabel = unit ? offer.unitLabel.replace(unit.unit[locale], toolkitCopy.pack.unit[locale]) : offer.unitLabel;
+  const reasonText = (key: string, fallback: string) => (key === "location" || key === "base" ? d.reasons[key][locale] : fallback);
+  const pointText = (text: { en: string } & Record<SiteLocale, string>) => (text.en === "A highly visible frontage" ? d.facade[locale] : text[locale]);
+  const itemNote = (key: string, note: Record<SiteLocale, string> | undefined) => (key === "support" ? d.support[locale] : note?.[locale] ?? null);
+  const contactUrl = `${ORIGIN}${localePath(locale, "/contact")}/`;
+  const nextHref = [`${packUrl}#book`, `${packUrl}#precheck`, contactUrl];
 
   return (
     <main className="dp" lang={locale}>
@@ -71,9 +81,9 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
         {head("01", s.property[locale])}
         <p className="dp-statement">{x.hero.title[locale]}</p>
         <p className="dp-text">{x.address[locale]}. {x.location.lead[locale]}</p>
-        <p className="dp-text">{offer.unitLabel} · {offer.status}.</p>
+        <p className="dp-text">{unitLabel} · {offer.status}.</p>
         <ul className="dp-list">
-          {x.reasons.items.map((item) => <li key={item.key}><strong>{item.label[locale]}.</strong> {item.text[locale]}</li>)}
+          {x.reasons.items.map((item) => <li key={item.key}><strong>{item.label[locale]}.</strong> {reasonText(item.key, item.text[locale])}</li>)}
         </ul>
         {foot}
       </section>
@@ -119,7 +129,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {/* a print-only JPEG of the 1400 px OWNER drawing derivative (Chrome keeps JPEG streams as-is — the PDF stays light); the full-resolution annex is referenced below */}
               <img src={publicAsset(`/assets/leasing/moscova-20/dossier/plan-${level.key}.jpg`)} alt={photo.alt[locale]} />
-              <figcaption>{d.planNote[locale]} · {ORIGIN}{level.drawing!.pdf.replace(/^.*?\/assets/, "/assets")}</figcaption>
+              <figcaption>{d.planNote[locale]} · <a href={`${ORIGIN}${level.drawing!.pdf.replace(/^.*?\/assets/, "/assets")}`}>{ORIGIN}{level.drawing!.pdf.replace(/^.*?\/assets/, "/assets")}</a></figcaption>
             </figure>
             {foot}
           </section>
@@ -131,10 +141,10 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
         {head("06", s.technical[locale])}
         <dl className="dp-rows">
           {passport.groups.filter((g) => g.key !== "logistics" && g.key !== "access").flatMap((g) => g.items.filter((item) => publishable(item.evidence)).map((item) => (
-            <div key={`${g.key}-${item.key}`}><dt>{item.title[locale]}</dt><dd>{item.value[locale]}{item.note ? <small>{item.note[locale]}</small> : null}</dd></div>
+            <div key={`${g.key}-${item.key}`}><dt>{item.title[locale]}</dt><dd>{item.value[locale]}{itemNote(item.key, item.note) ? <small>{itemNote(item.key, item.note)}</small> : null}</dd></div>
           )))}
         </dl>
-        <p className="dp-text" style={{ marginTop: "5mm" }}>{passport.capex[locale]}</p>
+        <p className="dp-text" style={{ marginTop: "5mm" }}>{d.capex[locale]}</p>
         {foot}
       </section>
 
@@ -159,7 +169,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
         {head("08", s.location[locale])}
         <div className="dp-map"><SiteMap slug={project.slug} name={project.name} label={x.address[locale]} /></div>
         <p className="dp-statement" style={{ fontSize: "15pt" }}>{x.location.lead[locale]}</p>
-        <ul className="dp-list">{x.location.points.filter((p) => publishable(p.evidence)).map((p) => <li key={p.text.en}>{p.text[locale]}</li>)}</ul>
+        <ul className="dp-list">{x.location.points.filter((p) => publishable(p.evidence)).map((p) => <li key={p.text.en}>{pointText(p.text)}</li>)}</ul>
         {foot}
       </section>
 
@@ -167,20 +177,23 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
       <section className="dp-page">
         {head("09", `${s.trust[locale]} · ${s.next[locale]}`)}
         <p className="dp-cadastre">{number}</p>
-        <p className="dp-text">{d.cadastre[locale]} — <span className="dp-url">{eCadastruPortal}</span></p>
+        <p className="dp-text">{d.cadastre[locale]} — <a className="dp-url" href={eCadastruPortal}>{eCadastruPortal}</a></p>
         <p className="dp-text">{d.team[locale]}</p>
         <div className="dp-next" style={{ marginTop: "8mm" }}>
           <div>
             <ol>
-              {d.nextActions[locale].map((action, i) => <li key={action}><b>0{i + 1}</b>{action}</li>)}
+              {d.nextActions[locale].map((action, i) => <li key={action}><b>0{i + 1}</b><a href={nextHref[i]}>{action}</a></li>)}
             </ol>
-            <p className="dp-contacts">{company.email.value[locale]}<br />{company.mobile.value[locale]}<br />{company.landline.value[locale]}</p>
-            <p className="dp-url" style={{ marginTop: "4mm" }}>{propertyUrl}</p>
+            <p className="dp-contacts"><a href={contactLinks.email}>{company.email.value[locale]}</a><br /><a href={contactLinks.mobile}>{company.mobile.value[locale]}</a><br /><a href={contactLinks.landline}>{company.landline.value[locale]}</a></p>
+            <p className="dp-url" style={{ marginTop: "4mm" }}><a href={propertyUrl}>{propertyUrl}</a></p>
           </div>
           <div className="dp-qr">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={m20Toolkit.qr.svg} alt="QR" />
-            <p>{d.qrLine[locale]}<br />{packUrl.replace(/^https?:\/\//, "")}</p>
+            {/* the QR encodes the production canonical (src=qr); the printed image and the URL beneath it open the same pack */}
+            <a href={packUrl}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={m20Toolkit.qr.svg} alt="QR" />
+            </a>
+            <p>{d.qrLine[locale]}<br /><a href={packUrl}>{packUrl.replace(/^https?:\/\//, "")}</a></p>
           </div>
         </div>
         {foot}

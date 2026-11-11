@@ -194,3 +194,17 @@
 .tenant-entry__action { color: var(--r3-ink, #0f1012); border-bottom: 1px solid var(--r3-hair-strong, rgba(20, 21, 24, .4)); }
 .r3-ftr__tenant { padding: 1.2rem 0 0; color: rgba(255, 255, 255, .6); }
 .r3-ftr__tenant .tenant-entry__action { color: #fff; border-bottom-color: rgba(255, 255, 255, .35); }
+
+/* OWNER «LEASING PACK / DOSSIER CORRECTIONS» §2 (2026-11-11): the detailed infrastructure folds below the quick facts, actions and plans */
+.lp-more { margin-top: 1.4rem; border-top: 1px solid var(--r3-hair-strong, rgba(20, 21, 24, .4)); }
+.lp-more > summary { display: flex; align-items: baseline; gap: .9rem; padding: .95rem 0; cursor: pointer; list-style: none; color: var(--r3-ink, #0f1012); font-size: .98rem; }
+.lp-more > summary::-webkit-details-marker { display: none; }
+.lp-more > summary small { margin-left: auto; color: var(--r3-muted, #6a6d75); font-size: .8rem; }
+.lp-more > summary::after { content: "+"; color: var(--r3-burgundy, #74202f); font-size: 1.15rem; line-height: 1; }
+.lp-more[open] > summary::after { content: "\2212"; }
+.lp-more > summary:focus-visible { outline: 2px solid var(--r3-red, #ed1c2e); outline-offset: 3px; }
+.lp-more > .lp-rows { margin-top: 0; }
+@media (max-width: 520px) { .lp-more > summary { flex-wrap: wrap; } .lp-more > summary small { order: 3; flex-basis: 100%; margin-left: 0; } }
+
+/* §7: real links in the dossier — the PDF keeps clickable URI annotations; the print look stays as it was */
+.dp a { color: inherit; text-decoration: none; }

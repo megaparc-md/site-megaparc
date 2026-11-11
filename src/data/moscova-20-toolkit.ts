@@ -66,6 +66,14 @@ export const toolkitCopy = {
     tourTitle: { ro: "Tur virtual", ru: "Виртуальный тур", en: "Virtual tour" },
     tourOpen: { ro: "Deschide turul", ru: "Открыть тур", en: "Open the tour" },
     levelsLine: { ro: "parter + demisol", ru: "1‑й этаж + цоколь", en: "ground + lower ground" },
+    // OWNER «LEASING PACK / DOSSIER CORRECTIONS» §1 (2026-11-11): the toolkit positions Moscova 20 for several business formats —
+    // «коммерческое помещение», not «торговое». The unit record (src/data/leasing-inventory.ts) feeds the released property page and
+    // is not changed here; the pack, the dossier, the share text and the pack OG use this label.
+    unit: { ro: "Spațiu comercial · parter + demisol", ru: "Коммерческое помещение · 1‑й этаж + цоколь", en: "Commercial space · ground + lower ground" },
+    // §2: quick facts first, then the actions; the detailed infrastructure is secondary and folded
+    quick: { ro: "Date principale", ru: "Ключевые факты", en: "Key facts" },
+    details: { ro: "Infrastructura obiectului — în detaliu", ru: "Инфраструктура объекта — подробно", en: "Property infrastructure — in detail" },
+    detailsMeta: { ro: "{n} poziții · status · e‑Cadastru", ru: "{n} позиций · статус · e‑Cadastru", en: "{n} items · status · e-Cadastru" },
   },
   plans: {
     title: { ro: "Planurile spațiului", ru: "Планы помещения", en: "The plans of the premises" },
@@ -93,7 +101,7 @@ export const toolkitCopy = {
     whatsapp: { ro: "WhatsApp", ru: "WhatsApp", en: "WhatsApp" },
     text: {
       ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol). Planuri, date tehnice și programarea vizionării:",
-      ru: "Moscova 20 — торговое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь). Планы, технические данные и запись на просмотр:",
+      ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь). Планы, технические данные и запись на просмотр:",
       en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground). Plans, technical data and viewing booking:",
     },
   },
@@ -107,7 +115,22 @@ export const toolkitCopy = {
   },
   dossier: {
     kicker: { ro: "Dosar de închiriere", ru: "Досье объекта", en: "Leasing dossier" },
-    cover: { ro: "spațiu comercial · parter + demisol · Chișinău", ru: "торговое помещение · 1‑й этаж + цоколь · Кишинёв", en: "commercial premises · ground + lower ground · Chișinău" },
+    cover: { ro: "spațiu comercial · parter + demisol · Chișinău", ru: "коммерческое помещение · 1‑й этаж + цоколь · Кишинёв", en: "commercial premises · ground + lower ground · Chișinău" },
+    // OWNER «LEASING PACK / DOSSIER CORRECTIONS» §3–§6 (2026-11-11): dossier wording. The shared dataset keeps the released
+    // property page's copy; the dossier replaces these lines by key (facts unchanged — wording only).
+    reasons: {
+      location: { ro: "Rîșcani · intersecția bd. Moscova cu str. Matei Basarab.", ru: "Рышкань · пересечение бул. Москова и ул. Матей Басараб.", en: "Rîșcani · the intersection of Moscova Boulevard and Matei Basarab Street." },
+      base: { ro: "Infrastructura inginerească principală și pregătirea de bază a spațiului sunt deja asigurate.", ru: "Основная инженерная инфраструктура и базовая подготовка помещения уже предусмотрены.", en: "The core engineering infrastructure and the basic preparation of the premises are already provided." },
+    },
+    /** replaces the dataset's «Высокая визуальная заметность фасада» location point (matched by its EN text in the dossier) */
+    facade: { ro: "Fațada și intrarea sunt orientate spre bd. Moscova", ru: "Фасад и входная группа обращены к бул. Москова", en: "The frontage and the entrance face Moscova Boulevard" },
+    capex: {
+      ro: "Infrastructura inginerească principală și pregătirea de bază a spațiului sunt deja asigurate. Investiția chiriașului va fi necesară în primul rând pentru adaptarea spațiului la propriul format.",
+      ru: "Основная инженерная инфраструктура и базовая подготовка помещения уже предусмотрены. Инвестиции арендатора потребуются прежде всего для адаптации пространства под собственный формат.",
+      en: "The core engineering infrastructure and the basic preparation of the premises are already provided. The tenant’s investment will be needed primarily to adapt the space to its own format.",
+    },
+    /** the technical-support principle (replaces «Оцениваем адаптацию до коммерческих обязательств.») */
+    support: { ro: "Verificăm fezabilitatea tehnică a conceptului înainte de convenirea condițiilor comerciale.", ru: "Проверяем техническую реализуемость концепции до согласования коммерческих условий.", en: "We check the technical feasibility of the concept before commercial terms are agreed." },
     sections: {
       property: { ro: "Obiectul", ru: "Объект", en: "Property" },
       facts: { ro: "Date principale", ru: "Ключевые факты", en: "Key facts" },
@@ -125,7 +148,7 @@ export const toolkitCopy = {
     height: { ro: "Înălțime", ru: "Высота", en: "Height" },
     planNote: { ro: "Anexă la contractul de locațiune · Sc. 1:100 · desenul oficial, nerefăcut", ru: "Приложение к договору аренды · М 1:100 · официальный чертёж, без перерисовки", en: "Lease agreement annex · 1:100 · the official drawing, not redrawn" },
     cadastre: { ro: "Numărul cadastral se verifică în portalul oficial e‑Cadastru", ru: "Кадастровый номер проверяется в официальном портале e‑Cadastru", en: "The cadastral number can be verified in the official e-Cadastru portal" },
-    team: { ro: "Directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea tehnică a conceptului dumneavoastră înainte de condițiile comerciale.", ru: "Технический директор и архитектор MEGAPARC проверяют техническую реализуемость вашей концепции до коммерческих условий.", en: "MEGAPARC's Technical Director and Architect check the technical feasibility of your concept before commercial terms." },
+    team: { ro: "Directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea tehnică a conceptului dumneavoastră înainte de convenirea condițiilor comerciale.", ru: "Технический директор и архитектор MEGAPARC проверяют техническую реализуемость вашей концепции до согласования коммерческих условий.", en: "MEGAPARC's Technical Director and Architect check the technical feasibility of your concept before commercial terms are agreed." },
     nextActions: { ro: ["Programează o vizionare", "Verificarea tehnică a conceptului", "Contact"], ru: ["Записаться на просмотр", "Техническая проверка концепции", "Контакт"], en: ["Book a viewing", "Technical concept check", "Contact"] },
     qrLine: { ro: "Scanați pentru Digital Leasing Pack: planuri, date tehnice, vizionare.", ru: "Отсканируйте — Digital Leasing Pack: планы, технические данные, просмотр.", en: "Scan for the Digital Leasing Pack: plans, technical data, viewing." },
     version: { ro: "Versiune", ru: "Версия", en: "Version" },
