@@ -42,9 +42,10 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 
 const copy = {
   filters: { ro: "Straturi ale hărții", ru: "Слои карты", en: "Map layers" },
-  // OWNER «PREMIUM CONTENT AND INTERACTION PASS» §7 (2026-11-11): the explorer explains itself — a prompt, an «active» mark, a «now on the map» line
+  // OWNER «REAL PREMIUM ART-DIRECTION PASS» §10–§12 (2026-11-11): the control zone explains itself — the question, the instruction, the status line
   explorer: {
-    hint: { ro: "Alegeți un aspect al locației — harta se actualizează", ru: "Выберите аспект локации — карта обновится", en: "Choose an aspect of the location — the map updates" },
+    question: { ro: "Ce influențează această locație?", ru: "Что влияет на эту локацию?", en: "What shapes this location?" },
+    hint: { ro: "Alegeți un aspect — harta arată stratul corespunzător.", ru: "Выберите аспект — карта покажет соответствующий слой.", en: "Choose an aspect — the map shows the matching layer." },
     active: { ro: "Activ", ru: "Активно", en: "Active" },
     now: { ro: "Acum pe hartă", ru: "Сейчас на карте", en: "Now on the map" },
   },
@@ -348,7 +349,9 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
       <div className="xp-shell">
         <header className="lg-motion__head" data-reveal>
           <p className="pm-kicker">{m.kicker[locale]}</p>
-          <h2 className="lg-display lg-motion__title" id="lg-motion-title">{m.title[locale]}</h2>
+          <h2 className="lg-display lg-motion__title" id="lg-motion-title">
+            {m.title[locale].split("\n").map((line) => <span key={line} className="lg-motion__title-line">{line}</span>)}
+          </h2>
           {m.lead ? (
             <p className="lg-motion__lead">
               {m.lead[locale].split("\n").map((line, i, all) => (all.length > 1 ? <span key={line} className={i === 0 ? "lg-motion__lead-key" : "lg-motion__lead-more"}>{line}</span> : line))}
@@ -362,9 +365,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
             options={options}
             visuals={visuals}
             filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).map((key) => ({ key, label: copy.cat[key][locale] })) : []}
-            hint={copy.explorer.hint[locale]}
-            activeLabel={copy.explorer.active[locale]}
-            nowLabel={copy.explorer.now[locale]}
+            copy={{ question: copy.explorer.question[locale], hint: copy.explorer.hint[locale], now: copy.explorer.now[locale], active: copy.explorer.active[locale] }}
           />
         </div>
 

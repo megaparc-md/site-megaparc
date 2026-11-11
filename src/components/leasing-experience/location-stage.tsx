@@ -4,24 +4,22 @@ import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Icon } from "@/components/ui";
 
 /**
- * LOCATION EXPLORER (OWNER "PREMIUM CARD SYSTEM & AIR PASS", 2026-11-09, §9) —
- * «Локация в движении» as a premium interactive product: one large visual on
- * the left, a short stack of cards on the right (АДРЕС · ОКРУЖЕНИЕ · ТРАНСПОРТ ·
- * РИТМ ДНЯ — the last two only where the catchment map and the preliminary
- * model are shown). Choosing a card changes the main visual (the real aerial
- * with the confirmed marks · the surroundings map · the same map with the
- * transport layer brought forward · the rhythm of the day) and the short detail
- * under the cards — never map + aerial + POI + traffic + paragraphs at once.
- * The category filters of the map stay with the surroundings card.
- * WAI-ARIA tabs (vertical); visuals and details are rendered on the server.
- * OWNER «PREMIUM CONTENT AND INTERACTION PASS» §7 (2026-11-11): the explorer explains itself — a short prompt above the cards,
- * cards that read as controls (arrow, stronger hover, a burgundy «Активно» mark and fill on the active one) and a «Сейчас на
- * карте: …» line in the panel so the visitor sees what changed.
+ * LOCATION EXPLORER (OWNER "PREMIUM CARD SYSTEM & AIR PASS", 2026-11-09, §9 · OWNER «REAL PREMIUM ART-DIRECTION PASS», 2026-11-11, §10–§15) —
+ * «Локация в движении» as a premium interactive product: one large visual on the left, the control zone on the right. The control
+ * zone explains itself before any interaction: the question «Что влияет на эту локацию?», the line «Выберите аспект — карта покажет
+ * соответствующий слой.», then four numbered controls (АДРЕС · ОКРУЖЕНИЕ · ТРАНСПОРТ · РИТМ ДНЯ — the last two only where the
+ * catchment map and the preliminary model are shown) with a chevron, hover, focus and an inverted burgundy active state. The stage
+ * carries a quiet status bar «Сейчас на карте: …» so the visitor sees what changed. Choosing a control switches the main visual
+ * (the real aerial with the confirmed marks · the surroundings map · the same map with the transport layer brought forward · the
+ * rhythm of the day) and the short detail under the controls — never map + aerial + POI + traffic + paragraphs at once. The category
+ * filters of the map stay with the surroundings control. Phones: the controls come BEFORE the map (2 × 2), the status bar stays on
+ * the map. WAI-ARIA tabs (vertical); visuals and details are rendered on the server.
  */
 
 export type ExplorerOption = { key: string; label: string; title: string; visual: string; cat?: string; detail?: ReactNode };
+export type ExplorerCopy = { question: string; hint: string; now: string; active: string };
 
-export function LocationExplorer({ options, visuals, filters, label, filterLabel, hint, activeLabel, nowLabel }: { options: ExplorerOption[]; visuals: { key: string; node: ReactNode }[]; filters: { key: string; label: string }[]; label: string; filterLabel: string; hint?: string; activeLabel?: string; nowLabel?: string }) {
+export function LocationExplorer({ options, visuals, filters, label, filterLabel, copy }: { options: ExplorerOption[]; visuals: { key: string; node: ReactNode }[]; filters: { key: string; label: string }[]; label: string; filterLabel: string; copy?: ExplorerCopy }) {
   const [active, setActive] = useState(0);
   const [filter, setFilter] = useState<string | null>(null);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -44,17 +42,16 @@ export function LocationExplorer({ options, visuals, filters, label, filterLabel
   };
 
   return (
-    <div className="lg-explorer lg-stage" data-cat={cat ?? undefined}>
-      <div className="lg-explorer__stage">
-        {visuals.map((visual) => (
-          <div key={visual.key} className={`lg-explorer__view is-${visual.key}${visual.key === option.visual ? " is-on" : ""}`} aria-hidden={visual.key !== option.visual}>
-            {visual.node}
-          </div>
-        ))}
-      </div>
-      <div className="lg-explorer__side">
-        {hint ? <p className="lg-explorer__hint" id="lg-explore-hint"><i aria-hidden="true" />{hint}</p> : null}
-        <div className="lg-explorer__cards" role="tablist" aria-label={label} aria-orientation="vertical" aria-describedby={hint ? "lg-explore-hint" : undefined}>
+    <div className="lg-explorer lg-stage" data-cat={cat ?? undefined} data-view={option.visual}>
+      {/* the control zone — the question, the instruction, the four controls */}
+      <div className="lg-explorer__controls">
+        {copy ? (
+          <header className="lg-explorer__ask" id="lg-explore-ask">
+            <p className="lg-explorer__question">{copy.question}</p>
+            <p className="lg-explorer__hint">{copy.hint}</p>
+          </header>
+        ) : null}
+        <div className="lg-explorer__cards" role="tablist" aria-label={label} aria-orientation="vertical" aria-describedby={copy ? "lg-explore-ask" : undefined}>
           {options.map((item, index) => (
             <button
               key={item.key}
@@ -67,32 +64,49 @@ export function LocationExplorer({ options, visuals, filters, label, filterLabel
               aria-controls="lg-explore-panel"
               aria-selected={index === active}
               tabIndex={index === active ? 0 : -1}
-              className={`lg-card lg-explorer__card${index === active ? " is-active" : ""}`}
+              className={`lg-explorer__card${index === active ? " is-active" : ""}`}
               onClick={() => select(index)}
               onKeyDown={(event) => onKey(event, index)}
             >
-              <span className="lg-card__label"><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</span>
+              <span className="lg-explorer__no">{String(index + 1).padStart(2, "0")}</span>
+              <span className="lg-explorer__name">{item.label}</span>
               <span className="lg-explorer__title">{item.title}</span>
-              <span className="lg-explorer__mark" aria-hidden="true">{index === active && activeLabel ? <em>{activeLabel}</em> : null}<Icon size={16} /></span>
+              <span className="lg-explorer__chev" aria-hidden="true"><Icon size={18} /></span>
             </button>
           ))}
         </div>
-        <div className="lg-explorer__detail" role="tabpanel" id="lg-explore-panel" aria-labelledby={`lg-explore-${option.key}`}>
-          {/* phones and tablets show the cards as labels only; the chosen card's line opens the panel */}
-          {nowLabel ? <p className="lg-explorer__now"><span>{nowLabel}:</span> <b>{option.label}</b></p> : null}
-          <p className="lg-explorer__lead">{option.title}</p>
-          {option.detail}
-          {option.visual === "map" && !option.cat && filters.length ? (
-            <div className="lg-stage__filters" role="group" aria-label={filterLabel}>
-              {filters.map((item) => (
-                <button key={item.key} type="button" className={`lg-stage__filter is-${item.key}${filter === item.key ? " is-on" : ""}`} aria-pressed={filter === item.key} onClick={() => setFilter(filter === item.key ? null : item.key)}>
-                  <i aria-hidden="true" />
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          ) : null}
-        </div>
+      </div>
+
+      {/* the stage — the status bar names the layer, then the visual */}
+      <div className="lg-explorer__stage">
+        {copy ? (
+          <p className="lg-explorer__status" aria-live="polite">
+            <span className="lg-explorer__status-key">{copy.now}</span>
+            <b><i aria-hidden="true" />{String(active + 1).padStart(2, "0")} · {option.label}</b>
+          </p>
+        ) : null}
+        {visuals.map((visual) => (
+          <div key={visual.key} className={`lg-explorer__view is-${visual.key}${visual.key === option.visual ? " is-on" : ""}`} aria-hidden={visual.key !== option.visual}>
+            {visual.node}
+          </div>
+        ))}
+      </div>
+
+      {/* the detail of the chosen aspect */}
+      <div className="lg-explorer__detail" role="tabpanel" id="lg-explore-panel" aria-labelledby={`lg-explore-${option.key}`}>
+        <p className="lg-explorer__lead"><span className="lg-explorer__lead-no">{String(active + 1).padStart(2, "0")}</span>{option.title}</p>
+        {option.detail}
+        {option.visual === "map" && !option.cat && filters.length ? (
+          <div className="lg-stage__filters" role="group" aria-label={filterLabel}>
+            <span className="lg-stage__filters-label">{filterLabel}</span>
+            {filters.map((item) => (
+              <button key={item.key} type="button" className={`lg-stage__filter is-${item.key}${filter === item.key ? " is-on" : ""}`} aria-pressed={filter === item.key} onClick={() => setFilter(filter === item.key ? null : item.key)}>
+                <i aria-hidden="true" />
+                {item.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   );

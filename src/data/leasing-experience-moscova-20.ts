@@ -140,7 +140,7 @@ export const moscova20Experience: LeasingExperience = {
   motion: {
     kicker: T("Locația în mișcare", "Локация в движении", "Location in motion"),
     // OWNER art direction 2026-11-09 §12: the statement of the location scene; the earlier title stays as its line
-    title: T("Adresa face parte din modelul de afaceri.", "Адрес — часть бизнес-модели.", "The address is part of the business model."),
+    title: T("Adresa —\nparte din modelul de afaceri.", "Адрес —\nчасть бизнес‑модели.", "The address —\npart of the business model."),
     lead: T("Adresa nu este doar un punct pe hartă.\nEste mișcarea de zi cu zi din jurul afacerii dumneavoastră.", "Адрес — это не просто точка на карте.\nЭто повседневное движение вокруг вашего бизнеса.", "An address is not just a point on a map.\nIt is the everyday movement around your business."),
     ecosystemTitle: T("Ce creează activitate regulată în jurul locației", "Что создаёт регулярную активность вокруг локации", "What creates regular activity around the location"),
     ecosystem: [

@@ -49,9 +49,9 @@ export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperienc
             <p className="lg-hero__offered">{x.hero.offer[locale]}</p>
             <p className={`lg-hero__status is-${offer.state}`}><i aria-hidden="true" />{offer.status}</p>
           </div>
-          {/* OWNER content pass §5 (2026-11-11): a support line with a line break renders as an editorial message block — the key thought strong, the explanation quiet */}
+          {/* OWNER art-direction pass §7 (2026-11-11): a two-line support keeps only its key line here — the readiness statement scene after the summary carries the explanation */}
           <p className="lg-hero__support lg-rise" style={{ "--d": 4 } as CSSProperties}>
-            {x.hero.support[locale].split("\n").map((line, i, all) => (all.length > 1 ? <span key={line} className={i === 0 ? "lg-hero__support-key" : "lg-hero__support-more"}>{line}</span> : line))}
+            {x.hero.support[locale].split("\n")[0]}
           </p>
           <div className="lg-hero__actions lg-rise" style={{ "--d": 5 } as CSSProperties}>
             <a className="btn" href="#viewing" data-intent="viewing">

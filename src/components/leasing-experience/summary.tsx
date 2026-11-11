@@ -15,6 +15,13 @@ import type { SiteLocale } from "@/lib/site-data";
  * the unit record (M20-01).
  */
 
+/** the decisive phrase of the readiness explanation, set strong (OWNER art-direction pass §7) */
+const emphasis: Record<SiteLocale, string[]> = {
+  ru: ["адаптации помещения под собственный формат"],
+  ro: ["adaptarea spațiului la propriul format"],
+  en: ["adapting the premises to its own format"],
+};
+
 const copy = {
   // OWNER copy correction 2026-11-10 (capex / tenant investment): the core capital works are done; the tenant invests primarily in adapting the space
   readiness: { label: T("Pregătire", "Готовность", "Readiness"), title: T("Infrastructura de bază este pregătită", "Базовая инфраструктура уже готова", "Base infrastructure in place"), text: T("Investiția chiriașului vizează în primul rând adaptarea spațiului la propriul format.", "Инвестиции арендатора — прежде всего в адаптацию пространства под свой формат.", "The tenant’s investment goes primarily into adapting the space to its format.") },
@@ -31,8 +38,24 @@ export function SummaryCards({ x, offer, locale }: { x: LeasingExperience; offer
     { key: "visibility", label: copy.visibility.label[locale], title: copy.visibility.title[locale], text: glazing?.text[locale] ?? "" },
     { key: "levels", label: copy.levels.label[locale], title: copy.levels.title(floors.length, locale), text: floors.map((level) => `${level.label[locale]} ${formatAreaExact(level.area, locale)}`).join(" · ") },
   ];
+  // OWNER «REAL PREMIUM ART-DIRECTION PASS» §7 (2026-11-11): a two-line hero support = the readiness statement scene — the key thought
+  // dominant on the left, the explanation on the right with its decisive phrase strong; never another paragraph in a content column
+  const [statement, explanation] = x.hero.support[locale].split("\n");
+  // the RU copy carries no-break spaces (typesetting rule): match the phrase space-insensitively, then slice the original text
+  const plain = explanation ? explanation.replace(/ /g, " ") : "";
+  const phrase = emphasis[locale].find((p) => plain.includes(p));
+  const at = phrase ? plain.indexOf(phrase) : -1;
+  const parts = explanation && phrase && at >= 0 ? [explanation.slice(0, at), explanation.slice(at, at + phrase.length), explanation.slice(at + phrase.length)] : null;
   return (
     <section className="lg-summary" aria-label={x.reasons.label[locale]}>
+      {explanation ? (
+        <div className="xp-shell lg-ready" data-reveal>
+          <p className="lg-ready__statement">{statement}</p>
+          <p className="lg-ready__support">
+            {parts ? <>{parts[0]}<strong>{parts[1]}</strong>{parts[2]}</> : explanation}
+          </p>
+        </div>
+      ) : null}
       <ul className="xp-shell lg-summary__list">
         {cards.map((card, i) => (
           <li key={card.key} className={`lg-card lg-summary__card is-${card.key}`} data-reveal style={{ "--i": i } as CSSProperties}>
