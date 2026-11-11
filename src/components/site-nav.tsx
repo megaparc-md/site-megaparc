@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ProjectsAccordion, ProjectsMenu, type ProjectsMenuData } from "@/components/projects-menu";
+import { tenantCabinet } from "@/data/tenant-cabinet";
 import { localePath, navigation, secondaryNavigation, ui, utilityNavigation, type NavItem, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -24,7 +25,9 @@ export function SiteNav({
   projects?: Omit<ProjectsMenuData, "label" | "active">;
 }) {
   const pathname = usePathname();
-  const items: NavItem[] = group === "utility" ? utilityNavigation[locale] : group === "secondary" ? secondaryNavigation[locale] : navigation[locale];
+  // the tenant-cabinet entry joins the utility group only when the cabinet exists (OWNER «TENANT CABINET ENTRY», 2026-11-11 — OPTION A: not yet)
+  const tenant: NavItem[] = tenantCabinet.enabled ? [{ label: tenantCabinet.action[locale], path: tenantCabinet.path }] : [];
+  const items: NavItem[] = group === "utility" ? [...utilityNavigation[locale], ...tenant] : group === "secondary" ? secondaryNavigation[locale] : navigation[locale];
   const label = group === "primary" ? (variant === "mobile" ? ui.mobileNavigation[locale] : ui.navigation[locale]) : ui.secondaryNavigation[locale];
   const normalized = pathname.replace(/\/$/, "") || "/";
 

@@ -14,6 +14,9 @@ import { ReadinessSheet, TechSheet } from "@/components/leasing-experience/sheet
 import { StickyCta } from "@/components/leasing-experience/sticky-cta";
 import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
+import { DecisionBar } from "@/components/leasing-toolkit/decision-bar";
+import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
+import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
 import { R3Trust } from "@/components/r3";
 import { PageShell } from "@/components/page-shell";
 import type { ProjectEntry } from "@/content/source";
@@ -54,6 +57,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
   const offer = templateOffer(x, unit, project.name, locale);
   const decision = decisionOn(x);
   const own = x.portals ?? {};
+  const toolkit = x.project === m20Toolkit.project;
 
   const ground = x.plans.levels.find((level) => level.key === "ground");
   const photo = (key: string | undefined) => (key && x.photos[key] ? <LgPhoto photo={x.photos[key]} locale={locale} sizes="(min-width: 1024px) 22vw, 30vw" className="lg-portal__photo" /> : null);
@@ -83,7 +87,22 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       {/* OWNER overnight release §5 / §6: Technical Director + Architect · official e-Cadastru verification — the same component on every object */}
       <R3Trust slug={project.slug} locale={locale} tone="stone" verify />
       <ViewingScene x={x} offer={offer} project={project} locale={locale} />
-      <StickyCta name={project.name} meta={`${offer.figure} · ${offer.status}`} label={offer.primary} />
+      {/* Digital Leasing Toolkit (OWNER 2026-11-11): on the property that carries it, the three-action decision bar replaces the one-action phone bar */}
+      {toolkit ? (
+        <DecisionBar name={project.name} meta={`${offer.figure} · ${offer.status}`} plans={toolkitCopy.bar.plans[locale]} dossier={toolkitCopy.bar.dossier[locale]} dossierHref={m20Toolkit.dossier.file[locale]} book={toolkitCopy.bar.book[locale]} />
+      ) : (
+        <StickyCta name={project.name} meta={`${offer.figure} · ${offer.status}`} label={offer.primary} />
+      )}
+      {toolkit ? (
+        <>
+          <LgDrawer id="precheck" title={toolkitCopy.pack.precheck[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
+            <PreCheck locale={locale} />
+          </LgDrawer>
+          <LgDrawer id="book" title={toolkitCopy.pack.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
+            <BookViewing locale={locale} unitLabel={offer.unitLabel} />
+          </LgDrawer>
+        </>
+      ) : null}
       <LgDrawer id="tech" title={x.drawers.tech.title[locale]} kicker={project.name} closeLabel={ui.close[locale]} className={x.passport ? "is-passport" : undefined}>
         <TechSheet x={x} offer={offer} project={project} locale={locale} />
       </LgDrawer>

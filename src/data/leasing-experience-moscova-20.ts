@@ -187,7 +187,7 @@ export const moscova20Experience: LeasingExperience = {
   //  · heating = Termoelectrica · security = Justar · sanitary = 3 toilets + a separate cleaning-inventory room (OWNER final, resolved)
   //  · 4 exits total; 3 specifically described by OWNER — 4th exit role/location TO_CONFIRM
   //  · parking: 15 spaces only — not exclusive, reserved, free or 24/7 unless confirmed
-  //  · «Alco Market» — relationship to Moscova 20 not documented: OWNER_TO_CONFIRM, not published
+  //  · «Alco Market» — OWNER CONFIRMED 2026-11-11 as an operator of Moscova 20 (src/data/operators.ts); never linked to the marketed unit M20-01
   passport: {
     facts: [
       // OWNER «TECHNICAL READINESS — CARDS + SANITARY WORDING» (2026-11-11): four specification cards — small label · large value · short explanation

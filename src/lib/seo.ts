@@ -167,6 +167,25 @@ export function projectMetadata(locale: SiteLocale, slug: string): Metadata {
   return buildMetadata(locale, `/projects/${project.slug}`, { title, description }, { image: project.media?.wide });
 }
 
+/** The Moscova 20 Digital Leasing Pack (OWNER toolkit mandate 2026-11-11): public, indexable, the entrance photograph as its share image. */
+export function packMetadata(locale: SiteLocale): Metadata {
+  const project = getProject("moscova-20");
+  const copy: PageCopy = {
+    title: { ro: "Moscova 20 · Leasing Pack — planuri, date tehnice, vizionare · MEGAPARC", ru: "Moscova 20 · Leasing Pack — планы, технические данные, просмотр · MEGAPARC", en: "Moscova 20 · Leasing Pack — plans, technical data, viewing · MEGAPARC" },
+    description: {
+      ro: "Spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol): planuri oficiale, date tehnice verificate, verificarea conceptului și programarea vizionării.",
+      ru: "Торговое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь): официальные планы, подтверждённые технические данные, проверка концепции и запись на просмотр.",
+      en: "A 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground): official plans, verified technical data, concept check and viewing booking.",
+    },
+  };
+  return buildMetadata(locale, "/leasing/moscova-20/pack", copy, { image: project?.media?.wide });
+}
+
+/** The A4 print source of the PDF dossier — internal: noindex, removed from the production artifact. */
+export function dossierPrintMetadata(locale: SiteLocale): Metadata {
+  return buildMetadata(locale, "/leasing/moscova-20/dossier-print", { title: { ro: "Moscova 20 — dosar (sursă de tipar)", ru: "Moscova 20 — досье (источник для печати)", en: "Moscova 20 — dossier (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
+}
+
 export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
   const space = getSpace(id);
   if (!space) return {};

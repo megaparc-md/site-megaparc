@@ -13,6 +13,9 @@ const productionEdition = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production")
 const productionStubs = {
   "@/components/enquiry-form": "./src/editions/production/enquiry-form.tsx",
   "@/components/leasing-experience/viewing-form": "./src/editions/production/viewing-form.tsx",
+  // Digital Leasing Toolkit (OWNER 2026-11-11): the pre-check and viewing-request forms follow the same rule
+  "@/components/leasing-toolkit/pre-check-form": "./src/editions/production/pre-check-form.tsx",
+  "@/components/leasing-toolkit/viewing-request": "./src/editions/production/viewing-request.tsx",
 };
 
 const nextConfig: NextConfig = {

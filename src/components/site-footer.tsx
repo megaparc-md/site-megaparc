@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { projectState } from "@/components/r3";
+import { TenantEntry } from "@/components/tenant-entry";
 import { developmentPortfolio, itemHref, landPortfolio, leasingProjects, portfolioCategories } from "@/lib/portfolio";
 import { company, contactLinks } from "@/data/demo-content";
 import { businessStatement } from "@/lib/business";
@@ -117,6 +118,8 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
         </div>
       </div>
 
+      {/* secondary service entry for existing tenants (OWNER «TENANT CABINET ENTRY», 2026-11-11) — renders nothing until the cabinet exists */}
+      <TenantEntry locale={locale} className="r3-shell r3-ftr__tenant" />
       <div className="r3-shell r3-ftr__base">
         <span>{copy.legal[locale]}</span>
         <div className="r3-ftr__lang">

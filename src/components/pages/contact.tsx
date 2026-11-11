@@ -2,6 +2,7 @@ import Link from "next/link";
 import { DemoLegend, Val } from "@/components/experience";
 import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
+import { TenantEntry } from "@/components/tenant-entry";
 import { company, contactLinks, leasingProcess, shown } from "@/data/demo-content";
 import { Icon } from "@/components/ui";
 import { localePath, type SiteLocale } from "@/lib/site-data";
@@ -150,6 +151,8 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
                 </li>
               ))}
             </ol>
+            {/* secondary service entry for existing tenants (OWNER «TENANT CABINET ENTRY», 2026-11-11) — nothing until the cabinet exists */}
+            <TenantEntry locale={locale} className="xp-label--gap" />
           </aside>
         </div>
       </section>
