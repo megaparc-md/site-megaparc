@@ -60,11 +60,17 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
   const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${packUrl}`)}`;
   const pointText = (text: { en: string } & Record<SiteLocale, string>) => (text.en === "A highly visible frontage" ? d.facade[locale] : text[locale]);
   const reasonText = (key: string, fallback: string) => (key === "location" || key === "base" ? d.reasons[key][locale] : fallback);
+  // §10 the readiness support line: the tenant-investment explanation, its decisive phrase strong (the RU copy carries no-break spaces)
+  const explanation = x.hero.support[locale].split("\n")[1] ?? d.capex[locale];
+  const emphasis = { ru: "адаптации помещения под собственный формат", ro: "adaptarea spațiului la propriul format", en: "adapting the premises to its own format" }[locale];
+  const plain = explanation.replace(/\u00a0/g, " ");
+  const at = plain.indexOf(emphasis);
+  const readySupport = at >= 0 ? <>{explanation.slice(0, at)}<strong>{explanation.slice(at, at + emphasis.length)}</strong>{explanation.slice(at + emphasis.length)}</> : explanation;
 
   const foot = (n: number, light = false) => (
     <footer className={`d2-foot${light ? " is-light" : ""}`}>
-      <span>MEGAPARC · Moscova 20 · {d.kicker[locale]}</span>
-      <span>{toolkitCopy.pack.updated[locale]} {m20Toolkit.dossier.updated} · {m20Toolkit.dossier.version} · {n}/{PAGES}</span>
+      <span>{r.footerMark[locale]}</span>
+      <span>{m20Toolkit.dossier.version} R2 · {m20Toolkit.dossier.updated} · {n} / {PAGES}</span>
     </footer>
   );
   const head = (no: string, title: string) => (
@@ -92,7 +98,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
           <p className="d2-cover__figure">{offer.figure}</p>
           <p className="d2-cover__place">{r.coverPlace[locale]}</p>
           <p className="d2-cover__levels">{r.coverLevels[locale]}</p>
-          <p className="d2-cover__meta">{toolkitCopy.pack.updated[locale]} {m20Toolkit.dossier.updated} · {m20Toolkit.dossier.version}</p>
+          <p className="d2-cover__meta">{toolkitCopy.pack.updated[locale]} {m20Toolkit.dossier.updated} · {m20Toolkit.dossier.version} R2 · 1 / {PAGES}</p>
         </div>
       </section>
 
@@ -109,6 +115,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
           <ul className="d2-reasons">
             {x.reasons.items.map((item) => <li key={item.key}><span>{item.label[locale]}</span>{reasonText(item.key, item.text[locale])}</li>)}
           </ul>
+          <p className="d2-formats"><span>{r.formatsTitle[locale]}</span>{x.lens.formats.map((f) => f.label[locale]).join(" · ")}<small>{r.formatsNote[locale]}</small></p>
         </div>
         {foot(2)}
       </section>
@@ -193,7 +200,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={R2(`plan-${level.key}`)} alt={photo.alt[locale]} />
             </figure>
-            <p className="d2-plan__legend"><span>{r.planLegend[locale]}</span><a href={pdf}><UtilityIcon name="plan" size={11} /> {r.planSource[locale]} · {pdf.replace(/^https?:\/\//, "")}</a></p>
+            <p className="d2-plan__legend"><span>{r.planLegend[locale]}</span><a href={pdf}><UtilityIcon name="plan" size={11} /> {r.openPlan[locale]}</a></p>
             {foot(5 + i)}
           </section>
         );
@@ -221,7 +228,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
       <section className="d2-page">
         {head("08", x.capex.kicker[locale])}
         <h3 className="d2-display">{x.capex.title[locale].split("\n").map((line) => <span key={line}>{line}</span>)}</h3>
-        <p className="d2-lead d2-lead--wide">{d.reasons.base[locale]}</p>
+        <p className="d2-lead d2-lead--wide d2-ready__support">{readySupport}</p>
         <div className="d2-cols">
           <div>
             <p className="d2-col__title">{x.capex.readyTitle[locale]}</p>
@@ -250,10 +257,13 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
             <div className="d2-side"><p className="d2-side__name">{sides[1].name[locale]}</p><ul>{sides[1].items.map((item) => <li key={item.en}>{item[locale]}</li>)}</ul></div>
           ) : null}
         </div>
+        {fact("exits") ? <p className="d2-exits"><b>{figOf("exits")}</b><span>{r.exitsTotal[locale]} · {fact("exits")!.label[locale]}</span></p> : null}
         <div className="d2-loc">
           <div className="d2-loc__map"><SiteMap slug={project.slug} name={project.name} label={x.address[locale]} /></div>
           <div className="d2-loc__copy">
             <p className="d2-kicker">{r.locationTitle[locale]}</p>
+            <p className="d2-loc__district">{r.district[locale]}</p>
+            <p className="d2-loc__cross">{r.crossing[locale]}</p>
             <p className="d2-loc__lead">{x.location.lead[locale]}</p>
             <ul className="d2-loc__points">{x.location.points.filter((p) => publishable(p.evidence)).map((p) => <li key={p.text.en}>{pointText(p.text)}</li>)}</ul>
           </div>
@@ -278,7 +288,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
               <li><a href={contactLinks.mobile}><UtilityIcon name="phone" size={13} />{company.mobile.value[locale]}</a></li>
               <li><a href={contactLinks.landline}><UtilityIcon name="phone" size={13} />{company.landline.value[locale]}</a></li>
               <li><a href={mailto}><UtilityIcon name="mail" size={13} />{company.email.value[locale]}</a></li>
-              <li><a href={propertyUrl}><UtilityIcon name="link" size={13} />{r.web[locale]} · {propertyUrl.replace(/^https?:\/\//, "")}</a></li>
+              <li><a href={propertyUrl}><UtilityIcon name="link" size={13} />{r.site[locale]}</a></li>
             </ul>
             <p className="d2-label">{r.shareTitle[locale]}</p>
             <ul className="d2-share">
@@ -295,7 +305,7 @@ export function DossierPrintPage({ locale }: { locale: SiteLocale }) {
               <img src={m20Toolkit.qr.svg} alt="QR" />
             </a>
             <p className="d2-qr__caption"><UtilityIcon name="qr" size={12} />{r.qrCaption[locale]}</p>
-            <p className="d2-qr__url"><a href={packUrl}>{packUrl.replace(/^https?:\/\//, "")}</a></p>
+            <p className="d2-qr__url"><a href={packUrl}>{new URL(packUrl).host}<br />{new URL(packUrl).pathname}</a></p>
           </div>
         </div>
         <figure className="d2-band d2-band--final">
