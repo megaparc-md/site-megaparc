@@ -9,6 +9,14 @@
 .lp-shell { width: min(100% - 2.5rem, 62rem); margin: 0 auto; }
 .lp-head { padding: calc(var(--header-h, 4.5rem) + clamp(2rem, 5vw, 4rem)) 0 clamp(1.6rem, 4vw, 2.8rem); background: var(--r3-ivory, #f5f2ec); }
 .lp-head__grid { display: grid; gap: 1.4rem; }
+/* pack language switch — phones and tablets only (from 1100 px the header switch is visible) */
+.lp-lang { display: flex; gap: .2rem; margin: 0 0 1rem -.75rem; font-size: .8rem; font-weight: 600; letter-spacing: .1em; }
+.lp-lang a, .lp-lang span { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 2.75rem; min-height: 2.75rem; padding: 0 .75rem; color: var(--r3-ink, #0f1012); opacity: .55; }
+.lp-lang .is-active { opacity: 1; }
+.lp-lang .is-active::after { content: ""; position: absolute; left: .75rem; right: .75rem; bottom: .55rem; height: 2px; background: var(--r3-burgundy, #74202f); }
+.lp-lang a:hover { opacity: 1; }
+.lp-lang a:focus-visible { outline: 2px solid var(--r3-red, #ed1c2e); outline-offset: 2px; opacity: 1; }
+@media (min-width: 1100px) { .lp-lang { display: none; } }
 .lp-kicker { margin: 0 0 .9rem; color: var(--r3-burgundy, #74202f); font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .lp-title { margin: 0; font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 500; line-height: .98; letter-spacing: -.03em; color: var(--r3-ink, #0f1012); }
 .lp-lead { margin: .9rem 0 0; max-width: 32rem; font-size: clamp(1.02rem, 1.4vw, 1.18rem); line-height: 1.5; }
@@ -114,7 +122,10 @@
 .lp-form__intro { margin: 0; max-width: 34rem; font-size: 1rem; line-height: 1.5; }
 .lp-form__unit { margin: 0; color: var(--r3-burgundy, #74202f); font-size: .8rem; font-weight: 600; letter-spacing: .06em; }
 .lp-triple legend { font-size: .86rem; font-weight: 500; margin-bottom: .55rem; }
+.lp-needs legend { margin-bottom: .2rem; }
+.lp-needs__hint { margin: 0 0 .6rem; color: var(--r3-muted, #5d5f66); font-size: .82rem; line-height: 1.4; }
 .lp-done { display: grid; gap: .8rem; }
+.lp-done__contacts { display: flex; flex-wrap: wrap; gap: .25rem 1.2rem; font-weight: 500; }
 .lp-done__kicker { margin: 0; color: var(--r3-burgundy, #74202f); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .lp-done__title { margin: 0; font-family: var(--r3-serif); font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 400; line-height: 1.15; letter-spacing: -.015em; color: var(--r3-ink, #0f1012); text-wrap: balance; }
 .lp-done__principle { margin: 0; padding-left: .9rem; border-left: 2px solid var(--r3-burgundy, #74202f); font-weight: 500; line-height: 1.45; }

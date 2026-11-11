@@ -228,7 +228,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     headline: {
       ro: "Un obiect comercial independent pe prima linie a bulevardului.",
       ru: "Отдельно стоящий торговый объект на первой линии бульвара.",
-      en: "A stand-alone retail building on the boulevard's first line.",
+      en: "A stand-alone retail building directly on the boulevard.",
     },
     narrative: {
       ro: "Fațadă proprie, firmă proprie, intrare proprie.",
@@ -260,7 +260,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: [
         "In a shopping centre a brand rents a unit. At Moscova 9 the brand gets a separate building: its own facade and signage, its own entrance and its own layout of the sales floor, within the agreed technical and legal framework.",
         "The main sales floor of 737.07 m² is complemented by an unloading zone with a ramp and rooms for stock, logistics, office and security. Goods and customers move along different routes.",
-        "The boulevard brings a steady flow of cars and pedestrians, parking along the road and a dense residential district around it. The long first-line frontage is clearly visible from the street.",
+        "The boulevard brings a steady flow of cars and pedestrians, parking along the road and a dense residential district around it. The long boulevard frontage is clearly visible from the street.",
       ],
     },
     keyFacts: [
@@ -271,7 +271,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     location: {
       ro: "Sectorul Rîșcani, bulevardul Moscova: flux constant de mașini și pietoni, parcare de-a lungul bulevardului și un cartier rezidențial dens. Fațada lungă se vede bine de pe prima linie.",
       ru: "Сектор Рышкань, бульвар Москова: постоянный автомобильный и пешеходный поток, парковка вдоль бульвара и плотный жилой район. Протяжённый фасад хорошо виден с первой линии.",
-      en: "Rîșcani district, Moscova Boulevard: a steady flow of cars and pedestrians, parking along the boulevard and a dense residential district. The long frontage is clearly visible from the first line.",
+      en: "Rîșcani district, Moscova Boulevard: a steady flow of cars and pedestrians, parking along the boulevard and a dense residential district. The long frontage is clearly visible from the boulevard.",
     },
     connectivity: [
       { ro: "Rîșcani, front la bulevardul Moscova", ru: "Рышкань, фасад на бульвар Москова", en: "Rîșcani, frontage on Moscova Boulevard" },
@@ -288,7 +288,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       },
       programme: [],
       features: [
-        { ro: "Fațadă lungă la bulevard, vizibilă de pe prima linie", ru: "Протяжённый фасад на бульвар, видимость с первой линии", en: "Long boulevard frontage, visible from the first line" },
+        { ro: "Fațadă lungă la bulevard, vizibilă de pe prima linie", ru: "Протяжённый фасад на бульвар, видимость с первой линии", en: "Long boulevard frontage, clearly visible from the street" },
         { ro: "Două intrări pentru clienți", ru: "Два входа для покупателей", en: "Two customer entrances" },
         { ro: "Zonă de descărcare cu rampă", ru: "Зона разгрузки с рампой", en: "Unloading zone with ramp" },
         { ro: "Spații auxiliare: logistică, stoc, birou, pază", ru: "Вспомогательные помещения: логистика, склад, офис, охрана", en: "Support rooms: logistics, stock, office, security" },
@@ -315,7 +315,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     relevance: {
       ro: "O clădire separată pe prima linie a bulevardului rămâne căutată indiferent de formatul comercial.",
       ru: "Отдельное здание на первой линии бульвара остаётся востребованным при любом торговом формате.",
-      en: "A separate building on the boulevard's first line stays in demand whatever the retail format.",
+      en: "A separate building directly on the boulevard stays in demand whatever the retail format.",
     },
     availability: null, // OWNER 2026-10-09: 100 % occupied
     caveat: null,
@@ -332,18 +332,18 @@ export const portfolioAssets: PortfolioAsset[] = [
     // available. Full frame in every variant; the focal point keeps the door, the glazing and the ramp (checked at 390–1920).
     media: media("portfolio", "moscova-20-entrance", "34% 60%"),
     status: operating,
-    positioning: { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "First-line commercial space" },
+    positioning: { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "Boulevard-front commercial space" },
     headline: {
       ro: "Spațiu comercial pe prima linie, pe bulevardul Moscova.",
       ru: "Коммерческое помещение первой линии на бульваре Москова.",
-      en: "A first-line commercial space on Moscova Boulevard.",
+      en: "A commercial space directly on Moscova Boulevard.",
     },
     narrative: {
       ro: "Vitrină spre bulevard, flux zilnic al cartierului.",
       ru: "Витрина к бульвару и ежедневный поток района.",
       en: "A shop window to the boulevard and the neighbourhood's daily flow.",
     },
-    use: { ro: "Comerț · servicii · prima linie", ru: "Торговля · услуги · первая линия", en: "Retail · services · first line" },
+    use: { ro: "Comerț · servicii · prima linie", ru: "Торговля · услуги · первая линия", en: "Retail · services · boulevard frontage" },
     audience: {
       ro: "Retailului alimentar, operatorilor de servicii, farmaciilor și showroom-urilor care lucrează cu fluxul zilnic al locuitorilor din cartier.",
       ru: "Продуктовому ритейлу, сервисным операторам, аптекам и шоурумам, которые работают на ежедневном потоке жителей района.",
@@ -383,7 +383,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     connectivity: [
       { ro: "Intersecția bd. Moscova cu str. Matei Basarab", ru: "Пересечение бул. Москова и ул. Матей Басараб", en: "Intersection of Moscova Boulevard and Matei Basarab Street" },
-      { ro: "Poziție pe prima linie", ru: "Положение на первой линии", en: "First-line position" },
+      { ro: "Poziție pe prima linie", ru: "Положение на первой линии", en: "Boulevard-front position" },
       { ro: "Transport public în apropiere", ru: "Общественный транспорт рядом", en: "Public transport close by" },
       { ro: "Cartier rezidențial dens și parcare", ru: "Плотная жилая застройка и парковка", en: "Dense housing and parking" },
     ],
@@ -423,12 +423,12 @@ export const portfolioAssets: PortfolioAsset[] = [
     character: {
       ro: "Spațiu comercial pe prima linie, cu vitrină continuă spre bulevard, intrare prin terasă, acces separat de serviciu și parcare în apropiere.",
       ru: "Коммерческое помещение первой линии со сплошной витриной к бульвару, входом через террасу, отдельным служебным доступом и парковкой рядом.",
-      en: "A first-line commercial space with a continuous shop window to the boulevard, an entrance through the terrace, separate service access and parking close by.",
+      en: "A boulevard-front commercial space with a continuous shop window, an entrance through the terrace, separate service access and parking close by.",
     },
     relevance: {
       ro: "Fluxul zilnic și prima linie își păstrează valoarea indiferent de format. Spațiul poate fi adaptat la ceea ce are nevoie cartierul.",
       ru: "Ежедневный поток и первая линия сохраняют ценность при любом формате. Помещение можно адаптировать под то, что нужно району.",
-      en: "The daily flow and the first-line position keep their value whatever the format. The space can be adapted to what the neighbourhood needs.",
+      en: "The daily flow and the boulevard-front position keep their value whatever the format. The space can be adapted to what the neighbourhood needs.",
     },
     // status, area and date of the unit on offer live only in the unit record M20-01 (src/data/leasing-inventory.ts) — OWNER 2026-11-06
     availability: null,

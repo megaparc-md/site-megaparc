@@ -147,7 +147,7 @@ const allSpaces: AvailableSpace[] = [
     headline: L(
       "Spațiu comercial pe prima linie: parter, demisol și terasă.",
       "Коммерческое пространство на первой линии: 1‑й этаж, цоколь и терраса.",
-      "A commercial space on the first line: ground floor, lower ground and terrace.",
+      "A boulevard-front commercial space: ground floor, lower ground and terrace.",
     ),
     // the four hero micro-facts (OWNER mandate §7) — the same record feeds Leasing, Home and the property page
     highlights: [
@@ -159,7 +159,7 @@ const allSpaces: AvailableSpace[] = [
     // OWNER FACT OVERRIDE 2026-11-11: 11 spaces (supersedes 15); never reserved / exclusive / free / dedicated / 24-7 unless confirmed
     parking: L("11 locuri de parcare", "11 парковочных мест", "11 parking spaces"),
     entrance: L("Intrare separată din stradă, cu scări și rampă · acces de serviciu separat", "Отдельный вход с улицы, лестница и пандус · отдельный служебный доступ", "Separate street entrance with steps and a ramp · separate service access"),
-    visibility: L("Prima linie, vitrină panoramică spre bulevard", "Первая линия, панорамное остекление на бульвар", "The first line, panoramic glazing to the boulevard"),
+    visibility: L("Prima linie, vitrină panoramică spre bulevard", "Первая линия, панорамное остекление на бульвар", "Boulevard frontage, panoramic glazing"),
     technical: {
       power: L("3 faze · 38 kW (conform documentelor)", "3 фазы · 38 кВт (по документам)", "3 phases · 38 kW (documented)"),
       ventilation: L("Parter — sisteme split · demisol — climatizare pe canale · ventilație prevăzută", "1‑й этаж — сплит-системы · цоколь — канальное кондиционирование · вентиляция предусмотрена", "Ground floor — split systems · lower ground — ducted air-conditioning · ventilation provided for"),
@@ -201,7 +201,7 @@ const allSpaces: AvailableSpace[] = [
     headline: L(
       "Prima linie a bulevardului: fațadă lungă, două intrări, rampă de descărcare.",
       "Первая линия бульвара: длинный фасад, два входа, рампа для разгрузки.",
-      "The boulevard's first line: a long frontage, two entrances, an unloading ramp.",
+      "Directly on the boulevard: a long frontage, two entrances, an unloading ramp.",
     ),
     highlights: [
       L("Sală de vânzare de 737,07 m²", "Торговый зал 737,07 м²", "A 737.07 m² sales floor"),
@@ -211,7 +211,7 @@ const allSpaces: AvailableSpace[] = [
     ],
     parking: L("Parcare de-a lungul bulevardului", "Парковка вдоль бульвара", "Parking along the boulevard"),
     entrance: L("Clădire independentă · două intrări proprii", "Отдельное здание · два собственных входа", "Stand-alone building · two own entrances"),
-    visibility: L("Fațadă lungă pe prima linie a bulevardului", "Длинный фасад на первой линии бульвара", "A long first-line boulevard frontage"),
+    visibility: L("Fațadă lungă pe prima linie a bulevardului", "Длинный фасад на первой линии бульвара", "A long frontage directly on the boulevard"),
     technical: {
       power: L("Se confirmă pentru formatul ales", "Уточняется под формат", "To be confirmed for the chosen format"),
       ventilation: L("Ventilație de retail · adaptare la format", "Торговая вентиляция · адаптация под формат", "Retail ventilation · adapted to the format"),

@@ -11,12 +11,15 @@ import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
  * «ПРОВЕРИТЬ ЭКОНОМИКУ ТОЧКИ» — a reverse calculation, never a profit forecast (OWNER addendum "TENANT ECONOMICS &
  * DECISION TOOL", 2026-11-06), rebuilt as a two-level decision instrument (OWNER UX correction «REBUILD POINT
  * ECONOMICS CALCULATOR», 2026-11-10):
- *   LEVEL 1 · quick check — four fields (ticket · margin / revenue · conversion), the visitors a day the model needs as
+ *   LEVEL 1 · quick check — four fields, every one of which changes the quick result (ticket · revenue · conversion ·
+ *            working days — the gross margin moved to level 2, OWNER 2026-11-11), the visitors a day the model needs as
  *            the one large number, sales per month / day beside it, the 5 · 10 · 15 · 20 % sensitivity, the plain
  *            conclusion, «Сравнить с локацией», the viewing action;
- *   LEVEL 2 · «Расширенный расчёт» behind a disclosure — working days, rent (the visitor's own assumption — never a
+ *   LEVEL 2 · «Расширенный расчёт» behind a disclosure — gross margin, rent (the visitor's own assumption — never a
  *            published term), fixed costs and launch CAPEX → break-even revenue · break-even visitors · operating
- *            result · CAPEX payback in months.
+ *            result · simple CAPEX payback in whole months (≈, no decimal — a user-input model).
+ * «Сбросить сценарий» restores everything: every input, the format, the example flag, the comparison and the disclosure;
+ * «Пример расчёта» starts one coherent scenario (the advanced inputs are emptied).
  * Arithmetic in economics-math.ts. No account, nothing stored, nothing sent.
  */
 
@@ -31,13 +34,14 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
   const t = economicsCopy[locale];
   const uid = useId();
   const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
-  const nf1 = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 1, minimumFractionDigits: 1 }), [locale]);
   const f = (n: number) => nf.format(Math.round(n));
 
   const [preset, setPreset] = useState<PresetKey>("retail");
   const [isExample, setIsExample] = useState(false);
-  const [v, setV] = useState<Record<Key, string>>({ ticket: "", revenue: "", margin: "", conversion: "", days: String(example.days), rent: "", opex: "", payroll: "", utilities: "", marketing: "", other: "", capex: "" });
+  const blank = (): Record<Key, string> => ({ ticket: "", revenue: "", margin: "", conversion: "", days: String(example.days), rent: "", opex: "", payroll: "", utilities: "", marketing: "", other: "", capex: "" });
+  const [v, setV] = useState<Record<Key, string>>(blank);
   const [compare, setCompare] = useState(false);
+  const [advOpen, setAdvOpen] = useState(false);
   const p = t.presets[preset];
 
   const set = (key: Key) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,13 +50,18 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
   };
   const loadExample = () => {
     // plain digits — the visitor sees the figure exactly as it is parsed, in every locale (RO groups thousands with a dot)
-    setV((old) => ({ ...old, ticket: String(example.ticket), revenue: String(example.revenue), conversion: String(example.conversion), days: String(example.days) }));
+    // one coherent scenario: the example replaces the quick inputs and empties the advanced ones (no stale margin, costs or CAPEX)
+    setV({ ...blank(), ticket: String(example.ticket), revenue: String(example.revenue), conversion: String(example.conversion), days: String(example.days) });
     setIsExample(true);
+    setCompare(false);
   };
-  const clear = () => {
-    setV((old) => ({ ...old, ticket: "", revenue: "", margin: "", conversion: "" }));
+  const reset = () => {
+    // «Сбросить сценарий» — nothing survives: inputs (quick + advanced), format, example flag, comparison, disclosure
+    setV(blank());
+    setPreset("retail");
     setIsExample(false);
     setCompare(false);
+    setAdvOpen(false);
   };
 
   const r = calcEconomics(
@@ -116,7 +125,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
         </div>
         <div className="lg-calc__tools">
           <button type="button" className="lg-calc__link" onClick={loadExample}>{t.example}</button>
-          <button type="button" className="lg-calc__link is-quiet" onClick={clear}>{t.clear}</button>
+          <button type="button" className="lg-calc__link is-quiet" onClick={reset}>{t.clear}</button>
         </div>
       </div>
       {isExample ? <p className="lg-calc__example">{t.exampleNote.replace("Moscova 20", property)}</p> : null}
@@ -124,9 +133,9 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
       {/* LEVEL 1 — quick check */}
       <div className="lg-calc__fields">
         {field("ticket", t.inputs.ticket, t.units.mdl, p.ticket)}
-        {field("margin", t.inputs.margin, t.units.pct)}
         {field("revenue", t.inputs.revenue, t.units.mdl)}
         {field("conversion", t.inputs.conversion, t.units.pct, p.conversion)}
+        {field("days", t.adv.days, t.units.days)}
       </div>
 
       <div className={`lg-calc__result${r.visitors ? " is-ready" : ""}`} aria-live="polite">
@@ -200,13 +209,13 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
       </div>
 
       {/* LEVEL 2 — advanced economics */}
-      <details className="lg-calc__adv">
+      <details className="lg-calc__adv" open={advOpen} onToggle={(event) => setAdvOpen(event.currentTarget.open)}>
         <summary>
           <span className="lg-calc__advtitle">{t.advanced} →</span>
           <span className="lg-calc__advlead">{t.advLead}</span>
         </summary>
         <div className="lg-calc__fields is-adv">
-          {field("days", t.adv.days, t.units.days)}
+          {field("margin", t.inputs.margin, t.units.pct, t.marginHint)}
           {field("rent", t.adv.rent, t.units.mdl, t.rentHint)}
           {field("opex", t.adv.opex, t.units.mdlMonth)}
           {field("payroll", t.adv.payroll, t.units.mdlMonth)}
@@ -239,11 +248,12 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
                 {r.paybackBlocked ? (
                   <dd className="is-note">{t.noPayback}</dd>
                 ) : (
-                  <dd>{r.payback ? `${t.approx} ${nf1.format(r.payback)}` : "—"}<span>{t.units.months}</span></dd>
+                  <dd>{r.payback ? (r.payback < 1 ? "< 1" : `${t.approx} ${f(r.payback)}`) : "—"}<span>{t.units.months}</span></dd>
                 )}
               </div>
             </dl>
           )}
+          {r.advanced === "ready" ? <p className="lg-calc__advscope">{t.paybackScope}</p> : null}
         </div>
       </details>
 

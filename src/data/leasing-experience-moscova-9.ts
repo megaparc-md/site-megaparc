@@ -20,8 +20,8 @@ export const moscova9Experience: LeasingExperience = {
   project: "moscova-9",
   address: T("Bd. Moscova 9", "бул. Москова, 9", "9 Moscova Blvd"),
   photos: {
-    building: portfolioPhoto("m9-building", "moscova-9", 1439, 959, T("Moscova 9 de sus: fațada lungă pe prima linie a bulevardului, trotuarul și parcarea de-a lungul drumului", "Moscova 9 сверху: протяжённый фасад на первой линии бульвара, тротуар и парковка вдоль дороги", "Moscova 9 from above: the long first-line frontage on the boulevard, the pavement and parking along the road"), "50% 62%"),
-    buildingPhone: portfolioPhoto("m9-building-phone", "moscova-9-mobile", 729, 911, T("Moscova 9: fațada pe prima linie a bulevardului", "Moscova 9: фасад на первой линии бульвара", "Moscova 9: the first-line boulevard frontage")),
+    building: portfolioPhoto("m9-building", "moscova-9", 1439, 959, T("Moscova 9 de sus: fațada lungă pe prima linie a bulevardului, trotuarul și parcarea de-a lungul drumului", "Moscova 9 сверху: протяжённый фасад на первой линии бульвара, тротуар и парковка вдоль дороги", "Moscova 9 from above: the long frontage on the boulevard, the pavement and parking along the road"), "50% 62%"),
+    buildingPhone: portfolioPhoto("m9-building-phone", "moscova-9-mobile", 729, 911, T("Moscova 9: fațada pe prima linie a bulevardului", "Moscova 9: фасад на первой линии бульвара", "Moscova 9: the boulevard frontage")),
   },
   ownerInput: ["street-level frontage", "both customer entrances", "the 1st-floor hall once vacated (2027)", "unloading ramp", "detail", "dusk / context"],
 
@@ -32,7 +32,7 @@ export const moscova9Experience: LeasingExperience = {
     place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
     // short, like the master «предлагается в аренду» (the 1st-floor area on request is said by the support line, the summary and the plans)
     offer: T("suprafața clădirii, conform registrului", "площадь здания по реестру", "registered building area"),
-    support: T("O clădire independentă pe prima linie a bulevardului — etajul 1 se eliberează la 1 ianuarie 2027.", "Отдельное здание на первой линии бульвара — 1-й этаж освобождается 1 января 2027.", "A stand-alone building on the boulevard's first line — the 1st floor frees up on 1 January 2027."),
+    support: T("O clădire independentă pe prima linie a bulevardului — etajul 1 se eliberează la 1 ianuarie 2027.", "Отдельное здание на первой линии бульвара — 1-й этаж освобождается 1 января 2027.", "A stand-alone building directly on the boulevard — the 1st floor frees up on 1 January 2027."),
   },
   cta: {
     primary: T("Anunțați interesul din timp", "Заявить интерес заранее", "Register interest early"),
@@ -41,10 +41,10 @@ export const moscova9Experience: LeasingExperience = {
   figure: 2561.3,
   summary: [
     { key: "readiness", label: T("Pregătire", "Готовность", "Readiness"), title: T("De la 1 ianuarie 2027", "С 1 января 2027", "From 1 January 2027"), text: T("Etajul 1 se eliberează la această dată — cererea se poate lăsa din timp.", "1-й этаж освобождается к этой дате — заявку можно оставить заранее.", "The 1st floor frees up on this date — the request can be left early.") },
-    { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Prima linie", "Первая линия", "First line"), text: T("Fațadă lungă, vizibilă de pe prima linie.", "Протяжённый фасад, виден с первой линии.", "A long frontage, visible from the first line.") },
+    { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Prima linie", "Первая линия", "Boulevard frontage"), text: T("Fațadă lungă, vizibilă de pe prima linie.", "Протяжённый фасад, виден с первой линии.", "A long frontage, clearly visible from the boulevard.") },
     { key: "area", label: T("Suprafață", "Площадь", "Area"), title: T("{area} înregistrați", "{area} зарегистрировано", "{area} registered"), text: T("Suprafața înregistrată a clădirii; suprafața etajului 1 — la cerere.", "Зарегистрированная площадь здания; площадь 1-го этажа — по запросу.", "The registered building area; the 1st-floor area on request.") },
   ],
-  statement: { lines: [T("{area}.", "{area}.", "{area}."), T("O clădire independentă.", "Отдельное здание.", "A stand-alone building."), T("Prima linie a bulevardului.", "Первая линия бульвара.", "The boulevard's first line.")], photo: null },
+  statement: { lines: [T("{area}.", "{area}.", "{area}."), T("O clădire independentă.", "Отдельное здание.", "A stand-alone building."), T("Prima linie a bulevardului.", "Первая линия бульвара.", "Directly on the boulevard.")], photo: null },
   decision: {
     kind: "economics",
     teaser: {
@@ -56,7 +56,7 @@ export const moscova9Experience: LeasingExperience = {
   reasons: {
     label: T("Trei motive pentru o vizionare", "Три причины для просмотра", "Three reasons for a viewing"),
     items: [
-      { key: "location", no: "01", label: T("Locație", "Локация", "Location"), text: T("Prima linie a bulevardului Moscova.", "Первая линия бульвара Москова.", "The first line of Moscova Boulevard.") },
+      { key: "location", no: "01", label: T("Locație", "Локация", "Location"), text: T("Prima linie a bulevardului Moscova.", "Первая линия бульвара Москова.", "Directly on Moscova Boulevard.") },
       { key: "own", no: "02", label: T("Clădire proprie", "Своё здание", "Own building"), text: T("Fațadă, firmă și intrare proprii.", "Собственный фасад, вывеска и вход.", "Its own facade, signage and entrance.") },
       { key: "flows", no: "03", label: T("Fluxuri separate", "Раздельные потоки", "Separate flows"), text: T("Clienții — dinspre bulevard, marfa — prin rampă.", "Покупатели — с бульвара, товар — через рампу.", "Customers from the boulevard, goods via the ramp.") },
     ],
@@ -64,7 +64,7 @@ export const moscova9Experience: LeasingExperience = {
 
   motion: {
     kicker: T("Locația în mișcare", "Локация в движении", "Location in motion"),
-    title: T("Adresa este prima linie a bulevardului.", "Адрес — первая линия бульвара.", "The address is the boulevard's first line."),
+    title: T("Adresa este prima linie a bulevardului.", "Адрес — первая линия бульвара.", "An address directly on the boulevard."),
     lead: T("Sectorul Rîșcani, bulevardul Moscova: flux constant de mașini și pietoni, parcare de-a lungul bulevardului și un cartier rezidențial dens.", "Сектор Рышкань, бульвар Москова: постоянный автомобильный и пешеходный поток, парковка вдоль бульвара и плотный жилой район.", "Rîșcani district, Moscova Boulevard: a steady flow of cars and pedestrians, parking along the boulevard and a dense residential district."),
     ...sharedMotion,
     ecosystem: [
@@ -72,7 +72,7 @@ export const moscova9Experience: LeasingExperience = {
       { key: "residential", category: "residential", title: T("Cartier rezidențial dens", "Плотный жилой район", "Dense residential district"), text: T("Un public local constant.", "Постоянная локальная аудитория.", "A steady local audience.") },
       { key: "parking", category: "services", title: T("Parcare", "Парковка", "Parking"), text: T("De-a lungul bulevardului.", "Вдоль бульвара.", "Along the boulevard.") },
     ],
-    addressText: T("Bd. Moscova 9, sectorul Rîșcani — fațada pe prima linie a bulevardului.", "Бул. Москова, 9, сектор Рышкань — фасад на первой линии бульвара.", "9 Moscova Blvd, Rîșcani district — the frontage on the boulevard's first line."),
+    addressText: T("Bd. Moscova 9, sectorul Rîșcani — fațada pe prima linie a bulevardului.", "Бул. Москова, 9, сектор Рышкань — фасад на первой линии бульвара.", "9 Moscova Blvd, Rîșcani district — the frontage directly on the boulevard."),
     visibility: null,
     verdict: {
       title: T("Această locație merită verificată pentru afacerea dumneavoastră.", "Эта локация заслуживает проверки для вашего бизнеса.", "This location deserves a check for your business."),
@@ -163,7 +163,7 @@ export const moscova9Experience: LeasingExperience = {
     ...sharedStory,
     title: T("Clădirea așa cum este astăzi.", "Здание таким, какое оно есть сегодня.", "The building as it is today."),
     frames: [
-      { key: "address", no: "01", shot: { photo: "building", position: "50% 62%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova: fațada lungă, trotuarul și parcarea de-a lungul drumului.", "Первая линия бульвара Москова: протяжённый фасад, тротуар и парковка вдоль дороги.", "The first line of Moscova Boulevard: the long frontage, the pavement and parking along the road.") },
+      { key: "address", no: "01", shot: { photo: "building", position: "50% 62%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova: fațada lungă, trotuarul și parcarea de-a lungul drumului.", "Первая линия бульвара Москова: протяжённый фасад, тротуар и парковка вдоль дороги.", "Directly on Moscova Boulevard: the long frontage, the pavement and parking along the road.") },
     ],
   },
 
@@ -176,7 +176,7 @@ export const moscova9Experience: LeasingExperience = {
         label: T("Retail", "Ритейл", "Retail"),
         question: T("Mă vor observa?", "Увидят ли меня?", "Will they notice me?"),
         evidence: [
-          { text: T("Fațadă lungă pe prima linie a bulevardului.", "Протяжённый фасад на первой линии бульвара.", "A long frontage on the boulevard's first line."), ref: "photos", evidence: "OWNER_CONFIRMED", source: OWNER },
+          { text: T("Fațadă lungă pe prima linie a bulevardului.", "Протяжённый фасад на первой линии бульвара.", "A long frontage directly on the boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Două intrări pentru clienți, dinspre bulevard.", "Два входа для покупателей с бульвара.", "Two customer entrances from the boulevard."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Flux constant de mașini și pietoni pe bulevard.", "Постоянный автомобильный и пешеходный поток на бульваре.", "A steady flow of cars and pedestrians on the boulevard."), ref: "location", evidence: "OWNER_CONFIRMED", source: ASSET },
           { text: T("Cartier rezidențial dens în jur.", "Вокруг — плотный жилой район.", "A dense residential district around."), ref: "location", evidence: "OWNER_CONFIRMED", source: ASSET },

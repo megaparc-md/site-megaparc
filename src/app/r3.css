@@ -1881,6 +1881,7 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
 .lg-calc__fields.is-adv { margin-top: .2rem; }
 .lg-calc__advresult { margin: 1.3rem 0 1.4rem; padding: 1.1rem 1.2rem; background: var(--r3-paper); }
 .lg-calc__advnote { margin: 0; color: var(--r3-ink); font-size: .95rem; font-weight: 500; line-height: 1.5; }
+.lg-calc__advscope { margin: 1rem 0 0; padding-top: .8rem; border-top: 1px solid var(--r3-hair); color: var(--r3-muted); font-size: .82rem; line-height: 1.45; }
 .lg-calc__advout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem 1.6rem; margin: 0; }
 .lg-calc__advout div { min-width: 0; }
 .lg-calc__advout dt { color: var(--r3-muted); font-size: .82rem; line-height: 1.35; }

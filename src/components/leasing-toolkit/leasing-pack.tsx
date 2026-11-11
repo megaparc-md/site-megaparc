@@ -15,7 +15,7 @@ import { publishable, type PlanMarkKind, type ZoneKind } from "@/data/leasing-ex
 import { moscova20Experience as x } from "@/data/leasing-experience-moscova-20";
 import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
 import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, locales, ui as siteUi, type SiteLocale } from "@/lib/site-data";
 
 /**
  * DIGITAL LEASING PACK — the compact hub of the Moscova 20 toolkit (OWNER mandate §3, 2026-11-11): a digital property passport,
@@ -115,6 +115,13 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
       <header className="lp-head">
         <div className="lp-shell lp-head__grid">
           <div>
+            {/* OWNER 2026-11-11 (QR language): the physical QR opens the RO pack — RU / EN are one tap away in the first viewport on
+                phones and tablets, where the header switch lives inside the menu; the links keep the pack context. No interstitial. */}
+            <nav className="lp-lang" aria-label={siteUi.languages[locale]}>
+              {locales.map((l) => l === locale
+                ? <span key={l} className="is-active" aria-current="true" lang={l} title={brand.languageNames[l]}>{l.toUpperCase()}</span>
+                : <Link key={l} href={`${localePath(l, m20Toolkit.packPath)}/`} hrefLang={l} lang={l} title={brand.languageNames[l]}>{l.toUpperCase()}</Link>)}
+            </nav>
             <p className="lp-kicker">{c.kicker[locale]}</p>
             <h1 className="lp-title">{c.title[locale]}</h1>
             <p className="lp-lead">{c.lead[locale]}</p>

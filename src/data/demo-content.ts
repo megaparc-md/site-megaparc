@@ -238,14 +238,14 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
     repositioned: demo("asset.moscova-9.repositioned", "PROJECTS", P("moscova-9"), "Repositioned", "2019", "OWNER — last major works"),
     availability: confirmed("asset.moscova-9.availability", "LEASING", P("moscova-9"), "Availability", { ro: "Fără spații libere · ocupat 100 %", ru: `Свободных помещений нет · занят на 100 %`, en: "No space available · 100% occupied" }, "OWNER 2026-10-09"),
     levers: [
-      lever("frontage", "moscova-9", { ro: "Fațada ca vitrină a brandului", ru: "Фасад как витрина бренда", en: "The facade as a brand window" }, { ro: "Fațada lungă de pe prima linie poate purta identitatea completă a unui brand — firmă, vitrine, iluminat.", ru: "Протяжённый фасад первой линии может нести полную идентичность бренда — вывеска, витрины, подсветка.", en: "The long first-line frontage can carry a brand's full identity — signage, windows, lighting." }),
+      lever("frontage", "moscova-9", { ro: "Fațada ca vitrină a brandului", ru: "Фасад как витрина бренда", en: "The facade as a brand window" }, { ro: "Fațada lungă de pe prima linie poate purta identitatea completă a unui brand — firmă, vitrine, iluminat.", ru: "Протяжённый фасад первой линии может нести полную идентичность бренда — вывеска, витрины, подсветка.", en: "The long boulevard frontage can carry a brand's full identity — signage, windows, lighting." }),
       lever("split", "moscova-9", { ro: "Integral sau în două blocuri", ru: "Целиком или двумя блоками", en: "Whole or as two units" }, { ro: "Două intrări pentru clienți permit închirierea către un singur brand sau împărțirea în două spații independente.", ru: "Два входа для покупателей позволяют сдать объект одному бренду или разделить его на два независимых помещения.", en: "Two customer entrances allow one brand to take the whole or the space to be split into two independent units." }),
       lever("logistics", "moscova-9", { ro: "Logistică separată de clienți", ru: "Логистика отдельно от покупателей", en: "Logistics apart from customers" }, { ro: "Rampa și spațiile auxiliare păstrează fluxul de marfă în spatele clădirii.", ru: "Рампа и вспомогательные помещения держат товарный поток за зданием.", en: "The ramp and support rooms keep the goods flow behind the building." }),
     ],
   },
   "moscova-20": {
     category: "retail",
-    format: confirmed("asset.moscova-20.format", "PROJECTS", P("moscova-20"), "Format", { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "First-line commercial space" }),
+    format: confirmed("asset.moscova-20.format", "PROJECTS", P("moscova-20"), "Format", { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "Boulevard-front commercial space" }),
     ...occupancyPoints("moscova-20"),
     land: demo("asset.moscova-20.land", "PROJECTS", P("moscova-20"), "Land plot", { ro: "Spațiu în clădire", ru: "Помещение в здании", en: "Premises within a building" }, "OWNER — title / cadastre"),
     parking: demo("asset.moscova-20.parking", "PROJECTS", P("moscova-20"), "Parking", { ro: "12 locuri dedicate", ru: "12 выделенных мест", en: "12 dedicated spaces" }, "OWNER — site plan (dedicated parking is confirmed, the count is not)"),
@@ -254,7 +254,7 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
     repositioned: demo("asset.moscova-20.repositioned", "PROJECTS", P("moscova-20"), "Repositioned", "2023", "OWNER — last major works"),
     // availability: not stored here — derived from the unit record M20-01 (OWNER 2026-11-06, one source of truth)
     levers: [
-      lever("frontage", "moscova-20", { ro: "Prima linie ca punct de reper", ru: "Первая линия как ориентир района", en: "The first line as a landmark" }, { ro: "Vitrina continuă spre bulevard transformă spațiul într-un reper zilnic al cartierului.", ru: "Сплошная витрина к бульвару делает помещение ежедневным ориентиром района.", en: "A continuous window to the boulevard makes the space a daily landmark for the neighbourhood." }),
+      lever("frontage", "moscova-20", { ro: "Prima linie ca punct de reper", ru: "Первая линия как ориентир района", en: "The boulevard frontage as a landmark" }, { ro: "Vitrina continuă spre bulevard transformă spațiul într-un reper zilnic al cartierului.", ru: "Сплошная витрина к бульвару делает помещение ежедневным ориентиром района.", en: "A continuous window to the boulevard makes the space a daily landmark for the neighbourhood." }),
       lever("terrace", "moscova-20", { ro: "Terasa activează strada", ru: "Терраса оживляет улицу", en: "The terrace activates the street" }, { ro: "Pentru cafenea, servicii sau retail alimentar terasa prelungește spațiul în exterior.", ru: "Для кафе, сервисов или продуктового ритейла терраса продолжает помещение на улицу.", en: "For a café, services or food retail the terrace extends the space outdoors." }),
       lever("fitout", "moscova-20", { ro: "Gata pentru amenajarea brandului", ru: "Готово к оформлению под бренд", en: "Ready for brand fit-out" }, { ro: "Trasee existente de ventilație și utilități scurtează amenajarea noului chiriaș.", ru: "Существующие трассы вентиляции и инженерии сокращают срок отделки для нового арендатора.", en: "Existing ventilation and utility routes shorten the new tenant's fit-out." }),
     ],
@@ -343,13 +343,13 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     bestFor: ["retail", "showroom"],
     bestForStatus: "CONFIRMED",
     why: [
-      { ro: "Fațadă lungă pe prima linie a bulevardului", ru: "Протяжённый фасад на первой линии бульвара", en: "A long first-line boulevard frontage" },
+      { ro: "Fațadă lungă pe prima linie a bulevardului", ru: "Протяжённый фасад на первой линии бульвара", en: "A long frontage directly on the boulevard" },
       { ro: "Două intrări pentru clienți", ru: "Два входа для покупателей", en: "Two customer entrances" },
       { ro: "Rampă și zonă de descărcare separate", ru: "Отдельная рампа и зона разгрузки", en: "Separate ramp and unloading zone" },
       { ro: "Integral sau parțial", ru: "Целиком или частью", en: "Whole or in part" },
     ],
     capabilities: {
-      visibility: cap("moscova-9", "visibility", "strong", { ro: "Fațadă lungă, vizibilă de pe prima linie", ru: "Протяжённый фасад, виден с первой линии", en: "Long frontage, visible from the first line" }, "CONFIRMED"),
+      visibility: cap("moscova-9", "visibility", "strong", { ro: "Fațadă lungă, vizibilă de pe prima linie", ru: "Протяжённый фасад, виден с первой линии", en: "Long frontage, clearly visible from the boulevard" }, "CONFIRMED"),
       ground: cap("moscova-9", "ground", "strong", { ro: "Sală de vânzare de 737 m² la nivelul străzii", ru: "Торговый зал 737 м² на уровне улицы", en: "A 737 m² sales floor at street level" }, "CONFIRMED"),
       parking: cap("moscova-9", "parking", "possible", { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the boulevard" }, "CONFIRMED"),
       entrance: cap("moscova-9", "entrance", "strong", { ro: "Clădire independentă, două intrări proprii", ru: "Отдельное здание, два собственных входа", en: "Stand-alone building, two own entrances" }, "CONFIRMED"),
@@ -363,17 +363,17 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
   },
   "moscova-20": {
-    reason: { ro: "Pentru o afacere care trăiește din fluxul zilnic al cartierului — vitrină spre bulevard, prima linie.", ru: "Для бизнеса, который живёт ежедневным потоком района: витрина к бульвару, первая линия.", en: "For a business that lives on the neighbourhood's daily flow — a shop window to the boulevard on the first line." },
+    reason: { ro: "Pentru o afacere care trăiește din fluxul zilnic al cartierului — vitrină spre bulevard, prima linie.", ru: "Для бизнеса, который живёт ежедневным потоком района: витрина к бульвару, первая линия.", en: "For a business that lives on the neighbourhood's daily flow — a shop window directly on the boulevard." },
     bestFor: ["retail", "services", "clinic", "fnb", "showroom"],
     bestForStatus: "DEMO",
     why: [
-      { ro: "Prima linie, vitrină continuă spre bulevard", ru: "Первая линия, сплошная витрина к бульвару", en: "The first line, a continuous window to the boulevard" },
+      { ro: "Prima linie, vitrină continuă spre bulevard", ru: "Первая линия, сплошная витрина к бульвару", en: "Directly on the boulevard, a continuous shop window" },
       { ro: "Scară interioară între niveluri", ru: "Внутренняя лестница между уровнями", en: "An internal staircase between levels" },
       { ro: "Intrare pentru clienți și acces de serviciu separat", ru: "Вход для покупателей и отдельный служебный доступ", en: "Customer entrance and separate service access" },
       { ro: "Terasă și parcare dedicată", ru: "Терраса и выделенная парковка", en: "A terrace and dedicated parking" },
     ],
     capabilities: {
-      visibility: cap("moscova-20", "visibility", "strong", { ro: "Prima linie, fațadă panoramică", ru: "Первая линия, панорамный фасад", en: "First line, panoramic frontage" }, "CONFIRMED"),
+      visibility: cap("moscova-20", "visibility", "strong", { ro: "Prima linie, fațadă panoramică", ru: "Первая линия, панорамный фасад", en: "Boulevard-front position, panoramic frontage" }, "CONFIRMED"),
       ground: cap("moscova-20", "ground", "strong", { ro: "Parter 240,96 m² + demisol 293,70 m²", ru: "1‑й этаж 240,96 м² + цоколь 293,70 м²", en: "Ground 240.96 m² + lower ground 293.70 m²" }, "CONFIRMED"),
       parking: cap("moscova-20", "parking", "possible", { ro: "Parcare dedicată în apropiere", ru: "Выделенная парковка рядом", en: "Dedicated parking nearby" }, "CONFIRMED"),
       entrance: cap("moscova-20", "entrance", "strong", { ro: "Intrare pentru clienți + acces de serviciu cu rampă", ru: "Вход для покупателей + служебный доступ с рампой", en: "Customer entrance + service access with ramp" }, "CONFIRMED"),
@@ -422,7 +422,7 @@ const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", sourc
 export const projectNow: Record<string, DataPoint> = {
   "moscova-9": NOW("moscova-9", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31": NOW("dacia-31", { ro: "Clădire de birouri în proprietatea MEGAPARC.", ru: "Офисное здание в собственности MEGAPARC.", en: "An office building owned by MEGAPARC." }, "CONFIRMED"),
-  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de pe prima linie.", ru: "Сдаём коммерческое пространство на первой линии.", en: "Leasing the first-line commercial space." }, "CONFIRMED"),
+  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de pe prima linie.", ru: "Сдаём коммерческое пространство на первой линии.", en: "Leasing the boulevard-front commercial space." }, "CONFIRMED"),
   "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
@@ -453,7 +453,7 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       text: C("start", "Starting point", {
         ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2.536 m², sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
         ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: площадь объекта 2 536 м², основной зал 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
-        en: "A stand-alone retail building on the first line of Moscova Boulevard, outside the malls: a total property area of 2,536 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
+        en: "A stand-alone retail building directly on Moscova Boulevard, outside the malls: a total property area of 2,536 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
       }, "CONFIRMED"),
     },
     {

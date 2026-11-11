@@ -11,9 +11,9 @@ import { isProductionEdition, type Localized, type SiteLocale } from "@/lib/site
  */
 const productionNote: Record<"precheck" | "book", Localized> = {
   precheck: {
-    ro: "Verificarea tehnică a conceptului se solicită deocamdată direct — scrieți-ne sau sunați; directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea tehnică a conceptului înainte de convenirea condițiilor comerciale.",
-    ru: "Техническую проверку концепции пока запрашивают напрямую — напишите или позвоните; технический директор и архитектор MEGAPARC проверяют техническую реализуемость концепции до согласования коммерческих условий.",
-    en: "For now the technical concept check is requested directly — write or call; MEGAPARC's Technical Director and Architect check the technical feasibility of the concept before commercial terms are agreed.",
+    ro: "Pentru verificarea tehnică a conceptului, contactați MEGAPARC la datele de contact indicate — directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea tehnică a conceptului înainte de convenirea condițiilor comerciale.",
+    ru: "Для технической проверки концепции свяжитесь с MEGAPARC по указанным контактам — технический директор и архитектор MEGAPARC проверяют техническую реализуемость концепции до согласования коммерческих условий.",
+    en: "For the technical concept review, contact MEGAPARC using the contact details shown — MEGAPARC's Technical Director and Architect check the technical feasibility of the concept before commercial terms are agreed.",
   },
   book: {
     ro: "Cererea de vizionare se trimite deocamdată direct — scrieți-ne sau sunați și propuneți ziua și intervalul; confirmăm ora personal.",
@@ -24,7 +24,7 @@ const productionNote: Record<"precheck" | "book", Localized> = {
 
 export function PreCheck({ locale }: { locale: SiteLocale }) {
   if (isProductionEdition) return <DirectContact locale={locale} subject="lease" note={productionNote.precheck[locale]} />;
-  return <PreCheckForm locale={locale} mailbox={company.email.value[locale]} />;
+  return <PreCheckForm locale={locale} mailbox={company.email.value[locale]} phones={[company.mobile.value[locale], company.landline.value[locale]]} />;
 }
 
 export function BookViewing({ locale, unitLabel }: { locale: SiteLocale; unitLabel: string }) {

@@ -53,7 +53,7 @@ export const toolkitCopy = {
     dossier: { ro: "Descarcă dosarul obiectului", ru: "Скачать досье объекта", en: "Download property dossier" },
     dossierMeta: { ro: "PDF · {pages} pagini · {version}", ru: "PDF · {pages} страниц · {version}", en: "PDF · {pages} pages · {version}" },
     precheck: { ro: "Verificarea tehnică a conceptului", ru: "Техническая проверка концепции", en: "Technical concept check" },
-    precheckMeta: { ro: "6–8 întrebări · răspunde directorul tehnic și arhitectul", ru: "6–8 вопросов · отвечают технический директор и архитектор", en: "6–8 questions · answered by the Technical Director and the Architect" },
+    precheckMeta: { ro: "8 întrebări scurte · analizează directorul tehnic și arhitectul", ru: "8 коротких вопросов · разбирают технический директор и архитектор", en: "8 short questions · reviewed by the Technical Director and the Architect" },
     book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
     bookMeta: { ro: "cerere de vizionare · ziua și intervalul preferat", ru: "запрос на просмотр · удобный день и время", en: "a viewing request · your preferred day and time window" },
     cadastre: { ro: "Deschide e‑Cadastru", ru: "Открыть e‑Cadastru", en: "Open e-Cadastru" },
@@ -77,7 +77,7 @@ export const toolkitCopy = {
   },
   plans: {
     title: { ro: "Planurile spațiului", ru: "Планы помещения", en: "The plans of the premises" },
-    lead: { ro: "Planul oficial rămâne sursa de adevăr. Stratul interactiv doar arată ce să căutați pe plan.", ru: "Официальный план остаётся источником истины. Интерактивный слой лишь показывает, что искать на плане.", en: "The official plan stays the source of truth. The interactive layer only shows what to look for on it." },
+    lead: { ro: "Planul oficial este documentul de bază pentru compartimentare și suprafețe. Stratul interactiv vă ajută să vă orientați mai repede pe plan.", ru: "Официальный план является основным документом по планировке и площадям. Интерактивный слой помогает быстрее ориентироваться в плане.", en: "The official plan is the reference document for layout and areas. The interactive layer helps you find your way around the plan faster." },
     layers: { ro: "Ce arătăm", ru: "Что показать", en: "What to show" },
     all: { ro: "Tot planul", ru: "Весь план", en: "Whole plan" },
     access: { ro: "Acces", ru: "Доступ", en: "Access" },
