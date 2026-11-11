@@ -1687,7 +1687,7 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
   .lg-pass__fact.is-card + .lg-pass__fact.is-card { border-left: 1px solid var(--r3-hair-strong); }
   .lg-pass__fact.is-card .lg-pass__num { font-size: clamp(1.9rem, 4.1cqi, 2.4rem); }
 }
-/* the figure never leaves its card: the unit may drop to the next line («2,64 / 2,67» + «м») */
+/* the figure never leaves its card: the unit may drop to the next line («3,0 / 2,8» + «м») */
 .lg-pass__fact.is-card .lg-pass__figure { flex-wrap: wrap; row-gap: .1rem; }
 
 /* «Инфраструктура объекта» — eight infrastructure cards: label · value · one explanation; 1 → 2 → 3 columns by container width */

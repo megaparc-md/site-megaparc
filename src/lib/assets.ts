@@ -398,7 +398,7 @@ export const portfolioAssets: PortfolioAsset[] = [
         { label: { ro: "Parter", ru: "Первый этаж", en: "Ground floor" }, value: { ro: "240,96 m² · vânzare 195,46 m²", ru: "240,96 м² · торговая 195,46 м²", en: "240.96 m² · sales 195.46 m²" } },
         { label: { ro: "Demisol", ru: "Цокольный этаж", en: "Lower ground" }, value: { ro: "293,70 m² · vânzare 263,40 m²", ru: "293,70 м² · торговая 263,40 м²", en: "293.70 m² · sales 263.40 m²" } },
         { label: { ro: "Terasă", ru: "Терраса", en: "Terrace" }, value: { ro: "91,03 m²", ru: "91,03 м²", en: "91.03 m²" } },
-        { label: { ro: "Înălțime utilă", ru: "Высота помещений", en: "Ceiling height" }, value: { ro: "parter cca. 2,64 m · demisol cca. 2,67 m", ru: "1‑й этаж ок. 2,64 м · цоколь ок. 2,67 м", en: "ground approx. 2.64 m · lower ground approx. 2.67 m" } },
+        { label: { ro: "Înălțime utilă", ru: "Высота помещений", en: "Ceiling height" }, value: { ro: "parter ≈ 3,0 m · demisol ≈ 2,8 m", ru: "1‑й этаж ≈ 3,0 м · цоколь ≈ 2,8 м", en: "ground floor ≈ 3.0 m · lower ground ≈ 2.8 m" } },
       ],
       features: [
         { ro: "Fațadă panoramică cu loc pentru firmă", ru: "Панорамный фасад с местом для вывески", en: "Panoramic frontage with room for signage" },

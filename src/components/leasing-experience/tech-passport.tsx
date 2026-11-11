@@ -30,7 +30,7 @@ const copy = {
 } satisfies Record<string, Localized>;
 
 const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB" };
-const metres = (m: number, locale: SiteLocale) => m.toLocaleString(intl[locale], { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const metres = (m: number, locale: SiteLocale) => m.toLocaleString(intl[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const lower = (text: string, locale: SiteLocale) => (locale === "en" ? text.charAt(0).toLocaleLowerCase("en") + text.slice(1) : text.charAt(0).toLocaleLowerCase(locale) + text.slice(1));
 const list = (names: string[], locale: SiteLocale) => (names.length < 2 ? names.join("") : `${names.slice(0, -1).join(", ")}${copy.and[locale]}${names[names.length - 1]}`);
 

@@ -27,7 +27,7 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  */
 const ORIGIN = "https://www.megaparc.md";
 const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB" };
-const metres = (m: number, locale: SiteLocale) => m.toLocaleString(intl[locale], { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const metres = (m: number, locale: SiteLocale) => m.toLocaleString(intl[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const planCopy = {
   title: { ro: "Planul spațiului", ru: "План помещения", en: "Premises plan" },
   note: { ro: "Anexă la contractul de locațiune · Sc. 1:100", ru: "Приложение к договору аренды · М 1:100", en: "Lease agreement annex · Scale 1:100" },

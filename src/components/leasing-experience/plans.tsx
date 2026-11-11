@@ -39,7 +39,7 @@ const sizesOf = (key: PlanLevel["key"]) =>
     `(min-width: 720px) calc((100vw - 66px) * ${sheetScale[key].tablet})`,
     `calc((100vw - 42px) * ${sheetScale[key].phone})`,
   ].join(", ");
-const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB")} ${locale === "ru" ? "м" : "m"}`;
+const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${locale === "ru" ? "м" : "m"}`;
 
 const copy = {
   views: { ro: "Niveluri", ru: "Уровни", en: "Levels" },

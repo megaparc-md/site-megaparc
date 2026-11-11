@@ -135,8 +135,8 @@ const allSpaces: AvailableSpace[] = [
     area: 625.7,
     usefulArea: 458.86,
     breakdown: [
-      { key: "ground", label: L("Parter", "1‑й этаж", "Ground floor"), area: 240.96, useful: 195.46, height: 2.64, heightEvidence: "APPROXIMATE" },
-      { key: "lower", label: L("Demisol", "Цоколь", "Lower ground"), area: 293.7, useful: 263.4, height: 2.67, heightEvidence: "APPROXIMATE" },
+      { key: "ground", label: L("Parter", "1‑й этаж", "Ground floor"), area: 240.96, useful: 195.46, height: 3.0, heightEvidence: "APPROXIMATE" },
+      { key: "lower", label: L("Demisol", "Цоколь", "Lower ground"), area: 293.7, useful: 263.4, height: 2.8, heightEvidence: "APPROXIMATE" },
       { key: "terrace", label: L("Terasă", "Терраса", "Terrace"), area: 91.03 },
     ],
     // café / restaurant and clinic need a technical check first (extraction, power, permitted use) — not marketed as a fit
@@ -162,7 +162,8 @@ const allSpaces: AvailableSpace[] = [
     technical: {
       power: L("3 faze · 38 kW (conform documentelor)", "3 фазы · 38 кВт (по документам)", "3 phases · 38 kW (documented)"),
       ventilation: L("Parter — sisteme split · demisol — climatizare pe canale · ventilație prevăzută", "1‑й этаж — сплит-системы · цоколь — канальное кондиционирование · вентиляция предусмотрена", "Ground floor — split systems · lower ground — ducted air-conditioning · ventilation provided for"),
-      height: L("Parter cca. 2,64 m · demisol cca. 2,67 m", "1‑й этаж ок. 2,64 м · цоколь ок. 2,67 м", "Ground approx. 2.64 m · lower ground approx. 2.67 m"),
+      // OWNER FACT OVERRIDE 2026-11-11: public commercial heights ≈ 3,0 м (ground) · ≈ 2,8 м (lower ground) — approximate, never a survey figure; the official drawings stay documentary
+      height: L("Parter ≈ 3,0 m · demisol ≈ 2,8 m", "1‑й этаж ≈ 3,0 м · цоколь ≈ 2,8 м", "Ground floor ≈ 3.0 m · lower ground ≈ 2.8 m"),
       condition: L("Renovat: pardoseli, pereți, încălzire, grupuri sanitare", "Отремонтировано: полы, стены, отопление, санузлы", "Renovated: floors, walls, heating, washrooms"),
     },
     fit: { visibility: "strong", flow: "strong", parking: "possible", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "strong", flexible: "possible", fast: "strong" },
