@@ -3,7 +3,7 @@ import { PassportFold } from "@/components/leasing-experience/passport-fold";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { Icon } from "@/components/ui";
 import { formatAreaExact } from "@/content/source";
-import { publishable, type LeasingExperience, type PassportFact, type PassportItem, type PassportSide, type TechPassport } from "@/data/leasing-experience-model";
+import { publishable, type LeasingExperience, type PassportCard, type PassportFact, type PassportItem, type PassportSide, type TechPassport } from "@/data/leasing-experience-model";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
@@ -43,15 +43,28 @@ function Fact({ fact, offer, locale }: { fact: PassportFact; offer: TemplateOffe
     figure = floors.length ? floors.map((level) => metres(level.height!, locale)).join(" / ") : null;
   } else figure = fact.figure[locale];
   if (!figure) return null;
+  // OWNER «TECHNICAL READINESS — CARDS» (2026-11-11): a specification card — small label · large value · short explanation
   return (
-    <div className="lg-pass__fact">
-      <dt className="lg-pass__label">{fact.label[locale]}</dt>
+    <div className={`lg-pass__fact${fact.name ? " is-card" : ""}`}>
+      <dt className="lg-pass__label">{fact.name ? fact.name[locale] : fact.label[locale]}</dt>
       <dd className="lg-pass__figure">
         {approx ? <span className="lg-pass__approx" aria-label={ui.approx[locale]}>≈</span> : null}
         <span className="lg-pass__num">{figure}</span>
         <span className="lg-pass__unit">{fact.unit[locale]}</span>
       </dd>
+      {fact.name ? <dd className="lg-pass__why">{fact.label[locale]}</dd> : null}
     </div>
+  );
+}
+
+/** One infrastructure card («Инфраструктура объекта»): small label · value · one explanation — the same confirmed facts as the sheet, never a dashboard tile. */
+function Card({ card, locale }: { card: PassportCard; locale: SiteLocale }) {
+  return (
+    <li className="lg-pass__card">
+      <p className="lg-pass__cardlabel">{card.title[locale]}</p>
+      <p className="lg-pass__cardvalue">{card.value[locale]}</p>
+      <p className="lg-pass__cardtext">{card.text[locale]}</p>
+    </li>
   );
 }
 
@@ -178,11 +191,19 @@ export function TechPassport({ x, passport: p, offer, locale }: { x: LeasingExpe
       {/* LEVEL 4 — what the building already has · the approved tenant-investment line · what we check for your format */}
       <section className="lg-pass__ready">
         <h3 className="lg-pass__htitle">{p.ready.title[locale]}</h3>
-        <ul className="lg-pass__marks is-ready">
-          {p.ready.items.map((item) => (
-            <li key={item.en}>{item[locale]}</li>
-          ))}
-        </ul>
+        {p.ready.cards?.length ? (
+          <ul className="lg-pass__cards">
+            {p.ready.cards.filter((card) => publishable(card.evidence)).map((card) => (
+              <Card key={card.key} card={card} locale={locale} />
+            ))}
+          </ul>
+        ) : (
+          <ul className="lg-pass__marks is-ready">
+            {(p.ready.items ?? []).map((item) => (
+              <li key={item.en}>{item[locale]}</li>
+            ))}
+          </ul>
+        )}
         <p className="lg-pass__capex">{p.capex[locale]}</p>
       </section>
 

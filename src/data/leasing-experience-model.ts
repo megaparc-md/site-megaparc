@@ -65,7 +65,9 @@ export type TechState = "ready" | "tenant" | "confirm" | "fact";
 export type TechRow = { key: string; label: Localized; value: Localized; state: TechState; evidence: Evidence; source: string };
 
 /** One key fact of the technical passport: a figure (or the clear heights read from the unit's level breakdown) and its unit as separate boxes. */
-export type PassportFact = { key: string; figure: Localized | "heights"; unit: Localized; label: Localized; evidence: Evidence; source: string };
+export type PassportFact = { key: string; /** the card's small label (OWNER «TECHNICAL READINESS — CARDS», 2026-11-11), e.g. «Мощность» */ name?: Localized; figure: Localized | "heights"; unit: Localized; label: Localized; evidence: Evidence; source: string };
+/** One infrastructure card of the passport («Инфраструктура объекта», OWNER 2026-11-11): small label · large value · short explanation. */
+export type PassportCard = { key: string; title: Localized; value: Localized; text: Localized; evidence: Evidence; source: string };
 /** One specification row of a passport group: term · value · an optional short explanation. */
 export type PassportItem = { key: string; title: Localized; value: Localized; note?: Localized; evidence: Evidence; source: string };
 /** One side of the property and what opens onto it (OWNER technical data update 2026-11-10 — directions only, never positions). */
@@ -78,7 +80,8 @@ export type TechPassport = {
   groups: { key: string; title: Localized; items: PassportItem[]; note?: Localized }[];
   /** the unit's level breakdown (gross · useful · clear height) with the offered area against the property */
   levelsTitle: Localized;
-  ready: { title: Localized; items: Localized[] };
+  /** what the building already has — infrastructure cards (OWNER 2026-11-11) or, for an older dataset, a plain list */
+  ready: { title: Localized; items?: Localized[]; cards?: PassportCard[] };
   capex: Localized;
   check: { title: Localized; lead: Localized; items: Localized[] };
   principle: Localized;

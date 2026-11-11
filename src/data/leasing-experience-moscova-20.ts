@@ -190,10 +190,12 @@ export const moscova20Experience: LeasingExperience = {
   //  · «Alco Market» — relationship to Moscova 20 not documented: OWNER_TO_CONFIRM, not published
   passport: {
     facts: [
-      { key: "power", figure: T("38", "38", "38"), unit: T("kW", "кВт", "kW"), label: T("alimentare trifazată, conform documentelor", "3‑фазное электроснабжение по документам", "three-phase supply, documented"), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-      { key: "heights", figure: "heights", unit: T("m", "м", "m"), label: { ro: "înălțimea încăperilor · parter / demisol", ru: "высота помещений · 1‑й этаж / цоколь", en: "clear height · ground floor / lower ground" }, evidence: "APPROXIMATE", source: "Unit record M20-01 · plans Anexa 1 / 2" },
-      { key: "exits", figure: T("4", "4", "4"), unit: T("ieșiri", "выхода", "exits"), label: { ro: "dintre care 2 spre bulevard și 1 spre curte", ru: "в том числе 2 к бульвару и 1 во двор", en: "including 2 to the boulevard and 1 to the courtyard" }, evidence: "OWNER_CONFIRMED", source: TECH },
-      { key: "sanitary", figure: T("3", "3", "3"), unit: T("grupuri sanitare", "санузла", "toilets"), label: T("și o încăpere pentru inventarul de curățenie", "и помещение для уборочного инвентаря", "and a cleaning-inventory room"), evidence: "OWNER_CONFIRMED", source: TECH },
+      // OWNER «TECHNICAL READINESS — CARDS + SANITARY WORDING» (2026-11-11): four specification cards — small label · large value · short explanation
+      { key: "power", name: T("Putere", "Мощность", "Power"), figure: T("38", "38", "38"), unit: T("kW", "кВт", "kW"), label: T("alimentare trifazată, conform documentelor", "3‑фазное электроснабжение по документам", "three-phase supply, documented"), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
+      { key: "heights", name: T("Înălțime", "Высота", "Clear height"), figure: "heights", unit: T("m", "м", "m"), label: { ro: "înălțimea încăperilor · parter / demisol", ru: "высота помещений · 1‑й этаж / цоколь", en: "clear height · ground floor / lower ground" }, evidence: "APPROXIMATE", source: "Unit record M20-01 · plans Anexa 1 / 2" },
+      { key: "exits", name: T("Acces", "Доступ", "Access"), figure: T("4", "4", "4"), unit: T("ieșiri", "выхода", "exits"), label: { ro: "dintre care 2 spre bulevard și 1 spre curte", ru: "в том числе 2 к бульвару и 1 во двор", en: "including 2 to the boulevard and 1 to the courtyard" }, evidence: "OWNER_CONFIRMED", source: TECH },
+      // OWNER sanitary wording 2026-11-11: the room is the amenity — «+ хозяйственное помещение», never «уборочный инвентарь» as a label
+      { key: "sanitary", name: T("Spații sanitare", "Санузлы", "Sanitary"), figure: T("3", "3", "3"), unit: T("grupuri sanitare", "санузла", "sanitary units"), label: T("+ spațiu gospodăresc separat", "+ хозяйственное помещение", "+ dedicated utility room"), evidence: "OWNER_CONFIRMED", source: TECH },
     ],
     sides: {
       title: T("Două laturi: bulevardul și curtea", "Две стороны: бульвар и двор", "Two sides: the boulevard and the courtyard"),
@@ -246,7 +248,7 @@ export const moscova20Experience: LeasingExperience = {
         title: T("Spații sanitare", "Санитарные помещения", "Sanitary rooms"),
         items: [
           { key: "toilets", title: T("Grupuri sanitare", "Санузлы", "Toilets"), value: T("3 grupuri sanitare", "3 санузла", "3 toilets"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "cleaning", title: T("Inventar de curățenie", "Уборочный инвентарь", "Cleaning inventory"), value: T("Încăpere separată pentru inventarul de curățenie", "Отдельное помещение для уборочного инвентаря", "A separate cleaning-inventory room"), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "cleaning", title: T("Spațiu gospodăresc", "Хозяйственное помещение", "Utility room"), value: T("Spațiu gospodăresc separat pentru curățenie și echipamentele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning and cleaning equipment."), evidence: "OWNER_CONFIRMED", source: TECH },
         ],
       },
       {
@@ -260,21 +262,20 @@ export const moscova20Experience: LeasingExperience = {
       },
     ],
     levelsTitle: T("Niveluri și înălțimi", "Уровни и высоты", "Levels and heights"),
+    // OWNER «TECHNICAL READINESS — CARDS» (2026-11-11): «Инфраструктура объекта» as eight infrastructure cards (climate and ventilation
+    // combined), each with a small label, a large value and one explanation — the same confirmed facts, no repetition of the four key cards'
+    // sentences; nothing added (no tariff, capacity, guarantee, exclusive / reserved / free parking, no location for the fourth exit)
     ready: {
-      title: T("Ce există deja în obiect", "Что уже есть в объекте", "What is already in the building"),
-      items: [
-        T("alimentare electrică trifazată", "трёхфазное электроснабжение", "three-phase power"),
-        T("încălzire", "отопление", "heating"),
-        T("climatizare pe ambele niveluri", "кондиционирование на обоих уровнях", "air-conditioning on both levels"),
-        T("sistem de ventilație", "вентиляционная система", "a ventilation system"),
-        T("apă și canalizare", "вода и канализация", "water and drainage"),
-        T("3 grupuri sanitare și inventar de curățenie", "3 санузла и уборочный инвентарь", "3 toilets and a cleaning-inventory room"),
-        T("4 ieșiri", "4 выхода", "4 exits"),
-        T("intrare cu scări și rampă", "вход с лестницей и пандусом", "an entrance with steps and a ramp"),
-        T("primirea mărfii din ambele laturi", "приём товара с двух сторон", "goods delivery from both sides"),
-        T("15 locuri de parcare", "15 парковочных мест", "15 parking spaces"),
-        T("puncte de racord pentru iluminat", "выводы под светильники", "lighting connection points"),
-        T("trasee pentru curenți slabi", "трассы для слаботочных сетей", "low-voltage routes"),
+      title: T("Infrastructura obiectului", "Инфраструктура объекта", "Property infrastructure"),
+      cards: [
+        { key: "electricity", title: T("Electricitate", "Электричество", "Electricity"), value: T("38 kW · trifazat", "38 кВт · три фазы", "38 kW · three-phase"), text: T("Racord conform documentației tehnice.", "Подключение по технической документации.", "Connection according to the technical documentation."), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
+        { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica", "Termoelectrica", "Termoelectrica"), text: T("Încălzire centralizată, calorifere pe ambele niveluri.", "Централизованное отопление, радиаторы на обоих уровнях.", "Central heating, radiators on both levels."), evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
+        { key: "climate", title: T("Climatizare și ventilație", "Климат и вентиляция", "Climate and ventilation"), value: T("Climatizare pe ambele niveluri", "Кондиционирование на обоих уровнях", "Air-conditioning on both levels"), text: T("Parter — sisteme split, demisol — sistem pe canale. Ventilația este prevăzută; cerințele pentru hotă se evaluează după conceptul concret al chiriașului.", "1‑й этаж — сплит-системы, цоколь — канальная система. Вентиляция предусмотрена; требования к вытяжке оцениваются под конкретную концепцию арендатора.", "Ground floor — split systems, lower ground — a ducted system. Ventilation is provided for; extraction requirements are assessed for the tenant's specific concept."), evidence: "OWNER_CONFIRMED", source: TECH },
+        { key: "access", title: T("Acces", "Доступ", "Access"), value: T("Bulevard și curte", "Бульвар и двор", "Boulevard and courtyard"), text: T("Intrare directă pentru clienți dinspre bulevard — scări și rampă; ieșire separată spre curte.", "Прямой вход для клиентов с бульвара — лестница и пандус; отдельный выход во двор.", "A direct customer entrance from the boulevard — steps and a ramp; a separate exit to the courtyard."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${PLANS}` },
+        { key: "logistics", title: T("Logistică", "Логистика", "Logistics"), value: T("Descărcare din două laturi", "Разгрузка с двух сторон", "Loading from two sides"), text: T("Bulevard și curte; rampă de descărcare dinspre curte.", "Бульвар и двор; разгрузочная рампа со стороны двора.", "Boulevard and courtyard; a loading ramp on the courtyard side."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${PLANS}` },
+        { key: "sanitary", title: T("Spații sanitare și gospodărești", "Санузлы и хозпомещение", "Sanitary and utility"), value: T("3 grupuri sanitare", "3 санузла", "3 sanitary units"), text: T("Spațiu gospodăresc separat pentru curățenie și echipamentele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning and cleaning equipment."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${TECH_FINAL}` },
+        { key: "parking", title: T("Parcare", "Парковка", "Parking"), value: T("15 locuri", "15 мест", "15 spaces"), text: T("Parcare la obiect; condițiile de folosire se discută la vizionare.", "Парковка при объекте; порядок пользования обсуждается на просмотре.", "Parking at the property; the terms of use are discussed at the viewing."), evidence: "OWNER_CONFIRMED", source: TECH },
+        { key: "fitout", title: T("Pregătire pentru amenajare", "Подготовка к отделке", "Fit-out"), value: T("Puncte de racord pentru iluminat", "Выводы под светильники", "Lighting connection points"), text: T("Pregătite pentru montarea corpurilor de iluminat după conceptul de iluminare cerut; trasee pentru curenți slabi și internet.", "Подготовлены под монтаж светильников по требуемой концепции освещения; трассы для слаботочных сетей и интернета.", "Prepared for fixture installation to the required lighting concept; low-voltage and internet routes in place."), evidence: "OWNER_CONFIRMED", source: TECH },
       ],
     },
     capex: T("Lucrările capitale de bază sunt deja realizate — investiția chiriașului va fi necesară în primul rând pentru adaptarea spațiului la propriul format.", "Базовые капитальные работы уже выполнены — инвестиции арендатора потребуются прежде всего для адаптации пространства под собственный формат.", "The core capital works are already complete — the tenant’s investment will be needed primarily to adapt the space to its own format."),
@@ -357,7 +358,7 @@ export const moscova20Experience: LeasingExperience = {
       { key: "ventilation", label: T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), value: T("Parter — sisteme split; demisol — climatizare pe canale; ventilație prevăzută", "1-й этаж — сплит-системы; цоколь — канальное кондиционирование; вентиляция предусмотрена", "Ground floor — split systems; lower ground — ducted air-conditioning; ventilation provided for"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "extraction", label: T("Hotă", "Вытяжка", "Extraction"), value: T("Se evaluează după conceptul comercial concret", "Оценивается под конкретную коммерческую концепцию", "Assessed for the specific commercial concept"), state: "confirm", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "water", label: T("Apă și canalizare", "Водоснабжение и канализация", "Water and sewer"), value: T("Conectate: 3 grupuri sanitare", "Подключены: 3 санузла", "Connected: 3 toilets"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${NET} · ${TECH} · ${TECH_FINAL}` },
-      { key: "cleaning", label: T("Inventar de curățenie", "Уборочный инвентарь", "Cleaning inventory"), value: T("Încăpere separată pentru inventarul de curățenie", "Отдельное помещение для уборочного инвентаря", "A separate cleaning-inventory room"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
+      { key: "cleaning", label: T("Spațiu gospodăresc", "Хозяйственное помещение", "Utility room"), value: T("Spațiu gospodăresc separat pentru curățenie și echipamentele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning and cleaning equipment."), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "internet", label: T("Curenți slabi și internet", "Слаботочные сети и интернет", "Low-current and internet"), value: T("Traseele există; internetul îl conectează chiriașul", "Трассы есть; интернет арендатор подключает сам", "Routes in place; the tenant connects the internet"), state: "tenant", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §18` },
       { key: "fire", label: T("Siguranță la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții: 2 spre bulevard, 1 spre curte", "Выходы в нескольких направлениях: 2 к бульвару, 1 во двор", "Exits in several directions: 2 to the boulevard, 1 to the courtyard"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "security", label: T("Pază", "Охрана", "Security"), value: T("Justar", "Justar", "Justar"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
@@ -479,7 +480,7 @@ export const moscova20Experience: LeasingExperience = {
       fact(T("Încălzire", "Отопление", "Heating"), "OWNER_CONFIRMED", `${OWNER} §4 · ${TECH_FINAL}`),
       fact(T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), "OWNER_CONFIRMED", TECH),
       fact(T("3 grupuri sanitare", "3 санузла", "3 toilets"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
-      fact(T("Cameră pentru inventarul de curățenie", "Комната уборочного инвентаря", "A cleaning-inventory room"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
+      fact(T("Spațiu gospodăresc separat", "Хозяйственное помещение", "A dedicated utility room"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
       fact(T("Scări și intrări", "Лестницы и входные группы", "Stairs and entrances"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO} · ${PLANS}`),
       fact(T("Puncte de racord pentru iluminat", "Точки подключения освещения", "Lighting connection points"), "OWNER_CONFIRMED", TECH),
       fact(T("Zonă de descărcare", "Зона загрузки", "A loading area"), "OWNER_CONFIRMED", TECH),

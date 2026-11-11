@@ -1672,6 +1672,33 @@ html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--ove
   .lg-pass__approx { font-size: 1.5rem; }
 }
 
+/* OWNER «TECHNICAL READINESS — CARDS + SANITARY WORDING» (2026-11-11): the four key facts as calm specification cards — warm ivory,
+   a hairline, generous padding; small Geist label · large Source Serif value · one line of explanation. Never a shadowed tile. */
+.lg-pass__facts:has(.is-card) { grid-template-columns: minmax(0, 1fr); gap: .7rem; border-top: 0; }
+.lg-pass__fact.is-card { flex-direction: column; justify-content: flex-start; gap: .6rem; padding: 1.15rem 1.15rem 1.25rem; border: 1px solid var(--r3-hair-strong); border-bottom: 1px solid var(--r3-hair-strong); background: var(--r3-ivory); }
+.lg-pass__fact.is-card .lg-pass__label { max-width: none; color: var(--r3-muted); font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; }
+.lg-pass__fact.is-card .lg-pass__num { font-size: clamp(2rem, 9cqi, 2.7rem); }
+.lg-pass__why { margin: 0; color: var(--r3-text); font-size: .88rem; line-height: 1.45; }
+@container (min-width: 22rem) { .lg-pass__facts:has(.is-card) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 46rem) {
+  .lg-pass__facts:has(.is-card) { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; }
+  .lg-pass__fact.is-card { padding: 1.35rem 1.3rem 1.45rem; border-bottom: 1px solid var(--r3-hair-strong); }
+  .lg-pass__fact.is-card:first-child { padding-left: 1.3rem; }
+  .lg-pass__fact.is-card + .lg-pass__fact.is-card { border-left: 1px solid var(--r3-hair-strong); }
+  .lg-pass__fact.is-card .lg-pass__num { font-size: clamp(1.9rem, 4.1cqi, 2.4rem); }
+}
+/* the figure never leaves its card: the unit may drop to the next line («2,64 / 2,67» + «м») */
+.lg-pass__fact.is-card .lg-pass__figure { flex-wrap: wrap; row-gap: .1rem; }
+
+/* «Инфраструктура объекта» — eight infrastructure cards: label · value · one explanation; 1 → 2 → 3 columns by container width */
+.lg-pass__cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: .7rem; margin: 0; padding: 0; list-style: none; }
+.lg-pass__card { display: grid; gap: .45rem; align-content: start; min-width: 0; padding: 1.15rem 1.15rem 1.25rem; border: 1px solid var(--r3-hair); background: var(--r3-ivory); }
+.lg-pass__cardlabel { margin: 0; color: var(--r3-muted); font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; }
+.lg-pass__cardvalue { margin: 0; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.25rem, 4.4cqi, 1.55rem); font-weight: 400; line-height: 1.15; letter-spacing: -.012em; text-wrap: balance; }
+.lg-pass__cardtext { margin: .15rem 0 0; color: var(--r3-text); font-size: .9rem; line-height: 1.45; }
+@container (min-width: 30rem) { .lg-pass__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 46rem) { .lg-pass__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; } .lg-pass__card { padding: 1.3rem 1.3rem 1.4rem; } }
+
 /* LEVEL 3 — three groups (a disclosure that phones fold) */
 .lg-pass__groups { margin-top: clamp(2rem, 4vw, 2.8rem); border-top: 1px solid var(--r3-hair-strong); }
 .lg-pass__group dd { margin: 0; }
