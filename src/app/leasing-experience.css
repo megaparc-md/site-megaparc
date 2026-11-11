@@ -272,15 +272,6 @@
 /* ---------- 05 · the business lens — selector + evidence cards ---------- */
 .lg-lens { background: var(--white); }
 .lg-lens__picker { display: grid; gap: 1.3rem; }
-.lg-lens__tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.1rem; border-top: 1px solid var(--line-strong); }
-.lg-lens__tab { position: relative; display: flex; align-items: baseline; gap: .6rem; min-width: 0; padding: .85rem 0; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--muted); font: inherit; text-align: left; cursor: pointer; transition: color .4s var(--pm-ease); }
-.lg-lens__tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--brand); transform: scaleX(0); transform-origin: left; transition: transform .6s var(--pm-ease); }
-.lg-lens__tabno { flex: none; font-size: .72rem; font-weight: 650; letter-spacing: .1em; font-variant-numeric: tabular-nums; transition: color .4s var(--pm-ease); }
-.lg-lens__tablabel { font-size: 1.05rem; font-weight: 500; line-height: 1.15; letter-spacing: -.02em; }
-.lg-lens__tab:hover, .lg-lens__tab.is-active { color: var(--ink); }
-.lg-lens__tab.is-active .lg-lens__tabno { color: var(--brand); }
-.lg-lens__tab.is-active::after { transform: scaleX(1); }
-.lg-lens__tab:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 .lg-lens__pane.is-on { animation: lg-fade .7s var(--pm-ease) both; }
 .lg-lens__pane.is-on .lg-scene__photo img { animation: lg-pane-img 1.4s var(--pm-ease) both; }
 @keyframes lg-pane-img { from { scale: 1.045; } to { scale: 1; } }
@@ -308,12 +299,7 @@
 @media (max-width: 1023px) { .lg-lens__ask { order: -1; } }
 @media (max-width: 719px) { .lg-lens .lg-head__lead { display: none; } .lg-lens__cards { grid-template-columns: minmax(0, 1fr); } }
 @media (min-width: 1024px) {
-  .lg-lens__picker { grid-template-columns: minmax(0, 2.6fr) minmax(0, 9.4fr); column-gap: clamp(2rem, 3.6vw, 4rem); align-items: start; }
-  .lg-lens__tabs { position: sticky; top: calc(var(--header-h) + 5.2rem); grid-template-columns: minmax(0, 1fr); }
-  .lg-lens__tab { flex-direction: column; gap: .3rem; padding: 1rem 0 1rem 1rem; }
-  .lg-lens__tab::after { top: 1rem; bottom: 1rem; left: 0; right: auto; width: 2px; height: auto; transform: scaleY(0); transform-origin: top; }
-  .lg-lens__tab.is-active::after { transform: scaleY(1); }
-  .lg-lens__tablabel { font-size: clamp(1.25rem, 1.8vw, 1.8rem); line-height: 1.04; letter-spacing: -.03em; }
+  .lg-lens__picker { grid-template-columns: minmax(0, 3.2fr) minmax(0, 8.8fr); column-gap: clamp(2rem, 3.6vw, 4rem); align-items: start; }
   .lg-lens__cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .lg-lens__foot { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(2.5rem, 4.5vw, 5rem); align-items: start; }
 }
@@ -1082,4 +1068,36 @@ html.lg-drawer-open { overflow: hidden; }
 @media (max-width: 719px) {
   .lg-explorer__question { font-size: 1.5rem; }
   .lg-explorer__hint { font-size: .88rem; }
+}
+
+/* ─── OWNER «THE BUSINESS-FORMAT SELECTOR IS NOT PREMIUM ENOUGH» (2026-11-11) — the format picker as editorial button cards ─── */
+.lg-lens__controls { display: grid; gap: .9rem; align-content: start; }
+.lg-lens__hint { margin: 0; color: var(--lg-text); font-size: .9rem; font-weight: 500; line-height: 1.4; letter-spacing: -.005em; }
+.lg-lens__tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+.lg-lens__tab { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: .7rem; align-items: center; min-height: 3.6rem; padding: .85rem .85rem .85rem .95rem; border: 1px solid rgba(17, 18, 22, .22); border-radius: var(--lg-radius); background: var(--white); color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background .35s var(--pm-ease), color .35s var(--pm-ease), border-color .35s var(--pm-ease), transform .45s var(--pm-ease), box-shadow .45s var(--pm-ease); }
+.lg-lens__tabno { align-self: start; padding-top: .2rem; font-size: .66rem; font-weight: 700; letter-spacing: .1em; color: var(--brand); font-variant-numeric: tabular-nums; }
+.lg-lens__tablabel { font-size: .98rem; font-weight: 600; line-height: 1.25; letter-spacing: -.012em; text-wrap: balance; }
+.lg-lens__tabchev { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 1px solid rgba(17, 18, 22, .22); border-radius: 50%; color: var(--ink); transition: inherit; }
+.lg-lens__tab:hover { border-color: var(--ink); transform: translateY(-2px); box-shadow: 0 16px 30px -22px rgba(17, 18, 22, .5); }
+.lg-lens__tab:hover .lg-lens__tabchev { background: var(--ink); border-color: var(--ink); color: #fff; }
+.lg-lens__tab:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.lg-lens__tab.is-active { background: var(--brand); border-color: var(--brand); color: #fff; box-shadow: 0 22px 40px -26px rgba(116, 32, 47, .7); }
+.lg-lens__tab.is-active .lg-lens__tabno { color: rgba(255, 255, 255, .72); }
+.lg-lens__tab.is-active .lg-lens__tabchev { background: #fff; border-color: #fff; color: var(--brand); }
+.lg-lens__tab.is-active:hover { transform: none; }
+@media (min-width: 1024px) {
+  .lg-lens__controls { position: sticky; top: calc(var(--header-h) + 5.2rem); }
+  .lg-lens__tabs { grid-template-columns: minmax(0, 1fr); gap: .6rem; }
+  .lg-lens__tab { min-height: 4.4rem; padding: 1rem 1rem 1rem 1.05rem; column-gap: .85rem; }
+  .lg-lens__tablabel { font-size: clamp(1.05rem, 1.25vw, 1.2rem); }
+  .lg-lens__tabchev { width: 2.1rem; height: 2.1rem; }
+}
+@media (max-width: 719px) {
+  .lg-lens__hint { font-size: .86rem; }
+  .lg-lens__tabs { gap: .5rem; }
+  .lg-lens__tab { grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; grid-template-areas: "no chev" "label label"; row-gap: .55rem; min-height: 5.4rem; padding: .8rem .8rem .85rem .9rem; }
+  .lg-lens__tabno { grid-area: no; padding-top: .35rem; }
+  .lg-lens__tabchev { grid-area: chev; justify-self: end; width: 1.6rem; height: 1.6rem; }
+  .lg-lens__tabchev .icon { width: 13px; height: 13px; }
+  .lg-lens__tablabel { grid-area: label; font-size: .95rem; line-height: 1.22; }
 }

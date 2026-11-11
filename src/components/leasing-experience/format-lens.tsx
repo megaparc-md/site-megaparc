@@ -95,6 +95,13 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
   );
 }
 
+/** the instruction above the format controls (OWNER selector redesign 2026-11-11) — what the buttons do, nothing about the business */
+const pickHint: Record<SiteLocale, string> = {
+  ro: "Alegeți formatul — scenariul de mai jos se actualizează.",
+  ru: "Выберите формат — сценарий ниже обновится.",
+  en: "Choose a format — the scenario below updates.",
+};
+
 export function FormatLens({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {
   const l = x.lens;
   return (
@@ -103,6 +110,7 @@ export function FormatLens({ x, offer, locale }: { x: LeasingExperience; offer: 
         <LgHead heading={l} locale={locale} id="lg-format-title" layout="split" />
         <FormatPicker
           label={l.title[locale]}
+          hint={pickHint[locale]}
           formats={l.formats.map((format, i) => ({ key: format.key, no: String(i + 1).padStart(2, "0"), label: format.label[locale] }))}
           panes={l.formats.map((format) => <Pane key={format.key} x={x} format={format} locale={locale} offer={offer} />)}
         />

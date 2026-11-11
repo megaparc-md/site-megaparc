@@ -1,19 +1,19 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { Icon } from "@/components/ui";
 
 /**
- * FORMAT PICKER — the editorial selector of the business lens (OWNER "FINAL ART
- * DIRECTION & VISUAL CONVERSION PASS", 2026-11-09, §13): four formats set as a
- * numbered list of large words beside the scene (desktop; a 2 × 2 grid of words
- * on phones) — the chosen one in ink with its burgundy number and rule, the
- * others quiet. Switching changes the interior photograph, the zoning drawn on
- * it, the main question and the supporting proof — one format at a time, the new
- * scene fading in. The choice is announced ("lg:format") so the viewing form can
- * carry it into «Вид бизнеса». WAI-ARIA tabs (vertical on desktop); panes are
- * rendered on the server.
+ * FORMAT PICKER — the premium choice interface of the business lens (OWNER "FINAL ART DIRECTION & VISUAL CONVERSION PASS",
+ * 2026-11-09, §13 · OWNER «THE BUSINESS-FORMAT SELECTOR IS NOT PREMIUM ENOUGH», 2026-11-11): four formats as editorial button cards
+ * beside the scene — a small burgundy ordinal, the title in Geist, a circled chevron; hover lifts the card and inks the chevron,
+ * the chosen card is inverted burgundy with white type and a white chevron (never a bare left line). Phones: a 2 × 2 set of compact
+ * tiles with the same states. A short instruction above the controls says what they do. Switching changes the interior photograph,
+ * the zoning drawn on it, the main question and the supporting proof — one format at a time, the new scene fading in. The choice is
+ * announced ("lg:format") so the viewing form can carry it into «Вид бизнеса». WAI-ARIA tabs (vertical on desktop); panes are
+ * rendered on the server. The options, their names, their order and the switching logic are unchanged.
  */
-export function FormatPicker({ formats, panes, label }: { formats: { key: string; no: string; label: string }[]; panes: ReactNode[]; label: string }) {
+export function FormatPicker({ formats, panes, label, hint }: { formats: { key: string; no: string; label: string }[]; panes: ReactNode[]; label: string; hint?: string }) {
   const [active, setActive] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -34,27 +34,31 @@ export function FormatPicker({ formats, panes, label }: { formats: { key: string
 
   return (
     <div className="lg-lens__picker">
-      <div className="lg-lens__tabs" role="tablist" aria-label={label} aria-orientation="vertical">
-        {formats.map((format, index) => (
-          <button
-            key={format.key}
-            ref={(element) => {
-              refs.current[index] = element;
-            }}
-            type="button"
-            role="tab"
-            id={`lg-format-${format.key}`}
-            aria-controls={`lg-formatpane-${format.key}`}
-            aria-selected={index === active}
-            tabIndex={index === active ? 0 : -1}
-            className={`lg-lens__tab${index === active ? " is-active" : ""}`}
-            onClick={() => select(index)}
-            onKeyDown={(event) => onKey(event, index)}
-          >
-            <span className="lg-lens__tabno">{format.no}</span>
-            <span className="lg-lens__tablabel">{format.label}</span>
-          </button>
-        ))}
+      <div className="lg-lens__controls">
+        {hint ? <p className="lg-lens__hint" id="lg-format-hint">{hint}</p> : null}
+        <div className="lg-lens__tabs" role="tablist" aria-label={label} aria-orientation="vertical" aria-describedby={hint ? "lg-format-hint" : undefined}>
+          {formats.map((format, index) => (
+            <button
+              key={format.key}
+              ref={(element) => {
+                refs.current[index] = element;
+              }}
+              type="button"
+              role="tab"
+              id={`lg-format-${format.key}`}
+              aria-controls={`lg-formatpane-${format.key}`}
+              aria-selected={index === active}
+              tabIndex={index === active ? 0 : -1}
+              className={`lg-lens__tab${index === active ? " is-active" : ""}`}
+              onClick={() => select(index)}
+              onKeyDown={(event) => onKey(event, index)}
+            >
+              <span className="lg-lens__tabno">{format.no}</span>
+              <span className="lg-lens__tablabel">{format.label}</span>
+              <span className="lg-lens__tabchev" aria-hidden="true"><Icon size={16} /></span>
+            </button>
+          ))}
+        </div>
       </div>
       <div className="lg-lens__panes">
         {panes.map((pane, index) => (
