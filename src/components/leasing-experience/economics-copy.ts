@@ -82,7 +82,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     closing: "Локация — только одна часть экономики точки.",
     disclaimer: [
       "Выручка зависит от продукта, цен, команды, маркетинга, конверсии, сезонности и других факторов.",
-      "Расчёт является инструментом предварительной оценки и не является прогнозом или гарантией финансового результата.",
+      "Это предварительная модель на основе введённых пользователем предпосылок, а не прогноз трафика, выручки или финансового результата со стороны MEGAPARC.",
     ],
     handoff: "Получить расчёт с презентацией объекта",
     visit: (name) => `Посмотреть ${name} лично`,
@@ -129,7 +129,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     closing: "Locația este doar o parte a economiei punctului.",
     disclaimer: [
       "Venitul depinde de produs, prețuri, echipă, marketing, conversie, sezonalitate și alți factori.",
-      "Calculul este un instrument de evaluare preliminară și nu este o prognoză sau o garanție a rezultatului financiar.",
+      "Este un model preliminar, bazat pe ipotezele introduse de utilizator, nu o prognoză a traficului, a veniturilor sau a rezultatului financiar din partea MEGAPARC.",
     ],
     handoff: "Primiți calculul împreună cu prezentarea obiectului",
     visit: (name) => `Vedeți ${name} personal`,
@@ -176,7 +176,7 @@ export const economicsCopy: Record<SiteLocale, Copy> = {
     closing: "The location is only one part of a unit's economics.",
     disclaimer: [
       "Revenue depends on the product, prices, team, marketing, conversion, seasonality and other factors.",
-      "The calculation is a preliminary assessment tool, not a forecast or a guarantee of any financial result.",
+      "This is a preliminary model based on the assumptions you enter — not a MEGAPARC forecast of traffic, revenue or financial results.",
     ],
     handoff: "Get the calculation with the property presentation",
     visit: (name) => `See ${name} in person`,

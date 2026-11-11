@@ -5,7 +5,7 @@ import { track } from "@/lib/track";
 
 /**
  * STICKY DECISION BAR (OWNER toolkit mandate §26): once the hero has scrolled away, a restrained bottom bar with at most three
- * actions — Plans · Dossier · Book a viewing — on desktop and on phones; it steps aside while the viewing scene is on screen.
+ * actions — Plans · Dossier · Request a viewing — on desktop and on phones; it steps aside while the viewing scene is on screen.
  * Replaces the one-action phone bar on the property that carries the toolkit. Never obstructs content; keyboard reachable only
  * while shown.
  */

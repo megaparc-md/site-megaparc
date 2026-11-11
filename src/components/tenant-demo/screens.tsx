@@ -327,7 +327,7 @@ export function ContactsScreen() {
                   </>
                 ) : (
                   <>
-                    <a href={`${contactLinks.email}?subject=${encodeURIComponent(c.subject)}`}>{email}</a>
+                    <a href={contactLinks.email}>{email}</a>
                     <a href={contactLinks.mobile}>{company.mobile.value.ru}</a>
                   </>
                 )}

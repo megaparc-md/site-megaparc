@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui";
 import type { ProjectEntry } from "@/content/source";
 import { T, type LeasingExperience } from "@/data/leasing-experience-model";
 import { economicsExample, locationTraffic, officeExample, sensitivityRates, trafficVisible } from "@/data/tenant-intelligence";
+import { m20Toolkit } from "@/data/moscova-20-toolkit";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
@@ -50,7 +51,8 @@ export function DecisionSheet({ x, offer, project, locale }: { x: LeasingExperie
           date: traffic.measurementDate,
         }
       : null;
-    return <EconomicsTool locale={locale} property={project.name} example={economicsExample} rates={sensitivityRates} traffic={summary} visitLabel={visitLabel} />;
+    // the pre-check link only where the page has the pre-check drawer (the Digital Leasing Toolkit property)
+    return <EconomicsTool locale={locale} property={project.name} example={economicsExample} rates={sensitivityRates} traffic={summary} visitLabel={visitLabel} precheck={x.project === m20Toolkit.project} />;
   }
   if (x.decision.kind === "office") return <OfficeTool locale={locale} property={project.name} example={officeExample} visitLabel={visitLabel} />;
   return (

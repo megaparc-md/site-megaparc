@@ -27,7 +27,7 @@ const presets: PresetKey[] = ["retail", "showroom", "services", "center"];
 const fixedKeys = ["rent", "opex", "payroll", "utilities", "marketing", "other"] as const;
 type Key = "ticket" | "revenue" | "margin" | "conversion" | "days" | (typeof fixedKeys)[number] | "capex";
 
-export function EconomicsTool({ locale, property, example, rates, traffic, visitLabel }: { locale: SiteLocale; property: string; example: Example; rates: number[]; traffic: TrafficSummary; /** the status of the unit decides the visit action (a RESERVED unit → the waitlist) */ visitLabel?: string }) {
+export function EconomicsTool({ locale, property, example, rates, traffic, visitLabel, precheck = false }: { locale: SiteLocale; property: string; example: Example; rates: number[]; traffic: TrafficSummary; /** the status of the unit decides the visit action (a RESERVED unit → the waitlist) */ visitLabel?: string; /** the property page carries the technical pre-check drawer (Digital Leasing Toolkit — Moscova 20 only) */ precheck?: boolean }) {
   const t = economicsCopy[locale];
   const uid = useId();
   const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
@@ -196,7 +196,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
         {/* production has no form backend (DirectContact): the calculation is not handed to a form there */}
         {isProductionEdition ? null : <button type="button" className="btn btn--ghost" onClick={handoff}><span>{t.handoff}</span></button>}
         {/* Digital Leasing Toolkit (OWNER 2026-11-11 §28): contextual navigation only — the formulas above are unchanged */}
-        <a className="pm-link lg-calc__precheck" href="#precheck" data-drawer="precheck" aria-haspopup="dialog"><span>{toolkitCopy.economics.precheck[locale]}</span></a>
+        {precheck ? <a className="pm-link lg-calc__precheck" href="#precheck" data-drawer="precheck" aria-haspopup="dialog"><span>{toolkitCopy.economics.precheck[locale]}</span></a> : null}
       </div>
 
       {/* LEVEL 2 — advanced economics */}

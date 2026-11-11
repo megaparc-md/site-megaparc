@@ -42,7 +42,7 @@ export const toolkitCopy = {
   pack: {
     kicker: { ro: "Moscova 20 · Leasing Pack", ru: "Moscova 20 · Leasing Pack", en: "Moscova 20 · Leasing Pack" },
     title: { ro: "Moscova 20", ru: "Moscova 20", en: "Moscova 20" },
-    lead: { ro: "Planuri, date tehnice și programarea vizionării.", ru: "Планы, технические данные и запись на просмотр.", en: "Plans, technical data and viewing booking." },
+    lead: { ro: "Planuri, date tehnice și cererea de vizionare.", ru: "Планы, технические данные и запрос на просмотр.", en: "Plans, technical data and a viewing request." },
     summary: { ro: "Rezumatul obiectului", ru: "Объект", en: "The property" },
     facts: { ro: "Date verificate", ru: "Подтверждённые данные", en: "Verified facts" },
     actions: { ro: "Acțiuni", ru: "Действия", en: "Actions" },
@@ -54,7 +54,7 @@ export const toolkitCopy = {
     dossierMeta: { ro: "PDF · {pages} pagini · {version}", ru: "PDF · {pages} страниц · {version}", en: "PDF · {pages} pages · {version}" },
     precheck: { ro: "Verificarea tehnică a conceptului", ru: "Техническая проверка концепции", en: "Technical concept check" },
     precheckMeta: { ro: "6–8 întrebări · răspunde directorul tehnic și arhitectul", ru: "6–8 вопросов · отвечают технический директор и архитектор", en: "6–8 questions · answered by the Technical Director and the Architect" },
-    book: { ro: "Programează o vizionare", ru: "Записаться на просмотр", en: "Book a viewing" },
+    book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
     bookMeta: { ro: "cerere de vizionare · ziua și intervalul preferat", ru: "запрос на просмотр · удобный день и время", en: "a viewing request · your preferred day and time window" },
     cadastre: { ro: "Deschide e‑Cadastru", ru: "Открыть e‑Cadastru", en: "Open e-Cadastru" },
     cadastreMeta: { ro: "numărul cadastral {n}", ru: "кадастровый номер {n}", en: "cadastral number {n}" },
@@ -100,15 +100,15 @@ export const toolkitCopy = {
     telegram: { ro: "Telegram", ru: "Telegram", en: "Telegram" },
     whatsapp: { ro: "WhatsApp", ru: "WhatsApp", en: "WhatsApp" },
     text: {
-      ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol). Planuri, date tehnice și programarea vizionării:",
-      ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь). Планы, технические данные и запись на просмотр:",
-      en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground). Plans, technical data and viewing booking:",
+      ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol). Planuri, date tehnice și cererea de vizionare:",
+      ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь). Планы, технические данные и запрос на просмотр:",
+      en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground). Plans, technical data and a viewing request:",
     },
   },
   bar: {
     plans: { ro: "Planuri", ru: "Планы", en: "Plans" },
     dossier: { ro: "Dosar", ru: "Досье", en: "Dossier" },
-    book: { ro: "Programează vizionarea", ru: "Записаться на просмотр", en: "Book a viewing" },
+    book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   },
   economics: {
     precheck: { ro: "Solicită verificarea tehnică", ru: "Запросить техническую проверку", en: "Request the technical check" },

@@ -230,7 +230,7 @@ export const moscova20Experience: LeasingExperience = {
           { key: "buffer", title: T("Zona intermediară", "Промежуточная зона", "Intermediate area"), value: T("Zonă intermediară de descărcare", "Промежуточная зона разгрузки", "An intermediate loading area"), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "storage", title: T("Depozitarea mărfii", "Хранение товара", "Goods storage"), value: T("În zona comercială și în zona intermediară de descărcare", "В торговой зоне и в промежуточной зоне разгрузки", "In the trading zone and in the intermediate loading area"), evidence: "OWNER_CONFIRMED", source: TECH },
         ],
-        note: T("Primirea și depozitarea mărfii sunt integrate în funcționarea spațiului comercial.", "Приём и хранение товара встроены в работу самого торгового помещения.", "Goods handling and storage are part of how the commercial space itself works."),
+        note: T("Primirea și depozitarea mărfii sunt integrate în funcționarea spațiului comercial.", "Приём и хранение товара встроены в работу самого коммерческого помещения.", "Goods handling and storage are part of how the commercial space itself works."),
       },
       {
         key: "access",

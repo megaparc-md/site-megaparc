@@ -245,7 +245,7 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
   },
   "moscova-20": {
     category: "retail",
-    format: confirmed("asset.moscova-20.format", "PROJECTS", P("moscova-20"), "Format", { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" }),
+    format: confirmed("asset.moscova-20.format", "PROJECTS", P("moscova-20"), "Format", { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "First-line commercial space" }),
     ...occupancyPoints("moscova-20"),
     land: demo("asset.moscova-20.land", "PROJECTS", P("moscova-20"), "Land plot", { ro: "Spațiu în clădire", ru: "Помещение в здании", en: "Premises within a building" }, "OWNER — title / cadastre"),
     parking: demo("asset.moscova-20.parking", "PROJECTS", P("moscova-20"), "Parking", { ro: "12 locuri dedicate", ru: "12 выделенных мест", en: "12 dedicated spaces" }, "OWNER — site plan (dedicated parking is confirmed, the count is not)"),

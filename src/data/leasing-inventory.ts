@@ -128,7 +128,7 @@ const allSpaces: AvailableSpace[] = [
     id: "moscova-20-corner",
     code: "M20-01",
     project: "moscova-20",
-    unit: L("Spațiu comercial · parter + demisol", "Торговое помещение · 1‑й этаж + цоколь", "Retail space · ground + lower ground"),
+    unit: L("Spațiu comercial · parter + demisol", "Коммерческое помещение · 1‑й этаж + цоколь", "Commercial space · ground + lower ground"),
     floor: "multi",
     floorLabel: L("Parter + demisol", "1‑й этаж + цоколь", "Ground + lower ground"),
     // OWNER Moscova 20 mandate 2026-11-06 §3–4: marketed area ≠ total property area (704 m², src/data/demo-content.ts → assetOccupancy)

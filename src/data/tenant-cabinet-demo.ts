@@ -1,8 +1,8 @@
 /**
  * TENANT CABINET · OWNER DEMO — synthetic data only (OWNER «COMPLETE THE MISSING TENANT CABINET OWNER DEMO», 2026-11-11).
  *
- * Everything here is invented for the non-public OWNER demo at /ru/owner-demo/tenant-cabinet/ (noindex, not in the sitemap,
- * navigation or footer; removed from the production artifact by scripts/package-production.mjs). The tenant «DEMO TENANT SRL»
+ * Everything here is invented for the hidden OWNER demo at /owner-demo/tenant-cabinet/ (direct URL only; noindex, not in the sitemap,
+ * navigation or footer; the production gate allows exactly this route tree and keeps its data inside it). The tenant «DEMO TENANT SRL»
  * does not exist; the unit «DEMO-01», every amount, invoice, document, request and meter reading is a placeholder. None of it is
  * a balance, invoice, lease term, rent, debt, personal contact or bank detail of any real tenant, and none of it is a commercial
  * term of Moscova 20. The only real data used are the public MEGAPARC contacts (src/data/demo-content.ts → contactLinks) and the
@@ -14,7 +14,7 @@ const N = " ";
 /** money in the demo — always MDL, thin grouping with no-break spaces */
 export const mdl = (n: number) => `${n.toLocaleString("ru-RU").replace(/\s/g, N)}${N}MDL`;
 
-export const demoBase = "/ru/owner-demo/tenant-cabinet";
+export const demoBase = "/owner-demo/tenant-cabinet";
 
 export const demoMeta = {
   marker: "OWNER DEMO · NOT FOR PUBLIC USE",

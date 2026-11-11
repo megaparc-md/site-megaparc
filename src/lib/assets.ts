@@ -332,11 +332,11 @@ export const portfolioAssets: PortfolioAsset[] = [
     // available. Full frame in every variant; the focal point keeps the door, the glazing and the ramp (checked at 390–1920).
     media: media("portfolio", "moscova-20-entrance", "34% 60%"),
     status: operating,
-    positioning: { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" },
+    positioning: { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "First-line commercial space" },
     headline: {
       ro: "Spațiu comercial pe prima linie, pe bulevardul Moscova.",
-      ru: "Торговое помещение первой линии на бульваре Москова.",
-      en: "A first-line retail space on Moscova Boulevard.",
+      ru: "Коммерческое помещение первой линии на бульваре Москова.",
+      en: "A first-line commercial space on Moscova Boulevard.",
     },
     narrative: {
       ro: "Vitrină spre bulevard, flux zilnic al cartierului.",
@@ -351,8 +351,8 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     lead: {
       ro: "Spațiu comercial de 625,7 m² la intersecția bulevardului Moscova cu strada Matei Basarab: fațadă panoramică, intrare pentru clienți și acces separat de serviciu.",
-      ru: "Торговое помещение площадью 625,7 м² на пересечении бульвара Москова и улицы Матей Басараб: панорамный фасад, вход для покупателей и отдельный служебный доступ.",
-      en: "A 625.7 m² retail space at the intersection of Moscova Boulevard and Matei Basarab Street: a panoramic frontage, a customer entrance and separate service access.",
+      ru: "Коммерческое помещение площадью 625,7 м² на пересечении бульвара Москова и улицы Матей Басараб: панорамный фасад, вход для покупателей и отдельный служебный доступ.",
+      en: "A 625.7 m² commercial space at the intersection of Moscova Boulevard and Matei Basarab Street: a panoramic frontage, a customer entrance and separate service access.",
     },
     story: {
       ro: [
@@ -372,7 +372,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Spațiu comercial", ru: "Торговое помещение", en: "Retail premises" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
+      { label: { ro: "Spațiu comercial", ru: "Коммерческое помещение", en: "Commercial premises" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
       { label: { ro: "Suprafață netă de vânzare", ru: "Чистая торговая площадь", en: "Net sales area" }, value: { ro: "458,86 m²", ru: "458,86 м²", en: "458.86 m²" } },
       { label: { ro: "Alimentare electrică", ru: "Электроснабжение", en: "Power supply" }, value: { ro: "3 faze · 38 kW (documente)", ru: "3 фазы · 38 кВт (по документам)", en: "3 phases · 38 kW (documented)" } },
     ],
@@ -422,8 +422,8 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     character: {
       ro: "Spațiu comercial pe prima linie, cu vitrină continuă spre bulevard, intrare prin terasă, acces separat de serviciu și parcare în apropiere.",
-      ru: "Торговое помещение первой линии со сплошной витриной к бульвару, входом через террасу, отдельным служебным доступом и парковкой рядом.",
-      en: "A first-line retail space with a continuous shop window to the boulevard, an entrance through the terrace, separate service access and parking close by.",
+      ru: "Коммерческое помещение первой линии со сплошной витриной к бульвару, входом через террасу, отдельным служебным доступом и парковкой рядом.",
+      en: "A first-line commercial space with a continuous shop window to the boulevard, an entrance through the terrace, separate service access and parking close by.",
     },
     relevance: {
       ro: "Fluxul zilnic și prima linie își păstrează valoarea indiferent de format. Spațiul poate fi adaptat la ceea ce are nevoie cartierul.",
