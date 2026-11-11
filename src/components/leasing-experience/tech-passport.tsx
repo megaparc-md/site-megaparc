@@ -45,7 +45,7 @@ function Fact({ fact, offer, locale }: { fact: PassportFact; offer: TemplateOffe
   if (!figure) return null;
   // OWNER «TECHNICAL READINESS — CARDS» (2026-11-11): a specification card — small label · large value · short explanation
   return (
-    <div className={`lg-pass__fact${fact.name ? " is-card" : ""}`}>
+    <div className={`lg-pass__fact${fact.name ? " is-card" : ""}`} data-fact={fact.key}>
       <dt className="lg-pass__label">{fact.name ? fact.name[locale] : fact.label[locale]}</dt>
       <dd className="lg-pass__figure">
         {approx ? <span className="lg-pass__approx" aria-label={ui.approx[locale]}>≈</span> : null}

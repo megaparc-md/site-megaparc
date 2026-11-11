@@ -17,7 +17,7 @@ import type { SiteLocale } from "@/lib/site-data";
 
 const copy = {
   // OWNER copy correction 2026-11-10 (capex / tenant investment): the core capital works are done; the tenant invests primarily in adapting the space
-  readiness: { label: T("Pregătire", "Готовность", "Readiness"), title: T("Lucrările capitale de bază sunt realizate", "Базовые капитальные работы выполнены", "Core capital works complete"), text: T("Investiția chiriașului vizează în primul rând adaptarea spațiului la propriul format.", "Инвестиции арендатора — прежде всего в адаптацию пространства под свой формат.", "The tenant’s investment goes primarily into adapting the space to its format.") },
+  readiness: { label: T("Pregătire", "Готовность", "Readiness"), title: T("Infrastructura de bază este pregătită", "Базовая инфраструктура уже готова", "Base infrastructure in place"), text: T("Investiția chiriașului vizează în primul rând adaptarea spațiului la propriul format.", "Инвестиции арендатора — прежде всего в адаптацию пространства под свой формат.", "The tenant’s investment goes primarily into adapting the space to its format.") },
   visibility: { label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Prima linie", "Первая линия", "First line") },
   levels: { label: T("Niveluri", "Этажность", "Levels"), title: (n: number, locale: SiteLocale) => (locale === "ru" ? `${n} уровня` : locale === "ro" ? `${n} niveluri` : `${n} levels`) },
 };

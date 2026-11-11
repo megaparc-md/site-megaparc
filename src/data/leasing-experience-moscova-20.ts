@@ -123,7 +123,9 @@ export const moscova20Experience: LeasingExperience = {
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
     // OWNER copy correction 2026-11-10 (capex / tenant investment): replaces «Капитальная база уже готова.» — the core capital works are done,
     // the tenant invests primarily in adapting the space to its format (never zero investment, never fit-out included)
-    support: T("Lucrările capitale de bază sunt deja realizate — investiția chiriașului va fi necesară în primul rând pentru adaptarea spațiului la propriul format.", "Базовые капитальные работы уже выполнены — инвестиции арендатора потребуются прежде всего для адаптации пространства под собственный формат.", "The core capital works are already complete — the tenant’s investment will be needed primarily to adapt the space to its own format."),
+    // OWNER «PREMIUM CONTENT AND INTERACTION PASS» §5 (2026-11-11): an editorial message block — the key thought on the first line, the explanation
+    // on the second (the hero renders the two lines with two weights); the approved meaning is unchanged, never zero investment or a complete fit-out
+    support: T("Infrastructura de bază este deja pregătită.\nInvestiția chiriașului este necesară în primul rând pentru adaptarea spațiului la propriul format.", "Базовая инфраструктура уже готова.\nИнвестиции арендатора нужны прежде всего для адаптации помещения под собственный формат.", "The base infrastructure is already in place.\nThe tenant’s investment goes primarily into adapting the premises to its own format."),
   },
 
   reasons: {
@@ -138,8 +140,8 @@ export const moscova20Experience: LeasingExperience = {
   motion: {
     kicker: T("Locația în mișcare", "Локация в движении", "Location in motion"),
     // OWNER art direction 2026-11-09 §12: the statement of the location scene; the earlier title stays as its line
-    title: T("Adresa face parte din modelul de afaceri.", "Адрес — часть бизнес-модели.", "The address is part of the business model."),
-    lead: T("Adresa nu este un punct pe hartă. Este mișcarea din jurul afacerii dumneavoastră.", "Адрес — это не точка на карте. Это движение вокруг вашего бизнеса.", "An address is not a point on a map. It is the movement around your business."),
+    title: T("Adresa face parte din modelul de afaceri.", "Адрес — часть бизнес-модели.", "The address is part of the business model."),
+    lead: T("Adresa nu este doar un punct pe hartă.\nEste mișcarea de zi cu zi din jurul afacerii dumneavoastră.", "Адрес — это не просто точка на карте.\nЭто повседневное движение вокруг вашего бизнеса.", "An address is not just a point on a map.\nIt is the everyday movement around your business."),
     ecosystemTitle: T("Ce creează activitate regulată în jurul locației", "Что создаёт регулярную активность вокруг локации", "What creates regular activity around the location"),
     ecosystem: [
       { key: "residential", category: "residential", title: T("Cartier rezidențial", "Жилой район", "Residential district"), text: T("Un public local constant pe parcursul zilei.", "Постоянная локальная аудитория в течение дня.", "A steady local audience throughout the day.") },

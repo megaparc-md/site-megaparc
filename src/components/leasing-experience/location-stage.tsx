@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { Icon } from "@/components/ui";
 
 /**
  * LOCATION EXPLORER (OWNER "PREMIUM CARD SYSTEM & AIR PASS", 2026-11-09, §9) —
@@ -13,11 +14,14 @@ import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
  * under the cards — never map + aerial + POI + traffic + paragraphs at once.
  * The category filters of the map stay with the surroundings card.
  * WAI-ARIA tabs (vertical); visuals and details are rendered on the server.
+ * OWNER «PREMIUM CONTENT AND INTERACTION PASS» §7 (2026-11-11): the explorer explains itself — a short prompt above the cards,
+ * cards that read as controls (arrow, stronger hover, a burgundy «Активно» mark and fill on the active one) and a «Сейчас на
+ * карте: …» line in the panel so the visitor sees what changed.
  */
 
 export type ExplorerOption = { key: string; label: string; title: string; visual: string; cat?: string; detail?: ReactNode };
 
-export function LocationExplorer({ options, visuals, filters, label, filterLabel }: { options: ExplorerOption[]; visuals: { key: string; node: ReactNode }[]; filters: { key: string; label: string }[]; label: string; filterLabel: string }) {
+export function LocationExplorer({ options, visuals, filters, label, filterLabel, hint, activeLabel, nowLabel }: { options: ExplorerOption[]; visuals: { key: string; node: ReactNode }[]; filters: { key: string; label: string }[]; label: string; filterLabel: string; hint?: string; activeLabel?: string; nowLabel?: string }) {
   const [active, setActive] = useState(0);
   const [filter, setFilter] = useState<string | null>(null);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -49,7 +53,8 @@ export function LocationExplorer({ options, visuals, filters, label, filterLabel
         ))}
       </div>
       <div className="lg-explorer__side">
-        <div className="lg-explorer__cards" role="tablist" aria-label={label} aria-orientation="vertical">
+        {hint ? <p className="lg-explorer__hint" id="lg-explore-hint"><i aria-hidden="true" />{hint}</p> : null}
+        <div className="lg-explorer__cards" role="tablist" aria-label={label} aria-orientation="vertical" aria-describedby={hint ? "lg-explore-hint" : undefined}>
           {options.map((item, index) => (
             <button
               key={item.key}
@@ -68,11 +73,13 @@ export function LocationExplorer({ options, visuals, filters, label, filterLabel
             >
               <span className="lg-card__label"><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</span>
               <span className="lg-explorer__title">{item.title}</span>
+              <span className="lg-explorer__mark" aria-hidden="true">{index === active && activeLabel ? <em>{activeLabel}</em> : null}<Icon size={16} /></span>
             </button>
           ))}
         </div>
         <div className="lg-explorer__detail" role="tabpanel" id="lg-explore-panel" aria-labelledby={`lg-explore-${option.key}`}>
           {/* phones and tablets show the cards as labels only; the chosen card's line opens the panel */}
+          {nowLabel ? <p className="lg-explorer__now"><span>{nowLabel}:</span> <b>{option.label}</b></p> : null}
           <p className="lg-explorer__lead">{option.title}</p>
           {option.detail}
           {option.visual === "map" && !option.cat && filters.length ? (

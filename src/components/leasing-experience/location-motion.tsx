@@ -42,6 +42,12 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 
 const copy = {
   filters: { ro: "Straturi ale hărții", ru: "Слои карты", en: "Map layers" },
+  // OWNER «PREMIUM CONTENT AND INTERACTION PASS» §7 (2026-11-11): the explorer explains itself — a prompt, an «active» mark, a «now on the map» line
+  explorer: {
+    hint: { ro: "Alegeți un aspect al locației — harta se actualizează", ru: "Выберите аспект локации — карта обновится", en: "Choose an aspect of the location — the map updates" },
+    active: { ro: "Activ", ru: "Активно", en: "Active" },
+    now: { ro: "Acum pe hartă", ru: "Сейчас на карте", en: "Now on the map" },
+  },
   option: {
     address: { ro: "Adresa", ru: "Адрес", en: "Address" },
     rhythm: { ro: "Ritmul zilei", ru: "Ритм дня", en: "Rhythm of the day" },
@@ -343,7 +349,11 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
         <header className="lg-motion__head" data-reveal>
           <p className="pm-kicker">{m.kicker[locale]}</p>
           <h2 className="lg-display lg-motion__title" id="lg-motion-title">{m.title[locale]}</h2>
-          {m.lead ? <p className="lg-motion__lead">{m.lead[locale]}</p> : null}
+          {m.lead ? (
+            <p className="lg-motion__lead">
+              {m.lead[locale].split("\n").map((line, i, all) => (all.length > 1 ? <span key={line} className={i === 0 ? "lg-motion__lead-key" : "lg-motion__lead-more"}>{line}</span> : line))}
+            </p>
+          ) : null}
         </header>
         <div className="lg-motion__explorer" data-reveal>
           <LocationExplorer
@@ -352,6 +362,9 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
             options={options}
             visuals={visuals}
             filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).map((key) => ({ key, label: copy.cat[key][locale] })) : []}
+            hint={copy.explorer.hint[locale]}
+            activeLabel={copy.explorer.active[locale]}
+            nowLabel={copy.explorer.now[locale]}
           />
         </div>
 
