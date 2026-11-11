@@ -97,13 +97,26 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* A · LEASING — OWNER order; strong photographs large (Moscova 20 interior, Dacia 31), weak ones small (Creangă 78, Moscova 9) */}
+      {/* A · LEASING — a curated hierarchy by photographic strength (OWNER «FINAL POLISH» §3–§7, 2026-11-11): Dacia 31 as the
+          dominant architectural scene → Moscova 20 as the strong secondary scene → Moscova 9 and Creangă 78 in controlled
+          smaller formats (weak photographs are never enlarged for symmetry). The listing order elsewhere stays the OWNER order. */}
       <section className="r3-sec r3-sec--ivory r3-sec--flush-top r3-pjs" id={leasingCat.anchor} aria-label={leasingCat.label[locale]}>
         <div className="r3-shell r3-head r3-head--split r3-pjs__head" data-reveal>
           <R3Label>{leasingCat.label[locale]}</R3Label>
           <h2 className="r3-title">{leasingCat.title[locale]}</h2>
           <p className="r3-lead">{leasingCat.lead[locale]}</p>
         </div>
+
+        <Link href={p(`/projects/${dacia.slug}`)} className="r3-feature r33-feature r4-dominant" data-reveal>
+          <figure className="r3-feature__media">
+            <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="100vw" position="50% 58%" priority />
+          </figure>
+          <span className="r3-shell r3-feature__copy">
+            <span className="r3-feature__name">{dacia.name}</span>
+            <span className="r3-feature__line">{dacia.editorial?.headline[locale] ?? dacia.line[locale]}</span>
+            <span className="r3-feature__meta"><Caption project={dacia} locale={locale} open={c.open} /></span>
+          </span>
+        </Link>
 
         <div className="r3-shell r3-second r3-second--page">
           <Link href={p(`/projects/${m20.slug}`)} className="r3-second__media" data-reveal tabIndex={-1} aria-hidden="true">
@@ -115,10 +128,10 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
           </Link>
         </div>
 
-        <ol className="r3-shell r3-compact">
-          {[creanga, m9].map((project) => (
+        <ol className="r3-shell r3-compact r4-compact">
+          {[m9, creanga].map((project) => (
             <li key={project.slug} data-reveal>
-              <Link href={p(`/projects/${project.slug}`)} className="r3-compact__row r3-pj">
+              <Link href={p(`/projects/${project.slug}`)} className={`r3-compact__row r3-pj${project.slug === creanga.slug ? " is-small" : ""}`}>
                 <span className="r3-compact__media">
                   <ArtImage media={project.media!} variant="card" alt="" sizes="(min-width: 900px) 22vw, 40vw" />
                 </span>
@@ -131,17 +144,6 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
             </li>
           ))}
         </ol>
-
-        <Link href={p(`/projects/${dacia.slug}`)} className="r3-feature r33-feature" data-reveal>
-          <figure className="r3-feature__media">
-            <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="100vw" position="50% 58%" />
-          </figure>
-          <span className="r3-shell r3-feature__copy">
-            <span className="r3-feature__name">{dacia.name}</span>
-            <span className="r3-feature__line">{dacia.editorial?.headline[locale] ?? dacia.line[locale]}</span>
-            <span className="r3-feature__meta"><Caption project={dacia} locale={locale} open={c.open} /></span>
-          </span>
-        </Link>
       </section>
 
       {/* B · LAND FOR DEVELOPMENT — never mixed with operating assets */}
@@ -181,6 +183,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
           <figure className="r3-wide__media">
             <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="45% 60%" />
           </figure>
+          <span className="r3-wide__caption">{vatra.name} · {vatra.card.status[locale]}</span>
         </Link>
         <div className="r3-shell r3-pjdev__grid r33-pjdev__grid">
           {development.map((item) => (

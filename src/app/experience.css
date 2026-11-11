@@ -451,6 +451,11 @@ a:hover .xp-fig img, a:focus-visible .xp-fig img, .xp-fig--hover:hover img { tra
 .xp-choice:hover span { border-color: var(--ink); }
 .xp-choice input:checked + span { background: var(--ink); border-color: var(--ink); color: white; }
 .xp-choice input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 3px; }
+/* grouped choices (OWNER «FINAL POLISH» §9, 2026-11-11): four quiet headings over the same one field — easier to scan, nothing added */
+.xp-choice-groups { display: grid; gap: 1.1rem 2rem; }
+.xp-choice-group { display: grid; gap: .55rem; align-content: start; min-width: 0; }
+.xp-choice-group__title { margin: 0; color: var(--muted); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+@media (min-width: 720px) { .xp-choice-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .xp-matcher { display: grid; gap: var(--xp-5); }
 .xp-matcher__form { display: grid; gap: var(--xp-4); }

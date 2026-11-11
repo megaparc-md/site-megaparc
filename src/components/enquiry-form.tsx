@@ -18,10 +18,12 @@ import type { SiteLocale } from "@/lib/site-data";
 
 export type Subject = "lease" | "partnership" | "property" | "careers" | "general";
 type Option = { value: string; label: string };
+/** A visual group of choices inside one field (OWNER «FINAL POLISH» §9): the same input name, the same values. */
+export type ChoiceGroup = { label: string; values: string[] };
 type Field =
   | { name: string; label: string; kind: "text" | "email" | "tel" | "url" | "month"; required?: boolean; placeholder?: string; half?: boolean; hint?: string }
   | { name: string; label: string; kind: "select"; options: Option[]; required?: boolean; half?: boolean; hint?: string }
-  | { name: string; label: string; kind: "radio" | "checks"; options: Option[]; required?: boolean; hint?: string }
+  | { name: string; label: string; kind: "radio" | "checks"; options: Option[]; required?: boolean; hint?: string; groups?: ChoiceGroup[] }
   | { name: string; label: string; kind: "textarea"; required?: boolean; placeholder?: string; hint?: string }
   | { name: string; label: string; kind: "file"; accept?: string; multiple?: boolean; required?: boolean; hint?: string };
 
@@ -32,6 +34,7 @@ export type FormOptions = {
   areas: Option[];
   districts: Option[];
   requirements: Option[];
+  requirementGroups?: ChoiceGroup[];
   ownerAssets: Option[];
   ownerIntents: Option[];
   partnerCategories: Option[];
@@ -145,7 +148,7 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
           { name: "property", label: t.f.property, kind: "select", options: [{ value: "any", label: t.f.anyProperty }, ...o.properties], half: true },
           { name: "space", label: t.f.space, kind: "select", options: [{ value: "any", label: t.f.anySpace }, ...o.spaces], half: true },
           { name: "date", label: t.f.date, kind: "month", half: true },
-          { name: "critical", label: t.f.critical, kind: "checks", options: [...o.requirements, { value: "other", label: t.f.other }] },
+          { name: "critical", label: t.f.critical, kind: "checks", options: [...o.requirements, { value: "other", label: t.f.other }], groups: o.requirementGroups },
           message,
         ] },
         { title: t.groups.contact, fields: contact },
@@ -337,17 +340,35 @@ export function EnquiryForm({ locale, options, initial = "lease", only }: { loca
                   if (field.kind === "radio" || field.kind === "checks") {
                     const preset = pre(field.name);
                     const list = Array.isArray(preset) ? preset : preset ? [preset] : [];
+                    const choice = (opt: Option) => (
+                      <label key={opt.value} className="xp-choice">
+                        <input type={field.kind === "radio" ? "radio" : "checkbox"} name={field.name} value={opt.value} defaultChecked={list.includes(opt.value)} />
+                        <span>{opt.label}</span>
+                      </label>
+                    );
+                    // grouped presentation (OWNER «FINAL POLISH» §9): the same single field, its options arranged under four
+                    // small headings; options outside every group («Другое») close the last row
+                    const grouped = field.groups?.length ? field.groups : null;
+                    const rest = grouped ? field.options.filter((opt) => !grouped.some((group) => group.values.includes(opt.value))) : [];
                     return (
                       <fieldset key={field.name} className="xp-form__field xp-form__field--full xp-form__choices" id={id} {...errorFor(field.name)}>
                         <legend>{label}</legend>
-                        <div className="xp-choice-row">
-                          {field.options.map((opt) => (
-                            <label key={opt.value} className="xp-choice">
-                              <input type={field.kind === "radio" ? "radio" : "checkbox"} name={field.name} value={opt.value} defaultChecked={list.includes(opt.value)} />
-                              <span>{opt.label}</span>
-                            </label>
-                          ))}
-                        </div>
+                        {grouped ? (
+                          <div className="xp-choice-groups">
+                            {grouped.map((group, index) => {
+                              const options = group.values.map((value) => field.options.find((opt) => opt.value === value)).filter((opt): opt is Option => Boolean(opt));
+                              const tail = index === grouped.length - 1 ? rest : [];
+                              return (
+                                <div key={group.label} className="xp-choice-group">
+                                  <p className="xp-choice-group__title">{group.label}</p>
+                                  <div className="xp-choice-row">{[...options, ...tail].map(choice)}</div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="xp-choice-row">{field.options.map(choice)}</div>
+                        )}
                         {hint}
                         {error}
                       </fieldset>

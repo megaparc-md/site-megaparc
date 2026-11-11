@@ -5,7 +5,7 @@ import { getProject, listProjects, listVacancies, publicSpaces } from "@/content
 import { acquisitionProcess, company, leasingProcess } from "@/data/demo-content";
 import { acquisitionTypes } from "@/lib/business";
 import { departmentLabel, type Department } from "@/lib/careers";
-import { areaBands, needOrder, needs, uses } from "@/lib/leasing";
+import { areaBands, needGroups, needOrder, needs, uses } from "@/lib/leasing";
 import { isProductionEdition, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -91,6 +91,8 @@ export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale
     areas: areaBands.map((b) => ({ value: b.key, label: b.label[locale] })),
     districts: districts.map((d) => ({ value: d, label: d })),
     requirements: needOrder.map((key) => ({ value: key, label: needs[key].label[locale] })),
+    // the four visual groups of the requirement checks (OWNER «FINAL POLISH» §9) — presentation only, the field stays one
+    requirementGroups: needGroups.map((group) => ({ label: group.label[locale], values: group.needs })),
     ownerAssets: acquisitionTypes.map((a) => ({ value: a.key, label: a.title[locale] })),
     ownerIntents: ownerIntents.map((i) => ({ value: i.key, label: i.label[locale] })),
     partnerCategories: partnerCategories.map((p) => ({ value: p.key, label: p.label[locale] })),

@@ -33,6 +33,18 @@ export const needs: Record<SpaceNeed, { label: Localized; why: Localized }> = {
 
 export const needOrder: SpaceNeed[] = ["visibility", "flow", "parking", "ground", "entrance", "power", "ventilation", "delivery", "flexible", "fast"];
 
+/**
+ * The same ten needs grouped for scanning (OWNER «FINAL POLISH» §9, 2026-11-11): location / visibility · access /
+ * logistics · engineering / utilities · format / flexibility. Presentation only — the field, its values and the
+ * submitted data do not change.
+ */
+export const needGroups: { key: string; label: Localized; needs: SpaceNeed[] }[] = [
+  { key: "location", label: { ro: "Locație și vizibilitate", ru: "Локация и видимость", en: "Location and visibility" }, needs: ["visibility", "flow"] },
+  { key: "access", label: { ro: "Acces și logistică", ru: "Доступ и логистика", en: "Access and logistics" }, needs: ["ground", "entrance", "parking", "delivery"] },
+  { key: "engineering", label: { ro: "Inginerie și utilități", ru: "Инженерия и мощности", en: "Engineering and utilities" }, needs: ["power", "ventilation"] },
+  { key: "format", label: { ro: "Format și flexibilitate", ru: "Формат и гибкость", en: "Format and flexibility" }, needs: ["flexible", "fast"] },
+];
+
 export const fitCopy = {
   strong: { ro: "Punct forte", ru: "Сильная сторона", en: "Strong" },
   possible: { ro: "Posibil", ru: "Возможно", en: "Possible" },

@@ -70,6 +70,44 @@
 .r4-projects__statement { margin: clamp(1.6rem, 3vw, 2.6rem) 0 0; max-width: 26ch; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.5rem, 2.6vw, 2.7rem); font-weight: 350; line-height: 1.2; letter-spacing: -.012em; text-wrap: balance; }
 .r4-projects .r3-opening__lead { margin-top: 1.1rem; max-width: 38rem; }
 
+/* ---- PROJECTS · operating assets — a curated hierarchy (OWNER «FINAL POLISH» 2026-11-11, §3–§8):
+        Dacia 31 = the dominant architectural scene straight under the chapter head (full bleed, the name at display size) →
+        Moscova 20 = the strong secondary scene (58 % image, large name) → Moscova 9 and Creangă 78 = controlled small rows:
+        image · name · place · one useful fact (the status). Weak photographs are never enlarged for symmetry. ---- */
+.r4-projects .r4-dominant { margin-top: 0; }
+.r4-projects .r4-dominant .r3-feature__media { aspect-ratio: 4 / 5; }
+.r4-projects .r3-second { margin-top: clamp(5.5rem, 11vw, 12rem); }
+/* PASS 2: the secondary scene reads image · name · place · one fact — the story line repeated the place line almost verbatim */
+.r4-projects .r3-second--page .r3-pj__line { display: none; }
+.r4-projects .r4-compact { margin-top: clamp(4.5rem, 8vw, 7rem); }
+.r4-projects .r4-compact .r3-pj__line { display: none; }
+.r4-projects .r4-compact .r3-compact__copy { gap: .45rem; }
+.r4-projects .r4-compact .r3-compact__row.is-small { grid-template-columns: 5rem minmax(0, 1fr); }
+.r4-projects .r4-compact .r3-compact__row.is-small .r3-compact__name { font-size: clamp(1.45rem, 2.4vw, 2.4rem); }
+@media (min-width: 720px) {
+  .r4-projects .r4-dominant .r3-feature__media { aspect-ratio: 16 / 10; }
+}
+@media (min-width: 900px) {
+  .r4-projects .r4-compact .r3-compact__row.is-small { grid-template-columns: 9rem minmax(0, 4fr) minmax(0, 5fr); }
+  .r4-projects .r4-compact .r3-compact__row.is-small .r3-compact__media { max-width: 9rem; }
+  .r4-projects .r4-compact .r33-waitlist { margin-left: calc(9rem + clamp(1.5rem, 3vw, 3rem)); }
+}
+@media (min-width: 1024px) {
+  .r4-projects .r4-dominant .r3-feature__media { aspect-ratio: auto; height: max(36rem, 90svh); max-height: 62rem; }
+}
+
+/* ---- PROJECTS · development — a different rhythm from operating real estate: the site photograph as one captioned band,
+        then the two projects as typography (name at display size, the verified fact beneath), more air, no cards ---- */
+.r4-projects .r3-pjdev .r3-wide__caption { font-family: var(--font); font-size: .82rem; font-weight: 500; letter-spacing: .02em; }
+.r4-projects .r3-pjdev__grid { margin-top: clamp(3.5rem, 7vw, 6rem); }
+.r4-projects .r3-pjdev__item { gap: 1rem; padding: 2.4rem 0; }
+.site .r4-projects .r3-pjdev__name { font-size: clamp(2.4rem, 4.6vw, 4.8rem); line-height: .95; }
+.r4-projects .r3-pjdev__meta { max-width: 30rem; color: rgba(255, 255, 255, .72); font-size: .98rem; line-height: 1.5; }
+@media (min-width: 1024px) {
+  .r4-projects .r3-pjdev__item { padding: 2.8rem 0 0; }
+  .r4-projects .r3-pjdev__item + .r3-pjdev__item { padding-left: clamp(2rem, 4vw, 4rem); border-left: 1px solid var(--r3-hair-inv); }
+}
+
 /* ---- HISTORY — fewer columns of episodes (two, never three): one idea per row, more air between the companies ---- */
 @media (min-width: 1280px) { .r4-history .r3-eps:has(> li:nth-child(3)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .r4-history .r3-hhero--type .r3-hhero__title { max-width: 14ch; }
