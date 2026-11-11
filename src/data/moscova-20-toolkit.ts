@@ -32,7 +32,7 @@ export const m20Toolkit = {
   /** 3D / 360 tour: nothing public renders while null; any provider URL (Matterport, a 360 panorama, another approved provider) plugs in here */
   virtualTourUrl: null as string | null,
   /** privacy-safe internal events (src/lib/track.ts) — no vendor is loaded for them */
-  events: ["m20_dossier_download", "m20_plan_open", "m20_ecadastru_open", "m20_technical_check_start", "m20_technical_check_submit", "m20_viewing_start", "m20_viewing_submit", "m20_share", "m20_qr_landing"] as const,
+  events: ["m20_dossier_download", "m20_plan_open", "m20_ecadastru_open", "m20_technical_check_start", "m20_technical_check_submit", "m20_viewing_start", "m20_viewing_submit", "m20_share", "m20_qr_landing", "m20_pack_open", "m20_qr_open"] as const,
 } as const;
 
 export type ToolkitEvent = (typeof m20Toolkit.events)[number];
@@ -112,6 +112,20 @@ export const toolkitCopy = {
   },
   economics: {
     precheck: { ro: "Solicită verificarea tehnică", ru: "Запросить техническую проверку", en: "Request the technical check" },
+  },
+  // OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE» (2026-11-11): the service block on the property page — one primary action
+  // (the Leasing Pack), two secondary (the PDF presentation, the plans), one utility (the QR in a compact drawer)
+  service: {
+    label: { ro: "Dosarul digital al obiectului", ru: "Цифровое досье объекта", en: "Digital property dossier" },
+    title: { ro: "Toate informațiile despre Moscova 20 — într-un singur loc", ru: "Вся информация по Moscova 20 — в одном месте", en: "Everything on Moscova 20 — in one place" },
+    lead: { ro: "Planuri, date tehnice, prezentarea obiectului și instrumente pentru pregătirea vizionării.", ru: "Планы, технические данные, презентация объекта и инструменты для подготовки к просмотру.", en: "Plans, technical data, the property presentation and tools to prepare for a viewing." },
+    pack: { ro: "Deschide Leasing Pack", ru: "Открыть Leasing Pack", en: "Open the Leasing Pack" },
+    pdf: { ro: "Descarcă prezentarea PDF", ru: "Скачать презентацию PDF", en: "Download the PDF presentation" },
+    plans: { ro: "Deschide planurile", ru: "Открыть планы", en: "Open the plans" },
+    qr: { ro: "Cod QR pentru telefon", ru: "QR на телефон", en: "QR for your phone" },
+    qrTitle: { ro: "Leasing Pack pe telefon", ru: "Leasing Pack на телефоне", en: "The Leasing Pack on your phone" },
+    qrText: { ro: "Scanați codul cu camera telefonului sau copiați linkul.", ru: "Отсканируйте код камерой телефона или скопируйте ссылку.", en: "Scan the code with your phone camera or copy the link." },
+    copied: { ro: "Linkul către Leasing Pack a fost copiat.", ru: "Ссылка на Leasing Pack скопирована.", en: "The Leasing Pack link has been copied." },
   },
   dossier: {
     kicker: { ro: "Dosar de închiriere", ru: "Досье объекта", en: "Leasing dossier" },

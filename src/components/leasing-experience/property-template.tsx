@@ -15,6 +15,7 @@ import { StickyCta } from "@/components/leasing-experience/sticky-cta";
 import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
 import { DecisionBar } from "@/components/leasing-toolkit/decision-bar";
+import { DigitalDossier, QrHandoff } from "@/components/leasing-toolkit/digital-dossier";
 import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
 import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
 import { R3Trust } from "@/components/r3";
@@ -23,7 +24,7 @@ import type { ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { toolVisible } from "@/data/tenant-intelligence";
-import type { Localized, SiteLocale } from "@/lib/site-data";
+import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * THE LEASING PROPERTY TEMPLATE — OWNER «LEASING TEMPLATE LOCK · MOSCOVA 20 = EXACT MASTER TEMPLATE» (2026-11-10).
@@ -36,7 +37,8 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * 02 plans · 03 technical readiness · 04 decision) → summary cards → statement → «Какой бизнес вы рассматриваете?» →
  * location → photographs → plans and areas → the dark technical scene → Technical Director + Architect · e-Cadastru →
  * the viewing; phones add the sticky action; the detail lives in the drawers (technical characteristics · photographs ·
- * readiness · the decision tool).
+ * readiness · the decision tool). The property carrying the Digital Leasing Toolkit (Moscova 20) adds the digital property
+ * dossier after the summary cards (Leasing Pack · PDF · plans · QR drawer) and the three-action decision bar.
  *
  * The status, the hero figure and the actions come from the offer (./offer.ts): the published unit record (Moscova 20,
  * Moscova 9) or the property (Dacia 31 on request, Creangă 78 fully let → the waiting list).
@@ -58,6 +60,15 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
   const decision = decisionOn(x);
   const own = x.portals ?? {};
   const toolkit = x.project === m20Toolkit.project;
+  // the digital property dossier (OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE», 2026-11-11): the language's pack, PDF and QR
+  const sc = toolkitCopy.service;
+  const packPath = `${localePath(locale, m20Toolkit.packPath)}/`;
+  const packUrl = `https://www.megaparc.md${packPath}`;
+  const dossierCopy = {
+    label: sc.label[locale], title: sc.title[locale], lead: sc.lead[locale], pack: sc.pack[locale], pdf: sc.pdf[locale],
+    pdfMeta: toolkitCopy.pack.dossierMeta[locale].replace("{pages}", String(m20Toolkit.dossier.pages)).replace("{version}", m20Toolkit.dossier.version),
+    plans: sc.plans[locale], plansMeta: toolkitCopy.pack.plansMeta[locale], qr: sc.qr[locale],
+  };
 
   const ground = x.plans.levels.find((level) => level.key === "ground");
   const photo = (key: string | undefined) => (key && x.photos[key] ? <LgPhoto photo={x.photos[key]} locale={locale} sizes="(min-width: 1024px) 22vw, 30vw" className="lg-portal__photo" /> : null);
@@ -78,6 +89,8 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       <LeasingHero x={x} offer={offer} project={project} locale={locale} />
       <DecisionNav portals={portals} label={ui.chapters[locale]} cta={offer.primary} status={offer.status} />
       <SummaryCards x={x} offer={offer} locale={locale} />
+      {/* the digital property dossier — only on the property that carries the Digital Leasing Toolkit */}
+      {toolkit ? <DigitalDossier copy={dossierCopy} packHref={packPath} pdfHref={m20Toolkit.dossier.file[locale]} plansHref="#plans" /> : null}
       <Reasons x={x} offer={offer} locale={locale} />
       <FormatLens x={x} offer={offer} locale={locale} />
       <LocationMotion x={x} offer={offer} project={project} locale={locale} decision={decision} />
@@ -100,6 +113,9 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
           </LgDrawer>
           <LgDrawer id="book" title={toolkitCopy.pack.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
             <BookViewing locale={locale} unitLabel={offer.unitLabel} />
+          </LgDrawer>
+          <LgDrawer id="qr" title={sc.qrTitle[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
+            <QrHandoff qr={m20Toolkit.qr.svg} url={packUrl} text={sc.qrText[locale]} copyLabel={toolkitCopy.share.copy[locale]} copied={sc.copied[locale]} />
           </LgDrawer>
         </>
       ) : null}
