@@ -156,7 +156,8 @@ const allSpaces: AvailableSpace[] = [
       L("Terasă", "Терраса", "Terrace"),
       L("Acces de serviciu", "Служебный доступ", "Service access"),
     ],
-    parking: L("15 locuri de parcare", "15 парковочных мест", "15 parking spaces"),
+    // OWNER FACT OVERRIDE 2026-11-11: 11 spaces (supersedes 15); never reserved / exclusive / free / dedicated / 24-7 unless confirmed
+    parking: L("11 locuri de parcare", "11 парковочных мест", "11 parking spaces"),
     entrance: L("Intrare separată din stradă, cu scări și rampă · acces de serviciu separat", "Отдельный вход с улицы, лестница и пандус · отдельный служебный доступ", "Separate street entrance with steps and a ramp · separate service access"),
     visibility: L("Prima linie, vitrină panoramică spre bulevard", "Первая линия, панорамное остекление на бульвар", "The first line, panoramic glazing to the boulevard"),
     technical: {
