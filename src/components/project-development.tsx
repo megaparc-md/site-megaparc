@@ -236,7 +236,7 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
         <section className="xp-sec xp-sec--warm">
           <div className="xp-shell xp-split xp-split--wide">
             <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties} data-reveal>
-              <ArtImage media={dev.media!} alt={`${dev.name} — ${dev.status[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} position="50% 62%" />
+              <ArtImage media={dev.contextMedia ?? dev.media!} alt={`${dev.name} — ${dev.status[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} position="50% 60%" />
             </figure>
             <div className="xp-split__copy" data-reveal>
               <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{copy.realityLabel[locale]}</span></p>

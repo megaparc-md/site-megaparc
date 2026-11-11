@@ -222,7 +222,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
         <Link href={p(`/projects/${vatra.slug}`)} className="r32-scene" data-reveal>
           <figure className="r32-scene__media">
-            <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="45% 62%" />
+            <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="52% 58%" />
           </figure>
           <span className="r3-shell r32-scene__copy">
             <span className="r32-scene__name">{vatra.name}</span>

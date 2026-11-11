@@ -25,6 +25,10 @@ import { publicAsset } from "@/lib/site-data";
 const OWNER = "OWNER mandate 2026-11-06";
 const COMPACT = "OWNER compact brief 2026-11-06";
 const PHOTO = "OWNER photographs 16.10.2026 — current condition";
+// OWNER «MOSCOVA 20 — OWNER PHOTOGRAPHY REPLACEMENT» (2026-11-11): eight final processed interior frames supplied by the OWNER
+// (OWNER_APPROVED_PROCESSED · FINAL), used exactly as supplied — no grading, retouching, crop or generative step
+// (scripts/moscova-20-owner-interiors.mjs). They replace the 16.10.2026 interior frames in every public placement.
+const PHOTO_FINAL = "OWNER-approved processed interior set 2026-11-11 — OWNER_APPROVED_PROCESSED · FINAL, used as supplied";
 const NET = "Certificat contabil — rețele tehnico-edilitare exterioare, 30.09.2026";
 const PLANS = "Plan_0.000 (Anexa 2) and Plan_-2.950 / -3.300 (Anexa 1), Moscova 20 Variant 1, project 15/19 SA, arch. A. Novicov, 06.21 — OWNER files";
 // OWNER «MOSCOVA 20 — OWNER TECHNICAL DATA UPDATE» (2026-11-10): heating, HVAC per level, sanitary rooms, 4 exits, 15 parking spaces,
@@ -67,6 +71,15 @@ const photos: Record<string, Photo> = {
   engineering: photo("m20-engineering", 1600, 1066, T("Trasee de ventilație, indicator de ieșire și scara în demisol", "Трассы вентиляции, указатель выхода и лестница в цоколе", "Ventilation ducts, an exit sign and the staircase in the lower ground")),
   lowerStairs: photo("m20-lower-stairs", 1600, 1066, T("Demisolul gol, pregătit pentru conceptul chiriașului", "Пустой цоколь, готовый к концепции арендатора", "The empty lower ground, ready for the tenant's concept")),
   approach: photo("m20-approach", 1278, 959, T("Cum se ajunge: trotuarul, scările și rampa spre intrare", "Как подойти: тротуар, лестница и пандус к входу", "How you arrive: the pavement, the steps and the ramp to the entrance")),
+  // OWNER photography replacement 2026-11-11 — the eight OWNER-approved processed interior frames (1536 × 1024, as supplied)
+  intLowerWide: photo("m20-int-lower-wide", 1536, 1024, T("Demisolul Moscova 20: sala deschisă, scara spre parter și ieșirea marcată", "Цоколь Moscova 20: открытый зал, лестница на 1-й этаж и обозначенный выход", "Moscova 20 lower ground: the open hall, the stair to the ground floor and the marked exit"), { source: PHOTO_FINAL }),
+  intLowerDepth: photo("m20-int-lower-depth", 1536, 1024, T("Demisolul Moscova 20: perspectivă lungă, trasee de ventilație, unitate split și calorifere", "Цоколь Moscova 20: длинная перспектива, воздуховоды, сплит-система и радиаторы", "Moscova 20 lower ground: the long perspective, ducts, a split unit and radiators"), { source: PHOTO_FINAL }),
+  intLowerStairHall: photo("m20-int-lower-stair-hall", 1536, 1024, T("Demisolul Moscova 20: scara pe peretele placat și sala deschisă", "Цоколь Moscova 20: лестница у облицованной стены и открытый зал", "Moscova 20 lower ground: the staircase on the tiled wall and the open hall"), { source: PHOTO_FINAL }),
+  intLowerColumns: photo("m20-int-lower-columns", 1536, 1024, T("Demisolul Moscova 20: sala lungă cu stâlpi, scara în fundal", "Цоколь Moscova 20: длинный зал с колоннами, лестница в глубине", "Moscova 20 lower ground: the long hall with columns, the stair at the back"), { source: PHOTO_FINAL }),
+  intLowerExit: photo("m20-int-lower-exit", 1536, 1024, T("Demisolul Moscova 20: trasee de ventilație, calorifere, scara și indicatorul de ieșire", "Цоколь Moscova 20: воздуховоды, радиаторы, лестница и указатель выхода", "Moscova 20 lower ground: ducts, radiators, the stair and the exit sign"), { source: PHOTO_FINAL }),
+  intStairDetail: photo("m20-int-stair-detail", 1536, 1024, T("Scara dintre nivelurile spațiului comercial Moscova 20", "Лестница между уровнями коммерческого помещения Moscova 20", "The staircase between the levels of the Moscova 20 commercial premises"), { source: PHOTO_FINAL }),
+  intGroundHall: photo("m20-int-ground-hall", 1536, 1024, T("Parterul Moscova 20: sala deschisă, unitate de climatizare tip casetă și trasee de ventilație, vitrina în capăt", "1-й этаж Moscova 20: открытый зал, кассетный кондиционер и воздуховоды, остекление в торце", "Moscova 20 ground floor: the open hall, a cassette air-conditioning unit and ducts, the glazing at the end"), { source: PHOTO_FINAL }),
+  intGroundGlazing: photo("m20-int-ground-glazing", 1536, 1024, T("Parterul Moscova 20: vitrina spre bulevard, golul scării cu balustradă, trasee de ventilație", "1-й этаж Moscova 20: витрина к бульвару, проём лестницы с ограждением, воздуховоды", "Moscova 20 ground floor: the glazing to the boulevard, the stair opening with its railing, ducts"), { source: PHOTO_FINAL }),
   // OWNER plan replacement pass 2026-11-09: crops of the OWNER PDFs (rotated to reading orientation, 2.4 px / pt;
   // geometry unchanged) — Plan_0.000_Moscova_20_Variant_1 (1).pdf and Plan_-2.950_-3.300_Moscova_20_Variant_1.pdf
   planGround: photo("m20-plan-ground", 3199, 3005, T("Planul parterului, cota +0,000, scara 1:100 — anexa nr. 2 la contractul de locațiune", "План 1-го этажа, отметка +0,000, М 1:100 — приложение № 2 к договору аренды", "Ground floor plan, level +0.000, scale 1:100 — annex no. 2 to the lease agreement"), { smallWidth: 1400, evidence: "DOCUMENT_CONFIRMED", source: PLANS }),
@@ -458,7 +471,7 @@ export const moscova20Experience: LeasingExperience = {
     kicker: T("Infrastructura de bază este pregătită", "Базовая инфраструктура уже готова", "The base infrastructure is in place"),
     title: T("Investiți în afacerea dumneavoastră,\nnu în pregătirea spațiului.", "Вкладывайте в свой бизнес,\nа не в подготовку помещения.", "Invest in your business,\nnot in preparing the premises."),
     lead: T("Sistemele inginerești principale și infrastructura de bază sunt deja prevăzute. Vă rămâne să adaptați spațiul la formatul afacerii, să instalați echipamentele și mobilierul și să amenajați interiorul.", "Основные инженерные системы и базовая инфраструктура уже предусмотрены. Вам остаётся адаптировать пространство под формат бизнеса, установить оборудование, мебель и оформить интерьер.", "The main building systems and the base infrastructure are already in place. What remains is to adapt the space to your business format, install equipment and furniture, and fit out the interior."),
-    photo: "lowerHall",
+    photo: "intLowerDepth",
     readyTitle: T("Deja prevăzut", "Уже предусмотрено", "Already provided"),
     ready: [
       fact(T("Suprafețe de finisaj de bază", "Базовые отделочные поверхности", "Base finished surfaces"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
@@ -499,11 +512,11 @@ export const moscova20Experience: LeasingExperience = {
       // R3.2 §17 (OWNER 2026-11-10): the elevated frontage frame belongs to the rejected aerial set (roof plane cut, the
       // facade running off the frame, neighbour lettering) — never a large tile; the address is shown at street level
       { key: "address", no: "01", shot: { photo: "entranceProcessed", position: "24% 60%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova: intrarea din trotuar — scări, rampă, ușă de sticlă.", "Первая линия бульвара Москова: вход с тротуара — лестница, пандус, стеклянная дверь.", "The first line of Moscova Boulevard: the entrance from the pavement — steps, a ramp, a glass door.") },
-      { key: "light", no: "02", shot: { photo: "groundGlazing", position: "40% 45%" }, label: T("Lumina", "Свет", "Light"), caption: T("Vitrina continuă spre bulevard: sala se vede de pe trotuar.", "Сплошное остекление к бульвару: зал виден с тротуара.", "Continuous glazing to the boulevard: the hall is visible from the pavement.") },
-      { key: "space", no: "03", shot: { photo: "groundHall", position: "50% 52%" }, label: T("Spațiul", "Пространство", "Space"), caption: T("Săli deschise cu stâlpi pe o rețea regulată.", "Открытые залы с колоннами по регулярной сетке.", "Open halls with columns on a regular grid.") },
-      { key: "connection", no: "04", shot: { photo: "stairs", position: "64% 55%" }, label: T("Legătura", "Связь уровней", "Connection"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
-      { key: "lower", no: "05", shot: { photo: "lowerHall", position: "50% 55%" }, label: T("Demisolul", "Цоколь", "Lower ground"), caption: T("Demisolul: o sală lungă cu pardoseală finisată și climatizare.", "Цоколь: длинный зал с готовым полом и кондиционированием.", "The lower ground: a long hall with a finished floor and air-conditioning.") },
-      { key: "base", no: "06", shot: { photo: "engineering", position: "52% 36%", zoom: 1.3 }, label: T("Inginerie", "Инженерия", "Engineering"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
+      { key: "light", no: "02", shot: { photo: "intGroundGlazing", position: "50% 50%" }, label: T("Lumina", "Свет", "Light"), caption: T("Vitrina continuă spre bulevard: sala se vede de pe trotuar.", "Сплошное остекление к бульвару: зал виден с тротуара.", "Continuous glazing to the boulevard: the hall is visible from the pavement.") },
+      { key: "space", no: "03", shot: { photo: "intGroundHall", position: "50% 50%" }, label: T("Spațiul", "Пространство", "Space"), caption: T("Săli deschise cu stâlpi pe o rețea regulată.", "Открытые залы с колоннами по регулярной сетке.", "Open halls with columns on a regular grid.") },
+      { key: "connection", no: "04", shot: { photo: "intStairDetail", position: "60% 50%" }, label: T("Legătura", "Связь уровней", "Connection"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
+      { key: "lower", no: "05", shot: { photo: "intLowerColumns", position: "50% 50%" }, label: T("Demisolul", "Цоколь", "Lower ground"), caption: T("Demisolul: o sală lungă cu pardoseală finisată și climatizare.", "Цоколь: длинный зал с готовым полом и кондиционированием.", "The lower ground: a long hall with a finished floor and air-conditioning.") },
+      { key: "base", no: "06", shot: { photo: "intLowerExit", position: "50% 45%" }, label: T("Inginerie", "Инженерия", "Engineering"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
     ],
   },
 
@@ -538,7 +551,7 @@ export const moscova20Experience: LeasingExperience = {
         ],
         closing: T("Dacă locația și formatul se potrivesc, următorul pas este verificarea tehnică și comercială a scenariului de funcționare.", "Если локация и формат совпадают, следующим шагом становится техническая и коммерческая проверка сценария работы.", "If the location and the format match, the next step is a technical and commercial check of how the business will run."),
         overlay: {
-          photo: "groundGlazing",
+          photo: "intGroundGlazing",
           evidence: "DEMO",
           source: SCENARIO,
           zones: [
@@ -569,7 +582,7 @@ export const moscova20Experience: LeasingExperience = {
         ],
         closing: T("Pentru un showroom contează nu doar spațiul, ci și felul în care clientul intră, se mișcă prin el și percepe produsul.", "Для шоурума важно не только само помещение, но и то, как клиент входит, двигается по нему и воспринимает продукт.", "For a showroom, what matters is not only the space but how the client enters, moves through it and experiences the product."),
         overlay: {
-          photo: "lowerHall",
+          photo: "intLowerColumns",
           evidence: "DEMO",
           source: SCENARIO,
           zones: [
@@ -599,7 +612,7 @@ export const moscova20Experience: LeasingExperience = {
         ],
         closing: T("Dacă obiectul corespunde modelului dumneavoastră, următorul pas este verificarea fezabilității tehnice a scenariului înainte de semnarea contractului.", "Если объект соответствует вашей модели, следующим шагом нужно проверить техническую реализуемость сценария до подписания договора.", "If the property fits your model, the next step is to check the technical feasibility of your scenario before signing."),
         overlay: {
-          photo: "lowerStairs",
+          photo: "intLowerWide",
           evidence: "DEMO",
           source: SCENARIO,
           zones: [
@@ -630,13 +643,13 @@ export const moscova20Experience: LeasingExperience = {
         ],
         closing: T("Înainte de lansarea biroului verificăm planul, cerințele inginerești și traseele angajaților și ale clienților.", "Перед запуском офиса проверяем планировку, инженерные требования и сценарий движения сотрудников и клиентов.", "Before the office opens, we check the layout, the engineering requirements and how staff and clients will move through the space."),
         overlay: {
-          photo: "lowerService",
+          photo: "intLowerStairHall",
           evidence: "DEMO",
           source: SCENARIO,
           zones: [
-            { label: T("Zona clienților", "Клиентская зона", "Client area"), shape: [[620, 562], [1000, 552], [1078, 650], [612, 662]], at: [840, 606] },
+            { label: T("Zona clienților", "Клиентская зона", "Client area"), shape: [[620, 562], [1000, 552], [1078, 650], [612, 662]], at: [640, 640] },
             { label: T("Zona de lucru", "Рабочая зона", "Work area"), shape: [[0, 700], [1380, 690], [1450, 1066], [0, 1066]], at: [640, 880] },
-            { label: T("Zona de serviciu", "Служебная зона", "Service area"), shape: [[1040, 540], [1342, 506], [1372, 622], [1082, 600]], at: [1210, 566] },
+            { label: T("Zona de serviciu", "Служебная зона", "Service area"), shape: [[1040, 540], [1342, 506], [1372, 622], [1082, 600]], at: [1330, 530] },
           ],
         },
       },

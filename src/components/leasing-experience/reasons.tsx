@@ -24,7 +24,8 @@ export function Reasons({ x, offer, locale }: { x: LeasingExperience; offer: Tem
   const levels = offer.breakdown.filter((level) => level.key !== "terrace").length || 2;
   // a dataset's own statement («{area}» = the hero figure); the master reads it from the unit record
   const lines = x.statement ? x.statement.lines.map((line) => withArea(line[locale], offer.figure)) : [`${offer.figure}.`, copy.levels(levels, locale), copy.concept[locale]];
-  const photo = x.statement ? (x.statement.photo ? x.photos[x.statement.photo] : undefined) : x.photos.lowerFinish;
+  // OWNER photography replacement 2026-11-11: the OWNER-approved lower-ground frame with the staircase (two levels, one concept) where the dataset has it
+  const photo = x.statement ? (x.statement.photo ? x.photos[x.statement.photo] : undefined) : (x.photos.intLowerStairHall ?? x.photos.lowerFinish);
   return (
     <section className="lg-statement" aria-labelledby="lg-statement-title">
       <div className="xp-shell lg-statement__head">

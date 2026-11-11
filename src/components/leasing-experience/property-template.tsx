@@ -59,12 +59,13 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
   const photo = (key: string | undefined) => (key && x.photos[key] ? <LgPhoto photo={x.photos[key]} locale={locale} sizes="(min-width: 1024px) 22vw, 30vw" className="lg-portal__photo" /> : null);
   const fourth = decision
     ? { key: x.decision.kind === "economics" ? "economics" : `economics is-${x.decision.kind}`, href: "#economics", drawer: "economics", visual: <EconomicsGlyph className="lg-portal__glyph" />, ...(own.decision ?? portalCopy.economics) }
-    : { key: "launch", href: "#readiness", drawer: "readiness", visual: photo("groundHall"), ...portalCopy.launch };
+    : { key: "launch", href: "#readiness", drawer: "readiness", visual: photo(x.photos.intGroundHall ? "intGroundHall" : "groundHall"), ...portalCopy.launch };
   const portals: Portal[] = [
     { key: "location", href: "#location", visual: photo(x.motion.visibility?.photo), ...(own.location ?? portalCopy.location) },
     // the OWNER drawing itself (plan replacement pass 2026-11-09), never a redrawn plan
     { key: "plans", href: "#plans", visual: ground?.drawing ? photo(ground.drawing.photo) : null, ...(own.plans ?? portalCopy.plans) },
-    { key: "ready", href: "#capex", visual: photo(x.photos.engineering ? "engineering" : undefined), ...(own.ready ?? portalCopy.ready) },
+    // OWNER photography replacement 2026-11-11: the OWNER-approved engineering frame where the dataset has it
+    { key: "ready", href: "#capex", visual: photo(x.photos.intLowerExit ? "intLowerExit" : x.photos.engineering ? "engineering" : undefined), ...(own.ready ?? portalCopy.ready) },
     fourth,
   ].map((portal, i) => ({ key: portal.key, no: String(i + 1).padStart(2, "0"), label: portal.label[locale], word: portal.word[locale], href: portal.href, drawer: "drawer" in portal ? portal.drawer : undefined, visual: portal.visual }));
 

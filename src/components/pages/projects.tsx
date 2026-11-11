@@ -181,7 +181,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
         </div>
         <Link href={p(`/projects/${vatra.slug}`)} className="r3-wide r3-wide--dark" data-reveal>
           <figure className="r3-wide__media">
-            <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="45% 60%" />
+            <ArtImage media={{ ...vatra.media!, mobile: vatra.media!.wide }} variant="wide" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="100vw" position="52% 58%" />
           </figure>
           <span className="r3-wide__caption">{vatra.name} · {vatra.card.status[locale]}</span>
         </Link>

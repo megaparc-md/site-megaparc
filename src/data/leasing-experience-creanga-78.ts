@@ -19,10 +19,13 @@ export const creanga78Experience: LeasingExperience = {
   project: "creanga-78",
   address: T("Str. Ion Creangă 78", "ул. Иона Крянгэ, 78", "78 Ion Creangă St"),
   photos: {
-    building: portfolioPhoto("c78-building", "creanga-78", 960, 720, T("Creangă 78 de la stradă: fațada, intrarea cu scări și parcarea din fața clădirii", "Creangă 78 с улицы: фасад, вход с лестницей и парковка перед зданием", "Creangă 78 from the street: the facade, the entrance with steps and parking in front of the building"), "64% 50%"),
-    buildingPhone: portfolioPhoto("c78-building-phone", "creanga-78-mobile", 576, 720, T("Creangă 78: intrarea cu scări", "Creangă 78: вход с лестницей", "Creangă 78: the entrance with steps")),
+    // OWNER «CREANGĂ 78 — OWNER PHOTOGRAPHY UPDATE» (2026-11-11): two OWNER-approved frontage photographs, used as supplied
+    // (scripts/creanga-78-frontage.mjs) — the operating asset with its tenants' signs, customers and parking; no contractual claim
+    building: portfolioPhoto("c78-building", "creanga-78-frontage-01", 1448, 1086, T("Fațada comercială Creangă 78 cu operatori în activitate: intrarea cu scări, rampa și parcarea din fața clădirii", "Коммерческий фасад Creangă 78 с действующими арендаторами: вход с лестницей, пандус и парковка перед зданием", "The Creangă 78 commercial frontage with operating tenants: the entrance steps, the ramp and the parking in front of the building"), "50% 55%"),
+    buildingPhone: portfolioPhoto("c78-building-phone", "creanga-78-frontage-01-mobile", 869, 1086, T("Creangă 78: intrarea și fațada comercială", "Creangă 78: вход и коммерческий фасад", "Creangă 78: the entrance and the commercial frontage")),
+    frontage: portfolioPhoto("c78-frontage", "creanga-78-frontage-02", 1672, 941, T("Obiectul comercial în funcțiune Creangă 78: fațada dinspre parcare, intrarea și trecerea de pietoni", "Действующий коммерческий объект Creangă 78: фасад со стороны парковки, вход и пешеходный переход", "The operating Creangă 78 commercial property: the frontage from the parking side, the entrance and the crossing"), "50% 55%"),
   },
-  ownerInput: ["full-resolution facade", "entrance", "street", "operating detail", "interior (when a space frees up)", "context"],
+  ownerInput: ["operating detail", "interior (when a space frees up)", "context"],
 
   hero: {
     photo: "building",
@@ -157,8 +160,11 @@ export const creanga78Experience: LeasingExperience = {
   story: {
     ...sharedStory,
     title: T("Obiectul așa cum este astăzi.", "Объект таким, какой он есть сегодня.", "The property as it is today."),
+    // two OWNER frames (2026-11-11): the shared lead speaks of one photograph — here it is plural
+    lead: T("Fotografii reale ale obiectului în funcțiune — arhitectura fără schimbări.", "Реальные фотографии действующего объекта — архитектура без изменений.", "Real photographs of the operating property — the architecture unchanged."),
     frames: [
-      { key: "address", no: "01", shot: { photo: "building", position: "64% 50%" }, label: T("Obiectul", "Объект", "The property"), caption: T("Fațada de la stradă: intrarea cu scări și parcarea din fața clădirii.", "Фасад с улицы: вход с лестницей и парковка перед зданием.", "The street facade: the entrance with steps and parking in front of the building.") },
+      { key: "address", no: "01", shot: { photo: "building", position: "50% 55%" }, label: T("Obiectul", "Объект", "The property"), caption: T("Fațada de la stradă: intrarea cu scări și parcarea din fața clădirii.", "Фасад с улицы: вход с лестницей и парковка перед зданием.", "The street facade: the entrance with steps and parking in front of the building.") },
+      { key: "frontage", no: "02", shot: { photo: "frontage", position: "50% 55%" }, label: T("Fațada comercială", "Коммерческий фасад", "Commercial frontage"), caption: T("Obiect comercial MEGAPARC în funcțiune.", "Действующий коммерческий объект MEGAPARC.", "An operating MEGAPARC commercial property.") },
     ],
   },
 

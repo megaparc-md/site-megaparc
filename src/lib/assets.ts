@@ -444,7 +444,10 @@ export const portfolioAssets: PortfolioAsset[] = [
     name: "Creangă 78",
     district: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
-    media: media("portfolio", "creanga-78", "64% 50%"),
+    // OWNER «CREANGĂ 78 — OWNER PHOTOGRAPHY UPDATE» (2026-11-11): the OWNER-approved frontage photograph (Linella · Farmacia Familiei,
+    // the entrance, parking, customers — the operating asset as it is; scripts/creanga-78-frontage.mjs) replaces the 960 px frame
+    // (`creanga-78*`, kept for rollback only). Focal 50 % 55 % keeps the signs and the entrance in every crop.
+    media: media("portfolio", "creanga-78-frontage-01", "50% 55%"),
     status: operating,
     positioning: operating,
     headline: { ro: "Un obiect în funcțiune în Chișinău.", ru: "Действующий объект в Кишинёве.", en: "An operating property in Chișinău." },
@@ -505,6 +508,8 @@ export type DevelopmentProject = {
   connectivity: Localized[];
   location: Localized | null;
   media: AssetMedia | null;
+  /** A second OWNER frame for the «current reality» scene of the project page (never the hero) — null where only one frame exists. */
+  contextMedia?: AssetMedia | null;
   status: Localized;
   kind: Localized;
   /** Stage in the development process (index into strategy.developmentNarrative.stages). */
@@ -527,7 +532,11 @@ export const developmentProjects: DevelopmentProject[] = [
     map: null,
     connectivity: [],
     location: null,
-    media: media("development", "vatra", "50% 62%"),
+    // OWNER «VATRA — OWNER PHOTOGRAPHY UPDATE» (2026-11-11): the OWNER-provided processed aerial set (scripts/vatra-aerials.mjs) — the
+    // hero is the oblique summer frame (lake, clean horizon, the building cluster as it stands, the access road); the top-down frame
+    // carries the waterfront / scale scene of the project page. The earlier `vatra*` files stay in the repository for rollback only.
+    media: media("development", "vatra-aerial-shoreline-01", "52% 58%"),
+    contextMedia: media("development", "vatra-aerial-overview-02", "50% 60%"),
     status: { ro: "Proiect în dezvoltare", ru: "Проект в работе", en: "Project in development" },
     kind: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     stage: 4,

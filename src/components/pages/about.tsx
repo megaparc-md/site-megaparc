@@ -170,11 +170,11 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
             ))}
           </ol>
           <div className="r3-rules__ops" data-reveal>
-            {/* a real OWNER photograph: the prepared ground floor of Moscova 20 — how an owned building is kept */}
+            {/* the OWNER-approved processed photograph of the Moscova 20 ground floor (OWNER photography replacement 2026-11-11) — how an owned building is kept */}
             <figure className="r3-rules__media">
               <picture>
-                <source media="(min-width: 721px)" srcSet={publicAsset("/assets/leasing/moscova-20/m20-ground-hall.webp")} />
-                <img src={publicAsset("/assets/leasing/moscova-20/m20-ground-hall-sm.webp")} alt={c.opsAlt} loading="lazy" decoding="async" />
+                <source media="(min-width: 721px)" srcSet={publicAsset("/assets/leasing/moscova-20/m20-int-ground-hall.webp")} />
+                <img src={publicAsset("/assets/leasing/moscova-20/m20-int-ground-hall-sm.webp")} alt={c.opsAlt} loading="lazy" decoding="async" />
               </picture>
               <figcaption>{c.opsAlt}</figcaption>
             </figure>
