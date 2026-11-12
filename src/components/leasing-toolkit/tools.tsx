@@ -1,5 +1,6 @@
 import { DirectContact } from "@/components/direct-contact";
 import { PreCheckForm } from "@/components/leasing-toolkit/pre-check-form";
+import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { ViewingRequest } from "@/components/leasing-toolkit/viewing-request";
 import { company } from "@/data/demo-content";
 import { isProductionEdition, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -9,12 +10,7 @@ import { isProductionEdition, type Localized, type SiteLocale } from "@/lib/site
  * the production edition renders the OWNER-confirmed direct contacts — never a form that cannot send, never a false confirmation
  * (OWNER «PRODUCTION V1» §7 applied to the toolkit, mandate §17 · §20).
  */
-const productionNote: Record<"precheck" | "book", Localized> = {
-  precheck: {
-    ro: "Pentru verificarea tehnică a conceptului, contactați MEGAPARC la datele de contact indicate — directorul tehnic și arhitectul MEGAPARC verifică fezabilitatea tehnică a conceptului înainte de convenirea condițiilor comerciale.",
-    ru: "Для технической проверки концепции свяжитесь с MEGAPARC по указанным контактам — технический директор и архитектор MEGAPARC проверяют техническую реализуемость концепции до согласования коммерческих условий.",
-    en: "For the technical concept review, contact MEGAPARC using the contact details shown — MEGAPARC's Technical Director and Architect check the technical feasibility of the concept before commercial terms are agreed.",
-  },
+const productionNote: Record<"book", Localized> = {
   book: {
     ro: "Cererea de vizionare se trimite deocamdată direct — scrieți-ne sau sunați și propuneți ziua și intervalul; confirmăm ora personal.",
     ru: "Запрос на просмотр пока отправляют напрямую — напишите или позвоните и предложите день и время; точный час подтвердим лично.",
@@ -23,7 +19,8 @@ const productionNote: Record<"precheck" | "book", Localized> = {
 };
 
 export function PreCheck({ locale }: { locale: SiteLocale }) {
-  if (isProductionEdition) return <DirectContact locale={locale} subject="lease" note={productionNote.precheck[locale]} />;
+  // production: the direct contacts under wording that describes exactly that (precheck-copy, production edition) — no questions, no submission
+  if (isProductionEdition) return <DirectContact locale={locale} subject="lease" title={precheckCopy.directTitle?.[locale]} note={precheckCopy.directNote?.[locale]} />;
   return <PreCheckForm locale={locale} mailbox={company.email.value[locale]} phones={[company.mobile.value[locale], company.landline.value[locale]]} />;
 }
 

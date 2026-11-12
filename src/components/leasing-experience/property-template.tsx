@@ -16,6 +16,7 @@ import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
 import { DecisionBar } from "@/components/leasing-toolkit/decision-bar";
 import { DigitalDossier, QrHandoff } from "@/components/leasing-toolkit/digital-dossier";
+import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
 import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
 import { R3Trust } from "@/components/r3";
@@ -108,7 +109,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       )}
       {toolkit ? (
         <>
-          <LgDrawer id="precheck" title={toolkitCopy.pack.precheck[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
+          <LgDrawer id="precheck" title={precheckCopy.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
             <PreCheck locale={locale} />
           </LgDrawer>
           <LgDrawer id="book" title={toolkitCopy.pack.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>

@@ -4,7 +4,7 @@ import { useId, useMemo, useState, type ChangeEvent, type MouseEvent } from "rea
 import { economicsCopy, type PresetKey } from "@/components/leasing-experience/economics-copy";
 import { calcEconomics, parseAmount, parsePercent } from "@/components/leasing-experience/economics-math";
 import type { EconomicsHandoff } from "@/components/leasing-experience/viewing-form";
-import { toolkitCopy } from "@/data/moscova-20-toolkit";
+import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -205,7 +205,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
         {/* production has no form backend (DirectContact): the calculation is not handed to a form there */}
         {isProductionEdition ? null : <button type="button" className="btn btn--ghost" onClick={handoff}><span>{t.handoff}</span></button>}
         {/* Digital Leasing Toolkit (OWNER 2026-11-11 §28): contextual navigation only — the formulas above are unchanged */}
-        {precheck ? <a className="pm-link lg-calc__precheck" href="#precheck" data-drawer="precheck" aria-haspopup="dialog"><span>{toolkitCopy.economics.precheck[locale]}</span></a> : null}
+        {precheck ? <a className="pm-link lg-calc__precheck" href="#precheck" data-drawer="precheck" aria-haspopup="dialog"><span>{precheckCopy.action[locale]}</span></a> : null}
       </div>
 
       {/* LEVEL 2 — advanced economics */}

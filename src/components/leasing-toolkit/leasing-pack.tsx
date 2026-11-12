@@ -6,6 +6,7 @@ import { LgPhoto, ui } from "@/components/leasing-experience/parts";
 import { SheetPan } from "@/components/leasing-experience/sheet-pan";
 import { PackActions, QrLanding, type PackAction } from "@/components/leasing-toolkit/pack-actions";
 import { PlanLayers, type LayerItem, type LayerKey, type LayerLevel } from "@/components/leasing-toolkit/plan-layers";
+import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { ShareProperty } from "@/components/leasing-toolkit/share-property";
 import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
 import { PageShell } from "@/components/page-shell";
@@ -62,7 +63,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const actions: PackAction[] = [
     { key: "plans", label: c.plans[locale], meta: c.plansMeta[locale], href: "#pack-plans", event: "m20_plan_open" },
     { key: "dossier", label: c.dossier[locale], meta: c.dossierMeta[locale].replace("{pages}", String(m20Toolkit.dossier.pages)).replace("{version}", m20Toolkit.dossier.version), href: m20Toolkit.dossier.file[locale], event: "m20_dossier_download", download: true },
-    { key: "precheck", label: c.precheck[locale], meta: c.precheckMeta[locale], href: "#precheck", drawer: "precheck", event: "m20_technical_check_start" },
+    { key: "precheck", label: precheckCopy.title[locale], meta: precheckCopy.meta[locale], href: "#precheck", drawer: "precheck", event: "m20_technical_check_start" },
     { key: "book", label: c.book[locale], meta: c.bookMeta[locale], href: "#book", drawer: "book", event: "m20_viewing_start" },
     { key: "cadastre", label: c.cadastre[locale], meta: c.cadastreMeta[locale].replace("{n}", number), href: eCadastruPortal, event: "m20_ecadastru_open", external: true },
     { key: "share", label: c.share[locale], meta: c.shareMeta[locale], href: "#share", drawer: "share" },
@@ -216,7 +217,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      <LgDrawer id="precheck" title={c.precheck[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
+      <LgDrawer id="precheck" title={precheckCopy.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
         <PreCheck locale={locale} />
       </LgDrawer>
       <LgDrawer id="book" title={c.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>

@@ -16,6 +16,8 @@ const productionStubs = {
   // Digital Leasing Toolkit (OWNER 2026-11-11): the pre-check and viewing-request forms follow the same rule
   "@/components/leasing-toolkit/pre-check-form": "./src/editions/production/pre-check-form.tsx",
   "@/components/leasing-toolkit/viewing-request": "./src/editions/production/viewing-request.tsx",
+  // OWNER «PRODUCTION CONSISTENCY HOTFIX» (2026-11-12): the wording that describes the pre-check — production has no form, so it says «direct contact»
+  "@/components/leasing-toolkit/precheck-copy": "./src/editions/production/precheck-copy.ts",
 };
 
 const nextConfig: NextConfig = {

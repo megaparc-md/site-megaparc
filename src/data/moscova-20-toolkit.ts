@@ -21,7 +21,7 @@ export const m20Toolkit = {
   dossier: {
     version: "M20-LP-2026-11",
     /** displayed as «Обновлено: DD.MM.YYYY» */
-    updated: "11.11.2026",
+    updated: "12.11.2026",
     pages: 10,
     file: {
       ro: publicAsset("/assets/leasing/moscova-20/dossier/moscova-20-leasing-dossier-ro.pdf"),
@@ -52,8 +52,7 @@ export const toolkitCopy = {
     plansMeta: { ro: "parter · demisol · plan oficial PDF", ru: "1‑й этаж · цоколь · официальный план PDF", en: "ground · lower ground · official plan PDF" },
     dossier: { ro: "Descarcă dosarul obiectului", ru: "Скачать досье объекта", en: "Download property dossier" },
     dossierMeta: { ro: "PDF · {pages} pagini · {version}", ru: "PDF · {pages} страниц · {version}", en: "PDF · {pages} pages · {version}" },
-    precheck: { ro: "Verificarea tehnică a conceptului", ru: "Техническая проверка концепции", en: "Technical concept check" },
-    precheckMeta: { ro: "8 întrebări scurte · analizează directorul tehnic și arhitectul", ru: "8 коротких вопросов · разбирают технический директор и архитектор", en: "8 short questions · reviewed by the Technical Director and the Architect" },
+    // the technical pre-check labels live in @/components/leasing-toolkit/precheck-copy (edition-aware: the production edition has no form)
     book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
     bookMeta: { ro: "cerere de vizionare · ziua și intervalul preferat", ru: "запрос на просмотр · удобный день и время", en: "a viewing request · your preferred day and time window" },
     cadastre: { ro: "Deschide e‑Cadastru", ru: "Открыть e‑Cadastru", en: "Open e-Cadastru" },
@@ -109,9 +108,6 @@ export const toolkitCopy = {
     plans: { ro: "Planuri", ru: "Планы", en: "Plans" },
     dossier: { ro: "Dosar", ru: "Досье", en: "Dossier" },
     book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
-  },
-  economics: {
-    precheck: { ro: "Solicită verificarea tehnică", ru: "Запросить техническую проверку", en: "Request the technical check" },
   },
   // OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE» (2026-11-11): the service block on the property page — one primary action
   // (the Leasing Pack), two secondary (the PDF presentation, the plans), one utility (the QR in a compact drawer)
