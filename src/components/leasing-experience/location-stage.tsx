@@ -16,7 +16,7 @@ import { Icon } from "@/components/ui";
  * the map. WAI-ARIA tabs (vertical); visuals and details are rendered on the server.
  */
 
-export type ExplorerOption = { key: string; label: string; title: string; visual: string; cat?: string; detail?: ReactNode };
+export type ExplorerOption = { key: string; label: string; title: string; visual: string; cat?: string; detail?: ReactNode; /** the option's own layer control (OWNER R4: the transport map) — replaces the map filters for this option */ layers?: { key: string; label: string }[] };
 export type ExplorerCopy = { question: string; hint: string; now: string; active: string };
 
 export function LocationExplorer({ options, visuals, filters, label, filterLabel, copy }: { options: ExplorerOption[]; visuals: { key: string; node: ReactNode }[]; filters: { key: string; label: string }[]; label: string; filterLabel: string; copy?: ExplorerCopy }) {
@@ -24,7 +24,8 @@ export function LocationExplorer({ options, visuals, filters, label, filterLabel
   const [filter, setFilter] = useState<string | null>(null);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const option = options[active];
-  const cat = option.cat ?? (option.visual === "map" ? filter : null);
+  const layers = option.layers ?? (option.visual === "map" && !option.cat ? filters : []);
+  const cat = option.cat ?? (layers.length ? filter : null);
 
   const select = (index: number, focus = false) => {
     setActive(index);
@@ -96,10 +97,10 @@ export function LocationExplorer({ options, visuals, filters, label, filterLabel
       <div className="lg-explorer__detail" role="tabpanel" id="lg-explore-panel" aria-labelledby={`lg-explore-${option.key}`}>
         <p className="lg-explorer__lead"><span className="lg-explorer__lead-no">{String(active + 1).padStart(2, "0")}</span>{option.title}</p>
         {option.detail}
-        {option.visual === "map" && !option.cat && filters.length ? (
+        {layers.length ? (
           <div className="lg-stage__filters" role="group" aria-label={filterLabel}>
             <span className="lg-stage__filters-label">{filterLabel}</span>
-            {filters.map((item) => (
+            {layers.map((item) => (
               <button key={item.key} type="button" className={`lg-stage__filter is-${item.key}${filter === item.key ? " is-on" : ""}`} aria-pressed={filter === item.key} onClick={() => setFilter(filter === item.key ? null : item.key)}>
                 <i aria-hidden="true" />
                 {item.label}

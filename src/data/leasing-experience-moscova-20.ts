@@ -159,14 +159,119 @@ export const moscova20Experience: LeasingExperience = {
     visibilityTab: T("Cum se vede obiectul", "Как виден объект", "How it is seen"),
     visibility: {
       photo: "context",
-      caption: T("Fotografie aeriană reală; sunt marcate doar elementele confirmate.", "Реальное аэрофото; отмечены только подтверждённые элементы.", "A real aerial photograph; only confirmed elements are marked."),
+      caption: T("Fotografie aeriană reală. Conturul indică vizual spațiul în cadru — nu este o limită cadastrală.", "Реальное аэрофото. Контур показывает помещение в кадре и не является кадастровой границей.", "A real aerial photograph. The outline shows the premises in the frame — it is not a cadastral boundary."),
+      // OWNER «LOCATION VISUAL INTELLIGENCE R4» §01 (2026-11-12): architectural annotation. `shape` — object: the volume of the premises in the
+      // perspective of the photograph (a visual indication, never a cadastral boundary); the other marks: a thin guide. `at` — the small number.
       marks: [
-        { key: "object", kind: "object", label: T("Moscova 20", "Moscova 20", "Moscova 20"), shape: [[432, 372], [468, 350], [806, 416], [801, 548], [592, 506], [432, 428]], at: [520, 318], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "glazing", kind: "glazing", label: T("Vitrina spre bulevard", "Витрина к бульвару", "Shop window to the boulevard"), shape: [[596, 508], [792, 550]], at: [480, 470], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "entrance", kind: "entrance", label: T("Intrarea clienților: scări și rampă", "Вход для клиентов: лестница и пандус", "Customer entrance: steps and a ramp"), shape: [[742, 640], [748, 566]], at: [790, 610], evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §7 · ${PHOTO}` },
-        { key: "pavement", kind: "pavement", label: T("Trotuarul bulevardului — accesul pietonal", "Тротуар бульвара — пешеходный подход", "The boulevard pavement — pedestrian approach"), shape: [[318, 500], [1000, 706]], at: [905, 742], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "road", kind: "road", label: T("Bulevardul Moscova · circulație în ambele sensuri", "Бульвар Москова · движение в обе стороны", "Moscova Boulevard · traffic both ways"), shape: [[70, 712], [640, 948]], at: [150, 805], evidence: "DOCUMENT_CONFIRMED", source: `${PHOTO} · OSM: Bulevardul Moscova, primary, 6 lanes (docs/research)` },
+        { key: "object", kind: "object", label: T("Moscova 20", "Moscova 20", "Moscova 20"), shape: [[432, 386], [466, 353], [806, 414], [797, 494], [792, 549], [598, 503], [432, 430]], at: [556, 392], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "glazing", kind: "glazing", label: T("Vitrine spre bulevard", "Витрины на бульвар", "Shopfronts to the boulevard"), shape: [[604, 506], [786, 549]], at: [694, 470], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "entrance", kind: "entrance", label: T("Intrarea clienților: scări și rampă", "Клиентский вход: лестница и пандус", "Customer entrance: steps and a ramp"), shape: [[846, 598], [782, 560]], at: [846, 598], evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §7 · ${PHOTO}` },
+        { key: "pavement", kind: "pavement", label: T("Acces pietonal dinspre trotuar", "Пешеходный подход со стороны тротуара", "Pedestrian approach from the pavement"), shape: [[250, 486], [560, 568], [990, 690]], at: [936, 676], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "road", kind: "road", label: T("Bulevardul Moscova — circulație în ambele sensuri", "Бульвар Москова — движение в двух направлениях", "Moscova Boulevard — traffic in both directions"), shape: [[96, 706], [610, 922]], at: [232, 764], evidence: "DOCUMENT_CONFIRMED", source: `${PHOTO} · OSM: Bulevardul Moscova, primary, 6 lanes (docs/research)` },
       ],
+    },
+    // OWNER «LOCATION VISUAL INTELLIGENCE R4» §02–§03 (2026-11-12): the transport map and «От остановки — к вашему бизнесу.».
+    // Distances and times are read from the generated research layer by stop key (never typed here). Routes: only those confirmed by
+    // at least two independent sources — trolleybus 10 (OSM · the RTEC feed · Map.md), buses 19 · 26 · 28 · 47 · 48 (OSM · the operator's
+    // stop lists · Map.md) and 37 · 52 (the operator's stop lists · Map.md). Not listed: trolleybus 11 and bus 112 (OSM only — absent from
+    // the operators' current lists), minibuses 162 · 186 (one source). Record: docs/research/MOSCOVA_20_TRANSPORT_R4.md.
+    transit: {
+      title: T("De la stație — la afacerea dumneavoastră.", "От остановки — к вашему бизнесу.", "From the stop — to your business."),
+      stops: {
+        "matei-basarab-near": T("str. Matei Basarab", "ул. Матей Басараб", "Matei Basarab St"),
+        "matei-basarab-far": T("str. Matei Basarab", "ул. Матей Басараб", "Matei Basarab St"),
+        "studentilor-near": T("str. Studenților", "ул. Студенцилор", "Studenților St"),
+        "studentilor-far": T("str. Studenților", "ул. Студенцилор", "Studenților St"),
+      },
+      labels: {
+        nearest: T("Cea mai apropiată stație", "Ближайшая остановка", "Nearest stop"),
+        nearestNote: T("Pe aceeași parte a bulevardului — fără traversarea carosabilului. Direcția: spre str. Studenților.", "На той же стороне бульвара — без перехода проезжей части. Направление — к ул. Студенцилор.", "On the same side of the boulevard — no carriageway to cross. Direction: towards Studenților St."),
+        walk: T("Pe jos până la intrare", "Пешком до входа", "On foot to the entrance"),
+        routes: T("Rute", "Маршруты", "Routes"),
+        access: T("Acces", "Вход", "Access"),
+        accessValue: T("Direct de pe bulevard: scări și rampă.", "Прямо с бульвара: лестница и пандус.", "Straight from the boulevard: steps and a ramp."),
+      },
+      walkValue: T("≈ {m} m · circa {min} minute", "≈ {m} м · около {min} минут", "≈ {m} m · about {min} minutes"),
+      walkShort: T("≈ {m} m · {min} min", "≈ {m} м · {min} мин", "≈ {m} m · {min} min"),
+      routes: [
+        { mode: "trolleybus", label: T("Troleibuz", "Троллейбус", "Trolleybus"), refs: ["10"] },
+        { mode: "bus", label: T("Autobuze", "Автобусы", "Buses"), refs: ["19", "26", "28", "37", "47", "48", "52"] },
+      ],
+      opposite: T("Direcția opusă — stația de peste bulevard: ≈ {m} m, prin trecerea semaforizată.", "Обратное направление — остановка через бульвар: ≈ {m} м по регулируемому переходу.", "The opposite direction — the stop across the boulevard: ≈ {m} m via the signalled crossing."),
+      streets: [
+        { key: "moscova", label: T("bd. Moscova", "бул. Москова", "Moscova Blvd"), x: 4, y: -106, angle: -75 },
+        { key: "matei-basarab", label: T("str. Matei Basarab", "ул. Матей Басараб", "Matei Basarab St"), x: 150, y: 211, angle: 15, tall: { x: 86, y: 193.5 } },
+      ],
+      legend: {
+        premises: T("Moscova 20 · intrarea clienților", "Moscova 20 · клиентский вход", "Moscova 20 · customer entrance"),
+        nearest: T("Cea mai apropiată stație", "Ближайшая остановка", "Nearest stop"),
+        other: T("Alte stații", "Другие остановки", "Other stops"),
+        walk: T("Traseu pietonal de la intrare", "Пешеходный маршрут от входа", "Walking route from the entrance"),
+        crossing: T("Trecere de pietoni", "Пешеходный переход", "Pedestrian crossing"),
+        ring: T("≈ 250 m în linie dreaptă de la intrare", "≈ 250 м по прямой от входа", "≈ 250 m in a straight line from the entrance"),
+      },
+      layers: { stops: T("Stații", "Остановки", "Stops"), walk: T("Trasee pietonale", "Пешеходные маршруты", "Walking routes"), crossings: T("Treceri", "Переходы", "Crossings") },
+      note: T(
+        "Distanțele — de la intrarea clienților, pe rețeaua pietonală OpenStreetMap; precizie ≈ ± 15 m. Timpul — la circa 80 m pe minut. Rutele — conform datelor operatorilor și ale hărților publice la 12.11.2026; orarul și traseele se pot modifica.",
+        "Расстояния — от клиентского входа по пешеходной сети OpenStreetMap; точность ≈ ± 15 м. Время — при скорости около 80 м в минуту. Маршруты — по данным перевозчиков и открытых карт на 12.11.2026; расписание и трассы могут меняться.",
+        "Distances — from the customer entrance along the OpenStreetMap pedestrian network; accuracy ≈ ± 15 m. Time — at about 80 m per minute. Routes — per the operators' data and public maps as of 12 Nov 2026; timetables and itineraries may change.",
+      ),
+      aria: T("Harta transportului public lângă Moscova 20: stațiile de pe bulevard și traseul pietonal de la intrare.", "Карта общественного транспорта у Moscova 20: остановки на бульваре и пешеходный маршрут от входа.", "Public transport map at Moscova 20: the stops on the boulevard and the walking route from the entrance."),
+      evidence: "DOCUMENT_CONFIRMED",
+      source: "docs/research/MOSCOVA_20_TRANSPORT_R4.md — OSM (Overpass, 2026-11-12) · OSRM foot · autourban.md stop lists · RTEC feed (Transit) · Map.md route pages",
+    },
+    // OWNER addendum «RÎȘCANI DEVELOPMENT RESEARCH» (2026-11-12): the district-growth layer. Facts as verified in
+    // docs/research/RISCANI_DEVELOPMENT_2026.md — the draft zonal plan (PUZ, object 3676) for the block Matei Basarab – Florilor –
+    // Studenților – bd. Moscova: consultation version of 12.01.2024 (the Rîșcani district office), state register entry nr. 332 with
+    // the general endorsement nr. 313 of 15.07.2025. NO Municipal Council decision was found — never worded as «approved».
+    // Only projects verified in the research record are shown; a project the research could not confirm is never drawn or named.
+    growth: {
+      tab: T("Dezvoltare", "Развитие", "Growth"),
+      kicker: T("Dezvoltarea cartierului", "Развитие района", "District growth"),
+      title: T("Zona se dezvoltă. Oportunitățile cresc.", "Район развивается. Возможности растут.", "The district is growing. So are the opportunities."),
+      lead: T(
+        "Vizavi de Moscova 20, peste bulevard, se află teritoriul fostei uzine „Mezon”. Pentru cartier a fost elaborat un plan urbanistic zonal: locuințe, comerț și birouri, o școală‑grădiniță.",
+        "Напротив Moscova 20, через бульвар, — территория бывшего завода «Мезон». Для квартала разработан зональный градостроительный план: жильё, торговля и офисы, школа‑детский сад.",
+        "Across the boulevard from Moscova 20 lies the site of the former Mezon plant. A zonal urban plan has been drawn up for the block: housing, retail and offices, a school‑kindergarten.",
+      ),
+      facts: [
+        { key: "plot", value: T("≈ 12,6 ha", "≈ 12,6 га", "≈ 12.6 ha"), label: T("terenul uzinei, bd. Moscova 21", "участок завода, бул. Москова, 21", "the plant's plot, 21 Moscova Blvd") },
+        { key: "homes", value: T("≈ 2 670", "≈ 2 670", "≈ 2,670"), label: T("apartamente în proiectul planului", "квартир в проекте плана", "apartments in the draft plan") },
+        { key: "people", value: T("≈ 8 000", "≈ 8 000", "≈ 8,000"), label: T("locuitori în proiectul planului", "жителей в проекте плана", "residents in the draft plan") },
+      ],
+      zone: {
+        path: "M344.3 481.8L353.9 445.7L355.7 438.9L352.9 437.9L351.7 438.8L348.9 439.5L343.5 437.9L343.2 438.7L331.9 435.3L333.1 431.3L327.2 429.3L334.1 407.2L337.9 408.1L341.7 405.1L346.3 398.5L348.5 391.4L366.6 397.4L373.9 369L417.7 380.5L417.9 379.6L421 380.4L420.8 381.5L462.5 392L462.4 392.6L479.8 397L472.1 427L470.9 427L470 427.4L469.7 427.9L458.7 470.9L456.9 478.3L445.6 522.5L450.7 523.8L450.4 524.6L450.3 525.4L450.3 526.2L452.6 527L450.5 535.6L437.5 532.2L436.9 534.7L435.6 534.4L434.5 535L427.8 533.8L426.5 530.9L427.5 526.6L422.1 525.1L421.8 526.4L416.5 525.2L410.6 547.7L410.4 548.3L332.2 527.8L332.6 526.6Z",
+        source: "OSM relation 13909134 (landuse, bd. Moscova 21) — an outline of the plot, ≈ 13,4 ha as mapped; the PUZ states 12,604 ha (cad. 0100413226)",
+      },
+      projects: [
+        { key: "mezon", status: "planned", name: T("Teritoriul uzinei „Mezon”", "Территория завода «Мезон»", "The Mezon plant site"), text: T("Plan urbanistic zonal: locuințe, comerț, birouri, școală‑grădiniță. La ≈ 130 m de Moscova 20, peste bulevard.", "Зональный план: жильё, торговля, офисы, школа‑детский сад. ≈ 130 м от Moscova 20, через бульвар.", "Zonal plan: housing, retail, offices, a school‑kindergarten. ≈ 130 m from Moscova 20, across the boulevard."), lat: 47.0577, lon: 28.8633, at: [403, 464], evidence: "DOCUMENT_CONFIRMED", source: "PUZ obj. 3676, Vol. I / III (rascani.md, 12.01.2024) · register oatucl.md nr. 332, aviz general nr. 313 of 15.07.2025" },
+        { key: "florilor-residence", status: "built", name: T("Florilor Residence", "Florilor Residence", "Florilor Residence"), text: T("Complex locativ: 5 blocuri, 484 de apartamente, 2018. ≈ 450 m spre vest.", "Жилой комплекс: 5 домов, 484 квартиры, 2018 год. ≈ 450 м к западу.", "Residential complex: 5 buildings, 484 apartments, 2018. ≈ 450 m to the west."), lat: 47.058, lon: 28.8611, evidence: "APPROXIMATE", source: "accesimobil.md (Horus · Florilor Residence, id81) — reported by a listing portal" },
+        { key: "basarab-residence", status: "built", name: T("Basarab Residence", "Basarab Residence", "Basarab Residence"), text: T("Complex locativ cu spații comerciale la parter, dat în exploatare. ≈ 470 m spre vest.", "Жилой комплекс с коммерческими помещениями на первых этажах, сдан в эксплуатацию. ≈ 470 м к западу.", "Residential complex with ground-floor commercial units, commissioned. ≈ 470 m to the west."), lat: 47.0568, lon: 28.8606, evidence: "APPROXIMATE", source: "horus.md/proiecte («Dat în exploatare») · OSM relation 13909133" },
+        { key: "utm-campus", status: "announced", name: T("Campusul Universității Tehnice", "Кампус Технического университета", "Technical University campus"), text: T("Renovarea energetică a căminelor studențești, anunțată la 26.11.2025. ≈ 420 m spre nord.", "Энергетическая реновация студенческих общежитий, объявлена 26.11.2025. ≈ 420 м к северу.", "Energy renovation of the student dormitories, announced on 26 Nov 2025. ≈ 420 m to the north."), lat: 47.0604, lon: 28.8649, evidence: "APPROXIMATE", source: "utm.md/?p=192741 (INSPIREE, 26.11.2025)" },
+      ],
+      status: {
+        planned: T("în planificare", "в планах", "planned"),
+        built: T("construit", "построено", "built"),
+        announced: T("anunțat", "объявлено", "announced"),
+      },
+      stateLabel: T("Stadiul planului.", "Статус плана.", "Status of the plan."),
+      state: T(
+        "Proiectul a trecut consultările publice (05.02.2024) și a primit avizul general al autorității de stat (15.07.2025). Decizia Consiliului Municipal, dezvoltatorul și termenele nu au fost publicate.",
+        "Проект прошёл общественные консультации (05.02.2024) и получил общее заключение государственного органа (15.07.2025). Решение Муниципального совета, застройщик и сроки не опубликованы.",
+        "The draft passed public consultation (5 Feb 2024) and received the state authority's general endorsement (15 Jul 2025). A Municipal Council decision, a developer and a timetable have not been published.",
+      ),
+      balanceLabel: T("Ce înseamnă pentru chiriaș.", "Что это значит для арендатора.", "What it means for a tenant."),
+      balance: T(
+        "Mai mulți locuitori în apropiere — mai multă cerere zilnică. Spații comerciale noi — mai multă concurență. Luăm în calcul ambii factori când discutăm formatul dumneavoastră.",
+        "Больше жителей рядом — больше повседневного спроса. Новые торговые площади — больше конкуренции. Оба фактора учитываем при обсуждении вашего формата.",
+        "More residents nearby mean more everyday demand. New retail space means more competition. We weigh both when we discuss your format.",
+      ),
+      note: T(
+        "Indicatorii provin din proiectul planului (redacția din ianuarie 2024) și se pot modifica. Surse: proiectul planului pe site-ul Preturii Rîșcani, registrul de stat al documentației de urbanism, site-urile dezvoltatorilor și al universității. Harta — © OpenStreetMap.",
+        "Показатели — из проекта плана (редакция января 2024 г.) и могут измениться. Источники: проект плана на сайте претуры Рышкань, государственный реестр градостроительной документации, сайты застройщиков и университета. Карта — © OpenStreetMap.",
+        "Figures come from the draft plan (January 2024 version) and may change. Sources: the draft plan on the Rîșcani district office's site, the state register of urban-planning documentation, the developers' and the university's sites. Map — © OpenStreetMap.",
+      ),
+      aria: T("Harta proiectelor de dezvoltare din jurul Moscova 20.", "Карта проектов развития вокруг Moscova 20.", "Map of the development projects around Moscova 20."),
     },
     verdict: {
       title: T("Această locație merită verificată pentru afacerea dumneavoastră.", "Эта локация заслуживает проверки для вашего бизнеса.", "This location deserves a check for your business."),

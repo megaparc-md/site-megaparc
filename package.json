@@ -10,7 +10,8 @@
     "demo:register": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/demo-register.mjs",
     "gate:production": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/demo-register.mjs --check",
     "photo:shotlist": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/photo-shotlist.mjs",
-    "qa:menu": "node scripts/qa-mobile-menu.mjs"
+    "qa:menu": "node scripts/qa-mobile-menu.mjs",
+    "qa:location": "node scripts/qa-location-explorer.mjs"
   },
   "dependencies": {
     "next": "16.3.6",

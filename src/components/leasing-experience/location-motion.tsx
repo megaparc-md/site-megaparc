@@ -1,14 +1,17 @@
 import { accentLast } from "@/components/accent";
-import type { CSSProperties, ReactNode } from "react";
+import { AerialAnnotation, AerialLegend } from "@/components/leasing-experience/aerial-annotation";
+import type { CSSProperties } from "react";
 import { LocationExplorer, type ExplorerOption } from "@/components/leasing-experience/location-stage";
 import { decisionTitle } from "@/components/leasing-experience/decision-zone";
+import { GrowthBrief, GrowthMap } from "@/components/leasing-experience/growth-map";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { EconomicsGlyph, ownerPreview, ui } from "@/components/leasing-experience/parts";
-import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
+import { PhotoScene } from "@/components/leasing-experience/photo-scene";
+import { TransitBrief, TransportMap } from "@/components/leasing-experience/transport-map";
 import { LocationMap } from "@/components/location-section";
 import { Icon } from "@/components/ui";
 import type { ProjectEntry } from "@/content/source";
-import { T, publishable, type LeasingExperience, type Pt, type VisibilityMark } from "@/data/leasing-experience-model";
+import { T, publishable, type LeasingExperience } from "@/data/leasing-experience-model";
 import { moscova20Catchment, type CatchmentCategory } from "@/data/moscova-20-catchment";
 import { locationTraffic, toolVisible, trafficVisible, type LocationTraffic } from "@/data/tenant-intelligence";
 import { googleDirectionsUrl, googleMapsUrl } from "@/lib/assets";
@@ -98,10 +101,10 @@ const range = (low: number | null, high: number | null, locale: SiteLocale) => (
 
 /* ------------------------------------------------------------ catchment map */
 
-function CatchmentMap({ name, locale, caption }: { name: string; locale: SiteLocale; caption: string }) {
+function CatchmentMap({ name, locale, caption, transport = true }: { name: string; locale: SiteLocale; caption: string; /** false where the transport map shows the stops (OWNER R4 §02: no unnamed squares) */ transport?: boolean }) {
   const c = moscova20Catchment;
   const mid = c.size / 2;
-  const cats = Object.keys(c.pois) as CatchmentCategory[];
+  const cats = (Object.keys(c.pois) as CatchmentCategory[]).filter((cat) => transport || cat !== "transport");
   return (
     <figure className="lg-catch">
       <svg className="lg-catch__svg" viewBox="60 60 880 880" role="img" aria-label={`${name} — ${caption}`}>
@@ -197,52 +200,21 @@ function DayRhythm({ traffic, locale, narrow = false }: { traffic: LocationTraff
 
 /* ------------------------------------------------------------ the address on the aerial */
 
-function markDrawing(mark: VisibilityMark, i: number): ReactNode {
-  const [a, b] = mark.shape as [Pt, Pt];
-  const style = { "--i": i } as CSSProperties;
-  if (mark.kind === "object") return <path key={mark.key} d={pathOf(mark.shape)} className="lg-vis__object" style={style} pathLength={1} />;
-  if (mark.kind === "glazing") return <path key={mark.key} d={pathOf(mark.shape, false)} className="lg-vis__glazing" style={style} pathLength={1} />;
-  // arrows: a line with a head at the end (entrance) or at both ends (pavement, road)
-  const head = (from: Pt, to: Pt) => {
-    const ang = Math.atan2(to[1] - from[1], to[0] - from[0]);
-    const s = mark.kind === "road" ? 26 : 18;
-    const p1: Pt = [to[0] - s * Math.cos(ang - 0.45), to[1] - s * Math.sin(ang - 0.45)];
-    const p2: Pt = [to[0] - s * Math.cos(ang + 0.45), to[1] - s * Math.sin(ang + 0.45)];
-    return `M${p1[0].toFixed(1)} ${p1[1].toFixed(1)} L${to[0]} ${to[1]} L${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
-  };
-  const both = mark.kind !== "entrance";
-  return (
-    <g key={mark.key} className={`lg-vis__arrow is-${mark.kind}`} style={style}>
-      <path d={`M${a[0]} ${a[1]} L${b[0]} ${b[1]}`} pathLength={1} />
-      <path d={head(a, b)} />
-      {both ? <path d={head(b, a)} /> : null}
-    </g>
-  );
-}
-
-function AddressAerial({ x, locale, marked }: { x: LeasingExperience; locale: SiteLocale; marked: boolean }) {
+/** OWNER «LOCATION VISUAL INTELLIGENCE R4» §01: the aerial with the architectural annotation; the recommended variant is the default */
+const aerialLegend: Record<SiteLocale, string> = { ro: "Ce este marcat pe fotografie", ru: "Что отмечено на фотографии", en: "What is marked on the photograph" };
+function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name: string; locale: SiteLocale; marked: boolean }) {
   const v = x.motion.visibility;
   if (!v) return null;
   const marks = marked ? v.marks.filter((mark) => publishable(mark.evidence)) : [];
-  return (
-    <figure className="lg-vis">
-      <PhotoScene
-        photo={x.photos[v.photo]}
-        locale={locale}
-        sizes="(min-width: 1024px) 64vw, 100vw"
-        drawing={marks.map(markDrawing)}
-        labels={marks.map((mark, i) => ({ key: mark.key, no: String(i + 1), text: mark.label[locale], at: mark.at, tone: "mark" }))}
-      />
-      {marks.length ? (
-        <ol className="lg-scene__legend">
-          {marks.map((mark, i) => (
-            <li key={mark.key}><b>{i + 1}</b>{mark.label[locale]}</li>
-          ))}
-        </ol>
-      ) : null}
-      <figcaption className="lg-stage__caption">{marks.length ? v.caption[locale] : x.photos[v.photo].alt[locale]}</figcaption>
-    </figure>
-  );
+  if (!marks.length) {
+    return (
+      <figure className="lg-vis">
+        <PhotoScene photo={x.photos[v.photo]} locale={locale} sizes="(min-width: 1024px) 64vw, 100vw" drawing={null} labels={[]} />
+        <figcaption className="lg-stage__caption">{x.photos[v.photo].alt[locale]}</figcaption>
+      </figure>
+    );
+  }
+  return <AerialAnnotation photo={x.photos[v.photo]} marks={marks} name={name} caption={v.caption[locale]} locale={locale} variant="b" />;
 }
 
 /* ------------------------------------------------------------ scene */
@@ -254,6 +226,10 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
   const modelOn = trafficVisible(traffic, ownerPreview) && toolVisible(`${x.project}.location-model`, ownerPreview);
   const mapOn = toolVisible(`${x.project}.catchment-map`, ownerPreview);
   const marksOn = toolVisible(`${x.project}.visibility-study`, ownerPreview);
+  // OWNER «LOCATION VISUAL INTELLIGENCE R4» §02–§03: the transport map with the verified stops — OWNER preview until the visual approval
+  const transit = m.transit && toolVisible(`${x.project}.transport-map`, ownerPreview) ? m.transit : null;
+  // OWNER addendum «RÎȘCANI DEVELOPMENT RESEARCH»: the district-growth layer — a map of its own, OWNER preview until the facts are reviewed
+  const growth = m.growth && toolVisible(`${x.project}.district-growth`, ownerPreview) ? m.growth : null;
   const economicsOn = decision;
   const map = project.asset?.map ?? null;
 
@@ -268,7 +244,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
       : [];
 
   const mapView = mapOn ? (
-    <CatchmentMap key="map" name={project.name} locale={locale} caption={m.mapCaption[locale]} />
+    <CatchmentMap key="map" name={project.name} locale={locale} caption={m.mapCaption[locale]} transport={!transit} />
   ) : (
     <LocationMap key="map" locale={locale} mapKey={x.project} name={project.name} place={x.hero.place[locale]} className="lg-motion__osm" />
   );
@@ -319,7 +295,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
 
   const options: ExplorerOption[] = [
     // no aerial photograph (Moscova 9 · Dacia 31 · Creangă 78): the address card shows the OSM location map and the address line
-    { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <><p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
+    { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <>{v && marksOn ? <AerialLegend marks={v.marks.filter((mark) => publishable(mark.evidence))} locale={locale} label={aerialLegend[locale]} /> : null}<p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
     {
       key: "around",
       label: m.mapTab[locale],
@@ -333,7 +309,9 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
         </ul>
       ),
     },
-    ...(mapOn && transportGroup
+    ...(transit && transportGroup
+      ? [{ key: "transport", label: copy.cat.transport[locale], title: transportGroup.text[locale], visual: "transit", detail: <TransitBrief copy={transit} locale={locale} />, layers: (["stops", "walk", "crossings"] as const).map((key) => ({ key, label: transit.layers[key][locale] })) }]
+      : mapOn && transportGroup
       ? [{ key: "transport", label: copy.cat.transport[locale], title: transportGroup.text[locale], visual: "map", cat: "transport", detail: <p className="lg-explorer__text">{m.mapCaption[locale]}</p> }]
       : !mapOn && m.transport
         ? [{ key: "transport", label: copy.cat.transport[locale], title: m.transport.title[locale], visual: "map", detail: <p className="lg-explorer__text">{m.transport.text[locale]}</p> }]
@@ -341,11 +319,15 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
     ...(rhythmView && traffic
       ? [{ key: "rhythm", label: copy.option.rhythm[locale], title: `${copy.figure.peak.label[locale]} ${traffic.peakPeriod ?? ""}`.trim(), visual: "rhythm", detail: <>{traffic.trafficStatus === "MODELLED" ? null : <p className="lg-model__caption">{traffic.source}</p>}<p className="lg-model__note">{m.rhythmNote?.[locale] ?? ""}</p></> }]
       : []),
+    // appended last so the approved numbering 01–04 does not move
+    ...(growth ? [{ key: "growth", label: growth.tab[locale], title: growth.title[locale], visual: "growth", detail: <GrowthBrief copy={growth} locale={locale} /> }] : []),
   ];
   const visuals = [
-    ...(v ? [{ key: "aerial", node: <AddressAerial x={x} locale={locale} marked={marksOn} /> }] : []),
+    ...(v ? [{ key: "aerial", node: <AddressAerial x={x} name={project.name} locale={locale} marked={marksOn} /> }] : []),
     { key: "map", node: mapView },
+    ...(transit ? [{ key: "transit", node: <TransportMap copy={transit} name={project.name} locale={locale} /> }] : []),
     ...(rhythmView ? [{ key: "rhythm", node: rhythmView }] : []),
+    ...(growth ? [{ key: "growth", node: <GrowthMap copy={growth} name={project.name} locale={locale} /> }] : []),
   ];
 
   return (
@@ -368,7 +350,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
             filterLabel={copy.filters[locale]}
             options={options}
             visuals={visuals}
-            filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).map((key) => ({ key, label: copy.cat[key][locale] })) : []}
+            filters={mapOn ? (["education", "transport", "grocery", "pharmacy", "services", "roads"] as const).filter((key) => !transit || key !== "transport").map((key) => ({ key, label: copy.cat[key][locale] })) : []}
             copy={{ question: copy.explorer.question[locale], hint: copy.explorer.hint[locale], now: copy.explorer.now[locale], active: copy.explorer.active[locale] }}
           />
         </div>

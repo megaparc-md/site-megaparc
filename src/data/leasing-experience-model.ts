@@ -154,6 +154,59 @@ export type PlanLevel = { key: "ground" | "lower"; tab: Localized; label: Locali
 
 /* ---------------------------------------------------------------- page */
 
+/**
+ * TRANSPORT (OWNER «LOCATION VISUAL INTELLIGENCE R4», 2026-11-12, §02–§03) — the wording of the transport map and of the block
+ * beside it. Geometry, distances and walking times are NOT typed here: they come from the generated research layer
+ * (src/data/moscova-20-transport.ts) by stop key. Routes are listed only when confirmed by at least two independent sources
+ * (docs/research/MOSCOVA_20_TRANSPORT_R4.md); the two directions of one route count once.
+ */
+export type TransitCopy = {
+  title: Localized;
+  /** stop key → the public name of the stop */
+  stops: Record<string, Localized>;
+  labels: { nearest: Localized; nearestNote: Localized; walk: Localized; routes: Localized; access: Localized; accessValue: Localized };
+  /** «≈ {m} м · около {min} минут» */
+  walkValue: Localized;
+  /** «≈ {m} м · {min} мин» — the short form on the map */
+  walkShort: Localized;
+  routes: { mode: "trolleybus" | "bus"; label: Localized; refs: string[] }[];
+  /** the opposite direction: «… ≈ {m} м …» */
+  opposite: Localized;
+  /** the street names on the map: metres from the entrance, the angle of the street; `tall` — another anchor on the phone crop */
+  streets: { key: string; label: Localized; x: number; y: number; angle: number; tall?: { x: number; y: number } }[];
+  legend: { premises: Localized; nearest: Localized; other: Localized; walk: Localized; crossing: Localized; ring: Localized };
+  layers: { stops: Localized; walk: Localized; crossings: Localized };
+  note: Localized;
+  aria: Localized;
+  evidence: Evidence;
+  source: string;
+};
+
+/**
+ * DISTRICT GROWTH (OWNER addendum «RÎȘCANI DEVELOPMENT RESEARCH», 2026-11-12) — the projects that change the district around the
+ * property: a map layer of its own (never on the transport map) and the card beside it. Only verified facts with their status;
+ * figures of a draft plan are worded as the draft's figures. Record: docs/research/RISCANI_DEVELOPMENT_2026.md.
+ */
+export type GrowthStatus = "planned" | "built" | "announced";
+export type GrowthCopy = {
+  tab: Localized;
+  kicker: Localized;
+  title: Localized;
+  lead: Localized;
+  facts: { key: string; value: Localized; label: Localized }[];
+  /** the plan area in the units of the surroundings map (the OSM outline of the plot) */
+  zone: { path: string; source: string };
+  /** `at` — a fixed anchor in map units (the centre of an area); otherwise the point is projected from lat / lon */
+  projects: { key: string; status: GrowthStatus; name: Localized; text: Localized; lat: number; lon: number; at?: [number, number]; evidence: Evidence; source: string }[];
+  status: Record<GrowthStatus, Localized>;
+  stateLabel: Localized;
+  state: Localized;
+  balanceLabel: Localized;
+  balance: Localized;
+  note: Localized;
+  aria: Localized;
+};
+
 /** The ecosystem around the address — OWNER copy; the map category it lights up (when the catchment map is shown). */
 export type EcosystemGroup = { key: string; title: Localized; text: Localized; category: "residential" | "education" | "transport" | "services" };
 /** A mark of the visibility study on the aerial photograph — confirmed elements only (pixel space of the photo). */
@@ -212,6 +265,10 @@ export type LeasingExperience = {
     addressText?: Localized;
     /** the transport card where the catchment map is not shown (OSM stops on the location map) */
     transport?: { title: Localized; text: Localized };
+    /** the transport map with the verified stops and the block «От остановки — к вашему бизнесу.» (OWNER «LOCATION VISUAL INTELLIGENCE R4» §02–§03) */
+    transit?: TransitCopy;
+    /** the district-growth layer and the card «Район развивается. Возможности растут.» (OWNER addendum «RÎȘCANI DEVELOPMENT RESEARCH») */
+    growth?: GrowthCopy;
     verdict: { title: Localized; text: Localized };
     cta: { title: Localized; text: Localized };
   };
