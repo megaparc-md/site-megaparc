@@ -67,6 +67,11 @@ export const locationTraffic: Record<string, LocationTraffic> = {
     pedestrianLow: 1300,
     pedestrianHigh: 2300,
     peakPeriod: "16:00–19:00",
+    // OWNER OVERRIDE «LOCATION METRICS» (2026-11-12): KEEP the three figures — vehicles 18 000–26 000 / day, pedestrian movements 1 300–2 300 / day and the
+    // 16:00–19:00 period of higher activity — as preliminary marketing estimates of the location, NOT measurements; never change the values, never present
+    // them as official statistics or confirmed counts; the page carries the compact note «Оценочные показатели локации. Не являются результатами фактического
+    // подсчёта транспортного и пешеходного потока.» (RO / EN in the dataset: motion.modelCaption). No separate OWNER confirmation is needed to keep them.
+    // The 8 routes: kept exactly as worded, not strengthened — SOURCE CHECK PENDING until the transport research is finished.
     // OWNER micro-fix 2026-11-09: 8 routes — current OSM research (docs/research/MOSCOVA_20_LOCATION_RESEARCH.md), stops within a 350 m radius; a researched fact, NOT a field count and NOT a traffic estimate (replaces the model's «10+»)
     transportRoutes: "8",
     measurementDate: null,

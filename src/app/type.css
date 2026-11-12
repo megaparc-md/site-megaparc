@@ -169,3 +169,87 @@ html { font-variant-ligatures: no-common-ligatures; }
 .lg-page .lg-summary__title { font-size: clamp(1.15rem, 1.65vw, 1.7rem); }
 /* Projects: the confirmed land total stays inside its row with Manrope's wider numerals */
 .r3-land__total .r3-fig { font-size: clamp(3.2rem, 6.9vw, 7.4rem); }
+
+/* ==================================================================
+   MANROPE R3 — FINAL PREMIUM ART-DIRECTION (OWNER «APPROVED WITH
+   CORRECTIONS», 2026-11-12). Corrections only — no redesign, no
+   change of content, data or behaviour.
+   ================================================================== */
+
+/* 01 · wordmark (temporary text mark, Manrope 700): the descenders of «g» and «p» clear the red rule */
+.brand__rule { margin-top: .5rem; }
+
+/* 02 · final scene: one dominant thought; the second line is a quiet cue that leads to the action */
+.lg-page .lg-viewing__title { gap: 1.15rem; }
+.lg-page .lg-viewing__sub { color: var(--brand); font-size: clamp(1.02rem, 1.3vw, 1.25rem); font-weight: 600; line-height: 1.35; letter-spacing: -.008em; }
+@media (max-width: 719px) { .lg-page .lg-viewing__sub { font-size: 1.02rem; } }
+
+/* 03 · technical fact cards: «≈» sits on the optical axis of the digits; proportional figures keep «3,0 / 2,8» compact;
+   on the burgundy and graphite cards the figures gain weight so they read as well as on the light cards */
+.lg-pass__fact.is-card .lg-pass__figure { gap: .4rem; }
+.lg-pass__fact.is-card .lg-pass__num { font-variant-numeric: lining-nums proportional-nums; }
+.lg-pass__fact.is-card[data-fact="heights"] .lg-pass__num { font-size: clamp(1.95rem, 7.4cqi, 2.5rem); letter-spacing: -.04em; word-spacing: -.05em; }
+.lg-pass__fact.is-card .lg-pass__approx { align-self: center; margin-right: -.08rem; font-size: clamp(1.5rem, 5.6cqi, 1.9rem); font-weight: 300; line-height: 1; transform: translateY(-.04em); color: inherit; opacity: .85; }
+.lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__num { font-weight: 500; letter-spacing: -.035em; }
+.lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__unit { font-weight: 700; }
+.lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__why { color: rgba(255, 255, 255, .9); }
+@media (max-width: 519px) {
+  .lg-pass__fact.is-card[data-fact="heights"] .lg-pass__num { font-size: 1.9rem; }
+  .lg-pass__fact.is-card .lg-pass__approx { font-size: 1.5rem; }
+}
+@media (min-width: 720px) {
+  .lg-pass__fact.is-card[data-fact="heights"] .lg-pass__num { font-size: clamp(1.75rem, 3.6cqi, 2.2rem); }
+  .lg-pass__fact.is-card .lg-pass__approx { font-size: clamp(1.35rem, 2.8cqi, 1.7rem); }
+}
+
+/* 05 · location: the statement is the scene; the thesis is the second level, its explanation the third */
+.lg-motion__lead-key { color: var(--ink); font-size: clamp(1.12rem, 1.4vw, 1.32rem); font-weight: 600; line-height: 1.3; letter-spacing: -.012em; }
+.lg-motion__lead-more { margin-top: .7rem; color: var(--r3-muted); font-size: clamp(.95rem, 1.05vw, 1.02rem); font-weight: 400; line-height: 1.55; letter-spacing: 0; }
+
+/* 06 · business-format selector: inactive is quiet, active is unmistakable — weight, a selection mark, the arrow and contrast */
+.lg-lens__tab { border-color: rgba(17, 18, 22, .16); }
+.lg-lens__tab .lg-lens__tablabel { color: #3a3c42; font-weight: 500; }
+.lg-lens__tab .lg-lens__tabno { font-weight: 700; opacity: .7; }
+.lg-lens__tab .lg-lens__tabchev { border-color: rgba(17, 18, 22, .16); color: var(--r3-muted); }
+.lg-lens__tab:hover .lg-lens__tablabel { color: var(--ink); }
+.lg-lens__tab.is-active { border-color: var(--brand); }
+.lg-lens__tab.is-active::before { content: ""; position: absolute; left: 0; top: 24%; bottom: 24%; width: 3px; border-radius: 0 3px 3px 0; background: #fff; }
+.lg-lens__tab.is-active .lg-lens__tablabel { color: #fff; font-weight: 700; }
+.lg-lens__tab.is-active .lg-lens__tabno { color: #fff; opacity: 1; }
+.lg-lens__tab.is-active .lg-lens__tabchev { background: #fff; border-color: #fff; color: var(--brand); transform: scale(1.08); }
+
+/* 08 · RO: the long «dumneavoastră» heading sets in two lines on wide screens instead of three */
+@media (min-width: 900px) { .lg-ready__statement:lang(ro) { font-size: clamp(1.9rem, 2.8vw, 2.8rem); } }
+
+/* 04 · small typography — one scale instead of many ad-hoc sizes. Not a global enlargement: the quiet colour gets one step more
+   contrast, the smallest uppercase labels come up to the label size, small text loses negative tracking and gets a readable leading.
+     label    .75rem   (12 px)  · 700 · uppercase · .11em     — section eyebrows, card labels
+     micro    .72rem   (11.5 px)· 700 · uppercase · .10em     — labels inside compact tiles, ordinals
+     caption  .8125rem (13 px)  · 400 · leading 1.5 · no tracking — notes, hints, meta
+     small    .875rem  (14 px)  · 400 · leading 1.5           — card explanations                                              */
+.lg-page, .lp-page { --muted: #50545b; --r3-muted: #50545b; --type-label: .75rem; --type-micro: .72rem; --type-caption: .8125rem; --type-small: .875rem; }
+
+/* tracking and weight: small text is never light and never tightened */
+.lg-kpi__unit { font-weight: 600; letter-spacing: 0; }
+.lg-kpi__figure em { font-weight: 400; letter-spacing: 0; font-size: var(--type-caption); }
+.lg-lens__hint, .lg-explorer__hint { letter-spacing: 0; }
+
+/* leading of small paragraphs */
+:is(.lg-lens__cardtext, .lg-summary__text, .lg-action__meta, .lg-pass__why, .lg-story__text, .lg-explorer__text, .lg-pass__cardtext, .lg-capex__lead) { line-height: 1.5; }
+:is(.lg-portal__word, .lg-kpi__sub, .lt-dossier__row-meta, .lg-lens__cardtitle) { line-height: 1.4; }
+:is(.lg-drawing__note, .lg-drawing__hint, .lt-dossier__row-meta, .xp-form__note, .lg-pass__caption, .lg-calc__hint, .lg-model__note, .lg-model__caption, .lg-plans__note, .lg-calc__days, .lp-needs__hint) { font-size: var(--type-caption); line-height: 1.5; letter-spacing: 0; }
+
+@media (max-width: 719px) {
+  /* labels: nothing below the micro size on a phone */
+  .lg-page :is(.pm-kicker, .lg-label, .lg-card__label, .lg-hero__place, .lt-dossier__label, .lg-lens__note, .lg-teaser__kicker, .lg-story__label, .lg-drawing__title) { font-size: var(--type-label); letter-spacing: .11em; line-height: 1.4; }
+  .lg-page :is(.lg-capex__label, .lg-kpi__head, .lg-model__figs dt, .lg-explorer__status-key, .lg-explorer__name, .lg-lens__see, .lg-lens__tabno, .lg-explorer__no, .lg-pass__cardlabel, .lg-card__no) { font-size: var(--type-micro); letter-spacing: .1em; }
+  .lg-page .lg-pass__fact.is-card .lg-pass__label { font-size: var(--type-micro); letter-spacing: .12em; }
+  /* explanations inside cards */
+  .lg-page :is(.lg-summary__text, .lg-lens__cardtext, .lg-action__meta, .lg-pass__why, .lg-kpi__sub) { font-size: var(--type-small); }
+}
+@media (max-width: 719px) {
+  .lg-page :is(.lg-planview__fixed dt, .lg-figs dt, .lg-steps dt, .lg-explorer__lead-no) { font-size: var(--type-micro); letter-spacing: .1em; }
+}
+
+/* 09 · OWNER OVERRIDE «LOCATION METRICS»: the note that the figures are estimates sits with the figures, with air around it */
+.lg-model > .lg-model__caption { margin: 1.1rem 0 .3rem; max-width: 46rem; }

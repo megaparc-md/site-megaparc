@@ -32,7 +32,7 @@ export const moscova9Experience: LeasingExperience = {
     place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
     // short, like the master «предлагается в аренду» (the 1st-floor area on request is said by the support line, the summary and the plans)
     offer: T("suprafața clădirii, conform registrului", "площадь здания по реестру", "registered building area"),
-    support: T("O clădire independentă pe prima linie a bulevardului — etajul 1 se eliberează la 1 ianuarie 2027.", "Отдельное здание на первой линии бульвара — 1-й этаж освобождается 1 января 2027.", "A stand-alone building directly on the boulevard — the 1st floor frees up on 1 January 2027."),
+    support: T("O clădire independentă pe prima linie a bulevardului — se eliberează etajul 1.", "Отдельное здание на первой линии бульвара — освобождается 1-й этаж.", "A stand-alone building directly on the boulevard — the 1st floor is becoming available."),
   },
   cta: {
     primary: T("Anunțați interesul din timp", "Заявить интерес заранее", "Register interest early"),

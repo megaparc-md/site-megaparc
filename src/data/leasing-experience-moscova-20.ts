@@ -150,7 +150,7 @@ export const moscova20Experience: LeasingExperience = {
       { key: "services", category: "services", title: T("Servicii zilnice", "Ежедневные сервисы", "Everyday services"), text: T("Alimentarele, farmaciile, serviciile și magazinele formează deja obiceiul de a veni în cartier.", "Продукты, аптеки, услуги и торговые точки уже формируют привычку посещения района.", "Groceries, pharmacies, services and shops already make the district a daily habit.") },
     ],
     modelTitle: T("Analiză preliminară a locației · scenariu modelat", "Предварительный анализ локации · моделируемый сценарий", "Preliminary location analysis · modelled scenario"),
-    modelCaption: T("Model preliminar MEGAPARC · indicatorii necesită confirmare prin numărătoare pe teren.", "Предварительная модель MEGAPARC · показатели требуют подтверждения полевым замером.", "Preliminary MEGAPARC model · the figures require confirmation by a field count."),
+    modelCaption: T("Indicatori estimativi ai locației. Nu reprezintă rezultatele unor măsurători efective ale traficului auto și pietonal.", "Оценочные показатели локации. Не являются результатами фактического подсчёта транспортного и пешеходного потока.", "Estimated location indicators. Not based on direct vehicle or pedestrian traffic counts."),
     rhythmTitle: T("Cum trăiește locația", "Как живёт локация", "How the location lives"),
     rhythmNote: T("Ritmul zilei după model: dimineața — constant, ziua — mediu, seara — vârf. Fără valori exacte până la numărătoare.", "Ритм дня по модели: утром — устойчиво, днём — средне, вечером — пик. Без точных значений до замера.", "The day's rhythm in the model: steady in the morning, medium in the day, a peak in the evening. No exact values before the count."),
     mapTab: T("Împrejurimi", "Окружение", "Surroundings"),
@@ -471,7 +471,7 @@ export const moscova20Experience: LeasingExperience = {
   // base infrastructure; the tenant invests in its own format, not in starting the property from zero. PROPERTY BASE (what
   // the premises provide) and TENANT FIT-OUT (what depends on the concept) never mix; never turnkey, never «no further cost».
   capex: {
-    kicker: T("Infrastructura de bază este pregătită", "Базовая инфраструктура уже готова", "The base infrastructure is in place"),
+    kicker: T("Pregătirea spațiului", "Готовность помещения", "Readiness of the premises"),
     title: T("Investiți în afacerea dumneavoastră,\nnu în pregătirea spațiului.", "Вкладывайте в свой бизнес,\nа не в подготовку помещения.", "Invest in your business,\nnot in preparing the premises."),
     lead: T("Sistemele inginerești principale și infrastructura de bază sunt deja prevăzute. Vă rămâne să adaptați spațiul la formatul afacerii, să instalați echipamentele și mobilierul și să amenajați interiorul.", "Основные инженерные системы и базовая инфраструктура уже предусмотрены. Вам остаётся адаптировать пространство под формат бизнеса, установить оборудование, мебель и оформить интерьер.", "The main building systems and the base infrastructure are already in place. What remains is to adapt the space to your business format, install equipment and furniture, and fit out the interior."),
     photo: "intLowerDepth",

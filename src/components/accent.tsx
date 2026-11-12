@@ -1,6 +1,6 @@
 /**
  * LIGHT STATEMENT + STRONG ACCENT (OWNER «TYPOGRAPHY ALIGNMENT WITH FINMENTOR», 2026-11-12): a display statement is set in
- * Manrope 300 and its closing word(s) in Manrope 700 — «Базовая инфраструктура уже **готова.**», «Адрес — часть **бизнес‑модели.**».
+ * Manrope 300 and its closing word(s) in Manrope 700 — «Основа для вашего бизнеса уже **создана.**», «Адрес — часть **бизнес‑модели.**».
  * Presentation only: the text is the approved copy, unchanged; the accent is the last `words` word(s) (a no-break space keeps a
  * short preposition with its word, so the accent never starts with a hanging particle).
  */

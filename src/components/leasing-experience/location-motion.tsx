@@ -68,7 +68,8 @@ const copy = {
     pedestrians: { label: { ro: "Pietoni", ru: "Пешеходы", en: "Pedestrians" }, unit: { ro: "deplasări / zi", ru: "перемещений / сутки", en: "movements / day" } },
     // a researched OSM fact, not a model figure (OWNER micro-fix 2026-11-09)
     transit: { label: { ro: "Transport public", ru: "Общественный транспорт", en: "Public transport" }, unit: { ro: "rute conform datelor actuale OpenStreetMap", ru: "маршрутов по текущим данным OpenStreetMap", en: "routes per current OpenStreetMap data" } },
-    peak: { label: { ro: "Vârf", ru: "Пик", en: "Peak" }, unit: { ro: "seara", ru: "вечером", en: "in the evening" } },
+    // OWNER OVERRIDE «LOCATION METRICS» (2026-11-12): 16:00–19:00 is an estimated period of higher activity, not a measured peak
+    peak: { label: { ro: "Vârf", ru: "Пик", en: "Peak" }, unit: { ro: "perioadă estimată de activitate sporită", ru: "оценочный период повышенной активности", en: "estimated period of higher activity" } },
   },
   status: {
     MODELLED: { ro: "Analiză preliminară a locației · scenariu modelat", ru: "Предварительный анализ локации · моделируемый сценарий", en: "Preliminary location analysis · modelled scenario" },
@@ -304,6 +305,8 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
             </div>
           ))}
         </dl>
+        {/* OWNER OVERRIDE «LOCATION METRICS» (2026-11-12): the compact note travels with the figures — estimates, never counts */}
+        {traffic.trafficStatus === "MODELLED" && m.modelCaption ? <p className="lg-model__caption">{m.modelCaption[locale]}</p> : null}
         <ul className="lg-rhythm__legend">
           {(["auto", "pedestrian", "transit"] as const).map((key) => (
             <li key={key} className={`is-${key}`}><i aria-hidden="true" />{copy.series[key][locale]}</li>
@@ -336,7 +339,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
         ? [{ key: "transport", label: copy.cat.transport[locale], title: m.transport.title[locale], visual: "map", detail: <p className="lg-explorer__text">{m.transport.text[locale]}</p> }]
         : []),
     ...(rhythmView && traffic
-      ? [{ key: "rhythm", label: copy.option.rhythm[locale], title: `${copy.figure.peak.label[locale]} ${traffic.peakPeriod ?? ""}`.trim(), visual: "rhythm", detail: <><p className="lg-model__caption">{traffic.trafficStatus === "MODELLED" ? m.modelCaption?.[locale] ?? "" : traffic.source}</p><p className="lg-model__note">{m.rhythmNote?.[locale] ?? ""}</p></> }]
+      ? [{ key: "rhythm", label: copy.option.rhythm[locale], title: `${copy.figure.peak.label[locale]} ${traffic.peakPeriod ?? ""}`.trim(), visual: "rhythm", detail: <>{traffic.trafficStatus === "MODELLED" ? null : <p className="lg-model__caption">{traffic.source}</p>}<p className="lg-model__note">{m.rhythmNote?.[locale] ?? ""}</p></> }]
       : []),
   ];
   const visuals = [
