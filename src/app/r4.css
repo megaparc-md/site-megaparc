@@ -39,7 +39,7 @@
 
 /* ---- HOME 05 · leasing — available now leads; upcoming follows; a fully let building is a quiet line ---- */
 .r4-lease__group + .r4-lease__group { margin-top: clamp(2.4rem, 4.5vw, 3.6rem); }
-.r4-lease__when { display: flex; align-items: baseline; gap: .8rem; margin: 0 0 .6rem; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.3rem, 1.9vw, 1.8rem); font-weight: 350; line-height: 1.1; letter-spacing: -.012em; }
+.r4-lease__when { display: flex; align-items: baseline; gap: .8rem; margin: 0 0 .6rem; color: var(--r3-ink); font-family: var(--font); font-size: clamp(1.3rem, 1.9vw, 1.8rem); font-weight: 350; line-height: 1.1; letter-spacing: -.012em; }
 .r4-lease__when.is-now::before { content: ""; flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: var(--r3-red); transform: translateY(-.1em); }
 .r4-lease__when small { color: var(--r3-muted); font-family: var(--font); font-size: .9rem; font-weight: 400; letter-spacing: 0; }
 .r4-lease__full { margin: 1.8rem 0 0; color: var(--r3-muted); font-size: .95rem; line-height: 1.5; }
@@ -53,7 +53,7 @@
 .site .r4-iopen__title { margin: 0; max-width: 12ch; font-size: clamp(3rem, 8.4vw, 10rem); font-weight: 300; line-height: .94; letter-spacing: -.03em; }
 .r4-iopen__title .xp-mask__line { display: block; }
 .r4-iopen__base { display: grid; gap: 1.6rem; margin-top: clamp(2.2rem, 4vw, 3.6rem); padding-top: 1.6rem; border-top: 1px solid var(--r3-hair-strong); }
-.r4-iopen__thesis { margin: 0; max-width: 30ch; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.35rem, 2.1vw, 2.1rem); font-weight: 350; line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; }
+.r4-iopen__thesis { margin: 0; max-width: 30ch; color: var(--r3-ink); font-family: var(--font); font-size: clamp(1.35rem, 2.1vw, 2.1rem); font-weight: 350; line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; }
 .r4-iopen__base .r3-actions { margin: 0; }
 @media (min-width: 1024px) {
   .r4-iopen__base { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; column-gap: 4rem; }
@@ -67,7 +67,7 @@
 .r4-invest .r32-ivalue { padding-top: calc(var(--r3-sec) * .9); }
 
 /* ---- PROJECTS · opening — one statement about the portfolio, then the three categories ---- */
-.r4-projects__statement { margin: clamp(1.6rem, 3vw, 2.6rem) 0 0; max-width: 26ch; color: var(--r3-ink); font-family: var(--r3-serif); font-optical-sizing: auto; font-size: clamp(1.5rem, 2.6vw, 2.7rem); font-weight: 350; line-height: 1.2; letter-spacing: -.012em; text-wrap: balance; }
+.r4-projects__statement { margin: clamp(1.6rem, 3vw, 2.6rem) 0 0; max-width: 26ch; color: var(--r3-ink); font-family: var(--font); font-size: clamp(1.5rem, 2.6vw, 2.7rem); font-weight: 350; line-height: 1.2; letter-spacing: -.012em; text-wrap: balance; }
 .r4-projects .r3-opening__lead { margin-top: 1.1rem; max-width: 38rem; }
 
 /* ---- PROJECTS · operating assets — a curated hierarchy (OWNER «FINAL POLISH» 2026-11-11, §3–§8):

@@ -1,3 +1,4 @@
+import { Accent } from "@/components/accent";
 import type { CSSProperties } from "react";
 import { formatAreaExact } from "@/content/source";
 import { withArea } from "@/components/leasing-experience/parts";
@@ -50,7 +51,7 @@ export function SummaryCards({ x, offer, locale }: { x: LeasingExperience; offer
     <section className="lg-summary" aria-label={x.reasons.label[locale]}>
       {explanation ? (
         <div className="xp-shell lg-ready" data-reveal>
-          <p className="lg-ready__statement">{statement}</p>
+          <p className="lg-ready__statement"><Accent text={statement} /></p>
           <p className="lg-ready__support">
             {parts ? <>{parts[0]}<strong>{parts[1]}</strong>{parts[2]}</> : explanation}
           </p>

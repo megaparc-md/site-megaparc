@@ -1,3 +1,4 @@
+import { accentLast } from "@/components/accent";
 import type { CSSProperties, ReactNode } from "react";
 import { LocationExplorer, type ExplorerOption } from "@/components/leasing-experience/location-stage";
 import { decisionTitle } from "@/components/leasing-experience/decision-zone";
@@ -350,7 +351,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
         <header className="lg-motion__head" data-reveal>
           <p className="pm-kicker">{m.kicker[locale]}</p>
           <h2 className="lg-display lg-motion__title" id="lg-motion-title">
-            {m.title[locale].split("\n").map((line) => <span key={line} className="lg-motion__title-line">{line}</span>)}
+            {m.title[locale].split("\n").map((line, i, all) => <span key={line} className="lg-motion__title-line">{accentLast(all, i, line)}</span>)}
           </h2>
           {m.lead ? (
             <p className="lg-motion__lead">

@@ -64,7 +64,7 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
 
       <Section tone="paper" id="type" tight>
         <div className="shell">
-          <Head kicker="Tipografie · Canva Sans · Geist Sans · Arial · Helvetica · sans-serif" title="Cinci niveluri: display, titlu, afirmație, text, etichetă." />
+          <Head kicker="Tipografie · Manrope · Arial · Helvetica Neue · sans-serif" title="Cinci niveluri: display, titlu, afirmație, text, etichetă." />
           <div className="bs__type" data-reveal>
             {typeScale.map((style) => (
               <div key={style.token}>

@@ -1,3 +1,4 @@
+import { accentLast } from "@/components/accent";
 import type { CSSProperties } from "react";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { LgPhoto, withArea } from "@/components/leasing-experience/parts";
@@ -31,7 +32,7 @@ export function Reasons({ x, offer, locale }: { x: LeasingExperience; offer: Tem
       <div className="xp-shell lg-statement__head">
         <h2 className="xp-mask lg-statement__title lg-display" id="lg-statement-title" data-reveal>
           {lines.map((line, i) => (
-            <span key={line} className="xp-mask__line"><span style={{ "--i": i } as CSSProperties}>{line}</span></span>
+            <span key={line} className="xp-mask__line"><span style={{ "--i": i } as CSSProperties}>{accentLast(lines, i, line)}</span></span>
           ))}
         </h2>
       </div>

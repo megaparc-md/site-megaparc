@@ -1,3 +1,4 @@
+import { accentLast } from "@/components/accent";
 import type { CSSProperties } from "react";
 import { LgPhoto, ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
@@ -26,8 +27,8 @@ export function CapitalBase({ x, locale }: { x: LeasingExperience; locale: SiteL
         <header className="lg-capex__head">
           <p className="pm-kicker" data-reveal>{c.kicker[locale]}</p>
           <h2 className="xp-mask lg-display lg-capex__title" id="lg-capex-title" data-reveal>
-            {c.title[locale].split("\n").map((line, i) => (
-              <span key={line} className="xp-mask__line"><span style={{ "--i": i } as CSSProperties}>{line}</span></span>
+            {c.title[locale].split("\n").map((line, i, all) => (
+              <span key={line} className="xp-mask__line"><span style={{ "--i": i } as CSSProperties}>{accentLast(all, i, line)}</span></span>
             ))}
           </h2>
           {c.lead ? <p className="lg-capex__lead" data-reveal>{c.lead[locale]}</p> : null}

@@ -1,3 +1,4 @@
+import { Accent } from "@/components/accent";
 import { ui } from "@/components/leasing-experience/parts";
 import { DirectContact } from "@/components/direct-contact";
 import { ViewingForm } from "@/components/leasing-experience/viewing-form";
@@ -35,7 +36,7 @@ export function ViewingScene({ x, offer, project, locale }: { x: LeasingExperien
         <header className="lg-viewing__head">
           <p className="pm-kicker" data-reveal>{v.kicker[locale]}</p>
           <h2 className="lg-viewing__title" id="lg-viewing-title" data-reveal>
-            <span className="lg-display lg-viewing__statement">{title}</span>
+            <span className="lg-display lg-viewing__statement"><Accent text={title} /></span>
             {sub ? <span className="lg-viewing__sub">{sub}</span> : null}
           </h2>
           {v.lead ? <p className="lg-viewing__lead" data-reveal>{v.lead[locale]}</p> : null}

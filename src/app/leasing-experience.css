@@ -972,7 +972,7 @@ html.lg-drawer-open { overflow: hidden; }
 /* §7 · READINESS STATEMENT — an editorial scene under the summary cards: the key thought dominant left, the explanation right,
    a burgundy marker; never a paragraph inside a content column */
 .lg-ready { display: grid; gap: 1.2rem; margin: 0 auto clamp(1.6rem, 3vw, 2.4rem); padding: clamp(1.6rem, 3vw, 2.6rem) 0 clamp(1.5rem, 2.8vw, 2.4rem); border-top: 1px solid rgba(17, 18, 22, .32); border-bottom: 1px solid var(--lg-card-line); }
-.lg-ready__statement { position: relative; margin: 0; padding-left: 1.2rem; font-family: var(--r3-serif); font-size: clamp(1.9rem, 3.4vw, 3.4rem); font-weight: 400; line-height: 1.02; letter-spacing: -.024em; color: var(--ink); text-wrap: balance; }
+.lg-ready__statement { position: relative; margin: 0; padding-left: 1.2rem; font-family: var(--font); font-size: clamp(1.9rem, 3.4vw, 3.4rem); font-weight: 400; line-height: 1.02; letter-spacing: -.024em; color: var(--ink); text-wrap: balance; }
 .lg-ready__statement::before { content: ""; position: absolute; left: 0; top: .14em; bottom: .08em; width: 4px; background: var(--brand); }
 .lg-ready__support { margin: 0; max-width: 26rem; color: var(--lg-text); font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.5; letter-spacing: -.005em; }
 .lg-ready__support strong { color: var(--ink); font-weight: 650; }
@@ -1001,7 +1001,7 @@ html.lg-drawer-open { overflow: hidden; }
 .lg-explorer { display: grid; gap: 1.1rem; grid-template-areas: "controls" "stage" "detail"; }
 .lg-explorer__controls { grid-area: controls; display: grid; gap: 1rem; align-content: start; }
 .lg-explorer__ask { display: grid; gap: .45rem; }
-.lg-explorer__question { margin: 0; font-family: var(--r3-serif); font-size: clamp(1.45rem, 2vw, 1.9rem); font-weight: 400; line-height: 1.1; letter-spacing: -.018em; color: var(--ink); }
+.lg-explorer__question { margin: 0; font-family: var(--font); font-size: clamp(1.45rem, 2vw, 1.9rem); font-weight: 400; line-height: 1.1; letter-spacing: -.018em; color: var(--ink); }
 .lg-explorer__hint { margin: 0; color: var(--lg-text); font-size: .92rem; font-weight: 500; line-height: 1.4; }
 .lg-explorer__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
 .lg-explorer__card { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "no name chev" "no title chev"; column-gap: .75rem; row-gap: .25rem; align-items: center; padding: .9rem 1rem .9rem .95rem; border: 1px solid rgba(17, 18, 22, .22); border-radius: var(--lg-radius); background: var(--white); color: var(--ink); font: inherit; text-align: left; cursor: pointer; box-shadow: none; transition: background .35s var(--pm-ease), color .35s var(--pm-ease), border-color .35s var(--pm-ease), transform .45s var(--pm-ease), box-shadow .45s var(--pm-ease); }

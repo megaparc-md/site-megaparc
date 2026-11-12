@@ -1,3 +1,4 @@
+import { Accent } from "@/components/accent";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { LgPhoto, splitArea, ui } from "@/components/leasing-experience/parts";
@@ -38,7 +39,7 @@ export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperienc
           <p className="lg-hero__place lg-rise" style={{ "--d": 0 } as CSSProperties}>{x.hero.place[locale]}</p>
           <h1 className="lg-hero__h1" id="lg-hero-title">
             <span className="lg-hero__name lg-rise" style={{ "--d": 1 } as CSSProperties}>{project.name}</span>
-            <span className="lg-hero__title lg-rise" style={{ "--d": 2 } as CSSProperties}>{x.hero.title[locale]}</span>
+            <span className="lg-hero__title lg-rise" style={{ "--d": 2 } as CSSProperties}><Accent text={x.hero.title[locale]} /></span>
           </h1>
           <div className="lg-hero__offer lg-rise" style={{ "--d": 3 } as CSSProperties}>
             {/* the figure and its unit are two boxes side by side — the unit can never overlap the digits (OWNER card pass §1, §20) */}

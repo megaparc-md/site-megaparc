@@ -1,0 +1,171 @@
+/* ==================================================================
+   MEGAPARC TYPE SYSTEM — MANROPE (OWNER «TYPOGRAPHY ALIGNMENT WITH
+   FINMENTOR», 2026-11-12). Loaded last. One family for the whole
+   public site (the stack is --font in globals.css; the files and the
+   metric-compatible fallback are declared in root-document.tsx).
+
+   PRINCIPLE — LIGHT LARGE STATEMENT + STRONG BOLD ACCENT. Hierarchy
+   comes from weight contrast, scale, line-height, tracking and white
+   space — never from a second typeface.
+
+   ROLES
+     display / editorial statement  300 · lh 1.02–1.08 · −.03em · accent 700 (.t-accent)
+     H1 (property / page name)      700 · lh 1.05–1.08 · −.03em
+     H2 (section title)             700 · lh 1.10–1.15 · −.02em
+     H3 (card / block title)        700 · lh 1.25–1.32 · −.01em
+     lead                           400 · 18–23 px · lh 1.5–1.6
+     body                           400 · 16–17 px · lh 1.6–1.65
+     label / eyebrow                700 · uppercase · 12–13 px · .10–.12em
+     navigation                     500 · sentence case
+     buttons                        600
+     large numbers                  300 · tabular · −.035em … −.04em · unit 600–700
+   Colours, layout, content and behaviour are untouched.
+   ================================================================== */
+
+html { font-variant-ligatures: no-common-ligatures; }
+.t-accent { font-weight: 700; }
+
+/* the display scale: Manrope runs wider than the retired serif — a slightly tighter scale keeps the same line breaks */
+:root {
+  --r3-display: clamp(2.3rem, 5.5vw, 6.9rem);
+  --r3-title: clamp(1.9rem, 3.9vw, 4.5rem);
+  --r3-statement: clamp(1.35rem, 2.3vw, 2.45rem);
+}
+
+/* ---- numerals: tabular where figures are compared or change ---- */
+:is(.r3-fig, .r3-scale__value, .r3-scale__row dd, .r3-numbers dd, .r3-evidence__figs dd, .r3-ledger__area, .r3-space__area, .r3-unit__area, .r3-upcoming__area,
+  .r3-proof__fig, .r3-pjdev__figure, .r3-phero__big, .r32-proof__value, .r32-proof__row dd, .lg-hero__figure, .lg-kpi__figure, .lg-sheet__big, .lg-pass__num,
+  .lg-calc__focalnum, .lg-calc__month, .lg-calc__day, .lg-calc__input, .lg-calc__sens strong, .lg-calc__advout dd, .lp-key__fig, .lp-status__fig, .lg-facts dd,
+  .tr-cad__number, table td, table th) { font-variant-numeric: tabular-nums lining-nums; }
+
+/* ---- sitewide roles (R3 / R4 scenes) ---- */
+/* display and editorial statements — light */
+.site :is(.r3-display, .r3-title, .r3-opening__title, .r3-verb, .r3-thesis__verbs, .r3-upcoming__title, .r3-lhero__title, .r3-phero__lead, .r3-avail__title,
+  .r3-dirs__statement, .r32-position__statement, .r3-seq__verb, .ld-journey__word) { font-weight: 300; letter-spacing: -.03em; }
+.site .r3-display { line-height: 1.04; }
+.site .r3-hero__title { font-size: clamp(2.3rem, 5.6vw, 7.4rem); }
+.site .r3-title { line-height: 1.08; max-width: 20ch; }
+.site .r3-opening__title { line-height: 1.02; }
+.site :is(.r3-statement, .r4-iopen__thesis, .r4-projects__statement, .ld-hero__statement, .r3-trust__principle, .r3-ftr__position, .r3-two__intro .r3-statement) { font-weight: 300; letter-spacing: -.02em; }
+.site .r3-statement { line-height: 1.28; }
+.site :is(.r3-display, .r3-title, .r3-statement, .r3-opening__title, .r32-position__statement) strong { font-weight: 700; }
+
+/* years and large figures — light, tight, tabular */
+.site :is(.r3-era__year, .r3-hyears__year, .r3-heritage__year, .r3-from__years, .r3-upcoming__date, .r3-scale__value, .r3-scale__row dd, .r3-numbers dd,
+  .r3-evidence__figs dd, .r3-reinvest__total, .r3-land__total .r3-fig, .r3-space__area, .r3-unit__area, .r3-upcoming__area, .r3-proof__fig, .r3-pjdev__figure,
+  .r3-phero__big, .r3-ledger__area, .r3-split__count, .r32-proof__value, .r32-proof__row dd, .r331-reg__list .r3-fig, .r331-reg__total .r3-fig,
+  .ld-hero__facts .r3-fig, .ld-today__big .r3-fig, .ld-cad__area .r3-fig, .ld-deal__no, .r3-stack__area, .r3-zones .r3-fig) { font-weight: 300; letter-spacing: -.04em; }
+.site .r3-fig__u { font-weight: 600; letter-spacing: 0; }
+
+/* names and titles — strong */
+.site :is(.r3-feature__name, .r3-second__name, .r3-prop__name, .r3-portal__title, .r3-pair__name, .r3-compact__name, .r3-ledger__name, .r3-index__name,
+  .r3-register__name, .r3-ep__name, .r3-pjdev__name, .r3-dirs__title, .r3-split__label, .r32-scene__name, .r32-offer__name, .r3-unit__name, .r3-space__unit,
+  .pmenu__name, .r3-era__title, .r3-line__title, .r3-next__title, .r3-fold__title, .r3-brings__title, .r331-plan__title, .ld-scen__title, .ld-deal__title,
+  .ld-factors__fact, .ld-ready__label, .ld-util__grid dt, .op-proof__name, .r4-lease__when, .r32-path) { font-weight: 600; letter-spacing: -.025em; }
+.site .ld-hero__name { font-weight: 700; letter-spacing: -.035em; line-height: 1; }
+.site :is(.r3-feature__name, .r3-second__name, .r3-prop__name, .r32-scene__name, .r3-compact__name) { line-height: 1.02; }
+.site :is(.r3-types h3, .r3-rules__list h3, .r3-proof__list h3, .r32-why__list h3) { font-weight: 700; letter-spacing: -.015em; line-height: 1.2; }
+.site :is(.r3-caps-list dt, .r3-biglist li, .r33-decide__list li) { font-weight: 600; letter-spacing: -.012em; }
+.site .r3-feature__line { font-weight: 400; letter-spacing: -.01em; }
+
+/* ---- labels / eyebrows ---- */
+.site :is(.pm-kicker, .lg-card__label, .lg-capex__label, .lg-pass__label, .lp-kicker, .lp-label, .lg-explorer__status-key, .lg-hero__place) { font-weight: 700; }
+
+/* ==================================================================
+   MOSCOVA 20 — the leasing template (shared by the four leasing pages)
+   ================================================================== */
+/* hero: the name is the H1; the statement is light with a strong close; the figure is light, its unit strong */
+.lg-page .lg-hero__name { font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.lg-page .lg-hero__title { font-weight: 300; letter-spacing: -.022em; line-height: 1.2; }
+.lg-page .lg-hero__figure { font-weight: 300; letter-spacing: -.045em; }
+.lg-page .lg-hero__unit { font-weight: 700; }
+.lg-page .lg-hero__support { font-weight: 600; letter-spacing: -.005em; }
+
+/* display statements: «625,7 м². Два уровня. Одна концепция.» · «Адрес — часть бизнес‑модели.» · the capital base · the final scene */
+.lg-page .lg-display { font-weight: 300; letter-spacing: -.035em; line-height: 1.05; }
+.lg-page .lg-display .t-accent { font-weight: 700; letter-spacing: -.04em; }
+.lg-page .lg-viewing__sub { font-weight: 600; letter-spacing: -.02em; }
+.lg-page .lg-story__statement { font-weight: 300; letter-spacing: -.025em; }
+
+/* section and block titles */
+.lg-page :is(.lg-head__title, .lg-lens__question, .lg-teaser__title, .lg-explorer__question) { font-weight: 700; letter-spacing: -.022em; line-height: 1.14; }
+.lg-page :is(.lg-summary__title, .lg-catch__name) { font-weight: 700; letter-spacing: -.015em; line-height: 1.22; }
+.lg-page .lg-viewing__title { font-weight: 300; }
+
+/* readiness: «Базовая инфраструктура уже / готова.» */
+.lg-ready__statement { font-weight: 300; letter-spacing: -.035em; line-height: 1.04; }
+.lg-ready__statement .t-accent { font-weight: 700; }
+.lg-ready__support { font-weight: 400; }
+.lg-ready__support strong { font-weight: 700; }
+
+/* location thesis: the key line, then the quieter line */
+.lg-motion__lead-key { font-weight: 400; letter-spacing: -.012em; }
+.lg-motion__lead-more { font-weight: 400; }
+
+/* figures inside the template */
+.lg-page :is(.lg-kpi__figure, .lg-sheet__big) { font-weight: 300; letter-spacing: -.04em; }
+
+/* business-format selector */
+.lg-lens__tabno { font-weight: 600; }
+.lg-lens__tablabel { font-weight: 600; letter-spacing: -.01em; }
+.lg-lens__tabs [aria-selected="true"] .lg-lens__tablabel, .lg-lens__tabs [aria-pressed="true"] .lg-lens__tablabel, .lg-lens__tabs .is-on .lg-lens__tablabel { font-weight: 700; }
+.lg-lens__hint { font-weight: 400; }
+.lg-lens__nophoto-text { font-weight: 400; letter-spacing: -.015em; }
+
+/* map explorer */
+.lg-explorer__hint { font-weight: 400; }
+.lg-explorer__no { font-weight: 600; }
+.lg-explorer__name { font-weight: 700; }
+.lg-explorer__title { font-weight: 500; letter-spacing: -.005em; }
+.lg-explorer__cards :is([aria-pressed="true"], [aria-selected="true"], .is-on) .lg-explorer__name { font-weight: 700; }
+.lg-explorer__status { font-weight: 600; }
+
+/* technical passport */
+.site .lg-drawer.is-passport .lg-drawer__title, .site .lg-drawer .lg-drawer__title { font-weight: 700; letter-spacing: -.022em; }
+.lg-pass__num, .lg-pass__fact.is-card .lg-pass__num { font-weight: 300; letter-spacing: -.045em; }
+.lg-pass__approx, .lg-pass__fact.is-card .lg-pass__approx { font-weight: 300; }
+.lg-pass__unit { font-weight: 600; }
+.lg-pass__cardvalue { font-weight: 600; letter-spacing: -.015em; line-height: 1.2; }
+.lg-pass__gtitle, .lg-pass__htitle { font-weight: 700; letter-spacing: -.018em; }
+.lg-pass__sidename { font-weight: 600; }
+.lg-pass__statement { font-weight: 300; letter-spacing: -.025em; line-height: 1.22; }
+.lg-capex__principletext { font-weight: 500; letter-spacing: -.012em; }
+.lg-request__status { font-weight: 600; letter-spacing: -.02em; }
+
+/* point economics */
+.lg-calc__title { font-weight: 700; letter-spacing: -.02em; }
+.lg-calc__focalnum { font-weight: 300; letter-spacing: -.045em; }
+.lg-calc__approx { font-weight: 300; }
+.lg-calc__need { font-weight: 500; letter-spacing: -.008em; }
+.lg-calc__closing { font-weight: 600; }
+
+/* final action cards */
+.lg-action__label { font-weight: 700; letter-spacing: -.012em; }
+
+/* ---- Digital Leasing Pack ---- */
+.lp-title { font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.lp-status__fig, .lp-key__fig { font-weight: 300; letter-spacing: -.04em; }
+.lp-h2 { font-weight: 700; letter-spacing: -.02em; }
+.lp-no, .lp-legend__no { font-weight: 600; }
+.lp-action__label { font-weight: 600; letter-spacing: -.012em; }
+.lp-page .dc__title, .lp-done__title { font-weight: 700; letter-spacing: -.018em; }
+.lp-bar__meta strong { font-weight: 700; letter-spacing: -.01em; }
+
+/* operator proof (renders only with brand permission) and the hidden OWNER demo follow the same roles */
+.tc-h2, .tc-brand__product { font-weight: 700; letter-spacing: -.015em; }
+
+/* ---- shared chrome ---- */
+.brand__name { font-weight: 700; letter-spacing: -.045em; }
+.lg-portal__label { font-weight: 700; letter-spacing: .005em; }
+.site main .lt-dossier__title { font-weight: 300; letter-spacing: -.03em; line-height: 1.08; }
+.lt-dossier__row-label { font-weight: 600; }
+.lg-action__label { letter-spacing: .005em; }
+
+/* Home scale figures: Manrope's wider numerals need a slightly tighter size to stay inside their columns */
+.r32-proof__value { font-size: clamp(3.9rem, 11.2vw, 12rem); }
+.r32-proof__row dd { font-size: clamp(1.85rem, 3.9vw, 4.5rem); }
+
+/* summary card titles: three columns on tablets are narrow for a bold 18-letter word («зарегистрированных») */
+.lg-page .lg-summary__title { font-size: clamp(1.15rem, 1.65vw, 1.7rem); }
+/* Projects: the confirmed land total stays inside its row with Manrope's wider numerals */
+.r3-land__total .r3-fig { font-size: clamp(3.2rem, 6.9vw, 7.4rem); }

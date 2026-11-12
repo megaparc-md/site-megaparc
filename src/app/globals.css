@@ -42,7 +42,7 @@
   --header-h: 4.5rem;
 
   /* ---- Type scale (phone first; desktop overrides below) */
-  --font: "Canva Sans", var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font: "Manrope", "Manrope Fallback", Arial, "Helvetica Neue", sans-serif;
   --t-display: 2.15rem;
   --t-h1: 2rem;
   --t-h2: 1.75rem;

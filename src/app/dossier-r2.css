@@ -1,7 +1,7 @@
 /* MOSCOVA 20 · LEASING DOSSIER R2 — print stylesheet (OWNER «PREMIUM LEASING DOSSIER R2», 2026-11-11).
    A4 · 16 mm margins · warm ivory / graphite / burgundy micro-accent · Source Serif 4 for names and figures, Geist for data.
    FEWER · LARGER · STRONGER: thin rules and whitespace instead of cards; the photographs and the official plans dominate. */
-.d2 { --ink: #0f1012; --text: #2a2c31; --muted: #6a6d75; --ivory: #f5f2ec; --paper: #efebe3; --hair: rgba(20, 21, 24, .16); --hair-strong: rgba(20, 21, 24, .4); --burgundy: #74202f; --red: #ed1c2e; --serif: var(--r3-serif, "Source Serif 4", Georgia, serif); background: #fff; color: var(--text); font-family: var(--font); font-size: 10pt; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.d2 { --ink: #0f1012; --text: #2a2c31; --muted: #6a6d75; --ivory: #f5f2ec; --paper: #efebe3; --hair: rgba(20, 21, 24, .16); --hair-strong: rgba(20, 21, 24, .4); --burgundy: #74202f; --red: #ed1c2e; background: #fff; color: var(--text); font-family: var(--font); font-size: 10pt; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .d2 *, .d2 *::before, .d2 *::after { box-sizing: border-box; }
 .d2 a { color: inherit; text-decoration: none; }
 .d2 a.d2-cta__primary { color: var(--ivory); }
@@ -14,17 +14,17 @@
 /* type */
 .d2-kicker { font-size: 7pt; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .d2-label { margin: 0 0 2.5mm; font-size: 7pt; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.d2-statement { font-family: var(--serif); font-size: 22pt; font-weight: 400; line-height: 1.12; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
+.d2-statement { font-family: var(--font); font-size: 22pt; font-weight: 400; line-height: 1.12; letter-spacing: -.012em; color: var(--ink); text-wrap: balance; }
 .d2-statement--sm { font-size: 18pt; }
-.d2-display { font-family: var(--serif); font-size: 26pt; font-weight: 400; line-height: 1.08; letter-spacing: -.015em; color: var(--ink); }
+.d2-display { font-family: var(--font); font-size: 26pt; font-weight: 400; line-height: 1.08; letter-spacing: -.015em; color: var(--ink); }
 .d2-display span { display: block; }
 .d2-lead { margin-top: 5mm; max-width: 118mm; font-size: 10pt; line-height: 1.5; color: var(--text); }
 .d2-lead--wide { max-width: 150mm; }
 .d2-lead--ink { color: var(--ink); }
 .d2-note { margin-top: 5mm; max-width: 150mm; font-size: 8pt; line-height: 1.45; color: var(--muted); }
 .d2-head { display: flex; align-items: baseline; gap: 5mm; margin: 0 0 9mm; padding-bottom: 3mm; border-bottom: 1px solid var(--hair-strong); }
-.d2-head__no { font-family: var(--serif); font-size: 10pt; color: var(--burgundy); }
-.d2-head__title { font-family: var(--serif); font-size: 20pt; font-weight: 400; line-height: 1; letter-spacing: -.01em; color: var(--ink); }
+.d2-head__no { font-family: var(--font); font-size: 10pt; color: var(--burgundy); }
+.d2-head__title { font-family: var(--font); font-size: 20pt; font-weight: 400; line-height: 1; letter-spacing: -.01em; color: var(--ink); }
 .d2-head__mark { margin-left: auto; font-size: 8pt; color: var(--muted); letter-spacing: .06em; }
 .d2-foot { position: absolute; left: 16mm; right: 16mm; bottom: 9mm; display: flex; justify-content: space-between; gap: 6mm; padding-top: 2.5mm; border-top: 1px solid var(--hair); font-size: 6.8pt; letter-spacing: .04em; color: var(--muted); }
 .d2-foot.is-light { color: rgba(255, 255, 255, .6); border-top-color: rgba(255, 255, 255, .2); }
@@ -34,9 +34,9 @@
 .d2-cover__photo { position: absolute; left: 0; right: 0; top: 0; height: 188mm; margin: 0; overflow: hidden; }
 .d2-cover__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block; }
 .d2-cover__block { position: absolute; left: 16mm; right: 16mm; bottom: 14mm; top: 198mm; }
-.d2-cover__title { margin-top: 3mm; font-family: var(--serif); font-size: 48pt; font-weight: 500; line-height: .95; letter-spacing: -.02em; color: var(--ink); }
+.d2-cover__title { margin-top: 3mm; font-family: var(--font); font-size: 48pt; font-weight: 500; line-height: .95; letter-spacing: -.02em; color: var(--ink); }
 .d2-cover__positioning { margin-top: 3.5mm; font-size: 11pt; color: var(--text); }
-.d2-cover__figure { margin-top: 7mm; font-family: var(--serif); font-size: 26pt; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums; }
+.d2-cover__figure { margin-top: 7mm; font-family: var(--font); font-size: 26pt; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums; }
 .d2-cover__place { margin-top: 2.5mm; font-size: 10pt; color: var(--text); }
 .d2-cover__levels { margin-top: 1mm; font-size: 8.5pt; color: var(--muted); }
 .d2-cover__meta { position: absolute; right: 0; bottom: 0; font-size: 6.5pt; letter-spacing: .06em; color: var(--muted); }
@@ -46,9 +46,9 @@
 .d2-formats small { display: block; margin-top: .8mm; font-size: 7.4pt; color: var(--muted); }
 .d2-ready__support strong { color: var(--ink); font-weight: 650; }
 .d2-exits { display: flex; align-items: baseline; gap: 4mm; margin: 4mm 0 10mm; padding-top: 4mm; border-top: 1px solid var(--hair); }
-.d2-exits b { font-family: var(--serif); font-size: 26pt; font-weight: 400; line-height: 1; color: var(--ink); }
+.d2-exits b { font-family: var(--font); font-size: 26pt; font-weight: 400; line-height: 1; color: var(--ink); }
 .d2-exits span { font-size: 8.8pt; color: var(--text); }
-.d2-loc__district { margin-top: 3mm; font-family: var(--serif); font-size: 26pt; line-height: 1; letter-spacing: -.02em; color: var(--ink); }
+.d2-loc__district { margin-top: 3mm; font-family: var(--font); font-size: 26pt; line-height: 1; letter-spacing: -.02em; color: var(--ink); }
 .d2-loc__cross { margin-top: 2mm; font-size: 9.5pt; font-weight: 600; color: var(--burgundy); }
 
 /* 02 photo page */
@@ -67,7 +67,7 @@
 .d2-band--short { height: 100mm; }
 .d2-band--final { height: 84mm; }
 .d2-fig { padding: 6mm 0 7mm; border-top: 1px solid var(--hair-strong); }
-.d2-fig__value { font-family: var(--serif); font-size: 36pt; font-weight: 300; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.d2-fig__value { font-family: var(--font); font-size: 36pt; font-weight: 300; line-height: 1; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .d2-fig__value span { margin-left: 2mm; font-family: var(--font); font-size: 8.5pt; font-weight: 600; letter-spacing: .02em; color: var(--text); vertical-align: 9pt; }
 .d2-fig__label { margin-top: 2.5mm; font-size: 8.5pt; line-height: 1.4; color: var(--muted); }
 .d2-rows { border-top: 1px solid var(--hair-strong); }
@@ -79,13 +79,13 @@
 
 /* 04 area hierarchy */
 .d2-area { display: flex; align-items: baseline; gap: 5mm; margin-bottom: 9mm; }
-.d2-area__main { font-family: var(--serif); font-size: 72pt; font-weight: 300; line-height: .95; letter-spacing: -.03em; color: var(--ink); font-variant-numeric: lining-nums; }
+.d2-area__main { font-family: var(--font); font-size: 72pt; font-weight: 300; line-height: .95; letter-spacing: -.03em; color: var(--ink); font-variant-numeric: lining-nums; }
 .d2-area__offered { font-size: 10pt; color: var(--burgundy); }
 .d2-levels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 8mm; border-top: 1px solid var(--hair-strong); }
 .d2-level { padding: 6mm 0 5mm; }
-.d2-level__name { font-family: var(--serif); font-size: 17pt; line-height: 1.1; color: var(--ink); margin-bottom: 4mm; }
+.d2-level__name { font-family: var(--font); font-size: 17pt; line-height: 1.1; color: var(--ink); margin-bottom: 4mm; }
 .d2-level__row { display: flex; align-items: baseline; justify-content: space-between; gap: 3mm; padding: 1.8mm 0; border-top: 1px solid var(--hair); }
-.d2-level__num { font-family: var(--serif); font-size: 15pt; line-height: 1; color: var(--text); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+.d2-level__num { font-family: var(--font); font-size: 15pt; line-height: 1; color: var(--text); font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
 .d2-level__row.is-commercial .d2-level__num { font-size: 22pt; color: var(--ink); }
 .d2-level__row.is-commercial .d2-level__cap { color: var(--burgundy); font-weight: 650; }
 .d2-level__row.is-height .d2-level__num { font-size: 12pt; color: var(--muted); }
@@ -93,7 +93,7 @@
 .d2-level.is-terrace .d2-level__name { color: var(--text); }
 .d2-object { display: flex; gap: 14mm; margin-top: 10mm; padding-top: 4mm; border-top: 1px solid var(--hair-strong); }
 .d2-object dt { font-size: 7pt; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.d2-object dd { margin-top: 1.5mm; font-family: var(--serif); font-size: 18pt; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums; }
+.d2-object dd { margin-top: 1.5mm; font-family: var(--font); font-size: 18pt; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums; }
 
 /* 05–06 plans */
 .d2-planpage { padding-bottom: 16mm; }
@@ -116,16 +116,16 @@
 
 /* 08 readiness */
 .d2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; margin-top: 10mm; }
-.d2-col__title { padding-bottom: 2.5mm; border-bottom: 1px solid var(--hair-strong); font-family: var(--serif); font-size: 13pt; color: var(--ink); }
+.d2-col__title { padding-bottom: 2.5mm; border-bottom: 1px solid var(--hair-strong); font-family: var(--font); font-size: 13pt; color: var(--ink); }
 .d2-col__title.is-tenant { color: var(--burgundy); }
 .d2-col__list li { padding: 2.4mm 0; border-bottom: 1px solid var(--hair); font-size: 9.4pt; color: var(--text); }
-.d2-principle { margin-top: 12mm; padding: 6mm 7mm; background: var(--ink); color: #fff; font-family: var(--serif); font-size: 14pt; line-height: 1.25; }
+.d2-principle { margin-top: 12mm; padding: 6mm 7mm; background: var(--ink); color: #fff; font-family: var(--font); font-size: 14pt; line-height: 1.25; }
 .d2-principle small { display: block; margin-top: 2mm; font-family: var(--font); font-size: 8pt; color: rgba(255, 255, 255, .7); }
 
 /* 09 logistics + address */
 .d2-sides { display: grid; grid-template-columns: 1fr 34mm 1fr; align-items: stretch; gap: 0; margin: 8mm 0 10mm; }
 .d2-side { padding: 4mm 0; border-top: 1px solid var(--hair-strong); }
-.d2-side__name { font-family: var(--serif); font-size: 15pt; color: var(--ink); margin-bottom: 3mm; }
+.d2-side__name { font-family: var(--font); font-size: 15pt; color: var(--ink); margin-bottom: 3mm; }
 .d2-side ul li { padding: 1.6mm 0; border-top: 1px solid var(--hair); font-size: 9pt; color: var(--text); }
 .d2-side ul li:first-child { border-top: 0; }
 .d2-side__core { display: flex; align-items: center; justify-content: center; margin: 4mm 5mm 0; border: 1px solid var(--hair-strong); background: #fff; text-align: center; font-size: 7.5pt; letter-spacing: .06em; color: var(--ink); padding: 3mm; }
@@ -139,7 +139,7 @@
 
 /* 10 decision page */
 .d2-final { background: var(--paper); }
-.d2-final__title { margin: 3mm 0 7mm; font-family: var(--serif); font-size: 34pt; font-weight: 400; line-height: 1.02; letter-spacing: -.02em; color: var(--ink); }
+.d2-final__title { margin: 3mm 0 7mm; font-family: var(--font); font-size: 34pt; font-weight: 400; line-height: 1.02; letter-spacing: -.02em; color: var(--ink); }
 .d2-cta { display: flex; align-items: center; gap: 6mm; margin-top: 9mm; }
 .d2-cta__primary { display: inline-flex; align-items: center; min-height: 12mm; padding: 0 8mm; background: var(--burgundy); color: var(--ivory); font-size: 8.5pt; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; }
 .d2-cta__secondary { font-size: 9.5pt; color: var(--ink); border-bottom: 1px solid var(--hair-strong); padding-bottom: .5mm; }
