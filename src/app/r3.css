@@ -1112,8 +1112,13 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 /* R3.1 — legacy split titles in the serif: the ch cap measured for Geist is too tight for 16-letter Russian words («Профессиональный») */
 .xp-split__title { max-width: 22ch; }
 
-/* R3.1 — mobile menu on overlay pages: a backdrop-filter on the open header made it the containing block of the fixed panel (0 px high); the header is already opaque ivory when the menu is open */
-html body.menu-open .site--overlay .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* MOBILE MENU (OWNER «CRITICAL MOBILE MENU FIX», 2026-11-12). ROOT CAUSE: a backdrop-filter on the header makes the header the containing
+   block of the fixed menu panel — «inset: var(--header-h) 0 0» then resolves against the 72 px header and the panel is 0 px high: the button
+   toggles, the page scroll locks, nothing appears. R3.1 removed the filter only for «.site--overlay» headers; since R3.3 every page uses the
+   solid header, whose «-webkit-backdrop-filter» is live in Safari (iPhone) — so the menu was invisible there on every page. The open menu
+   now never depends on the header box: no filter in ANY header variant while it is open (the header is opaque then), and no clipping in
+   browsers without «:has()», where «.hdr { overflow: hidden }» stays on. Verified with real taps in WebKit and Chromium (scripts/qa-mobile-menu.mjs). */
+html body.menu-open .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -webkit-backdrop-filter: none; backdrop-filter: none; overflow: visible; background: var(--r3-ivory); }
 
 /* ==================================================================
    R3.2 — REFERENCE-LED ART DIRECTION (OWNER 2026-11-10)
