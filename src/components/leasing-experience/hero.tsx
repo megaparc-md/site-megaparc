@@ -31,6 +31,8 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  */
 export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale }) {
   const area = splitArea(offer.figure);
+  const supportLines = x.hero.support[locale].split("\n");
+  const support = supportLines.length > 1 ? null : supportLines[0];
   return (
     <section className="lg-hero" aria-labelledby="lg-hero-title">
       <div className="xp-shell lg-hero__grid">
@@ -50,11 +52,14 @@ export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperienc
             <p className="lg-hero__offered">{x.hero.offer[locale]}</p>
             <p className={`lg-hero__status is-${offer.state}`}><i aria-hidden="true" />{offer.status}</p>
           </div>
-          {/* OWNER art-direction pass §7 (2026-11-11): a two-line support keeps only its key line here — the readiness statement scene after the summary carries the explanation */}
-          <p className="lg-hero__support lg-rise" style={{ "--d": 4 } as CSSProperties}>
-            {x.hero.support[locale].split("\n")[0]}
-          </p>
-          <div className="lg-hero__actions lg-rise" style={{ "--d": 5 } as CSSProperties}>
+          {/* OWNER «HERO CONTENT DEDUPLICATION» (2026-11-12): one key statement — one block. A two-line support IS the readiness statement scene
+              right under the hero (summary.tsx), so the hero does not repeat its first line; a one-line support is the property's own hero argument and stays. */}
+          {support ? (
+            <p className="lg-hero__support lg-rise" style={{ "--d": 4 } as CSSProperties}>
+              {support}
+            </p>
+          ) : null}
+          <div className={`lg-hero__actions lg-rise${support ? "" : " is-after-offer"}`} style={{ "--d": 5 } as CSSProperties}>
             <a className="btn" href="#viewing" data-intent="viewing">
               <span>{offer.primary}</span>
               <Icon />

@@ -24,10 +24,11 @@ const emphasis: Record<SiteLocale, string[]> = {
 };
 
 const copy = {
-  // OWNER copy correction 2026-11-10 (capex / tenant investment): the core capital works are done; the tenant invests primarily in adapting the space
-  readiness: { label: T("Pregătire", "Готовность", "Readiness"), title: T("Infrastructura de bază este pregătită", "Базовая инфраструктура уже готова", "Base infrastructure in place"), text: T("Investiția chiriașului vizează în primul rând adaptarea spațiului la propriul format.", "Инвестиции арендатора — прежде всего в адаптацию пространства под свой формат.", "The tenant’s investment goes primarily into adapting the space to its format.") },
-  visibility: { label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Prima linie", "Первая линия", "Boulevard frontage") },
-  levels: { label: T("Niveluri", "Этажность", "Levels"), title: (n: number, locale: SiteLocale) => (locale === "ru" ? `${n} уровня` : locale === "ro" ? `${n} niveluri` : `${n} levels`) },
+  // OWNER «CONTENT DEDUPLICATION R2» (2026-11-12): the cards never repeat the heading of the readiness block — each one carries its own advantage:
+  // 01 the technical base · 02 visibility · 03 the spatial organisation. These are the master's (Moscova 20) cards only — the other datasets bring their own `summary`.
+  readiness: { label: T("Pregătire", "Готовность", "Readiness"), title: T("Instalații tehnice și finisaje de bază", "Инженерные системы и базовая отделка", "Building systems and basic finishes"), text: T("Sunt prevăzute încălzirea, climatizarea, conexiunile tehnice și suprafețele cu finisaje de bază.", "Отопление, кондиционирование, инженерные подключения и базовые отделочные поверхности предусмотрены.", "Heating, air conditioning, utility connections and basic finished surfaces are provided.") },
+  visibility: { label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Vitrine spre bulevard", "Витрины на бульвар", "Boulevard-facing shopfronts") },
+  levels: { label: T("Niveluri", "Этажность", "Levels"), title: (n: number, locale: SiteLocale) => (n === 2 ? T("Spațiu pe două niveluri", "Два уровня пространства", "Space across two levels")[locale] : locale === "ru" ? `${n} уровня` : locale === "ro" ? `${n} niveluri` : `${n} levels`) },
 };
 
 export function SummaryCards({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {

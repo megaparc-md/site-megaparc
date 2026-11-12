@@ -114,6 +114,8 @@
 @keyframes lg-breathe { 50% { box-shadow: 0 0 0 7px rgba(237, 28, 46, .06); } }
 .lg-hero__support { margin: .5rem 0 0; font-size: clamp(1.05rem, 1.35vw, 1.22rem); font-weight: 550; line-height: 1.35; letter-spacing: -.01em; }
 .lg-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.8rem; margin-top: .3rem; }
+/* hero without a support line (the readiness scene below carries the statement): the actions keep their distance from the offer */
+.lg-hero__actions.is-after-offer { margin-top: .9rem; }
 @media (max-width: 719px) { .lg-hero__back { display: none; } }
 @media (min-width: 720px) and (max-width: 1023px) {
   .lg-hero__photo { --lg-ratio: 16 / 9; }
@@ -133,6 +135,7 @@
   .lg-hero__figure { font-size: clamp(3.8rem, 5.6vw, 6.6rem); }
   .lg-hero__unit { font-size: clamp(1.1rem, 1.5vw, 1.6rem); }
   .lg-hero__actions { gap: 1rem 1.8rem; margin-top: .6rem; }
+  .lg-hero__actions.is-after-offer { margin-top: 1.1rem; }
 }
 
 /* ---------- 02 · architectural navigation — four premium cards + the viewing card ---------- */

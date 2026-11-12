@@ -125,7 +125,7 @@ export const moscova20Experience: LeasingExperience = {
     // the tenant invests primarily in adapting the space to its format (never zero investment, never fit-out included)
     // OWNER «PREMIUM CONTENT AND INTERACTION PASS» §5 (2026-11-11): an editorial message block — the key thought on the first line, the explanation
     // on the second (the hero renders the two lines with two weights); the approved meaning is unchanged, never zero investment or a complete fit-out
-    support: T("Infrastructura de bază este deja pregătită.\nInvestiția chiriașului este necesară în primul rând pentru adaptarea spațiului la propriul format.", "Базовая инфраструктура уже готова.\nИнвестиции арендатора нужны прежде всего для адаптации помещения под собственный формат.", "The base infrastructure is already in place.\nThe tenant’s investment goes primarily into adapting the premises to its own format."),
+    support: T("Baza pentru afacerea dumneavoastră este deja pregătită.\nInvestiția chiriașului este necesară în primul rând pentru adaptarea spațiului la propriul format.", "Основа для вашего бизнеса уже создана.\nИнвестиции арендатора нужны прежде всего для адаптации помещения под собственный формат.", "The foundation for your business is already in\u00a0place.\nThe tenant’s investment goes primarily into adapting the premises to its own format."),
   },
 
   reasons: {
