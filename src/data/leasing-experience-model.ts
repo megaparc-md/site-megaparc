@@ -103,7 +103,7 @@ export type LensRef = "location" | "tech" | "readiness" | "plans" | "photos" | "
  */
 export type PhotoZone = { label: Localized; shape: Pt[]; at: Pt };
 export type LensFormat = {
-  key: "retail" | "showroom" | "service" | "office" | "headquarters" | "commercial";
+  key: "retail" | "showroom" | "service" | "office" | "producer" | "headquarters" | "commercial";
   label: Localized;
   /** the format's own question about the location and the space */
   question: Localized;
@@ -164,9 +164,11 @@ export type TransitCopy = {
   title: Localized;
   /** stop key → the public name of the stop */
   stops: Record<string, Localized>;
-  labels: { nearest: Localized; nearestNote: Localized; walk: Localized; routes: Localized; access: Localized; accessValue: Localized };
-  /** «≈ {m} м · около {min} минут» */
+  labels: { nearest: Localized; nearestNote: Localized; routes: Localized; access: Localized; accessValue: Localized };
+  /** the main argument (OWNER decision 2026-11-12): «≈ {m} м до ближайшей остановки · около {min} минут пешком» — «|» parts the strong figure from the rest */
   walkValue: Localized;
+  /** the figure is an estimate, never a GPS measurement */
+  estimate: Localized;
   /** «≈ {m} м · {min} мин» — the short form on the map */
   walkShort: Localized;
   routes: { mode: "trolleybus" | "bus"; label: Localized; refs: string[] }[];

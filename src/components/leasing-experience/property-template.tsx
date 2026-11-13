@@ -15,6 +15,7 @@ import { StickyCta } from "@/components/leasing-experience/sticky-cta";
 import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
 import { DecisionBar } from "@/components/leasing-toolkit/decision-bar";
+import { CommercialTerms } from "@/components/leasing-toolkit/commercial-terms";
 import { DigitalDossier, QrHandoff } from "@/components/leasing-toolkit/digital-dossier";
 import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
@@ -92,6 +93,8 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       <SummaryCards x={x} offer={offer} locale={locale} />
       {/* the digital property dossier — only on the property that carries the Digital Leasing Toolkit */}
       {toolkit ? <DigitalDossier copy={dossierCopy} packHref={packPath} pdfHref={m20Toolkit.dossier.file[locale]} plansHref="#plans" /> : null}
+      {/* OWNER R6 §03 / R7 (2026-11-12): the commercial terms — the two rates, the preliminary calculation, the indexation, the offer */}
+      {toolkit ? <CommercialTerms breakdown={offer.breakdown} locale={locale} fallbackHref="#viewing" /> : null}
       <Reasons x={x} offer={offer} locale={locale} />
       <FormatLens x={x} offer={offer} locale={locale} />
       <LocationMotion x={x} offer={offer} project={project} locale={locale} decision={decision} />

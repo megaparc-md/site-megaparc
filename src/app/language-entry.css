@@ -1,0 +1,72 @@
+/* ==================================================================
+   PREMIUM LANGUAGE ENTRY (OWNER mandate 2026-11-12) — preview concept.
+   Hidden by default; `<html data-entry="overlay | cinema">` (set by
+   the inline script before the first paint) shows one of two variants.
+   Fixed layer: it never moves the layout. Manrope · ivory · graphite ·
+   burgundy; the red rule only under the wordmark.
+   ================================================================== */
+.le { display: none; }
+html[data-entry] .le { display: block; position: fixed; z-index: 1200; color: var(--ink, #141518); font-family: var(--font); }
+.le__photo { display: none; margin: 0; }
+.le__brand { display: none; }
+.le__label { margin: 0; color: var(--brand, #74202f); font-size: .75rem; font-weight: 700; letter-spacing: .13em; line-height: 1.3; text-transform: uppercase; }
+.le__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.le__lang { display: grid; color: inherit; text-decoration: none; }
+.le__lang:focus-visible, .le__close:focus-visible { outline: 2px solid var(--signal, #ed1c2e); outline-offset: 3px; }
+.le__code { font-size: .75rem; font-weight: 700; letter-spacing: .13em; color: var(--brand, #74202f); }
+.le__name { font-weight: 700; letter-spacing: -.012em; }
+.le__close { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; cursor: pointer; }
+.le__close:hover { background: rgba(20, 21, 24, .07); }
+
+/* ---- A · compact overlay: a quiet panel at the foot of the screen; the page stays visible and usable ---- */
+html[data-entry="overlay"] .le { left: 50%; bottom: max(1rem, env(safe-area-inset-bottom)); width: min(100% - 2rem, 44rem); transform: translateX(-50%); }
+html[data-entry="overlay"] .le__panel { position: relative; display: grid; gap: .8rem; padding: 1.05rem 3.4rem 1.1rem 1.25rem; border: 1px solid rgba(20, 21, 24, .16); border-radius: 6px; background: #f6f3ed; box-shadow: 0 24px 60px -28px rgba(20, 21, 24, .55); }
+html[data-entry="overlay"] .le__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+html[data-entry="overlay"] .le__lang { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .1rem .6rem; min-height: 3rem; padding: .55rem .8rem; border: 1px solid rgba(20, 21, 24, .2); border-radius: 4px; background: #fff; transition: border-color .25s ease, background-color .25s ease, color .25s ease; }
+html[data-entry="overlay"] .le__lang:hover { border-color: var(--brand, #74202f); background: var(--brand, #74202f); color: #fff; }
+html[data-entry="overlay"] .le__lang:hover .le__code { color: rgba(255, 255, 255, .78); }
+html[data-entry="overlay"] .le__name { font-size: 1rem; line-height: 1.2; }
+html[data-entry="overlay"] :is(.le__line, .le__go) { display: none; }
+html[data-entry="overlay"] .le__close { position: absolute; top: .35rem; right: .35rem; }
+/* wide screens: the panel sits at the lower right, over the photograph — clear of the statement and its two paths */
+@media (min-width: 1024px) { html[data-entry="overlay"] .le { left: auto; right: clamp(1.5rem, 3vw, 3rem); bottom: clamp(1.5rem, 3vw, 3rem); width: min(100% - 3rem, 36rem); transform: none; } }
+@media (max-width: 479px) {
+  html[data-entry="overlay"] .le__lang { grid-template-columns: minmax(0, 1fr); justify-items: start; padding: .55rem .7rem; }
+  html[data-entry="overlay"] .le__name { font-size: .9375rem; }
+}
+
+/* the phone menu always wins: while it is open the compact panel steps aside */
+html[data-entry="overlay"]:has(body.menu-open) .le { display: none; }
+
+/* ---- B · cinematic welcome: the architecture full-bleed, the choice on an ivory band ---- */
+html[data-entry="cinema"] { overflow: hidden; }
+html[data-entry="cinema"] .le { inset: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: #f6f3ed; }
+html[data-entry="cinema"] .le__photo { display: block; position: relative; min-height: 0; overflow: hidden; background: #d9d4c9; }
+html[data-entry="cinema"] .le__photo > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+html[data-entry="cinema"] .le__photo img { width: 100%; height: 100%; object-fit: cover; }
+html[data-entry="cinema"] .le__panel { position: relative; display: grid; gap: clamp(.9rem, 1.6vw, 1.4rem); padding: clamp(1.3rem, 3vw, 2.4rem) clamp(1.25rem, 4vw, 4rem) max(clamp(1.3rem, 3vw, 2.4rem), env(safe-area-inset-bottom)); }
+html[data-entry="cinema"] .le__brand { display: inline-grid; gap: .5rem; margin: 0; font-size: 1.05rem; font-weight: 700; letter-spacing: .16em; }
+html[data-entry="cinema"] .le__brand i { display: block; width: 2.4rem; height: 3px; background: var(--signal, #ed1c2e); }
+html[data-entry="cinema"] .le__list { border-top: 1px solid rgba(20, 21, 24, .3); }
+html[data-entry="cinema"] .le__lang { grid-template-columns: 2.4rem minmax(0, 1fr) auto; grid-template-areas: "code name go" "code line go"; align-items: center; column-gap: .9rem; padding: .95rem 0; border-bottom: 1px solid rgba(20, 21, 24, .14); transition: color .25s ease; }
+html[data-entry="cinema"] .le__code { grid-area: code; }
+html[data-entry="cinema"] .le__name { grid-area: name; font-size: clamp(1.5rem, 3vw, 2.3rem); font-weight: 300; line-height: 1.1; letter-spacing: -.024em; }
+html[data-entry="cinema"] .le__line { grid-area: line; color: #50545b; font-size: .875rem; line-height: 1.4; }
+html[data-entry="cinema"] .le__go { grid-area: go; display: none; color: var(--brand, #74202f); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+html[data-entry="cinema"] .le__lang:hover .le__name, html[data-entry="cinema"] .le__lang:focus-visible .le__name { font-weight: 700; }
+html[data-entry="cinema"] .le__close { position: absolute; top: clamp(.8rem, 2vw, 1.6rem); right: clamp(.8rem, 3vw, 3.2rem); }
+@media (min-width: 900px) {
+  html[data-entry="cinema"] .le__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(1.6rem, 3.4vw, 3.4rem); }
+  html[data-entry="cinema"] .le__lang { grid-template-columns: minmax(0, 1fr); grid-template-areas: "code" "name" "line" "go"; row-gap: .35rem; align-items: start; padding: 1.3rem 0 .4rem; border-bottom: 0; }
+  html[data-entry="cinema"] .le__go { display: block; margin-top: .5rem; opacity: 0; transition: opacity .25s ease; }
+  html[data-entry="cinema"] .le__lang:hover .le__go, html[data-entry="cinema"] .le__lang:focus-visible .le__go { opacity: 1; }
+}
+@media (max-height: 560px) and (min-width: 900px) { html[data-entry="cinema"] .le__line { display: none; } }
+
+/* a calm entrance; none under reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-entry="overlay"] .le { animation: le-rise .5s cubic-bezier(.2, .7, .2, 1) .25s both; }
+  html[data-entry="cinema"] .le__panel { animation: le-fade .6s ease .1s both; }
+}
+@keyframes le-rise { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+@keyframes le-fade { from { opacity: 0; } to { opacity: 1; } }

@@ -1,9 +1,8 @@
 import type { CSSProperties } from "react";
-import { AerialVariantSwitch } from "@/components/leasing-experience/aerial-variant";
 import { LgPhoto } from "@/components/leasing-experience/parts";
 import { pathOf } from "@/components/leasing-experience/photo-scene";
 import type { Photo, Pt, VisibilityMark } from "@/data/leasing-experience-model";
-import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
+import type { SiteLocale } from "@/lib/site-data";
 
 /**
  * ARCHITECTURAL AERIAL (OWNER «LOCATION VISUAL INTELLIGENCE R4», 2026-11-12, §01) — the real photograph, untouched, with a
@@ -13,12 +12,11 @@ import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
  *   · five small numbered marks; their wording lives in the legend beside the picture (AerialLegend, the explorer's detail panel),
  *     so nothing covers the architecture;
  *   · thin guides only where a direction has to be read (shopfronts, the customer entrance, the pavement, the boulevard).
- * Two variants for the OWNER review, switched by `data-variant` (the preview edition also reads «?aerial=a|b»):
- *   A · Minimal Architectural Annotation — the mask, the hairline and the five marks;
- *   B · Premium Real Estate Intelligence — plus a slight dimming of the surroundings, the name set on the roof and the fine guides.
+ * OWNER DECISION 2026-11-12: variant B «Premium Real Estate Intelligence» is final — a slight dimming of the surroundings, the name
+ * set on the roof, the fine guides of the shopfronts, the entrance and the pavement. The long guide along the boulevard is removed:
+ * the boulevard carries its number only, the photograph stays clean. Never bring back the red quadrangle or plates on the picture.
  * The meaning of the five marks and every fact are unchanged.
  */
-export type AerialVariant = "a" | "b";
 
 const arrow = (from: Pt, to: Pt, size = 11) => {
   const ang = Math.atan2(to[1] - from[1], to[0] - from[0]);
@@ -33,12 +31,12 @@ const tick = (a: Pt, b: Pt, size = 9) => {
   return `M${(a[0] - dx).toFixed(1)} ${(a[1] - dy).toFixed(1)} L${(a[0] + dx).toFixed(1)} ${(a[1] + dy).toFixed(1)}`;
 };
 
-export function AerialAnnotation({ photo, marks, name, caption, locale, variant = "b" }: { photo: Photo; marks: VisibilityMark[]; name: string; caption: string; locale: SiteLocale; variant?: AerialVariant }) {
+export function AerialAnnotation({ photo, marks, name, caption, locale }: { photo: Photo; marks: VisibilityMark[]; name: string; caption: string; locale: SiteLocale }) {
   const { width: w, height: h } = photo;
   const object = marks.find((mark) => mark.kind === "object");
   const frame = `M0 0 H${w} V${h} H0 Z`;
   return (
-    <figure className="lg-vis lg-air" data-variant={variant}>
+    <figure className="lg-vis lg-air">
       <span className="lg-scene lg-air__scene">
         <LgPhoto photo={photo} locale={locale} ratio={`${w} / ${h}`} sizes="(min-width: 1024px) 64vw, 100vw" className="lg-scene__photo" />
         <svg className="lg-scene__draw lg-air__draw" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -46,7 +44,8 @@ export function AerialAnnotation({ photo, marks, name, caption, locale, variant 
           {object ? <path className="lg-air__dim" d={`${frame} ${pathOf(object.shape)}`} fillRule="evenodd" /> : null}
           {object ? <path className="lg-air__mask" d={pathOf(object.shape)} /> : null}
           {marks.map((mark) => {
-            if (mark.kind === "object") return null;
+            // the boulevard has no guide (OWNER decision 2026-11-12) — its number and the legend say what it is
+            if (mark.kind === "object" || mark.kind === "road") return null;
             const pts = mark.shape;
             const first = pts[0], last = pts[pts.length - 1];
             if (mark.kind === "glazing") return (
@@ -79,8 +78,6 @@ export function AerialAnnotation({ photo, marks, name, caption, locale, variant 
         </span>
       </span>
       <figcaption className="lg-stage__caption">{caption}</figcaption>
-      {/* OWNER review of the two variants on the preview: «?aerial=a» / «?aerial=b» — never shipped to production */}
-      {isProductionEdition ? null : <AerialVariantSwitch />}
     </figure>
   );
 }

@@ -31,7 +31,7 @@ export const creanga78Experience: LeasingExperience = {
     photo: "building",
     phonePhoto: "buildingPhone",
     title: T("Un obiect în funcțiune, ocupat integral.", "Действующий объект, занятый полностью.", "An operating property, fully let."),
-    place: T("Chișinău", "Кишинёв", "Chișinău"),
+    place: T("Chișinău", "Кишинэу", "Chișinău"),
     offer: T("conform registrului · liber 0 m²", "площадь по реестру · свободно 0 м²", "registered area · 0 m² available"),
     support: T("Lăsați o cerere — vă anunțăm când se eliberează un spațiu.", "Оставьте заявку — сообщим, когда освободится помещение.", "Leave a request — we tell you when a space frees up."),
   },
@@ -70,14 +70,14 @@ export const creanga78Experience: LeasingExperience = {
 
   motion: {
     kicker: T("Locația", "Локация", "Location"),
-    title: T("Strada Ion Creangă, Chișinău.", "Улица Иона Крянгэ, Кишинёв.", "Ion Creangă Street, Chișinău."),
+    title: T("Strada Ion Creangă, Chișinău.", "Улица Иона Крянгэ, Кишинэу.", "Ion Creangă Street, Chișinău."),
     lead: T("Obiect comercial în funcțiune pe strada Ion Creangă. Pe hartă — stațiile de transport public din apropiere (OpenStreetMap).", "Действующий коммерческий объект на улице Иона Крянгэ. На карте — ближайшие остановки общественного транспорта (OpenStreetMap).", "An operating commercial property on Ion Creangă Street. The map shows the nearby public transport stops (OpenStreetMap)."),
     ...sharedMotion,
     ecosystem: [
       { key: "street", category: "services", title: T("Strada Ion Creangă", "Улица Иона Крянгэ", "Ion Creangă Street"), text: T("Fațada obiectului dă spre stradă (OpenStreetMap).", "Фасад объекта выходит на улицу (OpenStreetMap).", "The property's facade faces the street (OpenStreetMap).") },
       { key: "streets", category: "residential", title: T("Străzile din jur", "Соседние улицы", "Neighbouring streets"), text: T("Ion Pelivan, Doina și Ion Aldea-Teodorovici — pe hartă.", "Иона Пеливана, Дойны и Иона Алдя-Теодоровича — на карте.", "Ion Pelivan, Doina and Ion Aldea-Teodorovici — on the map.") },
     ],
-    addressText: T("Str. Ion Creangă 78, Chișinău.", "Ул. Иона Крянгэ, 78, Кишинёв.", "78 Ion Creangă St, Chișinău."),
+    addressText: T("Str. Ion Creangă 78, Chișinău.", "Ул. Иона Крянгэ, 78, Кишинэу.", "78 Ion Creangă St, Chișinău."),
     visibility: null,
     verdict: {
       title: T("Obiectul funcționează — spațiile sunt ocupate.", "Объект работает — помещения заняты.", "The property operates — its spaces are let."),
@@ -92,7 +92,7 @@ export const creanga78Experience: LeasingExperience = {
   drawers: sharedDrawers,
   specs: [],
   location: {
-    lead: T("Strada Ion Creangă, Chișinău.", "Улица Иона Крянгэ, Кишинёв.", "Ion Creangă Street, Chișinău."),
+    lead: T("Strada Ion Creangă, Chișinău.", "Улица Иона Крянгэ, Кишинэу.", "Ion Creangă Street, Chișinău."),
     points: [fact(T("Strada Ion Creangă", "Улица Иона Крянгэ", "Ion Creangă Street"), "DOCUMENT_CONFIRMED", OSM)],
     metrics: [],
     internal: [],

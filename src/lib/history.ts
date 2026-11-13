@@ -185,7 +185,7 @@ export const eras: Era[] = [
     title: L("Cumpărăm. Dezvoltăm. Închiriem.", "Покупаем. Развиваем. Сдаём в аренду.", "We acquire. We develop. We lease."),
     lead: L(
       "MEGAPARC cumpără imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spațiile comerciale din clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
-      "MEGAPARC покупает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинёве; проекты развития — VATRA и Drochia.",
+      "MEGAPARC покупает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинэу; проекты развития — VATRA и Drochia.",
       "MEGAPARC buys real estate and land, develops its own projects and leases the commercial space in its buildings. Its operating properties are in Chișinău; its development projects are VATRA and Drochia.",
     ),
   },
@@ -204,7 +204,7 @@ export const entries: HistoryEntry[] = [
     sector: "retail",
     scope: "group",
     name: "Bd. Negruzzi",
-    place: L("Chișinău", "Кишинёв", "Chișinău"),
+    place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Supermarketul de pe bulevardul Negruzzi", "Супермаркет на бульваре Негруцци", "The supermarket on Negruzzi Boulevard"),
     text: L(
       "Primul proiect al fondatorilor. Aprovizionarea a trebuit construită de la zero — într-o economie care abia trecea de la comerțul de stat la cel de piață.",
@@ -299,7 +299,7 @@ export const entries: HistoryEntry[] = [
     sector: "investment",
     scope: "group",
     name: "",
-    place: L("Chișinău", "Кишинёв", "Chișinău"),
+    place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Se formează structura de investiții a grupului", "Создана инвестиционная структура группы", "The group's investment structure is formed"),
     text: L(
       "Un centru care coordonează toate direcțiile de afaceri și atrage capital strategic. Din acest an se numără istoria grupului.",
@@ -314,7 +314,7 @@ export const entries: HistoryEntry[] = [
     sector: "realestate",
     scope: "group",
     name: "Y.M. Capitol",
-    place: L("Chișinău", "Кишинёв", "Chișinău"),
+    place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Y.M. Capitol — prima direcție imobiliară", "Y.M. Capitol — первое направление недвижимости", "Y.M. Capitol — the first real-estate line"),
     text: L(
       "Terenuri în punctele-cheie ale orașului, spații de birouri și comerciale.",
@@ -406,7 +406,7 @@ export const entries: HistoryEntry[] = [
     sector: "realestate",
     scope: "megaparc",
     name: "MEGAPARC",
-    place: L("Chișinău", "Кишинёв", "Chișinău"),
+    place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("MEGAPARC", "MEGAPARC", "MEGAPARC"),
     text: L(
       "Compania cumpără clădiri comerciale degradate și le transformă în spații moderne, gata de închiriat — ceea ce astăzi se numește dezvoltare brownfield.",
@@ -437,7 +437,7 @@ export const entries: HistoryEntry[] = [
     sector: "legal",
     scope: "group",
     name: "IMC Legal Advisors",
-    place: L("Chișinău", "Кишинёв", "Chișinău"),
+    place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("IMC Legal Advisors", "IMC Legal Advisors", "IMC Legal Advisors"),
     text: L(
       "Asistență juridică pentru tranzacții complexe și gestionarea riscurilor — pentru portofoliul propriu și pentru parteneri externi.",
@@ -452,7 +452,7 @@ export const entries: HistoryEntry[] = [
     sector: "horeca",
     scope: "group",
     name: "Flying Pig",
-    place: L("Chișinău", "Кишинёв", "Chișinău"),
+    place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Flying Pig", "Flying Pig", "Flying Pig"),
     text: L("O berărie în stil bavarez și un restaurant BBQ.", "Пивоварня в баварском стиле и BBQ-ресторан.", "A Bavarian-style brewery and a BBQ restaurant."),
   },
@@ -641,7 +641,7 @@ export const historyCopy = {
   scopeMegaparc: L("MEGAPARC", "MEGAPARC", "MEGAPARC"),
   mapRegion: L(
     "Unde a început: Chișinău și portul Brăila. Harta arată istoria grupului, nu prezența actuală a MEGAPARC.",
-    "Где всё началось: Кишинёв и порт Брэила. Карта показывает историю группы, а не текущее присутствие MEGAPARC.",
+    "Где всё началось: Кишинэу и порт Брэила. Карта показывает историю группы, а не текущее присутствие MEGAPARC.",
     "Where it began: Chișinău and the port of Brăila. The map shows the group's history, not MEGAPARC's current presence.",
   ),
   mapWorld: L(
@@ -650,7 +650,7 @@ export const historyCopy = {
     "The countries where the group worked between 1991 and 2020. Today every MEGAPARC property is in the Republic of Moldova.",
   ),
   places: {
-    chisinau: L("Chișinău", "Кишинёв", "Chișinău"),
+    chisinau: L("Chișinău", "Кишинэу", "Chișinău"),
     braila: L("Brăila", "Брэила", "Brăila"),
     ukraine: L("Ucraina", "Украина", "Ukraine"),
     romania: L("România", "Румыния", "Romania"),
@@ -835,7 +835,7 @@ export const chapters: Chapter[] = [
     title: L("MEGAPARC astăzi.", "MEGAPARC сегодня.", "MEGAPARC today."),
     lead: L(
       "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
-      "MEGAPARC приобретает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинёве; проекты развития — VATRA и Drochia.",
+      "MEGAPARC приобретает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинэу; проекты развития — VATRA и Drochia.",
       "MEGAPARC acquires real estate and land, develops its own projects and leases commercial space in its buildings. The operating properties are in Chișinău; the development projects are VATRA and Drochia.",
     ),
     ids: [],
@@ -845,23 +845,23 @@ export const chapters: Chapter[] = [
 
 /** Location in one format: CITY, COUNTRY when the city is confirmed, otherwise COUNTRY. */
 export const episodePlace: Record<string, Localized> = {
-  negruzzi: L("Chișinău, Moldova", "Кишинёв, Молдова", "Chișinău, Moldova"),
+  negruzzi: L("Chișinău, Moldova", "Кишинэу, Молдова", "Chișinău, Moldova"),
   modelier: L("Moldova", "Молдова", "Moldova"),
   romitech: L("Brăila, România", "Брэила, Румыния", "Brăila, Romania"),
   brp: L("Moldova", "Молдова", "Moldova"),
   "mi-gross": L("Moldova", "Молдова", "Moldova"),
   arcona: L("Moldova", "Молдова", "Moldova"),
-  holding: L("Chișinău, Moldova", "Кишинёв, Молдова", "Chișinău, Moldova"),
-  "ym-capitol": L("Chișinău, Moldova", "Кишинёв, Молдова", "Chișinău, Moldova"),
+  holding: L("Chișinău, Moldova", "Кишинэу, Молдова", "Chișinău, Moldova"),
+  "ym-capitol": L("Chișinău, Moldova", "Кишинэу, Молдова", "Chișinău, Moldova"),
   "green-hills": L("Moldova", "Молдова", "Moldova"),
   farmatrade: L("Moldova", "Молдова", "Moldova"),
   "imc-leasing": L("Moldova", "Молдова", "Moldova"),
   "soiuz-agros": L("Moldova", "Молдова", "Moldova"),
   inseko: L("Ucraina", "Украина", "Ukraine"),
-  megaparc: L("Chișinău, Moldova", "Кишинёв, Молдова", "Chișinău, Moldova"),
+  megaparc: L("Chișinău, Moldova", "Кишинэу, Молдова", "Chișinău, Moldova"),
   "imc-market": L("Moldova", "Молдова", "Moldova"),
-  "imc-legal": L("Chișinău, Moldova", "Кишинёв, Молдова", "Chișinău, Moldova"),
-  "flying-pig": L("Chișinău, Moldova", "Кишинёв, Молдова", "Chișinău, Moldova"),
+  "imc-legal": L("Chișinău, Moldova", "Кишинэу, Молдова", "Chișinău, Moldova"),
+  "flying-pig": L("Chișinău, Moldova", "Кишинэу, Молдова", "Chișinău, Moldova"),
   valahia: L("Irak", "Ирак", "Iraq"),
   "west-africa": L("Africa de Vest", "Западная Африка", "West Africa"),
   "sdc-senegal": L("Dakar, Senegal", "Дакар, Сенегал", "Dakar, Senegal"),

@@ -1,3 +1,4 @@
+import { commercialCopy, ratesLine } from "@/data/moscova-20-commercial";
 import { T, type Evidence, type LeasingExperience, type Photo, type PlanZone, type Pt } from "@/data/leasing-experience-model";
 import { publicAsset } from "@/lib/site-data";
 
@@ -119,7 +120,7 @@ export const moscova20Experience: LeasingExperience = {
     photo: "entranceProcessed",
     phonePhoto: "entranceProcessed",
     title: T("Spațiu pentru următorul pas al afacerii dumneavoastră.", "Пространство для следующего шага вашего бизнеса.", "Space for your business's next step."),
-    place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
+    place: T("Chișinău · Rîșcani", "Кишинэу · Рышкань", "Chișinău · Rîșcani"),
     offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
     // OWNER copy correction 2026-11-10 (capex / tenant investment): replaces «Капитальная база уже готова.» — the core capital works are done,
     // the tenant invests primarily in adapting the space to its format (never zero investment, never fit-out included)
@@ -186,12 +187,13 @@ export const moscova20Experience: LeasingExperience = {
       labels: {
         nearest: T("Cea mai apropiată stație", "Ближайшая остановка", "Nearest stop"),
         nearestNote: T("Pe aceeași parte a bulevardului — fără traversarea carosabilului. Direcția: spre str. Studenților.", "На той же стороне бульвара — без перехода проезжей части. Направление — к ул. Студенцилор.", "On the same side of the boulevard — no carriageway to cross. Direction: towards Studenților St."),
-        walk: T("Pe jos până la intrare", "Пешком до входа", "On foot to the entrance"),
         routes: T("Rute", "Маршруты", "Routes"),
         access: T("Acces", "Вход", "Access"),
         accessValue: T("Direct de pe bulevard: scări și rampă.", "Прямо с бульвара: лестница и пандус.", "Straight from the boulevard: steps and a ramp."),
       },
-      walkValue: T("≈ {m} m · circa {min} minute", "≈ {m} м · около {min} минут", "≈ {m} m · about {min} minutes"),
+// OWNER DECISION 2026-11-12: the main argument of the block; the distance is an estimate (entrance point ± 15 m, OSM pedestrian network) — never a GPS measurement
+      walkValue: T("≈ {m} m|până la cea mai apropiată stație · circa {min} minute pe jos", "≈ {m} м|до ближайшей остановки · около {min} минут пешком", "≈ {m} m|to the nearest stop · about a {min}‑minute walk"),
+      estimate: T("Distanță estimată pe harta OpenStreetMap, de la intrarea clienților; precizie ≈ ± 15 m. Nu este o măsurătoare GPS.", "Расстояние оценочное: по карте OpenStreetMap, от клиентского входа; точность ≈ ± 15 м. Это не GPS‑замер.", "The distance is an estimate: from the OpenStreetMap map, measured from the customer entrance; accuracy ≈ ± 15 m. Not a GPS measurement."),
       walkShort: T("≈ {m} m · {min} min", "≈ {m} м · {min} мин", "≈ {m} m · {min} min"),
       routes: [
         { mode: "trolleybus", label: T("Troleibuz", "Троллейбус", "Trolleybus"), refs: ["10"] },
@@ -212,9 +214,9 @@ export const moscova20Experience: LeasingExperience = {
       },
       layers: { stops: T("Stații", "Остановки", "Stops"), walk: T("Trasee pietonale", "Пешеходные маршруты", "Walking routes"), crossings: T("Treceri", "Переходы", "Crossings") },
       note: T(
-        "Distanțele — de la intrarea clienților, pe rețeaua pietonală OpenStreetMap; precizie ≈ ± 15 m. Timpul — la circa 80 m pe minut. Rutele — conform datelor operatorilor și ale hărților publice la 12.11.2026; orarul și traseele se pot modifica.",
-        "Расстояния — от клиентского входа по пешеходной сети OpenStreetMap; точность ≈ ± 15 м. Время — при скорости около 80 м в минуту. Маршруты — по данным перевозчиков и открытых карт на 12.11.2026; расписание и трассы могут меняться.",
-        "Distances — from the customer entrance along the OpenStreetMap pedestrian network; accuracy ≈ ± 15 m. Time — at about 80 m per minute. Routes — per the operators' data and public maps as of 12 Nov 2026; timetables and itineraries may change.",
+        "Timpul — la circa 80 m pe minut. Rutele — conform datelor operatorilor și ale hărților publice la 12.11.2026; orarul și traseele se pot modifica.",
+        "Время — при скорости около 80 м в минуту. Маршруты — по данным перевозчиков и открытых карт на 12.11.2026; расписание и трассы могут меняться.",
+        "Time — at about 80 m per minute. Routes — per the operators' data and public maps as of 12 Nov 2026; timetables and itineraries may change.",
       ),
       aria: T("Harta transportului public lângă Moscova 20: stațiile de pe bulevard și traseul pietonal de la intrare.", "Карта общественного транспорта у Moscova 20: остановки на бульваре и пешеходный маршрут от входа.", "Public transport map at Moscova 20: the stops on the boulevard and the walking route from the entrance."),
       evidence: "DOCUMENT_CONFIRMED",
@@ -246,7 +248,7 @@ export const moscova20Experience: LeasingExperience = {
       projects: [
         { key: "mezon", status: "planned", name: T("Teritoriul uzinei „Mezon”", "Территория завода «Мезон»", "The Mezon plant site"), text: T("Plan urbanistic zonal: locuințe, comerț, birouri, școală‑grădiniță. La ≈ 130 m de Moscova 20, peste bulevard.", "Зональный план: жильё, торговля, офисы, школа‑детский сад. ≈ 130 м от Moscova 20, через бульвар.", "Zonal plan: housing, retail, offices, a school‑kindergarten. ≈ 130 m from Moscova 20, across the boulevard."), lat: 47.0577, lon: 28.8633, at: [403, 464], evidence: "DOCUMENT_CONFIRMED", source: "PUZ obj. 3676, Vol. I / III (rascani.md, 12.01.2024) · register oatucl.md nr. 332, aviz general nr. 313 of 15.07.2025" },
         { key: "florilor-residence", status: "built", name: T("Florilor Residence", "Florilor Residence", "Florilor Residence"), text: T("Complex locativ: 5 blocuri, 484 de apartamente, 2018. ≈ 450 m spre vest.", "Жилой комплекс: 5 домов, 484 квартиры, 2018 год. ≈ 450 м к западу.", "Residential complex: 5 buildings, 484 apartments, 2018. ≈ 450 m to the west."), lat: 47.058, lon: 28.8611, evidence: "APPROXIMATE", source: "accesimobil.md (Horus · Florilor Residence, id81) — reported by a listing portal" },
-        { key: "basarab-residence", status: "built", name: T("Basarab Residence", "Basarab Residence", "Basarab Residence"), text: T("Complex locativ cu spații comerciale la parter, dat în exploatare. ≈ 470 m spre vest.", "Жилой комплекс с коммерческими помещениями на первых этажах, сдан в эксплуатацию. ≈ 470 м к западу.", "Residential complex with ground-floor commercial units, commissioned. ≈ 470 m to the west."), lat: 47.0568, lon: 28.8606, evidence: "APPROXIMATE", source: "horus.md/proiecte («Dat în exploatare») · OSM relation 13909133" },
+        { key: "basarab-residence", status: "built", name: T("Basarab Residence", "Basarab Residence", "Basarab Residence"), text: T("Complex locativ: 195 apartamente, blocuri date în exploatare în 2021–2022, spații comerciale la parter. ≈ 470 m spre vest.", "Жилой комплекс: 195 квартир, корпуса сданы в 2021–2022 гг., коммерческие помещения на первых этажах. ≈ 470 м к западу.", "Residential complex: 195 apartments, blocks completed in 2021–2022, ground-floor commercial units. ≈ 470 m to the west."), lat: 47.0568, lon: 28.8606, evidence: "APPROXIMATE", source: "korter.md (Basarab Residence: 16 floors, 195 apartments, completed 2021–2022) · horus.md/proiecte («Dat în exploatare») · OSM relation 13909133" },
         { key: "utm-campus", status: "announced", name: T("Campusul Universității Tehnice", "Кампус Технического университета", "Technical University campus"), text: T("Renovarea energetică a căminelor studențești, anunțată la 26.11.2025. ≈ 420 m spre nord.", "Энергетическая реновация студенческих общежитий, объявлена 26.11.2025. ≈ 420 м к северу.", "Energy renovation of the student dormitories, announced on 26 Nov 2025. ≈ 420 m to the north."), lat: 47.0604, lon: 28.8649, evidence: "APPROXIMATE", source: "utm.md/?p=192741 (INSPIREE, 26.11.2025)" },
       ],
       status: {
@@ -255,10 +257,13 @@ export const moscova20Experience: LeasingExperience = {
         announced: T("anunțat", "объявлено", "announced"),
       },
       stateLabel: T("Stadiul planului.", "Статус плана.", "Status of the plan."),
+      // OWNER DECISION 2026-11-12 §4 — checked on the state register (oatucl.md, row 5/2025) and the State Register of Local Acts: a favourable
+      // general endorsement is NOT the approval of the plan. No Municipal Council decision was found; the city's architecture directorate
+      // lists the plan as «în elaborare». Never «approved», never «under construction» (no permit, no start of works).
       state: T(
-        "Proiectul a trecut consultările publice (05.02.2024) și a primit avizul general al autorității de stat (15.07.2025). Decizia Consiliului Municipal, dezvoltatorul și termenele nu au fost publicate.",
-        "Проект прошёл общественные консультации (05.02.2024) и получил общее заключение государственного органа (15.07.2025). Решение Муниципального совета, застройщик и сроки не опубликованы.",
-        "The draft passed public consultation (5 Feb 2024) and received the state authority's general endorsement (15 Jul 2025). A Municipal Council decision, a developer and a timetable have not been published.",
+        "Proiectul a trecut consultările publice (05.02.2024) și a primit avizul general favorabil al autorității de stat (nr. 313 din 15.07.2025; în registrul de stat — „Aprobat”). Aprobarea planului de către Consiliul Municipal Chișinău nu a fost publicată. Autorizații de construire și începerea lucrărilor nu sunt confirmate; dezvoltatorul și termenele nu sunt anunțate.",
+        "Проект прошёл общественные консультации (05.02.2024) и получил положительное общее заключение государственного органа (№ 313 от 15.07.2025; в государственном реестре — «Aprobat»). Утверждение плана Муниципальным советом Кишинэу не опубликовано. Разрешения на строительство и начало работ не подтверждены; застройщик и сроки не объявлены.",
+        "The draft passed public consultation (5 Feb 2024) and received the state authority's favourable general endorsement (No. 313 of 15 Jul 2025; “Aprobat” in the state register). Approval of the plan by the Chișinău Municipal Council has not been published. Building permits and a start of works are not confirmed; no developer or timetable has been announced.",
       ),
       balanceLabel: T("Ce înseamnă pentru chiriaș.", "Что это значит для арендатора.", "What it means for a tenant."),
       balance: T(
@@ -500,19 +505,21 @@ export const moscova20Experience: LeasingExperience = {
 
   terms: {
     title: T("Condiții de închiriere", "Условия аренды", "Lease terms"),
-    pending: T("Condițiile comerciale se transmit după o primă verificare a formatului afacerii.", "Коммерческие условия предоставляются после первичной проверки формата бизнеса.", "Commercial terms are provided after a first check of the business format."),
+    // OWNER R6 (2026-11-12): the two rates are published; every other term still follows the first check of the business format
+    pending: T("Tarifele de închiriere sunt publicate. Celelalte condiții se transmit după o primă verificare a formatului afacerii.", "Ставки аренды опубликованы. Остальные условия предоставляются после первичной проверки формата бизнеса.", "The rental rates are published. The other terms are provided after a first check of the business format."),
     // what the proposal answers — topics only, never values (AGENTS.md: no public rent or payment terms)
-    covers: [T("chiria", "ставка", "rent"), T("TVA și utilitățile", "НДС и коммунальные платежи", "VAT and utilities"), T("cheltuielile de exploatare", "эксплуатационные расходы", "service costs"), T("perioada de amenajare", "период на отделку", "fit-out period"), T("indexarea", "индексация", "indexation"), T("durata contractului", "срок договора", "lease term"), T("firma", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
+    covers: [T("utilitățile", "коммунальные платежи", "utilities"), T("cheltuielile de exploatare", "эксплуатационные расходы", "service costs"), T("perioada de amenajare", "период на отделку", "fit-out period"), T("durata contractului", "срок договора", "lease term"), T("firma", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
     // structured, rendered only when the OWNER confirms a value AND approves it for publication
     rows: [
-      { key: "rent", label: T("Chiria", "Ставка аренды", "Rent"), value: null, evidence: "TO_CONFIRM", source: "The 2026 offer states a rate — not confirmed as current; never stored here", publish: false },
-      { key: "vat", label: T("TVA", "НДС", "VAT"), value: null, evidence: "TO_CONFIRM", source: "Offer says incl. VAT, mandate says excl. VAT — conflicting", publish: false },
+      // OWNER DECISION R6 / R7 (2026-11-12): the rates are confirmed and published — values from src/data/moscova-20-commercial.ts, never typed here
+      { key: "rent", label: T("Chiria", "Ставка аренды", "Rent"), value: { ro: ratesLine("ro"), ru: ratesLine("ru"), en: ratesLine("en") }, evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12 — src/data/moscova-20-commercial.ts", publish: true },
+      { key: "vat", label: T("TVA", "НДС", "VAT"), value: T("Tarifele nu includ TVA.", "Ставки указаны без НДС.", "Rates exclude VAT."), evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12", publish: true },
       { key: "utilities", label: T("Utilități", "Коммунальные платежи", "Utilities"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
       { key: "service", label: T("Cheltuieli de exploatare", "Эксплуатационные расходы", "Service charge"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
       { key: "security", label: T("Pază și întreținere", "Охрана и обслуживание", "Security and maintenance"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
       { key: "fitout", label: T("Perioada de amenajare · vacanța de chirie", "Период на отделку · арендные каникулы", "Fit-out period · rent-free"), value: null, evidence: "TO_CONFIRM", source: "Mentioned in the offer — not confirmed", publish: false },
       { key: "deposit", label: T("Garanție", "Депозит или гарантия", "Deposit or guarantee"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
-      { key: "indexation", label: T("Indexare", "Индексация", "Indexation"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
+      { key: "indexation", label: T("Indexare", "Индексация", "Indexation"), value: commercialCopy.indexation, evidence: "OWNER_CONFIRMED", source: "OWNER addendum «Ежегодная индексация арендной платы», 2026-11-12 — wording as supplied; no percentage", publish: true },
       { key: "term", label: T("Durata minimă", "Минимальный срок", "Minimum term"), value: null, evidence: "TO_CONFIRM", source: "The 2026 offer states a minimum term — not confirmed as current", publish: false },
       { key: "handover", label: T("Starea la predare", "Состояние при передаче", "Handover condition"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
       { key: "signage", label: T("Firma", "Вывеска", "Signage"), value: null, evidence: "TO_CONFIRM", source: `${OWNER} §19`, publish: false },
@@ -758,6 +765,47 @@ export const moscova20Experience: LeasingExperience = {
             { label: T("Zona clienților", "Клиентская зона", "Client area"), shape: [[620, 562], [1000, 552], [1078, 650], [612, 662]], at: [640, 640] },
             { label: T("Zona de lucru", "Рабочая зона", "Work area"), shape: [[0, 700], [1380, 690], [1450, 1066], [0, 1066]], at: [640, 880] },
             { label: T("Zona de serviciu", "Служебная зона", "Service area"), shape: [[1040, 540], [1342, 506], [1372, 622], [1082, 600]], at: [1330, 530] },
+          ],
+        },
+      },
+      // OWNER addendum «NEW BUSINESS FORMAT: DIRECT-TO-CONSUMER / PRODUCER STORE» (2026-11-12): the fifth scenario. The idea — a producer's
+      // own outlet: direct sales, control of the range, the brand and the relationship with the buyer. Only what the property confirms
+      // (glazing to the boulevard · the direct customer entrance · two levels linked by the inner stair · sales and support rooms of the
+      // official plan · the service entrance from the courtyard). Never a promise of profit, of higher sales or of savings without a
+      // calculation; never a statement about retail chains. A food producer is a regulated format — checked like the others.
+      {
+        key: "producer",
+        label: T("Magazin de firmă al producătorului", "Фирменный магазин производителя", "Manufacturer's Own Store"),
+        question: T("De la producător — direct la consumator.", "От производства — напрямую к покупателю.", "From producer to customer. Directly."),
+        evidenceTitle: T("Ce oferă Moscova 20 unui magazin propriu", "Что Moscova 20 даёт собственному магазину", "What Moscova 20 gives an own store"),
+        evidence: [
+          { title: T("Vitrine spre bulevard", "Витрины на бульвар", "Glazing to the boulevard"), text: T("Vitrajul parterului arată produsele și brandul dinspre bulevardul Moscova.", "Остекление первого этажа показывает продукцию и бренд со стороны бульвара Москова.", "The ground-floor glazing shows the products and the brand to Moscova Boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
+          { title: T("Intrare directă din bulevard", "Прямой вход с бульвара", "A direct entrance from the boulevard"), text: T("Cumpărătorul intră de pe trotuar — scări și rampă, fără un parcurs prin clădire.", "Покупатель входит с тротуара — лестница и пандус, без прохода через здание.", "The buyer walks in from the pavement — steps and a ramp, with no path through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
+          { title: T("Două niveluri", "Два уровня", "Two levels"), text: T("Sala de vânzare la parter și un al doilea nivel la demisol, legate prin scara interioară.", "Торговый зал на первом этаже и второй уровень в цоколе, связанные внутренней лестницей.", "A sales floor on the ground floor and a second level below, linked by the inner stair."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Suprafețe de vânzare și auxiliare", "Торговые и вспомогательные площади", "Sales and support space"), text: T("Săli de vânzare, încăperi auxiliare și intrarea de serviciu din curte pentru livrarea propriei producții.", "Торговые залы, вспомогательные помещения и служебный вход со двора для поставок собственной продукции.", "Sales halls, support rooms and the service entrance from the courtyard for deliveries of your own products."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: `${PLANS} · ${OWNER} §7` },
+        ],
+        checks: [
+          T("sortimentul și condițiile de păstrare a producției", "ассортимент и условия хранения продукции", "the product range and its storage conditions"),
+          T("cerințele de temperatură și ventilație", "требования к температурному режиму и вентиляции", "temperature and ventilation requirements"),
+          T("cerințele de autorizare pentru produsele alimentare, dacă este cazul", "разрешительные требования для продуктов питания, если применимо", "permit requirements for food products, where applicable"),
+          T("graficul și volumul livrărilor", "график и объём поставок", "the delivery schedule and volumes"),
+          T("formatul și dimensiunile firmei", "формат и размеры вывески", "the signage format and size"),
+          T("programul de lucru", "режим работы", "opening hours"),
+          T("conformitatea spațiului cu cerințele formatului", "соответствие помещения требованиям формата", "how the space meets the format's requirements"),
+        ],
+        closing: T(
+          "Un punct de vânzare propriu înseamnă vânzări directe și controlul asupra sortimentului, brandului și relației cu cumpărătorii. Economia formatului se calculează pe datele dumneavoastră; pasul următor este verificarea tehnică și comercială a scenariului.",
+          "Собственная торговая точка — это прямые продажи и контроль над ассортиментом, брендом и отношениями с покупателями. Экономика формата считается на ваших данных; следующий шаг — техническая и коммерческая проверка сценария.",
+          "An outlet of your own means direct sales and control of the range, the brand and the relationship with buyers. The economics of the format are calculated on your figures; the next step is a technical and commercial check of the scenario.",
+        ),
+        overlay: {
+          photo: "intGroundHall",
+          evidence: "DEMO",
+          source: SCENARIO,
+          zones: [
+            { label: T("Vitrina · brandul producătorului", "Витрина · бренд производителя", "Shop window · the producer's brand"), shape: [[100, 392], [400, 400], [400, 540], [100, 540]], at: [250, 468] },
+            { label: T("Sala de vânzare", "Торговый зал", "Sales floor"), shape: [[0, 870], [640, 700], [940, 720], [1536, 800], [1536, 1024], [0, 1024]], at: [700, 900] },
+            { label: T("Zonă auxiliară", "Вспомогательная зона", "Support area"), shape: [[980, 640], [1536, 700], [1536, 785], [950, 712]], at: [1260, 712] },
           ],
         },
       },

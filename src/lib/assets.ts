@@ -98,7 +98,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     slug: "dacia-31",
     name: "Dacia 31",
     district: { ro: "Botanica", ru: "Ботаника", en: "Botanica" },
-    city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     media: media("portfolio", "dacia-31", "50% 56%"),
     status: operating,
     positioning: { ro: "Clădire de birouri independentă", ru: "Отдельное офисное здание", en: "Stand-alone office building" },
@@ -148,11 +148,11 @@ export const portfolioAssets: PortfolioAsset[] = [
     ],
     location: {
       ro: "Botanica este intrarea în Chișinău dinspre aeroport. Clădirea se află lângă arterele Dacia, Traian și Decebal, aproape de o alee pietonală largă, restaurante, cafenele și servicii.",
-      ru: "Ботаника — въезд в Кишинёв со стороны аэропорта. Здание расположено у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной аллеей, ресторанами, кафе и сервисами.",
+      ru: "Ботаника — въезд в Кишинэу со стороны аэропорта. Здание расположено у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной аллеей, ресторанами, кафе и сервисами.",
       en: "Botanica is the entrance to Chișinău from the airport. The building sits by the Dacia, Traian and Decebal arteries, close to a wide pedestrian promenade, restaurants, cafés and services.",
     },
     connectivity: [
-      { ro: "Botanica, intrarea în Chișinău dinspre aeroport", ru: "Ботаника — въезд в Кишинёв со стороны аэропорта", en: "Botanica, the entrance to Chișinău from the airport" },
+      { ro: "Botanica, intrarea în Chișinău dinspre aeroport", ru: "Ботаника — въезд в Кишинэу со стороны аэропорта", en: "Botanica, the entrance to Chișinău from the airport" },
       { ro: "Arterele urbane Dacia, Traian și Decebal", ru: "Городские магистрали Дачия, Траян и Дечебал", en: "Dacia, Traian and Decebal urban arteries" },
       { ro: "Alee pietonală largă", ru: "Широкая пешеходная аллея", en: "Wide pedestrian promenade" },
       { ro: "Restaurante, cafenele și servicii în apropiere", ru: "Рестораны, кафе и сервисы рядом", en: "Restaurants, cafés and services nearby" },
@@ -221,7 +221,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     slug: "moscova-9",
     name: "Moscova 9",
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
-    city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     media: media("portfolio", "moscova-9", "50% 50%"),
     status: operating,
     positioning: { ro: "Obiect comercial independent", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" },
@@ -324,7 +324,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     slug: "moscova-20",
     name: "Moscova 20",
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
-    city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     // OWNER R3.1 §5 (2026-11-09): the elevated facade shot (portfolio/moscova-20 and its m20-facade / m20-approach crops)
     // is OWNER_REJECTED_FOR_LARGE_FORMAT — the property is represented by its real ground-floor hall (OWNER photograph).
     // OWNER «MOSCOVA 20 — MAIN LEASING IMAGE» (2026-11-10): the OWNER-approved processed photograph of the real entrance (glazing,
@@ -442,21 +442,21 @@ export const portfolioAssets: PortfolioAsset[] = [
   {
     slug: "creanga-78",
     name: "Creangă 78",
-    district: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
-    city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    district: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
+    city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     // OWNER «CREANGĂ 78 — OWNER PHOTOGRAPHY UPDATE» (2026-11-11): the OWNER-approved frontage photograph (Linella · Farmacia Familiei,
     // the entrance, parking, customers — the operating asset as it is; scripts/creanga-78-frontage.mjs) replaces the 960 px frame
     // (`creanga-78*`, kept for rollback only). Focal 50 % 55 % keeps the signs and the entrance in every crop.
     media: media("portfolio", "creanga-78-frontage-01", "50% 55%"),
     status: operating,
     positioning: operating,
-    headline: { ro: "Un obiect în funcțiune în Chișinău.", ru: "Действующий объект в Кишинёве.", en: "An operating property in Chișinău." },
+    headline: { ro: "Un obiect în funcțiune în Chișinău.", ru: "Действующий объект в Кишинэу.", en: "An operating property in Chișinău." },
     narrative: { ro: "Informațiile publice vor fi completate.", ru: "Публичная информация будет дополнена.", en: "Public information will be added." },
     use: { ro: "Comercial", ru: "Коммерческий", en: "Commercial" },
     audience: { ro: "", ru: "", en: "" },
     lead: {
       ro: "Obiect MEGAPARC în funcțiune, în Chișinău. Informațiile publice detaliate vor fi publicate după aprobarea datelor și a fotografiilor.",
-      ru: "Действующий объект MEGAPARC в Кишинёве. Подробная публичная информация будет опубликована после утверждения данных и фотографий.",
+      ru: "Действующий объект MEGAPARC в Кишинэу. Подробная публичная информация будет опубликована после утверждения данных и фотографий.",
       en: "An operating MEGAPARC property in Chișinău. Detailed public information will be published once the data and photography are approved.",
     },
     story: {
@@ -467,7 +467,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     keyFacts: [],
     location: {
       ro: "Chișinău. Informații despre localizare și acces sunt disponibile la cerere.",
-      ru: "Кишинёв. Информация о расположении и доступе предоставляется по запросу.",
+      ru: "Кишинэу. Информация о расположении и доступе предоставляется по запросу.",
       en: "Chișinău. Location and access information is available on request.",
     },
     connectivity: [],

@@ -12,6 +12,7 @@ import "../leasing-experience.css";
 import "../r3.css";
 import "../r4.css";
 import "../leasing-toolkit.css";
+import "../commercial.css";
 import "../type.css";
 
 /** Root layout for the RO edition: static HTML is served with lang="ro". */

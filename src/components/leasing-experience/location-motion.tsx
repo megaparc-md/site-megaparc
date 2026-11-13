@@ -200,7 +200,7 @@ function DayRhythm({ traffic, locale, narrow = false }: { traffic: LocationTraff
 
 /* ------------------------------------------------------------ the address on the aerial */
 
-/** OWNER «LOCATION VISUAL INTELLIGENCE R4» §01: the aerial with the architectural annotation; the recommended variant is the default */
+/** OWNER «LOCATION VISUAL INTELLIGENCE R4» §01: the aerial with the architectural annotation (variant B — OWNER decision 2026-11-12) */
 const aerialLegend: Record<SiteLocale, string> = { ro: "Ce este marcat pe fotografie", ru: "Что отмечено на фотографии", en: "What is marked on the photograph" };
 function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name: string; locale: SiteLocale; marked: boolean }) {
   const v = x.motion.visibility;
@@ -214,7 +214,7 @@ function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name
       </figure>
     );
   }
-  return <AerialAnnotation photo={x.photos[v.photo]} marks={marks} name={name} caption={v.caption[locale]} locale={locale} variant="b" />;
+  return <AerialAnnotation photo={x.photos[v.photo]} marks={marks} name={name} caption={v.caption[locale]} locale={locale} />;
 }
 
 /* ------------------------------------------------------------ scene */

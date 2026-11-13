@@ -1445,7 +1445,8 @@ html body.menu-open .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -we
 .tr-cad__total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: .9rem 0 0; }
 .tr-cad__total span { color: var(--muted); font-size: .9rem; }
 .tr-cad__total strong { font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-.r3-trust__cad .tr-cad__number--pending { color: var(--brand); font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: 0; user-select: text; }
+/* the pending line is a sentence, not a number: it wraps (a nowrap sentence pushed the RO page 10 px wide on 390 px phones in Safari) */
+.r3-trust__cad .tr-cad__number--pending { color: var(--brand); font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: 0; user-select: text; white-space: normal; text-wrap: balance; }
 @media (min-width: 1200px) { .tr-cad--many .tr-cad__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.5rem, 3vw, 3rem); } }
 .tr-cad__list li { flex-wrap: wrap; }
 

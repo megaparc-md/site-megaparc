@@ -130,7 +130,7 @@ export const typeScale: TypeStyle[] = [
 /** Glyph coverage sample used on the brand-system review route. */
 export const glyphSample = {
   ro: "Ăă Ââ Îî Șș Țț — Chișinău · Rîșcani · Creangă",
-  ru: "Ёё Жж Щщ Ыы Ъъ — Кишинёв · Рышкань · Дрокия",
+  ru: "Ёё Жж Щщ Ыы Ъъ — Кишинэу · Рышкань · Дрокия",
   en: "€25M+ · 10,939 m² · 5.05 ha · 1995 → 2030 · 04 / 02",
 };
 

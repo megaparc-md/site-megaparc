@@ -1,0 +1,144 @@
+/* ==================================================================
+   MOSCOVA 20 · COMMERCIAL TERMS (OWNER mandates R6 / R7, 2026-11-12).
+   A calm financial statement: figures light and large, their units
+   quiet, labels small; ivory · graphite, burgundy only as a hairline
+   and for the word «предварительно». No red cards, no dashboard.
+   ================================================================== */
+
+/* ---- the two rates in the hero, beside the area ---- */
+.ct-hero { display: grid; gap: .45rem; margin: 0; padding-top: 1.05rem; border-top: 1px solid rgba(17, 18, 22, .16); }
+.ct-hero__rates { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); gap: .4rem clamp(1.4rem, 3vw, 2.6rem); margin: 0; }
+.ct-hero__rate { display: grid; gap: .15rem; }
+.ct-hero__rate dt { color: var(--muted); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .1em; line-height: 1.3; text-transform: uppercase; }
+.ct-hero__rate dd { display: flex; align-items: baseline; gap: .3rem; margin: 0; white-space: nowrap; }
+.ct-hero__rate strong { color: var(--ink); font-size: clamp(1.5rem, 2.1vw, 1.95rem); font-weight: 300; line-height: 1.05; letter-spacing: -.02em; font-variant-numeric: lining-nums proportional-nums; }
+.ct-hero__rate span { color: var(--lg-text, #3d4046); font-size: .875rem; font-weight: 600; }
+.ct-hero__vat { margin: 0; color: var(--muted); font-size: var(--type-caption, .8125rem); line-height: 1.3; }
+/* inside the hero offer grid the rates take a full row of their own — they never squeeze the status column */
+.lg-hero__offer > .lg-hero__rates { grid-column: 1 / -1; margin-top: .55rem; }
+
+/* ---- the block ---- */
+.ct { padding: clamp(2.6rem, 5.5vw, 4.6rem) 0; }
+.ct--paper { background: var(--white, #fff); }
+.ct--ivory { background: transparent; }
+.ct__shell { display: grid; gap: clamp(1.4rem, 2.6vw, 2.2rem); }
+.ct__head { display: grid; gap: .5rem; }
+.ct__kicker { margin: 0; color: var(--brand); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.ct__title { margin: 0; color: var(--ink); font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 700; line-height: 1.1; letter-spacing: -.022em; }
+.ct__vat { margin: 0; color: var(--muted); font-size: .875rem; }
+
+.ct__levels { display: grid; gap: 0; border-top: 1px solid rgba(17, 18, 22, .32); }
+.ct-level { display: grid; gap: .7rem; align-content: start; padding: 1.25rem 0 1.35rem; border-bottom: 1px solid var(--line); }
+.ct-level__name { margin: 0; color: var(--ink); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.ct-level__rate { display: flex; align-items: baseline; gap: .4rem; margin: 0; white-space: nowrap; }
+.ct-level__rate strong { color: var(--ink); font-size: clamp(2.4rem, 4.6vw, 3.6rem); font-weight: 300; line-height: 1; letter-spacing: -.03em; font-variant-numeric: lining-nums proportional-nums; }
+.ct-level__rate span { color: var(--lg-text, #3d4046); font-size: 1rem; font-weight: 600; }
+.ct-level__pending { margin: 0; display: flex; align-items: flex-end; color: var(--muted); font-size: .9375rem; line-height: 1.35; }
+.ct-level__rows { display: grid; gap: .3rem; margin: 0; }
+.ct-level__rows > div { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .1rem 1rem; padding-top: .45rem; border-top: 1px solid var(--line); }
+.ct-level__rows dt { color: var(--muted); font-size: .875rem; }
+.ct-level__rows dd { margin: 0; color: var(--ink); font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+@media (min-width: 720px) {
+  .ct__levels { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, .8fr); column-gap: clamp(1.6rem, 3.4vw, 3.2rem); border-bottom: 1px solid var(--line); }
+  .ct-level { border-bottom: 0; }
+  .ct-level.is-terrace { padding-left: clamp(1.2rem, 2.4vw, 2.4rem); border-left: 1px solid var(--line); }
+  .ct-level__pending { min-height: clamp(2.4rem, 4.6vw, 3.6rem); }
+}
+
+.ct__total { display: grid; gap: .35rem; }
+.ct__total-label { margin: 0; color: var(--brand); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.ct__total-figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .6rem; margin: 0; }
+.ct__total-figure strong { color: var(--ink); font-size: clamp(2rem, 3.6vw, 3rem); font-weight: 300; line-height: 1.05; letter-spacing: -.028em; font-variant-numeric: lining-nums proportional-nums; white-space: nowrap; }
+.ct__total-figure span { color: var(--lg-text, #3d4046); font-size: 1rem; font-weight: 600; white-space: nowrap; }
+.ct__sum { margin: 0; color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums lining-nums; }
+
+.ct__notes { display: grid; gap: .45rem; max-width: 62rem; }
+.ct__notes p, .ct__index p { margin: 0; color: var(--lg-text, #3d4046); font-size: .875rem; line-height: 1.55; }
+.ct__index { display: grid; gap: .35rem; max-width: 62rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+.ct__index .ct__index-title { color: var(--ink); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+@media (min-width: 1024px) {
+  .ct__shell { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .ct__head { grid-row: 1 / span 2; position: sticky; top: calc(var(--header-h, 72px) + 1.5rem); }
+  .ct__levels, .ct__total, .ct__notes, .ct__index, .ct__action { grid-column: 2; }
+}
+.ct__action { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.2rem; margin: 0; }
+.ct__action-meta { color: var(--muted); font-size: .875rem; line-height: 1.4; }
+
+/* ==================================================================
+   MOSCOVA 20 · DIGITAL LEASING PACK — R7 redesign (OWNER «PREMIUM
+   LEASING EXPERIENCE», 2026-11-12). Six scenes, phone first: the
+   architecture large, then the offer, then the detail. Rows and
+   hairlines stay for the documents; the page itself is editorial.
+   ================================================================== */
+.lpx .lp-shell, .lpx .ct .xp-shell { width: min(100% - 2.5rem, 76rem); margin-inline: auto; }
+@media (min-width: 720px) { .lpx .lp-shell, .lpx .ct .xp-shell { width: min(100% - 4rem, 76rem); } }
+
+/* 01 · hero */
+.lpx-hero { padding: calc(var(--header-h, 4.5rem) + clamp(1rem, 3vw, 2.4rem)) 0 clamp(2.2rem, 5vw, 4rem); background: var(--r3-ivory, #f5f2ec); }
+.lpx-hero__grid { display: grid; gap: clamp(1.4rem, 3vw, 2.4rem); }
+.lpx-hero__media { order: -1; margin: 0; overflow: hidden; border-radius: 2px; }
+.lpx-hero__media .lg-photo { aspect-ratio: 4 / 3; }
+.lpx-hero__media img { width: 100%; height: 100%; object-fit: cover; }
+.lpx-hero__text { display: grid; align-content: start; min-width: 0; }
+.lpx-hero .lp-lang { margin-bottom: .6rem; }
+.lpx-hero__name { margin: 0; color: var(--r3-ink, #0f1012); font-size: clamp(2.8rem, 8.5vw, 5.2rem); font-weight: 700; line-height: .98; letter-spacing: -.035em; }
+.lpx-hero__statement { margin: .9rem 0 0; max-width: 24ch; color: var(--r3-ink, #0f1012); font-size: clamp(1.25rem, 2.4vw, 1.75rem); font-weight: 300; line-height: 1.2; letter-spacing: -.018em; }
+.lpx-hero__offer { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .5rem 1.4rem; align-items: end; margin-top: clamp(1.4rem, 3vw, 2.2rem); padding-top: 1.2rem; border-top: 1px solid rgba(17, 18, 22, .3); }
+.lpx-hero__area { display: flex; align-items: flex-start; gap: .3rem; margin: 0; color: var(--r3-ink, #0f1012); white-space: nowrap; }
+.lpx-hero__area strong { font-size: clamp(3rem, 8vw, 4.6rem); font-weight: 300; line-height: .92; letter-spacing: -.04em; font-variant-numeric: lining-nums; }
+.lpx-hero__area span { margin-top: .35rem; font-size: 1.05rem; font-weight: 700; }
+.lpx-hero__offered { margin: 0; color: var(--r3-text, #2a2c31); font-size: .9375rem; line-height: 1.45; }
+.lpx-hero__status { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: .55rem; margin: .3rem 0 0; color: var(--r3-ink, #0f1012); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.lpx-hero__status i { width: .55rem; height: .55rem; border-radius: 50%; background: var(--muted, #6b6f76); }
+.lpx-hero__status.is-now i { background: var(--r3-red, #ed1c2e); box-shadow: 0 0 0 4px rgba(237, 28, 46, .14); }
+.lpx-hero__rates { margin-top: 1.2rem; }
+.lpx-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.6rem; margin: clamp(1.4rem, 3vw, 2rem) 0 0; }
+@media (min-width: 1024px) {
+  .lpx-hero__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(2rem, 4.5vw, 4.5rem); align-items: stretch; }
+  .lpx-hero__media { order: 0; }
+  .lpx-hero__media, .lpx-hero__media .lg-photo { height: 100%; }
+  .lpx-hero__media .lg-photo { aspect-ratio: auto; min-height: 34rem; }
+}
+
+/* sections */
+.lpx-sec { padding: clamp(2.6rem, 5.5vw, 4.6rem) 0; border-top: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); }
+.lpx-sec--paper { background: var(--white, #fff); }
+.lpx-head { display: flex; align-items: baseline; gap: .9rem; margin-bottom: clamp(1.2rem, 2.6vw, 2rem); }
+.lpx-head .lp-no { font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.lpx-head .lp-kicker { margin: 0; }
+.lpx-h2 { margin: 0; color: var(--r3-ink, #0f1012); font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 700; line-height: 1.1; letter-spacing: -.022em; }
+.lpx-h3 { margin: 0 0 .9rem; color: var(--r3-ink, #0f1012); font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 700; line-height: 1.2; letter-spacing: -.015em; }
+.lpx-block { margin-top: clamp(2.2rem, 4.5vw, 3.6rem); padding-top: clamp(1.6rem, 3vw, 2.4rem); border-top: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); }
+.lpx-block__lead { margin: 0 0 1.2rem; }
+.lpx .ct { border-top: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); }
+
+/* 02 · why */
+.lpx-why__list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(17, 18, 22, .3); }
+.lpx-why__list li { display: grid; gap: .45rem; align-content: start; padding: 1.2rem 0 1.3rem; border-bottom: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); }
+.lpx-why__list b { color: var(--r3-burgundy, #74202f); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.lpx-why__list h3 { margin: 0; color: var(--r3-ink, #0f1012); font-size: clamp(1.15rem, 1.8vw, 1.4rem); font-weight: 700; line-height: 1.2; letter-spacing: -.012em; }
+.lpx-why__list p { margin: 0; color: var(--r3-text, #2a2c31); font-size: .9375rem; line-height: 1.5; }
+@media (min-width: 720px) {
+  .lpx-why__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(1.6rem, 3.4vw, 3.2rem); border-bottom: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); }
+  .lpx-why__list li { border-bottom: 0; }
+}
+
+/* 04 · explore */
+.lpx-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+.lpx-gallery__item { margin: 0; overflow: hidden; border-radius: 2px; }
+.lpx-gallery__item.is-0 { grid-column: 1 / -1; }
+.lpx-gallery__item img { width: 100%; height: 100%; object-fit: cover; }
+.lpx-gallery__more { margin: .9rem 0 0; }
+@media (min-width: 900px) {
+  .lpx-gallery { grid-template-columns: minmax(0, 1.52fr) minmax(0, 1fr); grid-template-rows: 1fr 1fr; gap: .8rem; }
+  .lpx-gallery__item.is-0 { grid-column: 1; grid-row: 1 / span 2; }
+  .lpx-gallery__item.is-0 .lg-photo { height: 100%; aspect-ratio: auto; }
+}
+
+/* 06 · next step */
+.lpx-next { background: var(--r3-ivory, #f5f2ec); }
+.lpx-next__grid { display: grid; gap: clamp(2rem, 4vw, 3rem); }
+.lpx-next__title { margin: 0; color: var(--r3-ink, #0f1012); font-size: clamp(2rem, 4.6vw, 3.4rem); font-weight: 300; line-height: 1.06; letter-spacing: -.028em; text-wrap: balance; }
+.lpx-next__actions { margin: 1.5rem 0 1.8rem; }
+.lpx-next__aside { display: grid; gap: 1rem; align-content: start; }
+@media (min-width: 1024px) { .lpx-next__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2.4rem, 5vw, 5rem); } }

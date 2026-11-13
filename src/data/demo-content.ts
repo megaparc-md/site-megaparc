@@ -81,7 +81,7 @@ export const contactLinks = { email: "mailto:receptie@imc.md", mobile: "tel:+373
 
 export const company = {
   legalName: provisional("company.legalName", "COMPANY", "Contact · Footer", "Legal entity", "MEGAPARC SRL", "OWNER — legal entity name and IDNO"),
-  city: confirmed("company.city", "COMPANY", "Contact", "Office city", { ro: "Chișinău, Republica Moldova", ru: "Кишинёв, Республика Молдова", en: "Chișinău, Republic of Moldova" }, "Confirmed — src/lib/site-data.ts"),
+  city: confirmed("company.city", "COMPANY", "Contact", "Office city", { ro: "Chișinău, Republica Moldova", ru: "Кишинэу, Республика Молдова", en: "Chișinău, Republic of Moldova" }, "Confirmed — src/lib/site-data.ts"),
   hours: demo("company.hours", "CONTACT", "Contact", "Office hours", { ro: "Luni – vineri · 9:00 – 18:00", ru: "Пн – пт · 9:00 – 18:00", en: "Mon – Fri · 9:00 – 18:00" }, "OWNER — office hours"),
   /** OWNER-confirmed public contacts (2026-10-09): one general mailbox until department mailboxes are supplied. */
   email: confirmed("contact.email", "CONTACT", "Contact · Footer · Forms", "Public e-mail", "receptie@imc.md", "OWNER 2026-10-09 — general public contact"),
@@ -142,7 +142,7 @@ export const landRecords: LandRecord[] = [
   { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, area: 8470, published: true, point: confirmed("land.florilor-32-2.area", "DEVELOPMENT", "Land · Florilor 32/2", "Land area", ha(8470), "OWNER 2026-10-09") },
   { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: 22000, published: true, point: confirmed("land.orhei.area", "DEVELOPMENT", "Land · Orhei", "Land area", ha(22000), "OWNER 2026-10-09") },
   { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: 38000, published: true, point: confirmed("land.hincesti.area", "DEVELOPMENT", "Land · Hîncești", "Land area", ha(38000), "OWNER tax data (R3.3.1 §13, 2026-11-10) — 3,8 ha in total") },
-  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, area: null, published: true, point: confirmed("land.chisinau.exists", "DEVELOPMENT", "Land · Chișinău", "Land plot listed by name — area pending", "—", "OWNER R3.3 §5 (2026-11-10) — address and area to be supplied") },
+  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, area: null, published: true, point: confirmed("land.chisinau.exists", "DEVELOPMENT", "Land · Chișinău", "Land plot listed by name — area pending", "—", "OWNER R3.3 §5 (2026-11-10) — address and area to be supplied") },
 ];
 export const publicLand = landRecords.filter((plot) => plot.published && plot.area);
 export const landTotal = publicLand.reduce((sum, plot) => sum + (plot.area ?? 0), 0);
@@ -275,9 +275,9 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
 /** Creangă 78: OWNER-confirmed area and occupancy (2026-10-09); district and location text stay DEMO; the earlier DEMO multi-tenant office profile is retired. */
 export const creangaProfile = {
   district: demo("asset.creanga-78.district", "PROJECTS", P("creanga-78"), "District", { ro: "Buiucani", ru: "Буюкань", en: "Buiucani" }, "OWNER — confirmed address"),
-  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un obiect comercial MEGAPARC în funcțiune din Chișinău, cu o suprafață de 2.158 m². Obiectul este ocupat 100 %.", ru: `Creangă 78 — действующий коммерческий объект MEGAPARC в Кишинёве площадью 2 158 м². Объект занят на 100 %.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
+  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un obiect comercial MEGAPARC în funcțiune din Chișinău, cu o suprafață de 2.158 m². Obiectul este ocupat 100 %.", ru: `Creangă 78 — действующий коммерческий объект MEGAPARC в Кишинэу площадью 2 158 м². Объект занят на 100 %.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
   narrative: confirmed("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Un obiect în funcțiune, ocupat integral.", ru: "Действующий объект, занятый полностью.", en: "An operating property, fully let." }, "OWNER 2026-10-09"),
-  location: demo("asset.creanga-78.location", "PROJECTS", P("creanga-78"), "Location text", { ro: "Un cartier consolidat din Chișinău, cu birouri, instituții, locuințe și transport public în apropiere.", ru: "Сложившийся район Кишинёва: офисы, учреждения, жильё и общественный транспорт рядом.", en: "An established Chișinău district with offices, institutions, housing and public transport nearby." }, "OWNER — confirmed address and access"),
+  location: demo("asset.creanga-78.location", "PROJECTS", P("creanga-78"), "Location text", { ro: "Un cartier consolidat din Chișinău, cu birouri, instituții, locuințe și transport public în apropiere.", ru: "Сложившийся район Кишинэу: офисы, учреждения, жильё и общественный транспорт рядом.", en: "An established Chișinău district with offices, institutions, housing and public transport nearby." }, "OWNER — confirmed address and access"),
 };
 
 /* ------------------------------------------------------------------ */

@@ -29,7 +29,7 @@ export const moscova9Experience: LeasingExperience = {
     photo: "building",
     phonePhoto: "buildingPhone",
     title: T("Planificați din timp următoarea locație.", "Запланируйте следующую локацию заранее.", "Plan your next location early."),
-    place: T("Chișinău · Rîșcani", "Кишинёв · Рышкань", "Chișinău · Rîșcani"),
+    place: T("Chișinău · Rîșcani", "Кишинэу · Рышкань", "Chișinău · Rîșcani"),
     // short, like the master «предлагается в аренду» (the 1st-floor area on request is said by the support line, the summary and the plans)
     offer: T("suprafața clădirii, conform registrului", "площадь здания по реестру", "registered building area"),
     support: T("O clădire independentă pe prima linie a bulevardului — se eliberează etajul 1.", "Отдельное здание на первой линии бульвара — освобождается 1-й этаж.", "A stand-alone building directly on the boulevard — the 1st floor is becoming available."),

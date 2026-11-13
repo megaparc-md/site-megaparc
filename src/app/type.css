@@ -24,6 +24,8 @@
 
 html { font-variant-ligatures: no-common-ligatures; }
 .t-accent { font-weight: 700; }
+/* OWNER «SEMANTIC TYPOGRAPHY» (2026-11-12): in the hero statements the accent is a short phrase — it never breaks across two lines */
+:is(.lg-hero__title, .lpx-hero__statement) .t-accent { white-space: nowrap; }
 
 /* the display scale: Manrope runs wider than the retired serif — a slightly tighter scale keeps the same line breaks */
 :root {

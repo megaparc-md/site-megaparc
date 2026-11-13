@@ -23,7 +23,7 @@ export const demoMeta = {
   tenant: "DEMO TENANT SRL",
   contract: "Договор DEMO-2026-001",
   property: "Moscova 20",
-  address: `бул.${N}Москова, 20 · Кишинёв, сектор Рышкань`,
+  address: `бул.${N}Москова, 20 · Кишинэу, сектор Рышкань`,
   unit: `Помещение DEMO-01 · 1‑й этаж`,
   site: "Сайт MEGAPARC",
 } as const;
@@ -128,7 +128,7 @@ export const demoMeters = {
 // ── PROPERTY ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
 export const demoProperty = {
   rows: [
-    { label: "Объект", value: "Moscova 20", note: `бул.${N}Москова, 20 · Кишинёв, сектор Рышкань` },
+    { label: "Объект", value: "Moscova 20", note: `бул.${N}Москова, 20 · Кишинэу, сектор Рышкань` },
     { label: "Помещение", value: "DEMO-01", note: "демо" },
     { label: "Арендуемая площадь", value: `120,0${N}м²`, note: "демо" },
     { label: "Уровень", value: "1‑й этаж", note: "демо" },

@@ -22,9 +22,9 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 type Scene = { key: DirectionKey; slug: string; position?: string; inset: string; caption: Localized };
 
 const scenes: Scene[] = [
-  { key: "investment", slug: "dacia-31", inset: "business.investment.inset", caption: { ro: "Dacia 31 · Chișinău", ru: "Dacia 31 · Кишинёв", en: "Dacia 31 · Chișinău" } },
+  { key: "investment", slug: "dacia-31", inset: "business.investment.inset", caption: { ro: "Dacia 31 · Chișinău", ru: "Dacia 31 · Кишинэу", en: "Dacia 31 · Chișinău" } },
   { key: "development", slug: "vatra", position: "50% 70%", inset: "business.development.inset", caption: { ro: "VATRA · proiect în lucru", ru: "VATRA · проект в работе", en: "VATRA · under way" } },
-  { key: "leasing", slug: "moscova-9", inset: "business.leasing.inset", caption: { ro: "Moscova 9 · Chișinău", ru: "Moscova 9 · Кишинёв", en: "Moscova 9 · Chișinău" } },
+  { key: "leasing", slug: "moscova-9", inset: "business.leasing.inset", caption: { ro: "Moscova 9 · Chișinău", ru: "Moscova 9 · Кишинэу", en: "Moscova 9 · Chișinău" } },
 ];
 
 function SceneImage({ scene, locale, sizes }: { scene: Scene; locale: SiteLocale; sizes: string }) {

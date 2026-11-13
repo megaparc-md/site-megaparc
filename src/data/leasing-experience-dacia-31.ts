@@ -30,7 +30,7 @@ export const dacia31Experience: LeasingExperience = {
     photo: "building",
     phonePhoto: "buildingPhone",
     title: T("O clădire separată pentru o singură companie.", "Отдельное здание для одной компании.", "A separate building for one company."),
-    place: T("Chișinău · Botanica", "Кишинёв · Ботаника", "Chișinău · Botanica"),
+    place: T("Chișinău · Botanica", "Кишинэу · Ботаника", "Chișinău · Botanica"),
     offer: T("conform registrului · 8 spații", "площадь по реестру · 8 помещений", "registered area · 8 premises"),
     support: T("Suprafața și termenul închirierii — la cerere, după vizionare.", "Площадь и сроки аренды — по запросу, после просмотра.", "The area and timing of the lease are given on request, after a viewing."),
   },
@@ -69,7 +69,7 @@ export const dacia31Experience: LeasingExperience = {
   motion: {
     kicker: T("Locația", "Локация", "Location"),
     title: T("Intrarea în oraș dinspre aeroport.", "Въезд в город со стороны аэропорта.", "The city's entrance from the airport."),
-    lead: T("Botanica este intrarea în Chișinău dinspre aeroport. Clădirea se află lângă arterele Dacia, Traian și Decebal, aproape de o alee pietonală largă, restaurante, cafenele și servicii.", "Ботаника — въезд в Кишинёв со стороны аэропорта. Здание расположено у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной аллеей, ресторанами, кафе и сервисами.", "Botanica is the entrance to Chișinău from the airport. The building sits by the Dacia, Traian and Decebal arteries, close to a wide pedestrian promenade, restaurants, cafés and services."),
+    lead: T("Botanica este intrarea în Chișinău dinspre aeroport. Clădirea se află lângă arterele Dacia, Traian și Decebal, aproape de o alee pietonală largă, restaurante, cafenele și servicii.", "Ботаника — въезд в Кишинэу со стороны аэропорта. Здание расположено у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной аллеей, ресторанами, кафе и сервисами.", "Botanica is the entrance to Chișinău from the airport. The building sits by the Dacia, Traian and Decebal arteries, close to a wide pedestrian promenade, restaurants, cafés and services."),
     ...sharedMotion,
     ecosystem: [
       { key: "arteries", category: "services", title: T("Arterele Dacia, Traian și Decebal", "Магистрали Дачия, Траян и Дечебал", "The Dacia, Traian and Decebal arteries"), text: T("Acces auto direct din oraș.", "Прямой автомобильный доступ из города.", "Direct access by car from the city.") },
@@ -93,7 +93,7 @@ export const dacia31Experience: LeasingExperience = {
   location: {
     lead: T("Sectorul Botanica, lângă arterele Dacia, Traian și Decebal.", "Сектор Ботаника, у магистралей Дачия, Траян и Дечебал.", "Botanica district, by the Dacia, Traian and Decebal arteries."),
     points: [
-      fact(T("Botanica, intrarea în Chișinău dinspre aeroport", "Ботаника — въезд в Кишинёв со стороны аэропорта", "Botanica, the entrance to Chișinău from the airport"), "OWNER_CONFIRMED", ASSET),
+      fact(T("Botanica, intrarea în Chișinău dinspre aeroport", "Ботаника — въезд в Кишинэу со стороны аэропорта", "Botanica, the entrance to Chișinău from the airport"), "OWNER_CONFIRMED", ASSET),
       fact(T("Arterele urbane Dacia, Traian și Decebal", "Городские магистрали Дачия, Траян и Дечебал", "Dacia, Traian and Decebal urban arteries"), "OWNER_CONFIRMED", ASSET),
       fact(T("Alee pietonală largă", "Широкая пешеходная аллея", "Wide pedestrian promenade"), "OWNER_CONFIRMED", ASSET),
       fact(T("Restaurante, cafenele și servicii în apropiere", "Рестораны, кафе и сервисы рядом", "Restaurants, cafés and services nearby"), "OWNER_CONFIRMED", ASSET),

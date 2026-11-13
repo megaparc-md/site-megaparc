@@ -68,7 +68,7 @@ export const landPortfolio: LandItem[] = [
   { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, place: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: landArea("hincesti"), page: null },
   { slug: "drochia", name: { ro: "Drochia", ru: "Drochia", en: "Drochia" }, place: { ro: "Drochia", ru: "Дрокия", en: "Drochia" }, area: landArea("drochia"), page: "drochia" },
   { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, place: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: landArea("orhei"), page: null },
-  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, place: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, area: null, page: null },
+  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, place: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, area: null, page: null },
   // a repositioning / redevelopment opportunity: 0,847 ha of land + 1 490 m² of registered existing construction (OWNER, LAND brief §18)
   { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, place: null, area: { ro: "0,847 ha + construcție 1.490 m²", ru: "0,847 га + постройка 1 490 м²", en: "0.847 ha + 1,490 m² building" }, page: null },
 ];

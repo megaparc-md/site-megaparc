@@ -1,20 +1,31 @@
+import { emphasisRange } from "@/lib/emphasis";
+
 /**
- * LIGHT STATEMENT + STRONG ACCENT (OWNER «TYPOGRAPHY ALIGNMENT WITH FINMENTOR», 2026-11-12): a display statement is set in
- * Manrope 300 and its closing word(s) in Manrope 700 — «Основа для вашего бизнеса уже **создана.**», «Адрес — часть **бизнес‑модели.**».
- * Presentation only: the text is the approved copy, unchanged; the accent is the last `words` word(s) (a no-break space keeps a
- * short preposition with its word, so the accent never starts with a hanging particle).
+ * LIGHT STATEMENT + ONE MEANINGFUL ACCENT (typography: OWNER «TYPOGRAPHY ALIGNMENT WITH FINMENTOR», 2026-11-12; emphasis: OWNER
+ * «SEMANTIC TYPOGRAPHY & EDITORIAL EMPHASIS», 2026-11-12). A display statement is set in Manrope 300; the phrase that carries its
+ * main idea — and only that phrase — is set in Manrope 700. Which phrase, if any, is an editorial decision recorded in
+ * src/lib/emphasis.ts: «Пространство для **следующего шага** вашего бизнеса.», «Адрес — **часть бизнес‑модели.**». A statement
+ * that is not in the register stays calm — the last word is never marked mechanically.
+ * Presentation only: the text is the approved copy, unchanged.
+ *
+ * `statement` is the whole statement when `text` is one of its lines (multi-line titles); the accent then appears in the line
+ * that contains the phrase, wherever that line is.
  */
-export function Accent({ text, words = 1 }: { text: string; words?: number }) {
-  const parts = text.trim().split(" ");
-  if (parts.length <= words) return <strong className="t-accent">{text}</strong>;
+export function Accent({ text, statement }: { text: string; statement?: string }) {
+  const range = emphasisRange(text, statement ?? text);
+  if (!range) return <>{text}</>;
+  const [start, end] = range;
   return (
     <>
-      {parts.slice(0, -words).join(" ")} <strong className="t-accent">{parts.slice(-words).join(" ")}</strong>
+      {text.slice(0, start)}
+      <strong className="t-accent">{text.slice(start, end)}</strong>
+      {text.slice(end)}
     </>
   );
 }
 
-/** A multi-line display title: the accent closes the last line. */
+/** One line of a multi-line display title — the accent falls where the register puts it, in whichever line holds the phrase. */
 export function accentLast(lines: string[], index: number, line: string) {
-  return index === lines.length - 1 ? <Accent text={line} /> : line;
+  void index; // kept in the signature: every call site maps over the lines
+  return <Accent text={line} statement={lines.join(" ")} />;
 }

@@ -43,7 +43,7 @@ export const vacancies: Vacancy[] = [
     slug: "ceo",
     title: { ro: "CEO", ru: "CEO / Генеральный директор", en: "CEO" },
     department: "leadership",
-    location: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    location: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     summary: {
       ro: "Conducerea strategică a companiei, coordonarea funcțiilor-cheie, dezvoltarea proiectelor și identificarea noilor obiecte de cumpărat.",
       ru: "Стратегическое управление компанией, координация ключевых функций, развитие проектов и поиск новых объектов для покупки.",
@@ -62,7 +62,7 @@ export const vacancies: Vacancy[] = [
       en: "Leasing, Operations & Development Manager",
     },
     department: "leasing-operations",
-    location: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    location: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     summary: {
       ro: "Închirierea spațiilor comerciale proprii, relația cu chiriașii, monitorizarea încasărilor și dezvoltarea obiectelor grupului.",
       ru: "Аренда собственных коммерческих площадей, работа с арендаторами, контроль поступлений и развитие объектов группы.",
@@ -77,7 +77,7 @@ export const vacancies: Vacancy[] = [
     slug: "head-construction-department",
     title: { ro: "Șef Departament Construcții", ru: "Руководитель строительного департамента", en: "Head of Construction Department" },
     department: "development",
-    location: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    location: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     summary: {
       ro: "Conducerea departamentului de construcții, coordonarea echipei tehnice, subcontractorilor și progresului proiectelor.",
       ru: "Руководство строительным департаментом, координация технической команды, подрядчиков и хода проектов.",
@@ -92,7 +92,7 @@ export const vacancies: Vacancy[] = [
     slug: "construction-project-manager",
     title: { ro: "Manager de proiect în construcții", ru: "Менеджер строительных проектов", en: "Construction Project Manager" },
     department: "development",
-    location: { ro: "Chișinău · Botanica", ru: "Кишинёв · Ботаника", en: "Chișinău · Botanica" },
+    location: { ro: "Chișinău · Botanica", ru: "Кишинэу · Ботаника", en: "Chișinău · Botanica" },
     summary: {
       ro: "Coordonarea proiectelor de la documentația permisivă până la recepție: echipe, buget, grafic, calitate și documentație tehnică.",
       ru: "Координация проекта от разрешительной документации до приёмки: команды, бюджет, график, качество и техническая документация.",
@@ -107,7 +107,7 @@ export const vacancies: Vacancy[] = [
     slug: "chief-engineer",
     title: { ro: "Inginer-șef", ru: "Главный инженер", en: "Chief Engineer" },
     department: "operations",
-    location: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    location: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     summary: {
       ro: "Mentenanța tehnică a clădirilor și instalațiilor, rețele inginerești, bugete, furnizori și lucrări de reparații.",
       ru: "Техническая эксплуатация зданий и инженерных систем, бюджеты, подрядчики и организация ремонтных работ.",
@@ -122,7 +122,7 @@ export const vacancies: Vacancy[] = [
     slug: "legal-counsel",
     title: { ro: "Jurisconsult", ru: "Юрисконсульт", en: "Legal Counsel" },
     department: "legal",
-    location: { ro: "Chișinău · Botanica", ru: "Кишинёв · Ботаника", en: "Chișinău · Botanica" },
+    location: { ro: "Chișinău · Botanica", ru: "Кишинэу · Ботаника", en: "Chișinău · Botanica" },
     summary: {
       ro: "Suport juridic pentru activitatea operațională și dezvoltarea imobiliară, contracte, conformitate și relația cu autoritățile.",
       ru: "Юридическое сопровождение операционной деятельности и девелопмента, договоры, комплаенс и взаимодействие с органами власти.",
@@ -141,7 +141,7 @@ export const vacancies: Vacancy[] = [
       en: "Construction Maintenance & Repairs Worker",
     },
     department: "operations",
-    location: { ro: "Chișinău · Botanica", ru: "Кишинёв · Ботаника", en: "Chișinău · Botanica" },
+    location: { ro: "Chișinău · Botanica", ru: "Кишинэу · Ботаника", en: "Chișinău · Botanica" },
     summary: {
       ro: "Lucrări curente de întreținere și reparații în clădiri și spații administrative, inclusiv lucrări tehnice și de finisare.",
       ru: "Текущие работы по обслуживанию и ремонту зданий и административных помещений, включая технические и отделочные работы.",

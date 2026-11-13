@@ -25,7 +25,8 @@ const nav = {
 
 export const galleryTitle = nav.all;
 
-const statement = T("Brandul dumneavoastră se vede înainte ca clientul să intre.", "Ваш бренд виден до того, как клиент войдёт.", "Your brand is seen before the customer walks in.");
+// three deliberate lines (OWNER «TEXT OVERLAY FIX», 2026-11-12) — the block is as wide as its longest line, so it sits exactly in the corner
+const statement = T("Brandul dumneavoastră\nse vede înainte ca\nclientul să intre.", "Ваш бренд виден\nдо того, как\nклиент войдёт.", "Your brand is seen\nbefore the customer\nwalks in.");
 const SHOWN = 4;
 
 export function PhotoStory({ x, locale }: { x: LeasingExperience; locale: SiteLocale }) {
@@ -45,8 +46,9 @@ export function PhotoStory({ x, locale }: { x: LeasingExperience; locale: SiteLo
             return (
               <figure key={frame.key} className={`lg-story__fig${isLight ? " is-statement" : ""}`} data-reveal style={{ "--i": i % 2 } as CSSProperties}>
                 <LgPhoto photo={x.photos[frame.shot.photo]} shot={frame.shot} locale={locale} sizes="(min-width: 1024px) 58vw, 84vw" />
-                {isLight ? <p className="lg-story__statement lg-display">{statement[locale]}</p> : null}
+                {/* OWNER «TEXT OVERLAY FIX» (2026-11-12): the statement and its label are one block in the bottom-right corner, on the dark part of the frame */}
                 <figcaption className="lg-story__cap">
+                  {isLight ? <span className="lg-story__statement lg-display">{statement[locale].split("\n").map((line) => <span key={line} className="lg-story__line">{line}</span>)}</span> : null}
                   <span className="lg-story__label"><b>{frame.no}</b> · {frame.label[locale]}</span>
                   <span className="lg-story__text">{frame.caption[locale]}</span>
                 </figcaption>

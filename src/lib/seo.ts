@@ -40,7 +40,7 @@ export const pageSeo = {
     },
     description: {
       ro: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în Chișinău. Vedeți spațiile libere acum.",
-      ru: "MEGAPARC инвестирует в недвижимость и землю, развивает собственные проекты и сдаёт коммерческие площади в Кишинёве. Смотрите, что сдаётся сейчас.",
+      ru: "MEGAPARC инвестирует в недвижимость и землю, развивает собственные проекты и сдаёт коммерческие площади в Кишинэу. Смотрите, что сдаётся сейчас.",
       en: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space in Chișinău. See what is available now.",
     },
   },
@@ -64,12 +64,12 @@ export const pageSeo = {
     title: { ro: "Proiecte MEGAPARC — obiecte, dezvoltare, terenuri", ru: "Проекты MEGAPARC — объекты, девелопмент, земля", en: "MEGAPARC projects — properties, development, land" },
     description: {
       ro: "Obiectele comerciale MEGAPARC din Chișinău, proiectul VATRA și terenul Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
-      ru: "Коммерческие объекты MEGAPARC в Кишинёве, проект VATRA и участок Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      ru: "Коммерческие объекты MEGAPARC в Кишинэу, проект VATRA и участок Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
       en: "MEGAPARC's commercial properties in Chișinău, the VATRA project and the Drochia site: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
     },
   },
   leasing: {
-    title: { ro: "Închiriere spații comerciale în Chișinău — MEGAPARC", ru: "Аренда коммерческих помещений в Кишинёве — MEGAPARC", en: "Commercial space to let in Chișinău — MEGAPARC" },
+    title: { ro: "Închiriere spații comerciale în Chișinău — MEGAPARC", ru: "Аренда коммерческих помещений в Кишинэу — MEGAPARC", en: "Commercial space to let in Chișinău — MEGAPARC" },
     description: {
       ro: "Spații libere acum: retail, birouri, showroom, servicii, clinici, HoReCa. Suprafață, etaj, acces, parcare și plan pentru fiecare spațiu.",
       ru: "Что сдаётся сейчас: торговля, офисы, шоурумы, сервисы, клиники, HoReCa. Площадь, этаж, вход, парковка и план по каждому помещению.",
@@ -174,7 +174,7 @@ export function packMetadata(locale: SiteLocale): Metadata {
     title: { ro: "Moscova 20 · Leasing Pack — planuri, date tehnice, vizionare · MEGAPARC", ru: "Moscova 20 · Leasing Pack — планы, технические данные, просмотр · MEGAPARC", en: "Moscova 20 · Leasing Pack — plans, technical data, viewing · MEGAPARC" },
     description: {
       ro: "Spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol): planuri oficiale, date tehnice verificate, verificarea conceptului și cererea de vizionare.",
-      ru: "Коммерческое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь): официальные планы, подтверждённые технические данные, проверка концепции и запрос на просмотр.",
+      ru: "Коммерческое помещение 625,7 м² на бульваре Москова, Кишинэу (1‑й этаж + цоколь): официальные планы, подтверждённые технические данные, проверка концепции и запрос на просмотр.",
       en: "A 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground): official plans, verified technical data, concept check and a viewing request.",
     },
   };
@@ -184,6 +184,11 @@ export function packMetadata(locale: SiteLocale): Metadata {
 /** The A4 print source of the PDF dossier — internal: noindex, removed from the production artifact. */
 export function dossierPrintMetadata(locale: SiteLocale): Metadata {
   return buildMetadata(locale, "/leasing/moscova-20/dossier-print", { title: { ro: "Moscova 20 — dosar (sursă de tipar)", ru: "Moscova 20 — досье (источник для печати)", en: "Moscova 20 — dossier (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
+}
+
+/** the internal A4 source of the commercial offer (brochure R2) — same rules as the dossier print source: noindex, never public */
+export function offerPrintMetadata(locale: SiteLocale): Metadata {
+  return buildMetadata(locale, "/leasing/moscova-20/offer-print", { title: { ro: "Moscova 20 — ofertă comercială (sursă de tipar)", ru: "Moscova 20 — коммерческое предложение (источник для печати)", en: "Moscova 20 — commercial offer (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
 }
 
 export function spaceMetadata(locale: SiteLocale, id: string): Metadata {

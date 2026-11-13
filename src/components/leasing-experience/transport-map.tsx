@@ -137,18 +137,18 @@ export function TransitBrief({ copy, locale }: { copy: TransitCopy; locale: Site
   const nearest = t.stops.find((stop) => stop.role === "nearest");
   const opposite = t.stops.find((stop) => stop.role === "opposite");
   if (!nearest || !nearest.walkM) return null;
+  const [key, rest] = fill(copy.walkValue[locale], nearest.walkM, nearest.walkMin).split("|");
   const quote = (text: string) => (locale === "ru" ? `«${text}»` : locale === "ro" ? `„${text}”` : `“${text}”`);
   return (
     <div className="lg-transit">
       <p className="lg-transit__title">{copy.title[locale]}</p>
+      {/* the main argument (OWNER decision 2026-11-12) and, with it, what kind of figure it is */}
+      <p className="lg-transit__key"><b>{key}</b> {rest}</p>
+      <p className="lg-transit__estimate">{copy.estimate[locale]}</p>
       <dl className="lg-transit__rows">
         <div>
           <dt>{copy.labels.nearest[locale]}</dt>
           <dd><strong>{quote(copy.stops[nearest.key]?.[locale] ?? nearest.osmName)}</strong><span>{copy.labels.nearestNote[locale]}</span></dd>
-        </div>
-        <div>
-          <dt>{copy.labels.walk[locale]}</dt>
-          <dd><strong>{fill(copy.walkValue[locale], nearest.walkM, nearest.walkMin)}</strong></dd>
         </div>
         <div>
           <dt>{copy.labels.routes[locale]}</dt>

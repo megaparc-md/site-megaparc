@@ -1,3 +1,5 @@
+import { offerLink } from "@/components/leasing-toolkit/commercial-terms";
+import { commercialCopy, m20Commercial, ratesLine } from "@/data/moscova-20-commercial";
 import { Accent } from "@/components/accent";
 import { ui } from "@/components/leasing-experience/parts";
 import { DirectContact } from "@/components/direct-contact";
@@ -28,7 +30,14 @@ export function ViewingScene({ x, offer, project, locale }: { x: LeasingExperien
   const v = x.viewing;
   const open = offer.open;
   const label = offer.unitLabel;
-  const second = v.second ? { label: v.second.label[locale], meta: v.second.meta[locale], intent: v.second.intent } : { label: ui.offer[locale], meta: x.terms.pending[locale], intent: "offer" };
+  // OWNER R6 §05 (2026-11-12): where the rates are published, the second action is the commercial offer itself — the PDF when one is
+  // available for this edition (offerLink), otherwise the form / direct contact as before; never a dead link
+  const offerPdf = x.project === m20Commercial.project ? offerLink(locale, "#lg-form") : null;
+  const second = v.second
+    ? { label: v.second.label[locale], meta: v.second.meta[locale], intent: v.second.intent, href: "#lg-form", download: false }
+    : offerPdf?.pdf
+      ? { label: commercialCopy.offerCta[locale], meta: `${ratesLine(locale)} · ${commercialCopy.vatInline[locale]}`, intent: "offer", href: offerPdf.href, download: true }
+      : { label: ui.offer[locale], meta: x.project === m20Commercial.project ? `${ratesLine(locale)} · ${commercialCopy.vatInline[locale]}` : x.terms.pending[locale], intent: "offer", href: "#lg-form", download: false };
   const [title, sub] = v.title[locale].split("\n");
   return (
     <section id="viewing" className="lg-viewing" aria-labelledby="lg-viewing-title">
@@ -44,7 +53,7 @@ export function ViewingScene({ x, offer, project, locale }: { x: LeasingExperien
         {/* three actions as premium action cards: one primary, two secondary (OWNER card & air pass §17) */}
         <ul className="lg-actions" data-reveal>
           <li><a className="lg-card lg-action is-primary" href="#lg-form" data-intent="viewing"><span className="lg-action__label">{offer.primary}</span><span className="lg-action__meta">{label}</span><Icon /></a></li>
-          <li><a className="lg-card lg-action" href="#lg-form" data-intent={second.intent}><span className="lg-action__label">{second.label}</span><span className="lg-action__meta">{second.meta}</span><Icon /></a></li>
+          <li><a className="lg-card lg-action" href={second.href} {...(second.download ? { download: "" } : { "data-intent": second.intent })}><span className="lg-action__label">{second.label}</span><span className="lg-action__meta">{second.meta}</span><Icon /></a></li>
           <li><a className="lg-card lg-action" href={contactLinks.mobile}><span className="lg-action__label">{ui.call[locale]}</span><span className="lg-action__meta">{company.mobile.value[locale]}</span><Icon /></a></li>
         </ul>
         <div className="lg-viewing__grid">

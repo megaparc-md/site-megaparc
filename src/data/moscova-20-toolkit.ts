@@ -100,7 +100,7 @@ export const toolkitCopy = {
     whatsapp: { ro: "WhatsApp", ru: "WhatsApp", en: "WhatsApp" },
     text: {
       ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol). Planuri, date tehnice și cererea de vizionare:",
-      ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинёв (1‑й этаж + цоколь). Планы, технические данные и запрос на просмотр:",
+      ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинэу (1‑й этаж + цоколь). Планы, технические данные и запрос на просмотр:",
       en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground). Plans, technical data and a viewing request:",
     },
   },
@@ -125,7 +125,7 @@ export const toolkitCopy = {
   },
   dossier: {
     kicker: { ro: "Dosar de închiriere", ru: "Досье объекта", en: "Leasing dossier" },
-    cover: { ro: "spațiu comercial · parter + demisol · Chișinău", ru: "коммерческое помещение · 1‑й этаж + цоколь · Кишинёв", en: "commercial premises · ground + lower ground · Chișinău" },
+    cover: { ro: "spațiu comercial · parter + demisol · Chișinău", ru: "коммерческое помещение · 1‑й этаж + цоколь · Кишинэу", en: "commercial premises · ground + lower ground · Chișinău" },
     // OWNER «LEASING PACK / DOSSIER CORRECTIONS» §3–§6 (2026-11-11): dossier wording. The shared dataset keeps the released
     // property page's copy; the dossier replaces these lines by key (facts unchanged — wording only).
     reasons: {
@@ -168,7 +168,7 @@ export const toolkitCopy = {
   // Design pass only: no new fact; every figure comes from the dataset. The R2 PDFs are OWNER-preview candidates until a GO.
   r2: {
     coverPositioning: { ro: "Spațiu comercial pe prima linie", ru: "Коммерческое помещение первой линии", en: "First-line commercial space" },
-    coverPlace: { ro: "Chișinău · Rîșcani", ru: "Кишинёв · Рышкань", en: "Chișinău · Rîșcani" },
+    coverPlace: { ro: "Chișinău · Rîșcani", ru: "Кишинэу · Рышкань", en: "Chișinău · Rîșcani" },
     coverLevels: { ro: "parter + demisol + terasă", ru: "1‑й этаж + цоколь + терраса", en: "ground + lower ground + terrace" },
     coverKicker: { ro: "MEGAPARC · LEASING DOSSIER", ru: "MEGAPARC · LEASING DOSSIER", en: "MEGAPARC · LEASING DOSSIER" },
     figures: { ro: "Cifre-cheie", ru: "Ключевые цифры", en: "Key figures" },

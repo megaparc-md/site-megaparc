@@ -52,7 +52,7 @@ export const brand = {
   /** OWNER-approved group heritage marker (group investment structure, 1995). Kept in English in every locale. 1991 = business origins; 2005 = MEGAPARC founded. */
   since: "Since 1995",
   tagline: { ro: "Construim viitorul", ru: "Строим будущее", en: "We build the future" } satisfies Localized,
-  city: { ro: "Chișinău · Republica Moldova", ru: "Кишинёв · Республика Молдова", en: "Chișinău · Republic of Moldova" } satisfies Localized,
+  city: { ro: "Chișinău · Republica Moldova", ru: "Кишинэу · Республика Молдова", en: "Chișinău · Republic of Moldova" } satisfies Localized,
   languageNames: { ro: "Română", ru: "Русский", en: "English" } satisfies Localized,
 };
 

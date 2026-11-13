@@ -2,6 +2,7 @@ import Link from "next/link";
 import { OperatorProof } from "@/components/operator-proof";
 import { MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
+import { LanguageEntry } from "@/components/language-entry";
 import { ArtImage } from "@/components/primitives";
 import { Figure, NB, R3Label, R3Link, ValueSequence, projectState, r3Href, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
@@ -161,6 +162,8 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
 
   return (
     <PageShell locale={locale} variant="solid" experience mainClassName="r3-page r3-home r32-home r4-page r4-home">
+      {/* OWNER «PREMIUM LANGUAGE ENTRY EXPERIENCE» (2026-11-12): the first direct visit offers the language once — preview concept, never in production */}
+      <LanguageEntry locale={locale} />
       {/* 01 HERO — R3.3.1 §1: architecture leads with the typography. The strongest real MEGAPARC exterior — Dacia 31, the
           whole building in its park — in an intentional split (58 % from 1280 px; on top, 45–67 % of the viewport below);
           the frame is chosen so the building is never cut. cv-hero-plaza stays OWNER REJECTED. */}
