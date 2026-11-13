@@ -1,4 +1,5 @@
 import type { AreaLevel } from "@/data/leasing-inventory";
+import { contactLinks } from "@/data/demo-content";
 import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -168,6 +169,14 @@ export const commercialCopy = {
   /** where no accepted PDF exists (the production edition before the OWNER GO): the action leads to the direct contact — never a dead link */
   offerContactMeta: { ro: "prin contact direct cu MEGAPARC", ru: `через прямой контакт с${N}MEGAPARC`, en: "through direct contact with MEGAPARC" },
   candidate: { ro: "Proiect pentru aprobarea OWNER", ru: "Проект на согласование OWNER", en: "Draft for OWNER approval" },
+  // OWNER «PDF R5 ADDENDUM» §5 (2026-11-13): the individual offer goes to the working contact channel, not to the universal PDF
+  individualCta: { ro: "Solicitați o ofertă individuală", ru: "Запросить индивидуальное предложение", en: "Request an individual offer" },
+  individualSubject: { ro: "Moscova 20 · Solicitare de ofertă individuală", ru: "Moscova 20 · Запрос индивидуального предложения", en: "Moscova 20 · Individual offer request" },
+  individualBody: {
+    ro: ["Bună ziua! Vă rog să pregătiți o ofertă individuală pentru Moscova 20.", "", "Compania și domeniul de activitate:", "Suprafața necesară (parter, demisol sau ambele niveluri):", "Termenul dorit de deschidere:", "Telefon de contact:"],
+    ru: ["Здравствуйте! Прошу подготовить индивидуальное предложение по Moscova 20.", "", "Компания и вид деятельности:", "Нужная площадь (1‑й этаж, цоколь или оба уровня):", "Желаемый срок открытия:", "Телефон для связи:"],
+    en: ["Hello, please prepare an individual offer for Moscova 20.", "", "Company and line of business:", "Space needed (ground floor, lower ground or both levels):", "Target opening date:", "Contact telephone:"],
+  },
   why: {
     title: { ro: "De ce Moscova 20", ru: "Почему Moscova 20", en: "Why Moscova 20" },
     items: [
@@ -177,6 +186,12 @@ export const commercialCopy = {
     ],
   },
 } as const;
+
+/** the individual-offer request: the OWNER-confirmed e-mail with its subject and a short template (qa-static allows subject / body only) */
+export function individualOfferHref(locale: SiteLocale): string {
+  const enc = (text: string) => encodeURIComponent(text).replace(/[!'()*]/g, (ch) => `%${ch.charCodeAt(0).toString(16).toUpperCase()}`);
+  return `${contactLinks.email}?subject=${enc(commercialCopy.individualSubject[locale])}&body=${enc(commercialCopy.individualBody[locale].join("\r\n"))}`;
+}
 
 /** «Первый этаж — €25/м²/мес. · Цоколь — €15/м²/мес.» — one line for the lease-terms sheet and metadata */
 export function ratesLine(locale: SiteLocale): string {

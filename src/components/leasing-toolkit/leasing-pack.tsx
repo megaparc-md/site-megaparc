@@ -119,7 +119,8 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const downloads: PackAction[] = [
     ...(brochure.pdf ? [{ key: "brochure", label: p.brochure[locale], meta: `${commercialCopy.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages))}${brochure.draft ? ` · ${commercialCopy.candidate[locale]}` : ""}`, href: brochure.href, event: "m20_dossier_download" as const, download: true }] : []),
     ...x.plans.levels.filter((level) => level.drawing).map((level) => ({ key: `plan-${level.key}`, label: `${p.officialPlan[locale]} · ${level.label[locale]}`, meta: p.planMeta[locale], href: level.drawing!.pdf, event: "m20_plan_open" as const, external: true })),
-    { key: "dossier", label: p.dossier[locale], meta: c.dossierMeta[locale].replace("{pages}", String(m20Toolkit.dossier.pages)).replace("{version}", m20Toolkit.dossier.version), href: m20Toolkit.dossier.file[locale], event: "m20_dossier_download", download: true },
+    // OWNER «COMMERCIAL PRESENTATION RESET» + addendum (2026-11-13): one commercial presentation (the brochure above); the old leasing
+    // dossier (R1, outdated wording) is no longer offered — its files stay at their URLs for links already sent; full technical data lives in this pack
   ];
   // 06 · quiet utilities
   const utilities: PackAction[] = [
@@ -254,7 +255,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
               <img src={m20Toolkit.qr.svg} alt="QR · Moscova 20 Leasing Pack" width={112} height={112} loading="lazy" />
               <p>{c.qrText[locale]}<br /><a href={packUrl}>{packUrl.replace(/^https?:\/\//, "")}</a></p>
             </div>
-            <p className="lp-meta">{c.updated[locale]}: {m20Toolkit.dossier.updated} · {m20Toolkit.dossier.version}</p>
+            <p className="lp-meta">{c.updated[locale]}: {m20Commercial.offer.updated} · {m20Commercial.offer.version}</p>
           </aside>
         </div>
       </section>

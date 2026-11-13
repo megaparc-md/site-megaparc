@@ -18,6 +18,9 @@ export const m20Toolkit = {
     svg: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr.svg"),
     png: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr.png"),
   },
+  // ARCHIVE ONLY (OWNER «COMMERCIAL PRESENTATION RESET» + addendum, 2026-11-13): the R1 leasing dossier is no longer linked from any page —
+  // its wording is outdated («Кишинёв», «коммерческие условия обсуждаются после …», «Записаться на просмотр») and the one commercial
+  // presentation is the offer (R4 until the OWNER GO on R5). The files stay at these URLs for links and printouts already sent.
   dossier: {
     version: "M20-LP-2026-11",
     /** displayed as «Обновлено: DD.MM.YYYY» */
@@ -106,7 +109,8 @@ export const toolkitCopy = {
   },
   bar: {
     plans: { ro: "Planuri", ru: "Планы", en: "Plans" },
-    dossier: { ro: "Dosar", ru: "Досье", en: "Dossier" },
+    // OWNER «COMMERCIAL PRESENTATION RESET» §1 (2026-11-13): the bar opens the one current commercial presentation (R4 until R5), never the old dossier
+    dossier: { ro: "Prezentare", ru: "Презентация", en: "Presentation" },
     book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   },
   // OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE» (2026-11-11): the service block on the property page — one primary action

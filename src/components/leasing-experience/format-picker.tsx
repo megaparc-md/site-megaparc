@@ -32,10 +32,20 @@ export function FormatPicker({ formats, panes, label, hint }: { formats: { key: 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const panesRef = useRef<HTMLDivElement | null>(null);
   const select = (index: number, focus = false) => {
     setActive(index);
     if (focus) refs.current[index]?.focus();
     window.dispatchEvent(new CustomEvent("lg:format", { detail: formats[index].label }));
+    // OWNER «P1 MOBILE LAYOUT HOTFIX» (2026-11-13): the section now has the height of the chosen format. A visitor who switches while
+    // reading deep inside a long format is brought back to the start of the new one (only when that start is above the viewport —
+    // on a phone the tiles sit above the pane, so a tap there never scrolls).
+    window.requestAnimationFrame(() => {
+      const el = panesRef.current;
+      if (!el || el.getBoundingClientRect().top >= 0) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+    });
   };
   const onKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const last = formats.length - 1;
@@ -75,7 +85,7 @@ export function FormatPicker({ formats, panes, label, hint }: { formats: { key: 
           ))}
         </div>
       </div>
-      <div className="lg-lens__panes">
+      <div className="lg-lens__panes" ref={panesRef}>
         {panes.map((pane, index) => (
           <div key={formats[index].key} role="tabpanel" id={`lg-formatpane-${formats[index].key}`} aria-labelledby={`lg-format-${formats[index].key}`} aria-hidden={index !== active} inert={index !== active} className={`lg-lens__pane ${index === active ? "is-on" : "is-off"}`}>
             {pane}

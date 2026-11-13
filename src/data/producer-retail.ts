@@ -100,8 +100,15 @@ export const producerFormat = {
     "The levels are linked by the inner stair; deliveries come through the service entrance from the courtyard. Height ≈ {ground} m on the ground floor and ≈ {lower} m on the lower ground. Air conditioning: split systems on the ground floor, a ducted system on the lower ground. Storage conditions, temperature, refrigeration equipment and extraction are determined at the technical check for your product.",
   ),
   levelsCaption: T("Scenariu posibil · se precizează la verificarea tehnică", "Возможный сценарий · уточняется при технической проверке", "A possible scenario · confirmed at the technical check"),
-  /** the R8 commercial terms stay where they are (#commercial) — rates, deposit, utilities + 15 %, indexation; never repeated here */
-  termsLink: T("Condițiile comerciale Moscova 20: tarife, garanție, utilități și indexare", "Коммерческие условия Moscova 20: ставки, депозит, коммунальные платежи и индексация", "Moscova 20 commercial terms: rates, deposit, utilities and indexation"),
+  // OWNER «UI CORRECTION · PRODUCER FORMAT» (2026-11-13): the closing as a heading, a main line and a quieter note (RU verbatim; RO / EN
+  // adapted). The R8 commercial terms stay in their own section and are not linked again from the scenario.
+  closingTitle: T("Propriul punct de vânzare", "Собственная торговая точка", "Your Own Retail Store"),
+  closingMain: T("Vânzări directe, control asupra sortimentului, brandului și relației cu cumpărătorii.", "Прямые продажи, контроль над ассортиментом, брендом и отношениями с покупателями.", "Direct sales and control of the range, the brand and the relationship with your customers."),
+  closingNote: T(
+    "Economia formatului se calculează pe baza indicatorilor afacerii dumneavoastră. Pasul următor este verificarea tehnică și comercială a scenariului.",
+    "Экономика формата рассчитывается на основе показателей вашего бизнеса. Следующий шаг — техническая и коммерческая проверка сценария.",
+    "The economics of the format are calculated from your business's figures. The next step is a technical and commercial check of the scenario.",
+  ),
 };
 
 /** §05 — the action and the real channel; the e-mail subject keeps the context (Leasing or Moscova 20), the body lists what to bring */

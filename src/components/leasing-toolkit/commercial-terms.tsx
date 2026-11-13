@@ -2,7 +2,7 @@ import { Icon } from "@/components/ui";
 import { UtilityIcon } from "@/components/utility-icons";
 import { formatAreaExact } from "@/content/source";
 import type { AreaLevel } from "@/data/leasing-inventory";
-import { commercialCopy as c, euro, m20Commercial, perMonth, rateParts, rentCalculation, type RateLevel } from "@/data/moscova-20-commercial";
+import { commercialCopy as c, euro, individualOfferHref, m20Commercial, perMonth, rateParts, rentCalculation, type RateLevel } from "@/data/moscova-20-commercial";
 import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -126,6 +126,8 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
               {link.pdf ? <UtilityIcon name="download" size={16} /> : <Icon size={16} />}
             </a>
             <span className="ct__action-meta">{link.pdf ? c.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages)) : c.offerContactMeta[locale]}{link.draft ? ` · ${c.candidate[locale]}` : ""}</span>
+            {/* addendum §5 (2026-11-13): the individual offer is a conversation — the confirmed e-mail with its subject, never the same universal PDF */}
+            {link.pdf ? <a className="pm-link ct__individual" href={individualOfferHref(locale)} data-intent="individual-offer"><span>{c.individualCta[locale]}</span></a> : null}
           </p>
         ) : null}
       </div>

@@ -129,8 +129,10 @@ export type LensFormat = {
   levels?: { title: Localized; caption: Localized; note: Localized; items: Partial<Record<"ground" | "lower", { title: Localized; text: Localized }>> };
   /** OWNER R10 §05: a second action — the consultation e-mail with the format's subject (never a form, never «sent») */
   consult?: { label: Localized; note: Localized };
-  /** OWNER R10 §03: a quiet link to the commercial terms block — the terms stay there and are never repeated in the pane */
-  termsLink?: Localized;
+  /** OWNER «UI CORRECTION · PRODUCER FORMAT» (2026-11-13): a closing with its own heading — the title, the closing as the main line,
+   *  a quieter second line. (The in-pane link to the commercial terms was removed: the «Коммерческие условия» section is enough.) */
+  closingTitle?: Localized;
+  closingNote?: Localized;
   /** null where no interior photograph exists — the visual keeps its frame and says the organisation is shown on the plan at the viewing */
   overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string } | null;
 };

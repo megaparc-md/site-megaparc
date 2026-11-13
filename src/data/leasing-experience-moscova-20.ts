@@ -799,18 +799,16 @@ export const moscova20Experience: LeasingExperience = {
           T("programul de lucru", "режим работы", "opening hours"),
           T("conformitatea spațiului cu cerințele formatului", "соответствие помещения требованиям формата", "how the space meets the format's requirements"),
         ],
-        closing: T(
-          "Un punct de vânzare propriu înseamnă vânzări directe și controlul asupra sortimentului, brandului și relației cu cumpărătorii. Economia formatului se calculează pe datele dumneavoastră; pasul următor este verificarea tehnică și comercială a scenariului.",
-          "Собственная торговая точка — это прямые продажи и контроль над ассортиментом, брендом и отношениями с покупателями. Экономика формата считается на ваших данных; следующий шаг — техническая и коммерческая проверка сценария.",
-          "An outlet of your own means direct sales and control of the range, the brand and the relationship with buyers. The economics of the format are calculated on your figures; the next step is a technical and commercial check of the scenario.",
-        ),
+        // OWNER «UI CORRECTION · PRODUCER FORMAT» (2026-11-13): the closing as a titled block — heading, main line, quieter note
+        closingTitle: producerFormat.closingTitle,
+        closing: producerFormat.closingMain,
+        closingNote: producerFormat.closingNote,
         // OWNER «PRODUCER DIRECT RETAIL STRATEGY R10» §03 / §05 (2026-11-13): the same scenario, strengthened — three advantages, the
         // use of the two levels within the technical constraints, the link to the R8 terms, the consultation action (src/data/producer-retail.ts)
         advantagesTitle: producerFormat.advantagesTitle,
         advantages: producerFormat.advantages,
         levels: { title: producerFormat.levelsTitle, caption: producerFormat.levelsCaption, note: producerFormat.levelsNote, items: producerFormat.levels },
         consult: { label: consultCopy.cta, note: consultCopy.note },
-        termsLink: producerFormat.termsLink,
         overlay: {
           photo: "intGroundHall",
           evidence: "DEMO",

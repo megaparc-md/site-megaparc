@@ -126,8 +126,13 @@ function Pane({ x, format, locale, offer, name }: { x: LeasingExperience; format
             </li>
           ))}
         </ul>
-        {format.closing ? <p className="lg-lens__closing">{format.closing[locale]}</p> : null}
-        {format.termsLink ? <a className="pm-link r10-terms" href="#commercial"><span>{format.termsLink[locale]}</span></a> : null}
+        {format.closing && format.closingTitle ? (
+          <div className="lg-lens__closing r10-closing">
+            <p className="r10-closing__title">{format.closingTitle[locale]}</p>
+            <p className="r10-closing__main">{format.closing[locale]}</p>
+            {format.closingNote ? <p className="r10-closing__note">{format.closingNote[locale]}</p> : null}
+          </div>
+        ) : format.closing ? <p className="lg-lens__closing">{format.closing[locale]}</p> : null}
       </div>
       {levels.length ? (
         <div className="r10-levels">

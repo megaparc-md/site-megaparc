@@ -1630,12 +1630,14 @@ html body.menu-open .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -we
 .ld-loc__maps.is-single { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 1024px) { .ld-loc__maps.is-single .ld-loc__map { max-width: 64rem; } }
 
-/* OWNER «MOSCOVA 20 · YOUR FORMAT» (2026-11-10): one closing statement per format; the panes share one grid cell so the
-   section keeps the height of the longest format — switching formats never makes the page jump */
-.lg-lens__panes { display: grid; }
-.lg-lens__pane { grid-area: 1 / 1; }
-/* inactive panes keep their place in the stack (not [hidden]: the Tailwind preflight forces display: none) */
-.lg-lens__pane.is-off { visibility: hidden; pointer-events: none; }
+/* OWNER «MOSCOVA 20 · YOUR FORMAT» (2026-11-10): one closing statement per format.
+   OWNER «P1 MOBILE LAYOUT HOTFIX» (2026-11-13): only the chosen format takes up the page. The earlier stack — every pane in one grid
+   cell, the inactive ones visibility: hidden — kept the section at the height of the LONGEST format; once R10 strengthened the fifth
+   format, the four others stood above up to 1 600 px of empty page on a phone (≈ 900 px in landscape). Inactive panes now leave the
+   flow; switching formats keeps the start of the chosen one in view (format-picker.tsx), so nothing jumps out of sight. */
+.lg-lens__panes { display: block; scroll-margin-top: calc(var(--header-h, 4rem) + 1rem); }
+@media (min-width: 1024px) { .lg-lens__panes { scroll-margin-top: calc(var(--header-h, 4rem) + 5.5rem); } }
+.lg-lens__pane.is-off { display: none; }
 .lg-lens__closing { margin: clamp(1.1rem, 2.2vw, 1.6rem) 0 0; padding-top: 1rem; border-top: 1px solid var(--r3-hair); color: var(--r3-text); font-size: 1.02rem; font-weight: 500; line-height: 1.5; max-width: 52rem; }
 
 /* OWNER «MOSCOVA 20 — REPLACE PRIMARY HERO PHOTO» (2026-11-10): the exterior is a wide frame — the hero photograph keeps a wide ratio

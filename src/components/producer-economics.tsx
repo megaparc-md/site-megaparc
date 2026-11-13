@@ -2,285 +2,174 @@
 
 import { useId, useMemo, useState } from "react";
 import { NumberInput, numberOf, type NumberFormat } from "@/components/number-input";
-import { calcProducer, producerExample, type ProducerInputs } from "@/lib/producer-retail-math";
+import { calcProducer, producerExample, scenarioShifts, type ProducerInputs } from "@/lib/producer-retail-math";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
- * «ПРОДАЖИ ЧЕРЕЗ ТОРГОВУЮ СЕТЬ VS СОБСТВЕННЫЙ МАГАЗИН» — the UX prototype of the CFO model (OWNER «PRODUCER DIRECT RETAIL STRATEGY
- * R10», 2026-11-13, §04). OWNER PREVIEW ONLY: the route is internal (noindex, stripped from the production artifact by
- * scripts/package-production.mjs) until the methodology and the calculations are verified (docs/finance/PRODUCER_RETAIL_CFO_MODEL.md,
- * scripts/qa-producer-model.mjs). The existing Moscova 20 calculator is a different tool and is not touched.
+ * «ТОРГОВАЯ СЕТЬ ИЛИ СОБСТВЕННЫЙ МАГАЗИН: ЧТО ВЫГОДНЕЕ ПРОИЗВОДИТЕЛЮ?» — the CFO calculator v2 (OWNER MASTER MANDATE «R10 RELEASE + BRAND
+ * ICON + PRODUCER ECONOMICS + LEASING GROWTH», 2026-11-13, §3). OWNER PREVIEW ONLY until the methodology is verified (Release B):
+ * internal route, aliased to an empty stub in the production edition (next.config.ts), stripped by scripts/package-production.mjs.
  *
- * Five answers, each marked as PROFIT or CASH so the two are never blended: 01 the margin through the chain · 02 the store's
- * operating profit (and the company's incremental profit after cannibalisation) · 03 the change in working capital · 04 the
- * break-even revenue · 05 the payback. Every field is a NumberInput (canonical state, localized grouping while typing); an answer
- * appears only when its own inputs exist. Nothing is stored or sent.
+ * Two scenarios on screen — A · retail chains, B · the own store — on the same result rows; then «what changes for the company»
+ * (after cannibalisation), the pessimistic / realistic / optimistic switch, a plain comparison bar and a neutral management
+ * conclusion generated from the results. Every field is a NumberInput (thousands and millions grouped while typing). Specification:
+ * docs/finance/PRODUCER_RETAIL_CFO_MODEL_V2_SPEC.md. Nothing is stored or sent. The Moscova 20 Quick / Advanced calculator is untouched.
  */
 
 type Key = keyof ProducerInputs;
+type Scenario = keyof typeof scenarioShifts;
 type Field = { key: Key; label: string; unit: string; hint?: string; format: NumberFormat };
 
 const money: NumberFormat = { group: true, decimals: 2 };
+const units: NumberFormat = { group: true, decimals: 0 };
 const pct: NumberFormat = { group: false, decimals: 2, maxInt: 3 };
-const days: NumberFormat = { group: false, decimals: 0, maxInt: 3 };
-const monthsFmt: NumberFormat = { group: false, decimals: 0, maxInt: 2 };
+const whole: NumberFormat = { group: false, decimals: 0, maxInt: 3 };
 
 const copy = {
   ru: {
     badge: "Прототип · методология на проверке · не опубликовано",
-    title: "Продажи через торговую сеть vs Собственный магазин",
-    lead: "Компактная модель для финансового директора производителя: пять ответов на ваших данных. Прибыль и деньги считаются раздельно.",
-    principle: "Модель для первичной оценки. Не прогноз продаж и не финансовая, налоговая или инвестиционная рекомендация. MEGAPARC — собственник и арендодатель помещения, не оператор магазина.",
-    example: "Пример производителя", reset: "Сбросить",
+    title: "Торговая сеть или собственный магазин: что выгоднее производителю?",
+    lead: "Два канала на одних и тех же строках результата и итог для компании после каннибализации. Прибыль и деньги считаются раздельно; ни один канал не выгоднее заранее.",
+    principle: "Модель для первичной оценки, не прогноз продаж и не финансовая, налоговая или инвестиционная рекомендация. MEGAPARC — собственник и арендодатель помещения, не оператор магазина.",
+    example: "Пример производителя", reset: "Сбросить", m20: "Подставить предварительный расчёт Moscova 20",
     exampleNote: "Пример: условный производитель — цифры не являются рыночными данными. Аренда — предварительный расчёт Moscova 20 без НДС, депозит — 3 месяца базовой аренды, к коммунальным услугам добавлено 15 % за администрирование и обслуживание инженерных сетей.",
-    groups: ["Продукт и торговая сеть", "Собственный магазин", "Запуск"],
-    m20: "Подставить предварительный расчёт Moscova 20",
-    eur: "€", perMonth: "€ / мес", pctList: "% от прайса", pct: "%", pctYear: "% годовых", pctRevenue: "% выручки", pctUtilities: "% от коммунальных", daysUnit: "дней", monthsRent: "мес. аренды",
-    fields: {
-      chainShipments: ["Отгрузки в торговые сети, в месяц", "по отпускному прайсу, без НДС"],
-      costRatio: ["Себестоимость продукции", ""],
-      chainDiscounts: ["Скидки и промо в накладной", ""],
-      chainBonuses: ["Ретро‑бонусы", "выплачиваются после накладной"],
-      chainFees: ["Листинг, маркетинговые платежи, логистика", ""],
-      chainDays: ["Отсрочка платежа сети", ""],
-      costOfMoney: ["Стоимость денег", "ставка кредита или альтернативная доходность"],
-      storeRevenue: ["Плановая выручка магазина, в месяц", "без НДС"],
-      retailMarkup: ["Розничная цена выше прайса на", ""],
-      rent: ["Аренда, в месяц", "базовая аренда, без НДС"],
-      utilities: ["Коммунальные услуги", "по фактическим начислениям"],
-      utilitiesFee: ["Администрирование и обслуживание инженерных сетей", "Moscova 20: 15 %"],
-      staff: ["Персонал с налогами", ""],
-      marketing: ["Маркетинг магазина", ""],
-      opex: ["Прочие операционные расходы", "охрана, связь, касса и ПО, уборка, обслуживание, страхование"],
-      acquiring: ["Эквайринг и кассовые расходы", ""],
-      inventoryDays: ["Запас продукции для магазина", "в днях себестоимости"],
-      cannibalisation: ["Каннибализация", "доля покупок магазина, которые иначе были бы сделаны в сети; 0 % — все продажи новые"],
-      capex: ["Первоначальные инвестиции", "адаптация помещения, оборудование, вывеска — без запаса"],
-      depositMonths: ["Гарантийный депозит", "Moscova 20: 3 месяца базовой аренды · возвращается"],
+    scenarios: { pessimistic: "Пессимистичный", realistic: "Реалистичный", optimistic: "Оптимистичный" } as Record<Scenario, string>,
+    scenarioNote: (b: string, g: string) => `Покупателей в день × ${b}; каннибализация ${g}.`,
+    a: "А · Торговая сеть", b: "Б · Собственный магазин", launch: "Запуск",
+    u: { eur: "€", eurMonth: "€ / мес", eurUnit: "€ / шт.", unitsMonth: "шт. / мес", pctList: "% от прайса", pct: "%", pctYear: "% годовых", pctRev: "% выручки", pctCogs: "% себестоимости", pctUtil: "% от коммунальных", days: "дней", perDay: "в день", monthsRent: "мес. аренды" },
+    f: {
+      chainUnits: ["Объём продаж через сети", ""], chainPrice: ["Отпускная цена", "без НДС"], unitCost: ["Себестоимость единицы", "переменная, одна для обоих каналов"],
+      chainDiscounts: ["Скидки в накладной", ""], chainBonuses: ["Ретро‑бонусы", ""], chainFees: ["Маркетинговые и листинговые платежи", ""],
+      chainLogistics: ["Логистика до сети", ""], chainDays: ["Отсрочка оплаты", ""], costOfMoney: ["Стоимость денег", "ставка кредита или альтернативная доходность"],
+      retailPrice: ["Розничная цена", "без НДС (цена с НДС ÷ 1,2)"], buyersPerDay: ["Покупателей в день", "план"], ticket: ["Средний чек", "без НДС (чек с НДС ÷ 1,2)"], openDays: ["Дней работы в месяце", ""],
+      rent: ["Аренда", "базовая, без НДС"], utilities: ["Коммунальные услуги", "по фактическим начислениям"], utilitiesFee: ["Администрирование и обслуживание инженерных сетей", "Moscova 20: 15 %"],
+      staff: ["Зарплаты с налогами", ""], marketing: ["Маркетинг магазина", ""], acquiring: ["Эквайринг", ""], losses: ["Потери и списания", ""],
+      opex: ["Прочие операционные расходы", "охрана, связь, касса и ПО, уборка, страхование"], storeLogistics: ["Логистика до магазина", "доставка собственной продукции, в месяц"], inventoryDays: ["Товарный запас", "в днях себестоимости"],
+      cannibalisation: ["Каннибализация", "доля продаж магазина, которую иначе купили бы в сети"], capex: ["Первоначальные инвестиции", "адаптация, оборудование, вывеска"], depositMonths: ["Гарантийный депозит", "Moscova 20: 3 · возвращается"],
     } as Record<Key, [string, string]>,
-    profit: "Прибыль", cash: "Деньги",
-    q: [
-      "Какую маржу вы получаете через торговую сеть?",
-      "Какую операционную прибыль может дать собственный магазин?",
-      "Как изменится оборотный капитал?",
-      "Какой оборот нужен для безубыточности?",
-      "Через какой срок окупятся вложения?",
-    ],
-    need: [
-      "Нужны отгрузки, себестоимость, скидки и ретро‑бонусы.",
-      "Нужны выручка, наценка, себестоимость и расходы магазина.",
-      "Нужны запас в днях, отсрочка сети и каннибализация (0 %, если все продажи новые).",
-      "Нужны выручка, наценка, себестоимость и расходы магазина.",
-      "Нужны инвестиции, депозит, запас и каннибализация.",
-    ],
-    perMonthShort: "в месяц",
-    chain: { pctNet: (v: string) => `${v} % чистой выручки`, kept: "Из 100 € прайса после скидок и бонусов остаётся", margin100: "Маржа на 100 € прайса после себестоимости", waiting: "Деньги в ожидании оплаты сети", delay: "Стоимость отсрочки — в маржу не входит" },
-    store: { gross: "Валовая прибыль", fixed: "Постоянные расходы", acquiring: "Эквайринг", lost: "Маржа сети, которую заменяет магазин", incremental: "Прирост прибыли компании", per100: (price: string, margin: string) => `Товар на 100 € прайса продаётся в магазине за ${price} €; до постоянных расходов остаётся ${margin} €.` },
-    wc: { tied: "связано", released: "высвобождается", inventory: "Запас магазина", receivables: "Из дебиторской задолженности сети", deposit: "Гарантийный депозит · возвращается", note: (d: string) => `Деньги магазина поступают в день продажи (эквайринг — 1–2 банковских дня); оплата сети — через ${d} дней.` },
-    be: { store: "Безубыточность магазина", company: "С учётом каннибализации", safety: "Запас прочности плана", never: "не достигается при этой каннибализации" },
-    pb: { months: (m: string) => `≈ ${m} мес.`, capex: "Окупаемость инвестиций", all: "Возврат всех денег старта", start: "Деньги на старте", none: "нет окупаемости при этом результате", note: "Депозит возвращается в конце аренды. Период выхода на плановую выручку удлиняет срок." },
-    split: { title: "Прибыль и деньги — раздельно", profit: ["Прибыль магазина", "Минус маржа сети на заменённом объёме", "Прирост прибыли компании"], cash: ["Инвестиции", "Депозит", "Изменение оборотного капитала", "Деньги на старте"], monthly: "Ежемесячный денежный поток ≈ прирост прибыли (до налога, без амортизации)." },
-    sens: { title: "Если выручка будет другой", revenue: "Выручка", operating: "Прибыль магазина", incremental: "Прирост прибыли компании", payback: "Возврат денег старта", plan: "план" },
-    foot: ["Все суммы — в евро, без НДС, в установившемся месяце. Налог на прибыль, амортизация и проценты не учитываются; период выхода на плановую выручку не моделируется.", "Ставки, депозит и порядок коммунальных платежей Moscova 20 — в коммерческих условиях объекта; расчёт аренды предварительный."],
+    rows: { revenue: "Выручка без НДС", gross: "Валовая прибыль", ebitda: "EBITDA", margin: "EBITDA margin", breakEven: "Точка безубыточности", buyers: "Покупателей в день для безубыточности", cash: "Операционный денежный поток", wc: "Потребность в оборотном капитале", payback: "Простая окупаемость (установившийся месяц)" }, noCann: "без учёта каннибализации",
+    beUnits: (v: string) => `${v} шт. / мес`, beRevenue: (v: string) => `${v} выручки`, perMonth: "в месяц", months: (m: string) => `≈ ${m} мес.`, none: "нет окупаемости", na: "—",
+    wcA: "дебиторская задолженность", wcB: "запас", deposit: "Депозит (возвращается)", delay: "Стоимость отсрочки сети — в EBITDA не входит",
+    company: { title: "Что меняется для компании", lost: "Вклад сети, который заменяет магазин", incremental: "Прирост EBITDA компании", released: "Позже высвобождается из дебиторки сети", start: "Деньги на старте: инвестиции, депозит, запас", payback: "Простая окупаемость", buyers: "Безубыточность компании", plan: (p: string, s: string) => `план ${p} в день · запас прочности ${s}` },
+    bar: { a: "EBITDA сети", b: "EBITDA магазина", lost: "− вклад сети", delta: "Прирост компании" },
+    table: { title: "Три сценария", buyers: "Покупателей в день", delta: "Прирост EBITDA", payback: "Окупаемость" },
+    need: { a: "Для канала А нужны объём, отпускная цена, себестоимость, скидки и ретро‑бонусы.", b: "Для канала Б нужны розничная цена, покупатели в день, средний чек, дни работы, себестоимость и расходы магазина.", c: "Для итога компании нужны каннибализация (0 %, если все продажи новые), инвестиции и запас." },
+    conclusion: "Вывод",
+    verdict: {
+      positive: (d: string, p: string, be: string, plan: string) => `При заданных предположениях собственный магазин добавляет компании ≈ ${d} EBITDA в месяц после каннибализации; деньги старта возвращаются за ≈ ${p} мес. Безубыточность — ${be} покупателей в день при плане ${plan}.`,
+      slow: (d: string, p: string) => `Магазин прибылен (≈ ${d} в месяц после каннибализации), но деньги старта возвращаются медленно — ≈ ${p} мес. Решение зависит от стратегической ценности прямого канала.`,
+      negative: (be: string, plan: string) => `При заданных предположениях собственный магазин не окупается: после каннибализации и расходов точки компания теряет EBITDA. Безубыточность — ${be} покупателей в день при плане ${plan}.`,
+      never: "При заданной марже и каннибализации магазин не выходит на безубыточность ни при каком потоке покупателей.",
+      pessimistic: (p: string) => `В пессимистичном сценарии: ${p}.`,
+    },
+    foot: ["Все суммы — в евро, без НДС, в установившемся месяце; налог на прибыль, амортизация и проценты не учитываются; период выхода на плановый поток не моделируется.", "Ставки, депозит и порядок коммунальных платежей Moscova 20 — в коммерческих условиях объекта; расчёт аренды предварительный."],
   },
   ro: {
     badge: "Prototip · metodologie în verificare · nepublicat",
-    title: "Vânzări prin rețeaua comercială vs Magazin propriu",
-    lead: "Un model compact pentru directorul financiar al producătorului: cinci răspunsuri pe datele dumneavoastră. Profitul și banii se calculează separat.",
-    principle: "Model pentru o evaluare inițială. Nu este o prognoză a vânzărilor și nici o recomandare financiară, fiscală sau investițională. MEGAPARC este proprietarul și locatorul spațiului, nu operatorul magazinului.",
-    example: "Exemplu de producător", reset: "Resetează",
+    title: "Rețeaua comercială sau magazinul propriu: ce este mai avantajos pentru producător?",
+    lead: "Două canale pe aceleași rânduri de rezultat și efectul pentru companie după canibalizare. Profitul și banii se calculează separat; niciun canal nu este avantajos dinainte.",
+    principle: "Model pentru o evaluare inițială, nu o prognoză a vânzărilor și nici o recomandare financiară, fiscală sau investițională. MEGAPARC este proprietarul și locatorul spațiului, nu operatorul magazinului.",
+    example: "Exemplu de producător", reset: "Resetează", m20: "Introduceți calculul preliminar Moscova 20",
     exampleNote: "Exemplu: un producător convențional — cifrele nu sunt date de piață. Chiria — calculul preliminar Moscova 20 fără TVA, garanția — 3 luni de chirie de bază, la utilități se adaugă 15 % pentru administrarea și întreținerea rețelelor inginerești.",
-    groups: ["Produsul și rețeaua comercială", "Magazinul propriu", "Lansarea"],
-    m20: "Introduceți calculul preliminar Moscova 20",
-    eur: "€", perMonth: "€ / lună", pctList: "% din preț", pct: "%", pctYear: "% pe an", pctRevenue: "% din venituri", pctUtilities: "% din utilități", daysUnit: "zile", monthsRent: "luni de chirie",
-    fields: {
-      chainShipments: ["Livrări către rețele, pe lună", "la prețul de livrare, fără TVA"],
-      costRatio: ["Costul produselor", ""],
-      chainDiscounts: ["Reduceri și promoții pe factură", ""],
-      chainBonuses: ["Bonusuri retroactive", "plătite după factură"],
-      chainFees: ["Listare, plăți de marketing, logistică", ""],
-      chainDays: ["Termenul de plată al rețelei", ""],
-      costOfMoney: ["Costul banilor", "dobânda creditului sau randamentul alternativ"],
-      storeRevenue: ["Venitul planificat al magazinului, pe lună", "fără TVA"],
-      retailMarkup: ["Prețul cu amănuntul peste prețul de livrare cu", ""],
-      rent: ["Chiria, pe lună", "chiria de bază, fără TVA"],
-      utilities: ["Utilități", "la consumul efectiv"],
-      utilitiesFee: ["Administrarea și întreținerea rețelelor inginerești", "Moscova 20: 15 %"],
-      staff: ["Personal, cu taxe", ""],
-      marketing: ["Marketingul magazinului", ""],
-      opex: ["Alte cheltuieli operaționale", "pază, comunicații, casă și software, curățenie, întreținere, asigurare"],
-      acquiring: ["Acquiring și cheltuieli de casă", ""],
-      inventoryDays: ["Stoc de produse pentru magazin", "în zile de cost"],
-      cannibalisation: ["Canibalizare", "partea cumpărăturilor din magazin care altfel s-ar fi făcut în rețea; 0 % — toate vânzările sunt noi"],
-      capex: ["Investiția inițială", "adaptarea spațiului, echipamente, firmă — fără stoc"],
-      depositMonths: ["Garanția locativă", "Moscova 20: 3 luni de chirie de bază · se restituie"],
+    scenarios: { pessimistic: "Pesimist", realistic: "Realist", optimistic: "Optimist" } as Record<Scenario, string>,
+    scenarioNote: (b: string, g: string) => `Cumpărători pe zi × ${b}; canibalizare ${g}.`,
+    a: "A · Rețeaua comercială", b: "B · Magazinul propriu", launch: "Lansarea",
+    u: { eur: "€", eurMonth: "€ / lună", eurUnit: "€ / buc.", unitsMonth: "buc. / lună", pctList: "% din preț", pct: "%", pctYear: "% pe an", pctRev: "% din venit", pctCogs: "% din cost", pctUtil: "% din utilități", days: "zile", perDay: "pe zi", monthsRent: "luni de chirie" },
+    f: {
+      chainUnits: ["Volumul vânzărilor prin rețele", ""], chainPrice: ["Prețul de livrare", "fără TVA"], unitCost: ["Costul unitar", "variabil, același pentru ambele canale"],
+      chainDiscounts: ["Reduceri pe factură", ""], chainBonuses: ["Bonusuri retroactive", ""], chainFees: ["Plăți de marketing și listare", ""],
+      chainLogistics: ["Logistica până la rețea", ""], chainDays: ["Termenul de plată", ""], costOfMoney: ["Costul banilor", "dobânda creditului sau randamentul alternativ"],
+      retailPrice: ["Prețul cu amănuntul", "fără TVA (prețul cu TVA ÷ 1,2)"], buyersPerDay: ["Cumpărători pe zi", "plan"], ticket: ["Bonul mediu", "fără TVA (bonul cu TVA ÷ 1,2)"], openDays: ["Zile de lucru pe lună", ""],
+      rent: ["Chiria", "de bază, fără TVA"], utilities: ["Utilități", "la consumul efectiv"], utilitiesFee: ["Administrarea și întreținerea rețelelor inginerești", "Moscova 20: 15 %"],
+      staff: ["Salarii cu taxe", ""], marketing: ["Marketingul magazinului", ""], acquiring: ["Acquiring", ""], losses: ["Pierderi și casări", ""],
+      opex: ["Alte cheltuieli operaționale", "pază, comunicații, casă și software, curățenie, asigurare"], storeLogistics: ["Logistica până la magazin", "livrarea producției proprii, pe lună"], inventoryDays: ["Stoc de mărfuri", "în zile de cost"],
+      cannibalisation: ["Canibalizare", "partea vânzărilor magazinului care altfel s-ar fi făcut în rețea"], capex: ["Investiția inițială", "adaptare, echipamente, firmă"], depositMonths: ["Garanția locativă", "Moscova 20: 3 · se restituie"],
     } as Record<Key, [string, string]>,
-    profit: "Profit", cash: "Bani",
-    q: [
-      "Ce marjă obțineți prin rețeaua comercială?",
-      "Ce profit operațional poate aduce magazinul propriu?",
-      "Cum se schimbă capitalul de lucru?",
-      "Ce rulaj este necesar pentru pragul de rentabilitate?",
-      "În cât timp se recuperează investiția?",
-    ],
-    need: [
-      "Sunt necesare livrările, costul, reducerile și bonusurile retroactive.",
-      "Sunt necesare venitul, adaosul, costul și cheltuielile magazinului.",
-      "Sunt necesare stocul în zile, termenul de plată și canibalizarea (0 %, dacă toate vânzările sunt noi).",
-      "Sunt necesare venitul, adaosul, costul și cheltuielile magazinului.",
-      "Sunt necesare investiția, garanția, stocul și canibalizarea.",
-    ],
-    perMonthShort: "pe lună",
-    chain: { pctNet: (v: string) => `${v} % din venitul net`, kept: "Din 100 € de preț rămân după reduceri și bonusuri", margin100: "Marja la 100 € de preț după cost", waiting: "Bani care așteaptă plata rețelei", delay: "Costul amânării — nu intră în marjă" },
-    store: { gross: "Profit brut", fixed: "Cheltuieli fixe", acquiring: "Acquiring", lost: "Marja rețelei înlocuită de magazin", incremental: "Creșterea profitului companiei", per100: (price: string, margin: string) => `Marfa de 100 € la prețul de livrare se vinde în magazin cu ${price} €; înainte de cheltuielile fixe rămân ${margin} €.` },
-    wc: { tied: "imobilizat", released: "eliberat", inventory: "Stocul magazinului", receivables: "Din creanțele rețelei", deposit: "Garanția locativă · se restituie", note: (d: string) => `Banii magazinului vin în ziua vânzării (acquiring — 1–2 zile bancare); plata rețelei — după ${d} zile.` },
-    be: { store: "Pragul de rentabilitate al magazinului", company: "Cu canibalizarea", safety: "Marja de siguranță a planului", never: "nu se atinge la această canibalizare" },
-    pb: { months: (m: string) => `≈ ${m} luni`, capex: "Recuperarea investiției", all: "Recuperarea tuturor banilor de start", start: "Banii de start", none: "fără recuperare la acest rezultat", note: "Garanția se restituie la sfârșitul chiriei. Perioada până la venitul planificat prelungește termenul." },
-    split: { title: "Profitul și banii — separat", profit: ["Profitul magazinului", "Minus marja rețelei pe volumul înlocuit", "Creșterea profitului companiei"], cash: ["Investiția", "Garanția", "Schimbarea capitalului de lucru", "Banii de start"], monthly: "Fluxul lunar de numerar ≈ creșterea profitului (înainte de impozit, fără amortizare)." },
-    sens: { title: "Dacă venitul va fi altul", revenue: "Venit", operating: "Profitul magazinului", incremental: "Creșterea profitului companiei", payback: "Recuperarea banilor de start", plan: "plan" },
-    foot: ["Toate sumele — în euro, fără TVA, într-o lună stabilă. Impozitul pe profit, amortizarea și dobânzile nu sunt incluse; perioada până la venitul planificat nu este modelată.", "Tarifele, garanția și regimul utilităților Moscova 20 — în condițiile comerciale ale obiectului; calculul chiriei este preliminar."],
+    rows: { revenue: "Venit fără TVA", gross: "Profit brut", ebitda: "EBITDA", margin: "Marja EBITDA", breakEven: "Pragul de rentabilitate", buyers: "Cumpărători pe zi pentru prag", cash: "Flux de numerar operațional", wc: "Necesar de capital de lucru", payback: "Recuperare simplă (lună stabilă)" }, noCann: "fără canibalizare",
+    beUnits: (v: string) => `${v} buc. / lună`, beRevenue: (v: string) => `${v} venit`, perMonth: "pe lună", months: (m: string) => `≈ ${m} luni`, none: "fără recuperare", na: "—",
+    wcA: "creanțe", wcB: "stoc", deposit: "Garanția (se restituie)", delay: "Costul amânării rețelei — nu intră în EBITDA",
+    company: { title: "Ce se schimbă pentru companie", lost: "Contribuția rețelei înlocuită de magazin", incremental: "Creșterea EBITDA a companiei", released: "Se eliberează ulterior din creanțele rețelei", start: "Banii de start: investiție, garanție, stoc", payback: "Recuperare simplă", buyers: "Pragul companiei", plan: (p: string, s: string) => `plan ${p} pe zi · marjă de siguranță ${s}` },
+    bar: { a: "EBITDA rețea", b: "EBITDA magazin", lost: "− contribuția rețelei", delta: "Creșterea companiei" },
+    table: { title: "Trei scenarii", buyers: "Cumpărători pe zi", delta: "Creșterea EBITDA", payback: "Recuperare" },
+    need: { a: "Pentru canalul A sunt necesare volumul, prețul de livrare, costul, reducerile și bonusurile.", b: "Pentru canalul B sunt necesare prețul cu amănuntul, cumpărătorii pe zi, bonul mediu, zilele de lucru, costul și cheltuielile magazinului.", c: "Pentru efectul asupra companiei sunt necesare canibalizarea (0 %, dacă toate vânzările sunt noi), investiția și stocul." },
+    conclusion: "Concluzie",
+    verdict: {
+      positive: (d: string, p: string, be: string, plan: string) => `În ipotezele date, magazinul propriu adaugă companiei ≈ ${d} EBITDA pe lună după canibalizare; banii de start se recuperează în ≈ ${p} luni. Pragul — ${be} cumpărători pe zi față de planul de ${plan}.`,
+      slow: (d: string, p: string) => `Magazinul este profitabil (≈ ${d} pe lună după canibalizare), dar banii de start se recuperează lent — ≈ ${p} luni. Decizia depinde de valoarea strategică a canalului direct.`,
+      negative: (be: string, plan: string) => `În ipotezele date, magazinul propriu nu se recuperează: după canibalizare și costurile punctului, compania pierde EBITDA. Pragul — ${be} cumpărători pe zi față de planul de ${plan}.`,
+      never: "La marja și canibalizarea date, magazinul nu atinge pragul de rentabilitate la niciun flux de cumpărători.",
+      pessimistic: (p: string) => `În scenariul pesimist: ${p}.`,
+    },
+    foot: ["Toate sumele — în euro, fără TVA, într-o lună stabilă; impozitul pe profit, amortizarea și dobânzile nu sunt incluse; perioada până la fluxul planificat nu este modelată.", "Tarifele, garanția și regimul utilităților Moscova 20 — în condițiile comerciale ale obiectului; calculul chiriei este preliminar."],
   },
   en: {
     badge: "Prototype · methodology under review · not published",
-    title: "Selling through a retail chain vs Your own store",
-    lead: "A compact model for the manufacturer's CFO: five answers on your own figures. Profit and cash are calculated separately.",
-    principle: "A model for a first assessment. Not a sales forecast and not financial, tax or investment advice. MEGAPARC is the owner and landlord of the premises, not the operator of the store.",
-    example: "Example manufacturer", reset: "Reset",
+    title: "Retail chain or your own store: which pays the manufacturer more?",
+    lead: "Both channels on the same result rows, and the effect on the company after cannibalisation. Profit and cash are calculated separately; neither channel wins in advance.",
+    principle: "A model for a first assessment — not a sales forecast and not financial, tax or investment advice. MEGAPARC is the owner and landlord of the premises, not the operator of the store.",
+    example: "Example manufacturer", reset: "Reset", m20: "Insert the Moscova 20 preliminary calculation",
     exampleNote: "Example: a notional manufacturer — the figures are not market data. Rent — the Moscova 20 preliminary calculation excl. VAT, deposit — 3 months of base rent, 15 % added to utilities for the administration and maintenance of the engineering networks.",
-    groups: ["Product and retail chain", "Your own store", "Launch"],
-    m20: "Insert the Moscova 20 preliminary calculation",
-    eur: "€", perMonth: "€ / month", pctList: "% of list price", pct: "%", pctYear: "% a year", pctRevenue: "% of revenue", pctUtilities: "% of utilities", daysUnit: "days", monthsRent: "months of rent",
-    fields: {
-      chainShipments: ["Shipments to retail chains, per month", "at the list (supply) price, excl. VAT"],
-      costRatio: ["Cost of goods", ""],
-      chainDiscounts: ["On-invoice discounts and promotions", ""],
-      chainBonuses: ["Retro-bonuses", "paid after the invoice"],
-      chainFees: ["Listing, marketing payments, logistics", ""],
-      chainDays: ["Chain payment term", ""],
-      costOfMoney: ["Cost of money", "loan rate or alternative return"],
-      storeRevenue: ["Planned store revenue, per month", "excl. VAT"],
-      retailMarkup: ["Retail price above the list price by", ""],
-      rent: ["Rent, per month", "base rent, excl. VAT"],
-      utilities: ["Utilities", "at actual charges"],
-      utilitiesFee: ["Administration and maintenance of the engineering networks", "Moscova 20: 15 %"],
-      staff: ["Staff including payroll taxes", ""],
-      marketing: ["Store marketing", ""],
-      opex: ["Other operating costs", "security, telecoms, till and software, cleaning, maintenance, insurance"],
-      acquiring: ["Card acquiring and till costs", ""],
-      inventoryDays: ["Product stock for the store", "in days of cost of goods"],
-      cannibalisation: ["Cannibalisation", "the share of store purchases that would otherwise be made in a chain; 0 % — every sale is new"],
-      capex: ["Initial investment", "fit-out, equipment, signage — stock excluded"],
-      depositMonths: ["Security deposit", "Moscova 20: 3 months of base rent · returned"],
+    scenarios: { pessimistic: "Pessimistic", realistic: "Realistic", optimistic: "Optimistic" } as Record<Scenario, string>,
+    scenarioNote: (b: string, g: string) => `Buyers a day × ${b}; cannibalisation ${g}.`,
+    a: "A · Retail chain", b: "B · Your own store", launch: "Launch",
+    u: { eur: "€", eurMonth: "€ / month", eurUnit: "€ / unit", unitsMonth: "units / month", pctList: "% of list", pct: "%", pctYear: "% a year", pctRev: "% of revenue", pctCogs: "% of cost of goods", pctUtil: "% of utilities", days: "days", perDay: "a day", monthsRent: "months of rent" },
+    f: {
+      chainUnits: ["Units sold through chains", ""], chainPrice: ["List (supply) price", "excl. VAT"], unitCost: ["Unit production cost", "variable, the same in both channels"],
+      chainDiscounts: ["On-invoice discounts", ""], chainBonuses: ["Retro-bonuses", ""], chainFees: ["Marketing and listing payments", ""],
+      chainLogistics: ["Logistics to the chain", ""], chainDays: ["Payment term", ""], costOfMoney: ["Cost of money", "loan rate or alternative return"],
+      retailPrice: ["Retail price", "excl. VAT (a price with VAT ÷ 1.2)"], buyersPerDay: ["Buyers a day", "plan"], ticket: ["Average ticket", "excl. VAT (a ticket with VAT ÷ 1.2)"], openDays: ["Trading days a month", ""],
+      rent: ["Rent", "base, excl. VAT"], utilities: ["Utilities", "at actual charges"], utilitiesFee: ["Administration and maintenance of the engineering networks", "Moscova 20: 15 %"],
+      staff: ["Salaries with taxes", ""], marketing: ["Store marketing", ""], acquiring: ["Card acquiring", ""], losses: ["Losses and write-offs", ""],
+      opex: ["Other operating costs", "security, telecoms, till and software, cleaning, insurance"], storeLogistics: ["Logistics to the store", "deliveries of your own products, per month"], inventoryDays: ["Stock", "in days of cost of goods"],
+      cannibalisation: ["Cannibalisation", "share of store sales that would otherwise be bought in a chain"], capex: ["Initial investment", "fit-out, equipment, signage"], depositMonths: ["Security deposit", "Moscova 20: 3 · returned"],
     } as Record<Key, [string, string]>,
-    profit: "Profit", cash: "Cash",
-    q: [
-      "What margin do you earn through the retail chain?",
-      "What operating profit can your own store deliver?",
-      "How does working capital change?",
-      "What revenue is needed to break even?",
-      "How long until the investment pays back?",
-    ],
-    need: [
-      "Needs shipments, cost of goods, discounts and retro-bonuses.",
-      "Needs revenue, markup, cost of goods and store costs.",
-      "Needs stock in days, the chain payment term and cannibalisation (0 % if every sale is new).",
-      "Needs revenue, markup, cost of goods and store costs.",
-      "Needs the investment, the deposit, stock and cannibalisation.",
-    ],
-    perMonthShort: "a month",
-    chain: { pctNet: (v: string) => `${v} % of net revenue`, kept: "Kept from €100 of list price after discounts and bonuses", margin100: "Margin on €100 of list price after cost", waiting: "Money waiting for the chain's payment", delay: "Cost of the delay — not in the margin" },
-    store: { gross: "Gross profit", fixed: "Fixed costs", acquiring: "Acquiring", lost: "Chain margin the store replaces", incremental: "Company's incremental profit", per100: (price: string, margin: string) => `Goods worth €100 at list price sell in the store for €${price}; €${margin} remains before fixed costs.` },
-    wc: { tied: "tied up", released: "released", inventory: "Store stock", receivables: "From the chain receivables", deposit: "Security deposit · returned", note: (d: string) => `Store money arrives on the day of sale (acquiring — 1–2 banking days); the chain pays after ${d} days.` },
-    be: { store: "Store break-even", company: "After cannibalisation", safety: "Safety margin of the plan", never: "not reached at this cannibalisation" },
-    pb: { months: (m: string) => `≈ ${m} months`, capex: "Investment payback", all: "Return of all start-up cash", start: "Cash at the start", none: "no payback at this result", note: "The deposit is returned at the end of the lease. A ramp-up to the planned revenue lengthens the period." },
-    split: { title: "Profit and cash — kept apart", profit: ["Store profit", "Less the chain margin on the replaced volume", "Company's incremental profit"], cash: ["Investment", "Deposit", "Change in working capital", "Cash at the start"], monthly: "Monthly cash flow ≈ incremental profit (before tax, no depreciation)." },
-    sens: { title: "If revenue turns out different", revenue: "Revenue", operating: "Store profit", incremental: "Company's incremental profit", payback: "Return of start-up cash", plan: "plan" },
-    foot: ["All amounts in euros, excl. VAT, in a steady month. Income tax, depreciation and interest are not included; the ramp-up to planned revenue is not modelled.", "The Moscova 20 rates, deposit and utilities terms are in the property's commercial terms; the rent calculation is preliminary."],
+    rows: { revenue: "Revenue excl. VAT", gross: "Gross profit", ebitda: "EBITDA", margin: "EBITDA margin", breakEven: "Break-even", buyers: "Buyers a day to break even", cash: "Operating cash flow", wc: "Working capital need", payback: "Simple payback (steady month)" }, noCann: "before cannibalisation",
+    beUnits: (v: string) => `${v} units / month`, beRevenue: (v: string) => `${v} revenue`, perMonth: "a month", months: (m: string) => `≈ ${m} months`, none: "no payback", na: "—",
+    wcA: "receivables", wcB: "stock", deposit: "Deposit (returned)", delay: "Cost of the chain's payment term — not in EBITDA",
+    company: { title: "What changes for the company", lost: "Chain contribution the store replaces", incremental: "Company's incremental EBITDA", released: "Released later from chain receivables", start: "Start-up cash: investment, deposit, stock", payback: "Simple payback", buyers: "Company break-even", plan: (p: string, s: string) => `plan ${p} a day · safety margin ${s}` },
+    bar: { a: "Chain EBITDA", b: "Store EBITDA", lost: "− chain contribution", delta: "Company gain" },
+    table: { title: "Three scenarios", buyers: "Buyers a day", delta: "Incremental EBITDA", payback: "Payback" },
+    need: { a: "Channel A needs units, list price, unit cost, discounts and retro-bonuses.", b: "Channel B needs the retail price, buyers a day, average ticket, trading days, unit cost and store costs.", c: "The company view needs cannibalisation (0 % if every sale is new), the investment and the stock." },
+    conclusion: "Conclusion",
+    verdict: {
+      positive: (d: string, p: string, be: string, plan: string) => `On these assumptions the own store adds ≈ ${d} of EBITDA a month to the company after cannibalisation; the start-up cash returns in ≈ ${p} months. Break-even is ${be} buyers a day against a plan of ${plan}.`,
+      slow: (d: string, p: string) => `The store is profitable (≈ ${d} a month after cannibalisation), but the start-up cash returns slowly — ≈ ${p} months. The decision depends on the strategic value of the direct channel.`,
+      negative: (be: string, plan: string) => `On these assumptions the own store does not pay back: after cannibalisation and the outlet's costs the company loses EBITDA. Break-even is ${be} buyers a day against a plan of ${plan}.`,
+      never: "At this margin and cannibalisation the store never breaks even, whatever the footfall.",
+      pessimistic: (p: string) => `In the pessimistic scenario: ${p}.`,
+    },
+    foot: ["All amounts in euros, excl. VAT, in a steady month; income tax, depreciation and interest are not included; the ramp-up to planned footfall is not modelled.", "The Moscova 20 rates, deposit and utilities terms are in the property's commercial terms; the rent calculation is preliminary."],
   },
 } as const;
 
 type Copy = (typeof copy)[SiteLocale];
+const KEYS = Object.keys(producerExample) as Key[];
+const blank = () => Object.fromEntries(KEYS.map((k) => [k, ""])) as Record<Key, string>;
+const fromExample = () => Object.fromEntries(KEYS.map((k) => [k, producerExample[k] === null ? "" : String(producerExample[k])])) as Record<Key, string>;
 
-const blank = (): Record<Key, string> => ({
-  chainShipments: "", costRatio: "", chainDiscounts: "", chainBonuses: "", chainFees: "", chainDays: "", costOfMoney: "",
-  storeRevenue: "", retailMarkup: "", rent: "", utilities: "", utilitiesFee: "", opex: "", staff: "", marketing: "", acquiring: "",
-  inventoryDays: "", cannibalisation: "", capex: "", depositMonths: "",
-});
-const fromExample = (): Record<Key, string> => Object.fromEntries(Object.entries(producerExample).map(([key, value]) => [key, value === null ? "" : String(value)])) as Record<Key, string>;
-
-function Answer({ t, no, kind, ready, big, sub, rows, note }: { t: Copy; no: number; kind: "profit" | "cash"; ready: boolean; big: string; sub?: string; rows?: [string, string, string?][]; note?: string }) {
-  return (
-    <article className={`pe-answer is-${kind}${ready ? " is-ready" : ""}`}>
-      <header className="pe-answer__head">
-        <span className="pe-answer__no">{String(no).padStart(2, "0")}</span>
-        <span className="pe-answer__kind">{kind === "profit" ? t.profit : t.cash}</span>
-      </header>
-      <h3 className="pe-answer__q">{t.q[no - 1]}</h3>
-      <p className="pe-answer__big">{ready ? big : "—"}</p>
-      {ready && sub ? <p className="pe-answer__sub">{sub}</p> : null}
-      {ready && rows?.length ? (
-        <dl className="pe-answer__rows">
-          {rows.map(([label, value, tone]) => (
-            <div key={label} className={tone ? `is-${tone}` : undefined}><dt>{label}</dt><dd>{value}</dd></div>
-          ))}
-        </dl>
-      ) : null}
-      {ready ? (note ? <p className="pe-answer__note">{note}</p> : null) : <p className="pe-answer__need">{t.need[no - 1]}</p>}
-    </article>
-  );
-}
-
-export function ProducerEconomics({ locale, m20 }: { locale: SiteLocale; /** the Moscova 20 preliminary rent and terms — inserted only on the visitor's request */ m20: { rent: number; depositMonths: number; feePercent: number } }) {
-  const t = copy[locale];
+export function ProducerEconomics({ locale, m20 }: { locale: SiteLocale; m20: { rent: number; depositMonths: number; feePercent: number } }) {
+  const t: Copy = copy[locale];
   const uid = useId();
   const [v, setV] = useState<Record<Key, string>>(blank);
   const [isExample, setIsExample] = useState(false);
-  const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
-  const nf1 = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 1, minimumFractionDigits: 0 }), [locale]);
-  const num = (x: number) => nf.format(Math.round(Math.abs(x))).replace(/\s/g, " ");
-  const eur = (x: number | null, sign = false) => {
-    if (x === null) return "—";
-    const s = x < 0 ? "−" : sign && x > 0 ? "+" : "";
-    return locale === "en" ? `${s}€${num(x)}` : `${s}${num(x)} €`;
-  };
-  const p1 = (x: number | null) => (x === null ? "—" : `${x < 0 ? "−" : ""}${nf1.format(Math.abs(x))}`);
-  const mo = (x: number | null) => (x === null ? null : nf.format(Math.round(x)));
+  const [scenario, setScenario] = useState<Scenario>("realistic");
+  const tag = locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB";
+  const nf = useMemo(() => new Intl.NumberFormat(tag, { maximumFractionDigits: 0 }), [tag]);
+  const nf1 = useMemo(() => new Intl.NumberFormat(tag, { maximumFractionDigits: 1 }), [tag]);
+  const n0 = (x: number) => nf.format(Math.round(Math.abs(x))).replace(/\s/g, " ");
+  const eur = (x: number | null) => (x === null ? t.na : locale === "en" ? `${x < 0 ? "−" : ""}€${n0(x)}` : `${x < 0 ? "−" : ""}${n0(x)} €`);
+  const share = (x: number | null) => (x === null ? t.na : `${x < 0 ? "−" : ""}${nf1.format(Math.abs(x * 100))} %`);
+  const mo = (x: number | null) => (x === null ? t.none : t.months(nf.format(Math.round(x))));
+  const count = (x: number | null) => (x === null ? t.na : nf.format(Math.ceil(x)));
 
-  const inputs = Object.fromEntries((Object.keys(v) as Key[]).map((key) => [key, numberOf(v[key])])) as ProducerInputs;
-  // percentages above 100 are not a share; the cost ratio must stay below the list price
-  for (const key of ["costRatio", "chainDiscounts", "chainBonuses", "acquiring", "cannibalisation"] as Key[]) if ((inputs[key] ?? 0) > 100) inputs[key] = null;
-  const r = calcProducer(inputs);
+  const inputs = Object.fromEntries(KEYS.map((k) => [k, numberOf(v[k])])) as ProducerInputs;
+  for (const k of ["chainDiscounts", "chainBonuses", "chainLogistics", "acquiring", "losses", "cannibalisation"] as Key[]) if ((inputs[k] ?? 0) > 100) inputs[k] = null;
+  const shift = scenarioShifts[scenario];
+  const r = calcProducer(inputs, shift);
+  const all = (Object.keys(scenarioShifts) as Scenario[]).map((s) => ({ s, r: calcProducer(inputs, scenarioShifts[s]) }));
+  const { chain: A, store: B, company: C } = r;
 
-  const update = (key: Key) => (next: string) => { setV((old) => ({ ...old, [key]: next })); setIsExample(false); };
-  const fields: Field[][] = [
-    [
-      { key: "chainShipments", label: t.fields.chainShipments[0], hint: t.fields.chainShipments[1], unit: t.perMonth, format: money },
-      { key: "costRatio", label: t.fields.costRatio[0], unit: t.pctList, format: pct },
-      { key: "chainDiscounts", label: t.fields.chainDiscounts[0], unit: t.pctList, format: pct },
-      { key: "chainBonuses", label: t.fields.chainBonuses[0], hint: t.fields.chainBonuses[1], unit: t.pctList, format: pct },
-      { key: "chainFees", label: t.fields.chainFees[0], unit: t.perMonth, format: money },
-      { key: "chainDays", label: t.fields.chainDays[0], unit: t.daysUnit, format: days },
-      { key: "costOfMoney", label: t.fields.costOfMoney[0], hint: t.fields.costOfMoney[1], unit: t.pctYear, format: pct },
-    ],
-    [
-      { key: "storeRevenue", label: t.fields.storeRevenue[0], hint: t.fields.storeRevenue[1], unit: t.perMonth, format: money },
-      { key: "retailMarkup", label: t.fields.retailMarkup[0], unit: t.pct, format: pct },
-      { key: "rent", label: t.fields.rent[0], hint: t.fields.rent[1], unit: t.perMonth, format: money },
-      { key: "utilities", label: t.fields.utilities[0], hint: t.fields.utilities[1], unit: t.perMonth, format: money },
-      { key: "utilitiesFee", label: t.fields.utilitiesFee[0], hint: t.fields.utilitiesFee[1], unit: t.pctUtilities, format: pct },
-      { key: "staff", label: t.fields.staff[0], unit: t.perMonth, format: money },
-      { key: "marketing", label: t.fields.marketing[0], unit: t.perMonth, format: money },
-      { key: "opex", label: t.fields.opex[0], hint: t.fields.opex[1], unit: t.perMonth, format: money },
-      { key: "acquiring", label: t.fields.acquiring[0], unit: t.pctRevenue, format: pct },
-      { key: "inventoryDays", label: t.fields.inventoryDays[0], hint: t.fields.inventoryDays[1], unit: t.daysUnit, format: days },
-      { key: "cannibalisation", label: t.fields.cannibalisation[0], hint: t.fields.cannibalisation[1], unit: t.pct, format: pct },
-    ],
-    [
-      { key: "capex", label: t.fields.capex[0], hint: t.fields.capex[1], unit: t.eur, format: money },
-      { key: "depositMonths", label: t.fields.depositMonths[0], hint: t.fields.depositMonths[1], unit: t.monthsRent, format: monthsFmt },
-    ],
-  ];
-
+  const update = (k: Key) => (next: string) => { setV((old) => ({ ...old, [k]: next })); setIsExample(false); };
   const field = (f: Field) => (
     <div className="pe-field" key={f.key}>
       <label className="pe-field__label" htmlFor={`${uid}-${f.key}`}>{f.label}</label>
@@ -289,103 +178,155 @@ export function ProducerEconomics({ locale, m20 }: { locale: SiteLocale; /** the
         <span className="pe-field__unit" aria-hidden="true">{f.unit}</span>
       </span>
       {f.hint ? <span className="pe-field__hint" id={`${uid}-${f.key}-hint`}>{f.hint}</span> : null}
-      {f.key === "rent" ? (
-        <button type="button" className="pe-link" onClick={() => { setV((old) => ({ ...old, rent: String(m20.rent), depositMonths: String(m20.depositMonths), utilitiesFee: String(m20.feePercent) })); setIsExample(false); }}>{t.m20}</button>
-      ) : null}
+      {f.key === "rent" ? <button type="button" className="pe-link" onClick={() => { setV((old) => ({ ...old, rent: String(m20.rent), depositMonths: String(m20.depositMonths), utilitiesFee: String(m20.feePercent) })); setIsExample(false); }}>{t.m20}</button> : null}
     </div>
   );
+  const F = (key: Key, unit: string, format: NumberFormat): Field => ({ key, label: t.f[key][0], hint: t.f[key][1] || undefined, unit, format });
+  const groupA: Field[] = [F("chainUnits", t.u.unitsMonth, units), F("chainPrice", t.u.eurUnit, money), F("unitCost", t.u.eurUnit, money), F("chainDiscounts", t.u.pctList, pct), F("chainBonuses", t.u.pctList, pct), F("chainFees", t.u.eurMonth, money), F("chainLogistics", t.u.pctList, pct), F("chainDays", t.u.days, whole), F("costOfMoney", t.u.pctYear, pct)];
+  const groupB: Field[] = [F("retailPrice", t.u.eurUnit, money), F("buyersPerDay", t.u.perDay, units), F("ticket", t.u.eur, money), F("openDays", t.u.days, whole), F("rent", t.u.eurMonth, money), F("utilities", t.u.eurMonth, money), F("utilitiesFee", t.u.pctUtil, pct), F("staff", t.u.eurMonth, money), F("marketing", t.u.eurMonth, money), F("acquiring", t.u.pctRev, pct), F("losses", t.u.pctCogs, pct), F("opex", t.u.eurMonth, money), F("storeLogistics", t.u.eurMonth, money), F("inventoryDays", t.u.days, whole), F("cannibalisation", t.u.pct, pct)];
+  const groupL: Field[] = [F("capex", t.u.eur, money), F("depositMonths", t.u.monthsRent, whole)];
 
+  // the comparison rows — the same rows for both channels
+  const rows: [string, string, string][] = [
+    [t.rows.revenue, A ? eur(A.revenue) : t.na, B ? eur(B.revenue) : t.na],
+    [t.rows.gross, A ? eur(A.gross) : t.na, B ? eur(B.gross) : t.na],
+    [t.rows.ebitda, A ? eur(A.ebitda) : t.na, B ? eur(B.ebitda) : t.na],
+    [t.rows.margin, A ? share(A.margin) : t.na, B ? share(B.margin) : t.na],
+    [t.rows.breakEven, A?.breakEvenUnits != null ? t.beUnits(nf.format(Math.ceil(A.breakEvenUnits))) : t.na, B?.breakEvenRevenue != null ? t.beRevenue(eur(B.breakEvenRevenue)) : t.na],
+    [t.rows.buyers, t.na, B ? count(B.breakEvenBuyers) : t.na],
+    [t.rows.cash, A ? `${eur(A.cashFlow)} ${t.perMonth}` : t.na, B ? `${eur(B.cashFlow)} ${t.perMonth}` : t.na],
+    [t.rows.wc, A?.workingCapital != null ? `${eur(A.workingCapital)} · ${t.wcA}` : t.na, B?.workingCapital != null ? `${eur(B.workingCapital)} · ${t.wcB}` : t.na],
+    [t.rows.payback, t.na, C ? mo(C.payback) : t.na],
+  ];
 
-  const ch = r.chain, st = r.store, cash = r.cash, be = r.breakEven, pb = r.payback;
-  const wcReady = cash.workingCapital !== null;
-  const beValue = be ? (be.company ?? (inputs.cannibalisation === null ? be.store : null)) : null;
+  // the comparison bar — EBITDA of the two channels and the company gain on one scale
+  const bars = A || B ? [
+    { key: "a", label: t.bar.a, value: A?.ebitda ?? null },
+    { key: "b", label: t.bar.b, value: B?.ebitda ?? null },
+    { key: "lost", label: t.bar.lost, value: C ? -C.lostChain : null },
+    { key: "delta", label: t.bar.delta, value: C?.incremental ?? null },
+  ] : [];
+  const scale = Math.max(1, ...bars.map((b) => Math.abs(b.value ?? 0)));
+
+  // the neutral management conclusion
+  const plan = inputs.buyersPerDay;
+  const pess = all.find((x) => x.s === "pessimistic")!.r.company;
+  let verdict: string | null = null;
+  if (B && C) {
+    if (C.breakEvenBuyers === null) verdict = t.verdict.never;
+    else if (C.incremental <= 0) verdict = t.verdict.negative(count(C.breakEvenBuyers), count(plan));
+    else if (C.payback !== null && C.payback > 60) verdict = t.verdict.slow(eur(C.incremental), nf.format(Math.round(C.payback)));
+    else verdict = t.verdict.positive(eur(C.incremental), C.payback !== null ? nf.format(Math.round(C.payback)) : t.na, count(C.breakEvenBuyers), count(plan));
+    if (scenario !== "pessimistic" && pess) verdict += " " + t.verdict.pessimistic(pess.incremental > 0 ? `${eur(pess.incremental)} ${t.perMonth}, ${mo(pess.payback)}` : `${eur(pess.incremental)} ${t.perMonth}`);
+  }
 
   return (
-    <div className="pe">
+    <div className="pe pe--v2">
       <header className="pe__head">
         <p className="pe__badge">{t.badge}</p>
         <h1 className="pe__title">{t.title}</h1>
         <p className="pe__lead">{t.lead}</p>
         <p className="pe__principle">{t.principle}</p>
       </header>
-
       <div className="pe__tools">
         <button type="button" className="pe-link is-strong" onClick={() => { setV(fromExample()); setIsExample(true); }}>{t.example}</button>
-        <button type="button" className="pe-link" onClick={() => { setV(blank()); setIsExample(false); }}>{t.reset}</button>
+        <button type="button" className="pe-link" onClick={() => { setV(blank()); setIsExample(false); setScenario("realistic"); }}>{t.reset}</button>
       </div>
       {isExample ? <p className="pe__example">{t.exampleNote}</p> : null}
 
-      <div className="pe__body">
-        <form className="pe__inputs" onSubmit={(event) => event.preventDefault()} aria-label={t.title}>
-          {fields.map((group, i) => (
-            <fieldset key={t.groups[i]} className="pe-group">
-              <legend className="pe-group__legend"><span>{String(i + 1).padStart(2, "0")}</span>{t.groups[i]}</legend>
-              <div className="pe-group__fields">{group.map(field)}</div>
-            </fieldset>
-          ))}
-        </form>
+      <form className="pe2__inputs" onSubmit={(e) => e.preventDefault()} aria-label={t.title}>
+        <fieldset className="pe-group pe2__col is-a">
+          <legend className="pe-group__legend">{t.a}</legend>
+          <div className="pe-group__fields">{groupA.map(field)}</div>
+        </fieldset>
+        <fieldset className="pe-group pe2__col is-b">
+          <legend className="pe-group__legend">{t.b}</legend>
+          <div className="pe-group__fields">{groupB.map(field)}</div>
+          <p className="pe2__sub">{t.launch}</p>
+          <div className="pe-group__fields">{groupL.map(field)}</div>
+        </fieldset>
+      </form>
 
-        <div className="pe__results" aria-live="polite">
-          <Answer t={t} no={1} kind="profit" ready={!!ch} big={ch ? `${eur(ch.margin)} ${t.perMonthShort}` : ""} sub={ch?.marginPct != null ? t.chain.pctNet(p1(ch.marginPct)) : undefined}
-            rows={ch ? [[t.chain.kept, eur(ch.per100.net)], [t.chain.margin100, eur(ch.per100.margin)], ...(ch.receivables !== null ? [[t.chain.waiting, eur(ch.receivables), "cash"] as [string, string, string]] : []), ...(ch.delayCost !== null ? [[t.chain.delay, `${eur(ch.delayCost)} ${t.perMonthShort}`, "cash"] as [string, string, string]] : [])] : []} />
-          <Answer t={t} no={2} kind="profit" ready={!!st} big={st ? `${eur(st.operating)} ${t.perMonthShort}` : ""}
-            rows={st ? [[t.store.gross, `${eur(st.gross)} · ${p1(st.grossPct)} %`], [t.store.acquiring, eur(-st.variable)], [t.store.fixed, eur(-st.fixed)], ...(st.lostChain !== null ? [[t.store.lost, eur(-st.lostChain)] as [string, string]] : []), ...(st.incremental !== null ? [[t.store.incremental, `${eur(st.incremental)} ${t.perMonthShort}`, "total"] as [string, string, string]] : [])] : []}
-            note={st ? t.store.per100(nf1.format(st.per100.price), nf1.format(st.per100.margin)) : undefined} />
-          <Answer t={t} no={3} kind="cash" ready={wcReady} big={wcReady ? `${eur(cash.workingCapital, true)} · ${cash.workingCapital! >= 0 ? t.wc.tied : t.wc.released}` : ""}
-            rows={wcReady ? [[t.wc.inventory, eur(cash.inventory, true)], [t.wc.receivables, eur(-(cash.releasedReceivables ?? 0))], ...(cash.deposit !== null ? [[t.wc.deposit, eur(cash.deposit, true)] as [string, string]] : [])] : []}
-            note={wcReady && inputs.chainDays !== null ? t.wc.note(nf.format(inputs.chainDays)) : undefined} />
-          <Answer t={t} no={4} kind="profit" ready={!!be && (be.store !== null || be.company !== null)} big={beValue !== null ? `${eur(beValue)} ${t.perMonthShort}` : t.be.never}
-            rows={be ? [[t.be.store, be.store !== null ? eur(be.store) : "—"], [t.be.company, be.company !== null ? eur(be.company) : inputs.cannibalisation === null ? "—" : t.be.never], ...(be.safety !== null ? [[t.be.safety, `${p1(be.safety)} %`] as [string, string]] : [])] : []} />
-          <Answer t={t} no={5} kind="cash" ready={!!pb} big={pb ? (pb.capex !== null ? t.pb.months(mo(pb.capex)!) : t.pb.none) : ""}
-            rows={pb ? [[t.pb.start, eur(cash.startCash)], [t.pb.all, pb.allCash !== null ? t.pb.months(mo(pb.allCash)!) : t.pb.none]] : []}
-            note={pb ? t.pb.note : undefined} />
-
-          {st && st.incremental !== null && cash.startCash !== null ? (
-            <section className="pe-split" aria-label={t.split.title}>
-              <h3 className="pe-split__title">{t.split.title}</h3>
-              <div className="pe-split__cols">
-                <dl className="pe-split__col is-profit">
-                  <p className="pe-split__kind">{t.profit} · {t.perMonthShort}</p>
-                  <div><dt>{t.split.profit[0]}</dt><dd>{eur(st.operating)}</dd></div>
-                  <div><dt>{t.split.profit[1]}</dt><dd>{eur(-(st.lostChain ?? 0))}</dd></div>
-                  <div className="is-total"><dt>{t.split.profit[2]}</dt><dd>{eur(st.incremental)}</dd></div>
-                </dl>
-                <dl className="pe-split__col is-cash">
-                  <p className="pe-split__kind">{t.cash}</p>
-                  <div><dt>{t.split.cash[0]}</dt><dd>{eur(cash.capex)}</dd></div>
-                  <div><dt>{t.split.cash[1]}</dt><dd>{eur(cash.deposit ?? 0)}</dd></div>
-                  <div><dt>{t.split.cash[2]}</dt><dd>{eur(cash.workingCapital, true)}</dd></div>
-                  <div className="is-total"><dt>{t.split.cash[3]}</dt><dd>{eur(cash.startCash)}</dd></div>
-                </dl>
-              </div>
-              <p className="pe-split__note">{t.split.monthly}</p>
-            </section>
-          ) : null}
-
-          {r.sensitivity.length && st?.incremental !== null ? (
-            <section className="pe-sens" aria-label={t.sens.title}>
-              <h3 className="pe-sens__title">{t.sens.title}</h3>
-              <table className="pe-sens__table">
-                <thead><tr><th scope="col">{t.sens.revenue}</th><th scope="col">{t.sens.operating}</th><th scope="col">{t.sens.incremental}</th><th scope="col">{t.sens.payback}</th></tr></thead>
-                <tbody>
-                  {r.sensitivity.map((row) => (
-                    <tr key={row.factor} className={row.factor === 1 ? "is-plan" : undefined}>
-                      <th scope="row">{eur(row.revenue)}<span>{row.factor === 1 ? t.sens.plan : `${row.factor > 1 ? "+" : "−"}${Math.round(Math.abs(row.factor - 1) * 100)} %`}</span></th>
-                      <td className={row.operating < 0 ? "is-negative" : undefined}>{eur(row.operating)}</td>
-                      <td className={row.incremental !== null && row.incremental < 0 ? "is-negative" : undefined}>{eur(row.incremental)}</td>
-                      <td>{row.payback !== null ? t.pb.months(mo(row.payback)!) : "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </section>
-          ) : null}
-        </div>
+      <div className="pe2__switch" role="group" aria-label={t.table.title}>
+        {(Object.keys(scenarioShifts) as Scenario[]).map((s) => (
+          <button key={s} type="button" aria-pressed={scenario === s} className={scenario === s ? "is-on" : undefined} onClick={() => setScenario(s)}>{t.scenarios[s]}</button>
+        ))}
+        <span className="pe2__switchnote">{t.scenarioNote(nf1.format(shift.buyers), `${shift.cannibalisation > 0 ? "+" : shift.cannibalisation < 0 ? "−" : "±"}${Math.abs(shift.cannibalisation)} п. п.`.replace("п. п.", locale === "ru" ? "п. п." : locale === "ro" ? "p.p." : "pp"))}</span>
       </div>
 
-      <footer className="pe__foot">
-        {t.foot.map((line) => <p key={line}>{line}</p>)}
-      </footer>
+      <section className="pe2__results" aria-live="polite">
+        {verdict ? (
+          <div className="pe2__verdict">
+            <p className="pe2__verdictlabel">{t.conclusion}</p>
+            <p className="pe2__verdicttext">{verdict}</p>
+          </div>
+        ) : null}
+        <div className="pe-split">
+          <h3 className="pe-split__title">{t.company.title}</h3>
+          {C ? (
+            <div className="pe-split__cols">
+              <dl className="pe-split__col">
+                <div><dt>{t.company.lost}</dt><dd>{eur(-C.lostChain)}</dd></div>
+                <div className="is-total"><dt>{t.company.incremental}</dt><dd>{eur(C.incremental)}</dd></div>
+                <div><dt>{t.company.buyers}</dt><dd>{count(C.breakEvenBuyers)}</dd></div>
+              </dl>
+              <dl className="pe-split__col">
+                <div><dt>{t.company.released}</dt><dd>{eur(C.released)}</dd></div>
+                <div className="is-total"><dt>{t.company.start}</dt><dd>{eur(C.startCash)}</dd></div>
+                <div><dt>{t.company.payback}</dt><dd>{mo(C.payback)}</dd></div>
+              </dl>
+            </div>
+          ) : <p className="pe-split__note">{t.need.c}</p>}
+          {C && plan !== null && C.safety !== null ? <p className="pe-split__note">{t.company.plan(count(plan * shift.buyers), share(C.safety))}</p> : null}
+        </div>
+
+        <table className="pe2__table">
+          <thead><tr><th scope="col"><span className="sr-only">—</span></th><th scope="col">{t.a}</th><th scope="col">{t.b}<span className="pe2__thnote">{t.noCann}</span></th></tr></thead>
+          <tbody>
+            {rows.map(([label, a, b]) => (
+              <tr key={label} className={label === t.rows.ebitda ? "is-key" : undefined}><th scope="row">{label}</th><td>{a}</td><td>{b}</td></tr>
+            ))}
+          </tbody>
+        </table>
+        {!A ? <p className="pe-answer__need">{t.need.a}</p> : null}
+        {!B ? <p className="pe-answer__need">{t.need.b}</p> : null}
+        {A?.delayCost != null ? <p className="pe-answer__note">{t.delay}: {eur(A.delayCost)} {t.perMonth}</p> : null}
+        {B?.deposit != null && inputs.depositMonths !== null ? <p className="pe-answer__note">{t.deposit}: {nf.format(inputs.depositMonths)} {t.u.monthsRent}</p> : null}
+
+        {bars.length ? (
+          <div className="pe2__bars" aria-hidden="true">
+            {bars.map((b) => (
+              <div key={b.key} className={`pe2__bar is-${b.key}${(b.value ?? 0) < 0 ? " is-neg" : ""}`}>
+                <span className="pe2__barlabel">{b.label}</span>
+                <span className="pe2__bartrack"><span className="pe2__barfill" style={{ width: `${(Math.abs(b.value ?? 0) / scale) * 50}%` }} /></span>
+                <span className="pe2__barvalue">{eur(b.value)}</span>
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {B && C ? (
+          <section className="pe-sens" aria-label={t.table.title}>
+            <h3 className="pe-sens__title">{t.table.title}</h3>
+            <table className="pe-sens__table">
+              <thead><tr><th scope="col">{t.table.title}</th><th scope="col">{t.table.buyers}</th><th scope="col">{t.table.delta}</th><th scope="col">{t.table.payback}</th></tr></thead>
+              <tbody>
+                {all.map(({ s, r: x }) => (
+                  <tr key={s} className={s === scenario ? "is-plan" : undefined}>
+                    <th scope="row">{t.scenarios[s]}</th>
+                    <td>{plan !== null ? count(plan * scenarioShifts[s].buyers) : t.na}</td>
+                    <td className={x.company && x.company.incremental < 0 ? "is-negative" : undefined}>{x.company ? eur(x.company.incremental) : t.na}</td>
+                    <td>{x.company ? mo(x.company.payback) : t.na}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        ) : null}
+
+      </section>
+
+      <footer className="pe__foot">{t.foot.map((line) => <p key={line}>{line}</p>)}</footer>
     </div>
   );
 }

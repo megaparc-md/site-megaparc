@@ -15,7 +15,8 @@ import { StickyCta } from "@/components/leasing-experience/sticky-cta";
 import { SummaryCards } from "@/components/leasing-experience/summary";
 import { ViewingScene } from "@/components/leasing-experience/viewing";
 import { DecisionBar } from "@/components/leasing-toolkit/decision-bar";
-import { CommercialTerms } from "@/components/leasing-toolkit/commercial-terms";
+import { CommercialTerms, offerLink } from "@/components/leasing-toolkit/commercial-terms";
+import { commercialCopy, m20Commercial } from "@/data/moscova-20-commercial";
 import { DigitalDossier, QrHandoff } from "@/components/leasing-toolkit/digital-dossier";
 import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
@@ -68,9 +69,13 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
   const packUrl = `https://www.megaparc.md${packPath}`;
   const dossierCopy = {
     label: sc.label[locale], title: sc.title[locale], lead: sc.lead[locale], pack: sc.pack[locale], pdf: sc.pdf[locale],
-    pdfMeta: toolkitCopy.pack.dossierMeta[locale].replace("{pages}", String(m20Toolkit.dossier.pages)).replace("{version}", m20Toolkit.dossier.version),
+    // OWNER «COMMERCIAL PRESENTATION RESET» §1 + addendum §5 (2026-11-13): «Скачать презентацию PDF» opens the one current commercial
+    // presentation of the language (the offer R4 until the OWNER GO on R5) — never the old leasing dossier (its files stay at their URLs)
+    pdfMeta: commercialCopy.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages)),
     plans: sc.plans[locale], plansMeta: toolkitCopy.pack.plansMeta[locale], qr: sc.qr[locale],
   };
+
+  const presentation = offerLink(locale, "#commercial").href;
 
   const ground = x.plans.levels.find((level) => level.key === "ground");
   const photo = (key: string | undefined) => (key && x.photos[key] ? <LgPhoto photo={x.photos[key]} locale={locale} sizes="(min-width: 1024px) 22vw, 30vw" className="lg-portal__photo" /> : null);
@@ -92,7 +97,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       <DecisionNav portals={portals} label={ui.chapters[locale]} cta={offer.primary} status={offer.status} />
       <SummaryCards x={x} offer={offer} locale={locale} />
       {/* the digital property dossier — only on the property that carries the Digital Leasing Toolkit */}
-      {toolkit ? <DigitalDossier copy={dossierCopy} packHref={packPath} pdfHref={m20Toolkit.dossier.file[locale]} plansHref="#plans" /> : null}
+      {toolkit ? <DigitalDossier copy={dossierCopy} packHref={packPath} pdfHref={presentation} plansHref="#plans" /> : null}
       {/* OWNER R6 §03 / R7 (2026-11-12): the commercial terms — the two rates, the preliminary calculation, the indexation, the offer */}
       {toolkit ? <CommercialTerms breakdown={offer.breakdown} locale={locale} fallbackHref="#viewing" /> : null}
       <Reasons x={x} offer={offer} locale={locale} />
@@ -106,7 +111,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       <ViewingScene x={x} offer={offer} project={project} locale={locale} />
       {/* Digital Leasing Toolkit (OWNER 2026-11-11): on the property that carries it, the three-action decision bar replaces the one-action phone bar */}
       {toolkit ? (
-        <DecisionBar name={project.name} meta={`${offer.figure} · ${offer.status}`} plans={toolkitCopy.bar.plans[locale]} dossier={toolkitCopy.bar.dossier[locale]} dossierHref={m20Toolkit.dossier.file[locale]} book={toolkitCopy.bar.book[locale]} />
+        <DecisionBar name={project.name} meta={`${offer.figure} · ${offer.status}`} plans={toolkitCopy.bar.plans[locale]} dossier={toolkitCopy.bar.dossier[locale]} dossierHref={presentation} book={toolkitCopy.bar.book[locale]} />
       ) : (
         <StickyCta name={project.name} meta={`${offer.figure} · ${offer.status}`} label={offer.primary} />
       )}
