@@ -18,6 +18,8 @@ const productionStubs = {
   "@/components/leasing-toolkit/viewing-request": "./src/editions/production/viewing-request.tsx",
   // OWNER «PRODUCTION CONSISTENCY HOTFIX» (2026-11-12): the wording that describes the pre-check — production has no form, so it says «direct contact»
   "@/components/leasing-toolkit/precheck-copy": "./src/editions/production/precheck-copy.ts",
+  // OWNER R10 §04 (2026-11-13): the CFO-model prototype is OWNER preview only until its methodology is verified
+  "@/components/producer-economics": "./src/editions/production/producer-economics.tsx",
 };
 
 const nextConfig: NextConfig = {

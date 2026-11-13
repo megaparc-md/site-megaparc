@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Icon } from "@/components/ui";
 
 /**
@@ -16,6 +16,21 @@ import { Icon } from "@/components/ui";
 export function FormatPicker({ formats, panes, label, hint }: { formats: { key: string; no: string; label: string }[]; panes: ReactNode[]; label: string; hint?: string }) {
   const [active, setActive] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // OWNER R10 §02 (2026-11-13): a link may open a format directly — «?format=producer#format» from the Leasing block. The server
+  // renders the first format; the requested one is chosen once after hydration (an unknown key keeps the first).
+  useEffect(() => {
+    const key = new URLSearchParams(window.location.search).get("format");
+    const index = key ? formats.findIndex((format) => format.key === key) : -1;
+    if (index <= 0) return;
+    const id = window.requestAnimationFrame(() => {
+      setActive(index);
+      window.dispatchEvent(new CustomEvent("lg:format", { detail: formats[index].label }));
+    });
+    return () => window.cancelAnimationFrame(id);
+    // the requested format is read once, on arrival
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const select = (index: number, focus = false) => {
     setActive(index);

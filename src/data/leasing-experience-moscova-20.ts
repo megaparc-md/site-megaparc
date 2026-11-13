@@ -1,5 +1,6 @@
 import { commercialCopy, ratesLine } from "@/data/moscova-20-commercial";
 import { T, type Evidence, type LeasingExperience, type Photo, type PlanZone, type Pt } from "@/data/leasing-experience-model";
+import { consultCopy, producerFormat } from "@/data/producer-retail";
 import { publicAsset } from "@/lib/site-data";
 
 /**
@@ -803,6 +804,13 @@ export const moscova20Experience: LeasingExperience = {
           "Собственная торговая точка — это прямые продажи и контроль над ассортиментом, брендом и отношениями с покупателями. Экономика формата считается на ваших данных; следующий шаг — техническая и коммерческая проверка сценария.",
           "An outlet of your own means direct sales and control of the range, the brand and the relationship with buyers. The economics of the format are calculated on your figures; the next step is a technical and commercial check of the scenario.",
         ),
+        // OWNER «PRODUCER DIRECT RETAIL STRATEGY R10» §03 / §05 (2026-11-13): the same scenario, strengthened — three advantages, the
+        // use of the two levels within the technical constraints, the link to the R8 terms, the consultation action (src/data/producer-retail.ts)
+        advantagesTitle: producerFormat.advantagesTitle,
+        advantages: producerFormat.advantages,
+        levels: { title: producerFormat.levelsTitle, caption: producerFormat.levelsCaption, note: producerFormat.levelsNote, items: producerFormat.levels },
+        consult: { label: consultCopy.cta, note: consultCopy.note },
+        termsLink: producerFormat.termsLink,
         overlay: {
           photo: "intGroundHall",
           evidence: "DEMO",

@@ -4,6 +4,7 @@ import { MaskTitle, Val } from "@/components/experience";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
 import { SpaceImage, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
+import { ProducerRetail } from "@/components/producer-retail";
 import { trustCopy } from "@/components/leasing/property-trust";
 import { Figure, NB, R3Button, R3Label, R3Link, tel, viewableNow } from "@/components/r3";
 import { Icon } from "@/components/ui";
@@ -300,6 +301,10 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
           </div>
         </div>
       </section>
+
+      {/* FOR MANUFACTURERS & BRANDS (OWNER «PRODUCER DIRECT RETAIL STRATEGY R10», 2026-11-13) — six advantages of an own store,
+          Moscova 20 as the concrete example, the economics conversation through the confirmed e-mail */}
+      <ProducerRetail locale={locale} />
 
       {/* WHY LEASE WITH MEGAPARC (R3.2 §14) — Moscova 20-level trust: the technical team, feasibility first, the owner
           directly, verified data; the full check list and the cadastral verification live on each property page */}

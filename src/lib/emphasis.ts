@@ -96,6 +96,11 @@ const register: [statement: string, emphasis: string | null][] = [
   ["Un spațiu — diferite formate.", "diferite formate."],
   ["One space — different formats.", "different formats."],
   // structural titles of the offer stay calm: «Коммерческие условия», «Адрес, который стоит рассмотреть.», the plan pages, the address
+
+  // ---- Leasing · for manufacturers & brands (OWNER R10, 2026-11-13) ----
+  ["Ваш продукт. Ваша полка. Ваш покупатель.", "Ваш покупатель."], // the direct relationship with the buyer — the point of an own store
+  ["Produsul dumneavoastră. Raftul dumneavoastră. Cumpărătorul dumneavoastră.", "Cumpărătorul dumneavoastră."],
+  ["Your product. Your shelf. Your customer.", "Your customer."],
 ];
 
 const loose = (text: string) => text.replace(/[\s   ]+/g, "").replace(/‑/g, "-").replace(/[’ʼ]/g, "'");

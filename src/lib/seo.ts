@@ -191,6 +191,11 @@ export function offerPrintMetadata(locale: SiteLocale): Metadata {
   return buildMetadata(locale, "/leasing/moscova-20/offer-print", { title: { ro: "Moscova 20 — ofertă comercială (sursă de tipar)", ru: "Moscova 20 — коммерческое предложение (источник для печати)", en: "Moscova 20 — commercial offer (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
 }
 
+/** the CFO-model prototype (OWNER R10 §04) — internal, noindex, OWNER preview only; stripped from the production artifact */
+export function producerEconomicsMetadata(locale: SiteLocale): Metadata {
+  return buildMetadata(locale, "/producer-economics", { title: { ro: "Vânzări prin rețea vs magazin propriu — prototip", ru: "Продажи через сеть vs собственный магазин — прототип", en: "Retail chain vs own store — prototype" }, description: { ro: "Prototip intern, metodologie în verificare.", ru: "Внутренний прототип, методология на проверке.", en: "Internal prototype, methodology under review." } }, { noindex: true });
+}
+
 export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
   const space = getSpace(id);
   if (!space) return {};

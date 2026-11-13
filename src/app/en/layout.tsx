@@ -15,6 +15,7 @@ import "../leasing-toolkit.css";
 import "../commercial.css";
 import "../type.css";
 import "../r8.css";
+import "../r10.css";
 
 /** Root layout for the EN edition: static HTML is served with lang="en". */
 export const metadata: Metadata = {

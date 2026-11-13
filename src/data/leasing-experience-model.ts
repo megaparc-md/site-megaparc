@@ -121,6 +121,16 @@ export type LensFormat = {
   checksTitle?: Localized;
   /** one closing decision-support statement of the format (OWNER «YOUR FORMAT», 2026-11-10) */
   closing?: Localized;
+  /** OWNER R10 §03 (producer store, 2026-11-13): the format's own short advantages — numbered cards at the top of its pane */
+  advantagesTitle?: Localized;
+  advantages?: { title: Localized; text: Localized }[];
+  /** OWNER R10 §03: how the levels of the unit may be used, within the technical constraints; the areas and the heights are read
+   *  from the unit record (the note's {ground} / {lower} are the approximate heights), never typed here */
+  levels?: { title: Localized; caption: Localized; note: Localized; items: Partial<Record<"ground" | "lower", { title: Localized; text: Localized }>> };
+  /** OWNER R10 §05: a second action — the consultation e-mail with the format's subject (never a form, never «sent») */
+  consult?: { label: Localized; note: Localized };
+  /** OWNER R10 §03: a quiet link to the commercial terms block — the terms stay there and are never repeated in the pane */
+  termsLink?: Localized;
   /** null where no interior photograph exists — the visual keeps its frame and says the organisation is shown on the plan at the viewing */
   overlay: { photo: string; zones: PhotoZone[]; evidence: "DEMO"; source: string } | null;
 };

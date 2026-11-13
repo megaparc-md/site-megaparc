@@ -96,7 +96,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       {/* OWNER R6 §03 / R7 (2026-11-12): the commercial terms — the two rates, the preliminary calculation, the indexation, the offer */}
       {toolkit ? <CommercialTerms breakdown={offer.breakdown} locale={locale} fallbackHref="#viewing" /> : null}
       <Reasons x={x} offer={offer} locale={locale} />
-      <FormatLens x={x} offer={offer} locale={locale} />
+      <FormatLens x={x} offer={offer} locale={locale} name={project.name} />
       <LocationMotion x={x} offer={offer} project={project} locale={locale} decision={decision} />
       <PhotoStory x={x} locale={locale} />
       <PlansScene x={x} offer={offer} locale={locale} />

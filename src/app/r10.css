@@ -1,0 +1,191 @@
+/* ==================================================================
+   R10 · PRODUCER DIRECT RETAIL (OWNER «MEGAPARC — PRODUCER DIRECT
+   RETAIL STRATEGY R10», 2026-11-13). Loaded last.
+   1 · Leasing — «Для производителей и брендов»: a light editorial scene,
+       six advantages as one numbered typographic sequence on hairlines,
+       a balancing line, ONE expressive card (Moscova 20, photograph +
+       graphite panel). Never a fintech or SaaS look.
+   2 · Moscova 20 — the fifth format strengthened inside its own pane:
+       three expressive advantage cards (burgundy · stone · graphite),
+       the two levels on hairlines, the consultation action, the link
+       to the R8 commercial terms.
+   Palette and radii are the R8 tokens (r8.css); type is Manrope (type.css).
+   ================================================================== */
+
+/* ------------------------------------------------ 1 · Leasing block */
+.r10-prod__head { display: grid; gap: 1.4rem; margin-bottom: clamp(2.2rem, 4.5vw, 3.6rem); }
+.r10-prod__head .r3-label { margin: 0; }
+.r10-prod__title { max-width: none; }
+.r10-prod__line { display: block; }
+.r10-prod__lead { max-width: 34rem; color: var(--r8-text); }
+@media (min-width: 1024px) {
+  .r10-prod__head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 4vw, 4rem); align-items: end; }
+  .r10-prod__head .r3-label { grid-column: 1 / -1; }
+}
+/* RO says it in three long words — the same three lines, at a calmer size */
+.r10-prod__title:lang(ro) { font-size: min(var(--r3-title), 7.4vw); }
+
+.r10-prod__list { display: grid; gap: 0 clamp(1.6rem, 3vw, 2.6rem); margin: 0; padding: 0; list-style: none; counter-reset: none; }
+@media (min-width: 720px) { .r10-prod__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .r10-prod__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.r10-prod__item { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: .9rem; row-gap: .45rem; align-content: start; padding: 1.25rem 0 1.6rem; border-top: 1px solid rgba(18, 19, 22, .14); }
+.r10-prod__no { grid-row: span 2; padding-top: .2rem; color: var(--r8-burgundy); font-size: .74rem; font-weight: 700; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+.r10-prod__name { margin: 0; color: var(--r8-ink); font-size: clamp(1.08rem, 1.4vw, 1.22rem); font-weight: 700; line-height: 1.25; letter-spacing: -.012em; text-wrap: balance; }
+.r10-prod__text { margin: 0; color: var(--r8-text); font-size: .98rem; line-height: 1.55; text-wrap: pretty; }
+
+.r10-prod__balance { max-width: 46rem; margin: clamp(.6rem, 1.6vw, 1.2rem) 0 0; padding-left: 1.1rem; border-left: 2px solid var(--r8-burgundy); color: var(--r8-text); font-size: 1.02rem; line-height: 1.6; text-wrap: pretty; }
+
+/* the one expressive card: Moscova 20 */
+.r10-example { display: grid; margin-top: clamp(2.4rem, 5vw, 4rem); overflow: hidden; border-radius: var(--r8-radius); background: var(--r8-graphite); color: #fff; }
+.r10-example__media { display: block; position: relative; min-height: 15rem; aspect-ratio: 16 / 10; overflow: hidden; }
+.r10-example__photo, .r10-example__photo img { display: block; width: 100%; height: 100%; }
+.r10-example__photo img { object-fit: cover; object-position: var(--lg-pos, 50% 60%); transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
+.r10-example__media:hover .r10-example__photo img { transform: scale(1.025); }
+/* min-width 0: the panel never grows past its column (at 1024 the long action pushed it and the card's edge clipped the text) */
+.r10-example__panel { display: grid; gap: 1.1rem; align-content: start; min-width: 0; padding: clamp(1.5rem, 3.4vw, 2.8rem); }
+.r10-example__cta { max-width: 100%; white-space: normal; text-align: left; line-height: 1.35; }
+.r10-example__label { display: flex; align-items: center; gap: .75rem; margin: 0; color: rgba(255, 255, 255, .64); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.r10-example__label::before { content: ""; width: 1.6rem; height: 2px; background: #ed1c2e; }
+.r10-example__text { margin: 0; max-width: 30rem; color: #fff; font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 300; line-height: 1.38; letter-spacing: -.012em; text-wrap: pretty; }
+.r10-example__link { display: inline-flex; align-items: center; gap: .55rem; justify-self: start; padding-bottom: .2rem; border-bottom: 1px solid rgba(255, 255, 255, .42); color: #fff; font-size: .98rem; font-weight: 600; text-decoration: none; transition: border-color .3s ease, gap .3s ease; }
+.r10-example__link:hover { gap: .8rem; border-color: #fff; }
+.r10-example__actions { display: grid; gap: .7rem; justify-items: start; margin-top: .4rem; padding-top: 1.2rem; border-top: 1px solid rgba(255, 255, 255, .16); }
+.r10-example__note { margin: 0; color: rgba(255, 255, 255, .7); font-size: .88rem; line-height: 1.55; }
+.r10-example__note a { color: #fff; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, .4); text-underline-offset: .2em; white-space: nowrap; }
+@media (min-width: 1024px) {
+  .r10-example { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .r10-example__media { aspect-ratio: auto; min-height: 30rem; }
+  .r10-example__panel { align-content: center; }
+}
+
+.r10-prod__foot { display: flex; flex-wrap: wrap; gap: .6rem 2rem; align-items: baseline; justify-content: space-between; margin-top: 1.4rem; }
+.r10-prod__role { margin: 0; max-width: 46rem; color: var(--r8-muted); font-size: .9rem; line-height: 1.55; }
+.r10-prod__proto, .r10-consult__proto { color: var(--r8-burgundy); font-size: .82rem; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+
+/* ------------------------------------------------ 2 · Moscova 20 · the fifth format */
+.r10-adv { display: grid; gap: .9rem; }
+.r10-adv .lg-label { margin: 0; }
+.r10-adv__list { display: grid; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 720px) { .r10-adv__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.r10-adv__card { position: relative; display: grid; grid-template-rows: auto auto 1fr; gap: .55rem; align-content: start; min-height: 9.5rem; padding: 1.3rem 1.3rem 1.4rem; border-radius: var(--r8-radius); background: var(--t-bg); color: var(--t-text); }
+.r10-adv__card::before { content: ""; position: absolute; top: 0; left: 1.3rem; width: 1.6rem; height: 2px; background: var(--t-accent); }
+.r10-adv__card:nth-child(1) { --t-bg: var(--r8-burgundy); --t-ink: #fff; --t-text: rgba(255, 255, 255, .86); --t-muted: rgba(255, 255, 255, .68); --t-accent: #fff; }
+.r10-adv__card:nth-child(2) { --t-bg: var(--r8-stone); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #625f5a; --t-accent: var(--r8-burgundy); }
+.r10-adv__card:nth-child(3) { --t-bg: var(--r8-graphite); --t-ink: #fff; --t-text: rgba(255, 255, 255, .82); --t-muted: rgba(255, 255, 255, .6); --t-accent: #ed1c2e; }
+.r10-adv__no { color: var(--t-muted); font-size: .7rem; font-weight: 700; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.r10-adv__title { color: var(--t-ink); font-size: clamp(1.12rem, 1.5vw, 1.3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.012em; }
+.r10-adv__text { color: var(--t-text); font-size: .95rem; line-height: 1.5; text-wrap: pretty; }
+
+.r10-consult { display: grid; gap: .55rem; justify-items: start; max-width: 100%; }
+/* a long action in a narrow column wraps inside the button, never past the column */
+.r10-consult__btn { max-width: 100%; white-space: normal; text-align: left; line-height: 1.35; }
+.r10-consult__note { margin: 0; max-width: 26rem; color: var(--r8-muted); font-size: .86rem; line-height: 1.5; }
+.r10-consult__note a { color: var(--r8-ink); text-decoration: underline; text-decoration-color: rgba(18, 19, 22, .3); text-underline-offset: .2em; white-space: nowrap; }
+
+.r10-terms { display: inline-flex; margin-top: 1rem; }
+
+.r10-levels { display: grid; gap: 1rem; padding-top: .4rem; }
+.r10-levels__head { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; align-items: baseline; justify-content: space-between; }
+.r10-levels__head .lg-label { margin: 0; }
+.r10-levels__caption { margin: 0; color: var(--r8-muted); font-size: .8rem; }
+.r10-levels__list { display: grid; gap: 0 clamp(1.6rem, 3vw, 2.6rem); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 720px) { .r10-levels__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.r10-level { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; row-gap: .4rem; align-content: start; padding: 1.1rem 0 1.3rem; border-top: 1px solid rgba(18, 19, 22, .16); }
+.r10-level__name { color: var(--r8-muted); font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.r10-level__area { color: var(--r8-ink); font-size: 1.05rem; font-weight: 300; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.r10-level__title { grid-column: 1 / -1; color: var(--r8-ink); font-size: 1.12rem; font-weight: 700; line-height: 1.25; }
+.r10-level__text { grid-column: 1 / -1; color: var(--r8-text); font-size: .96rem; line-height: 1.55; text-wrap: pretty; }
+.r10-levels__note { margin: 0; max-width: 62rem; padding-left: 1rem; border-left: 2px solid var(--r8-sand); color: var(--r8-text); font-size: .9rem; line-height: 1.6; text-wrap: pretty; }
+
+/* the pane of a format with advantages: advantages · scene | question · levels · proof */
+.lg-lens__grid.has-advantages .r10-adv { order: 0; }
+.lg-lens__grid.has-levels .r10-levels { order: 1; }
+.lg-lens__grid.has-levels .lg-lens__proof { order: 2; }
+@media (min-width: 1024px) {
+  .lg-lens__grid.has-advantages { grid-template-areas: "adv adv" "visual ask" "proof proof"; }
+  .lg-lens__grid.has-advantages.has-levels { grid-template-areas: "adv adv" "visual ask" "levels levels" "proof proof"; }
+  .lg-lens__grid.has-advantages .r10-adv { grid-area: adv; }
+  .lg-lens__grid.has-levels .r10-levels { grid-area: levels; }
+}
+/* «От производства —» is one unbreakable phrase (no-break spaces after «От» and before the dash): it measured 17 px wider than the
+   question column at 1440 (also on the R9 release). From 1280 the columns are 7fr / 5fr and the size follows the column; below 1280
+   the lens sizes the question column by its content, so it is never contained there (containment collapsed it at 1024). */
+@media (min-width: 1280px) {
+  .lg-lens__grid.has-advantages .lg-lens__ask { container-type: inline-size; }
+  .lg-page .lg-lens__grid.has-advantages .lg-lens__question { font-size: min(clamp(1.8rem, 3vw, 2.9rem), 10.2cqi); }
+}
+
+/* ------------------------------------------------ 3 · the CFO-model prototype (OWNER preview only) */
+.pe { display: grid; gap: 1.6rem; }
+.pe__head { display: grid; gap: 1rem; max-width: 60rem; }
+.pe__badge { display: flex; align-items: center; gap: .75rem; margin: 0; color: var(--r8-burgundy); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pe__badge::before { content: ""; width: 1.6rem; height: 2px; background: var(--r8-burgundy); }
+.pe__title { margin: 0; max-width: 20ch; color: var(--r8-ink); font-size: clamp(2rem, 4.4vw, 3.4rem); font-weight: 300; line-height: 1.06; letter-spacing: -.03em; text-wrap: balance; }
+.pe__lead { margin: 0; max-width: 44rem; color: var(--r8-text); font-size: 1.08rem; line-height: 1.6; }
+.pe__principle { margin: 0; max-width: 44rem; padding-left: 1rem; border-left: 2px solid var(--r8-sand); color: var(--r8-muted); font-size: .9rem; line-height: 1.55; }
+.pe__tools { display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; }
+.pe-link { padding: 0; border: 0; background: none; color: var(--r8-burgundy); font: inherit; font-size: .92rem; font-weight: 600; text-decoration: underline; text-decoration-color: rgba(116, 32, 47, .35); text-underline-offset: .22em; cursor: pointer; justify-self: start; text-align: left; }
+.pe-link.is-strong { font-weight: 700; }
+.pe-link:hover { text-decoration-color: currentColor; }
+.pe__example { margin: 0; max-width: 60rem; padding: .9rem 1.1rem; border-radius: var(--r8-radius); background: var(--r8-blush); color: var(--r8-text); font-size: .9rem; line-height: 1.55; }
+
+.pe__body { display: grid; gap: clamp(2rem, 4vw, 3.4rem); align-items: start; }
+@media (min-width: 1100px) { .pe__body { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+.pe__inputs { display: grid; gap: 1.8rem; margin: 0; }
+.pe-group { margin: 0; padding: 1rem 0 0; border: 0; border-top: 1px solid rgba(18, 19, 22, .16); min-width: 0; }
+.pe-group__legend { display: flex; gap: .7rem; align-items: baseline; padding: 0 0 .9rem; color: var(--r8-ink); font-size: 1.02rem; font-weight: 700; }
+.pe-group__legend span { color: var(--r8-burgundy); font-size: .72rem; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.pe-group__fields { display: grid; gap: 1rem 1.2rem; }
+@media (min-width: 640px) { .pe-group__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pe-field { display: grid; gap: .35rem; align-content: start; min-width: 0; }
+.pe-field__label { color: var(--r8-ink); font-size: .86rem; font-weight: 600; line-height: 1.35; }
+.pe-field__control { display: flex; align-items: stretch; min-width: 0; border: 1px solid rgba(18, 19, 22, .22); border-radius: var(--r8-radius); background: #fff; transition: border-color .2s ease, box-shadow .2s ease; }
+.pe-field__control:focus-within { border-color: var(--r8-burgundy); box-shadow: 0 0 0 3px rgba(116, 32, 47, .14); }
+.pe-field__input { flex: 1 1 auto; min-width: 0; width: 100%; padding: .7rem .75rem; border: 0; background: transparent; color: var(--r8-ink); font: inherit; font-size: 1rem; font-variant-numeric: tabular-nums; outline: none; }
+.pe-field__unit { display: flex; align-items: center; padding: 0 .75rem 0 .2rem; color: var(--r8-muted); font-size: .8rem; white-space: nowrap; }
+.pe-field__hint { color: var(--r8-muted); font-size: .76rem; line-height: 1.45; }
+
+.pe__results { display: grid; gap: 1.1rem; min-width: 0; }
+.pe-answer { display: grid; gap: .5rem; padding: 1.1rem 1.2rem 1.25rem; border-radius: var(--r8-radius); background: var(--r8-paper); border-top: 2px solid var(--r8-burgundy); }
+.pe-answer.is-cash { border-top-color: var(--r8-graphite); }
+.pe-answer__head { display: flex; gap: .8rem; align-items: baseline; }
+.pe-answer__no { color: var(--r8-burgundy); font-size: .72rem; font-weight: 700; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.pe-answer__kind { color: var(--r8-muted); font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pe-answer.is-cash .pe-answer__no { color: var(--r8-graphite); }
+.pe-answer__q { margin: 0; color: var(--r8-ink); font-size: 1.04rem; font-weight: 700; line-height: 1.3; }
+.pe-answer__big { margin: .1rem 0 0; color: var(--r8-ink); font-size: clamp(1.55rem, 2.6vw, 2.1rem); font-weight: 300; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.pe-answer:not(.is-ready) .pe-answer__big { color: rgba(18, 19, 22, .3); }
+.pe-answer__sub { margin: 0; color: var(--r8-text); font-size: .9rem; }
+.pe-answer__rows { display: grid; margin: .3rem 0 0; }
+.pe-answer__rows > div { display: flex; gap: 1rem; justify-content: space-between; align-items: baseline; padding: .45rem 0; border-top: 1px solid rgba(18, 19, 22, .1); }
+.pe-answer__rows dt { color: var(--r8-text); font-size: .88rem; line-height: 1.4; }
+.pe-answer__rows dd { margin: 0; color: var(--r8-ink); font-size: .92rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pe-answer__rows .is-total dt, .pe-answer__rows .is-total dd { color: var(--r8-ink); font-weight: 700; }
+.pe-answer__rows .is-cash dt { color: var(--r8-muted); }
+.pe-answer__note, .pe-answer__need { margin: .2rem 0 0; color: var(--r8-muted); font-size: .84rem; line-height: 1.5; }
+
+.pe-split { display: grid; gap: 1rem; padding: 1.3rem 1.3rem 1.4rem; border-radius: var(--r8-radius); background: var(--r8-graphite); color: #fff; }
+.pe-split__title { margin: 0; font-size: 1.04rem; font-weight: 700; }
+.pe-split__cols { display: grid; gap: 1.2rem; }
+@media (min-width: 640px) { .pe-split__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.pe-split__col { display: grid; margin: 0; align-content: start; }
+.pe-split__kind { margin: 0 0 .4rem; color: rgba(255, 255, 255, .6); font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pe-split__col > div { display: flex; gap: .8rem; justify-content: space-between; align-items: baseline; padding: .4rem 0; border-top: 1px solid rgba(255, 255, 255, .14); }
+.pe-split__col dt { color: rgba(255, 255, 255, .8); font-size: .86rem; line-height: 1.4; }
+.pe-split__col dd { margin: 0; color: #fff; font-size: .92rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pe-split__col .is-total dt, .pe-split__col .is-total dd { color: #fff; font-weight: 700; }
+.pe-split__note { margin: 0; color: rgba(255, 255, 255, .66); font-size: .82rem; }
+
+.pe-sens { display: grid; gap: .7rem; min-width: 0; }
+.pe-sens__title { margin: 0; color: var(--r8-ink); font-size: 1.04rem; font-weight: 700; }
+.pe-sens__table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: .86rem; }
+.pe-sens__table th, .pe-sens__table td { padding: .5rem .4rem; border-top: 1px solid rgba(18, 19, 22, .12); text-align: right; vertical-align: baseline; }
+.pe-sens__table thead th { border-top: 0; color: var(--r8-muted); font-size: .7rem; font-weight: 700; letter-spacing: .06em; line-height: 1.3; text-transform: uppercase; }
+.pe-sens__table th:first-child { text-align: left; }
+.pe-sens__table tbody th { color: var(--r8-ink); font-weight: 600; }
+.pe-sens__table tbody th span { display: block; color: var(--r8-muted); font-size: .72rem; font-weight: 400; }
+.pe-sens__table .is-plan th, .pe-sens__table .is-plan td { font-weight: 700; }
+.pe-sens__table .is-negative { color: var(--r8-burgundy); }
+@media (max-width: 560px) { .pe-sens__table { font-size: .78rem; } .pe-sens__table th, .pe-sens__table td { padding: .45rem .25rem; } }
+.pe__foot { display: grid; gap: .4rem; max-width: 60rem; padding-top: 1rem; border-top: 1px solid rgba(18, 19, 22, .14); }
+.pe__foot p { margin: 0; color: var(--r8-muted); font-size: .82rem; line-height: 1.55; }
