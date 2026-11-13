@@ -12,9 +12,10 @@ import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
  *   · the monthly figure is a PRELIMINARY CALCULATION on the full area of the two levels without the terrace; the charging basis
  *     is provisional until the OWNER confirms it — it is always shown with that wording, never as a contractual price;
  *   · the terrace has NO approved commercial regime: it is shown apart, never with a zero rate and never as free;
- *   · OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) adds, OWNER_CONFIRMED: a security deposit equal to 3 months of base rent; utilities
- *     and operating expenses paid separately; utilities and the maintenance of the engineering networks recharged to the tenant with
- *     a 15 % markup. The deposit is stated in months only — no amount is calculated or published;
+ *   · OWNER «CORRECTIVE PASS R8» §02 + the R8 GO correction (2026-11-13) add, OWNER_CONFIRMED: a security deposit equal to 3 months
+ *     of base rent; utilities paid at actual charges; an additional 15 % of the utility cost for the administration and maintenance of
+ *     the engineering networks (that maintenance is covered by this fee only — never charged twice); other operating expenses defined
+ *     by the lease. The deposit is stated in months only — no amount is calculated or published;
  *   · lease term, rent-free period, fixed service-charge or utility figures, a percentage of annual increase — not approved, not
  *     invented, not shown (the lease-terms rows of the dataset keep them TO_CONFIRM / unpublished).
  * The existing economics calculator is untouched: its rent is still the visitor's own assumption, never pre-filled from here.
@@ -33,8 +34,8 @@ export const m20Commercial = {
   terrace: "TO_CONFIRM" as const,
   /** OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) — OWNER_CONFIRMED */
   deposit: { months: 3 },
-  /** utilities and engineering-network maintenance are recharged with this markup — OWNER_CONFIRMED (R8 §02) */
-  recharge: { markupPercent: 15 },
+  /** % of the utility cost charged for the administration and maintenance of the engineering networks — OWNER_CONFIRMED (R8 GO correction) */
+  fee: { percentOfUtilities: 15 },
   /**
    * THE COMMERCIAL OFFER (the commercial brochure R2). `published: true` since the «FINAL OWNER GO · FULL PRODUCTION RELEASE
    * AUTHORIZED» (2026-11-12): both editions link to the PDFs and scripts/package-production.mjs keeps the files. While it was
@@ -122,12 +123,13 @@ export const commercialCopy = {
     en: "A preliminary calculation: the full area of the two levels, without the terrace. The charging basis is confirmed in the commercial offer and the lease agreement.",
   },
   vatNote: {
-    ro: "Tarifele nu includ TVA. Utilitățile și cheltuielile de exploatare nu sunt incluse în calcul — se achită separat.",
-    ru: `Ставки указаны без${N}НДС. Коммунальные и${N}эксплуатационные расходы в${N}расчёт не${N}включены${N}— они оплачиваются отдельно.`,
-    en: "Rates exclude VAT. Utilities and operating expenses are not included in the calculation — they are charged separately.",
+    ro: "Tarifele nu includ TVA. Utilitățile și celelalte cheltuieli de exploatare nu sunt incluse în calcul.",
+    ru: `Ставки указаны без${N}НДС. Коммунальные услуги и${N}иные эксплуатационные расходы в${N}расчёт не${N}включены.`,
+    en: "Rates exclude VAT. Utilities and other operating expenses are not included in the calculation.",
   },
-  // OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) — the OWNER's wording, RO / EN adapted as supplied; RU «refacturируются» set in Russian
-  // business usage as «перевыставляются» (same meaning: re-invoiced to the tenant)
+  // OWNER «CORRECTIVE PASS R8» §02 + the R8 GO correction (2026-11-13): utilities at actual charges; a fee of 15 % of the utility cost
+  // for the administration and maintenance of the engineering networks — that maintenance is covered by the fee only, never charged a
+  // second time; other operating expenses defined by the lease. RU = the OWNER's paragraph; RO / EN adapted with the same meaning.
   termsTitle: { ro: "Garanție și cheltuieli", ru: "Депозит и расходы", en: "Deposit and charges" },
   depositLabel: { ro: "Garanție locativă", ru: "Гарантийный депозит", en: "Security deposit" },
   depositFigure: { ro: `${m20Commercial.deposit.months}${N}luni`, ru: `${m20Commercial.deposit.months}${N}месяца`, en: `${m20Commercial.deposit.months}${N}months` },
@@ -137,18 +139,22 @@ export const commercialCopy = {
     ru: `${m20Commercial.deposit.months}${N}месяца базовой аренды.`,
     en: `Equal to ${m20Commercial.deposit.months}${N}months’ base rent.`,
   },
-  utilitiesLabel: { ro: "Utilități și cheltuieli de exploatare", ru: "Коммунальные и эксплуатационные расходы", en: "Utilities and operating expenses" },
-  utilitiesShort: { ro: "Se achită separat", ru: "Оплачиваются отдельно", en: "Charged separately" },
-  rechargeFigure: { ro: `+${m20Commercial.recharge.markupPercent}${N}%`, ru: `+${m20Commercial.recharge.markupPercent}${N}%`, en: `+${m20Commercial.recharge.markupPercent}%` },
-  rechargeText: {
-    ro: `Utilitățile și întreținerea rețelelor inginerești sunt refacturate chiriașului cu un adaos de ${m20Commercial.recharge.markupPercent}${N}%.`,
-    ru: `Коммунальные услуги и${N}обслуживание инженерных сетей перевыставляются арендатору с${N}надбавкой ${m20Commercial.recharge.markupPercent}${N}%.`,
-    en: `Utilities and engineering network maintenance are recharged to the tenant with a ${m20Commercial.recharge.markupPercent}% markup.`,
+  utilitiesLabel: { ro: "Utilități", ru: "Коммунальные услуги", en: "Utilities" },
+  utilitiesShort: { ro: "Conform facturării efective", ru: "По фактическим начислениям", en: "At actual charges" },
+  otherExpenses: {
+    ro: "Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.",
+    ru: `Иные эксплуатационные расходы определяются договором аренды.`,
+    en: "Other operating expenses are defined in the lease agreement.",
   },
+  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești", ru: "Администрирование и обслуживание инженерных сетей", en: "Administration and engineering-network maintenance" },
+  feeFigure: { ro: `${m20Commercial.fee.percentOfUtilities}${N}%`, ru: `${m20Commercial.fee.percentOfUtilities}${N}%`, en: `${m20Commercial.fee.percentOfUtilities}%` },
+  feeUnit: { ro: "din costul utilităților", ru: "от стоимости коммунальных услуг", en: "of the utility costs" },
+  /** the lease-terms row — the OWNER's paragraph */
+  utilitiesRowLabel: { ro: "Utilități și cheltuieli de exploatare", ru: "Коммунальные и эксплуатационные расходы", en: "Utilities and operating expenses" },
   utilitiesTerm: {
-    ro: `Se achită separat. Utilitățile și întreținerea rețelelor inginerești sunt refacturate chiriașului cu un adaos de ${m20Commercial.recharge.markupPercent}${N}%.`,
-    ru: `Оплачиваются отдельно. Коммунальные услуги и${N}обслуживание инженерных сетей перевыставляются арендатору с${N}надбавкой ${m20Commercial.recharge.markupPercent}${N}%.`,
-    en: `Charged separately. Utilities and engineering network maintenance are recharged to the tenant with a ${m20Commercial.recharge.markupPercent}% markup.`,
+    ro: `Utilitățile se achită conform facturării efective. Suplimentar se percepe ${m20Commercial.fee.percentOfUtilities}${N}% din costul utilităților pentru administrarea și întreținerea rețelelor inginerești. Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.`,
+    ru: `Коммунальные услуги оплачиваются по${N}фактическим начислениям. Дополнительно взимается ${m20Commercial.fee.percentOfUtilities}${N}% от${N}стоимости коммунальных услуг за${N}администрирование и${N}обслуживание инженерных сетей. Иные эксплуатационные расходы определяются договором аренды.`,
+    en: `Utilities are paid at actual charges. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the engineering networks. Other operating expenses are defined in the lease agreement.`,
   },
   indexationTitle: { ro: "Indexare anuală", ru: "Ежегодная индексация", en: "Annual indexation" },
   // OWNER addendum «Ежегодная индексация арендной платы» (2026-11-12) — verbatim; no percentage of annual increase is ever added

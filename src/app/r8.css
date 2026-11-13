@@ -24,7 +24,7 @@
 }
 
 /* tone variables — one place for every card of this pass */
-.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-recharge, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: rgba(18, 19, 22, .16); }
+.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-fee, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: rgba(18, 19, 22, .16); }
 .r8-t-stone, .lg-pass__card[data-card="heating"], .ct-level.is-lower, .ct-term.is-utilities, .lpx-why__list li:nth-child(2), .lp-key:nth-child(2), .lp-actions li[data-action^="plan-"] { --t-bg: var(--r8-stone); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #625f5a; --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: transparent; }
 .r8-t-sand, .lg-pass__card[data-card="logistics"] { --t-bg: var(--r8-sand); --t-ink: var(--r8-ink); --t-text: #34322f; --t-muted: #5d574f; --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .16); --t-edge: transparent; }
 .r8-t-blush, .lg-pass__card[data-card="sanitary"], .ct-term.is-deposit { --t-bg: var(--r8-blush); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #6f5f61; --t-accent: var(--r8-burgundy); --t-rule: rgba(116, 32, 47, .18); --t-edge: transparent; }

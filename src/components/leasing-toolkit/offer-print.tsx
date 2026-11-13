@@ -248,10 +248,11 @@ export function OfferPrintPage({ locale }: { locale: SiteLocale }) {
           <article className="o3-tone is-stone">
             <p className="o3-label">{c.utilitiesLabel[locale]}</p>
             <p className="o3-term is-text"><strong>{c.utilitiesShort[locale]}</strong></p>
+            <p className="o3-small">{c.otherExpenses[locale]}</p>
           </article>
           <article className="o3-tone is-paper">
-            <p className="o3-term"><strong>{c.rechargeFigure[locale]}</strong></p>
-            <p className="o3-small">{c.rechargeText[locale]}</p>
+            <p className="o3-label">{c.feeLabel[locale]}</p>
+            <p className="o3-term"><strong>{c.feeFigure[locale]}</strong><span>{c.feeUnit[locale]}</span></p>
           </article>
         </div>
         <div className="o3-index">

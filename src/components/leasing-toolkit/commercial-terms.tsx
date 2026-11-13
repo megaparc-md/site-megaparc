@@ -99,10 +99,11 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
           <article className="ct-term is-utilities">
             <h3 className="ct-term__label">{c.utilitiesLabel[locale]}</h3>
             <p className="ct-term__figure is-text"><strong>{c.utilitiesShort[locale]}</strong></p>
+            <p className="ct-term__text">{c.otherExpenses[locale]}</p>
           </article>
-          <article className="ct-term is-recharge">
-            <p className="ct-term__figure"><strong>{c.rechargeFigure[locale]}</strong></p>
-            <p className="ct-term__text">{c.rechargeText[locale]}</p>
+          <article className="ct-term is-fee">
+            <h3 className="ct-term__label">{c.feeLabel[locale]}</h3>
+            <p className="ct-term__figure"><strong>{c.feeFigure[locale]}</strong><span>{c.feeUnit[locale]}</span></p>
           </article>
         </div>
 

@@ -15,7 +15,8 @@ import type { SiteLocale } from "@/lib/site-data";
  *   · one marker system: a point feature (the premises, the shopfronts, the entrance) carries a small pin on the feature and a hairline
  *     leader to its numbered badge; an area (the pavement, the boulevard) carries the badge alone; the shopfront frontage is an
  *     architect's dimension line in front of the plinth;
- *   · the name sits beside badge 1 over a calm, dark neighbouring roof — never over the architecture of the premises or a neighbour's sign;
+ *   · the name sits beside badge 1 on the open boulevard asphalt, outside any architecture, tied to the premises by a thin leader from
+ *     the pin on its roof (OWNER R8 GO correction, 2026-11-13) — never on a neighbouring roof, a neighbour's sign or the premises' facade;
  *     the wording of the five marks stays in the legend beside the picture.
  * Never: a red quadrangle, glow, thick arrows, plates of text, a free-hand contour. The meaning of the five marks and every fact are unchanged.
  */
