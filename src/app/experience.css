@@ -104,11 +104,19 @@
 .xp-actions--top { margin-top: var(--xp-4); }
 
 /* Masked display lines */
-.xp-mask { display: block; }
-.xp-mask__line { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
+/* OWNER R9 §03: a masked title is never narrower than its longest word — a word wider than a ch-limited measure («предпринимательства.»
+   in the RU history hero) was cut at the right by the line mask; min-width wins over max-width, so short words keep the measure */
+.xp-mask { display: block; min-width: min-content; }
+/* OWNER R9 §03 (2026-11-13): the mask box reaches past the line box on both sides — accents above capitals (Î Â Ă) and comma-below /
+   descenders (ș ț p g) of a tight display line stay inside the mask once the line has risen; the negative margins keep the line spacing.
+   The rising span starts lower (140 %) so nothing of it shows through the deeper bottom padding before the reveal. */
+/* the mask clips vertically only (the reveal rises from below): «visible clip» never cuts a glyph that overhangs sideways (RO «î» at a line
+   start) and adds no width; browsers without overflow: clip keep the hidden fallback */
+.xp-mask__line { display: block; overflow: visible clip; padding: .16em 0 .24em; margin: -.16em 0 -.24em; }
+@supports not (overflow: clip) { .xp-mask__line { overflow: hidden; } }
 .xp-mask__line > span { display: inline-block; }
 .motion-ready .xp-mask[data-reveal] { opacity: 1; transform: none; }
-.motion-ready .xp-mask[data-reveal] .xp-mask__line > span { transform: translate3d(0, 108%, 0); transition: transform 1.1s var(--xp-ease); transition-delay: calc(var(--i, 0) * 110ms + 80ms); }
+.motion-ready .xp-mask[data-reveal] .xp-mask__line > span { transform: translate3d(0, 140%, 0); transition: transform 1.1s var(--xp-ease); transition-delay: calc(var(--i, 0) * 110ms + 80ms); }
 .motion-ready .xp-mask[data-reveal].is-revealed .xp-mask__line > span { transform: none; }
 
 /* ---- Figures -------------------------------------------------------- */

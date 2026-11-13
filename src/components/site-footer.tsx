@@ -129,7 +129,8 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
         <span>© {new Date().getFullYear()} {brand.name}</span>
       </div>
 
-      <p className="r3-ftr__mark" aria-hidden="true">{brand.name}</p>
+      {/* the oversized wordmark is cropped by the footer on purpose (R3 design) — scripts/qa-text-clip.mjs skips [data-qa-crop] */}
+      <p className="r3-ftr__mark" aria-hidden="true" data-qa-crop="">{brand.name}</p>
     </footer>
   );
 }

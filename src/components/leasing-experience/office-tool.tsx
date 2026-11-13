@@ -1,6 +1,7 @@
 "use client";
 
-import { useId, useMemo, useState, type ChangeEvent } from "react";
+import { useId, useMemo, useState } from "react";
+import { NumberInput, numberOf } from "@/components/number-input";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
@@ -76,10 +77,8 @@ const copy = {
   },
 } as const;
 
-const num = (value: string) => {
-  const n = Number(value.replace(/[\s ]/g, "").replace(",", "."));
-  return Number.isFinite(n) && n > 0 ? n : null;
-};
+/** the field state is canonical («8.5», OWNER R9 addendum): read as the number the visitor sees */
+const num = (value: string) => numberOf(value);
 
 export function OfficeTool({ locale, property, example, visitLabel }: { locale: SiteLocale; property: string; example: Example; visitLabel?: string }) {
   const t = copy[locale];
@@ -88,8 +87,8 @@ export function OfficeTool({ locale, property, example, visitLabel }: { locale: 
   const f = (n: number) => nf.format(Math.round(n));
   const [v, setV] = useState<Record<"people" | "perSeat" | "shared", string>>({ people: "", perSeat: "", shared: "" });
   const [isExample, setIsExample] = useState(false);
-  const set = (key: keyof typeof v) => (event: ChangeEvent<HTMLInputElement>) => {
-    setV((old) => ({ ...old, [key]: event.target.value }));
+  const update = (key: keyof typeof v) => (next: string) => {
+    setV((old) => ({ ...old, [key]: next }));
     setIsExample(false);
   };
 
@@ -104,7 +103,7 @@ export function OfficeTool({ locale, property, example, visitLabel }: { locale: 
     <div className="lg-eco-tool__field">
       <label htmlFor={`${uid}-${key}`}>{label}</label>
       <span className="lg-eco-tool__input">
-        <input id={`${uid}-${key}`} type="text" inputMode="decimal" autoComplete="off" value={v[key]} onChange={set(key)} aria-describedby={hint ? `${uid}-${key}-hint` : undefined} />
+        <NumberInput id={`${uid}-${key}`} value={v[key]} onValueChange={update(key)} locale={locale} format={key === "people" ? { group: false, decimals: 0, maxInt: 4 } : { group: false, decimals: 2, maxInt: 3 }} describedBy={hint ? `${uid}-${key}-hint` : undefined} />
         <span aria-hidden="true">{unit}</span>
       </span>
       {hint ? <span className="lg-eco-tool__hint" id={`${uid}-${key}-hint`}>{hint}</span> : null}

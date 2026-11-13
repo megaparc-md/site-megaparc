@@ -4,10 +4,8 @@ import Link from "next/link";
 import { LgPhoto, splitArea, ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
-import { HeroRates } from "@/components/leasing-toolkit/commercial-terms";
 import type { ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
-import { m20Commercial } from "@/data/moscova-20-commercial";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -53,8 +51,8 @@ export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperienc
             </p>
             <p className="lg-hero__offered">{x.hero.offer[locale]}</p>
             <p className={`lg-hero__status is-${offer.state}`}><i aria-hidden="true" />{offer.status}</p>
-            {/* OWNER R6 §02 (2026-11-12): the two approved rates beside the area — only on the property whose rates are published */}
-            {x.project === m20Commercial.project ? <HeroRates locale={locale} className="lg-hero__rates" /> : null}
+            {/* OWNER R9 §01 (2026-11-13): no rates in the property hero — they live in «Коммерческие условия», the Leasing Pack and the
+                brochure; the hero keeps the name, the positioning, 625,7 м², the status, the actions and the photograph */}
           </div>
           {/* OWNER «HERO CONTENT DEDUPLICATION» (2026-11-12): one key statement — one block. A two-line support IS the readiness statement scene
               right under the hero (summary.tsx), so the hero does not repeat its first line; a one-line support is the property's own hero argument and stays. */}

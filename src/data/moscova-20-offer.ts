@@ -34,4 +34,14 @@ export const offerCopy = {
     routes: { ro: " rute de transport public conform datelor actuale OpenStreetMap", ru: `${N}маршрутов общественного транспорта по${N}текущим данным OpenStreetMap`, en: " public-transport routes per current OpenStreetMap data" },
   },
   mailSubject: { ro: "Moscova 20 — ofertă comercială", ru: "Moscova 20 — коммерческое предложение", en: "Moscova 20 — commercial offer" },
+  // R4 brochure (OWNER R9 §04, 2026-11-13). The second argument of the opportunity page is the OWNER's «Прямой клиентский вход»; its
+  // explanation is the confirmed access card of the passport. The fee line repeats the OWNER's rule «без двойного начисления».
+  r4: {
+    entranceTitle: { ro: "Intrare directă pentru clienți", ru: "Прямой клиентский вход", en: "A direct customer entrance" },
+    feeOnce: {
+      ro: "Întreținerea rețelelor inginerești este inclusă doar în acești 15 % — fără dublă facturare.",
+      ru: `Обслуживание инженерных сетей входит только в${N}эти 15${N}% — без${N}двойного начисления.`,
+      en: "Engineering-network maintenance is covered by this 15% only — never charged twice.",
+    },
+  },
 } satisfies Record<string, Localized | Record<string, Localized>>;

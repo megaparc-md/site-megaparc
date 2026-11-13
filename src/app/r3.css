@@ -586,7 +586,8 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 .r3-hhero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 11, 13, .55) 0%, rgba(10, 11, 13, .05) 30%, rgba(10, 11, 13, .2) 55%, rgba(10, 11, 13, .82) 100%); }
 .r3-hhero__inner { position: relative; z-index: 2; padding-top: calc(var(--header-h) + 3rem); padding-bottom: clamp(2.5rem, 5vw, 4.8rem); }
 .r3-hhero__title { max-width: 21ch; }
-@media (max-width: 719px) { .r3-hhero__title { font-size: 1.95rem; } }
+/* OWNER R9 §03: on the narrowest phones the longest word of the title («предпринимательства.») still fits the column (≤ 8.4vw below 372 px) */
+@media (max-width: 719px) { .r3-hhero__title { font-size: min(1.95rem, 8.4vw); } }
 .r3-hhero__title .xp-mask__line { display: block; }
 .r3-hhero__lead { margin: 1.8rem 0 0; max-width: 40rem; color: rgba(255, 255, 255, .8); font-size: clamp(1.05rem, 1.35vw, 1.3rem); line-height: 1.55; }
 .r3-hhero--type { min-height: 0; padding: calc(var(--r3-sec) * .8) 0 var(--r3-sec); background: var(--r3-ivory); color: var(--r3-text); }

@@ -8,7 +8,8 @@ import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 /**
  * COMMERCIAL TERMS of Moscova 20 (OWNER mandates R6 / R7, 2026-11-12) — every figure comes from src/data/moscova-20-commercial.ts
  * (the two approved rates) and from the unit record (the areas); nothing is typed here.
- *   · HeroRates — the two rates beside the area in the hero: figure first, the unit quieter, «Без НДС» once;
+ *   · HeroRates — the two rates in the Leasing Pack hero: figure first, the unit quieter, «Без НДС» once (OWNER R9 §01, 2026-11-13:
+ *     never in the property-page hero — the page states the rates in «Коммерческие условия» only);
  *   · CommercialTerms — the block of the digital property dossier and of the Leasing Pack: the two levels as tone cards
  *     (rate · area · per month), the terrace apart (no rate, never «free»), the preliminary total with its wording, the deposit and
  *     the expense regime (OWNER «CORRECTIVE PASS R8» §02, 2026-11-13), the caveats, the indexation paragraph and one action — the

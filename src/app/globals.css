@@ -784,7 +784,10 @@ section:hover .section-index::after, .is-revealed .section-index::after { transf
 
 /* ---- Motion (benchmark cadence: quiet, short) ---------------------- */
 .motion-ready [data-reveal] { opacity: 0; transform: translate3d(0, 1.4rem, 0); clip-path: none; transition: opacity .7s var(--ease), transform .8s var(--ease); }
-.motion-ready [data-reveal].is-revealed { opacity: 1; transform: none; }
+/* OWNER R9 §03 (2026-11-13): the revealed state carries no clip — the earlier rule (line ≈ 313) left «clip-path: inset(0)» on every revealed
+   block, which cut the glyphs that reach past a tight line box: the bowls of the large history years, Romanian comma-below letters (ș ț)
+   and descenders of headings. Components that clip on purpose (.xp-fig, .lg-mask, .al-reveal > figure) keep their own, more specific rules. */
+.motion-ready [data-reveal].is-revealed { opacity: 1; transform: none; clip-path: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }

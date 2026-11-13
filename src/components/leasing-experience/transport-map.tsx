@@ -55,7 +55,7 @@ function Stop({ stop, name, sub, crop }: { stop: TransportStop; name: string; su
   );
 }
 
-function MapSvg({ copy, name, locale, crop }: { copy: TransitCopy; name: string; locale: SiteLocale; crop: "wide" | "tall" }) {
+export function MapSvg({ copy, name, locale, crop }: { copy: TransitCopy; name: string; locale: SiteLocale; crop: "wide" | "tall" }) {
   const t = moscova20Transport;
   const [x, y, w, h] = t.frame[crop];
   const nearest = t.stops.find((stop) => stop.role === "nearest");

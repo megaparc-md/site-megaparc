@@ -8,7 +8,7 @@ import { leasingOnRequest } from "@/lib/portfolio";
 import { company, contactLinks, drochiaProfile, occupancyOf, type OperatingSlug } from "@/data/demo-content";
 import { holdOrSell, lifecycle, reinvestment } from "@/lib/business";
 import type { AvailableSpace } from "@/data/leasing-inventory";
-import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
+import { cadastreNumbers, eCadastruPortal, premisesCadastre } from "@/data/property-trust";
 import { registeredData } from "@/data/registered";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -89,7 +89,7 @@ export function R3Trust({ slug, locale, tone = "paper", id = "technical-support"
   const fmt = (m2: number) => `${m2.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 }).replace(/\s/g, "\u00a0")}\u00a0${locale === "ru" ? "м²" : "m²"}`;
   const many = !number && reg && reg.premises.length > 1 ? reg.premises.map((premise) => ({ cadastral: premise.cadastral, area: fmt(premise.area) })) : null;
   const cadastre = number ? (
-    <CadastreVerify number={number} portal={eCadastruPortal} locale={locale} />
+    <CadastreVerify number={number} premises={slug ? premisesCadastre[slug] : undefined} portal={eCadastruPortal} locale={locale} />
   ) : many ? (
     <CadastreVerify numbers={many} total={fmt(reg!.area)} portal={eCadastruPortal} locale={locale} />
   ) : verify ? (

@@ -33,6 +33,8 @@ const copy = {
     ru: "Опубликуем после проверки формата; до этого данные объекта подтверждаем по запросу.",
     en: "We publish it once its format is verified; until then the property data is confirmed on request.",
   },
+  // OWNER R9 addendum (2026-11-13): the premises' own numbers — one quiet line, never the building's or the land's number
+  premises: { ro: "Numerele cadastrale ale spațiilor:", ru: "Кадастровые номера помещений:", en: "Cadastral numbers of the premises:" },
   copied: {
     ro: "Numărul a fost copiat — inserați-l în căutarea e-Cadastru.",
     ru: "Номер скопирован — вставьте его в поиск e‑Cadastru.",
@@ -40,7 +42,7 @@ const copy = {
   },
 } satisfies Record<string, Localized>;
 
-export function CadastreVerify({ number, numbers, total, pending = false, portal, locale }: { number?: string; /** registered premises: number + formatted area */ numbers?: { cadastral: string; area: string }[]; total?: string; pending?: boolean; portal: string; locale: SiteLocale }) {
+export function CadastreVerify({ number, numbers, total, pending = false, premises, portal, locale }: { number?: string; /** registered premises: number + formatted area */ numbers?: { cadastral: string; area: string }[]; total?: string; pending?: boolean; /** the cadastral numbers of the premises offered (a quiet line under the property number) */ premises?: string[]; portal: string; locale: SiteLocale }) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | undefined>(undefined);
   const copyNumber = async () => {
@@ -87,6 +89,12 @@ export function CadastreVerify({ number, numbers, total, pending = false, portal
       <p className="tr-label">{copy.label[locale]}</p>
       <p className="tr-cad__title">{copy.title[locale]}</p>
       <p className="tr-cad__number" translate="no">{number}</p>
+      {premises?.length ? (
+        <p className="tr-cad__premises">
+          <span>{copy.premises[locale]}</span>{" "}
+          {premises.map((item, i) => <span key={item}>{i ? <span aria-hidden="true"> · </span> : null}<span className="tr-cad__premise" translate="no">{item}</span></span>)}
+        </p>
+      ) : null}
       <p className="tr-cad__text">{copy.text[locale]}</p>
       <div className="tr-cad__actions">
         <button type="button" className="pm-link tr-cad__copy" onClick={copyNumber}>{copy.copyNumber[locale]}</button>

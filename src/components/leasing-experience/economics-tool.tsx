@@ -1,10 +1,11 @@
 "use client";
 
-import { useId, useMemo, useState, type ChangeEvent, type MouseEvent } from "react";
+import { useId, useMemo, useState, type MouseEvent } from "react";
 import { economicsCopy, type PresetKey } from "@/components/leasing-experience/economics-copy";
-import { calcEconomics, parseAmount, parsePercent } from "@/components/leasing-experience/economics-math";
+import { calcEconomics } from "@/components/leasing-experience/economics-math";
 import type { EconomicsHandoff } from "@/components/leasing-experience/viewing-form";
 import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
+import { NumberInput, numberOf, type NumberFormat } from "@/components/number-input";
 import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -27,6 +28,13 @@ export type TrafficSummary = { status: "MODELLED" | "MEASURED" | "VERIFIED"; ped
 type Example = { ticket: number; revenue: number; conversion: number; days: number };
 
 const presets: PresetKey[] = ["retail", "showroom", "services", "center"];
+// OWNER R9 addendum (2026-11-13): money in MDL is grouped live in the field (1 200 000 · 1,200,000), cents allowed; percent and days are not
+const money: NumberFormat = { group: true, decimals: 2 };
+const percent: NumberFormat = { group: false, decimals: 2, maxInt: 3 };
+const wholeDays: NumberFormat = { group: false, decimals: 0, maxInt: 2 };
+/** the field state is canonical («1200000.5») — read as the number the visitor sees; percentages above 100 are not a percentage */
+const amount = (s: string) => numberOf(s);
+const pct = (s: string) => { const n = numberOf(s); return n !== null && n <= 100 ? n : null; };
 const fixedKeys = ["rent", "opex", "payroll", "utilities", "marketing", "other"] as const;
 type Key = "ticket" | "revenue" | "margin" | "conversion" | "days" | (typeof fixedKeys)[number] | "capex";
 
@@ -44,12 +52,12 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
   const [advOpen, setAdvOpen] = useState(false);
   const p = t.presets[preset];
 
-  const set = (key: Key) => (event: ChangeEvent<HTMLInputElement>) => {
-    setV((old) => ({ ...old, [key]: event.target.value }));
+  const update = (key: Key) => (next: string) => {
+    setV((old) => ({ ...old, [key]: next }));
     setIsExample(false);
   };
   const loadExample = () => {
-    // plain digits — the visitor sees the figure exactly as it is parsed, in every locale (RO groups thousands with a dot)
+    // canonical digits — the field shows them grouped in the visitor's locale (1 200 000 · 1,200,000)
     // one coherent scenario: the example replaces the quick inputs and empties the advanced ones (no stale margin, costs or CAPEX)
     setV({ ...blank(), ticket: String(example.ticket), revenue: String(example.revenue), conversion: String(example.conversion), days: String(example.days) });
     setIsExample(true);
@@ -66,22 +74,22 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
 
   const r = calcEconomics(
     {
-      ticket: parseAmount(v.ticket),
-      revenue: parseAmount(v.revenue),
-      margin: parsePercent(v.margin),
-      conversion: parsePercent(v.conversion),
-      days: parseAmount(v.days) ?? example.days,
-      fixed: fixedKeys.map((key) => parseAmount(v[key])),
-      capex: parseAmount(v.capex),
+      ticket: amount(v.ticket),
+      revenue: amount(v.revenue),
+      margin: pct(v.margin),
+      conversion: pct(v.conversion),
+      days: amount(v.days) ?? example.days,
+      fixed: fixedKeys.map((key) => amount(v[key])),
+      capex: amount(v.capex),
     },
     rates,
   );
-  const conversion = parsePercent(v.conversion);
-  const days = parseAmount(v.days) ?? example.days;
+  const conversion = pct(v.conversion);
+  const days = amount(v.days) ?? example.days;
 
   const handoff = (event: MouseEvent<HTMLButtonElement>) => {
-    const revenue = parseAmount(v.revenue);
-    const ticket = parseAmount(v.ticket);
+    const revenue = amount(v.revenue);
+    const ticket = amount(v.ticket);
     const detail: EconomicsHandoff = {
       business: p.label,
       lines: [
@@ -101,7 +109,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
     <div className="lg-calc__field">
       <label className="lg-calc__label" htmlFor={`${uid}-${key}`}>{label}</label>
       <span className="lg-calc__control">
-        <input className="lg-calc__input" id={`${uid}-${key}`} type="text" inputMode="decimal" autoComplete="off" value={v[key]} onChange={set(key)} aria-describedby={hint ? `${uid}-${key}-hint` : undefined} />
+        <NumberInput className="lg-calc__input" id={`${uid}-${key}`} value={v[key]} onValueChange={update(key)} locale={locale} format={key === "margin" || key === "conversion" ? percent : key === "days" ? wholeDays : money} describedBy={hint ? `${uid}-${key}-hint` : undefined} />
         <span className="lg-calc__unit" aria-hidden="true">{unit}</span>
       </span>
       {hint ? <span className="lg-calc__hint" id={`${uid}-${key}-hint`}>{hint}</span> : null}

@@ -1,0 +1,269 @@
+/* ==================================================================
+   MOSCOVA 20 · COMMERCIAL OFFER / BROCHURE R4 — A4 LANDSCAPE print source
+   (OWNER R9 §04 + «PDF R4 · ART DIRECTION UPDATE — PREMIUM EDITORIAL
+   REFERENCE», 2026-11-13). Premium Editorial Real Estate Brochure:
+   architecture large, one idea per page, Manrope set boldly — light
+   display sizes with the registered accent in 700, figures as the
+   protagonists. Colour builds the rhythm, never a wall of tiles:
+   ivory and paper pages, white plan sheets, one graphite engineering
+   scene, stone for the scenarios, burgundy only for the money and the
+   invitation. No gradients except the legibility shade of the cover,
+   no shadows, no rounded cards, no empty half pages.
+   ================================================================== */
+@page { size: 297mm 210mm; margin: 0; }
+html:has(.o4), html:has(.o4) body { margin: 0; padding: 0; background: #d6d1c8; }
+.o4 { --ink: #121316; --text: #3a3d43; --muted: #6a6d74; --line: rgba(18, 19, 22, .15); --ivory: #f5f2ec; --paper: #fbf9f5; --stone: #e7dfd3; --sand: #d9ccb9;
+  --brand: #74202f; --oxblood: #4c1622; --graphite: #1f2125; --signal: #ed1c2e;
+  margin: 0 auto; width: 297mm; color: var(--text); font-family: var(--font, "Manrope", Arial, sans-serif); font-size: 9pt; line-height: 1.5;
+  font-variant-ligatures: no-common-ligatures; font-kerning: normal; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.o4 :where(*) { box-sizing: border-box; }
+.o4 :where(p, h1, h2, h3, ul, ol, dl, dd, dt, figure) { margin: 0; padding: 0; }
+.o4 :where(ul, ol) { list-style: none; }
+.o4 :where(a) { color: inherit; text-decoration: none; }
+.o4 .t-accent { font-weight: 700; }
+.o4-page { position: relative; width: 297mm; height: 210mm; overflow: hidden; background: var(--ivory); break-after: page; page-break-after: always; }
+.o4-page:last-child { break-after: auto; page-break-after: auto; }
+@media screen { .o4-page { margin-bottom: 6mm; box-shadow: 0 2mm 8mm rgba(0, 0, 0, .14); } }
+
+/* ---------- shared typography */
+.o4-kicker { display: flex; align-items: center; gap: 2.4mm; color: var(--muted); font-size: 6.6pt; font-weight: 700; letter-spacing: .18em; line-height: 1.2; text-transform: uppercase; }
+.o4-kicker b { display: inline-flex; align-items: center; gap: 2.4mm; color: var(--brand); font-variant-numeric: tabular-nums; letter-spacing: .1em; }
+.o4-kicker b::after { content: ""; width: 7mm; height: .3mm; background: currentColor; }
+.o4-kicker.is-dark { color: rgba(255, 255, 255, .7); }
+.o4-kicker.is-dark b { color: #fff; }
+.o4-kicker.is-dark b::after { background: var(--signal); }
+.o4-h2 { color: var(--ink); font-size: 27pt; font-weight: 300; line-height: 1.04; letter-spacing: -.024em; text-wrap: balance; }
+.o4-h2 > span { display: block; }
+.o4-h2.is-dark { color: #fff; }
+.o4-lead { max-width: 118mm; color: var(--text); font-size: 10.2pt; line-height: 1.5; text-wrap: pretty; }
+.o4-label { color: var(--muted); font-size: 6.4pt; font-weight: 700; letter-spacing: .16em; line-height: 1.35; text-transform: uppercase; }
+.o4-small { font-size: 8pt; line-height: 1.45; text-wrap: pretty; }
+.o4-caption { color: var(--muted); font-size: 6.7pt; line-height: 1.45; text-wrap: pretty; }
+.o4-notes { color: var(--muted); font-size: 6.7pt; line-height: 1.5; text-wrap: pretty; }
+/* a figure and its unit — two boxes, the unit never touches the digits */
+.o4-num { display: flex; align-items: flex-start; gap: 1.4mm; color: var(--ink); white-space: nowrap; }
+.o4-num strong { font-size: 30pt; font-weight: 300; line-height: .9; letter-spacing: -.035em; font-variant-numeric: lining-nums; }
+.o4-num span { padding-top: .5mm; font-size: 10pt; font-weight: 600; line-height: 1; letter-spacing: 0; }
+.o4-num--l strong { font-size: 40pt; }
+.o4-num--l span { font-size: 11pt; }
+.o4-num--xl strong { font-size: 64pt; letter-spacing: -.045em; }
+.o4-num--xl span { padding-top: 1.2mm; font-size: 14pt; }
+.o4-img { position: relative; overflow: hidden; background: var(--stone); }
+.o4-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- footer */
+.o4-foot { position: absolute; left: 14mm; right: 14mm; bottom: 6.5mm; display: flex; justify-content: space-between; gap: 6mm; color: var(--muted); font-size: 6.1pt; font-weight: 600; letter-spacing: .14em; line-height: 1; text-transform: uppercase; }
+.o4-foot.is-dark { color: rgba(255, 255, 255, .62); }
+
+/* ================================================================== 01 · cover */
+.o4-cover { background: var(--graphite); color: #fff; }
+.o4-cover__photo { position: absolute; inset: 0; background: var(--graphite); }
+/* the legibility shade is baked into the print derivative (…-cover.jpg): the frame is anchored left so the shade sits under the type */
+.o4-cover__photo img { object-position: 0% 50%; }
+.o4-cover__top { position: absolute; top: 13mm; left: 16mm; right: 16mm; display: flex; align-items: flex-start; justify-content: space-between; }
+.o4-brand { display: inline-flex; flex-direction: column; gap: 1.4mm; color: #fff; font-size: 12.5pt; font-weight: 700; letter-spacing: .02em; line-height: 1; }
+.o4-brand i { width: 10mm; height: .7mm; background: var(--signal); }
+.o4-cover__kicker { color: rgba(255, 255, 255, .84); font-size: 6.6pt; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.o4-cover__body { position: absolute; left: 16mm; bottom: 21mm; width: 176mm; }
+.o4-cover__name { color: #fff; font-size: 80pt; font-weight: 600; line-height: .9; letter-spacing: -.04em; white-space: nowrap; }
+.o4-cover__thesis { max-width: 128mm; margin-top: 5.5mm; color: rgba(255, 255, 255, .94); font-size: 17.5pt; font-weight: 300; line-height: 1.2; letter-spacing: -.012em; text-wrap: balance; }
+.o4-cover__thesis .t-accent { color: #fff; }
+.o4-cover__facts { display: flex; align-items: flex-end; gap: 7mm; width: 128mm; margin-top: 9mm; padding-top: 5mm; border-top: .3mm solid rgba(255, 255, 255, .36); }
+.o4-cover__area { color: #fff; }
+.o4-cover__area strong { font-size: 46pt; }
+.o4-cover__area span { font-size: 13pt; }
+.o4-cover__meta { display: grid; gap: 1.6mm; padding-bottom: 1.4mm; color: rgba(255, 255, 255, .88); font-size: 8.6pt; line-height: 1.3; }
+.o4-status { display: inline-flex; align-items: center; gap: 1.8mm; font-size: 6.6pt; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.o4-status i { flex: none; width: 1.8mm; height: 1.8mm; border-radius: 50%; background: var(--signal); }
+.o4-status.is-reserved i { background: #fff; }
+.o4-cover__foot { position: absolute; left: 16mm; right: 16mm; bottom: 8.5mm; display: flex; justify-content: space-between; color: rgba(255, 255, 255, .74); font-size: 6.3pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+
+/* ================================================================== 02 · the opportunity */
+.o4-opp { background: var(--ivory); }
+.o4-opp__copy { position: absolute; left: 14mm; top: 14mm; bottom: 17mm; width: 96mm; display: flex; flex-direction: column; gap: 6mm; }
+.o4-opp .o4-h2 { font-size: 30pt; }
+.o4-opp__inset { height: 54mm; margin-top: 1mm; }
+.o4-opp__inset img { object-position: 30% 55%; }
+.o4-args { margin-top: auto; border-top: .3mm solid var(--line); }
+.o4-args li { display: grid; grid-template-columns: 10mm minmax(0, 1fr); column-gap: 2.6mm; padding: 3.4mm 0 3.6mm; border-bottom: .3mm solid var(--line); }
+.o4-args b { grid-row: span 2; color: var(--brand); font-size: 15pt; font-weight: 300; line-height: 1; font-variant-numeric: tabular-nums; }
+.o4-args h3 { color: var(--ink); font-size: 11pt; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
+.o4-args p { margin-top: 1.2mm; font-size: 8.2pt; line-height: 1.45; text-wrap: pretty; }
+.o4-opp__photo { position: absolute; top: 0; right: 0; width: 177mm; height: 146mm; background: var(--stone); }
+.o4-aerial { display: block; width: 100%; height: 100%; }
+.o4-opp__legend { position: absolute; left: 120mm; right: 14mm; top: 151.5mm; display: grid; gap: 2.6mm; }
+.o4-opp__legend ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.7mm 7mm; }
+.o4-opp__legend li { display: flex; align-items: center; gap: 2.2mm; color: var(--text); font-size: 7.5pt; line-height: 1.3; }
+.o4-opp__legend b { flex: none; display: inline-grid; place-items: center; width: 4.4mm; height: 4.4mm; border-radius: 50%; background: var(--graphite); color: #fff; font-size: 6.2pt; font-weight: 700; line-height: 1; }
+.o4-opp__legend li.is-object { color: var(--ink); font-weight: 700; }
+.o4-opp__legend li.is-object b { background: var(--brand); }
+
+/* ================================================================== 03 · the space */
+.o4-space { background: var(--paper); }
+.o4-space__head { position: absolute; left: 14mm; top: 14mm; width: 150mm; display: grid; gap: 4.2mm; }
+.o4-space .o4-h2 { font-size: 30pt; }
+.o4-space__total { position: absolute; right: 14mm; top: 14mm; display: grid; justify-items: end; gap: 1.8mm; text-align: right; }
+.o4-space__total .o4-num strong { color: var(--brand); }
+.o4-space__levels { position: absolute; left: 14mm; right: 14mm; top: 62mm; bottom: 16mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.o4-space__terrace { display: grid; gap: .6mm; max-width: 92mm; margin-top: 2.6mm; padding-top: 2.4mm; border-top: .3mm dashed rgba(18, 19, 22, .3); color: var(--muted); font-size: 7.4pt; line-height: 1.4; }
+.o4-space__terrace b { color: var(--ink); font-size: 8.6pt; font-weight: 700; }
+.o4-level { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 4.2mm; min-height: 0; }
+.o4-level__photo { min-height: 0; }
+.o4-level--plate { grid-template-rows: auto auto 1fr auto; align-content: stretch; gap: 2mm; padding: 5mm 5mm 5.4mm; border: .35mm dashed rgba(18, 19, 22, .3); background: var(--stone); }
+.o4-level--plate .o4-small { align-self: end; color: var(--ink); font-weight: 600; }
+.o4-level__copy { display: grid; gap: 1.8mm; align-content: start; min-height: 23mm; }
+.o4-pairs { display: flex; gap: 7mm; margin-top: .6mm; }
+.o4-pairs div { display: grid; gap: .6mm; }
+.o4-pairs dt { color: var(--muted); font-size: 6.2pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.o4-pairs dd { color: var(--ink); font-size: 9.4pt; font-weight: 600; white-space: nowrap; }
+.o4-level.is-terrace .o4-small { color: var(--muted); }
+
+/* ================================================================== 04 · commercial terms */
+.o4-terms { background: var(--ivory); }
+.o4-terms__rates { position: absolute; left: 14mm; top: 14mm; bottom: 17mm; width: 120mm; display: flex; flex-direction: column; gap: 5mm; }
+.o4-terms .o4-h2 { font-size: 30pt; }
+.o4-rates { margin-top: 9mm; }
+.o4-terms__notes { position: absolute; left: 14mm; bottom: 16.5mm; width: 120mm; }
+.o4-rate { padding: 6.6mm 0 6.2mm; border-top: .3mm solid var(--line); }
+.o4-rate:last-child { border-bottom: .3mm solid var(--line); }
+.o4-rate__figure { display: flex; align-items: flex-start; gap: 2.6mm; margin-top: 2mm; white-space: nowrap; }
+.o4-rate__figure strong { color: var(--ink); font-size: 92pt; font-weight: 300; line-height: .84; letter-spacing: -.045em; font-variant-numeric: lining-nums; }
+.o4-rate.is-ground .o4-rate__figure strong { color: var(--brand); }
+.o4-rate__figure span { display: grid; gap: 1.2mm; padding-top: 1.6mm; color: var(--ink); font-size: 11.5pt; font-weight: 600; line-height: 1; }
+.o4-rate__figure em { color: var(--muted); font-size: 6.6pt; font-style: normal; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.o4-rate__calc { margin-top: 3mm; color: var(--text); font-size: 8.6pt; font-variant-numeric: tabular-nums; }
+.o4-rate__calc b { color: var(--ink); font-weight: 700; }
+.o4-terms__sheet { position: absolute; left: 146mm; right: 14mm; top: 14mm; bottom: 17mm; display: flex; flex-direction: column; gap: 4.6mm; }
+.o4-total { padding: 7mm 7mm 6.2mm; background: var(--brand); color: #fff; }
+.o4-total .o4-label { color: rgba(255, 255, 255, .74); }
+.o4-total__figure { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.4mm 3mm; margin-top: 3.4mm; }
+.o4-total__figure strong { font-size: 42pt; font-weight: 300; line-height: .88; letter-spacing: -.035em; font-variant-numeric: lining-nums; }
+.o4-total__figure span { padding-bottom: 1.2mm; color: rgba(255, 255, 255, .88); font-size: 9pt; font-weight: 600; }
+.o4-total__sum { margin-top: 3mm; color: rgba(255, 255, 255, .8); font-size: 8.4pt; font-variant-numeric: tabular-nums; }
+.o4-total__annual { margin-top: 3.6mm; padding-top: 3mm; border-top: .3mm solid rgba(255, 255, 255, .26); color: rgba(255, 255, 255, .82); font-size: 7.9pt; line-height: 1.4; }
+.o4-total__annual b { color: #fff; font-weight: 700; }
+.o4-conditions > div { display: grid; grid-template-columns: 42mm minmax(0, 1fr); column-gap: 5mm; padding: 3.6mm 0; border-bottom: .3mm solid var(--line); }
+.o4-conditions > div:first-child { border-top: .3mm solid var(--line); }
+.o4-conditions dt { padding-top: .6mm; color: var(--muted); font-size: 6.3pt; font-weight: 700; letter-spacing: .14em; line-height: 1.4; text-transform: uppercase; }
+.o4-conditions dd { color: var(--text); font-size: 8.4pt; line-height: 1.42; }
+.o4-conditions dd strong { color: var(--ink); font-size: 11pt; font-weight: 600; letter-spacing: -.005em; }
+.o4-conditions dd span { display: block; margin-top: .9mm; color: var(--muted); font-size: 7.5pt; line-height: 1.42; text-wrap: pretty; }
+.o4-conditions .is-index dd span { margin-top: 0; color: var(--text); font-size: 7.7pt; }
+
+
+/* ================================================================== 05 · 06 · the official plans */
+.o4-plan { background: #fff; }
+.o4-plan__drawing { position: absolute; display: grid; place-items: center; }
+.o4-plan__drawing img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.o4-plan.is-ground .o4-plan__drawing { left: 9mm; top: 9mm; width: 199mm; height: 188mm; }
+.o4-plan.is-lower .o4-plan__drawing { left: 8mm; top: 12mm; width: 214mm; height: 182mm; }
+.o4-plan__info { position: absolute; right: 14mm; top: 14mm; bottom: 15.5mm; width: 62mm; display: flex; flex-direction: column; gap: 4.2mm; }
+.o4-plan.is-lower .o4-plan__info { width: 56mm; }
+.o4-plan__rate { display: grid; gap: 2mm; padding-top: 3.4mm; border-top: .6mm solid var(--brand); }
+.o4-plan__ratefig { display: flex; align-items: flex-start; gap: 2.2mm; white-space: nowrap; }
+.o4-plan__ratefig strong { color: var(--brand); font-size: 46pt; font-weight: 300; line-height: .86; letter-spacing: -.04em; font-variant-numeric: lining-nums; }
+.o4-plan__ratefig span { display: grid; gap: 1mm; padding-top: 1mm; color: var(--ink); font-size: 9.5pt; font-weight: 600; line-height: 1; }
+.o4-plan__ratefig em { color: var(--muted); font-size: 6.2pt; font-style: normal; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.o4-h2--plan { font-size: 27pt; }
+.o4-planfacts { border-top: .3mm solid var(--line); }
+.o4-planfacts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 3mm; padding: 1.9mm 0; border-bottom: .3mm solid var(--line); }
+.o4-planfacts dt { color: var(--muted); font-size: 6.3pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.o4-planfacts dd { color: var(--ink); font-size: 9.4pt; font-weight: 600; white-space: nowrap; }
+.o4-planfacts dd small { margin-left: .6mm; color: var(--text); font-size: 7pt; font-weight: 600; }
+.o4-planfacts .is-lead { display: grid; gap: 1.6mm; padding: 2.4mm 0 3mm; }
+.o4-planfacts .is-lead .o4-num strong { color: var(--brand); }
+.o4-label--rule { padding-top: 1mm; }
+.o4-rooms { display: grid; gap: 1.5mm; }
+.o4-rooms li { display: grid; grid-template-columns: 4.6mm minmax(0, 1fr) auto; column-gap: 2mm; align-items: baseline; font-size: 7.6pt; line-height: 1.35; }
+.o4-rooms b { color: var(--brand); font-weight: 700; }
+.o4-rooms i { color: var(--ink); font-style: normal; font-weight: 600; white-space: nowrap; }
+.o4-plan__legend { margin-top: auto; }
+.o4-plan__legend a { color: var(--brand); font-weight: 700; }
+
+/* ================================================================== 07 · the engineering base (graphite) */
+.o4-tech { background: var(--graphite); color: rgba(255, 255, 255, .82); }
+.o4-tech__photo { position: absolute; top: 0; right: 0; bottom: 0; width: 80mm; background: #2a2c31; }
+.o4-tech__photo img { object-position: 42% 50%; }
+.o4-tech__body { position: absolute; left: 14mm; top: 14mm; bottom: 16.5mm; width: 190mm; display: flex; flex-direction: column; gap: 6mm; }
+.o4-tech .o4-h2 { font-size: 30pt; }
+.o4-tech__figs { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 1mm; border-top: .3mm solid rgba(255, 255, 255, .2); }
+.o4-tech__figs > div { grid-column: span 2; padding: 3.6mm 4mm 4mm 0; border-bottom: .3mm solid rgba(255, 255, 255, .2); }
+.o4-tech__figs > .is-power, .o4-tech__figs > .is-heights { grid-column: span 3; }
+.o4-tech__figs dt { color: rgba(255, 255, 255, .62); font-size: 6.3pt; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.o4-tech__num { display: flex; align-items: flex-start; gap: 1.6mm; margin-top: 2.4mm; color: #fff; font-size: 34pt; font-weight: 300; line-height: .88; letter-spacing: -.035em; white-space: nowrap; font-variant-numeric: lining-nums; }
+.o4-tech__figs > .is-power .o4-tech__num, .o4-tech__figs > .is-heights .o4-tech__num { font-size: 46pt; }
+.o4-tech__num i { padding-top: .8mm; color: rgba(255, 255, 255, .84); font-size: 10pt; font-style: normal; font-weight: 600; letter-spacing: 0; }
+.o4-tech__why { display: block; margin-top: 2.4mm; color: rgba(255, 255, 255, .64); font-size: 7.4pt; line-height: 1.4; text-wrap: pretty; }
+.o4-tech__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5mm; }
+.o4-tech .o4-foot { right: 94mm; }
+.o4-tech__list li { display: grid; align-content: start; gap: 1.2mm; padding-top: 2.6mm; border-top: .5mm solid var(--brand); }
+.o4-tech__list li:nth-child(odd) { border-top-color: rgba(255, 255, 255, .5); }
+.o4-tech__list .o4-label { color: rgba(255, 255, 255, .56); }
+.o4-tech__list b { color: #fff; font-size: 9.2pt; font-weight: 700; line-height: 1.25; text-wrap: balance; }
+.o4-tech__list span:last-child { color: rgba(255, 255, 255, .62); font-size: 7pt; line-height: 1.4; text-wrap: pretty; }
+.o4-tech__principle { max-width: 150mm; margin-top: auto; padding-left: 4mm; border-left: .8mm solid var(--signal); color: #fff; font-size: 10pt; font-weight: 600; line-height: 1.4; }
+
+/* ================================================================== 08 · location */
+.o4-loc { background: var(--ivory); }
+.o4-loc__map { position: absolute; left: 0; top: 0; width: 176mm; height: 132mm; overflow: hidden; background: #f2eee6; }
+.o4-loc__map > svg { display: block; width: 100%; height: 100%; }
+.o4-loc__map .loc__map { position: relative; width: 100%; height: 100%; aspect-ratio: auto; margin: 0; border: 0; border-radius: 0; }
+.o4-loc__map .loc__map img { width: 100%; height: 100%; object-fit: cover; }
+.o4-loc__copy { position: absolute; left: 186mm; right: 14mm; top: 14mm; bottom: 16.5mm; display: flex; flex-direction: column; gap: 5mm; }
+.o4-h2--loc { font-size: 21pt; line-height: 1.1; }
+.o4-walk { margin-top: auto; padding-top: 4.2mm; border-top: .3mm solid var(--line); }
+.o4-walk__figure { color: var(--brand); font-size: 50pt; font-weight: 300; line-height: .88; letter-spacing: -.04em; white-space: nowrap; }
+.o4-walk__text { margin: 2.6mm 0 2mm; color: var(--ink); font-size: 10pt; font-weight: 600; line-height: 1.3; }
+.o4-routes > div { display: grid; grid-template-columns: 25mm minmax(0, 1fr); column-gap: 3mm; padding: 2.2mm 0; border-top: .3mm solid var(--line); }
+.o4-routes dt { color: var(--muted); font-size: 6.3pt; font-weight: 700; letter-spacing: .14em; line-height: 1.5; text-transform: uppercase; }
+.o4-routes dd { color: var(--ink); font-size: 9pt; font-weight: 600; }
+.o4-loc__lead { font-size: 9.2pt; }
+.o4-loc__district { position: absolute; left: 14mm; top: 140mm; bottom: 15mm; width: 162mm; }
+.o4-growth { display: grid; grid-template-columns: 58mm minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 7mm; row-gap: 1.6mm; }
+.o4-growth > .o4-label { grid-column: 1; }
+.o4-growth__title { grid-column: 1; }
+.o4-growth > .o4-small { grid-column: 1; }
+.o4-growth > .o4-caption { grid-column: 2; grid-row: 1 / span 3; align-self: start; padding-left: 5mm; border-left: .3mm solid var(--line); }
+.o4-growth__title { color: var(--ink); font-size: 12pt; font-weight: 300; line-height: 1.15; letter-spacing: -.01em; }
+.o4-growth .o4-small { font-size: 7.4pt; }
+.o4-growth .o4-caption b { color: var(--ink); font-weight: 700; }
+
+/* ================================================================== 09 · use scenarios (stone) */
+.o4-formats { background: var(--stone); }
+.o4-formats__photo { position: absolute; left: 0; top: 0; bottom: 0; width: 102mm; }
+.o4-formats__photo img { object-position: 80% 50%; }
+.o4-formats .o4-foot { left: 114mm; }
+.o4-formats__body { position: absolute; left: 114mm; right: 14mm; top: 14mm; bottom: 16.5mm; display: flex; flex-direction: column; gap: 4mm; }
+.o4-formats .o4-h2 { font-size: 27pt; }
+.o4-formats .o4-lead { font-size: 9.2pt; color: #34322f; }
+.o4-index { margin-top: 1mm; border-top: .3mm solid rgba(18, 19, 22, .2); }
+.o4-index li { display: grid; grid-template-columns: 12mm 50mm minmax(0, 1fr); column-gap: 5mm; align-items: baseline; padding: 2.9mm 0; border-bottom: .3mm solid rgba(18, 19, 22, .2); }
+.o4-index b { color: var(--brand); font-size: 19pt; font-weight: 300; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.o4-index h3 { color: var(--ink); font-size: 11.4pt; font-weight: 700; line-height: 1.18; letter-spacing: -.01em; }
+.o4-index__q { margin-top: 1mm; color: #5d574f; font-size: 7.8pt; line-height: 1.35; }
+.o4-index__ev { color: #34322f; font-size: 7.7pt; line-height: 1.45; text-wrap: pretty; }
+.o4-index__ev strong { color: var(--ink); font-weight: 700; }
+.o4-formats .o4-notes { margin-top: auto; color: #5d574f; }
+
+/* ================================================================== 10 · the invitation (burgundy + photograph) */
+.o4-final { background: var(--brand); color: #fff; }
+.o4-final__panel { position: absolute; left: 0; top: 0; bottom: 0; width: 132mm; padding: 14mm 12mm 17mm 16mm; display: flex; flex-direction: column; gap: 5mm; background: var(--brand); }
+.o4-final__photo { position: absolute; top: 0; right: 0; bottom: 0; left: 132mm; }
+.o4-final__photo img { object-position: 50% 50%; }
+.o4-final__title { color: #fff; font-size: 38pt; font-weight: 300; line-height: 1.02; letter-spacing: -.026em; text-wrap: balance; }
+.o4-final__title > span { display: block; }
+.o4-final__lead { max-width: 100mm; color: rgba(255, 255, 255, .88); font-size: 10pt; line-height: 1.5; text-wrap: pretty; }
+.o4-cta { display: grid; gap: 2.4mm; max-width: 100mm; margin-top: 1mm; }
+.o4-cta__primary, .o4-cta__secondary { display: flex; align-items: center; justify-content: space-between; gap: 4mm; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.o4-cta__primary { padding: 4.4mm 5mm; background: #fff; color: var(--brand); font-size: 8pt; }
+.o4-cta__secondary { padding: 3.6mm 5mm; border: .3mm solid rgba(255, 255, 255, .52); color: #fff; font-size: 7.3pt; }
+.o4-final__grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6mm; align-items: end; margin-top: auto; }
+.o4-contacts { display: grid; gap: 1.7mm; font-size: 8.4pt; }
+.o4-contacts a { display: inline-flex; align-items: center; gap: 2mm; color: #fff; }
+.o4-contacts .is-quiet { color: rgba(255, 255, 255, .7); font-size: 7pt; }
+.o4-qr { display: grid; justify-items: start; gap: 2mm; width: 31mm; }
+.o4-qr img { display: block; width: 29mm; height: 29mm; padding: 1.6mm; background: #fff; }
+.o4-qr p { color: rgba(255, 255, 255, .78); font-size: 6.3pt; line-height: 1.35; }
+.o4-qr p b { display: block; margin-bottom: .6mm; color: #fff; font-weight: 700; }
+.o4-qr p a { overflow-wrap: anywhere; }
+.o4-final .o4-foot { left: 16mm; right: calc(297mm - 132mm + 12mm); }

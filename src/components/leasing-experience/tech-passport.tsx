@@ -64,10 +64,13 @@ function Fact({ fact, offer, locale }: { fact: PassportFact; offer: TemplateOffe
  * so the block reads as a prepared engineering base, never as a table of equal tiles.
  */
 function Card({ card, locale, index }: { card: PassportCard; locale: SiteLocale; index: number }) {
+  // OWNER R9 §02 (2026-11-13): label · value · the main fact (when the card has one) · the explanation under the rule — four rows that
+  // line up across the cards of one row (src/app/r8.css, subgrid), so the rules and explanations of neighbouring cards share one line
   return (
     <li className="lg-pass__card" data-card={card.key}>
       <p className="lg-pass__cardlabel"><span className="lg-pass__cardno" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{card.title[locale]}</p>
       <p className="lg-pass__cardvalue">{card.value[locale]}</p>
+      {card.lead ? <p className="lg-pass__cardlead">{card.lead[locale]}</p> : null}
       <p className="lg-pass__cardtext">{card.text[locale]}</p>
     </li>
   );

@@ -67,7 +67,12 @@ export type TechRow = { key: string; label: Localized; value: Localized; state: 
 /** One key fact of the technical passport: a figure (or the clear heights read from the unit's level breakdown) and its unit as separate boxes. */
 export type PassportFact = { key: string; /** the card's small label (OWNER «TECHNICAL READINESS — CARDS», 2026-11-11), e.g. «Мощность» */ name?: Localized; figure: Localized | "heights"; unit: Localized; label: Localized; evidence: Evidence; source: string };
 /** One infrastructure card of the passport («Инфраструктура объекта», OWNER 2026-11-11): small label · large value · short explanation. */
-export type PassportCard = { key: string; title: Localized; value: Localized; text: Localized; evidence: Evidence; source: string };
+/**
+ * One infrastructure card: label (title) · value · an optional main fact right under the value (lead) · the explanation under the rule
+ * (text). OWNER R9 §02 (2026-11-13): when a card carries a main fact and a secondary note, they are two separate lines — the lead states the
+ * fact, the text the condition — never one long paragraph.
+ */
+export type PassportCard = { key: string; title: Localized; value: Localized; lead?: Localized; text: Localized; evidence: Evidence; source: string };
 /** One specification row of a passport group: term · value · an optional short explanation. */
 export type PassportItem = { key: string; title: Localized; value: Localized; note?: Localized; evidence: Evidence; source: string };
 /** One side of the property and what opens onto it (OWNER technical data update 2026-11-10 — directions only, never positions). */

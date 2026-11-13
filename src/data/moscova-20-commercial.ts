@@ -43,15 +43,15 @@ export const m20Commercial = {
    */
   offer: {
     published: true, // FINAL OWNER GO · FULL PRODUCTION RELEASE AUTHORIZED (2026-11-12)
-    // OWNER «CORRECTIVE PASS R8» §05 (2026-11-13): the brochure redesigned in full (R3, ten pages) with the deposit and the expense
-    // regime. The R2 files stay in place (the live production links them) until the release of this pass replaces the link.
-    version: "M20-CO-2026-11 R3",
+    // OWNER R9 §04 + «PDF R4 · ART DIRECTION UPDATE» (2026-11-13): the brochure R4 — a premium editorial A4-landscape presentation,
+    // ten pages. The R3 files (and R2 before them) stay in place as static files for rollback and for links already sent.
+    version: "M20-CO-2026-11 R4",
     updated: "13.11.2026",
     pages: 10,
     file: {
-      ro: publicAsset("/assets/leasing/moscova-20/offer/r3/moscova-20-commercial-offer-ro-r3.pdf"),
-      ru: publicAsset("/assets/leasing/moscova-20/offer/r3/moscova-20-commercial-offer-ru-r3.pdf"),
-      en: publicAsset("/assets/leasing/moscova-20/offer/r3/moscova-20-commercial-offer-en-r3.pdf"),
+      ro: publicAsset("/assets/leasing/moscova-20/offer/r4/moscova-20-commercial-offer-ro-r4.pdf"),
+      ru: publicAsset("/assets/leasing/moscova-20/offer/r4/moscova-20-commercial-offer-ru-r4.pdf"),
+      en: publicAsset("/assets/leasing/moscova-20/offer/r4/moscova-20-commercial-offer-en-r4.pdf"),
     } satisfies Localized,
   },
 } as const;
