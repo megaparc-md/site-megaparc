@@ -15,7 +15,7 @@ export function PackActions({ items }: { items: PackAction[] }) {
   return (
     <ul className="lp-actions">
       {items.map((item) => (
-        <li key={item.key}>
+        <li key={item.key} data-action={item.key}>
           <a
             className="lp-action"
             href={item.href}

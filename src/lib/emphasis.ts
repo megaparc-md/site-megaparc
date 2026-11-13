@@ -92,6 +92,9 @@ const register: [statement: string, emphasis: string | null][] = [
   ["Инженерная основа уже создана.", "уже создана."],
   ["Baza inginerească este deja pregătită.", "deja pregătită."],
   ["The engineering base is already in place.", "already in place."],
+  ["Одно пространство — разные форматы.", "разные форматы."], // R8 brochure, use scenarios: the flexibility of the space
+  ["Un spațiu — diferite formate.", "diferite formate."],
+  ["One space — different formats.", "different formats."],
   // structural titles of the offer stay calm: «Коммерческие условия», «Адрес, который стоит рассмотреть.», the plan pages, the address
 ];
 

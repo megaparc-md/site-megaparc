@@ -9,9 +9,10 @@ import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
  * COMMERCIAL TERMS of Moscova 20 (OWNER mandates R6 / R7, 2026-11-12) — every figure comes from src/data/moscova-20-commercial.ts
  * (the two approved rates) and from the unit record (the areas); nothing is typed here.
  *   · HeroRates — the two rates beside the area in the hero: figure first, the unit quieter, «Без НДС» once;
- *   · CommercialTerms — the block of the digital property dossier and of the Leasing Pack: the two levels as a calm financial
- *     statement (rate · area · per month), the terrace apart (no rate, never «free»), the preliminary total with its wording, the
- *     caveats, the indexation paragraph and one action — the commercial offer.
+ *   · CommercialTerms — the block of the digital property dossier and of the Leasing Pack: the two levels as tone cards
+ *     (rate · area · per month), the terrace apart (no rate, never «free»), the preliminary total with its wording, the deposit and
+ *     the expense regime (OWNER «CORRECTIVE PASS R8» §02, 2026-11-13), the caveats, the indexation paragraph and one action — the
+ *     commercial offer. Colours: src/app/r8.css.
  * The offer link: the accepted PDF where it is published; in the OWNER preview — the review candidate, marked as a draft; in the
  * production edition before the OWNER GO — the direct contact (`fallbackHref`), never a dead link.
  */
@@ -56,12 +57,12 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
           <p className="ct__vat">{c.vat[locale]}</p>
         </header>
 
-        {/* the two charged levels and, apart, the terrace */}
+        {/* the two charged levels and, apart, the terrace — R8: tone cards (ground floor burgundy · lower ground stone · terrace paper) */}
         <div className="ct__levels">
           {calc.lines.map((line) => {
             const rate = rateParts(line.rate, locale);
             return (
-              <article key={line.key} className="ct-level">
+              <article key={line.key} className={`ct-level is-${line.key}`}>
                 <h3 className="ct-level__name">{line.label}</h3>
                 <p className="ct-level__rate"><strong>{rate.figure}</strong><span>{rate.unit}</span></p>
                 <dl className="ct-level__rows">
@@ -87,6 +88,22 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
           <p className="ct__total-label">{c.total[locale]}</p>
           <p className="ct__total-figure"><strong>{euro(calc.monthly, locale)}</strong><span>{perMonth[locale]} · {c.vatInline[locale]}</span></p>
           <p className="ct__sum" aria-hidden="true">{calc.lines.map((line) => euro(line.monthly, locale)).join(" + ")}</p>
+        </div>
+
+        {/* OWNER «CORRECTIVE PASS R8» §02 (2026-11-13): the deposit and the expense regime — three cards, wording from the commercial module */}
+        <div className="ct__terms" aria-label={c.termsTitle[locale]}>
+          <article className="ct-term is-deposit">
+            <h3 className="ct-term__label">{c.depositLabel[locale]}</h3>
+            <p className="ct-term__figure"><strong>{c.depositFigure[locale]}</strong><span>{c.depositUnit[locale]}</span></p>
+          </article>
+          <article className="ct-term is-utilities">
+            <h3 className="ct-term__label">{c.utilitiesLabel[locale]}</h3>
+            <p className="ct-term__figure is-text"><strong>{c.utilitiesShort[locale]}</strong></p>
+          </article>
+          <article className="ct-term is-recharge">
+            <p className="ct-term__figure"><strong>{c.rechargeFigure[locale]}</strong></p>
+            <p className="ct-term__text">{c.rechargeText[locale]}</p>
+          </article>
         </div>
 
         <div className="ct__notes">

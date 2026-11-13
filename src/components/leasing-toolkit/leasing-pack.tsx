@@ -5,6 +5,7 @@ import { LgDrawer } from "@/components/leasing-experience/drawer";
 import { templateOffer } from "@/components/leasing-experience/offer";
 import { LgPhoto, ui } from "@/components/leasing-experience/parts";
 import { SheetPan } from "@/components/leasing-experience/sheet-pan";
+import { InfraCards } from "@/components/leasing-experience/tech-passport";
 import { CommercialTerms, HeroRates, offerLink } from "@/components/leasing-toolkit/commercial-terms";
 import { PackActions, QrLanding, type PackAction } from "@/components/leasing-toolkit/pack-actions";
 import { PlanLayers, type LayerItem, type LayerKey, type LayerLevel } from "@/components/leasing-toolkit/plan-layers";
@@ -196,23 +197,22 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
           <h3 className="lpx-h3">{p.technical[locale]}</h3>
           <dl className="lp-keys">
             {keys.map((k) => (
-              <div key={k.key} className="lp-key">
+              <div key={k.key} className="lp-key" data-key={k.key}>
                 <dt>{k.name}</dt>
                 <dd className="lp-key__fig">{k.figure}<span>{k.unit}</span></dd>
                 {k.why ? <dd className="lp-key__why">{k.why}</dd> : null}
               </div>
             ))}
           </dl>
-          <details className="lp-more">
-            <summary><span>{c.details[locale]}</span><small>{c.detailsMeta[locale].replace("{n}", String(cards.length))}</small></summary>
-            <dl className="lp-rows">
-              {cards.map((card) => (
-                <div key={card.key}><dt>{card.title[locale]}</dt><dd>{card.value[locale]}<small>{card.text[locale]}</small></dd></div>
-              ))}
+          {/* OWNER «CORRECTIVE PASS R8» §03–§04 (2026-11-13): the infrastructure as the same colour cards as the technical drawer — open, not folded */}
+          <div className="lpx-infra">
+            <h4 className="lpx-infra__title">{x.passport?.ready.title[locale]}</h4>
+            <InfraCards cards={cards} locale={locale} />
+            <dl className="lp-rows lpx-infra__rows">
               <div><dt>{ui.status[locale]}</dt><dd>{offer.status}</dd></div>
               <div><dt>e‑Cadastru</dt><dd>{number}</dd></div>
             </dl>
-          </details>
+          </div>
           <p className="lp-meta"><Link href={propertyPath}>{c.page[locale]} →</Link></p>
         </div>
       </section>

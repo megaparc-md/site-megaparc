@@ -1092,29 +1092,31 @@ html.lg-drawer-open { overflow: hidden; }
 }
 
 /* ==================================================================
-   R4 · ARCHITECTURAL AERIAL ANNOTATION (OWNER «LOCATION VISUAL
-   INTELLIGENCE R4», 2026-11-12, §01). The photograph is untouched;
-   the premises read through a translucent graphite mask with a faint
-   burgundy tint and a hairline perimeter; five small numbers; the
-   wording sits in the legend beside the picture. No red, no glow, no
-   thick arrows, no plates on the architecture.
-   OWNER decision 2026-11-12: variant B is final, without the guide
-   along the boulevard.
+   R8 · ARCHITECTURAL AERIAL ANNOTATION (OWNER «CORRECTIVE PASS R8»
+   §01, 2026-11-13, over R4). The photograph is untouched; the volume
+   is traced along the building's real edges (hairline ivory perimeter,
+   the roof edge inside), the surroundings dim and desaturate, one
+   marker system (pin + hairline leader + numbered badge; areas: the
+   badge alone), the frontage as a dimension line. No red, no glow, no
+   thick arrows, no free-hand contour, no plates on the architecture.
    ================================================================== */
 .lg-air { margin: 0; }
 .lg-air__scene { position: relative; display: block; }
+/* R8 (2026-11-13): the surroundings desaturate through a masked backdrop filter; the premises keep their colour */
+.lg-air__veil { position: absolute; inset: 0; pointer-events: none; -webkit-backdrop-filter: saturate(.38) brightness(.9); backdrop-filter: saturate(.38) brightness(.9); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
 .lg-air__draw path, .lg-air__draw circle { fill: none; vector-effect: non-scaling-stroke; }
-.lg-air__draw .lg-air__dim { fill: rgba(15, 16, 18, .34); stroke: none; }
-.lg-air__draw .lg-air__mask { fill: rgba(96, 30, 44, .12); stroke: rgba(245, 242, 236, .96); stroke-width: 1.2; stroke-linejoin: round; }
-.lg-air__guide path, .lg-air__guide circle { stroke: rgba(245, 242, 236, .92); stroke-width: 1.1; stroke-linecap: round; stroke-linejoin: round; }
-.lg-air__guide.is-frontage path:first-child { stroke: #f5f2ec; stroke-width: 2; }
-.lg-air__guide.is-pavement path:first-child { stroke-width: 1.5; stroke-dasharray: 1.5 7; }
-.lg-air__guide.is-entrance circle { fill: rgba(245, 242, 236, .22); }
+.lg-air__draw .lg-air__dim { fill: rgba(18, 19, 22, .36); stroke: none; }
+.lg-air__draw .lg-air__volume { fill: rgba(245, 242, 236, .08); stroke: #f5f2ec; stroke-width: 1.5; stroke-linejoin: miter; }
+.lg-air__draw .lg-air__edge { stroke: rgba(245, 242, 236, .55); stroke-width: 1; }
+.lg-air__draw .lg-air__dimension { stroke: #f5f2ec; stroke-width: 1.1; stroke-linecap: square; }
+.lg-air__pin path { stroke: rgba(245, 242, 236, .9); stroke-width: 1; }
+.lg-air__pin circle { fill: #f5f2ec; stroke: none; }
+.lg-air__pin.is-object circle { fill: var(--brand); stroke: #f5f2ec; stroke-width: 1.5; }
 
 .lg-air__marks { position: absolute; inset: 0; pointer-events: none; }
-.lg-air__no { position: absolute; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #f5f2ec; color: #141518; font-size: .75rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; transform: translate(-50%, -50%); box-shadow: 0 0 0 1px rgba(20, 21, 24, .3), 0 2px 10px rgba(0, 0, 0, .28); }
-.lg-air__no.is-object { background: var(--brand); color: #fff; box-shadow: 0 0 0 1px rgba(245, 242, 236, .75), 0 2px 10px rgba(0, 0, 0, .3); }
-.lg-air__name { position: absolute; color: #f5f2ec; font-size: clamp(.68rem, 1vw, .92rem); font-weight: 700; letter-spacing: .18em; line-height: 1; text-transform: uppercase; white-space: nowrap; transform: translate(1.15rem, -50%); text-shadow: 0 1px 8px rgba(0, 0, 0, .5); }
+.lg-air__no { position: absolute; display: grid; place-items: center; width: 1.65rem; height: 1.65rem; border-radius: 50%; background: rgba(20, 21, 24, .8); color: #f5f2ec; font-size: .75rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; transform: translate(-50%, -50%); box-shadow: 0 0 0 1px rgba(245, 242, 236, .92), 0 4px 14px rgba(0, 0, 0, .3); }
+.lg-air__no.is-object { background: var(--brand); color: #fff; box-shadow: 0 0 0 1px #f5f2ec, 0 4px 16px rgba(0, 0, 0, .35); }
+.lg-air__name { position: absolute; color: #f5f2ec; font-size: clamp(.7rem, 1vw, .9rem); font-weight: 700; letter-spacing: .22em; line-height: 1; text-transform: uppercase; white-space: nowrap; transform: translate(1.35rem, -50%); text-shadow: 0 1px 10px rgba(0, 0, 0, .55); }
 
 .lg-air__legend { display: grid; gap: .55rem; margin: 0; padding: 0; list-style: none; color: var(--lg-text); font-size: .875rem; line-height: 1.4; }
 .lg-air__legend li { display: flex; align-items: baseline; gap: .6rem; min-width: 0; }
@@ -1124,8 +1126,7 @@ html.lg-drawer-open { overflow: hidden; }
 @media (min-width: 720px) and (max-width: 1023px) { .lg-air__legend { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.8rem; } }
 @media (max-width: 719px) {
   .lg-air__name { display: none; }
-  .lg-air__no { width: 1.15rem; height: 1.15rem; font-size: .72rem; }
-  .lg-air__guide.is-pavement path:first-child { stroke-dasharray: 1 5; }
+  .lg-air__no { width: 1.25rem; height: 1.25rem; font-size: .68rem; }
 }
 
 /* ==================================================================

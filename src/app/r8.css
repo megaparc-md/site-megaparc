@@ -1,0 +1,129 @@
+/* ==================================================================
+   R8 · COLOUR SYSTEM FOR THE MOSCOVA 20 OFFER (OWNER «CORRECTIVE PASS ·
+   VISUAL & COMMERCIAL REWORK», 2026-11-13, §02–§04, §06). Loaded last.
+   Premium real estate · architectural clarity · commercial confidence:
+   the cards carry the MEGAPARC palette — warm paper, stone and sand,
+   a burgundy blush, burgundy, oxblood and graphite — so the scenes
+   differ and the strongest facts lead. No gold, no blue, no gradients,
+   no glass, no shadows heavier than a whisper. Signal red stays a small
+   accent on dark tones only.
+   ================================================================== */
+:root {
+  --r8-paper: #fbf9f5;
+  --r8-ivory: #f5f2ec;
+  --r8-stone: #e7dfd3;
+  --r8-sand: #d9ccb9;
+  --r8-blush: #f1e5e2;
+  --r8-burgundy: #74202f;
+  --r8-oxblood: #4c1622;
+  --r8-graphite: #1f2125;
+  --r8-ink: #121316;
+  --r8-text: #3a3d43;
+  --r8-muted: #6a6d74;
+  --r8-radius: 4px;
+}
+
+/* tone variables — one place for every card of this pass */
+.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-recharge, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: rgba(18, 19, 22, .16); }
+.r8-t-stone, .lg-pass__card[data-card="heating"], .ct-level.is-lower, .ct-term.is-utilities, .lpx-why__list li:nth-child(2), .lp-key:nth-child(2), .lp-actions li[data-action^="plan-"] { --t-bg: var(--r8-stone); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #625f5a; --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: transparent; }
+.r8-t-sand, .lg-pass__card[data-card="logistics"] { --t-bg: var(--r8-sand); --t-ink: var(--r8-ink); --t-text: #34322f; --t-muted: #5d574f; --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .16); --t-edge: transparent; }
+.r8-t-blush, .lg-pass__card[data-card="sanitary"], .ct-term.is-deposit { --t-bg: var(--r8-blush); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #6f5f61; --t-accent: var(--r8-burgundy); --t-rule: rgba(116, 32, 47, .18); --t-edge: transparent; }
+.r8-t-burgundy, .lg-pass__card[data-card="electricity"], .ct-level.is-ground, .lpx-why__list li:nth-child(1), .lp-key:nth-child(3), .lp-actions li[data-action="brochure"] { --t-bg: var(--r8-burgundy); --t-ink: #fff; --t-text: rgba(255, 255, 255, .86); --t-muted: rgba(255, 255, 255, .68); --t-accent: #fff; --t-rule: rgba(255, 255, 255, .24); --t-edge: transparent; }
+.r8-t-oxblood, .lg-pass__card[data-card="fitout"] { --t-bg: var(--r8-oxblood); --t-ink: #fff; --t-text: rgba(255, 255, 255, .84); --t-muted: rgba(255, 255, 255, .62); --t-accent: #ed1c2e; --t-rule: rgba(255, 255, 255, .2); --t-edge: transparent; }
+.r8-t-graphite, .lg-pass__card[data-card="access"], .ct__total, .lpx-why__list li:nth-child(3), .lp-key:nth-child(4) { --t-bg: var(--r8-graphite); --t-ink: #fff; --t-text: rgba(255, 255, 255, .82); --t-muted: rgba(255, 255, 255, .6); --t-accent: #ed1c2e; --t-rule: rgba(255, 255, 255, .18); --t-edge: transparent; }
+
+/* ------------------------------------------------ §04 infrastructure cards */
+.lg-pass__cards.r8-infra { gap: .75rem; }
+.r8-infra .lg-pass__card { position: relative; display: grid; grid-template-rows: auto auto 1fr; gap: .55rem; align-content: start; min-height: 10.5rem; padding: 1.25rem 1.25rem 1.3rem; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg, var(--r8-paper)); color: var(--t-text); }
+.r8-infra .lg-pass__card::before { content: ""; position: absolute; top: 0; left: 1.25rem; width: 1.6rem; height: 2px; background: var(--t-accent); }
+.r8-infra .lg-pass__cardlabel { display: flex; align-items: baseline; gap: .55rem; margin: 0; color: var(--t-muted); font-size: .68rem; font-weight: 700; letter-spacing: .14em; line-height: 1.3; text-transform: uppercase; }
+.r8-infra .lg-pass__cardno { color: var(--t-accent); font-variant-numeric: tabular-nums; letter-spacing: .08em; }
+.r8-infra .lg-pass__cardvalue { margin: 0; color: var(--t-ink); font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 600; line-height: 1.12; letter-spacing: -.018em; text-wrap: balance; }
+.r8-infra .lg-pass__cardtext { margin: 0; align-self: end; padding-top: .65rem; border-top: 1px solid var(--t-rule); color: var(--t-text); font-size: .875rem; line-height: 1.45; }
+/* the strongest parameters lead */
+.r8-infra .lg-pass__card[data-card="electricity"] .lg-pass__cardvalue, .r8-infra .lg-pass__card[data-card="fitout"] .lg-pass__cardvalue { font-size: clamp(1.6rem, 3.2vw, 2.25rem); font-weight: 300; letter-spacing: -.03em; }
+.r8-infra .lg-pass__card[data-card="electricity"] .lg-pass__cardvalue { font-variant-numeric: lining-nums; }
+@container (min-width: 30rem) {
+  .lg-pass__cards.r8-infra { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .r8-infra .lg-pass__card[data-card="electricity"], .r8-infra .lg-pass__card[data-card="fitout"] { grid-column: 1 / -1; }
+}
+@container (min-width: 46rem) {
+  .lg-pass__cards.r8-infra { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+  .r8-infra .lg-pass__card { min-height: 12rem; padding: 1.45rem 1.4rem 1.45rem; }
+  .r8-infra .lg-pass__card::before { left: 1.4rem; }
+  .r8-infra .lg-pass__card[data-card="electricity"] { grid-column: span 2; }
+  .r8-infra .lg-pass__card[data-card="fitout"] { grid-column: auto; }
+  /* a single third is too narrow for the display size — fit-out keeps the regular value size there */
+  .r8-infra .lg-pass__card[data-card="fitout"] .lg-pass__cardvalue { font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 600; letter-spacing: -.018em; }
+}
+
+/* ------------------------------------------------ §02 commercial terms */
+.ct .ct__levels { gap: .75rem; border: 0; }
+.ct .ct-level { position: relative; gap: .8rem; padding: 1.35rem 1.3rem 1.3rem; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg); color: var(--t-text); }
+.ct .ct-level.is-terrace { border: 1px dashed rgba(18, 19, 22, .32); }
+.ct .ct-level__name { color: var(--t-muted); }
+.ct .ct-level.is-ground .ct-level__name { color: rgba(255, 255, 255, .78); }
+.ct .ct-level__rate strong { color: var(--t-ink); }
+.ct .ct-level__rate span, .ct .ct-level__pending { color: var(--t-text); }
+.ct .ct-level__rows > div { border-top-color: var(--t-rule); }
+.ct .ct-level__rows dt { color: var(--t-muted); }
+.ct .ct-level__rows dd { color: var(--t-ink); }
+.ct .ct__total { gap: .45rem; padding: 1.4rem 1.4rem 1.35rem; border-radius: var(--r8-radius); background: var(--t-bg); }
+.ct .ct__total-label { color: rgba(255, 255, 255, .7); }
+.ct .ct__total-figure strong { color: #fff; }
+.ct .ct__total-figure span { color: rgba(255, 255, 255, .82); }
+.ct .ct__sum { color: rgba(255, 255, 255, .6); }
+.ct__terms { display: grid; gap: .75rem; }
+.ct-term { position: relative; display: grid; gap: .6rem; align-content: start; padding: 1.3rem 1.3rem 1.3rem; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg); color: var(--t-text); }
+.ct-term::before { content: ""; position: absolute; top: 0; left: 1.3rem; width: 1.6rem; height: 2px; background: var(--t-accent); }
+.ct-term__label { margin: 0; color: var(--t-muted); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; line-height: 1.3; text-transform: uppercase; }
+.ct-term__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .5rem; margin: 0; }
+.ct-term__figure strong { color: var(--t-accent); font-size: clamp(2rem, 3.4vw, 2.6rem); font-weight: 300; line-height: 1; letter-spacing: -.03em; font-variant-numeric: lining-nums; white-space: nowrap; }
+.ct-term__figure span { color: var(--t-ink); font-size: .9375rem; font-weight: 600; }
+.ct-term__figure.is-text strong { color: var(--t-ink); font-size: clamp(1.25rem, 2vw, 1.5rem); font-weight: 600; letter-spacing: -.012em; white-space: normal; }
+.ct-term__text { margin: 0; color: var(--t-text); font-size: .875rem; line-height: 1.45; }
+.ct .ct__index { padding: 1.2rem 1.3rem 1.25rem; border: 1px solid var(--t-edge); border-left: 2px solid var(--r8-burgundy); border-radius: var(--r8-radius); background: var(--t-bg); }
+@media (min-width: 720px) {
+  .ct .ct__levels { border: 0; }
+  .ct .ct-level.is-terrace { padding-left: 1.3rem; border-left: 1px dashed rgba(18, 19, 22, .32); }
+  .ct__terms { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) { .ct__terms { grid-column: 2; } }
+
+/* ------------------------------------------------ §03 Leasing Pack */
+.lpx-why { background: var(--r8-paper); }
+.lpx-why__list { gap: .75rem; border: 0; }
+.lpx-why__list li { position: relative; gap: .6rem; min-height: 12rem; padding: 1.4rem 1.35rem 1.45rem; border: 0; border-radius: var(--r8-radius); background: var(--t-bg); }
+.lpx-why__list li::before { content: ""; position: absolute; top: 0; left: 1.35rem; width: 1.6rem; height: 2px; background: var(--t-accent); }
+.lpx-why__list b { color: var(--t-muted); }
+.lpx-why__list h3 { color: var(--t-ink); font-size: clamp(1.25rem, 2vw, 1.55rem); }
+.lpx-why__list p { color: var(--t-text); }
+@media (min-width: 720px) { .lpx-why__list { border: 0; } .lpx-why__list li { min-height: 14rem; } }
+.lpx .ct { background: var(--r8-ivory); }
+
+.lp-key { position: relative; padding: 1.15rem 1.15rem 1.2rem; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg); }
+.lp-key dt { color: var(--t-muted); }
+.lp-key__fig { color: var(--t-ink); }
+.lp-key__why { color: var(--t-text); }
+@media (min-width: 900px) { .lp-keys { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; } }
+
+.lpx-infra { container-type: inline-size; margin-top: clamp(1.6rem, 3vw, 2.4rem); }
+.lpx-infra__title { margin: 0 0 .9rem; color: var(--r3-ink, #0f1012); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.lpx-infra__rows { margin-top: 1.1rem; }
+@media (min-width: 720px) { .lpx-infra__rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
+
+#pack-downloads { background: var(--r8-ivory); }
+#pack-downloads .lp-actions { display: grid; gap: .75rem; border: 0; }
+#pack-downloads .lp-actions li { position: relative; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg); }
+#pack-downloads .lp-action { min-height: 6.5rem; padding: 1.25rem 1.3rem; border: 0; }
+#pack-downloads .lp-action__label { color: var(--t-ink); }
+#pack-downloads .lp-action__meta { color: var(--t-muted); }
+#pack-downloads .lp-action .icon { color: var(--t-ink); }
+#pack-downloads .lp-action:hover .lp-action__label, #pack-downloads .lp-action:focus-visible .lp-action__label { color: var(--t-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+#pack-downloads li[data-action="brochure"] .lp-action { min-height: 9rem; }
+#pack-downloads li[data-action="brochure"] .lp-action__label { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 300; letter-spacing: -.02em; }
+@media (min-width: 720px) {
+  #pack-downloads .lp-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #pack-downloads li[data-action="brochure"], #pack-downloads li[data-action="dossier"] { grid-column: 1 / -1; }
+}
+.lpx-next { background: var(--r8-stone); }

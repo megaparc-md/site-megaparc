@@ -12,7 +12,10 @@ import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
  *   · the monthly figure is a PRELIMINARY CALCULATION on the full area of the two levels without the terrace; the charging basis
  *     is provisional until the OWNER confirms it — it is always shown with that wording, never as a contractual price;
  *   · the terrace has NO approved commercial regime: it is shown apart, never with a zero rate and never as free;
- *   · deposit, lease term, rent-free period, service charges, utilities, a percentage of annual increase — not approved, not
+ *   · OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) adds, OWNER_CONFIRMED: a security deposit equal to 3 months of base rent; utilities
+ *     and operating expenses paid separately; utilities and the maintenance of the engineering networks recharged to the tenant with
+ *     a 15 % markup. The deposit is stated in months only — no amount is calculated or published;
+ *   · lease term, rent-free period, fixed service-charge or utility figures, a percentage of annual increase — not approved, not
  *     invented, not shown (the lease-terms rows of the dataset keep them TO_CONFIRM / unpublished).
  * The existing economics calculator is untouched: its rent is still the visitor's own assumption, never pre-filled from here.
  */
@@ -28,6 +31,10 @@ export const m20Commercial = {
   basis: "FULL_FLOOR_AREA_PROVISIONAL" as const,
   /** the terrace: commercial regime not approved */
   terrace: "TO_CONFIRM" as const,
+  /** OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) — OWNER_CONFIRMED */
+  deposit: { months: 3 },
+  /** utilities and engineering-network maintenance are recharged with this markup — OWNER_CONFIRMED (R8 §02) */
+  recharge: { markupPercent: 15 },
   /**
    * THE COMMERCIAL OFFER (the commercial brochure R2). `published: true` since the «FINAL OWNER GO · FULL PRODUCTION RELEASE
    * AUTHORIZED» (2026-11-12): both editions link to the PDFs and scripts/package-production.mjs keeps the files. While it was
@@ -35,13 +42,15 @@ export const m20Commercial = {
    */
   offer: {
     published: true, // FINAL OWNER GO · FULL PRODUCTION RELEASE AUTHORIZED (2026-11-12)
-    version: "M20-CO-2026-11 R2",
-    updated: "12.11.2026",
-    pages: 9,
+    // OWNER «CORRECTIVE PASS R8» §05 (2026-11-13): the brochure redesigned in full (R3, ten pages) with the deposit and the expense
+    // regime. The R2 files stay in place (the live production links them) until the release of this pass replaces the link.
+    version: "M20-CO-2026-11 R3",
+    updated: "13.11.2026",
+    pages: 10,
     file: {
-      ro: publicAsset("/assets/leasing/moscova-20/offer/r2/moscova-20-commercial-offer-ro-r2.pdf"),
-      ru: publicAsset("/assets/leasing/moscova-20/offer/r2/moscova-20-commercial-offer-ru-r2.pdf"),
-      en: publicAsset("/assets/leasing/moscova-20/offer/r2/moscova-20-commercial-offer-en-r2.pdf"),
+      ro: publicAsset("/assets/leasing/moscova-20/offer/r3/moscova-20-commercial-offer-ro-r3.pdf"),
+      ru: publicAsset("/assets/leasing/moscova-20/offer/r3/moscova-20-commercial-offer-ru-r3.pdf"),
+      en: publicAsset("/assets/leasing/moscova-20/offer/r3/moscova-20-commercial-offer-en-r3.pdf"),
     } satisfies Localized,
   },
 } as const;
@@ -113,9 +122,33 @@ export const commercialCopy = {
     en: "A preliminary calculation: the full area of the two levels, without the terrace. The charging basis is confirmed in the commercial offer and the lease agreement.",
   },
   vatNote: {
-    ro: "Tarifele nu includ TVA. Utilitățile și alte plăți nu sunt incluse în calcul; componența lor se stabilește în contractul de locațiune.",
-    ru: `Ставки указаны без${N}НДС. Коммунальные и${N}иные платежи в${N}расчёт не${N}включены; их${N}состав определяется договором аренды.`,
-    en: "Rates exclude VAT. Utilities and other charges are not included in the calculation; their composition is defined in the lease agreement.",
+    ro: "Tarifele nu includ TVA. Utilitățile și cheltuielile de exploatare nu sunt incluse în calcul — se achită separat.",
+    ru: `Ставки указаны без${N}НДС. Коммунальные и${N}эксплуатационные расходы в${N}расчёт не${N}включены${N}— они оплачиваются отдельно.`,
+    en: "Rates exclude VAT. Utilities and operating expenses are not included in the calculation — they are charged separately.",
+  },
+  // OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) — the OWNER's wording, RO / EN adapted as supplied; RU «refacturируются» set in Russian
+  // business usage as «перевыставляются» (same meaning: re-invoiced to the tenant)
+  termsTitle: { ro: "Garanție și cheltuieli", ru: "Депозит и расходы", en: "Deposit and charges" },
+  depositLabel: { ro: "Garanție locativă", ru: "Гарантийный депозит", en: "Security deposit" },
+  depositFigure: { ro: `${m20Commercial.deposit.months}${N}luni`, ru: `${m20Commercial.deposit.months}${N}месяца`, en: `${m20Commercial.deposit.months}${N}months` },
+  depositUnit: { ro: "de chirie de bază", ru: "базовой аренды", en: "of base rent" },
+  depositTerm: {
+    ro: `Echivalentă cu ${m20Commercial.deposit.months}${N}luni de chirie de bază.`,
+    ru: `${m20Commercial.deposit.months}${N}месяца базовой аренды.`,
+    en: `Equal to ${m20Commercial.deposit.months}${N}months’ base rent.`,
+  },
+  utilitiesLabel: { ro: "Utilități și cheltuieli de exploatare", ru: "Коммунальные и эксплуатационные расходы", en: "Utilities and operating expenses" },
+  utilitiesShort: { ro: "Se achită separat", ru: "Оплачиваются отдельно", en: "Charged separately" },
+  rechargeFigure: { ro: `+${m20Commercial.recharge.markupPercent}${N}%`, ru: `+${m20Commercial.recharge.markupPercent}${N}%`, en: `+${m20Commercial.recharge.markupPercent}%` },
+  rechargeText: {
+    ro: `Utilitățile și întreținerea rețelelor inginerești sunt refacturate chiriașului cu un adaos de ${m20Commercial.recharge.markupPercent}${N}%.`,
+    ru: `Коммунальные услуги и${N}обслуживание инженерных сетей перевыставляются арендатору с${N}надбавкой ${m20Commercial.recharge.markupPercent}${N}%.`,
+    en: `Utilities and engineering network maintenance are recharged to the tenant with a ${m20Commercial.recharge.markupPercent}% markup.`,
+  },
+  utilitiesTerm: {
+    ro: `Se achită separat. Utilitățile și întreținerea rețelelor inginerești sunt refacturate chiriașului cu un adaos de ${m20Commercial.recharge.markupPercent}${N}%.`,
+    ru: `Оплачиваются отдельно. Коммунальные услуги и${N}обслуживание инженерных сетей перевыставляются арендатору с${N}надбавкой ${m20Commercial.recharge.markupPercent}${N}%.`,
+    en: `Charged separately. Utilities and engineering network maintenance are recharged to the tenant with a ${m20Commercial.recharge.markupPercent}% markup.`,
   },
   indexationTitle: { ro: "Indexare anuală", ru: "Ежегодная индексация", en: "Annual indexation" },
   // OWNER addendum «Ежегодная индексация арендной платы» (2026-11-12) — verbatim; no percentage of annual increase is ever added

@@ -20,6 +20,12 @@ export const offerCopy = {
     total: { ro: "Oferit spre închiriere", ru: "Предлагается в аренду", en: "Offered for lease" },
   },
   schedule: { ro: "Explicația încăperilor", ru: "Экспликация помещений", en: "Room schedule" },
+  // R3 brochure (OWNER «CORRECTIVE PASS R8» §05, 2026-11-13)
+  aerialLegend: { ro: "Pe fotografia aeriană", ru: "На аэрофото", en: "On the aerial photograph" },
+  scenarios: {
+    kicker: { ro: "Scenarii de utilizare", ru: "Сценарии использования", en: "Use scenarios" },
+    title: { ro: "Un spațiu —\ndiferite formate.", ru: `Одно пространство —\nразные форматы.`, en: "One space —\ndifferent formats." },
+  },
   technical: {
     title: { ro: "Baza inginerească\neste deja pregătită.", ru: "Инженерная основа\nуже создана.", en: "The engineering base\nis already in place." },
     consult: { ro: "Consultație tehnică", ru: "Техническая консультация", en: "Technical consultation" },

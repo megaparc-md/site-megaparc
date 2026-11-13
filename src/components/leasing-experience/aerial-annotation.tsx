@@ -5,75 +5,61 @@ import type { Photo, Pt, VisibilityMark } from "@/data/leasing-experience-model"
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
- * ARCHITECTURAL AERIAL (OWNER «LOCATION VISUAL INTELLIGENCE R4», 2026-11-12, §01) — the real photograph, untouched, with a
- * restrained architectural annotation in its own pixel space. No red quadrangle, no glow, no thick arrows, no plates on the picture:
- *   · the premises are read through a translucent graphite mask with a faint burgundy tint and a hairline perimeter drawn to the
- *     perspective of the photograph (a visual indication of the building in the frame — never a cadastral boundary);
- *   · five small numbered marks; their wording lives in the legend beside the picture (AerialLegend, the explorer's detail panel),
- *     so nothing covers the architecture;
- *   · thin guides only where a direction has to be read (shopfronts, the customer entrance, the pavement, the boulevard).
- * OWNER DECISION 2026-11-12: variant B «Premium Real Estate Intelligence» is final — a slight dimming of the surroundings, the name
- * set on the roof, the fine guides of the shopfronts, the entrance and the pavement. The long guide along the boulevard is removed:
- * the boulevard carries its number only, the photograph stays clean. Never bring back the red quadrangle or plates on the picture.
- * The meaning of the five marks and every fact are unchanged.
+ * ARCHITECTURAL AERIAL — OWNER «CORRECTIVE PASS R8» §01 (2026-11-13), redrawn from scratch over R4.
+ * The real photograph, untouched; the annotation lives in the photograph's own pixel space and follows its architecture:
+ *   · the volume of the premises is traced along its real edges — the back and front roof edges, the right corner, the plinth line
+ *     and the left end — as one clean hexagon with a hairline ivory perimeter and the roof edge as a fainter inner line, so the box
+ *     reads as architecture, never as a free-hand outline (a visual indication of the premises in the frame, never a cadastral boundary);
+ *   · the surroundings step back: a soft graphite veil and, where the browser supports it, a desaturation through a masked backdrop
+ *     filter — the building keeps its own colour and light;
+ *   · one marker system: a point feature (the premises, the shopfronts, the entrance) carries a small pin on the feature and a hairline
+ *     leader to its numbered badge; an area (the pavement, the boulevard) carries the badge alone; the shopfront frontage is an
+ *     architect's dimension line in front of the plinth;
+ *   · the name sits beside badge 1 over a calm, dark neighbouring roof — never over the architecture of the premises or a neighbour's sign;
+ *     the wording of the five marks stays in the legend beside the picture.
+ * Never: a red quadrangle, glow, thick arrows, plates of text, a free-hand contour. The meaning of the five marks and every fact are unchanged.
  */
 
-const arrow = (from: Pt, to: Pt, size = 11) => {
-  const ang = Math.atan2(to[1] - from[1], to[0] - from[0]);
-  const p1: Pt = [to[0] - size * Math.cos(ang - 0.42), to[1] - size * Math.sin(ang - 0.42)];
-  const p2: Pt = [to[0] - size * Math.cos(ang + 0.42), to[1] - size * Math.sin(ang + 0.42)];
-  return `M${p1[0].toFixed(1)} ${p1[1].toFixed(1)} L${to[0]} ${to[1]} L${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
-};
-/** a short tick across the end of a line — an architect's dimension end, not an arrow */
+/** a short tick across a line end — an architect's dimension end */
 const tick = (a: Pt, b: Pt, size = 9) => {
   const ang = Math.atan2(b[1] - a[1], b[0] - a[0]) + Math.PI / 2;
   const dx = size * Math.cos(ang), dy = size * Math.sin(ang);
   return `M${(a[0] - dx).toFixed(1)} ${(a[1] - dy).toFixed(1)} L${(a[0] + dx).toFixed(1)} ${(a[1] + dy).toFixed(1)}`;
 };
+const pct = ([x, y]: Pt, w: number, h: number) => ({ left: `${(x / w) * 100}%`, top: `${(y / h) * 100}%` }) as CSSProperties;
 
 export function AerialAnnotation({ photo, marks, name, caption, locale }: { photo: Photo; marks: VisibilityMark[]; name: string; caption: string; locale: SiteLocale }) {
   const { width: w, height: h } = photo;
   const object = marks.find((mark) => mark.kind === "object");
   const frame = `M0 0 H${w} V${h} H0 Z`;
+  const outside = object ? `${frame} ${pathOf(object.shape)}` : "";
+  // the desaturation layer: the same «frame minus premises» as a mask, scaled with the picture
+  const mask = object ? `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${w} ${h}' preserveAspectRatio='none'><path fill-rule='evenodd' d='${outside}'/></svg>`)}")` : undefined;
   return (
     <figure className="lg-vis lg-air">
       <span className="lg-scene lg-air__scene">
         <LgPhoto photo={photo} locale={locale} ratio={`${w} / ${h}`} sizes="(min-width: 1024px) 64vw, 100vw" className="lg-scene__photo" />
+        {mask ? <span className="lg-air__veil" style={{ WebkitMaskImage: mask, maskImage: mask } as CSSProperties} aria-hidden="true" /> : null}
         <svg className="lg-scene__draw lg-air__draw" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          {/* B: the surroundings step back a little so the building reads first (even-odd: the frame minus the premises) */}
-          {object ? <path className="lg-air__dim" d={`${frame} ${pathOf(object.shape)}`} fillRule="evenodd" /> : null}
-          {object ? <path className="lg-air__mask" d={pathOf(object.shape)} /> : null}
+          {object ? <path className="lg-air__dim" d={outside} fillRule="evenodd" /> : null}
+          {object ? <path className="lg-air__volume" d={pathOf(object.shape)} /> : null}
+          {object?.edge ? <path className="lg-air__edge" d={pathOf(object.edge, false)} /> : null}
           {marks.map((mark) => {
-            // the boulevard has no guide (OWNER decision 2026-11-12) — its number and the legend say what it is
-            if (mark.kind === "object" || mark.kind === "road") return null;
-            const pts = mark.shape;
-            const first = pts[0], last = pts[pts.length - 1];
-            if (mark.kind === "glazing") return (
-              <g key={mark.key} className="lg-air__guide is-frontage">
-                <path d={pathOf(pts, false)} />
-                <path className="lg-air__tick" d={tick(first, pts[1])} />
-                <path className="lg-air__tick" d={tick(last, pts[pts.length - 2])} />
-              </g>
-            );
-            if (mark.kind === "entrance") return (
-              <g key={mark.key} className="lg-air__guide is-entrance">
-                <path d={pathOf(pts, false)} />
-                <circle cx={last[0]} cy={last[1]} r={7} />
-              </g>
-            );
-            return (
-              <g key={mark.key} className={`lg-air__guide is-${mark.kind}`}>
-                <path d={pathOf(pts, false)} />
-                <path className="lg-air__head" d={arrow(pts[pts.length - 2], last)} />
-                <path className="lg-air__head" d={arrow(pts[1], first)} />
-              </g>
-            );
+            if (mark.kind !== "glazing" || mark.shape.length < 2) return null;
+            const pts = mark.shape, first = pts[0], last = pts[pts.length - 1];
+            return <path key={mark.key} className="lg-air__dimension" d={`${pathOf(pts, false)} ${tick(first, pts[1])} ${tick(last, pts[pts.length - 2])}`} />;
           })}
+          {marks.map((mark) => mark.pin ? (
+            <g key={mark.key} className={`lg-air__pin is-${mark.kind}`}>
+              <path d={pathOf([mark.pin, mark.at], false)} />
+              <circle cx={mark.pin[0]} cy={mark.pin[1]} r={mark.kind === "object" ? 4.5 : 3.2} />
+            </g>
+          ) : null)}
         </svg>
         <span className="lg-air__marks" aria-hidden="true">
-          {object ? <span className="lg-air__name" style={{ left: `${(object.at[0] / w) * 100}%`, top: `${(object.at[1] / h) * 100}%` } as CSSProperties}>{name}</span> : null}
+          {object ? <span className="lg-air__name" style={pct(object.at, w, h)}>{name}</span> : null}
           {marks.map((mark, i) => (
-            <b key={mark.key} className={`lg-air__no is-${mark.kind}`} style={{ left: `${(mark.at[0] / w) * 100}%`, top: `${(mark.at[1] / h) * 100}%` } as CSSProperties}>{i + 1}</b>
+            <b key={mark.key} className={`lg-air__no is-${mark.kind}`} style={pct(mark.at, w, h)}>{i + 1}</b>
           ))}
         </span>
       </span>

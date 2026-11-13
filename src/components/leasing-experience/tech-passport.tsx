@@ -57,14 +57,30 @@ function Fact({ fact, offer, locale }: { fact: PassportFact; offer: TemplateOffe
   );
 }
 
-/** One infrastructure card («Инфраструктура объекта»): small label · value · one explanation — the same confirmed facts as the sheet, never a dashboard tile. */
-function Card({ card, locale }: { card: PassportCard; locale: SiteLocale }) {
+/**
+ * One infrastructure card («Инфраструктура объекта»): small label · value · one explanation — the same confirmed facts as the sheet.
+ * OWNER «CORRECTIVE PASS R8» §04 (2026-11-13): the cards carry the brand colour system (src/app/r8.css, keyed by `data-card`) — the
+ * strongest parameters (electricity, access, fit-out) lead in burgundy, graphite and oxblood, the others in stone, blush and paper —
+ * so the block reads as a prepared engineering base, never as a table of equal tiles.
+ */
+function Card({ card, locale, index }: { card: PassportCard; locale: SiteLocale; index: number }) {
   return (
-    <li className="lg-pass__card">
-      <p className="lg-pass__cardlabel">{card.title[locale]}</p>
+    <li className="lg-pass__card" data-card={card.key}>
+      <p className="lg-pass__cardlabel"><span className="lg-pass__cardno" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{card.title[locale]}</p>
       <p className="lg-pass__cardvalue">{card.value[locale]}</p>
       <p className="lg-pass__cardtext">{card.text[locale]}</p>
     </li>
+  );
+}
+
+/** The infrastructure cards — the technical drawer and the Leasing Pack render the same list from the passport. */
+export function InfraCards({ cards, locale, className = "" }: { cards: PassportCard[]; locale: SiteLocale; className?: string }) {
+  const shown = cards.filter((card) => publishable(card.evidence));
+  if (!shown.length) return null;
+  return (
+    <ul className={`lg-pass__cards r8-infra ${className}`.trim()}>
+      {shown.map((card, i) => <Card key={card.key} card={card} locale={locale} index={i} />)}
+    </ul>
   );
 }
 
@@ -192,11 +208,7 @@ export function TechPassport({ x, passport: p, offer, locale }: { x: LeasingExpe
       <section className="lg-pass__ready">
         <h3 className="lg-pass__htitle">{p.ready.title[locale]}</h3>
         {p.ready.cards?.length ? (
-          <ul className="lg-pass__cards">
-            {p.ready.cards.filter((card) => publishable(card.evidence)).map((card) => (
-              <Card key={card.key} card={card} locale={locale} />
-            ))}
-          </ul>
+          <InfraCards cards={p.ready.cards} locale={locale} />
         ) : (
           <ul className="lg-pass__marks is-ready">
             {(p.ready.items ?? []).map((item) => (

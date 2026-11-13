@@ -161,14 +161,15 @@ export const moscova20Experience: LeasingExperience = {
     visibility: {
       photo: "context",
       caption: T("Fotografie aeriană reală. Conturul indică vizual spațiul în cadru — nu este o limită cadastrală.", "Реальное аэрофото. Контур показывает помещение в кадре и не является кадастровой границей.", "A real aerial photograph. The outline shows the premises in the frame — it is not a cadastral boundary."),
-      // OWNER «LOCATION VISUAL INTELLIGENCE R4» §01 (2026-11-12): architectural annotation. `shape` — object: the volume of the premises in the
-      // perspective of the photograph (a visual indication, never a cadastral boundary); the other marks: a thin guide. `at` — the small number.
+      // OWNER «CORRECTIVE PASS R8» §01 (2026-11-13), over R4: the volume traced along the real edges of the building in the photograph's
+      // pixel space (back roof edge · right corner · plinth line · left end) — a visual indication, never a cadastral boundary; `edge` — the
+      // roof's front edge; `pin` — the point on the feature, `at` — the numbered badge (badge 1 and the name over the dark neighbouring roof).
       marks: [
-        { key: "object", kind: "object", label: T("Moscova 20", "Moscova 20", "Moscova 20"), shape: [[432, 386], [466, 353], [806, 414], [797, 494], [792, 549], [598, 503], [432, 430]], at: [556, 392], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "glazing", kind: "glazing", label: T("Vitrine spre bulevard", "Витрины на бульвар", "Shopfronts to the boulevard"), shape: [[604, 506], [786, 549]], at: [694, 470], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "entrance", kind: "entrance", label: T("Intrarea clienților: scări și rampă", "Клиентский вход: лестница и пандус", "Customer entrance: steps and a ramp"), shape: [[846, 598], [782, 560]], at: [846, 598], evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §7 · ${PHOTO}` },
-        { key: "pavement", kind: "pavement", label: T("Acces pietonal dinspre trotuar", "Пешеходный подход со стороны тротуара", "Pedestrian approach from the pavement"), shape: [[250, 486], [560, 568], [990, 690]], at: [936, 676], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "road", kind: "road", label: T("Bulevardul Moscova — circulație în ambele sensuri", "Бульвар Москова — движение в двух направлениях", "Moscova Boulevard — traffic in both directions"), shape: [[96, 706], [610, 922]], at: [232, 764], evidence: "DOCUMENT_CONFIRMED", source: `${PHOTO} · OSM: Bulevardul Moscova, primary, 6 lanes (docs/research)` },
+        { key: "object", kind: "object", label: T("Moscova 20", "Moscova 20", "Moscova 20"), shape: [[455, 352.3], [805, 415], [801, 473.3], [793.3, 545], [431.7, 456.7], [432.3, 388.3]], edge: [[432.3, 410], [801, 473.3]], pin: [716, 440], at: [884, 344], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "glazing", kind: "glazing", label: T("Vitrine spre bulevard", "Витрины на бульвар", "Shopfronts to the boulevard"), shape: [[606, 512], [786, 556]], pin: [696, 534], at: [670, 596], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "entrance", kind: "entrance", label: T("Intrarea clienților: scări și rampă", "Клиентский вход: лестница и пандус", "Customer entrance: steps and a ramp"), shape: [], pin: [780, 563], at: [852, 604], evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §7 · ${PHOTO}` },
+        { key: "pavement", kind: "pavement", label: T("Acces pietonal dinspre trotuar", "Пешеходный подход со стороны тротуара", "Pedestrian approach from the pavement"), shape: [], at: [962, 668], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "road", kind: "road", label: T("Bulevardul Moscova — circulație în ambele sensuri", "Бульвар Москова — движение в двух направлениях", "Moscova Boulevard — traffic in both directions"), shape: [], at: [300, 790], evidence: "DOCUMENT_CONFIRMED", source: `${PHOTO} · OSM: Bulevardul Moscova, primary, 6 lanes (docs/research)` },
       ],
     },
     // OWNER «LOCATION VISUAL INTELLIGENCE R4» §02–§03 (2026-11-12): the transport map and «От остановки — к вашему бизнесу.».
@@ -508,17 +509,18 @@ export const moscova20Experience: LeasingExperience = {
     // OWNER R6 (2026-11-12): the two rates are published; every other term still follows the first check of the business format
     pending: T("Tarifele de închiriere sunt publicate. Celelalte condiții se transmit după o primă verificare a formatului afacerii.", "Ставки аренды опубликованы. Остальные условия предоставляются после первичной проверки формата бизнеса.", "The rental rates are published. The other terms are provided after a first check of the business format."),
     // what the proposal answers — topics only, never values (AGENTS.md: no public rent or payment terms)
-    covers: [T("utilitățile", "коммунальные платежи", "utilities"), T("cheltuielile de exploatare", "эксплуатационные расходы", "service costs"), T("perioada de amenajare", "период на отделку", "fit-out period"), T("durata contractului", "срок договора", "lease term"), T("firma", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
+    // OWNER «CORRECTIVE PASS R8» §02 (2026-11-13): the deposit and the utilities / operating-expense regime are published terms now — not topics
+    covers: [T("perioada de amenajare", "период на отделку", "fit-out period"), T("durata contractului", "срок договора", "lease term"), T("firma", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
     // structured, rendered only when the OWNER confirms a value AND approves it for publication
     rows: [
       // OWNER DECISION R6 / R7 (2026-11-12): the rates are confirmed and published — values from src/data/moscova-20-commercial.ts, never typed here
       { key: "rent", label: T("Chiria", "Ставка аренды", "Rent"), value: { ro: ratesLine("ro"), ru: ratesLine("ru"), en: ratesLine("en") }, evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12 — src/data/moscova-20-commercial.ts", publish: true },
       { key: "vat", label: T("TVA", "НДС", "VAT"), value: T("Tarifele nu includ TVA.", "Ставки указаны без НДС.", "Rates exclude VAT."), evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12", publish: true },
-      { key: "utilities", label: T("Utilități", "Коммунальные платежи", "Utilities"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
-      { key: "service", label: T("Cheltuieli de exploatare", "Эксплуатационные расходы", "Service charge"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
+      // OWNER «CORRECTIVE PASS R8» §02 (2026-11-13): utilities and operating expenses are charged separately; utilities and the maintenance of the engineering networks are recharged with a 15 % markup
+      { key: "utilities", label: commercialCopy.utilitiesLabel, value: commercialCopy.utilitiesTerm, evidence: "OWNER_CONFIRMED", source: "OWNER «CORRECTIVE PASS R8» §02, 2026-11-13 — src/data/moscova-20-commercial.ts", publish: true },
       { key: "security", label: T("Pază și întreținere", "Охрана и обслуживание", "Security and maintenance"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
       { key: "fitout", label: T("Perioada de amenajare · vacanța de chirie", "Период на отделку · арендные каникулы", "Fit-out period · rent-free"), value: null, evidence: "TO_CONFIRM", source: "Mentioned in the offer — not confirmed", publish: false },
-      { key: "deposit", label: T("Garanție", "Депозит или гарантия", "Deposit or guarantee"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
+      { key: "deposit", label: commercialCopy.depositLabel, value: commercialCopy.depositTerm, evidence: "OWNER_CONFIRMED", source: "OWNER «CORRECTIVE PASS R8» §02, 2026-11-13 — src/data/moscova-20-commercial.ts", publish: true },
       { key: "indexation", label: T("Indexare", "Индексация", "Indexation"), value: commercialCopy.indexation, evidence: "OWNER_CONFIRMED", source: "OWNER addendum «Ежегодная индексация арендной платы», 2026-11-12 — wording as supplied; no percentage", publish: true },
       { key: "term", label: T("Durata minimă", "Минимальный срок", "Minimum term"), value: null, evidence: "TO_CONFIRM", source: "The 2026 offer states a minimum term — not confirmed as current", publish: false },
       { key: "handover", label: T("Starea la predare", "Состояние при передаче", "Handover condition"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },

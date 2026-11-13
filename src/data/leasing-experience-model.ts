@@ -212,7 +212,9 @@ export type GrowthCopy = {
 /** The ecosystem around the address — OWNER copy; the map category it lights up (when the catchment map is shown). */
 export type EcosystemGroup = { key: string; title: Localized; text: Localized; category: "residential" | "education" | "transport" | "services" };
 /** A mark of the visibility study on the aerial photograph — confirmed elements only (pixel space of the photo). */
-export type VisibilityMark = { key: string; kind: "object" | "entrance" | "pavement" | "road" | "glazing"; label: Localized; shape: Pt[]; at: Pt; evidence: Evidence; source: string };
+/** `shape` — object: the volume outline; glazing: the dimension line; others: unused. `at` — the numbered badge. `pin` — the point on the
+ *  feature a hairline leader runs from (areas have none). `edge` — object only: the roof's front edge drawn inside the volume. */
+export type VisibilityMark = { key: string; kind: "object" | "entrance" | "pavement" | "road" | "glazing"; label: Localized; shape: Pt[]; at: Pt; pin?: Pt; edge?: Pt[]; evidence: Evidence; source: string };
 
 /**
  * OWNER «LEASING TEMPLATE LOCK · MOSCOVA 20 = EXACT MASTER TEMPLATE» (2026-11-10): one page system, four datasets.

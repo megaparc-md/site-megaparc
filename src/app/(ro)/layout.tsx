@@ -14,6 +14,7 @@ import "../r4.css";
 import "../leasing-toolkit.css";
 import "../commercial.css";
 import "../type.css";
+import "../r8.css";
 
 /** Root layout for the RO edition: static HTML is served with lang="ro". */
 export const metadata: Metadata = {
