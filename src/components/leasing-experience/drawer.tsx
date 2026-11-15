@@ -11,7 +11,13 @@ import { useCallback, useEffect, useRef, type ReactNode } from "react";
  * phones. Opened by any element carrying data-drawer="<id>" or by the #<id> hash.
  * Content is rendered on the server and passed in.
  */
-export function LgDrawer({ id, title, kicker, closeLabel, wide = false, className, children }: { id: string; title: string; kicker?: string; closeLabel: string; wide?: boolean; className?: string; children: ReactNode }) {
+/**
+ * `sheet` (OWNER P1 «SHARE MODAL REDESIGN», 2026-11-15): a compact panel sized by its content — a bottom sheet on phones (within the
+ * screen height and the safe areas), a centred panel on wider screens — for the short share and QR windows; on open the focus goes to
+ * the panel itself, not to the close button (Safari drew its focus ring around the close button as a red square). The other drawers
+ * are unchanged.
+ */
+export function LgDrawer({ id, title, kicker, closeLabel, wide = false, sheet = false, className, children }: { id: string; title: string; kicker?: string; closeLabel: string; wide?: boolean; sheet?: boolean; className?: string; children: ReactNode }) {
   const ref = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLElement | null>(null);
 
@@ -20,6 +26,7 @@ export function LgDrawer({ id, title, kicker, closeLabel, wide = false, classNam
     if (!dialog || dialog.open) return;
     trigger.current = from;
     dialog.showModal();
+    if (dialog.classList.contains("is-sheet")) dialog.querySelector<HTMLElement>(".lg-drawer__panel")?.focus({ preventScroll: true });
     document.documentElement.classList.add("lg-drawer-open");
     dialog.querySelector<HTMLElement>(".lg-drawer__body")?.scrollTo({ top: 0 });
   }, []);
@@ -70,8 +77,8 @@ export function LgDrawer({ id, title, kicker, closeLabel, wide = false, classNam
   }, [id, open]);
 
   return (
-    <dialog ref={ref} id={`lg-drawer-${id}`} className={`lg-drawer${wide ? " is-wide" : ""}${className ? ` ${className}` : ""}`} aria-labelledby={`lg-drawer-${id}-title`}>
-      <div className="lg-drawer__panel">
+    <dialog ref={ref} id={`lg-drawer-${id}`} className={`lg-drawer${wide ? " is-wide" : ""}${sheet ? " is-sheet" : ""}${className ? ` ${className}` : ""}`} aria-labelledby={`lg-drawer-${id}-title`}>
+      <div className="lg-drawer__panel" tabIndex={sheet ? -1 : undefined}>
         <header className="lg-drawer__head">
           <div>
             {kicker ? <p className="pm-kicker">{kicker}</p> : null}

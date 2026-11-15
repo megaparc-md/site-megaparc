@@ -21,8 +21,9 @@ import { moscova20Experience as x } from "@/data/leasing-experience-moscova-20";
 import { commercialCopy, m20Commercial } from "@/data/moscova-20-commercial";
 import { packCopy as p } from "@/data/moscova-20-pack";
 import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
-import { cadastreNumbers, eCadastruPortal } from "@/data/property-trust";
-import { brand, localePath, locales, ui as siteUi, type SiteLocale } from "@/lib/site-data";
+import documentKit from "@/data/moscova-20-document-kit.json";
+import { cadastreNumbers, eCadastruPortal, premisesCadastre } from "@/data/property-trust";
+import { brand, localePath, locales, publicAsset, ui as siteUi, type SiteLocale } from "@/lib/site-data";
 
 /**
  * DIGITAL LEASING PACK — the premium leasing experience of Moscova 20 (OWNER mandate R7 «PREMIUM LEASING EXPERIENCE», 2026-11-12;
@@ -59,6 +60,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const offer = templateOffer(x, unit, project.name, locale);
   const passport = x.passport!;
   const number = cadastreNumbers[m20Toolkit.project]!;
+  const premises = premisesCadastre[m20Toolkit.project] ?? [];
   const packUrl = `${ORIGIN}${localePath(locale, m20Toolkit.packPath)}/`;
   const propertyPath = localePath(locale, `/projects/${project.slug}`);
   const unitLabel = unit ? offer.unitLabel.replace(unit.unit[locale], c.unit[locale]) : offer.unitLabel;
@@ -116,9 +118,15 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const layerCopy = { layers: pc.layers[locale], onPlan: pc.onPlan[locale], noneOnLevel: pc.noneOnLevel[locale], facts: pc.facts[locale], official: pc.official[locale], note: pc.note[locale], names: { all: pc.all[locale], access: pc.access[locale], logistics: pc.logistics[locale], sanitary: pc.sanitary[locale], circulation: pc.circulation[locale], technical: pc.technical[locale] } };
 
   // 05 · downloads: the brochure only where a file exists for this edition; the official plans; the technical dossier
+  // OWNER «FINAL 2-DAY DELIVERY MANDATE» §05: the document kit — the current presentation of the language + the two official plans
+  // in one ZIP (scripts/moscova-20-documents-kit.mjs writes the files and the manifest); shown only when the kit of this version exists;
+  // it takes the paper card of the R8 system after the plans (the slot of the retired technical dossier)
+  const kit = (documentKit.kits as Partial<Record<SiteLocale, { href: string; size: string }>>)[locale];
+  const kitCurrent = kit && documentKit.version === m20Commercial.offer.version;
   const downloads: PackAction[] = [
     ...(brochure.pdf ? [{ key: "brochure", label: p.brochure[locale], meta: `${commercialCopy.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages))}${brochure.draft ? ` · ${commercialCopy.candidate[locale]}` : ""}`, href: brochure.href, event: "m20_dossier_download" as const, download: true }] : []),
     ...x.plans.levels.filter((level) => level.drawing).map((level) => ({ key: `plan-${level.key}`, label: `${p.officialPlan[locale]} · ${level.label[locale]}`, meta: p.planMeta[locale], href: level.drawing!.pdf, event: "m20_plan_open" as const, external: true })),
+    ...(kitCurrent && brochure.pdf ? [{ key: "kit", label: p.kit[locale], meta: p.kitMeta[locale].replace("{size}", kit.size), href: publicAsset(kit.href), event: "m20_kit_download", download: true }] : []),
     // OWNER «COMMERCIAL PRESENTATION RESET» + addendum (2026-11-13): one commercial presentation (the brochure above); the old leasing
     // dossier (R1, outdated wording) is no longer offered — its files stay at their URLs for links already sent; full technical data lives in this pack
   ];
@@ -212,6 +220,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
             <dl className="lp-rows lpx-infra__rows">
               <div><dt>{ui.status[locale]}</dt><dd>{offer.status}</dd></div>
               <div><dt>e‑Cadastru</dt><dd>{number}</dd></div>
+              {premises.length ? <div><dt>{p.premises[locale]}</dt><dd>{premises.join(" · ")}</dd></div> : null}
             </dl>
           </div>
           <p className="lp-meta"><Link href={propertyPath}>{c.page[locale]} →</Link></p>
@@ -252,7 +261,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
             <p className="lp-label">{c.qrTitle[locale]}</p>
             <div className="lp-qr">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={m20Toolkit.qr.svg} alt="QR · Moscova 20 Leasing Pack" width={112} height={112} loading="lazy" />
+              <img src={m20Toolkit.qr.byLocale[locale]} alt="QR · Moscova 20 Leasing Pack" width={112} height={112} loading="lazy" />
               <p>{c.qrText[locale]}<br /><a href={packUrl}>{packUrl.replace(/^https?:\/\//, "")}</a></p>
             </div>
             <p className="lp-meta">{c.updated[locale]}: {m20Commercial.offer.updated} · {m20Commercial.offer.version}</p>
@@ -266,8 +275,9 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
       <LgDrawer id="book" title={c.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
         <BookViewing locale={locale} unitLabel={unitLabel} />
       </LgDrawer>
-      <LgDrawer id="share" title={toolkitCopy.share.title[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
-        <ShareProperty url={packUrl} locale={locale} />
+      {/* OWNER P1 «SHARE MODAL REDESIGN» (2026-11-15): a compact sheet with the property card, the channels and the link */}
+      <LgDrawer id="share" title={toolkitCopy.share.sheetTitle[locale]} closeLabel={ui.close[locale]} sheet>
+        <ShareProperty url={packUrl} locale={locale} card={{ name: project.name, area: offer.figure, photo: x.photos[x.hero.photo] }} />
       </LgDrawer>
     </PageShell>
   );

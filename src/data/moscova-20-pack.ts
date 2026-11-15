@@ -10,7 +10,13 @@ export const packCopy = {
   technical: { ro: "Caracteristici tehnice", ru: "Технические характеристики", en: "Technical highlights" },
   allPhotos: { ro: "Toate fotografiile — pe pagina obiectului", ru: `Все фотографии${N}— на${N}странице объекта`, en: "All photographs — on the property page" },
   downloads: { ro: "Documente", ru: "Документы", en: "Downloads" },
-  brochure: { ro: "Ofertă comercială", ru: "Коммерческое предложение", en: "Commercial brochure" },
+  // OWNER «2-DAY FINISH» + «FINAL 2-DAY DELIVERY MANDATE» (2026-11-14): one public commercial document, one name everywhere
+  brochure: { ro: "Prezentare comercială", ru: "Коммерческая презентация", en: "Commercial presentation" },
+  // §05: the document kit — the current presentation of the language and the two official plans in one ZIP; nothing older inside
+  kit: { ro: "Descarcă setul de documente", ru: "Скачать комплект документов", en: "Download the document kit" },
+  kitMeta: { ro: "ZIP · prezentarea + 2 planuri oficiale · {size}", ru: `ZIP · презентация + 2${N}официальных плана · {size}`, en: "ZIP · the presentation + 2 official plans · {size}" },
+  // §03: the two premises cadastral numbers, one quiet row beside the property number (OWNER R9 addendum wording)
+  premises: { ro: "Numerele cadastrale ale spațiilor", ru: "Кадастровые номера помещений", en: "Cadastral numbers of the premises" },
   officialPlan: { ro: "Plan oficial", ru: "Официальный план", en: "Official floor plan" },
   planMeta: { ro: "PDF · Sc. 1:100 · anexă la contractul de locațiune", ru: `PDF · М${N}1:100 · приложение к${N}договору аренды`, en: "PDF · scale 1:100 · lease agreement annex" },
   dossier: { ro: "Dosar tehnic al obiectului", ru: "Техническое досье объекта", en: "Technical dossier" },

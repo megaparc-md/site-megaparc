@@ -134,20 +134,34 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const metaPath = (src: string) => (basePath && src.startsWith(basePath) ? src.slice(basePath.length) : src);
 const ogImage = "/assets/portfolio/dacia-31-wide.webp";
 
-export function buildMetadata(locale: SiteLocale, path: string, copy: PageCopy, options?: { noindex?: boolean; image?: string }): Metadata {
+/** an Open Graph image with its dimensions, alt text and type — what messengers and social networks read to draw the link card */
+type ShareImage = { url: string; width: number; height: number; alt: string; type: string };
+
+/**
+ * The Moscova 20 share card (OWNER «FINAL 2-DAY DELIVERY MANDATE» §05, 2026-11-14): 1200 × 630 JPEG per language
+ * (scripts/moscova-20-share-card.mjs) for the property page, its unit page and the Digital Leasing Pack — JPEG because WebP is not
+ * shown by every messenger; the dimensions and the alt text travel with it.
+ */
+function m20ShareImage(locale: SiteLocale): ShareImage {
+  const alt: Localized = { ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău", ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинэу", en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău" };
+  return { url: `/assets/leasing/moscova-20/share/moscova-20-share-${locale}.jpg`, width: 1200, height: 630, alt: alt[locale], type: "image/jpeg" };
+}
+
+export function buildMetadata(locale: SiteLocale, path: string, copy: PageCopy, options?: { noindex?: boolean; image?: string | ShareImage }): Metadata {
   const languages: Record<string, string> = {};
   for (const l of locales) languages[hreflang[l]] = localePath(l, path);
   languages["x-default"] = localePath("ro", path);
   const title = copy.title[locale];
   const description = copy.description[locale];
-  const image = options?.image ? metaPath(options.image) : ogImage;
+  const given = options?.image;
+  const image = typeof given === "object" ? { ...given, url: metaPath(given.url) } : given ? metaPath(given) : ogImage;
   return {
     title: { absolute: title },
     description,
     robots: options?.noindex ? { index: false, follow: false } : robotsPolicy,
     alternates: { canonical: localePath(locale, path), languages },
     openGraph: { title, description, type: "website", locale: ogLocale[locale], siteName: brand.name, url: localePath(locale, path), images: [image] },
-    twitter: { card: "summary_large_image", title, description, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [typeof image === "object" ? { url: image.url, alt: image.alt } : image] },
   };
 }
 
@@ -164,21 +178,21 @@ export function projectMetadata(locale: SiteLocale, slug: string): Metadata {
     en: `${project.name} — ${project.format.en} · MEGAPARC`,
   };
   const description = project.slug === "creanga-78" ? creangaProfile.lead.value : project.asset?.lead ?? project.development?.lead ?? project.line;
-  return buildMetadata(locale, `/projects/${project.slug}`, { title, description }, { image: project.media?.wide });
+  return buildMetadata(locale, `/projects/${project.slug}`, { title, description }, { image: project.slug === "moscova-20" ? m20ShareImage(locale) : project.media?.wide });
 }
 
 /** The Moscova 20 Digital Leasing Pack (OWNER toolkit mandate 2026-11-11): public, indexable, the entrance photograph as its share image. */
 export function packMetadata(locale: SiteLocale): Metadata {
-  const project = getProject("moscova-20");
+  // OWNER «FINAL 2-DAY DELIVERY MANDATE» §05 (2026-11-14): the link card says what the recipient opens — never a price
   const copy: PageCopy = {
-    title: { ro: "Moscova 20 · Leasing Pack — planuri, date tehnice, vizionare · MEGAPARC", ru: "Moscova 20 · Leasing Pack — планы, технические данные, просмотр · MEGAPARC", en: "Moscova 20 · Leasing Pack — plans, technical data, viewing · MEGAPARC" },
+    title: { ro: "Moscova 20 · 625,7 m² pe bulevardul Moscova · Leasing Pack · MEGAPARC", ru: "Moscova 20 · 625,7 м² на бульваре Москова · Leasing Pack · MEGAPARC", en: "Moscova 20 · 625.7 m² on Moscova Boulevard · Leasing Pack · MEGAPARC" },
     description: {
-      ro: "Spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol): planuri oficiale, date tehnice verificate, verificarea conceptului și cererea de vizionare.",
-      ru: "Коммерческое помещение 625,7 м² на бульваре Москова, Кишинэу (1‑й этаж + цоколь): официальные планы, подтверждённые технические данные, проверка концепции и запрос на просмотр.",
-      en: "A 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground): official plans, verified technical data, concept check and a viewing request.",
+      ro: "Spațiu comercial în Chișinău, parter + demisol: prezentarea comercială, planurile oficiale, datele tehnice și cererea de vizionare.",
+      ru: "Коммерческое помещение в Кишинэу, 1‑й этаж + цоколь: коммерческая презентация, официальные планы, технические данные и запрос на просмотр.",
+      en: "A commercial space in Chișinău, ground + lower ground: the commercial presentation, the official plans, the technical data and a viewing request.",
     },
   };
-  return buildMetadata(locale, "/leasing/moscova-20/pack", copy, { image: project?.media?.wide });
+  return buildMetadata(locale, "/leasing/moscova-20/pack", copy, { image: m20ShareImage(locale) });
 }
 
 /** The A4 print source of the PDF dossier — internal: noindex, removed from the production artifact. */
@@ -193,7 +207,7 @@ export function offerPrintMetadata(locale: SiteLocale): Metadata {
 
 /** the CFO-model prototype (OWNER R10 §04) — internal, noindex, OWNER preview only; stripped from the production artifact */
 export function producerEconomicsMetadata(locale: SiteLocale): Metadata {
-  return buildMetadata(locale, "/producer-economics", { title: { ro: "Vânzări prin rețea vs magazin propriu — prototip", ru: "Продажи через сеть vs собственный магазин — прототип", en: "Retail chain vs own store — prototype" }, description: { ro: "Prototip intern, metodologie în verificare.", ru: "Внутренний прототип, методология на проверке.", en: "Internal prototype, methodology under review." } }, { noindex: true });
+  return buildMetadata(locale, "/producer-economics", { title: { ro: "Rețele comerciale, magazin propriu sau ambele canale — calculator · MEGAPARC", ru: "Торговые сети, собственный магазин или оба канала — калькулятор · MEGAPARC", en: "Retail chains, your own store or both channels — calculator · MEGAPARC" }, description: { ro: "Comparați trei scenarii pe cifrele dumneavoastră: contribuția operațională, banii de start, pragul de rentabilitate și termenul de recuperare. Evaluare preliminară, nu o prognoză.", ru: "Сравните три сценария на своих цифрах: операционный вклад, деньги на старте, безубыточность и срок окупаемости. Предварительная оценка, а не прогноз.", en: "Compare three scenarios on your own figures: operating contribution, cash at the start, break-even and payback. A preliminary assessment, not a forecast." } });
 }
 
 export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
@@ -203,5 +217,5 @@ export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
   const title = Object.fromEntries((["ro", "ru", "en"] as SiteLocale[]).map((l) => [l, `${[project.name, spaceArea(space, l)].filter(Boolean).join(" · ")} — ${space.unit[l]} · MEGAPARC`])) as Localized;
   // A unit with a gold-standard leasing experience renders the same page as its property: the property URL is canonical (OWNER 2026-11-06).
   const path = leasingExperienceForSpace(space.id) ? `/projects/${project.slug}` : `/leasing/${space.id}`;
-  return buildMetadata(locale, path, { title, description: space.headline }, { image: project.media?.wide });
+  return buildMetadata(locale, path, { title, description: space.headline }, { image: project.slug === "moscova-20" ? m20ShareImage(locale) : project.media?.wide });
 }

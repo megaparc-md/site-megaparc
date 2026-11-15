@@ -6,8 +6,8 @@ import { Icon } from "@/components/ui";
 import { spaceArea, spacesFor } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
 import { moscova20Experience } from "@/data/leasing-experience-moscova-20";
-import { consultCopy, consultHref, producerBlock as c } from "@/data/producer-retail";
-import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-data";
+import { calculatorHref, consultCopy, producerBlock as c } from "@/data/producer-retail";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * LEASING · «ДЛЯ ПРОИЗВОДИТЕЛЕЙ И БРЕНДОВ» (OWNER «PRODUCER DIRECT RETAIL STRATEGY R10», 2026-11-13, §02 / §05 / §06).
@@ -16,7 +16,7 @@ import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-dat
  * (an own store is not always more profitable — compared on the producer's figures), then ONE expressive card: Moscova 20 as the
  * concrete example — the OWNER-approved entrance photograph beside a graphite panel with the scenario link and the consultation
  * action. MEGAPARC appears as the owner and landlord of the premises, never as the operator of the store or a financial adviser.
- * The area is read from the unit record M20-01; the action is the confirmed e-mail with the subject (no form, nothing «sent»).
+ * The area is read from the unit record M20-01; the action opens the producer calculator v2.1 of the page's language.
  */
 export function ProducerRetail({ locale }: { locale: SiteLocale }) {
   const unit = spacesFor("moscova-20")[0] ?? null;
@@ -56,9 +56,9 @@ export function ProducerRetail({ locale }: { locale: SiteLocale }) {
               <p className="r10-example__text">{c.exampleText[locale].replace("{area}", area)}</p>
               <Link className="r10-example__link" href={scenario}><span>{c.exampleLink[locale]}</span><Icon size={18} /></Link>
               <div className="r10-example__actions">
-                <a className="btn btn--light r10-example__cta" href={consultHref(locale)} data-intent="producer-store"><span>{consultCopy.cta[locale]}</span><Icon name="up-right" /></a>
+                <Link className="btn btn--light r10-example__cta" href={calculatorHref(locale)} data-intent="producer-store"><span>{consultCopy.cta[locale]}</span><Icon name="up-right" /></Link>
                 <p className="r10-example__note">
-                  {consultCopy.note[locale]} <a href={contactLinks.mobile}>{company.mobile.value[locale]}</a> · <a href={contactLinks.landline}>{company.landline.value[locale]}</a>
+                  {consultCopy.note[locale]} <a href={contactLinks.mobile}>{company.mobile.value[locale]}</a>{" ·"} <a href={contactLinks.landline}>{company.landline.value[locale]}</a>
                 </p>
               </div>
             </div>
@@ -67,8 +67,9 @@ export function ProducerRetail({ locale }: { locale: SiteLocale }) {
 
         <div className="r10-prod__foot" data-reveal>
           <p className="r10-prod__role">{c.role[locale]}</p>
-          {/* the CFO-model prototype is OWNER preview only until its methodology is verified (R10 §04) */}
-          {isProductionEdition ? null : <Link className="r10-prod__proto" href={`${localePath(locale, "/producer-economics")}/`}>{c.prototype[locale]}</Link>}
+          {/* RELEASE 2 CANDIDATE (OWNER «NEXT ACTIONS 14.11» §3): the calculator v2.1 — methodology checked (independent review, hand control
+              examples, 1 104 reference comparisons) — is a public page in both editions; it goes live only with the OWNER's financial GO */}
+          <Link className="r10-prod__proto" href={`${localePath(locale, "/producer-economics")}/`}>{c.prototype[locale]}</Link>
         </div>
       </div>
     </section>

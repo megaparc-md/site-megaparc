@@ -23,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...publicSpaces.filter((space) => !leasingExperienceForSpace(space.id)).map((space) => `/leasing/${space.id}`),
     // the Moscova 20 Digital Leasing Pack (OWNER toolkit mandate 2026-11-11) — public; its dossier-print source is internal and not listed
     "/leasing/moscova-20/pack",
+    // the producer calculator v2.1 — public from Release 2 (OWNER «NEXT ACTIONS 14.11» §3)
+    "/producer-economics",
   ];
   return paths.flatMap((path) =>
     locales.map((locale) => ({

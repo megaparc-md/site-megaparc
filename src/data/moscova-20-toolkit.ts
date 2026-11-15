@@ -17,6 +17,13 @@ export const m20Toolkit = {
   qr: {
     svg: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr.svg"),
     png: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr.png"),
+    // OWNER R4.1 visual review P1 (2026-11-14): each language opens its own Pack — the RU and EN codes no longer open the RO Pack.
+    // The RO file is the physical QR already in circulation and stays as it is (scripts/moscova-20-qr.mjs).
+    byLocale: {
+      ro: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr.svg"),
+      ru: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr-ru.svg"),
+      en: publicAsset("/assets/leasing/moscova-20/pack/moscova-20-leasing-pack-qr-en.svg"),
+    },
   },
   // ARCHIVE ONLY (OWNER «COMMERCIAL PRESENTATION RESET» + addendum, 2026-11-13): the R1 leasing dossier is no longer linked from any page —
   // its wording is outdated («Кишинёв», «коммерческие условия обсуждаются после …», «Записаться на просмотр») and the one commercial
@@ -95,6 +102,14 @@ export const toolkitCopy = {
   },
   share: {
     title: { ro: "Distribuie Moscova 20", ru: "Поделиться Moscova 20", en: "Share Moscova 20" },
+    // OWNER P1 «SHARE MODAL REDESIGN» (2026-11-15): the compact share sheet — its heading, the property card, the copy action
+    sheetTitle: { ro: "Distribuiți obiectul", ru: "Поделиться объектом", en: "Share the property" },
+    cardPlace: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
+    cardMaterials: { ro: "Leasing Pack: prezentarea, planurile, datele tehnice", ru: "Leasing Pack: презентация, планы, технические данные", en: "Leasing Pack: presentation, plans, technical data" },
+    via: { ro: "Trimiteți prin", ru: "Отправить через", en: "Send via" },
+    copyAction: { ro: "Copiați linkul", ru: "Копировать ссылку", en: "Copy link" },
+    copiedShort: { ro: "Copiat", ru: "Скопировано", en: "Copied" },
+    more: { ro: "Mai mult", ru: "Ещё", en: "More" },
     native: { ro: "Distribuie…", ru: "Поделиться…", en: "Share…" },
     copy: { ro: "Copiază linkul", ru: "Скопировать ссылку", en: "Copy the link" },
     copied: { ro: "Linkul către Moscova 20 a fost copiat.", ru: "Ссылка на Moscova 20 скопирована.", en: "The Moscova 20 link has been copied." },
@@ -120,7 +135,8 @@ export const toolkitCopy = {
     title: { ro: "Toate informațiile despre Moscova 20 — într-un singur loc", ru: "Вся информация по Moscova 20 — в одном месте", en: "Everything on Moscova 20 — in one place" },
     lead: { ro: "Planuri, date tehnice, prezentarea obiectului și instrumente pentru pregătirea vizionării.", ru: "Планы, технические данные, презентация объекта и инструменты для подготовки к просмотру.", en: "Plans, technical data, the property presentation and tools to prepare for a viewing." },
     pack: { ro: "Deschide Leasing Pack", ru: "Открыть Leasing Pack", en: "Open the Leasing Pack" },
-    pdf: { ro: "Descarcă prezentarea PDF", ru: "Скачать презентацию PDF", en: "Download the PDF presentation" },
+    // OWNER «2-DAY FINISH» + «FINAL 2-DAY DELIVERY MANDATE» (2026-11-14): one name for the one public commercial document
+    pdf: { ro: "Descarcă prezentarea comercială", ru: "Скачать коммерческую презентацию", en: "Download the commercial presentation" },
     plans: { ro: "Deschide planurile", ru: "Открыть планы", en: "Open the plans" },
     qr: { ro: "Cod QR pentru telefon", ru: "QR на телефон", en: "QR for your phone" },
     qrTitle: { ro: "Leasing Pack pe telefon", ru: "Leasing Pack на телефоне", en: "The Leasing Pack on your phone" },

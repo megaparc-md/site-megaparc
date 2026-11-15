@@ -1,0 +1,39 @@
+{
+  "version": "M20-CO-2026-11 R4.1",
+  "updated": "14.11.2026",
+  "kits": {
+    "ro": {
+      "href": "/assets/leasing/moscova-20/pack/moscova-20-documents-ro-r4-1.zip",
+      "bytes": 6108717,
+      "size": "5,8 MB",
+      "files": [
+        "00_Continut.txt",
+        "01_Moscova-20_Prezentare-comerciala_RO_R4.1_2026-11-14.pdf",
+        "02_Moscova-20_Plan-oficial_Parter_cota-0.000_Anexa-2.pdf",
+        "03_Moscova-20_Plan-oficial_Demisol_cota-2.950-3.300_Anexa-1.pdf"
+      ]
+    },
+    "ru": {
+      "href": "/assets/leasing/moscova-20/pack/moscova-20-documents-ru-r4-1.zip",
+      "bytes": 6095482,
+      "size": "5,8 МБ",
+      "files": [
+        "00_Soderzhanie.txt",
+        "01_Moscova-20_Commercial-presentation_RU_R4.1_2026-11-14.pdf",
+        "02_Moscova-20_Official-plan_Ground-floor_0.000_Annex-2.pdf",
+        "03_Moscova-20_Official-plan_Lower-ground_-2.950-3.300_Annex-1.pdf"
+      ]
+    },
+    "en": {
+      "href": "/assets/leasing/moscova-20/pack/moscova-20-documents-en-r4-1.zip",
+      "bytes": 6077380,
+      "size": "5.8 MB",
+      "files": [
+        "00_Contents.txt",
+        "01_Moscova-20_Commercial-presentation_EN_R4.1_2026-11-14.pdf",
+        "02_Moscova-20_Official-plan_Ground-floor_0.000_Annex-2.pdf",
+        "03_Moscova-20_Official-plan_Lower-ground_-2.950-3.300_Annex-1.pdf"
+      ]
+    }
+  }
+}

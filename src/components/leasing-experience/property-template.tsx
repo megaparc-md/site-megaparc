@@ -101,7 +101,7 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       {/* OWNER R6 §03 / R7 (2026-11-12): the commercial terms — the two rates, the preliminary calculation, the indexation, the offer */}
       {toolkit ? <CommercialTerms breakdown={offer.breakdown} locale={locale} fallbackHref="#viewing" /> : null}
       <Reasons x={x} offer={offer} locale={locale} />
-      <FormatLens x={x} offer={offer} locale={locale} name={project.name} />
+      <FormatLens x={x} offer={offer} locale={locale} />
       <LocationMotion x={x} offer={offer} project={project} locale={locale} decision={decision} />
       <PhotoStory x={x} locale={locale} />
       <PlansScene x={x} offer={offer} locale={locale} />
@@ -123,8 +123,8 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
           <LgDrawer id="book" title={toolkitCopy.pack.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
             <BookViewing locale={locale} unitLabel={offer.unitLabel} />
           </LgDrawer>
-          <LgDrawer id="qr" title={sc.qrTitle[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
-            <QrHandoff qr={m20Toolkit.qr.svg} url={packUrl} text={sc.qrText[locale]} copyLabel={toolkitCopy.share.copy[locale]} copied={sc.copied[locale]} />
+          <LgDrawer id="qr" title={sc.qrTitle[locale]} kicker={project.name} closeLabel={ui.close[locale]} sheet>
+            <QrHandoff qr={m20Toolkit.qr.byLocale[locale]} url={packUrl} text={sc.qrText[locale]} copyLabel={toolkitCopy.share.copy[locale]} copied={sc.copied[locale]} />
           </LgDrawer>
         </>
       ) : null}

@@ -1,14 +1,13 @@
 import { T } from "@/data/leasing-experience-model";
-import { contactLinks } from "@/data/demo-content";
-import type { Localized, SiteLocale } from "@/lib/site-data";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * PRODUCER DIRECT RETAIL (OWNER «MEGAPARC — PRODUCER DIRECT RETAIL STRATEGY R10», 2026-11-13). One source for the copy of
  *   · the Leasing block «Для производителей и брендов» — six advantages of a manufacturer's own store (§02);
  *   · the strengthening of the fifth Moscova 20 format «Фирменный магазин производителя» — three advantages, the use of the two
  *     levels within the technical constraints, the link to the R8 commercial terms (§03; the scenario is not duplicated);
- *   · the consultation action «Оценить экономику собственного магазина» (§05) — the OWNER-confirmed e-mail with the subject and a
- *     short template that keep the producer-store context; no form, nothing «sent», no confirmation.
+ *   · the action «Оценить экономику собственного магазина» (§05) — opens the producer calculator v2.1 of the page's language
+ *     (OWNER «P1 FINAL HOTFIX», 2026-11-15; formerly an e-mail). Sending a finished calculation by e-mail lives inside the calculator.
  * Tone: professional and balanced — no accusation of retail chains, never a promise that an own store is more profitable; MEGAPARC
  * is the owner and landlord of the premises, never the operator of the store or a financial adviser.
  */
@@ -70,7 +69,7 @@ export const producerBlock = {
     "MEGAPARC owns and leases the premises. The store is run by the manufacturer; the financial decision is yours.",
   ),
   /** OWNER preview only — the CFO-model prototype is not published until its methodology is verified (R10 §04) */
-  prototype: T("Prototipul modelului CFO · OWNER preview", "Прототип CFO‑модели · OWNER preview", "CFO model prototype · OWNER preview"),
+  prototype: T("Comparați economia: rețele, magazin propriu sau ambele canale", "Сравнить экономику: сети, свой магазин или оба канала", "Compare the economics: chains, your own store or both"),
 };
 
 /** §03 — added to the existing fifth Moscova 20 format (never a second section) */
@@ -111,23 +110,18 @@ export const producerFormat = {
   ),
 };
 
-/** §05 — the action and the real channel; the e-mail subject keeps the context (Leasing or Moscova 20), the body lists what to bring */
+/** §05 — the action «Оценить экономику собственного магазина» opens the calculator v2.1 (OWNER «P1 FINAL HOTFIX», 2026-11-15: one tap,
+ *  no e-mail on the way); the note beside it says what the calculator does, then the two telephones */
 export const consultCopy = {
   cta: T("Evaluați economia magazinului propriu", "Оценить экономику собственного магазина", "Assess the economics of your own store"),
-  note: T("Se deschide un e-mail către MEGAPARC cu subiectul solicitării. Sau sunați:", "Откроется письмо в MEGAPARC с темой обращения. Или позвоните:", "An e-mail to MEGAPARC opens with the subject of the request. Or call:"),
-  subject: { ro: "Magazin de firmă al producătorului — evaluarea economiei", ru: "Фирменный магазин производителя — оценка экономики", en: "Manufacturer's own store — economics review" } satisfies Localized,
-  body: {
-    ro: ["Bună ziua! Suntem producător și dorim să evaluăm economia unui magazin propriu.", "", "Compania și categoria de produse:", "Vânzările actuale prin rețelele comerciale (pe lună, fără TVA):", "Suprafața necesară și termenul dorit de deschidere:", "Telefon de contact:"],
-    ru: ["Здравствуйте! Мы производитель и хотим оценить экономику собственного магазина.", "", "Компания и категория продукции:", "Продажи через торговые сети сейчас (в месяц, без НДС):", "Нужная площадь и желаемый срок открытия:", "Телефон для связи:"],
-    en: ["Hello, we are a manufacturer and would like to assess the economics of our own store.", "", "Company and product category:", "Current sales through retail chains (per month, excl. VAT):", "Space needed and target opening date:", "Contact telephone:"],
-  } satisfies Record<SiteLocale, string[]>,
+  note: T(
+    "Calculatorul compară rețelele comerciale, magazinul propriu și ambele canale pe cifrele dumneavoastră. Sau sunați:",
+    "Калькулятор сравнит торговые сети, собственный магазин и оба канала на ваших цифрах. Или позвоните:",
+    "The calculator compares retail chains, your own store and both channels on your figures. Or call:",
+  ),
 };
 
-/** mailto: the OWNER-confirmed address only (qa-static allows its subject / body parameters, never another address) */
-export function consultHref(locale: SiteLocale, property?: string) {
-  const subject = property ? `${property} · ${consultCopy.subject[locale]}` : consultCopy.subject[locale];
-  const body = consultCopy.body[locale].join("\r\n");
-  // encodeURIComponent leaves ! ' ( ) * as they are — the apostrophe of «Manufacturer's» would reach the HTML as an entity
-  const enc = (text: string) => encodeURIComponent(text).replace(/[!'()*]/g, (ch) => `%${ch.charCodeAt(0).toString(16).toUpperCase()}`);
-  return `${contactLinks.email}?subject=${enc(subject)}&body=${enc(body)}`;
+/** the producer calculator v2.1 of the page's language: RO /producer-economics/ · RU /ru/producer-economics/ · EN /en/producer-economics/ */
+export function calculatorHref(locale: SiteLocale) {
+  return `${localePath(locale, "/producer-economics")}/`;
 }

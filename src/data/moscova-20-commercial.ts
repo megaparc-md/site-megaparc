@@ -44,15 +44,17 @@ export const m20Commercial = {
    */
   offer: {
     published: true, // FINAL OWNER GO · FULL PRODUCTION RELEASE AUTHORIZED (2026-11-12)
-    // OWNER R9 §04 + «PDF R4 · ART DIRECTION UPDATE» (2026-11-13): the brochure R4 — a premium editorial A4-landscape presentation,
-    // ten pages. The R3 files (and R2 before them) stay in place as static files for rollback and for links already sent.
-    version: "M20-CO-2026-11 R4",
-    updated: "13.11.2026",
-    pages: 10,
+    // OWNER «2-DAY FINISH TO IDEAL STANDARD» + «FINAL 2-DAY DELIVERY MANDATE» (2026-11-14): the commercial presentation R4.1 — the one
+    // public commercial PDF of each language (a design rework of R4, ten pages, src/components/leasing-toolkit/offer-print-r41.tsx).
+    // The print reads this version, date and page count — one source with every button of the site and the Pack. The R4, R3 and R2
+    // files stay in place as static files for rollback and for links already sent; no page links them.
+    version: "M20-CO-2026-11 R4.1",
+    updated: "14.11.2026",
+    pages: 11,
     file: {
-      ro: publicAsset("/assets/leasing/moscova-20/offer/r4/moscova-20-commercial-offer-ro-r4.pdf"),
-      ru: publicAsset("/assets/leasing/moscova-20/offer/r4/moscova-20-commercial-offer-ru-r4.pdf"),
-      en: publicAsset("/assets/leasing/moscova-20/offer/r4/moscova-20-commercial-offer-en-r4.pdf"),
+      ro: publicAsset("/assets/leasing/moscova-20/offer/r4-1/moscova-20-commercial-presentation-ro-r4-1.pdf"),
+      ru: publicAsset("/assets/leasing/moscova-20/offer/r4-1/moscova-20-commercial-presentation-ru-r4-1.pdf"),
+      en: publicAsset("/assets/leasing/moscova-20/offer/r4-1/moscova-20-commercial-presentation-en-r4-1.pdf"),
     } satisfies Localized,
   },
 } as const;
@@ -96,7 +98,7 @@ export function rentCalculation(breakdown: AreaLevel[], locale: SiteLocale) {
 
 /** Public wording — the rates, the labels and the indexation paragraph are the OWNER's; the caveats say only what is not yet confirmed. */
 export const commercialCopy = {
-  title: { ro: "Condiții comerciale", ru: "Коммерческие условия", en: "Commercial Terms" },
+  title: { ro: "Condiții comerciale", ru: "Коммерческие условия", en: "Commercial terms" },
   kicker: { ro: "Chirie", ru: "Аренда", en: "Rent" },
   level: {
     ground: { ro: "Parter", ru: "Первый этаж", en: "Ground Floor" },
@@ -164,8 +166,9 @@ export const commercialCopy = {
     ru: `Ежегодная индексация арендной платы на${N}основании официального индекса потребительских цен (IPC), публикуемого Национальным бюро статистики Республики Молдова (BNS). Порядок индексации определяется договором аренды.`,
     en: "Rent is indexed annually based on the official Consumer Price Index (CPI) published by the National Bureau of Statistics of the Republic of Moldova (NBS). The indexation mechanism is defined in the lease agreement.",
   },
-  offerCta: { ro: "Obține oferta comercială", ru: "Получить коммерческое предложение", en: "Get the Commercial Offer" },
-  offerMeta: { ro: "PDF · {pages} pagini · tarife, calcul, planuri", ru: "PDF · {pages} страниц · ставки, расчёт, планы", en: "PDF · {pages} pages · rates, calculation, plans" },
+  // OWNER «2-DAY FINISH» + «FINAL 2-DAY DELIVERY MANDATE» (2026-11-14): every button that opens the PDF names it the same way
+  offerCta: { ro: "Descarcă prezentarea comercială", ru: "Скачать коммерческую презентацию", en: "Download the commercial presentation" },
+  offerMeta: { ro: "PDF · {pages} pagini · tarife, condiții, planuri", ru: "PDF · {pages} страниц · ставки, условия, планы", en: "PDF · {pages} pages · rates, terms, plans" },
   /** where no accepted PDF exists (the production edition before the OWNER GO): the action leads to the direct contact — never a dead link */
   offerContactMeta: { ro: "prin contact direct cu MEGAPARC", ru: `через прямой контакт с${N}MEGAPARC`, en: "through direct contact with MEGAPARC" },
   candidate: { ro: "Proiect pentru aprobarea OWNER", ru: "Проект на согласование OWNER", en: "Draft for OWNER approval" },

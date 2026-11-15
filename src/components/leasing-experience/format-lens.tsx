@@ -4,7 +4,7 @@ import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene"
 import { Icon } from "@/components/ui";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { company, contactLinks } from "@/data/demo-content";
-import { consultHref, producerBlock } from "@/data/producer-retail";
+import { calculatorHref, producerBlock } from "@/data/producer-retail";
 import Link from "next/link";
 import { publishable, type LeasingExperience, type LensFormat, type LensRef } from "@/data/leasing-experience-model";
 import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-data";
@@ -36,7 +36,7 @@ const target: Record<LensRef, { href: string; drawer?: string }> = {
 /** the approximate height of a level, one decimal in the visitor's locale (≈ 3,0 · 3.0) — read from the unit record */
 const height = (value: number | undefined, locale: SiteLocale) => (value ? value.toLocaleString(locale === "en" ? "en-GB" : locale === "ru" ? "ru-RU" : "ro-RO", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "—");
 
-function Pane({ x, format, locale, offer, name }: { x: LeasingExperience; format: LensFormat; locale: SiteLocale; offer: TemplateOffer; name: string }) {
+function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: LensFormat; locale: SiteLocale; offer: TemplateOffer }) {
   const l = x.lens;
   const o = format.overlay;
   const photo = o ? x.photos[o.photo] : undefined;
@@ -94,11 +94,11 @@ function Pane({ x, format, locale, offer, name }: { x: LeasingExperience; format
       <div className="lg-lens__ask">
         <p className="lg-lens__question">{format.question[locale]}</p>
         <a className="btn" href="#viewing" data-intent="viewing" data-format={format.label[locale]}><span>{x.cta || !offer.open ? offer.primary : ui.viewingPersonal[locale]}</span><Icon /></a>
-        {/* OWNER R10 §05: the economics conversation — the real e-mail channel with the context in the subject; no form, nothing «sent» */}
+        {/* OWNER R10 §05 + «P1 FINAL HOTFIX» (2026-11-15): the economics action opens the calculator v2.1 of the page's language */}
         {format.consult ? (
           <div className="r10-consult">
-            <a className="btn btn--ghost r10-consult__btn" href={consultHref(locale, name)} data-intent="producer-store"><span>{format.consult.label[locale]}</span><Icon name="up-right" /></a>
-            <p className="r10-consult__note">{format.consult.note[locale]} <a href={contactLinks.mobile}>{company.mobile.value[locale]}</a> · <a href={contactLinks.landline}>{company.landline.value[locale]}</a></p>
+            <Link className="btn btn--ghost r10-consult__btn" href={calculatorHref(locale)} data-intent="producer-store"><span>{format.consult.label[locale]}</span><Icon name="up-right" /></Link>
+            <p className="r10-consult__note">{format.consult.note[locale]} <a href={contactLinks.mobile}>{company.mobile.value[locale]}</a>{" ·"} <a href={contactLinks.landline}>{company.landline.value[locale]}</a></p>
             {/* the CFO-model prototype is OWNER preview only until its methodology is verified (R10 §04) */}
             {isProductionEdition ? null : <Link className="r10-consult__proto" href={`${localePath(locale, "/producer-economics")}/`}>{producerBlock.prototype[locale]}</Link>}
           </div>
@@ -164,7 +164,7 @@ const pickHint: Record<SiteLocale, string> = {
   en: "Choose a format — the scenario below updates.",
 };
 
-export function FormatLens({ x, offer, locale, name }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale; name: string }) {
+export function FormatLens({ x, offer, locale }: { x: LeasingExperience; offer: TemplateOffer; locale: SiteLocale }) {
   const l = x.lens;
   return (
     <section id="format" className="lg-sec lg-sec--white lg-lens" aria-labelledby="lg-format-title">
@@ -174,7 +174,7 @@ export function FormatLens({ x, offer, locale, name }: { x: LeasingExperience; o
           label={l.title[locale]}
           hint={pickHint[locale]}
           formats={l.formats.map((format, i) => ({ key: format.key, no: String(i + 1).padStart(2, "0"), label: format.label[locale] }))}
-          panes={l.formats.map((format) => <Pane key={format.key} x={x} format={format} locale={locale} offer={offer} name={name} />)}
+          panes={l.formats.map((format) => <Pane key={format.key} x={x} format={format} locale={locale} offer={offer} />)}
         />
         {/* the closing statement lives in each format; a dataset without per-format closings keeps the section line */}
         <div className="lg-lens__foot" data-reveal>
