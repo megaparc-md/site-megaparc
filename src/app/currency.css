@@ -1,0 +1,23 @@
+/* The calculators' compact currency switch (OWNER «CALCULATOR CURRENCY R1», 2026-11-15) — the segmented look of the VAT switch
+   (producer-v21.css .pe21-vat__seg), the site's own tokens with fallbacks so it sits the same on the producer page (--r8-*) and the
+   leasing page (--r3-*). Nothing else of the calculators changes. */
+.cur-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem 1.6rem; margin: 1rem 0 0; }
+.cur-bar__switch { display: inline-flex; align-items: center; gap: .7rem; }
+.cur-bar__label, .cur-bar__ratelabel { color: var(--r8-ink, var(--r3-ink, #121316)); font-size: .86rem; font-weight: 600; }
+.cur-bar__seg { display: inline-flex; border: 1px solid rgba(18, 19, 22, .22); border-radius: var(--r8-radius, 2px); background: #fff; overflow: hidden; }
+.cur-bar__seg button { min-height: 2.6rem; min-width: 3.4rem; padding: 0 .95rem; border: 0; background: transparent; color: var(--r8-text, var(--r3-text, #3a3c40)); font: inherit; font-size: .9rem; font-weight: 600; letter-spacing: .02em; cursor: pointer; }
+.cur-bar__seg button + button { border-left: 1px solid rgba(18, 19, 22, .16); }
+.cur-bar__seg button.is-on { background: var(--r8-graphite, #23252a); color: #fff; }
+.cur-bar__seg button:focus-visible, .cur-bar__restore:focus-visible { outline: 2px solid var(--r8-burgundy, #74202f); outline-offset: -2px; }
+.cur-bar__rate { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; }
+.cur-bar__ratefield { display: inline-flex; align-items: center; gap: .4rem; color: var(--r8-text, var(--r3-text, #3a3c40)); font-size: .88rem; font-variant-numeric: tabular-nums; }
+.cur-bar__input { width: 6.2rem; min-height: 2.6rem; padding: 0 .6rem; border: 1px solid rgba(18, 19, 22, .22); border-radius: var(--r8-radius, 2px); background: #fff; color: var(--r8-ink, var(--r3-ink, #121316)); font: inherit; font-size: .9rem; font-variant-numeric: tabular-nums; text-align: right; }
+.cur-bar__input:focus-visible { outline: 2px solid var(--r8-burgundy, #74202f); outline-offset: 1px; }
+.cur-bar__src { color: var(--r8-muted, var(--r3-muted, #6b6e74)); font-size: .78rem; line-height: 1.45; }
+.cur-bar__restore { padding: 0; border: 0; border-bottom: 1px solid currentColor; background: none; color: var(--r8-burgundy, #74202f); font: inherit; cursor: pointer; }
+.cur-bar__note { flex-basis: 100%; margin: 0; color: var(--r8-muted, var(--r3-muted, #6b6e74)); font-size: .76rem; line-height: 1.45; }
+@media (max-width: 699px) {
+  .cur-bar { gap: .6rem 1rem; }
+  .cur-bar__switch, .cur-bar__rate { width: 100%; }
+  .cur-bar__seg button { min-height: 2.75rem; }
+}

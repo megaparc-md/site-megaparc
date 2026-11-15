@@ -7,6 +7,9 @@ import type { EconomicsHandoff } from "@/components/leasing-experience/viewing-f
 import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { NumberInput, numberOf, type NumberFormat } from "@/components/number-input";
 import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
+import { CurrencyBar, currencyCopy, officialRate } from "@/components/currency-bar";
+import { nbmRate } from "@/data/nbm-rate";
+import { amountIn, convert, rateOf, shown, type Currency } from "@/lib/currency";
 
 /**
  * «ПРОВЕРИТЬ ЭКОНОМИКУ ТОЧКИ» — a reverse calculation, never a profit forecast (OWNER addendum "TENANT ECONOMICS &
@@ -37,8 +40,10 @@ const amount = (s: string) => numberOf(s);
 const pct = (s: string) => { const n = numberOf(s); return n !== null && n <= 100 ? n : null; };
 const fixedKeys = ["rent", "opex", "payroll", "utilities", "marketing", "other"] as const;
 type Key = "ticket" | "revenue" | "margin" | "conversion" | "days" | (typeof fixedKeys)[number] | "capex";
+/** the money fields (OWNER «CALCULATOR CURRENCY R1»): converted by the currency switch; margin, conversion and days never are */
+const MONEY = new Set<Key>(["ticket", "revenue", "rent", "opex", "payroll", "utilities", "marketing", "other", "capex"]);
 
-export function EconomicsTool({ locale, property, example, rates, traffic, visitLabel, precheck = false }: { locale: SiteLocale; property: string; example: Example; rates: number[]; traffic: TrafficSummary; /** the status of the unit decides the visit action (a RESERVED unit → the waitlist) */ visitLabel?: string; /** the property page carries the technical pre-check drawer (Digital Leasing Toolkit — Moscova 20 only) */ precheck?: boolean }) {
+export function EconomicsTool({ locale, property, example, rates, traffic, visitLabel, precheck = false, currencySwitch = false }: { locale: SiteLocale; property: string; example: Example; rates: number[]; traffic: TrafficSummary; /** the status of the unit decides the visit action (a RESERVED unit → the waitlist) */ visitLabel?: string; /** the property page carries the technical pre-check drawer (Digital Leasing Toolkit — Moscova 20 only) */ precheck?: boolean; /** the MDL / EUR switch (OWNER «CALCULATOR CURRENCY R1» — Moscova 20 only) */ currencySwitch?: boolean }) {
   const t = economicsCopy[locale];
   const uid = useId();
   const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
@@ -51,36 +56,51 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
   const [compare, setCompare] = useState(false);
   const [advOpen, setAdvOpen] = useState(false);
   const p = t.presets[preset];
+  // currency (OWNER «CALCULATOR CURRENCY R1»): the model computes in MDL; each money field keeps the value as typed and its currency
+  // (src/lib/currency.ts) — switching only re-expresses, MDL → EUR → MDL never drifts; default MDL; without the switch everything is MDL
+  const [currency, setCurrency] = useState<Currency>("MDL");
+  const [rateText, setRateText] = useState(officialRate);
+  const [cur, setCur] = useState<Partial<Record<Key, Currency>>>({});
+  const rate = rateOf(rateText) ?? nbmRate.eurMdl;
+  const curOf = (k: Key): Currency => cur[k] ?? "MDL";
+  const toDisplay = (x: number) => convert(x, "MDL", currency, rate);
+  const unit = (text: string) => (currency === "MDL" ? text : text.replace("MDL", "EUR"));
 
   const update = (key: Key) => (next: string) => {
     setV((old) => ({ ...old, [key]: next }));
+    if (MONEY.has(key)) setCur((old) => ({ ...old, [key]: currency }));
     setIsExample(false);
   };
   const loadExample = () => {
     // canonical digits — the field shows them grouped in the visitor's locale (1 200 000 · 1,200,000)
     // one coherent scenario: the example replaces the quick inputs and empties the advanced ones (no stale margin, costs or CAPEX)
     setV({ ...blank(), ticket: String(example.ticket), revenue: String(example.revenue), conversion: String(example.conversion), days: String(example.days) });
+    setCur({}); // the example is in MDL
     setIsExample(true);
     setCompare(false);
   };
   const reset = () => {
     // «Сбросить сценарий» — nothing survives: inputs (quick + advanced), format, example flag, comparison, disclosure
     setV(blank());
+    setCur({});
+    setCurrency("MDL");
+    setRateText(officialRate);
     setPreset("retail");
     setIsExample(false);
     setCompare(false);
     setAdvOpen(false);
   };
 
+  const mdl = (key: Key) => { const x = amountIn({ v: v[key], c: curOf(key) }, "MDL", rate); return x !== null && x > 0 ? x : null; };
   const r = calcEconomics(
     {
-      ticket: amount(v.ticket),
-      revenue: amount(v.revenue),
+      ticket: mdl("ticket"),
+      revenue: mdl("revenue"),
       margin: pct(v.margin),
       conversion: pct(v.conversion),
       days: amount(v.days) ?? example.days,
-      fixed: fixedKeys.map((key) => amount(v[key])),
-      capex: amount(v.capex),
+      fixed: fixedKeys.map((key) => mdl(key)),
+      capex: mdl("capex"),
     },
     rates,
   );
@@ -88,13 +108,13 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
   const days = amount(v.days) ?? example.days;
 
   const handoff = (event: MouseEvent<HTMLButtonElement>) => {
-    const revenue = amount(v.revenue);
-    const ticket = amount(v.ticket);
+    const revenue = mdl("revenue") !== null ? toDisplay(mdl("revenue") as number) : null;
+    const ticket = mdl("ticket") !== null ? toDisplay(mdl("ticket") as number) : null;
     const detail: EconomicsHandoff = {
       business: p.label,
       lines: [
-        ...(revenue ? [{ label: t.lines.revenue, value: `${f(revenue)} ${t.units.mdl}` }] : []),
-        ...(ticket ? [{ label: t.lines.ticket, value: `${f(ticket)} ${t.units.mdl}` }] : []),
+        ...(revenue ? [{ label: t.lines.revenue, value: `${f(revenue)} ${unit(t.units.mdl)}` }] : []),
+        ...(ticket ? [{ label: t.lines.ticket, value: `${f(ticket)} ${unit(t.units.mdl)}` }] : []),
         ...(conversion ? [{ label: t.lines.conversion, value: `${conversion} ${t.units.pct}` }] : []),
         ...(r.visitors ? [{ label: t.lines.visitors, value: `${t.approx} ${f(r.visitors)} · ${p.focal(r.visitors)}` }] : []),
       ],
@@ -105,16 +125,25 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
     window.requestAnimationFrame(() => document.getElementById("lg-form")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }));
   };
 
-  const field = (key: Key, label: string, unit: string, hint?: string) => (
-    <div className="lg-calc__field">
-      <label className="lg-calc__label" htmlFor={`${uid}-${key}`}>{label}</label>
-      <span className="lg-calc__control">
-        <NumberInput className="lg-calc__input" id={`${uid}-${key}`} value={v[key]} onValueChange={update(key)} locale={locale} format={key === "margin" || key === "conversion" ? percent : key === "days" ? wholeDays : money} describedBy={hint ? `${uid}-${key}-hint` : undefined} />
-        <span className="lg-calc__unit" aria-hidden="true">{unit}</span>
-      </span>
-      {hint ? <span className="lg-calc__hint" id={`${uid}-${key}-hint`}>{hint}</span> : null}
-    </div>
-  );
+  // a value typed in the other currency stays in it: the hint names the original
+  const typedAs = (key: Key) => {
+    if (!MONEY.has(key) || curOf(key) === currency || !v[key]) return null;
+    const x = Number(v[key]);
+    return currencyCopy[locale].typed(`${nf.format(Math.round(x))}\u00a0${curOf(key)}`);
+  };
+  const field = (key: Key, label: string, unitText: string, hint0?: string) => {
+    const hint = [hint0, typedAs(key)].filter(Boolean).join(" · ") || undefined;
+    return (
+      <div className="lg-calc__field">
+        <label className="lg-calc__label" htmlFor={`${uid}-${key}`}>{label}</label>
+        <span className="lg-calc__control">
+          <NumberInput className="lg-calc__input" id={`${uid}-${key}`} value={MONEY.has(key) ? shown({ v: v[key], c: curOf(key) }, currency, rate) : v[key]} onValueChange={update(key)} locale={locale} format={key === "margin" || key === "conversion" ? percent : key === "days" ? wholeDays : money} describedBy={hint ? `${uid}-${key}-hint` : undefined} />
+          <span className="lg-calc__unit" aria-hidden="true">{MONEY.has(key) ? unit(unitText) : unitText}</span>
+        </span>
+        {hint ? <span className="lg-calc__hint" id={`${uid}-${key}-hint`}>{hint}</span> : null}
+      </div>
+    );
+  };
 
   return (
     <div className="lg-calc">
@@ -136,6 +165,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
           <button type="button" className="lg-calc__link is-quiet" onClick={reset}>{t.clear}</button>
         </div>
       </div>
+      {currencySwitch ? <CurrencyBar locale={locale} currency={currency} onCurrency={setCurrency} rate={rateText} onRate={setRateText} className="is-lg" /> : null}
       {isExample ? <p className="lg-calc__example">{t.exampleNote.replace("Moscova 20", property)}</p> : null}
 
       {/* LEVEL 1 — quick check */}
@@ -241,7 +271,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
             <dl className="lg-calc__advout">
               <div>
                 <dt>{t.advOut.beRevenue}</dt>
-                <dd>{r.beRevenue ? f(r.beRevenue) : "—"}<span>{t.units.mdlMonth}</span></dd>
+                <dd>{r.beRevenue ? f(toDisplay(r.beRevenue)) : "—"}<span>{unit(t.units.mdlMonth)}</span></dd>
               </div>
               <div>
                 <dt>{t.advOut.beVisitors}</dt>
@@ -249,7 +279,7 @@ export function EconomicsTool({ locale, property, example, rates, traffic, visit
               </div>
               <div>
                 <dt>{t.advOut.result}</dt>
-                <dd className={r.result !== null && r.result < 0 ? "is-negative" : undefined}>{r.result !== null ? `${r.result < 0 ? "−" : ""}${f(Math.abs(r.result))}` : "—"}<span>{t.units.mdlMonth}</span></dd>
+                <dd className={r.result !== null && r.result < 0 ? "is-negative" : undefined}>{r.result !== null ? `${r.result < 0 ? "−" : ""}${f(Math.abs(toDisplay(r.result)))}` : "—"}<span>{unit(t.units.mdlMonth)}</span></dd>
               </div>
               <div>
                 <dt>{t.advOut.payback}</dt>

@@ -4,6 +4,9 @@ import { useId, useMemo, useState } from "react";
 import { NumberInput, type NumberFormat } from "@/components/number-input";
 import { calcV21, EMPTY_V21, EXAMPLE_V21, scenarioOf, SCENARIOS_V21, type ProducerInputsV21, type VatMode } from "@/lib/producer-economics-v21";
 import type { SiteLocale } from "@/lib/site-data";
+import { CurrencyBar, currencyCopy, currencyReportLines, officialRate } from "@/components/currency-bar";
+import { nbmRate } from "@/data/nbm-rate";
+import { amountIn, convert, rateOf, shown, type Currency } from "@/lib/currency";
 import "@/app/producer-v21.css";
 
 /**
@@ -178,6 +181,8 @@ const copy = {
 } as const;
 
 const KEYS = Object.keys(EMPTY_V21).filter((k) => k !== "vatMode") as NumKey[];
+/** the money fields (OWNER «CALCULATOR CURRENCY R1»): converted by the currency switch; counts, percentages, days and months never are */
+const MONEY = new Set<NumKey>(["listPrice", "unitCost", "chainFees", "shelfPrice", "averageCheck", "rent", "utilities", "staff", "marketing", "otherCosts", "storeDelivery", "capex"]);
 const toStrings = (i: ProducerInputsV21) => Object.fromEntries(KEYS.map((k) => [k, i[k] === null ? "" : String(i[k])])) as Record<NumKey, string>;
 
 // mailto: the OWNER-confirmed address, passed by the server page — this is a client module, and importing @/data/demo-content here
@@ -188,20 +193,32 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
   const [v, setV] = useState<Record<NumKey, string>>(() => toStrings(EMPTY_V21));
   const [vatMode, setVatMode] = useState<VatMode>("gross");
   const [isExample, setIsExample] = useState(false);
+  // currency (OWNER «CALCULATOR CURRENCY R1»): the model computes in EUR; every money field keeps the value as typed and the currency it
+  // was typed in (src/lib/currency.ts) — the switch only re-expresses, so MDL → EUR → MDL never drifts; default EUR
+  const [currency, setCurrency] = useState<Currency>("EUR");
+  const [rateText, setRateText] = useState(officialRate);
+  const [cur, setCur] = useState<Partial<Record<NumKey, Currency>>>({});
+  const rate = rateOf(rateText) ?? nbmRate.eurMdl;
+  const rateIsOfficial = rateOf(rateText) === nbmRate.eurMdl;
+  const curOf = (k: NumKey): Currency => cur[k] ?? "EUR";
+  const toDisplay = (x: number) => convert(x, "EUR", currency, rate);
+  /** a label written with «€» / «euro» in the display currency */
+  const uc = (text: string) => (currency === "EUR" ? text : text.replace(/€/g, "MDL").replace("в евро", "в MDL").replace("în euro", "în MDL").replace("in euros", "in MDL"));
   const tag = locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB";
   const nf0 = useMemo(() => new Intl.NumberFormat(tag, { maximumFractionDigits: 0 }), [tag]);
   const nf1 = useMemo(() => new Intl.NumberFormat(tag, { maximumFractionDigits: 1, minimumFractionDigits: 1 }), [tag]);
   const nf2 = useMemo(() => new Intl.NumberFormat(tag, { maximumFractionDigits: 2, minimumFractionDigits: 2 }), [tag]);
   // RU / RO group with a no-break space (Intl's ro-RO would print a dot)
   const grouped = (s: string) => (locale === "en" ? s : s.replace(/[\s. ](?=\d{3}(\D|$))/g, " "));
-  const eur = (x: number | null, sign = false) => {
-    if (x === null) return "—";
+  const eur = (x0: number | null, sign = false) => {
+    if (x0 === null) return "—";
+    const x = toDisplay(x0);
     const s = x < 0 ? "−" : sign && x > 0 ? "+" : "";
     const n = grouped(nf0.format(Math.round(Math.abs(x))));
-    return locale === "en" ? `${s}€${n}` : `${s}${n} €`;
+    return currency === "MDL" ? `${s}${n} MDL` : locale === "en" ? `${s}€${n}` : `${s}${n} €`;
   };
   // the unit never leaves its figure: «€» and «мес.» / «luni» / «months» are joined with a no-break space
-  const eurCents = (x: number) => (locale === "en" ? `€${nf2.format(x)}` : `${grouped(nf2.format(x))} €`);
+  const eurCents = (x0: number) => { const x = toDisplay(x0); return currency === "MDL" ? `${grouped(nf2.format(x))} MDL` : locale === "en" ? `€${nf2.format(x)}` : `${grouped(nf2.format(x))} €`; };
   const one = (x: number | null) => (x === null ? "—" : grouped(nf1.format(x)));
   const months = (x: number | null, positive: boolean) => (!positive ? t.noPayback : x === null ? t.never : x > 60 ? t.over60 : t.months(nf1.format(x)).replace(/ /g, " "));
 
@@ -213,12 +230,17 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
   // zero is a statement here (0 % cannibalisation = every sale is new, no deposit, zero sales): the shared numberOf() reads 0 as «not
   // stated» for the Moscova 20 calculators, so this calculator reads the canonical value itself — an empty field stays «not stated»
   const valueOf = (canonical: string) => { if (!canonical || canonical === ".") return null; const n = Number(canonical); return Number.isFinite(n) && n >= 0 ? n : null; };
-  const inputs: ProducerInputsV21 = { ...EMPTY_V21, ...Object.fromEntries(KEYS.map((k) => [k, valueOf(v[k])])), vatMode };
+  const moneyOf = (k: NumKey) => { const x = amountIn({ v: v[k], c: curOf(k) }, "EUR", rate); return x !== null && x >= 0 ? x : null; };
+  const inputs: ProducerInputsV21 = { ...EMPTY_V21, ...Object.fromEntries(KEYS.map((k) => [k, MONEY.has(k) ? moneyOf(k) : valueOf(v[k])])), vatMode };
   for (const k of ["discounts", "bonuses", "chainLogistics", "acquiring", "losses", "cannibalisation", "vatRate"] as NumKey[]) if ((inputs[k] ?? 0) > 100) inputs[k] = null;
   const r = calcV21(inputs);
   const sc = SCENARIOS_V21.map((s) => ({ s, res: calcV21(scenarioOf(inputs, s)), i: scenarioOf(inputs, s) }));
 
-  const update = (key: NumKey) => (next: string) => { setV((old) => ({ ...old, [key]: next })); setIsExample(false); };
+  const update = (key: NumKey) => (next: string) => {
+    setV((old) => ({ ...old, [key]: next }));
+    if (MONEY.has(key)) setCur((old) => ({ ...old, [key]: currency }));
+    setIsExample(false);
+  };
   const fields: Field[][] = [
     [
       { key: "chainUnits", unit: t.u.unitsMonth, format: units }, { key: "listPrice", unit: t.u.eurUnit, format: money }, { key: "unitCost", unit: t.u.eurUnit, format: money },
@@ -245,16 +267,23 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
     const x = inputs[key];
     return typeof x === "number" ? t.vat.netOf(eurCents(x / (1 + vatRate / 100))) : null;
   };
+  // a value typed in the other currency stays in it (a contractual rent in euros keeps its euros): the hint names the original
+  const typedAs = (key: NumKey) => {
+    if (!MONEY.has(key) || curOf(key) === currency || !v[key]) return null;
+    const x = Number(v[key]);
+    const text = curOf(key) === "EUR" ? (locale === "en" ? `€${nf2.format(x)}` : `${grouped(nf2.format(x))} €`) : `${grouped(nf2.format(x))} MDL`;
+    return currencyCopy[locale].typed(text);
+  };
   const field = (f: Field) => (
     <div className="pe-field" key={f.key}>
       <label className="pe-field__label" htmlFor={`${uid}-${f.key}`}>{t.f[f.key][0]}</label>
       <span className="pe-field__control">
-        <NumberInput className="pe-field__input" id={`${uid}-${f.key}`} value={v[f.key]} onValueChange={update(f.key)} locale={locale} format={f.format} describedBy={`${uid}-${f.key}-hint`} />
-        <span className="pe-field__unit" aria-hidden="true">{f.unit}</span>
+        <NumberInput className="pe-field__input" id={`${uid}-${f.key}`} value={MONEY.has(f.key) ? shown({ v: v[f.key], c: curOf(f.key) }, currency, rate) : v[f.key]} onValueChange={update(f.key)} locale={locale} format={f.format} describedBy={`${uid}-${f.key}-hint`} />
+        <span className="pe-field__unit" aria-hidden="true">{uc(f.unit)}</span>
       </span>
-      <span className="pe-field__hint" id={`${uid}-${f.key}-hint`}>{[t.f[f.key][1], f.key === "shelfPrice" || f.key === "averageCheck" ? netHint(f.key) : null].filter(Boolean).join(" · ")}</span>
+      <span className="pe-field__hint" id={`${uid}-${f.key}-hint`}>{[t.f[f.key][1], f.key === "shelfPrice" || f.key === "averageCheck" ? netHint(f.key) : null, typedAs(f.key)].filter(Boolean).join(" · ")}</span>
       {f.key === "rent" ? (
-        <button type="button" className="pe-link" onClick={() => { setV((old) => ({ ...old, rent: String(m20.rent), depositMonths: String(m20.depositMonths), utilitiesFee: String(m20.feePercent) })); setIsExample(false); }}>{t.m20}</button>
+        <button type="button" className="pe-link" onClick={() => { setV((old) => ({ ...old, rent: String(m20.rent), depositMonths: String(m20.depositMonths), utilitiesFee: String(m20.feePercent) })); setCur((old) => ({ ...old, rent: "EUR" })); setIsExample(false); }}>{t.m20}</button>
       ) : null}
     </div>
   );
@@ -273,7 +302,7 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
   const cc = cb?.cash ?? null, sc0 = so?.cash ?? null;
   const verdict = !blocked && cb && st ? (cb.increment > 0
     ? t.verdict.plus(eur(cb.increment), months(cc?.paybackInvestment ?? null, true), months(cc?.paybackAll ?? null, true))
-    : cb.breakEvenBuyers !== null && plan !== null ? t.verdict.minus(one(cb.breakEvenBuyers), one(plan)) : t.verdict.minusNever) : null;
+    : cb.breakEvenBuyers !== null && plan !== null ? t.verdict.minus(one(cb.breakEvenBuyers), one(plan)) : uc(t.verdict.minusNever)) : null;
   // the money rows: the peak is meaningless when the money never comes back; the discounted payback needs the rate
   const peakText = (c: typeof cc) => (c === null ? null : c.peakFunding === null ? t.peakNever : eur(c.peakFunding));
   const discText = (c: typeof cc, positive: boolean) => (c === null ? null : inputs.costOfMoney === null ? t.noRate : months(c.paybackDiscounted, positive));
@@ -290,7 +319,7 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
     const three = (a: string, b: string, c: string) => `${t.cols[0]} ${a} · ${t.cols[1]} ${b} · ${t.cols[2]} ${c}`;
     const two = (b: string, c: string) => `${t.cols[1]} ${b} · ${t.cols[2]} ${c}`;
     const be = (x: number | null, unit: string, f: (n: number) => string) => (x !== null ? `${f(x)} ${unit}` : t.noBreakEven);
-    const L: string[] = [t.title, `${t.send.source} · ${t.send.date} ${today}`, pageUrl, t.send.intro, "", t.send.results];
+    const L: string[] = [t.title, `${t.send.source} · ${t.send.date} ${today}`, pageUrl, t.send.intro, ...currencyReportLines(locale, currency, rate, rateIsOfficial), "", uc(t.send.results)];
     L.push(`${t.rows.revenue}, ${t.perMonth}: ${three(eur(ch.revenue), eur(st.revenue), eur(cb.revenue))}`);
     L.push(`${t.rows.contribution}, ${t.perMonth}: ${three(eur(ch.contribution), eur(st.contribution), eur(cb.company))}`);
     L.push(`${t.rows.change}, ${t.perMonth}: ${two(so ? eur(so.change, true) : "—", eur(cb.increment, true))}`);
@@ -312,9 +341,9 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
     L.push("", t.send.inputs, `${t.vat.label}: ${t.vat[vatMode]}`);
     fields.forEach((group, g) => {
       const filled = group.filter((f) => inputs[f.key] !== null);
-      if (filled.length) L.push(`${t.groups[g]}:`, ...filled.map((f) => `- ${t.f[f.key][0]}: ${grouped(nfIn.format(inputs[f.key] as number))} ${f.unit}`));
+      if (filled.length) L.push(`${t.groups[g]}:`, ...filled.map((f) => `- ${t.f[f.key][0]}: ${grouped(nfIn.format(MONEY.has(f.key) ? toDisplay(inputs[f.key] as number) : (inputs[f.key] as number)))} ${uc(f.unit)}`));
     });
-    L.push("", t.send.notes, ...[t.principle, ...t.foot, ...(isExample ? [t.exampleNote] : [])].map((x) => `- ${x}`));
+    L.push("", t.send.notes, ...[t.principle, ...t.foot.map(uc), ...(isExample ? [t.exampleNote] : [])].map((x) => `- ${x}`));
     return L.join("\n");
   })() : null;
   // mailto: a real link the visitor taps (no script, no pop-up — nothing Safari can block); the OWNER-confirmed address, which the
@@ -351,9 +380,10 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
       </header>
 
       <div className="pe__tools">
-        <button type="button" className="pe-link is-strong" onClick={() => { setV(toStrings(EXAMPLE_V21)); setVatMode(EXAMPLE_V21.vatMode); setIsExample(true); }}>{t.example}</button>
-        <button type="button" className="pe-link" onClick={() => { setV(toStrings(EMPTY_V21)); setVatMode("gross"); setIsExample(false); }}>{t.reset}</button>
+        <button type="button" className="pe-link is-strong" onClick={() => { setV(toStrings(EXAMPLE_V21)); setCur({}); setVatMode(EXAMPLE_V21.vatMode); setIsExample(true); }}>{t.example}</button>
+        <button type="button" className="pe-link" onClick={() => { setV(toStrings(EMPTY_V21)); setCur({}); setCurrency("EUR"); setRateText(officialRate); setVatMode("gross"); setIsExample(false); }}>{t.reset}</button>
       </div>
+      <CurrencyBar locale={locale} currency={currency} onCurrency={setCurrency} rate={rateText} onRate={setRateText} />
       {isExample ? <p className="pe__example">{t.exampleNote}</p> : null}
 
       <div className="pe__body">
@@ -468,7 +498,7 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
       </div>
 
       <footer className="pe__foot">
-        {t.foot.map((line) => <p key={line}>{line}</p>)}
+        {t.foot.map((line) => <p key={line}>{uc(line)}</p>)}
       </footer>
     </div>
   );

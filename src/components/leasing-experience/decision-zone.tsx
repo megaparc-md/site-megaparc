@@ -52,7 +52,7 @@ export function DecisionSheet({ x, offer, project, locale }: { x: LeasingExperie
         }
       : null;
     // the pre-check link only where the page has the pre-check drawer (the Digital Leasing Toolkit property)
-    return <EconomicsTool locale={locale} property={project.name} example={economicsExample} rates={sensitivityRates} traffic={summary} visitLabel={visitLabel} precheck={x.project === m20Toolkit.project} />;
+    return <EconomicsTool locale={locale} property={project.name} example={economicsExample} rates={sensitivityRates} traffic={summary} visitLabel={visitLabel} precheck={x.project === m20Toolkit.project} currencySwitch={x.project === m20Toolkit.project} />;
   }
   if (x.decision.kind === "office") return <OfficeTool locale={locale} property={project.name} example={officeExample} visitLabel={visitLabel} />;
   return (
