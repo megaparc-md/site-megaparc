@@ -13,9 +13,12 @@
  *   · PEAK FUNDING = the deepest point of the cumulative cash (the external financing the plan needs);
  *   · PAYBACK of all start money = the month the cumulative cash returns to zero;
  *   · the COST OF MONEY is the company's annual cost of capital (a loan rate or the return it requires — one rate; no loan is modelled).
- *     It never touches the operating contribution. It prices the money tied in receivables, stock and deposit (a monthly figure for
- *     information, never subtracted from anything) and discounts the monthly cash for the payback «with the cost of money». The two are
- *     never added together.
+ *     It never touches the operating contribution. As ONE effective monthly rate, (1 + r)^(1/12) − 1, it prices the money tied in
+ *     receivables, stock and deposit (a monthly figure for information, never subtracted from anything) and discounts the monthly cash
+ *     for the payback «with the cost of money». The two are never added together.
+ *   · the release of the receivable is read from the monthly schedule: it is complete at the end of the month in which the running
+ *     sum of its monthly part reaches the full amount (the store's ramp-up delays it as much as the payment term does);
+ *   · a steady month of exactly zero keeps a finite funding need and has no payback; only a negative steady month makes the need grow.
  * The combined channel (chains + store) nets the chain volume the store takes away out of the chain's revenue and contribution; a store
  * that would take more units than the chains sell is an IMPOSSIBLE scenario — no result, no payback.
  * An empty field is «not stated»: an answer exists only with its own data.
@@ -63,6 +66,11 @@ export type ProducerInputsV21 = {
 };
 
 const isSet = (x: number | null | undefined): x is number => typeof x === "number" && Number.isFinite(x);
+/** the annual cost of money as its effective monthly rate — the one rate of the model: it discounts the cash and prices the tied money */
+export const monthlyRate = (annualPct: number) => (1 + annualPct / 100) ** (1 / 12) - 1;
+/** a steady month within half a cent of zero is zero (the cash then neither returns nor grows the need) */
+const CENT = 0.005;
+const trendOf = (steady: number): "positive" | "zero" | "negative" => (steady > CENT ? "positive" : steady < -CENT ? "negative" : "zero");
 const orZero = (x: number | null | undefined) => (isSet(x) ? x : 0);
 const pct = (x: number) => x / 100;
 
@@ -81,22 +89,27 @@ export type StoreChannel = {
 export type CashPlan = {
   /** CAPEX + preparation + deposit + initial stock — the money needed on the opening day */
   startCash: number;
-  /** the deepest point of the cumulative cash, start included — the financing the plan needs (≥ startCash); null when the steady
-   *  month adds nothing: the cash then falls without limit and no figure describes the need */
+  /** the steady month of the scenario: «positive» returns the money, «zero» holds it (finite need, no payback), «negative» keeps
+   *  taking money for as long as the plan runs */
+  trend: "positive" | "zero" | "negative";
+  /** the deepest point of the cumulative cash, start included — the financing the plan needs (≥ startCash); null only when the steady
+   *  month is negative: the need then keeps growing over the horizon and no single figure describes it */
   peakFunding: number | null;
   /** the month of the deepest point (0 = the opening day); null with peakFunding */
   peakMonth: number | null;
   /** the receivable the chains still pay after opening for deliveries before the change, over the first D days */
   released: number;
-  /** months over which that money arrives (D / month) */
-  releaseMonths: number;
+  /** the month by whose end the cash flow has brought the whole released receivable — read from the monthly schedule itself (the
+   *  store's ramp-up and the payment delay both shape it); null when there is nothing to release or it is not complete within 120 months */
+  releaseFullMonth: number | null;
   /** payback of CAPEX + preparation from the operating increment; null = not within 10 years */
   paybackInvestment: number | null;
   /** payback of all start money from the cumulative cash; null = not within 10 years */
   paybackAll: number | null;
   /** the same with the monthly cash discounted at the cost of money; null = not within 10 years or no rate stated */
   paybackDiscounted: number | null;
-  /** the monthly cost of the money tied in receivables, stock and deposit in the steady month — information, never subtracted */
+  /** the monthly cost of the money tied in receivables, stock and deposit in the steady month, at the same effective monthly rate the
+   *  discounting uses — information, never subtracted */
   tiedCost: number | null;
   /** the incremental cash of months 1 … 120 after opening (the start is month 0) */
   monthly: number[];
@@ -130,7 +143,7 @@ function chainOf(i: ProducerInputsV21): ChainChannel | null {
     breakEvenUnits: unitContribution > 0 ? fees / unitContribution : null,
     receivables,
     marginPct: revenue > 0 ? (contribution / revenue) * 100 : null,
-    tiedCost: receivables !== null && isSet(i.costOfMoney) ? (receivables * pct(i.costOfMoney)) / 12 : null,
+    tiedCost: receivables !== null && isSet(i.costOfMoney) ? receivables * monthlyRate(i.costOfMoney) : null,
   };
 }
 
@@ -213,8 +226,7 @@ function peakOf(start: number, monthly: number[]): { peak: number; month: number
   return { peak, month };
 }
 
-/** the annual cost of money as a monthly compounding rate */
-const monthlyRate = (annualPct: number) => (1 + pct(annualPct)) ** (1 / 12) - 1;
+
 
 /** kept for the callers of v2.1: the fractional month in which a cumulative monthly stream covers `amount`; null if not within ten years */
 export function paybackMonths(amount: number, monthly: (month: number) => number): number | null {
@@ -239,16 +251,27 @@ export function calcV21(i: ProducerInputsV21): ResultV21 {
   const invoice = isSet(i.listPrice) && isSet(i.discounts) ? i.listPrice * (1 - pct(i.discounts)) : null;
   const unitCash = isSet(i.listPrice) && isSet(i.unitCost) && isSet(i.bonuses) ? i.unitCost + i.listPrice * (pct(orZero(i.chainLogistics)) + pct(i.bonuses)) : null;
 
-  const plan = (monthly: number[], operating: number[], released: number, tied: number | null, steady: number): CashPlan | null => {
+  // releaseFlow: the receivable part of each month's cash (the invoice value of the units no longer delivered less the chain payments that
+  // no longer arrive); its running sum is the receivable released so far
+  const plan = (monthly: number[], operating: number[], released: number, releaseFlow: number[], tied: number | null, steady: number): CashPlan | null => {
     if (startCash === null || investment === null) return null;
     const { peak, month } = peakOf(startCash, monthly);
+    const trend = trendOf(steady);
+    let releaseFullMonth: number | null = null;
+    if (released > CENT) {
+      let sum = 0;
+      for (let k = 1; k <= releaseFlow.length && releaseFullMonth === null; k++) {
+        sum += releaseFlow[k - 1];
+        if (sum >= released - Math.max(CENT, released * 1e-9)) releaseFullMonth = k;
+      }
+    }
     return {
-      startCash, peakFunding: steady > 0 ? peak : null, peakMonth: steady > 0 ? month : null, released, releaseMonths: lag ?? 0,
+      startCash, trend, peakFunding: trend === "negative" ? null : peak, peakMonth: trend === "negative" ? null : month, released, releaseFullMonth,
       // no payback when the steady month adds nothing: cash that comes back only from receivables the chains still pay is the release
       // of working capital, not a return on the start money
-      paybackInvestment: steady > 0 ? paybackOf(investment, operating) : null,
-      paybackAll: steady > 0 ? paybackOf(startCash, monthly) : null,
-      paybackDiscounted: steady > 0 && r !== null ? paybackOf(startCash, monthly, monthlyRate(r)) : null,
+      paybackInvestment: trend === "positive" ? paybackOf(investment, operating) : null,
+      paybackAll: trend === "positive" ? paybackOf(startCash, monthly) : null,
+      paybackDiscounted: trend === "positive" && r !== null ? paybackOf(startCash, monthly, monthlyRate(r)) : null,
       tiedCost: tied,
       monthly,
     };
@@ -268,12 +291,13 @@ export function calcV21(i: ProducerInputsV21): ResultV21 {
       const perEuro = store.perEuro - (g === 0 ? 0 : (g * (unit as number)) / store.priceNet);
       const operating = months.map((k) => perEuro * store.revenue * ramp(k) - store.fixed);
       // cash: the store's month, the chain costs no longer spent (at once), the chain receipts no longer received (after D days)
-      let monthly: number[] | null = null, released = 0;
+      let monthly: number[] | null = null, released = 0, releaseFlow: number[] = months.map(() => 0);
       if (g === 0) monthly = months.map(storeCash);
       else if (lag !== null && invoice !== null && unitCash !== null) {
         const lost = (j: number) => lostUnits * ramp(j);
         const missing = lostReceipts(lost, invoice, lag);
         monthly = months.map((k) => storeCash(k) + lost(k) * unitCash - missing[k - 1]);
+        releaseFlow = months.map((k) => lost(k) * invoice - missing[k - 1]);
         released = lostUnits * invoice * lag;
       }
       const company = chain ? chain.contribution + increment : null;
@@ -284,7 +308,7 @@ export function calcV21(i: ProducerInputsV21): ResultV21 {
         marginPct: company !== null && revenue !== null && revenue > 0 ? (company / revenue) * 100 : null,
         breakEvenBuyers: perEuro > 0 ? store.fixed / (perEuro * store.checkNet * (i.openDays as number)) : null,
         workingCapital,
-        cash: monthly ? plan(monthly, operating, released, workingCapital !== null && r !== null ? ((workingCapital + deposit) * pct(r)) / 12 : null, increment) : null,
+        cash: monthly ? plan(monthly, operating, released, releaseFlow, workingCapital !== null && r !== null ? (workingCapital + deposit) * monthlyRate(r) : null, increment) : null,
       };
     }
   }
@@ -299,7 +323,7 @@ export function calcV21(i: ProducerInputsV21): ResultV21 {
       const Qa = i.chainUnits as number;
       const missing = lostReceipts(() => Qa, invoice, lag);
       const monthly = months.map((k) => storeCash(k) + Qa * unitCash + orZero(i.chainFees) - missing[k - 1]);
-      cash = plan(monthly, operating, Qa * invoice * lag, store.stock !== null && r !== null ? ((store.stock + deposit) * pct(r)) / 12 : null, change);
+      cash = plan(monthly, operating, Qa * invoice * lag, months.map((k) => Qa * invoice - missing[k - 1]), store.stock !== null && r !== null ? (store.stock + deposit) * monthlyRate(r) : null, change);
     }
     storeOnly = { change, cash };
   }
