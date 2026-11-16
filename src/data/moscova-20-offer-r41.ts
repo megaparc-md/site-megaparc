@@ -8,9 +8,11 @@ import type { Localized } from "@/lib/site-data";
  */
 const N = " "; // an escape on purpose: a literal no-break space is invisible in review
 export const offerR41 = {
-  /** one name for the one public commercial document — the same on every button of the site and the Pack */
-  kicker: { ro: "Prezentare comercială · închiriere", ru: "Коммерческая презентация · аренда", en: "Commercial presentation · lease" },
-  title: { ro: "Moscova 20 · Prezentare comercială", ru: "Moscova 20 · Коммерческая презентация", en: "Moscova 20 · Commercial presentation" },
+  /** the cover line (set in capitals by the CSS) — OWNER «BRAND FINAL ACCEPTANCE · DECISION» (2026-11-16): КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ · АРЕНДА /
+   * OFERTĂ COMERCIALĂ · ÎNCHIRIERE / COMMERCIAL LEASING PROPOSAL — the document's approved name, never «презентация» */
+  kicker: { ro: "Ofertă comercială · închiriere", ru: "Коммерческое предложение · аренда", en: "Commercial leasing proposal" },
+  /** the PDF's own title (the tab of a PDF viewer) = the document name on every button of the site and the Pack (commercialCopy.offerTitle) */
+  title: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
   coverLevels: { ro: `Parter + demisol`, ru: `1‑й этаж + цоколь`, en: "Ground floor + lower ground" },
   captions: {
     space: { ro: "Parter · vitrina spre bulevard", ru: `1‑й этаж · витрина на${N}бульвар`, en: "Ground floor · the boulevard shopfront" },
