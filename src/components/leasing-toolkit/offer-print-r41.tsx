@@ -4,6 +4,7 @@ import { templateOffer } from "@/components/leasing-experience/offer";
 import { pathOf } from "@/components/leasing-experience/photo-scene";
 import { MapSvg } from "@/components/leasing-experience/transport-map";
 import { SiteMap } from "@/components/site-map";
+import { GeneratedDate } from "@/components/leasing-toolkit/generated-date";
 import { UtilityIcon } from "@/components/utility-icons";
 import { formatAreaExact, getProject, getSpace } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
@@ -107,7 +108,8 @@ export function OfferPrintR41({ locale }: { locale: SiteLocale }) {
   const foot = (n: number, tone: "light" | "dark" = "light") => (
     <footer className={`r41-foot is-${tone}`}>
       <span>{r.footerMark[locale]}</span>
-      <span>{m20Commercial.offer.version} · {m20Commercial.offer.updated} · {n}{N}/{N}{m20Commercial.offer.pages}</span>
+      {/* OWNER «PDF DATE» (2026-11-16): the date the file is generated, inserted automatically at print — beside the document code */}
+      <span>{m20Commercial.offer.version} · <GeneratedDate locale={locale} /> · {n}{N}/{N}{m20Commercial.offer.pages}</span>
     </footer>
   );
   const kicker = (n: number, label: string, tone = "") => <p className={`r41-kicker ${tone}`.trim()}><b>{String(n).padStart(2, "0")}</b><span>{label}</span></p>;
@@ -133,7 +135,8 @@ export function OfferPrintR41({ locale }: { locale: SiteLocale }) {
           <img src={printSrc(`${photo("entranceProcessed").id}-cover`)} alt={photo("entranceProcessed").alt[locale]} />
         </figure>
         <header className="r41-cover__top">
-          <span className="r41-brand">MEGAPARC<i /></span>
+          {/* OWNER «REGISTERED TRADEMARK» (2026-11-16): MEGAPARC® — the ® small, top right, out of the flow (the red rule unchanged) */}
+          <span className="r41-brand"><span className="r41-brand__word">MEGAPARC<span className="r41-brand__reg">®</span></span><i /></span>
           <span className="r41-cover__kicker">{v.kicker[locale]}</span>
         </header>
         <div className="r41-cover__body">
@@ -149,7 +152,7 @@ export function OfferPrintR41({ locale }: { locale: SiteLocale }) {
         </div>
         <footer className="r41-cover__foot">
           <span>megaparc.md</span>
-          <span>{m20Commercial.offer.version} · {m20Commercial.offer.updated}</span>
+          <span>{m20Commercial.offer.version} · <GeneratedDate locale={locale} /></span>
         </footer>
       </section>
 

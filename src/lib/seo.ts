@@ -187,9 +187,9 @@ export function packMetadata(locale: SiteLocale): Metadata {
   const copy: PageCopy = {
     title: { ro: "Moscova 20 · 625,7 m² pe bulevardul Moscova · Leasing Pack · MEGAPARC", ru: "Moscova 20 · 625,7 м² на бульваре Москова · Leasing Pack · MEGAPARC", en: "Moscova 20 · 625.7 m² on Moscova Boulevard · Leasing Pack · MEGAPARC" },
     description: {
-      ro: "Spațiu comercial în Chișinău, parter + demisol: prezentarea comercială, planurile oficiale, datele tehnice și cererea de vizionare.",
-      ru: "Коммерческое помещение в Кишинэу, 1‑й этаж + цоколь: коммерческая презентация, официальные планы, технические данные и запрос на просмотр.",
-      en: "A commercial space in Chișinău, ground + lower ground: the commercial presentation, the official plans, the technical data and a viewing request.",
+      ro: "Spațiu comercial în Chișinău, parter + demisol: oferta comercială, planurile oficiale, datele tehnice și cererea de vizionare.",
+      ru: "Коммерческое помещение в Кишинэу, 1‑й этаж + цоколь: коммерческое предложение, официальные планы, технические данные и запрос на просмотр.",
+      en: "A commercial space in Chișinău, ground + lower ground: the commercial leasing proposal, the official plans, the technical data and a viewing request.",
     },
   };
   return buildMetadata(locale, "/leasing/moscova-20/pack", copy, { image: m20ShareImage(locale) });

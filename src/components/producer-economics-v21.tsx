@@ -4,9 +4,8 @@ import { useId, useMemo, useState } from "react";
 import { NumberInput, type NumberFormat } from "@/components/number-input";
 import { calcV21, EMPTY_V21, EXAMPLE_V21, scenarioOf, SCENARIOS_V21, type ProducerInputsV21, type VatMode } from "@/lib/producer-economics-v21";
 import type { SiteLocale } from "@/lib/site-data";
-import { CurrencyBar, currencyCopy, currencyReportLines, officialRate } from "@/components/currency-bar";
-import { nbmRate } from "@/data/nbm-rate";
-import { amountIn, convert, rateOf, shown, type Currency } from "@/lib/currency";
+import { CurrencyBar, currencyCopy, currencyReportLines, useFx } from "@/components/currency-bar";
+import { amountIn, convert, shown, type Currency } from "@/lib/currency";
 import "@/app/producer-v21.css";
 
 /**
@@ -196,10 +195,12 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
   // currency (OWNER «CALCULATOR CURRENCY R1»): the model computes in EUR; every money field keeps the value as typed and the currency it
   // was typed in (src/lib/currency.ts) — the switch only re-expresses, so MDL → EUR → MDL never drifts; default EUR
   const [currency, setCurrency] = useState<Currency>("EUR");
-  const [rateText, setRateText] = useState(officialRate);
   const [cur, setCur] = useState<Partial<Record<NumKey, Currency>>>({});
-  const rate = rateOf(rateText) ?? nbmRate.eurMdl;
-  const rateIsOfficial = rateOf(rateText) === nbmRate.eurMdl;
+  // the rate (OWNER «AUTOMATIC NBM FX», 2026-11-16): the official NBM record read when the page loads (the same as the Moscova 20
+  // calculator) or the visitor's scenario rate; once a calculation has started a newer NBM record is offered, never applied silently
+  const [started, setStarted] = useState(false);
+  const fx = useFx(started);
+  const rate = fx.rate;
   const curOf = (k: NumKey): Currency => cur[k] ?? "EUR";
   const toDisplay = (x: number) => convert(x, "EUR", currency, rate);
   /** a label written with «€» / «euro» in the display currency */
@@ -240,6 +241,7 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
     setV((old) => ({ ...old, [key]: next }));
     if (MONEY.has(key)) setCur((old) => ({ ...old, [key]: currency }));
     setIsExample(false);
+    setStarted(true);
   };
   const fields: Field[][] = [
     [
@@ -283,7 +285,7 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
       </span>
       <span className="pe-field__hint" id={`${uid}-${f.key}-hint`}>{[t.f[f.key][1], f.key === "shelfPrice" || f.key === "averageCheck" ? netHint(f.key) : null, typedAs(f.key)].filter(Boolean).join(" · ")}</span>
       {f.key === "rent" ? (
-        <button type="button" className="pe-link" onClick={() => { setV((old) => ({ ...old, rent: String(m20.rent), depositMonths: String(m20.depositMonths), utilitiesFee: String(m20.feePercent) })); setCur((old) => ({ ...old, rent: "EUR" })); setIsExample(false); }}>{t.m20}</button>
+        <button type="button" className="pe-link" onClick={() => { setStarted(true); setV((old) => ({ ...old, rent: String(m20.rent), depositMonths: String(m20.depositMonths), utilitiesFee: String(m20.feePercent) })); setCur((old) => ({ ...old, rent: "EUR" })); setIsExample(false); }}>{t.m20}</button>
       ) : null}
     </div>
   );
@@ -319,7 +321,7 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
     const three = (a: string, b: string, c: string) => `${t.cols[0]} ${a} · ${t.cols[1]} ${b} · ${t.cols[2]} ${c}`;
     const two = (b: string, c: string) => `${t.cols[1]} ${b} · ${t.cols[2]} ${c}`;
     const be = (x: number | null, unit: string, f: (n: number) => string) => (x !== null ? `${f(x)} ${unit}` : t.noBreakEven);
-    const L: string[] = [t.title, `${t.send.source} · ${t.send.date} ${today}`, pageUrl, t.send.intro, ...currencyReportLines(locale, currency, rate, rateIsOfficial), "", uc(t.send.results)];
+    const L: string[] = [t.title, `${t.send.source} · ${t.send.date} ${today}`, pageUrl, t.send.intro, ...currencyReportLines(locale, currency, fx), "", uc(t.send.results)];
     L.push(`${t.rows.revenue}, ${t.perMonth}: ${three(eur(ch.revenue), eur(st.revenue), eur(cb.revenue))}`);
     L.push(`${t.rows.contribution}, ${t.perMonth}: ${three(eur(ch.contribution), eur(st.contribution), eur(cb.company))}`);
     L.push(`${t.rows.change}, ${t.perMonth}: ${two(so ? eur(so.change, true) : "—", eur(cb.increment, true))}`);
@@ -380,10 +382,10 @@ export function ProducerEconomicsV21({ locale, m20, mailto }: { locale: SiteLoca
       </header>
 
       <div className="pe__tools">
-        <button type="button" className="pe-link is-strong" onClick={() => { setV(toStrings(EXAMPLE_V21)); setCur({}); setVatMode(EXAMPLE_V21.vatMode); setIsExample(true); }}>{t.example}</button>
-        <button type="button" className="pe-link" onClick={() => { setV(toStrings(EMPTY_V21)); setCur({}); setCurrency("EUR"); setRateText(officialRate); setVatMode("gross"); setIsExample(false); }}>{t.reset}</button>
+        <button type="button" className="pe-link is-strong" onClick={() => { setV(toStrings(EXAMPLE_V21)); setCur({}); setVatMode(EXAMPLE_V21.vatMode); setIsExample(true); setStarted(true); }}>{t.example}</button>
+        <button type="button" className="pe-link" onClick={() => { setV(toStrings(EMPTY_V21)); setCur({}); setCurrency("EUR"); fx.restore(); setStarted(false); setVatMode("gross"); setIsExample(false); }}>{t.reset}</button>
       </div>
-      <CurrencyBar locale={locale} currency={currency} onCurrency={setCurrency} rate={rateText} onRate={setRateText} />
+      <CurrencyBar locale={locale} currency={currency} onCurrency={setCurrency} fx={fx} />
       {isExample ? <p className="pe__example">{t.exampleNote}</p> : null}
 
       <div className="pe__body">

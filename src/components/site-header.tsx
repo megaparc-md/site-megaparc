@@ -31,7 +31,9 @@ function projectsMenu(locale: SiteLocale): Omit<ProjectsMenuData, "label" | "act
 export function Brand({ locale, href, light = false }: { locale: SiteLocale; href?: string; light?: boolean }) {
   return (
     <Link className={`brand${light ? " brand--light" : ""}`} href={href ?? localePath(locale, "/")} aria-label={`${brand.name} — ${ui.home[locale]}`}>
-      <span className="brand__name">{brand.wordmark}</span>
+      {/* OWNER «REGISTERED TRADEMARK» (2026-11-16): ® small, top right of the word, the word's colour — out of the flow, so the width of
+          the mark and its red rule stay exactly as they were */}
+      <span className="brand__name">{brand.wordmark}<span className="brand__reg" aria-hidden="true">®</span></span>
       <span className="brand__rule" aria-hidden="true" />
     </Link>
   );

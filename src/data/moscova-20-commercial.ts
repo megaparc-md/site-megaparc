@@ -48,13 +48,18 @@ export const m20Commercial = {
     // public commercial PDF of each language (a design rework of R4, ten pages, src/components/leasing-toolkit/offer-print-r41.tsx).
     // The print reads this version, date and page count — one source with every button of the site and the Pack. The R4, R3 and R2
     // files stay in place as static files for rollback and for links already sent; no page links them.
+    // version and date are internal (the print, the document kit, the CMS check) — never shown on a public card or caption
+    // (OWNER «PREMIUM DOCUMENT NAMES», 2026-11-16)
     version: "M20-CO-2026-11 R4.1",
     updated: "14.11.2026",
     pages: 11,
+    // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): the file the visitor downloads carries a clear name — MEGAPARC-Moscova-20-<LANG>.pdf,
+    // byte-identical to the approved R4.1 of the language (offer/r4-1/…); the earlier URLs stay published for links, QR codes and
+    // documents already sent. A reissue replaces these files in place (same URL, same name) and keeps its own versioned copy.
     file: {
-      ro: publicAsset("/assets/leasing/moscova-20/offer/r4-1/moscova-20-commercial-presentation-ro-r4-1.pdf"),
-      ru: publicAsset("/assets/leasing/moscova-20/offer/r4-1/moscova-20-commercial-presentation-ru-r4-1.pdf"),
-      en: publicAsset("/assets/leasing/moscova-20/offer/r4-1/moscova-20-commercial-presentation-en-r4-1.pdf"),
+      ro: publicAsset("/assets/leasing/moscova-20/offer/MEGAPARC-Moscova-20-RO.pdf"),
+      ru: publicAsset("/assets/leasing/moscova-20/offer/MEGAPARC-Moscova-20-RU.pdf"),
+      en: publicAsset("/assets/leasing/moscova-20/offer/MEGAPARC-Moscova-20-EN.pdf"),
     } satisfies Localized,
   },
 } as const;
@@ -166,9 +171,11 @@ export const commercialCopy = {
     ru: `Ежегодная индексация арендной платы на${N}основании официального индекса потребительских цен (IPC), публикуемого Национальным бюро статистики Республики Молдова (BNS). Порядок индексации определяется договором аренды.`,
     en: "Rent is indexed annually based on the official Consumer Price Index (CPI) published by the National Bureau of Statistics of the Republic of Moldova (NBS). The indexation mechanism is defined in the lease agreement.",
   },
-  // OWNER «2-DAY FINISH» + «FINAL 2-DAY DELIVERY MANDATE» (2026-11-14): every button that opens the PDF names it the same way
-  offerCta: { ro: "Descarcă prezentarea comercială", ru: "Скачать коммерческую презентацию", en: "Download the commercial presentation" },
-  offerMeta: { ro: "PDF · {pages} pagini · tarife, condiții, planuri", ru: "PDF · {pages} страниц · ставки, условия, планы", en: "PDF · {pages} pages · rates, terms, plans" },
+  // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16) — supersedes «Коммерческая презентация»: one premium name for the document, one action
+  // on every button that downloads it, a caption with the page count and the language; never a version, an internal code or a file name
+  offerTitle: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
+  offerCta: { ro: "Descarcă oferta comercială", ru: "Скачать коммерческое предложение", en: "Download the commercial leasing proposal" },
+  offerMeta: { ro: "PDF · {pages} pagini · română", ru: "PDF · {pages} страниц · русский", en: "PDF · {pages} pages · English" },
   /** where no accepted PDF exists (the production edition before the OWNER GO): the action leads to the direct contact — never a dead link */
   offerContactMeta: { ro: "prin contact direct cu MEGAPARC", ru: `через прямой контакт с${N}MEGAPARC`, en: "through direct contact with MEGAPARC" },
   candidate: { ro: "Proiect pentru aprobarea OWNER", ru: "Проект на согласование OWNER", en: "Draft for OWNER approval" },

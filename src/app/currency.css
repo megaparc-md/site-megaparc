@@ -15,6 +15,11 @@
 .cur-bar__input:focus-visible { outline: 2px solid var(--r8-burgundy, #74202f); outline-offset: 1px; }
 .cur-bar__src { color: var(--r8-muted, var(--r3-muted, #6b6e74)); font-size: .78rem; line-height: 1.45; }
 .cur-bar__restore { padding: 0; border: 0; border-bottom: 1px solid currentColor; background: none; color: var(--r8-burgundy, #74202f); font: inherit; cursor: pointer; }
+/* OWNER «AUTOMATIC NBM FX» (2026-11-16): the manual status reads as a status (ink), the restore stays the quiet burgundy link; a newer NBM
+   rate that arrives after a calculation has started is offered on one quiet line, never applied under the visitor's hands */
+.cur-bar__src.is-manual { color: var(--r8-ink, var(--r3-ink, #121316)); font-weight: 600; }
+.cur-bar__src.is-manual .cur-bar__restore { font-weight: 400; }
+.cur-bar__offer { flex-basis: 100%; margin: 0; color: var(--r8-ink, var(--r3-ink, #121316)); font-size: .78rem; line-height: 1.45; }
 .cur-bar__note { flex-basis: 100%; margin: 0; color: var(--r8-muted, var(--r3-muted, #6b6e74)); font-size: .76rem; line-height: 1.45; }
 @media (max-width: 699px) {
   .cur-bar { gap: .6rem 1rem; }

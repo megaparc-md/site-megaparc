@@ -2,6 +2,7 @@ import { ViewTransition, type ReactNode } from "react";
 import { ExperienceMotion } from "@/components/experience-motion";
 import { PreviewMarker } from "@/components/experience";
 import { MotionController } from "@/components/motion-controller";
+import { DatedDownloadNames } from "@/components/leasing-toolkit/dated-downloads";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import type { SiteLocale } from "@/lib/site-data";
@@ -44,6 +45,8 @@ export function PageShell({
       </ViewTransition>
       <SiteFooter locale={locale} statement={footerStatement} />
       <PreviewMarker locale={locale} />
+      {/* last in the shell: it renders nothing, and the ids of the header menus above stay as they were */}
+      <DatedDownloadNames />
     </div>
   );
 }

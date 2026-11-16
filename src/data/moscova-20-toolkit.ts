@@ -105,7 +105,7 @@ export const toolkitCopy = {
     // OWNER P1 «SHARE MODAL REDESIGN» (2026-11-15): the compact share sheet — its heading, the property card, the copy action
     sheetTitle: { ro: "Distribuiți obiectul", ru: "Поделиться объектом", en: "Share the property" },
     cardPlace: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
-    cardMaterials: { ro: "Leasing Pack: prezentarea, planurile, datele tehnice", ru: "Leasing Pack: презентация, планы, технические данные", en: "Leasing Pack: presentation, plans, technical data" },
+    cardMaterials: { ro: "Leasing Pack: oferta comercială, planurile, datele tehnice", ru: "Leasing Pack: коммерческое предложение, планы, технические данные", en: "Leasing Pack: leasing proposal, plans, technical data" },
     via: { ro: "Trimiteți prin", ru: "Отправить через", en: "Send via" },
     copyAction: { ro: "Copiați linkul", ru: "Копировать ссылку", en: "Copy link" },
     copiedShort: { ro: "Copiat", ru: "Скопировано", en: "Copied" },
@@ -124,8 +124,9 @@ export const toolkitCopy = {
   },
   bar: {
     plans: { ro: "Planuri", ru: "Планы", en: "Plans" },
-    // OWNER «COMMERCIAL PRESENTATION RESET» §1 (2026-11-13): the bar opens the one current commercial presentation (R4 until R5), never the old dossier
-    dossier: { ro: "Prezentare", ru: "Презентация", en: "Presentation" },
+    // OWNER «COMMERCIAL PRESENTATION RESET» §1 (2026-11-13): the bar opens the one current commercial document, never the old dossier;
+    // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): the document is the commercial proposal
+    dossier: { ro: "Ofertă", ru: "Предложение", en: "Proposal" },
     book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   },
   // OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE» (2026-11-11): the service block on the property page — one primary action
@@ -133,10 +134,10 @@ export const toolkitCopy = {
   service: {
     label: { ro: "Dosarul digital al obiectului", ru: "Цифровое досье объекта", en: "Digital property dossier" },
     title: { ro: "Toate informațiile despre Moscova 20 — într-un singur loc", ru: "Вся информация по Moscova 20 — в одном месте", en: "Everything on Moscova 20 — in one place" },
-    lead: { ro: "Planuri, date tehnice, prezentarea obiectului și instrumente pentru pregătirea vizionării.", ru: "Планы, технические данные, презентация объекта и инструменты для подготовки к просмотру.", en: "Plans, technical data, the property presentation and tools to prepare for a viewing." },
+    lead: { ro: "Planuri, date tehnice, oferta comercială și instrumente pentru pregătirea vizionării.", ru: "Планы, технические данные, коммерческое предложение и инструменты для подготовки к просмотру.", en: "Plans, technical data, the commercial leasing proposal and tools to prepare for a viewing." },
     pack: { ro: "Deschide Leasing Pack", ru: "Открыть Leasing Pack", en: "Open the Leasing Pack" },
-    // OWNER «2-DAY FINISH» + «FINAL 2-DAY DELIVERY MANDATE» (2026-11-14): one name for the one public commercial document
-    pdf: { ro: "Descarcă prezentarea comercială", ru: "Скачать коммерческую презентацию", en: "Download the commercial presentation" },
+    // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): one name for the one public commercial document — the same as commercialCopy.offerCta
+    pdf: { ro: "Descarcă oferta comercială", ru: "Скачать коммерческое предложение", en: "Download the commercial leasing proposal" },
     plans: { ro: "Deschide planurile", ru: "Открыть планы", en: "Open the plans" },
     qr: { ro: "Cod QR pentru telefon", ru: "QR на телефон", en: "QR for your phone" },
     qrTitle: { ro: "Leasing Pack pe telefon", ru: "Leasing Pack на телефоне", en: "The Leasing Pack on your phone" },

@@ -60,6 +60,8 @@
 .lp-action { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--r3-hair, rgba(20, 21, 24, .16)); color: inherit; text-decoration: none; }
 .lp-action__label { font-family: var(--font); font-size: clamp(1.2rem, 2.4vw, 1.5rem); font-weight: 400; line-height: 1.15; letter-spacing: -.012em; color: var(--r3-ink, #0f1012); transition: color .3s ease; }
 .lp-action__meta { grid-column: 1; color: var(--r3-muted, #6a6d75); font-size: .84rem; }
+/* OWNER «PDF DATE» (2026-11-16): the date of the download under the commercial proposal's caption — one quiet line */
+.lp-action__date { font-size: .78rem; letter-spacing: .01em; }
 .lp-action .icon { grid-column: 2; grid-row: 1 / span 2; color: var(--r3-ink, #0f1012); transition: transform .45s var(--r3-ease, ease); }
 .lp-action:hover .lp-action__label, .lp-action:focus-visible .lp-action__label { color: var(--r3-burgundy, #74202f); }
 .lp-action:hover .icon { transform: translateX(4px); }

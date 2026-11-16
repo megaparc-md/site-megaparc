@@ -124,7 +124,8 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const kit = (documentKit.kits as Partial<Record<SiteLocale, { href: string; size: string }>>)[locale];
   const kitCurrent = kit && documentKit.version === m20Commercial.offer.version;
   const downloads: PackAction[] = [
-    ...(brochure.pdf ? [{ key: "brochure", label: p.brochure[locale], meta: `${commercialCopy.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages))}${brochure.draft ? ` · ${commercialCopy.candidate[locale]}` : ""}`, href: brochure.href, event: "m20_dossier_download" as const, download: true }] : []),
+    // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): «Moscova 20 — Коммерческое предложение» · «PDF · 11 страниц · русский»
+    ...(brochure.pdf ? [{ key: "brochure", label: commercialCopy.offerTitle[locale], meta: `${commercialCopy.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages))}${brochure.draft ? ` · ${commercialCopy.candidate[locale]}` : ""}`, href: brochure.href, event: "m20_dossier_download" as const, download: true, dated: locale }] : []),
     ...x.plans.levels.filter((level) => level.drawing).map((level) => ({ key: `plan-${level.key}`, label: `${p.officialPlan[locale]} · ${level.label[locale]}`, meta: p.planMeta[locale], href: level.drawing!.pdf, event: "m20_plan_open" as const, external: true })),
     ...(kitCurrent && brochure.pdf ? [{ key: "kit", label: p.kit[locale], meta: p.kitMeta[locale].replace("{size}", kit.size), href: publicAsset(kit.href), event: "m20_kit_download", download: true }] : []),
     // OWNER «COMMERCIAL PRESENTATION RESET» + addendum (2026-11-13): one commercial presentation (the brochure above); the old leasing
@@ -264,7 +265,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
               <img src={m20Toolkit.qr.byLocale[locale]} alt="QR · Moscova 20 Leasing Pack" width={112} height={112} loading="lazy" />
               <p>{c.qrText[locale]}<br /><a href={packUrl}>{packUrl.replace(/^https?:\/\//, "")}</a></p>
             </div>
-            <p className="lp-meta">{c.updated[locale]}: {m20Commercial.offer.updated} · {m20Commercial.offer.version}</p>
+            {/* OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): no version, internal code or document date on a public card */}
           </aside>
         </div>
       </section>

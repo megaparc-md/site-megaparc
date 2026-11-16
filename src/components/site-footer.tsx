@@ -26,6 +26,12 @@ const copy = {
     ru: "Юридическая информация и политика конфиденциальности — по запросу.",
     en: "Legal information and privacy policy — on request.",
   },
+  // OWNER «REGISTERED TRADEMARK» (2026-11-16): the trademark line — the ® appears with the logo and here, never in running text
+  trademark: {
+    ro: "MEGAPARC® este marcă înregistrată.",
+    ru: "MEGAPARC® — зарегистрированная торговая марка.",
+    en: "MEGAPARC® is a registered trademark.",
+  },
 } satisfies Record<string, Localized>;
 
 const investmentLinks: { path: string; label: Localized }[] = [
@@ -126,10 +132,15 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
           <span className="sr-only">{copy.language[locale]}</span>
           <LanguageSwitcher locale={locale} variant="footer" />
         </div>
-        <span>© {new Date().getFullYear()} {brand.name}</span>
+        <span className="r3-ftr__copy">
+          <span>© {new Date().getFullYear()} {brand.name}</span>
+          <span className="r3-ftr__tm">{copy.trademark[locale]}</span>
+        </span>
       </div>
 
       {/* the oversized wordmark is cropped by the footer on purpose (R3 design) — scripts/qa-text-clip.mjs skips [data-qa-crop] */}
+      {/* no ® here: the oversized word fills the width and a ® beside it would be cut by the edge — the footer carries the ® in the
+          trademark line above (OWNER «REGISTERED TRADEMARK», 2026-11-16) */}
       <p className="r3-ftr__mark" aria-hidden="true" data-qa-crop="">{brand.name}</p>
     </footer>
   );

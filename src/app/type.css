@@ -158,6 +158,10 @@ html { font-variant-ligatures: no-common-ligatures; }
 
 /* ---- shared chrome ---- */
 .brand__name { font-weight: 700; letter-spacing: -.045em; }
+/* OWNER «REGISTERED TRADEMARK» (2026-11-16): the ® of the wordmark — small, top right, the colour of the word, never in the flow (the
+   width of the mark and the red rule under it do not change) */
+.brand__name { position: relative; }
+.brand__reg { position: absolute; left: 100%; top: .04em; margin-left: .08em; font-size: .34em; font-weight: 600; letter-spacing: 0; line-height: 1; }
 .lg-portal__label { font-weight: 700; letter-spacing: .005em; }
 .site main .lt-dossier__title { font-weight: 300; letter-spacing: -.03em; line-height: 1.08; }
 .lt-dossier__row-label { font-weight: 600; }

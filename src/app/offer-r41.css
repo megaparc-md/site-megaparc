@@ -61,6 +61,9 @@ html:has(.r41), html:has(.r41) body { margin: 0; padding: 0; background: #d6d1c8
 .r41-cover__top { position: absolute; top: 14mm; left: var(--m); right: var(--m); display: flex; align-items: flex-start; justify-content: space-between; }
 .r41-brand { display: inline-flex; flex-direction: column; gap: 1.5mm; color: #fff; font-size: 13pt; font-weight: 700; letter-spacing: .02em; line-height: 1; }
 .r41-brand i { width: 10.5mm; height: .7mm; background: var(--signal); }
+/* OWNER «REGISTERED TRADEMARK» (2026-11-16): the ® of the cover mark — small, top right, the colour of the word, out of the flow */
+.r41-brand__word { position: relative; }
+.r41-brand__reg { position: absolute; left: 100%; top: 0; margin-left: .06em; font-size: .34em; font-weight: 600; letter-spacing: 0; }
 .r41-cover__kicker { color: rgba(255, 255, 255, .88); font-size: 8.5pt; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .r41-cover__body { position: absolute; left: var(--m); bottom: 22mm; width: 190mm; }
 .r41-cover__name { color: #fff; font-size: 88pt; font-weight: 600; line-height: .88; letter-spacing: -.042em; white-space: nowrap; }
@@ -297,7 +300,9 @@ html:has(.r41), html:has(.r41) body { margin: 0; padding: 0; background: #d6d1c8
 .r41-total__figure strong { font-size: 62pt; }
 .r41-terms__sheet .r41-notes { margin-top: 0; }
 .r41-cond .r41-conditions dd strong { font-size: 20pt; }
-.r41-space .r41-foot span:first-child, .r41-final .r41-foot span:first-child, .r41-formats .r41-foot span:first-child { display: none; }
+/* the mark «MEGAPARC · MOSCOVA 20» only — a direct child: «span:first-child» also hid the generation date nested in the second span
+   (the footer read «M20-CO-2026-11 R4.1 · · 3 / 11» on these three pages of the PDFs of 16.11.2026) */
+.r41-space .r41-foot > span:first-child, .r41-final .r41-foot > span:first-child, .r41-formats .r41-foot > span:first-child { display: none; }
 .r41-space .r41-foot, .r41-final .r41-foot, .r41-formats .r41-foot { justify-content: flex-end; }
 .r41-final__panel { gap: 4mm; padding-bottom: 18mm; }
 .r41-final__title { font-size: 34pt; }

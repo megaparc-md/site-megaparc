@@ -1,68 +1,140 @@
 "use client";
 
-import { useId } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { NumberInput, type NumberFormat } from "@/components/number-input";
-import { nbmRate } from "@/data/nbm-rate";
-import type { Currency } from "@/lib/currency";
+import { nbmSnapshot } from "@/data/nbm-rate";
+import { rateOf, type Currency } from "@/lib/currency";
+import { chisinauToday, isNewerRecord, isTodaysRate, loadNbmRecord, nbmDisplayDate, type NbmRecord } from "@/lib/nbm";
 import type { SiteLocale } from "@/lib/site-data";
 import "@/app/currency.css";
 
 /**
- * The compact currency switch of the calculators (OWNER «CALCULATOR CURRENCY R1», 2026-11-15): MDL | EUR, the official NBM rate of its
- * date and a field to set another rate for a scenario. Logic in src/lib/currency.ts; nothing here calculates.
+ * The compact currency switch of the calculators (OWNER «CALCULATOR CURRENCY R1», 2026-11-15; the rate since OWNER «AUTOMATIC NBM FX»,
+ * 2026-11-16): MDL | EUR, the official NBM rate read when the page loads (src/lib/nbm.ts — the same record for both calculators) and a
+ * field to set another rate for a scenario. Logic in src/lib/currency.ts; nothing here calculates.
  */
 export const currencyCopy = {
   ru: {
     label: "Валюта расчёта",
     rateLabel: "Курс",
-    official: (date: string) => `официальный курс НБМ на ${date}`,
-    manual: "курс задан вручную для сценария",
+    official: (date: string) => `официальный курс НБМ на ${date} · обновляется автоматически`,
+    latest: (date: string) => `последний опубликованный курс НБМ — на ${date}`,
+    manual: "Курс задан вручную",
     restore: "Вернуть курс НБМ",
+    offer: (date: string, rate: string) => `Опубликован курс НБМ на ${date}: 1 EUR = ${rate} MDL`,
+    apply: "Применить",
     note: "Суммы пересчитываются по курсу; формулы расчёта не меняются.",
     typed: (x: string) => `введено: ${x}`,
-    reportCurrency: "Валюта расчёта", reportRate: "Курс", reportManual: "задан вручную",
+    reportCurrency: "Валюта расчёта", reportRate: "Курс",
+    reportOfficial: (date: string) => `источник: НБМ, официальный курс на ${date}`,
+    reportManual: "ручной сценарий (курс задан вручную)",
   },
   ro: {
     label: "Moneda calculului",
     rateLabel: "Curs",
-    official: (date: string) => `cursul oficial BNM din ${date}`,
-    manual: "curs stabilit manual pentru scenariu",
+    official: (date: string) => `cursul oficial BNM din ${date} · actualizat automat`,
+    latest: (date: string) => `ultimul curs oficial BNM publicat — din ${date}`,
+    manual: "Curs stabilit manual",
     restore: "Reveniți la cursul BNM",
+    offer: (date: string, rate: string) => `A fost publicat cursul BNM din ${date}: 1 EUR = ${rate} MDL`,
+    apply: "Aplicați",
     note: "Sumele se recalculează la curs; formulele calculului nu se schimbă.",
     typed: (x: string) => `introdus: ${x}`,
-    reportCurrency: "Moneda calculului", reportRate: "Curs", reportManual: "stabilit manual",
+    reportCurrency: "Moneda calculului", reportRate: "Curs",
+    reportOfficial: (date: string) => `sursa: BNM, cursul oficial din ${date}`,
+    reportManual: "scenariu manual (curs stabilit manual)",
   },
   en: {
     label: "Calculation currency",
     rateLabel: "Rate",
-    official: (date: string) => `official NBM rate of ${date}`,
-    manual: "rate set manually for a scenario",
+    official: (date: string) => `official NBM rate of ${date} · updated automatically`,
+    latest: (date: string) => `latest published NBM rate — of ${date}`,
+    manual: "Rate set manually",
     restore: "Back to the NBM rate",
+    offer: (date: string, rate: string) => `NBM rate of ${date} published: 1 EUR = ${rate} MDL`,
+    apply: "Apply",
     note: "Amounts are converted at the rate; the formulas do not change.",
     typed: (x: string) => `entered as ${x}`,
-    reportCurrency: "Calculation currency", reportRate: "Rate", reportManual: "set manually",
+    reportCurrency: "Calculation currency", reportRate: "Rate",
+    reportOfficial: (date: string) => `source: NBM, official rate of ${date}`,
+    reportManual: "manual scenario (rate set manually)",
   },
 } satisfies Record<SiteLocale, Record<string, unknown>>;
 
-/** the NBM date as the page shows it: DD.MM.YYYY */
-export const nbmDate = nbmRate.date.split("-").reverse().join(".");
-export const officialRate = String(nbmRate.eurMdl);
-
+const noSubscription = () => () => {};
 const rateFormat: NumberFormat = { group: false, decimals: 4, maxInt: 3 };
+const rateText = (rate: number, locale: SiteLocale) => (locale === "en" ? rate.toFixed(4) : rate.toFixed(4).replace(".", ","));
 
-/** the line the e-mail / copy text carries: currency · rate · its date or «set manually» */
-export function currencyReportLines(locale: SiteLocale, currency: Currency, rate: number, isOfficial: boolean): string[] {
-  const t = currencyCopy[locale];
-  const r = locale === "en" ? rate.toFixed(4) : rate.toFixed(4).replace(".", ",");
-  return [`${t.reportCurrency}: ${currency}`, `${t.reportRate}: 1 EUR = ${r} MDL · ${isOfficial ? t.official(nbmDate) : t.reportManual}`];
+/** The rate of a calculator: the official NBM record (read when the page loads) or a rate the visitor types for a scenario. */
+export type Fx = {
+  /** the official record the calculation uses */
+  record: NbmRecord;
+  /** the rate in use — the visitor's scenario rate or the official one */
+  rate: number;
+  /** what the rate field shows (canonical) */
+  text: string;
+  manual: boolean;
+  setText: (canonical: string) => void;
+  restore: () => void;
+  /** a newer official record that arrived after the visitor started a calculation on the official rate — applied only on request */
+  offer: NbmRecord | null;
+  applyOffer: () => void;
+};
+
+/**
+ * `started`: the visitor has entered something. Until then a newer official record replaces the first one silently (the page has just
+ * loaded); afterwards it never changes a calculation under the visitor's hands — it is offered («Применить»). A scenario rate typed by
+ * the visitor stays until «Вернуть курс НБМ»; that action returns to the newest official record.
+ */
+export function useFx(started: boolean): Fx {
+  const [record, setRecord] = useState<NbmRecord>(nbmSnapshot);
+  const [offer, setOffer] = useState<NbmRecord | null>(null);
+  const [manual, setManual] = useState<string | null>(null);
+  const state = useRef({ started, manual });
+  useEffect(() => { state.current = { started, manual }; }, [started, manual]);
+  useEffect(() => {
+    let live = true;
+    loadNbmRecord().then((fresh) => {
+      if (!live || !fresh || !isNewerRecord(fresh, nbmSnapshot)) return;
+      if (state.current.started && state.current.manual === null) setOffer(fresh);
+      else setRecord(fresh);
+    });
+    return () => { live = false; };
+  }, []);
+  const scenario = manual === null ? null : rateOf(manual);
+  return {
+    record,
+    rate: scenario ?? record.rate,
+    text: manual ?? String(record.rate),
+    manual: manual !== null,
+    setText: (canonical) => setManual(rateOf(canonical) === record.rate ? null : canonical),
+    restore: () => { if (offer) { setRecord(offer); setOffer(null); } setManual(null); },
+    offer,
+    applyOffer: () => { if (offer) { setRecord(offer); setOffer(null); } },
+  };
 }
 
-export function CurrencyBar({ locale, currency, onCurrency, rate, onRate, className }: {
-  locale: SiteLocale; currency: Currency; onCurrency: (c: Currency) => void; rate: string; onRate: (canonical: string) => void; className?: string;
+/** the lines the e-mail / copy text carries: the currency, the rate and its source — the NBM with its date, or a manual scenario */
+export function currencyReportLines(locale: SiteLocale, currency: Currency, fx: Fx): string[] {
+  const t = currencyCopy[locale];
+  return [`${t.reportCurrency}: ${currency}`, `${t.reportRate}: 1 EUR = ${rateText(fx.rate, locale)} MDL · ${fx.manual ? t.reportManual : t.reportOfficial(nbmDisplayDate(fx.record.date))}`];
+}
+
+/** the rate line a handed-over calculation carries (Moscova 20 → the viewing request) */
+export function currencyRateLine(locale: SiteLocale, fx: Fx): { label: string; value: string } {
+  const t = currencyCopy[locale];
+  return { label: t.reportRate, value: `1 EUR = ${rateText(fx.rate, locale)} MDL · ${fx.manual ? t.reportManual : t.reportOfficial(nbmDisplayDate(fx.record.date))}` };
+}
+
+export function CurrencyBar({ locale, currency, onCurrency, fx, className }: {
+  locale: SiteLocale; currency: Currency; onCurrency: (c: Currency) => void; fx: Fx; className?: string;
 }) {
   const t = currencyCopy[locale];
   const uid = useId();
-  const isOfficial = Number(rate) === nbmRate.eurMdl;
+  // today in Chișinău is known only in the browser: until then the line names the rate by its date (true in every case)
+  const today = useSyncExternalStore(noSubscription, chisinauToday, () => null);
+  const date = nbmDisplayDate(fx.record.date);
+  const officialLine = today === null || isTodaysRate(fx.record, today) ? t.official(date) : t.latest(date);
   return (
     <div className={`cur-bar${className ? ` ${className}` : ""}`}>
       <div className="cur-bar__switch" role="radiogroup" aria-label={t.label}>
@@ -77,14 +149,18 @@ export function CurrencyBar({ locale, currency, onCurrency, rate, onRate, classN
         <label className="cur-bar__ratelabel" htmlFor={`${uid}-rate`}>{t.rateLabel}</label>
         <span className="cur-bar__ratefield">
           <span aria-hidden="true">1 EUR =</span>
-          <NumberInput className="cur-bar__input" id={`${uid}-rate`} value={rate} onValueChange={onRate} locale={locale} format={rateFormat} describedBy={`${uid}-rate-src`} />
+          <NumberInput className="cur-bar__input" id={`${uid}-rate`} value={fx.text} onValueChange={fx.setText} locale={locale} format={rateFormat} describedBy={`${uid}-rate-src`} />
           <span aria-hidden="true">MDL</span>
         </span>
-        <span className="cur-bar__src" id={`${uid}-rate-src`}>
-          {isOfficial ? t.official(nbmDate) : t.manual}
-          {isOfficial ? null : <> · <button type="button" className="cur-bar__restore" onClick={() => onRate(officialRate)}>{t.restore}</button></>}
+        <span className={`cur-bar__src${fx.manual ? " is-manual" : ""}`} id={`${uid}-rate-src`} aria-live="polite">
+          {fx.manual ? <>{t.manual} · <button type="button" className="cur-bar__restore" onClick={fx.restore}>{t.restore}</button></> : officialLine}
         </span>
       </div>
+      {fx.offer && !fx.manual ? (
+        <p className="cur-bar__offer" role="status">
+          {t.offer(nbmDisplayDate(fx.offer.date), rateText(fx.offer.rate, locale))} · <button type="button" className="cur-bar__restore" onClick={fx.applyOffer}>{t.apply}</button>
+        </p>
+      ) : null}
       <p className="cur-bar__note">{t.note}</p>
     </div>
   );
