@@ -17,8 +17,8 @@ export const portfolioCategories: { key: PortfolioKey; anchor: string; label: Lo
     key: "leasing",
     anchor: "leasing",
     label: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
-    title: { ro: "Clădiri MEGAPARC în închiriere.", ru: "Объекты MEGAPARC в аренде.", en: "MEGAPARC buildings for lease." },
-    lead: { ro: "Clădiri în funcțiune, în proprietatea companiei — fiecare cu statutul ei actual.", ru: "Действующие здания в собственности компании — у каждого свой актуальный статус.", en: "Operating buildings owned by the company — each with its own current status." },
+    title: { ro: "Clădiri MEGAPARC pentru închiriere.", ru: "Объекты MEGAPARC в аренде.", en: "MEGAPARC buildings for lease." },
+    lead: { ro: "Clădiri în exploatare, deținute de companie — fiecare cu statusul său actual.", ru: "Действующие здания в собственности компании — у каждого свой актуальный статус.", en: "Operating buildings owned by the company — each with its own current status." },
   },
   {
     key: "land",
@@ -33,7 +33,7 @@ export const portfolioCategories: { key: PortfolioKey; anchor: string; label: Lo
     anchor: "development",
     label: { ro: "Proiecte în dezvoltare și construcție", ru: "Проекты в разработке и строительстве", en: "Projects under development and construction" },
     title: { ro: "Proiecte proprii în lucru.", ru: "Собственные проекты в работе.", en: "Our own projects in progress." },
-    lead: { ro: "Proiectele nu se oferă spre închiriere până la confirmare.", ru: "Проекты не предлагаются в аренду до подтверждения.", en: "Projects are not offered for lease until confirmed." },
+    lead: { ro: "Spațiile din aceste proiecte nu se oferă deocamdată spre închiriere.", ru: "Помещения в\u00a0этих проектах пока не\u00a0предлагаются в\u00a0аренду.", en: "Space in these projects is not offered for lease yet." },
   },
 ];
 
@@ -48,7 +48,7 @@ export const leasingProjects = (): ProjectEntry[] => leasingSlugs.map((slug) => 
  * area and timing are «on request» until the OWNER confirms them.
  */
 export const leasingOnRequest: Partial<Record<string, Localized>> = {
-  "dacia-31": { ro: "Se închiriază · suprafața și termenul — la cerere", ru: "Сдаётся в аренду · площадь и сроки — по запросу", en: "For lease · area and timing on request" },
+  "dacia-31": { ro: "Se închiriază · suprafața și data disponibilității — la cerere", ru: "Сдаётся в аренду · площадь и сроки — по запросу", en: "For lease · area and timing on request" },
 };
 
 /** A fully let building in the leasing portfolio keeps a waiting list (OWNER 2026-10-09: «only fully let and a waitlist»). */
@@ -81,7 +81,7 @@ export const developmentPortfolio = (): DevelopmentItem[] => {
   return [
     ...(vatra ? [{ slug: vatra.slug, name: vatra.name, status: vatra.card.status, page: vatra.slug }] : []),
     // OWNER tax data (R3.3.1 §14): the plot and the registered existing building — never read as the future project's GBA
-    { slug: "vasile-lupu-48-3", name: "Vasile Lupu 48/3", status: { ro: "Teren 1 000 m² · construcție existentă înregistrată 172,1 m²", ru: "Участок 1 000 м² · зарегистрированная существующая постройка 172,1 м²", en: "Plot 1,000 m² · registered existing building 172.1 m²" }, page: null },
+    { slug: "vasile-lupu-48-3", name: "Vasile Lupu 48/3", status: { ro: "Teren 1.000 m² · construcție existentă înregistrată 172,1 m²", ru: "Участок 1 000 м² · зарегистрированная существующая постройка 172,1 м²", en: "Plot 1,000 m² · registered existing building 172.1 m²" }, page: null },
   ];
 };
 

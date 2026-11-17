@@ -25,10 +25,10 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 const t = {
   back: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
-  waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
+  waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it becomes available" },
   fits: { ro: "Se potrivește afacerii mele?", ru: "Подходит ли моему бизнесу?", en: "Does it fit my business?" },
   dataLabel: { ro: "Datele spațiului", ru: "О помещении", en: "The space in figures" },
-  property: { ro: "Obiect", ru: "Объект", en: "Property" },
+  property: { ro: "Imobil", ru: "Объект", en: "Property" },
   unit: { ro: "Spațiu", ru: "Помещение", en: "Unit" },
   area: { ro: "Suprafață disponibilă", ru: "Площадь", en: "Available area" },
   floor: { ro: "Etaj", ru: "Этаж", en: "Floor" },
@@ -44,7 +44,7 @@ const t = {
   height: { ro: "Înălțime", ru: "Высота", en: "Ceiling height" },
   condition: { ro: "Stare", ru: "Состояние", en: "Condition" },
   now: { ro: "Acum", ru: "Сейчас", en: "Now" },
-  free: { ro: "Liber", ru: "Свободно", en: "Available" },
+  free: { ro: "Disponibil", ru: "Свободно", en: "Available" },
   featuresLabel: { ro: "Ce contează aici", ru: "Главное о помещении", en: "Key features" },
   techLabel: { ro: "Tehnic", ru: "Техника", en: "Technical" },
   fitLabel: { ro: "Cui i se potrivește", ru: "Кому подходит", en: "Who it fits" },
@@ -52,14 +52,14 @@ const t = {
   planLabel: { ro: "Plan", ru: "План", en: "Plan" },
   photosLabel: { ro: "Fotografii", ru: "Фотографии", en: "Photographs" },
   terms: { ro: "Condiții", ru: "Условия", en: "Terms" },
-  processLabel: { ro: "Cum închiriem", ru: "Как мы сдаём", en: "How we lease" },
+  processLabel: { ro: "Cum închiriem", ru: "Как проходит аренда", en: "How we lease" },
   reply: { ro: "Răspuns", ru: "Ответ", en: "Reply" },
   viewingTime: { ro: "Vizionare", ru: "Просмотр", en: "Viewing" },
   moreLabel: { ro: "Alte spații libere", ru: "Другие свободные помещения", en: "Other available spaces" },
   projectLink: { ro: "Despre clădire", ru: "О здании", en: "About the building" },
   updated: { ro: "Actualizat", ru: "Обновлено", en: "Updated" },
   closeTitle: { ro: "Vedeți spațiul cu ochii dumneavoastră.", ru: "Посмотрите помещение вживую.", en: "See the space for yourself." },
-  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас важно, — к просмотру подготовим ответы на технические вопросы.", en: "Tell us what you are opening and what is critical — we prepare the viewing with the technical answers at hand." },
+  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас важно, — к просмотру подготовим ответы на технические вопросы.", en: "Tell us what you are opening and what is critical\u00a0— we'll prepare the viewing with the technical answers at hand." },
 } satisfies Record<string, Localized>;
 
 function Row({ label, value, demo }: { label: string; value: string; demo?: boolean }) {

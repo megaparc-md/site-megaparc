@@ -22,10 +22,10 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 const copy = {
   facts: { ro: "Faptele principale", ru: "Ключевые факты", en: "Key facts" },
   level: { ro: "Nivel", ru: "Уровень", en: "Level" },
-  gross: { ro: "Totală", ru: "Общая", en: "Gross" },
-  useful: { ro: "Utilă", ru: "Полезная", en: "Useful" },
+  gross: { ro: "Totală", ru: "Общая", en: "Total" },
+  useful: { ro: "Comercială", ru: "Коммерческая", en: "Commercial" }, // the term of the official drawings (Suprafața comercială), as in the plans block
   height: { ro: "Înălțime", ru: "Высота", en: "Height" },
-  offered: { ro: "În chirie se oferă {a} — {levels}.", ru: "В аренду предлагается {a} — {levels}.", en: "{a} is offered for lease — {levels}." },
+  offered: { ro: "Spre închiriere se oferă {a} — {levels}.", ru: "В аренду предлагается {a} — {levels}.", en: "{a} is offered for lease — {levels}." },
   and: { ro: " și ", ru: " и ", en: " and " },
 } satisfies Record<string, Localized>;
 

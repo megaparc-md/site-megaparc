@@ -13,8 +13,8 @@ import { isProductionEdition, type Localized, type SiteLocale } from "@/lib/site
 const productionNote: Record<"book", Localized> = {
   book: {
     ro: "Cererea de vizionare se trimite deocamdată direct — scrieți-ne sau sunați și propuneți ziua și intervalul; confirmăm ora personal.",
-    ru: "Запрос на просмотр пока отправляют напрямую — напишите или позвоните и предложите день и время; точный час подтвердим лично.",
-    en: "For now a viewing request is sent directly — write or call and suggest a day and time window; we confirm the exact time personally.",
+    ru: "Онлайн-запись на\u00a0просмотр пока не\u00a0работает\u00a0— напишите или позвоните и\u00a0предложите день и\u00a0время; точное время подтвердим лично.",
+    en: "For now, please request a viewing directly: e-mail or call us with a day and time window, and we'll confirm the exact time with you.",
   },
 };
 

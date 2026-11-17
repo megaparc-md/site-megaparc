@@ -35,13 +35,13 @@ export const moscova9Experience: LeasingExperience = {
     support: T("O clădire independentă pe prima linie a bulevardului — se eliberează etajul 1.", "Отдельное здание на первой линии бульвара — освобождается 1-й этаж.", "A stand-alone building directly on the boulevard — the 1st floor is becoming available."),
   },
   cta: {
-    primary: T("Anunțați interesul din timp", "Заявить интерес заранее", "Register interest early"),
+    primary: T("Exprimați-vă interesul din timp", "Оставить заявку заранее", "Register interest early"),
     secondary: { label: T("Discutați cerințele tehnice", "Обсудить технические требования", "Discuss technical requirements"), href: "#technical-support" },
   },
   figure: 2561.3,
   summary: [
-    { key: "readiness", label: T("Pregătire", "Готовность", "Readiness"), title: T("De la 1 ianuarie 2027", "С 1 января 2027", "From 1 January 2027"), text: T("Etajul 1 se eliberează la această dată — cererea se poate lăsa din timp.", "1-й этаж освобождается к этой дате — заявку можно оставить заранее.", "The 1st floor frees up on this date — the request can be left early.") },
-    { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Prima linie", "Первая линия", "Boulevard frontage"), text: T("Fațadă lungă, vizibilă de pe prima linie.", "Протяжённый фасад, виден с первой линии.", "A long frontage, clearly visible from the boulevard.") },
+    { key: "readiness", label: T("Pregătire", "Готовность", "Readiness"), title: T("De la 1 ianuarie 2027", "С 1 января 2027", "From 1 January 2027"), text: T("Etajul 1 se eliberează la această dată — cererea se poate lăsa din timp.", "1-й этаж освобождается к этой дате — заявку можно оставить заранее.", "The floor becomes available on this date — you can leave a request now.") },
+    { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Prima linie", "Первая линия", "Boulevard frontage"), text: T("Fațadă lungă, vizibilă de pe prima linie.", "Протяжённый фасад хорошо виден с бульвара.", "A long frontage, clearly visible from the boulevard.") },
     { key: "area", label: T("Suprafață", "Площадь", "Area"), title: T("{area} înregistrați", "{area} зарегистрировано", "{area} registered"), text: T("Suprafața înregistrată a clădirii; suprafața etajului 1 — la cerere.", "Зарегистрированная площадь здания; площадь 1-го этажа — по запросу.", "The registered building area; the 1st-floor area on request.") },
   ],
   statement: { lines: [T("{area}.", "{area}.", "{area}."), T("O clădire independentă.", "Отдельное здание.", "A stand-alone building."), T("Prima linie a bulevardului.", "Первая линия бульвара.", "Directly on the boulevard.")], photo: null },
@@ -49,7 +49,7 @@ export const moscova9Experience: LeasingExperience = {
     kind: "economics",
     teaser: {
       title: T("De câți clienți pe zi are nevoie afacerea dumneavoastră?", "Сколько клиентов в день нужно вашему бизнесу?", "How many customers a day does your business need?"),
-      text: T("Verificați-vă modelul pe datele proprii înainte ca etajul 1 să se elibereze.", "Проверьте свою модель на своих данных до того, как освободится 1-й этаж.", "Check your model on your own figures before the 1st floor frees up."),
+      text: T("Verificați-vă modelul pe datele proprii înainte ca etajul 1 să se elibereze.", "Проверьте свою модель на собственных цифрах — до того, как освободится 1-й этаж.", "Check your model on your own figures before the 1st floor becomes available."),
     },
   },
 
@@ -57,7 +57,7 @@ export const moscova9Experience: LeasingExperience = {
     label: T("Trei motive pentru o vizionare", "Три причины для просмотра", "Three reasons for a viewing"),
     items: [
       { key: "location", no: "01", label: T("Locație", "Локация", "Location"), text: T("Prima linie a bulevardului Moscova.", "Первая линия бульвара Москова.", "Directly on Moscova Boulevard.") },
-      { key: "own", no: "02", label: T("Clădire proprie", "Своё здание", "Own building"), text: T("Fațadă, firmă și intrare proprii.", "Собственный фасад, вывеска и вход.", "Its own facade, signage and entrance.") },
+      { key: "own", no: "02", label: T("Clădire proprie", "Своё здание", "A stand-alone building"), text: T("Fațadă, firmă și intrare proprii.", "Собственный фасад, вывеска и вход.", "Its own facade, signage and entrance.") },
       { key: "flows", no: "03", label: T("Fluxuri separate", "Раздельные потоки", "Separate flows"), text: T("Clienții — dinspre bulevard, marfa — prin rampă.", "Покупатели — с бульвара, товар — через рампу.", "Customers from the boulevard, goods via the ramp.") },
     ],
   },
@@ -69,18 +69,18 @@ export const moscova9Experience: LeasingExperience = {
     ...sharedMotion,
     ecosystem: [
       { key: "boulevard", category: "services", title: T("Bulevardul Moscova", "Бульвар Москова", "Moscova Boulevard"), text: T("Flux constant de mașini și pietoni.", "Постоянный автомобильный и пешеходный поток.", "A steady flow of cars and pedestrians.") },
-      { key: "residential", category: "residential", title: T("Cartier rezidențial dens", "Плотный жилой район", "Dense residential district"), text: T("Un public local constant.", "Постоянная локальная аудитория.", "A steady local audience.") },
+      { key: "residential", category: "residential", title: T("Cartier rezidențial dens", "Плотный жилой район", "Dense residential district"), text: T("Un public local constant.", "Постоянная местная аудитория.", "A steady local audience.") },
       { key: "parking", category: "services", title: T("Parcare", "Парковка", "Parking"), text: T("De-a lungul bulevardului.", "Вдоль бульвара.", "Along the boulevard.") },
     ],
     addressText: T("Bd. Moscova 9, sectorul Rîșcani — fațada pe prima linie a bulevardului.", "Бул. Москова, 9, сектор Рышкань — фасад на первой линии бульвара.", "9 Moscova Blvd, Rîșcani district — the frontage directly on the boulevard."),
     visibility: null,
     verdict: {
-      title: T("Această locație merită verificată pentru afacerea dumneavoastră.", "Эта локация заслуживает проверки для вашего бизнеса.", "This location deserves a check for your business."),
-      text: T("Fluxul de pe bulevard creează potențial comercial. Cât de potrivit este pentru modelul dumneavoastră — verificăm împreună, înainte ca etajul 1 să se elibereze.", "Поток на бульваре создаёт коммерческий потенциал. Насколько он подходит именно вашей модели — проверим вместе, до того как освободится 1-й этаж.", "The flow on the boulevard creates commercial potential. How well it suits your model is something we check together, before the 1st floor frees up."),
+      title: T("Această locație merită verificată pentru afacerea dumneavoastră.", "Эта локация заслуживает проверки для вашего бизнеса.", "This location is worth checking for your business."),
+      text: T("Fluxul de pe bulevard creează potențial comercial. Cât de potrivit este pentru modelul dumneavoastră — verificăm împreună, înainte ca etajul 1 să se elibereze.", "Поток на бульваре создаёт коммерческий потенциал. Насколько он подходит именно вашей модели — проверим вместе, до того как освободится 1-й этаж.", "The flow on the boulevard creates commercial potential. How well it suits your model is something we'll check together, before the 1st floor becomes available."),
     },
     cta: {
       title: T("Se potrivește această adresă afacerii dumneavoastră?", "Подходит ли этот адрес вашему бизнесу?", "Does this address suit your business?"),
-      text: T("Spuneți-ne cum funcționează formatul dumneavoastră — pregătim vizionarea pe ce contează pentru modelul dumneavoastră.", "Расскажите, как работает ваш формат, — подготовим просмотр под то, что важно для вашей модели.", "Tell us how your format works — we prepare the viewing around what matters for your model."),
+      text: T("Spuneți-ne cum funcționează formatul dumneavoastră — pregătim vizionarea pe ce contează pentru modelul dumneavoastră.", "Расскажите, как работает ваш формат, — подготовим просмотр под то, что важно для вашей модели.", "Tell us how your format works — we'll prepare the viewing around what matters for your model."),
     },
   },
 
@@ -110,20 +110,20 @@ export const moscova9Experience: LeasingExperience = {
     teamRow("signage", T("Firmă", "Вывеска", "Signage")),
   ],
   engineering: {
-    rows: [teamRow("power", T("Alimentare electrică", "Электроснабжение", "Power")), teamRow("ventilation", T("Ventilație", "Вентиляция", "Ventilation")), teamRow("heating", T("Încălzire", "Отопление", "Heating")), teamRow("water", T("Apă și canalizare", "Водоснабжение и канализация", "Water and sewer"))],
+    rows: [teamRow("power", T("Alimentare electrică", "Электроснабжение", "Power")), teamRow("ventilation", T("Ventilație", "Вентиляция", "Ventilation")), teamRow("heating", T("Încălzire", "Отопление", "Heating")), teamRow("water", T("Apă și canalizare", "Водоснабжение и канализация", "Water and drainage"))],
     note: T("Parametrii inginerești se confirmă pentru formatul dumneavoastră împreună cu directorul tehnic și arhitectul MEGAPARC.", "Инженерные параметры подтверждаем под ваш формат вместе с техническим директором и архитектором MEGAPARC.", "The engineering parameters are confirmed for your format together with MEGAPARC's Technical Director and Architect."),
   },
   readiness: {
-    confirmTitle: T("Clarificăm pentru afacerea dumneavoastră", "Уточняем под ваш бизнес", "We confirm for your business"),
+    confirmTitle: T("Clarificăm pentru afacerea dumneavoastră", "Уточняем под ваш бизнес", "To be confirmed for your business"),
     confirm: [
       fact(T("Suprafața etajului 1 pentru închiriere", "Площадь 1-го этажа к аренде", "The 1st-floor area for lease"), "TO_CONFIRM", OWNER_TEAM),
       fact(T("Puterea electrică pentru formatul dumneavoastră", "Электрическая мощность под ваш формат", "Power for your format"), "TO_CONFIRM", OWNER_TEAM),
       fact(T("Ventilația", "Вентиляция", "Ventilation"), "TO_CONFIRM", OWNER_TEAM),
-      fact(T("Formatul firmei", "Формат вывески", "Signage format"), "TO_CONFIRM", OWNER_TEAM),
+      fact(T("Formatul firmei luminoase", "Формат вывески", "Signage format"), "TO_CONFIRM", OWNER_TEAM),
       fact(T("Numărul cadastral — în curs de verificare", "Кадастровый номер — проверяется", "The cadastral number — being verified"), "TO_CONFIRM", OWNER_TEAM),
       fact(T("Autorizații pentru activitatea dumneavoastră", "Разрешения под ваш вид деятельности", "Permits for your activity"), "TO_CONFIRM", OWNER_TEAM),
     ],
-    costTitle: T("Din ce se compune lansarea", "Из чего складывается запуск", "What opening involves"),
+    costTitle: T("Ce presupune lansarea", "Из чего складывается запуск", "What opening involves"),
     cost: sharedCost,
   },
   terms: sharedTerms,
@@ -131,25 +131,25 @@ export const moscova9Experience: LeasingExperience = {
   plans: {
     ...sharedPlans,
     levels: [],
-    note: T("Planul etajului 1 îl pregătim pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră — nu publicăm o schemă neconfirmată.", "План 1-го этажа подготовим к просмотру и технической проверке вашего формата — неподтверждённую схему не публикуем.", "We prepare the 1st-floor plan for the viewing and the technical check of your format — an unconfirmed scheme is not published."),
+    note: T("Planul etajului 1 îl pregătim pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră — nu publicăm o schemă neconfirmată.", "План 1-го этажа подготовим к просмотру и технической проверке вашего формата — неподтверждённую схему не публикуем.", "We'll prepare the 1st-floor plan for the viewing and the technical check of your format — we don't publish an unconfirmed layout."),
     source: OWNER_TEAM,
     marks: null,
     onRequest: {
       tab: T("Etajul 1", "1-й этаж", "1st floor"),
       title: T("Planul etajului 1", "План 1-го этажа", "1st-floor plan"),
-      text: T("Îl pregătim pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră.", "Подготовим к просмотру и технической проверке вашего формата.", "We prepare it for the viewing and the technical check of your format."),
-      floors: [T("Etajul 1 — se eliberează la 1 ianuarie 2027", "1-й этаж — освобождается 1 января 2027", "1st floor — frees up on 1 January 2027"), T("Suprafața etajului 1 — la cerere", "Площадь 1-го этажа — по запросу", "The 1st-floor area — on request")],
+      text: T("Îl pregătim pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră.", "Подготовим к просмотру и технической проверке вашего формата.", "We'll prepare it for the viewing and the technical check of your format."),
+      floors: [T("Etajul 1 — se eliberează la 1 ianuarie 2027", "1-й этаж — освобождается 1 января 2027", "1st floor — becomes available on 1 January 2027"), T("Suprafața etajului 1 — la cerere", "Площадь 1-го этажа — по запросу", "The 1st-floor area — on request")],
     },
   },
 
   capex: {
     kicker: T("Ce există deja", "Что уже есть", "What is in place"),
     title: T("Clădire proprie.\nAdaptarea — după verificarea tehnică.", "Собственное здание.\nАдаптация — после технической проверки.", "A building of its own.\nAdaptation after the technical check."),
-    lead: T("Intrările, descărcarea și parcarea sunt deja pe loc; formatul dumneavoastră îl verificăm tehnic înainte de contract.", "Входы, разгрузка и парковка уже на месте; ваш формат проверим технически до договора.", "The entrances, unloading and parking are already in place; your format is checked technically before the lease."),
+    lead: T("Intrările, descărcarea și parcarea există deja; formatul dumneavoastră îl verificăm tehnic înainte de contract.", "Входы, разгрузка и парковка уже есть; ваш формат проверим технически до подписания договора.", "The entrances, unloading and parking are already in place; your format is checked technically before the lease."),
     photo: null,
     readyTitle: T("Deja există", "Уже есть", "Already in place"),
     ready: [
-      fact(T("Două intrări din bulevard", "Два входа с бульвара", "Two entrances from the boulevard"), "OWNER_CONFIRMED", OWNER),
+      fact(T("Două intrări dinspre bulevard", "Два входа с бульвара", "Two entrances from the boulevard"), "OWNER_CONFIRMED", OWNER),
       fact(T("Rampă de descărcare", "Рампа для разгрузки", "An unloading ramp"), "OWNER_CONFIRMED", OWNER),
       fact(T("Sală la nivelul străzii", "Зал на уровне улицы", "A street-level hall"), "OWNER_CONFIRMED", OWNER),
       fact(T("Parcare de-a lungul bulevardului", "Парковка вдоль бульвара", "Parking along the boulevard"), "OWNER_CONFIRMED", OWNER),
@@ -169,7 +169,7 @@ export const moscova9Experience: LeasingExperience = {
 
   lens: {
     ...sharedLens,
-    noPhoto: T("Organizarea posibilă o arătăm pe planul etajului 1, la vizionare.", "Возможную организацию покажем на плане 1-го этажа на просмотре.", "We show a possible organisation on the 1st-floor plan at the viewing."),
+    noPhoto: T("Organizarea posibilă o arătăm pe planul etajului 1, la vizionare.", "Возможную организацию покажем на плане 1-го этажа на просмотре.", "We'll show a possible organisation on the 1st-floor plan at the viewing."),
     formats: [
       {
         key: "retail",
@@ -179,7 +179,7 @@ export const moscova9Experience: LeasingExperience = {
           { text: T("Fațadă lungă pe prima linie a bulevardului.", "Протяжённый фасад на первой линии бульвара.", "A long frontage directly on the boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Două intrări pentru clienți, dinspre bulevard.", "Два входа для покупателей с бульвара.", "Two customer entrances from the boulevard."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Flux constant de mașini și pietoni pe bulevard.", "Постоянный автомобильный и пешеходный поток на бульваре.", "A steady flow of cars and pedestrians on the boulevard."), ref: "location", evidence: "OWNER_CONFIRMED", source: ASSET },
-          { text: T("Cartier rezidențial dens în jur.", "Вокруг — плотный жилой район.", "A dense residential district around."), ref: "location", evidence: "OWNER_CONFIRMED", source: ASSET },
+          { text: T("Cartier rezidențial dens în jur.", "Вокруг — плотный жилой район.", "Surrounded by a dense residential district."), ref: "location", evidence: "OWNER_CONFIRMED", source: ASSET },
         ],
         checks: [T("suprafața etajului 1 pentru formatul dumneavoastră", "площадь 1-го этажа под ваш формат", "the 1st-floor area for your format"), T("puterea electrică și ventilația", "мощность и вентиляция", "power and ventilation"), T("formatul și dimensiunile firmei", "формат и размеры вывески", "signage format and size")],
         closing: sharedLens.honesty,
@@ -191,8 +191,8 @@ export const moscova9Experience: LeasingExperience = {
         question: T("Vor putea clienții să ajungă comod?", "Смогут ли клиенты удобно приехать?", "Can customers get here easily?"),
         evidence: [
           { text: T("Parcare de-a lungul bulevardului.", "Парковка вдоль бульвара.", "Parking along the boulevard."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
-          { text: T("Rampă și zonă de descărcare separate — marfa nu se intersectează cu clienții.", "Отдельная рампа и зона разгрузки — товар не пересекается с покупателями.", "A separate ramp and unloading zone — goods never cross the customers' path."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
-          { text: T("Clădire independentă, în afara centrelor comerciale — fațadă și firmă proprii.", "Отдельное здание вне торговых центров — собственный фасад и вывеска.", "A stand-alone building outside the malls — its own facade and signage."), ref: "photos", evidence: "OWNER_CONFIRMED", source: ASSET },
+          { text: T("Rampă și zonă de descărcare separate — marfa nu se intersectează cu clienții.", "Отдельная рампа и зона разгрузки — товар не пересекается с покупателями.", "A separate ramp and unloading zone — goods and customers do not cross paths."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
+          { text: T("Clădire independentă, în afara centrelor comerciale — fațadă și firmă proprii.", "Отдельное здание вне торговых центров — собственный фасад и вывеска.", "A stand-alone building outside shopping centres — its own facade and signage."), ref: "photos", evidence: "OWNER_CONFIRMED", source: ASSET },
         ],
         checks: [T("descărcarea mărfii voluminoase", "разгрузка крупногабаритного товара", "unloading of large goods"), T("iluminatul expoziției", "освещение экспозиции", "display lighting"), T("formatul firmei", "формат вывески", "signage format")],
         closing: sharedLens.honesty,
@@ -203,12 +203,12 @@ export const moscova9Experience: LeasingExperience = {
 
   viewing: {
     kicker: T("Interes din timp", "Ранний интерес", "Early interest"),
-    title: T("Nu decideți după fotografii.\nRezervați din timp vizionarea Moscova 9.", "Не решайте по фотографиям.\nЗаймите очередь на просмотр Moscova 9.", "Don't decide from photographs.\nQueue early for a viewing of Moscova 9."),
-    lead: T("Etajul 1 se eliberează la 1 ianuarie 2027. Lăsați o cerere — revenim pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră.", "1-й этаж освобождается 1 января 2027. Оставьте заявку — свяжемся для просмотра и технической проверки вашего формата.", "The 1st floor frees up on 1 January 2027. Leave a request — we come back for the viewing and the technical check of your format."),
+    title: T("Nu decideți după fotografii.\nRezervați din timp vizionarea Moscova 9.", "Не решайте по фотографиям.\nЗапишитесь на просмотр заранее.", "Don't decide on photographs alone.\nBook your Moscova 9 viewing in advance."),
+    lead: T("Etajul 1 se eliberează la 1 ianuarie 2027. Lăsați o cerere — revenim pentru vizionare și pentru verificarea tehnică a formatului dumneavoastră.", "1-й этаж освобождается 1 января 2027. Оставьте заявку — свяжемся для просмотра и технической проверки вашего формата.", "The 1st floor becomes available on 1 January 2027. Leave a request — we'll contact you about the viewing and the technical check of your format."),
     steps: [
-      { title: T("Înainte", "До просмотра", "Before"), text: T("formatul, cerințele tehnice, suprafața necesară, termenul deschiderii", "формат, технические требования, нужная площадь, срок открытия", "format, technical requirements, the area you need, opening date") },
-      { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("clădirea, intrările, descărcarea, punctele inginerești, accesul", "здание, входы, разгрузка, инженерные точки, доступ", "the building, entrances, unloading, engineering points, access") },
-      { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "the technical requirements checked, then the commercial terms") },
+      { title: T("Înainte", "До просмотра", "Before"), text: T("formatul, cerințele tehnice, suprafața necesară, data deschiderii", "формат, технические требования, нужная площадь, срок открытия", "format, technical requirements, the area you need, opening date") },
+      { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("clădirea, intrările, descărcarea, punctele de racord, accesul", "здание, входы, разгрузка, точки подключения, доступ", "the building, entrances, unloading, service connection points, access") },
+      { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "a check of the technical requirements, then the commercial terms") },
     ],
     photo: null,
     contactsLine,

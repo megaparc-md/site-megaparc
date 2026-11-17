@@ -13,9 +13,9 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  */
 
 export const leasingUi = {
-  details: { ro: "Vezi spațiul", ru: "Смотреть помещение", en: "View the space" },
+  details: { ro: "Vedeți spațiul", ru: "Смотреть помещение", en: "View the space" },
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
-  waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
+  waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it becomes available" },
   floor: { ro: "Etaj", ru: "Этаж", en: "Floor" },
   use: { ro: "Potrivit pentru", ru: "Подходит для", en: "Suits" },
 } satisfies Record<string, Localized>;

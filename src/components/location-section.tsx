@@ -7,13 +7,13 @@ import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
   label: { ro: "Amplasare", ru: "Расположение", en: "Location" },
-  open: { ro: "Deschide în Google Maps", ru: "Открыть в Google Maps", en: "Open in Google Maps" },
-  route: { ro: "Construiește ruta", ru: "Построить маршрут", en: "Get directions" },
+  open: { ro: "Deschideți în Google Maps", ru: "Открыть в Google Maps", en: "Open in Google Maps" },
+  route: { ro: "Planificați traseul", ru: "Построить маршрут", en: "Get directions" },
   newTab: { ro: "se deschide într-o filă nouă", ru: "откроется в новой вкладке", en: "opens in a new tab" },
   stops: { ro: "Stații de transport public", ru: "Остановки транспорта", en: "Public transport stops" },
   // OWNER Moscova 20 micro-fix (2026-11-09), applied by the leasing template to every map: a straight-line radius — never walking minutes until real routes are calculated
-  walk: { ro: "Rază de {m} m în linie dreaptă", ru: "Радиус {m} м по прямой", en: "{m} m radius in a straight line" },
-  map: { ro: "Hartă: amplasarea obiectului", ru: "Карта: расположение объекта", en: "Map: where the property is" },
+  walk: { ro: "Rază de {m} m în linie dreaptă", ru: "Радиус {m} м по прямой", en: "{m} m straight-line radius" },
+  map: { ro: "Hartă: amplasarea imobilului", ru: "Карта: расположение объекта", en: "Map: where the property is" },
 } satisfies Record<string, Localized>;
 
 /**

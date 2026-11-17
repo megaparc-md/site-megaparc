@@ -60,7 +60,7 @@ const copy = {
   cat: {
     education: { ro: "Educație", ru: "Образование", en: "Education" },
     transport: { ro: "Transport", ru: "Транспорт", en: "Transport" },
-    grocery: { ro: "Alimentare", ru: "Продукты", en: "Groceries" },
+    grocery: { ro: "Magazine alimentare", ru: "Продукты", en: "Groceries" },
     pharmacy: { ro: "Farmacii", ru: "Аптеки", en: "Pharmacies" },
     services: { ro: "Servicii", ru: "Услуги", en: "Services" },
     roads: { ro: "Artere principale", ru: "Магистрали", en: "Main roads" },
@@ -80,18 +80,18 @@ const copy = {
     VERIFIED: { ro: "Date verificate", ru: "Проверенные данные", en: "Verified data" },
   },
   series: {
-    auto: { ro: "Auto", ru: "Авто", en: "Auto" },
+    auto: { ro: "Auto", ru: "Авто", en: "Vehicles" },
     pedestrian: { ro: "Pietoni", ru: "Пешеходы", en: "Pedestrians" },
     transit: { ro: "Transport", ru: "Транспорт", en: "Transport" },
   },
   peakBand: { ro: "vârf", ru: "пик", en: "peak" },
   hour: {
     morning: { ro: "dimineața: activitate constantă", ru: "утро: устойчивая активность", en: "morning: steady activity" },
-    day: { ro: "ziua: activitate medie", ru: "день: средняя активность", en: "daytime: medium activity" },
+    day: { ro: "ziua: activitate medie", ru: "день: средняя активность", en: "daytime: moderate activity" },
     peak: { ro: "seara: vârf", ru: "вечер: пик", en: "evening: peak" },
     late: { ro: "seara târziu: scădere", ru: "поздний вечер: спад", en: "late evening: easing" },
   },
-  chartLabel: { ro: "Ritmul zilei 08–20 după modelul preliminar: dimineața constant, ziua mediu, seara vârf între 16 și 19. Fără valori.", ru: "Ритм дня 08–20 по предварительной модели: утром устойчиво, днём средне, вечером пик с 16 до 19. Без значений.", en: "The day's rhythm 08–20 in the preliminary model: steady in the morning, medium in the day, a peak from 16 to 19. No values." },
+  chartLabel: { ro: "Ritmul zilei 08–20 după modelul preliminar: dimineața constant, ziua mediu, seara vârf între 16 și 19. Fără valori.", ru: "Ритм дня с\u00a008:00 до\u00a020:00 по\u00a0предварительной модели: утром\u00a0— устойчивая активность, днём\u00a0— средняя, вечером\u00a0— пик с\u00a016:00 до\u00a019:00. Без\u00a0числовых значений.", en: "Daily rhythm, 08:00–20:00, in the preliminary model: steady in the morning, moderate during the day, peaking 16:00–19:00. Indicative, without values." },
   // the closed state of the decision tool (OWNER §19): its title and text come from the dataset (x.decision.teaser); the action word by kind
   go: { office: T("Calculați suprafața", "Посчитать площадь", "Calculate the area") },
 } as const;

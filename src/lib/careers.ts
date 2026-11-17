@@ -207,9 +207,9 @@ export const employerBrand = {
     allRoles: { ro: "Toate posturile pe Rabota.md", ru: "Все вакансии на Rabota.md", en: "All roles on Rabota.md" } satisfies Localized,
     allRolesUrl: "https://www.rabota.md/ro/companies/imc-group",
     emptyTitle: {
-      ro: "Momentan nu există posturi deschise.",
+      ro: "Momentan nu avem posturi vacante.",
       ru: "Открытых вакансий сейчас нет.",
-      en: "There are no open vacancies at the moment.",
+      en: "There are no open vacancies right now.",
     } satisfies Localized,
     emptyText: {
       ro: "Puteți trimite un CV prin pagina de contact. Îl vom lua în considerare când apar posturi potrivite.",

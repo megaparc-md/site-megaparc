@@ -8,7 +8,7 @@ import type { Localized } from "@/lib/site-data";
 const N = " ";
 export const offerCopy = {
   kicker: { ro: "Ofertă comercială · închiriere", ru: "Коммерческое предложение · аренда", en: "Commercial offer · lease" },
-  coverLevels: { ro: "Două niveluri și terasă · acces direct din bulevard", ru: `Два уровня и${N}терраса · прямой вход с${N}бульвара`, en: "Two levels and a terrace · direct access from the boulevard" },
+  coverLevels: { ro: "Două niveluri și terasă · acces direct dinspre bulevard", ru: `Два уровня и${N}терраса · прямой вход с${N}бульвара`, en: "Two levels and a terrace · direct access from the boulevard" },
   coverPlace: { ro: `Chișinău · Rîșcani · bd.${N}Moscova${N}20`, ru: `Кишинэу · Рышкань · бул.${N}Москова,${N}20`, en: `Chișinău · Rîșcani · 20${N}Moscova Blvd` },
   opportunity: {
     kicker: { ro: "Oportunitatea", ru: "Возможность", en: "The opportunity" },
@@ -33,7 +33,7 @@ export const offerCopy = {
   location: {
     routes: { ro: " rute de transport public conform datelor actuale OpenStreetMap", ru: `${N}маршрутов общественного транспорта по${N}текущим данным OpenStreetMap`, en: " public-transport routes per current OpenStreetMap data" },
   },
-  mailSubject: { ro: "Moscova 20 — ofertă comercială", ru: "Moscova 20 — коммерческое предложение", en: "Moscova 20 — commercial offer" },
+  mailSubject: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
   // R4 brochure (OWNER R9 §04, 2026-11-13). The second argument of the opportunity page is the OWNER's «Прямой клиентский вход»; its
   // explanation is the confirmed access card of the passport. The fee line repeats the OWNER's rule «без двойного начисления».
   r4: {

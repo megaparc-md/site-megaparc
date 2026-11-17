@@ -25,7 +25,7 @@ export const offerR41 = {
   individualLead: {
     ro: "Pentru formatul și suprafața dumneavoastră pregătim o ofertă individuală.",
     ru: `Под ваш формат и${N}нужную площадь подготовим индивидуальное предложение.`,
-    en: "We prepare an individual offer for your format and the space you need.",
+    en: "We'll prepare an individual offer for your format and the space you need.",
   },
   // OWNER R4.1 visual review P2 (2026-11-14): the official drawings are shown reduced — the scale belongs to the original; measure on the PDF
   planLegend: {

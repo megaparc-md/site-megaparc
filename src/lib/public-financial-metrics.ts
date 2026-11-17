@@ -34,7 +34,7 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     currency: "EUR",
     display: "€25M+",
     label: { ro: "Valoarea portofoliului", ru: "Стоимость портфеля", en: "Portfolio value" },
-    note: { ro: "Obiecte în funcțiune și în dezvoltare", ru: "Действующие объекты и проекты развития", en: "Operating properties and development projects" },
+    note: { ro: "Imobile în exploatare și în dezvoltare", ru: "Действующие объекты и проекты развития", en: "Operating properties and development projects" },
     temporary: true,
   },
   {

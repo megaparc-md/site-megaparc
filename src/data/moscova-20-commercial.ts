@@ -128,7 +128,7 @@ export const commercialCopy = {
   basisNote: {
     ro: "Calcul preliminar: suprafața integrală a celor două niveluri, fără terasă. Baza de calcul se confirmă în oferta comercială și în contractul de locațiune.",
     ru: `Расчёт предварительный: полная площадь двух этажей, без${N}террасы. База начисления подтверждается в${N}коммерческом предложении и${N}договоре аренды.`,
-    en: "A preliminary calculation: the full area of the two levels, without the terrace. The charging basis is confirmed in the commercial offer and the lease agreement.",
+    en: "A preliminary calculation: the full area of the two levels, without the terrace. The charging basis is confirmed in the commercial leasing proposal and the lease agreement.",
   },
   vatNote: {
     ro: "Tarifele nu includ TVA. Utilitățile și celelalte cheltuieli de exploatare nu sunt incluse în calcul.",
@@ -139,7 +139,7 @@ export const commercialCopy = {
   // for the administration and maintenance of the engineering networks — that maintenance is covered by the fee only, never charged a
   // second time; other operating expenses defined by the lease. RU = the OWNER's paragraph; RO / EN adapted with the same meaning.
   termsTitle: { ro: "Garanție și cheltuieli", ru: "Депозит и расходы", en: "Deposit and charges" },
-  depositLabel: { ro: "Garanție locativă", ru: "Гарантийный депозит", en: "Security deposit" },
+  depositLabel: { ro: "Depozit de garanție", ru: "Гарантийный депозит", en: "Security deposit" },
   depositFigure: { ro: `${m20Commercial.deposit.months}${N}luni`, ru: `${m20Commercial.deposit.months}${N}месяца`, en: `${m20Commercial.deposit.months}${N}months` },
   depositUnit: { ro: "de chirie de bază", ru: "базовой аренды", en: "of base rent" },
   depositTerm: {
@@ -148,13 +148,13 @@ export const commercialCopy = {
     en: `Equal to ${m20Commercial.deposit.months}${N}months’ base rent.`,
   },
   utilitiesLabel: { ro: "Utilități", ru: "Коммунальные услуги", en: "Utilities" },
-  utilitiesShort: { ro: "Conform facturării efective", ru: "По фактическим начислениям", en: "At actual charges" },
+  utilitiesShort: { ro: "Conform facturării efective", ru: "По фактическим начислениям", en: "Charged at actual cost" },
   otherExpenses: {
     ro: "Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.",
     ru: `Иные эксплуатационные расходы определяются договором аренды.`,
     en: "Other operating expenses are defined in the lease agreement.",
   },
-  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești", ru: "Администрирование и обслуживание инженерных сетей", en: "Administration and engineering-network maintenance" },
+  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești", ru: "Администрирование и обслуживание инженерных сетей", en: "Administration and building-network maintenance" },
   feeFigure: { ro: `${m20Commercial.fee.percentOfUtilities}${N}%`, ru: `${m20Commercial.fee.percentOfUtilities}${N}%`, en: `${m20Commercial.fee.percentOfUtilities}%` },
   feeUnit: { ro: "din costul utilităților", ru: "от стоимости коммунальных услуг", en: "of the utility costs" },
   /** the lease-terms row — the OWNER's paragraph */
@@ -162,7 +162,7 @@ export const commercialCopy = {
   utilitiesTerm: {
     ro: `Utilitățile se achită conform facturării efective. Suplimentar se percepe ${m20Commercial.fee.percentOfUtilities}${N}% din costul utilităților pentru administrarea și întreținerea rețelelor inginerești. Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.`,
     ru: `Коммунальные услуги оплачиваются по${N}фактическим начислениям. Дополнительно взимается ${m20Commercial.fee.percentOfUtilities}${N}% от${N}стоимости коммунальных услуг за${N}администрирование и${N}обслуживание инженерных сетей. Иные эксплуатационные расходы определяются договором аренды.`,
-    en: `Utilities are paid at actual charges. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the engineering networks. Other operating expenses are defined in the lease agreement.`,
+    en: `Utilities are charged at actual cost. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the building's utility networks. Other operating expenses are defined in the lease agreement.`,
   },
   indexationTitle: { ro: "Indexare anuală", ru: "Ежегодная индексация", en: "Annual indexation" },
   // OWNER addendum «Ежегодная индексация арендной платы» (2026-11-12) — verbatim; no percentage of annual increase is ever added
@@ -174,7 +174,7 @@ export const commercialCopy = {
   // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16) — supersedes «Коммерческая презентация»: one premium name for the document, one action
   // on every button that downloads it, a caption with the page count and the language; never a version, an internal code or a file name
   offerTitle: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
-  offerCta: { ro: "Descarcă oferta comercială", ru: "Скачать коммерческое предложение", en: "Download the commercial leasing proposal" },
+  offerCta: { ro: "Descărcați oferta comercială", ru: "Скачать коммерческое предложение", en: "Download the commercial leasing proposal" },
   offerMeta: { ro: "PDF · {pages} pagini · română", ru: "PDF · {pages} страниц · русский", en: "PDF · {pages} pages · English" },
   /** where no accepted PDF exists (the production edition before the OWNER GO): the action leads to the direct contact — never a dead link */
   offerContactMeta: { ro: "prin contact direct cu MEGAPARC", ru: `через прямой контакт с${N}MEGAPARC`, en: "through direct contact with MEGAPARC" },
@@ -190,8 +190,8 @@ export const commercialCopy = {
   why: {
     title: { ro: "De ce Moscova 20", ru: "Почему Moscova 20", en: "Why Moscova 20" },
     items: [
-      { key: "glazing", title: { ro: "Vitrine spre bulevard", ru: "Витрины на бульвар", en: "Boulevard-facing glazing" }, text: { ro: "Vitrajul parterului este orientat spre bulevardul Moscova — brandul se vede din stradă.", ru: `Остекление первого этажа обращено к${N}бульвару Москова${N}— бренд виден с${N}улицы.`, en: "The ground-floor glazing faces Moscova Boulevard — the brand is seen from the street." } },
-      { key: "district", title: { ro: "Cartier rezidențial consacrat", ru: "Сложившийся жилой район", en: "Established residential surroundings" }, text: { ro: "În jur — blocuri de locuit, școli și servicii de zi cu zi ale sectorului Rîșcani.", ru: `Вокруг${N}— жилые дома, школы и${N}ежедневные сервисы сектора Рышкань.`, en: "Around it — residential blocks, schools and everyday services of the Rîșcani sector." } },
+      { key: "glazing", title: { ro: "Vitrine spre bulevard", ru: "Витрины на бульвар", en: "Boulevard-facing glazing" }, text: { ro: "Vitrajul parterului este orientat spre bulevardul Moscova — brandul se vede din stradă.", ru: `Остекление первого этажа обращено к${N}бульвару Москова${N}— бренд виден с${N}улицы.`, en: "The ground-floor glazing faces Moscova Boulevard — the brand is visible from the street." } },
+      { key: "district", title: { ro: "Cartier rezidențial consacrat", ru: "Сложившийся жилой район", en: "Established residential surroundings" }, text: { ro: "În jur — blocuri de locuit, școli și servicii de zi cu zi ale sectorului Rîșcani.", ru: `Вокруг${N}— жилые дома, школы и${N}повседневные услуги сектора Рышкань.`, en: "Around it — residential blocks, schools and everyday services in the Rîșcani district." } },
       { key: "levels", title: { ro: "Două niveluri pentru formatul dumneavoastră", ru: "Два уровня под ваш формат", en: "Two levels adaptable to your format" }, text: { ro: "Parter și demisol: zona pentru clienți și suprafețele auxiliare într-un singur concept.", ru: `Первый этаж и${N}цоколь: клиентская зона и${N}вспомогательные площади в${N}одной концепции.`, en: "Ground floor and lower ground: the customer area and the support space in one concept." } },
     ],
   },

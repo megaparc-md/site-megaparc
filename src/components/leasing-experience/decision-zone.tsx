@@ -20,17 +20,17 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  */
 
 const copy = {
-  office: T("Scenariul biroului", "Сценарий офиса", "Office scenario"),
-  waitlist: T("Când se eliberează un spațiu", "Когда освободится помещение", "When a space frees up"),
+  office: T("Scenariul biroului", "Расчёт площади офиса", "Office scenario"),
+  waitlist: T("Când se eliberează un spațiu", "Когда освободится помещение", "When a space becomes available"),
   waitLead: T(
-    "Clădirea este ocupată integral. Lista de așteptare vă ține aproape: aflați primii că se eliberează un spațiu potrivit formatului dumneavoastră.",
-    "Здание занято полностью. Лист ожидания держит вас рядом: вы узнаете, когда освободится помещение под ваш формат.",
-    "The building is fully let. The waiting list keeps you close: you hear when a space for your format frees up.",
+    "Clădirea este închiriată integral. Înscrieți-vă pe lista de așteptare — vă anunțăm când se eliberează un spațiu potrivit formatului dumneavoastră.",
+    "Здание занято полностью. Встаньте в лист ожидания — мы сообщим, когда освободится помещение под ваш формат.",
+    "The building is fully let. Join the waiting list and we'll let you know when a space for your format becomes available.",
   ),
   steps: [
     { title: T("Lăsați o cerere", "Оставьте заявку", "Leave a request"), text: T("formatul, suprafața de care aveți nevoie, termenul dorit", "формат, нужная площадь, желаемые сроки", "the format, the area you need, the timing you want") },
-    { title: T("Vă anunțăm", "Мы сообщим", "We let you know"), text: T("când se eliberează un spațiu potrivit — și vi-l arătăm", "когда освободится подходящее помещение, — и покажем его", "when a suitable space frees up — and show it to you") },
-    { title: T("Verificăm formatul", "Проверим формат", "We check the format"), text: T("mai întâi tehnic, cu directorul tehnic și arhitectul — apoi condițiile comerciale", "сначала технически, с техническим директором и архитектором, — затем коммерческие условия", "technically first, with the Technical Director and the Architect — then the commercial terms") },
+    { title: T("Vă anunțăm", "Мы сообщим", "We'll let you know"), text: T("când se eliberează un spațiu potrivit — și vi-l arătăm", "когда освободится подходящее помещение, — и покажем его", "when a suitable space becomes available — and show it to you") },
+    { title: T("Verificăm formatul", "Проверим формат", "We'll check the format"), text: T("mai întâi tehnic, cu directorul tehnic și arhitectul — apoi condițiile comerciale", "сначала — технические требования, с техническим директором и архитектором; затем — коммерческие условия", "technically first, with the Technical Director and the Architect — then the commercial terms") },
   ],
 } satisfies Record<string, Localized | { title: Localized; text: Localized }[]>;
 

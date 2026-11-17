@@ -56,14 +56,14 @@ const register: [statement: string, emphasis: string | null][] = [
   ["5,537.6 m². One building. One company.", null],
   ["Въезд в город со стороны аэропорта.", "Въезд в город"], // location
   ["Intrarea în oraș dinspre aeroport.", "Intrarea în oraș"],
-  ["The city's entrance from the airport.", "The city's entrance"],
+  ["The main approach from the airport.", "The main approach"],
   ["Здание целиком. Адаптация — после технического аудита.", "Здание целиком."], // flexibility of use
   ["O clădire întreagă. Adaptarea — după auditul tehnic.", "O clădire întreagă."],
   ["A whole building. Adaptation after the technical audit.", "A whole building."],
 
   // ---- Creangă 78 · a fully let operating property ----
   ["Действующий объект, занятый полностью.", "занятый полностью."], // proof of quality
-  ["Un obiect în funcțiune, ocupat integral.", "ocupat integral."],
+  ["Un imobil în exploatare, închiriat integral.", "închiriat integral."],
   ["An operating property, fully let.", "fully let."],
   ["2 158,3 м². Занят на 100 %. Лист ожидания открыт.", "Лист ожидания открыт."], // the one thing a visitor can do here
   ["2.158,3 m². Ocupat 100 %. Lista de așteptare este deschisă.", "Lista de așteptare este deschisă."],
@@ -72,17 +72,17 @@ const register: [statement: string, emphasis: string | null][] = [
   ["Strada Ion Creangă, Chișinău.", null],
   ["Ion Creangă Street, Chișinău.", null],
   ["Объект работает. Помещения заняты.", null], // calm fact; the hero and the statement already carry it
-  ["Obiectul funcționează. Spațiile sunt ocupate.", null],
-  ["The property operates. Its spaces are let.", null],
+  ["Imobilul este în exploatare. Spațiile sunt închiriate.", null],
+  ["The property is operating. Its spaces are let.", null],
 
   // ---- the final scene of every leasing page ----
   // «Не решайте по фотографиям.» stays calm: the accent used to sit on the negation. The action — «Посмотрите Moscova 20 лично.» — is
   // the cue line under it, already set apart as a whole (600, burgundy); it needs no second accent.
   ["Не решайте по фотографиям.", null],
   ["Nu decideți după fotografii.", null],
-  ["Don't decide from photographs.", null],
+  ["Don't decide on photographs alone.", null],
   ["Помещения заняты.", null],
-  ["Spațiile sunt ocupate.", null],
+  ["Spațiile sunt închiriate.", null],
   ["The spaces are let.", null],
 
   // ---- Leasing Pack · commercial offer ----

@@ -197,8 +197,8 @@ export function spaceStatusLine(space: AvailableSpace, locale: SiteLocale) {
 }
 
 export const availabilityCopy = {
-  now: { ro: "Liber acum", ru: "Свободно сейчас", en: "Available now" } satisfies Localized,
-  soon: { ro: "Liber din", ru: "Свободно с", en: "Available from" } satisfies Localized,
+  now: { ro: "Disponibil acum", ru: "Свободно сейчас", en: "Available now" } satisfies Localized,
+  soon: { ro: "Disponibil din", ru: "Свободно с", en: "Available from" } satisfies Localized,
   reserved: { ro: "Rezervat", ru: "Забронировано", en: "Reserved" } satisfies Localized,
   leased: { ro: "Închiriat", ru: "Сдано", en: "Leased" } satisfies Localized,
 };
@@ -261,15 +261,15 @@ const label = {
 };
 
 const cardStatus = {
-  operating: { ro: "Clădire în funcțiune", ru: "Действующий объект", en: "Operating property" },
-  development: { ro: "Etapa: realizare", ru: "Стадия: реализация", en: "Stage: delivery" },
+  operating: { ro: "Imobil în exploatare", ru: "Действующий объект", en: "Operating property" },
+  development: { ro: "Etapa: implementare", ru: "Стадия: реализация", en: "Stage: delivery" },
   programme: { ro: "Proiect de dezvoltare", ru: "Проект развития", en: "Development project" },
   land: { ro: "Teren", ru: "Земельный участок", en: "Land plot" },
 } satisfies Record<string, Localized>;
 
 /** Public kind labels (OWNER 2026-10-09): operating property · development project · land plot. */
 export const kindLabel: Record<ProjectKind, Localized> = {
-  operating: { ro: "Obiect în funcțiune", ru: "Действующий объект", en: "Operating property" },
+  operating: { ro: "Imobil în exploatare", ru: "Действующий объект", en: "Operating property" },
   development: { ro: "Proiect de dezvoltare", ru: "Проект развития", en: "Development project" },
   land: { ro: "Teren", ru: "Земельный участок", en: "Land plot" },
 };

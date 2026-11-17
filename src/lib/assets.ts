@@ -80,7 +80,7 @@ export type PortfolioAsset = {
   caveat: Localized | null;
 };
 
-const operating: Localized = { ro: "Obiect în funcțiune", ru: "Действующий объект", en: "Operating property" };
+const operating: Localized = { ro: "Imobil în exploatare", ru: "Действующий объект", en: "Operating property" };
 
 function media(folder: string, base: string, position?: string): AssetMedia {
   return {
@@ -120,12 +120,12 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     lead: {
       ro: "Clădire independentă de 5.541 m² în sectorul Botanica, pentru o singură organizație. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
-      ru: "Отдельно стоящее здание площадью 5 541 м² в секторе Ботаника для одной компании. Единый контроль доступа, крупные площади, готовая инженерная инфраструктура и заметный фасад.",
+      ru: "Отдельно стоящее здание площадью 5 541\u00a0м² в\u00a0секторе Ботаника для\u00a0одной компании. Единый контроль доступа, большие площади этажей, существующая инженерная инфраструктура и\u00a0заметный фасад.",
       en: "A 5,541 m² stand-alone building in Botanica for a single organisation. Single access control, large floor areas, existing building services and a prominent facade.",
     },
     story: {
       ro: [
-        "Dacia 31 nu este un etaj într-un centru de afaceri, ci o clădire separată. Compania primește intrare proprie, control unic al accesului și o fațadă pe care își poate afișa numele.",
+        "Dacia 31 nu este un etaj într-un centru de afaceri, ci o clădire separată. Compania primește intrare proprie, control centralizat al accesului și o fațadă pe care își poate afișa numele.",
         "Suprafețele mari, distribuite pe patru niveluri principale și un etaj tehnic, permit ca toate departamentele companiei să lucreze în același obiect și ca spațiul să fie reorganizat pe măsură ce compania crește.",
         "Infrastructura inginerească a clădirii există deja: rețele și instalații, tubulatură de aer, trasee de alimentare electrică și curenți slabi. Capacitățile exacte se stabilesc printr-un audit tehnic și se adaptează la cerințele utilizatorului.",
       ],
@@ -147,15 +147,15 @@ export const portfolioAssets: PortfolioAsset[] = [
       { label: { ro: "Accese / circulații", ru: "Входы / коммуникации", en: "Entrances / circulation" }, value: { ro: "4+ posibilități", ru: "4+ варианта", en: "4+ possibilities" } },
     ],
     location: {
-      ro: "Botanica este intrarea în Chișinău dinspre aeroport. Clădirea se află lângă arterele Dacia, Traian și Decebal, aproape de o alee pietonală largă, restaurante, cafenele și servicii.",
-      ru: "Ботаника — въезд в Кишинэу со стороны аэропорта. Здание расположено у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной аллеей, ресторанами, кафе и сервисами.",
-      en: "Botanica is the entrance to Chișinău from the airport. The building sits by the Dacia, Traian and Decebal arteries, close to a wide pedestrian promenade, restaurants, cafés and services.",
+      ro: "Botanica este poarta de intrare în Chișinău dinspre aeroport. Clădirea se află lângă arterele Dacia, Traian și Decebal, aproape de o alee pietonală largă, restaurante, cafenele și servicii.",
+      ru: "Ботаника\u00a0— въезд в\u00a0Кишинэу со\u00a0стороны аэропорта. Здание расположено у\u00a0магистралей Дачия, Траян и\u00a0Дечебал, рядом с\u00a0широкой пешеходной аллеей, ресторанами, кафе и\u00a0услугами.",
+      en: "Botanica is the gateway to Chișinău from the airport. The building stands near the Dacia, Traian and Decebal boulevards, close to a wide pedestrian promenade, restaurants, cafés and services.",
     },
     connectivity: [
-      { ro: "Botanica, intrarea în Chișinău dinspre aeroport", ru: "Ботаника — въезд в Кишинэу со стороны аэропорта", en: "Botanica, the entrance to Chișinău from the airport" },
-      { ro: "Arterele urbane Dacia, Traian și Decebal", ru: "Городские магистрали Дачия, Траян и Дечебал", en: "Dacia, Traian and Decebal urban arteries" },
+      { ro: "Botanica, intrarea în Chișinău dinspre aeroport", ru: "Ботаника — въезд в Кишинэу со стороны аэропорта", en: "Botanica, the gateway to Chișinău from the airport" },
+      { ro: "Arterele urbane Dacia, Traian și Decebal", ru: "Городские магистрали Дачия, Траян и Дечебал", en: "Dacia, Traian and Decebal urban main roads" },
       { ro: "Alee pietonală largă", ru: "Широкая пешеходная аллея", en: "Wide pedestrian promenade" },
-      { ro: "Restaurante, cafenele și servicii în apropiere", ru: "Рестораны, кафе и сервисы рядом", en: "Restaurants, cafés and services nearby" },
+      { ro: "Restaurante, cafenele și servicii în apropiere", ru: "Рестораны, кафе и\u00a0услуги рядом", en: "Restaurants, cafés and services nearby" },
     ],
     map: { address: "Bd. Dacia 31, Chișinău", query: "Bd. Dacia 31, Chișinău, Moldova" },
     building: {
@@ -182,7 +182,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     operatingLogic: {
       text: {
-        ro: "Clădirea funcționează ca un întreg: o singură companie, numele propriu pe fațadă, control unic al accesului și al securității, distribuție liberă a echipelor pe etaje.",
+        ro: "Clădirea funcționează ca un întreg: o singură companie, numele propriu pe fațadă, control centralizat al accesului și al securității, distribuție liberă a echipelor pe etaje.",
         ru: "Здание работает как единое целое: одна компания, собственное название на фасаде, единый контроль доступа и безопасности, свободное распределение команд по этажам.",
         en: "The building works as one whole: a single company, its own name on the facade, single control of access and security, teams arranged freely across the floors.",
       },
@@ -224,7 +224,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     media: media("portfolio", "moscova-9", "50% 50%"),
     status: operating,
-    positioning: { ro: "Obiect comercial independent", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" },
+    positioning: { ro: "Clădire comercială independentă", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" },
     headline: {
       ro: "Un obiect comercial independent pe prima linie a bulevardului.",
       ru: "Отдельно стоящий торговый объект на первой линии бульвара.",
@@ -242,7 +242,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Retail brands that want their own boulevard address instead of a unit in a shopping centre: a flagship store, a showroom or specialist retail.",
     },
     lead: {
-      ro: "Obiect comercial independent pe bulevardul Moscova, în afara centrelor comerciale: fațadă lungă, două intrări pentru clienți și zonă separată de descărcare.",
+      ro: "Clădire comercială independentă pe bulevardul Moscova, în afara centrelor comerciale: fațadă lungă, două intrări pentru clienți și zonă separată de descărcare.",
       ru: "Отдельно стоящий торговый объект на бульваре Москова, вне торговых центров: протяжённый фасад, два входа для покупателей и отдельная зона разгрузки.",
       en: "A stand-alone retail property on Moscova Boulevard, outside shopping centres: a long frontage, two customer entrances and a separate unloading zone.",
     },
@@ -372,7 +372,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Spațiu comercial", ru: "Коммерческое помещение", en: "Commercial premises" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
+      { label: { ro: "Spațiu comercial", ru: "Коммерческое помещение", en: "Commercial space" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
       { label: { ro: "Suprafață netă de vânzare", ru: "Чистая торговая площадь", en: "Net sales area" }, value: { ro: "458,86 m²", ru: "458,86 м²", en: "458.86 m²" } },
       { label: { ro: "Alimentare electrică", ru: "Электроснабжение", en: "Power supply" }, value: { ro: "3 faze · 38 kW (documente)", ru: "3 фазы · 38 кВт (по документам)", en: "3 phases · 38 kW (documented)" } },
     ],
@@ -537,24 +537,24 @@ export const developmentProjects: DevelopmentProject[] = [
     // carries the waterfront / scale scene of the project page. The earlier `vatra*` files stay in the repository for rollback only.
     media: media("development", "vatra-aerial-shoreline-01", "52% 58%"),
     contextMedia: media("development", "vatra-aerial-overview-02", "50% 60%"),
-    status: { ro: "Proiect în dezvoltare", ru: "Проект в работе", en: "Project in development" },
+    status: { ro: "Proiect în dezvoltare", ru: "Проект в\u00a0реализации", en: "Project in development" },
     kind: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     stage: 4,
-    headline: { ro: "Un amplasament în lucru.", ru: "Площадка в работе.", en: "A site under way." },
+    headline: { ro: "Un amplasament în lucru.", ru: "Площадка в работе.", en: "Work under way." },
     lead: {
-      ro: "Proiect propriu MEGAPARC — de la teren până la un cartier care funcționează.",
+      ro: "Proiect propriu MEGAPARC — de la teren până la un cartier funcțional.",
       ru: "Собственный проект MEGAPARC — от участка до работающего квартала.",
-      en: "MEGAPARC's own project — from the land to a working neighbourhood.",
+      en: "MEGAPARC's own project — from the land to a functioning neighbourhood.",
     },
     intro: {
-      ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, obiectul intră în faza de exploatare sau în următoarea etapă de investiție, prin decizia MEGAPARC.",
-      ru: "VATRA с самого начала проектируется под реальное использование и долгий срок службы. Завершение стройки — не конец: дальше MEGAPARC оставляет объект у себя или переходит к следующему этапу.",
+      ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, imobilul intră în faza de exploatare sau în următoarea etapă de investiție, prin decizia MEGAPARC.",
+      ru: "VATRA с\u00a0самого начала проектируется под\u00a0реальное использование и\u00a0долгий срок службы. Завершение стройки\u00a0— не\u00a0конец: дальше MEGAPARC сохраняет объект в\u00a0собственности или переходит к\u00a0следующему инвестиционному этапу.",
       en: "VATRA is viewed from the outset in terms of use and long-term value. Development does not end at commissioning: after it, the property enters its operating or next investment phase, as MEGAPARC decides.",
     },
     facts: [],
     sections: [
       {
-        title: { ro: "De la amplasament la obiect", ru: "От площадки к объекту", en: "From site to building" },
+        title: { ro: "De la amplasament la clădire", ru: "От площадки к объекту", en: "From site to building" },
         text: {
           ro: "De la concept la o viață lungă a clădirii.",
           ru: "От концепции до долгой жизни здания.",
@@ -564,7 +564,7 @@ export const developmentProjects: DevelopmentProject[] = [
           { ro: "Concept — destinația, scara și economia proiectului", ru: "Концепция — назначение, масштаб и экономика проекта", en: "Concept — the use, the scale and the economics of the project" },
           { ro: "Planificare — proiectare, autorizații și pregătirea construcției", ru: "Планирование — проектирование, разрешения и подготовка к строительству", en: "Planning — design, permits and preparation for construction" },
           { ro: "Execuție — construcție, controlul calității și al costurilor", ru: "Реализация — строительство, контроль качества и затрат", en: "Delivery — construction, quality and cost control" },
-          { ro: "Exploatare — faza de exploatare sau următoarea etapă de investiție, prin decizia MEGAPARC", ru: "Эксплуатация — фаза эксплуатации или следующий инвестиционный этап по решению MEGAPARC", en: "Operation — the operating or next investment phase, as MEGAPARC decides" },
+          { ro: "Exploatare\u00a0— utilizarea clădirii sau următoarea etapă de investiție, prin decizia MEGAPARC", ru: "Эксплуатация\u00a0— MEGAPARC эксплуатирует объект или переходит к\u00a0следующему инвестиционному этапу", en: "Operation — the operating or next investment phase, as MEGAPARC decides" },
         ],
       },
     ],
@@ -573,7 +573,7 @@ export const developmentProjects: DevelopmentProject[] = [
       ru: "На фото — площадка как она есть. Архитектуру покажем после утверждения.",
       en: "Imagery shows the real state of the site. Final architecture is not shown publicly before approval.",
     },
-    statement: { ro: "Construim pentru o exploatare îndelungată.", ru: "Строим, чтобы служило долго.", en: "We build for long-term use." },
+    statement: { ro: "Construim pentru o exploatare îndelungată.", ru: "Строим с\u00a0расчётом на\u00a0долгий срок службы.", en: "We build for long-term use." },
   },
   {
     slug: "drochia",
@@ -586,7 +586,7 @@ export const developmentProjects: DevelopmentProject[] = [
       en: "A site at the entrance to the town: clearly visible from the road and facing the traffic entering Drochia.",
     },
     connectivity: [
-      { ro: "Două fronturi stradale", ru: "Два фронта к дорогам", en: "Two road fronts" },
+      { ro: "Două fronturi stradale", ru: "Выход на\u00a0две дороги", en: "Frontage on two roads" },
       { ro: "Vizibilitate la intrarea în oraș", ru: "Видимость на въезде в город", en: "Visibility at the entrance to the town" },
       { ro: "Orientat spre traficul care intră în oraș", ru: "Виден всем, кто въезжает в город", en: "Facing the incoming traffic" },
       { ro: "Posibilitatea unor accese separate pentru clienți și marfă", ru: "Можно развести подъезды для покупателей и грузов", en: "Potential for separate customer and freight access" },
@@ -598,7 +598,7 @@ export const developmentProjects: DevelopmentProject[] = [
     headline: { ro: "Un teren de dezvoltare la intrarea în oraș.", ru: "Участок под развитие на въезде в город.", en: "A development site at the entrance to the town." },
     lead: {
       ro: "Teren de 2,0 ha în Drochia, analizat pentru dezvoltare comercială, logistică sau mixtă.",
-      ru: "Участок 2,0 га в Дрокии — под торговлю, логистику или смешанный формат.",
+      ru: "Участок 2,0\u00a0га в\u00a0Дрокии: рассматриваем торговлю, логистику или смешанный формат.",
       en: "A 2.0 ha site in Drochia, under consideration for commercial, logistics or mixed-use development.",
     },
     intro: {
@@ -608,8 +608,8 @@ export const developmentProjects: DevelopmentProject[] = [
     },
     facts: [
       { label: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" }, value: { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" } },
-      { label: { ro: "Adresă", ru: "Адрес", en: "Address" }, value: { ro: "Bd. Independenței 65, Drochia", ru: "Бул. Индепенденцей 65, Дрокия", en: "Bd. Independenței 65, Drochia" } },
-      { label: { ro: "Fronturi stradale", ru: "Фронты к дорогам", en: "Road fronts" }, value: { ro: "2", ru: "2", en: "2" } },
+      { label: { ro: "Adresă", ru: "Адрес", en: "Address" }, value: { ro: "Bd. Independenței 65, Drochia", ru: "Бул. Индепенденцей, 65, Дрокия", en: "Bd. Independenței 65, Drochia" } },
+      { label: { ro: "Fronturi stradale", ru: "Выход на\u00a0дороги", en: "Road frontage" }, value: { ro: "2", ru: "2", en: "2" } },
       { label: { ro: "Dezvoltator", ru: "Девелопер", en: "Developer" }, value: { ro: "MEGAPARC SRL", ru: "MEGAPARC SRL", en: "MEGAPARC SRL" } },
     ],
     sections: [

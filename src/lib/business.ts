@@ -62,8 +62,8 @@ export const directions: Direction[] = [
     title: { ro: "Investiții imobiliare", ru: "Инвестиции в недвижимость", en: "Real estate investment" },
     statement: { ro: "Căutăm potențialul în imobiliare.", ru: "Ищем потенциал в недвижимости.", en: "We look for potential in real estate." },
     text: {
-      ro: "Achiziționăm obiecte comerciale și terenuri în care vedem posibilitatea de dezvoltare și de creare a valorii pe termen lung.",
-      ru: "Приобретаем коммерческие объекты и земельные участки, где видим возможность для развития и создания долгосрочной стоимости.",
+      ro: "Achiziționăm imobile comerciale și terenuri în care vedem potențial de dezvoltare și de creștere a valorii pe termen lung.",
+      ru: "Приобретаем коммерческие объекты и\u00a0земельные участки, в\u00a0которых видим возможности для\u00a0развития и\u00a0роста стоимости в\u00a0долгосрочной перспективе.",
       en: "We acquire commercial property and land where we see room for development and long-term value.",
     },
     short: {
@@ -76,7 +76,7 @@ export const directions: Direction[] = [
     key: "development",
     no: "02",
     title: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
-    statement: { ro: "Transformăm potențialul într-un proiect care funcționează.", ru: "Превращаем потенциал в работающий проект.", en: "We turn potential into a working project." },
+    statement: { ro: "Transformăm potențialul în proiecte care funcționează.", ru: "Превращаем потенциал в работающий проект.", en: "We turn potential into projects that work." },
     text: {
       ro: "Construim, reconstruim și adaptăm imobilele la nevoile reale ale pieței.",
       ru: "Строим, реконструируем и адаптируем недвижимость под реальные потребности рынка.",
@@ -92,9 +92,9 @@ export const directions: Direction[] = [
     key: "leasing",
     no: "03",
     title: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
-    statement: { ro: "Spații în care funcționează afacerile.", ru: "Пространства, в которых работает бизнес.", en: "Spaces where business works." },
+    statement: { ro: "Spații în care funcționează afacerile.", ru: "Пространства, в которых работает бизнес.", en: "Spaces where businesses operate." },
     text: {
-      ro: "Închiriem spații comerciale în obiectele MEGAPARC și creăm condiții pentru activitatea pe termen lung a chiriașilor.",
+      ro: "Închiriem spații comerciale în imobilele MEGAPARC și creăm condiții pentru activitatea pe termen lung a chiriașilor.",
       ru: "Сдаём коммерческие площади в объектах MEGAPARC и создаём условия для долгосрочной работы арендаторов.",
       en: "We lease commercial space in MEGAPARC properties and create the conditions for tenants to stay for the long term.",
     },
@@ -108,14 +108,14 @@ export const directions: Direction[] = [
 
 /** Supporting logic — never a fourth business line. Public wording names the further strategy, not "hold or sell" (OWNER trust copy patch 2026-10-09). */
 export const holdOrSell: Localized = {
-  ro: "Strategia ulterioară pentru fiecare obiect se stabilește în funcție de profilul închirierii, potențialul obiectului și condițiile pieței.",
-  ru: "Дальнейшая стратегия по каждому объекту определяется исходя из профиля аренды, потенциала объекта и рыночных условий.",
-  en: "The further strategy for each property is set by its leasing profile, its potential and market conditions.",
+  ro: "Strategia pentru fiecare imobil o stabilim în funcție de profilul chiriașilor, de potențialul acestuia și de condițiile pieței.",
+  ru: "Стратегию по\u00a0каждому объекту определяем с\u00a0учётом профиля аренды, потенциала объекта и\u00a0ситуации на\u00a0рынке.",
+  en: "We set each property's strategy based on its tenant profile, its potential and market conditions.",
 };
 
 export const reinvestment: Localized = {
-  ro: "Capitalul obținut este direcționat spre dezvoltarea proiectelor existente și spre proiecte noi.",
-  ru: "Полученный капитал направляем в развитие действующих и новые проекты.",
+  ro: "Capitalul obținut îl reinvestim în proiectele existente și în proiecte noi.",
+  ru: "Полученный капитал вкладываем в\u00a0развитие действующих объектов и\u00a0в\u00a0новые проекты.",
   en: "Capital released is put back into existing and new projects.",
 };
 
@@ -134,9 +134,9 @@ export const lifecycle: LifecycleStage[] = [
     title: { ro: "Cumpărăm", ru: "Покупаем", en: "Acquire" },
     short: { ro: "Clădiri și terenuri", ru: "Здания и землю", en: "Buildings and land" },
     text: {
-      ro: "Clădiri comerciale — în funcțiune sau care cer o nouă viață — și terenuri pentru dezvoltare.",
+      ro: "Clădiri comerciale\u00a0— în exploatare sau care au nevoie de o nouă viață\u00a0— și terenuri pentru dezvoltare.",
       ru: "Коммерческие здания — действующие и те, которым нужна новая жизнь, — и участки под развитие.",
-      en: "Commercial buildings — working ones and ones that need a new life — and land for development.",
+      en: "Commercial buildings\u00a0— operating ones and ones that need a new life\u00a0— and land for development.",
     },
   },
   {
@@ -164,7 +164,7 @@ export const lifecycle: LifecycleStage[] = [
     title: { ro: "Avem grijă", ru: "Поддерживаем", en: "Look after" },
     short: { ro: "De clădiri și de chiriași", ru: "Качество зданий и комфорт арендаторов", en: "Building quality and tenant comfort" },
     text: {
-      ro: "Ne ocupăm singuri de clădiri: întreținere, relația cu chiriașii, investiții în îmbunătățiri.",
+      ro: "Ne ocupăm singuri de clădirile noastre: întreținere, relația cu chiriașii, investiții în îmbunătățiri.",
       ru: "Сами обслуживаем свои здания, работаем с арендаторами и вкладываем в улучшения.",
       en: "We look after our buildings ourselves: maintenance, tenants, investment in improvements.",
     },
@@ -195,8 +195,8 @@ export const lifecycle: LifecycleStage[] = [
 export const acquisitionTypes: { key: "operating" | "redevelop" | "land" | "project"; title: Localized; text: Localized }[] = [
   {
     key: "operating",
-    title: { ro: "Clădiri comerciale în funcțiune", ru: "Действующие коммерческие здания", en: "Operating commercial buildings" },
-    text: { ro: "Retail, birouri, servicii — clădiri care lucrează deja sau pot lucra mai bine.", ru: "Торговля, офисы, сервисы — здания, которые уже работают или могут работать лучше.", en: "Retail, offices, services — buildings that already work or could work better." },
+    title: { ro: "Clădiri comerciale în exploatare", ru: "Действующие коммерческие здания", en: "Operating commercial buildings" },
+    text: { ro: "Retail, birouri, servicii\u00a0— clădiri care funcționează deja sau ar putea funcționa mai bine.", ru: "Торговля, офисы, сфера услуг\u00a0— здания, которые уже работают или могут работать лучше.", en: "Retail, offices, services\u00a0— buildings that already perform or could perform better." },
   },
   {
     key: "redevelop",
@@ -206,7 +206,7 @@ export const acquisitionTypes: { key: "operating" | "redevelop" | "land" | "proj
   {
     key: "land",
     title: { ro: "Terenuri pentru dezvoltare", ru: "Земля под развитие", en: "Land for development" },
-    text: { ro: "Terenuri în oraș sau la intrarea în oraș, cu acces și potențial clar.", ru: "Участки в городе или на въезде в город — с подъездом и понятным потенциалом.", en: "Plots in town or at its entrance, with access and clear potential." },
+    text: { ro: "Terenuri în oraș sau la intrarea în oraș, cu acces și potențial clar.", ru: "Участки в городе или на въезде в город — с подъездом и понятным потенциалом.", en: "Plots in the city or on its approaches, with road access and clear potential." },
   },
   {
     key: "project",
@@ -221,7 +221,7 @@ export const acquisitionCriteria: Localized[] = [
   { ro: "Situația juridică clară", ru: "Чистая юридическая ситуация", en: "A clear legal position" },
   { ro: "Starea tehnică", ru: "Техническое состояние", en: "Technical condition" },
   { ro: "Cererea chiriașilor în zonă", ru: "Спрос арендаторов в районе", en: "Tenant demand in the area" },
-  { ro: "Ce poate deveni obiectul", ru: "Чем объект может стать", en: "What the property could become" },
+  { ro: "Ce poate deveni imobilul", ru: "Чем объект может стать", en: "What the property could become" },
   { ro: "Prețul și termenul", ru: "Цена и сроки", en: "Price and timing" },
 ];
 
@@ -233,7 +233,7 @@ export const acquisitionCriteria: Localized[] = [
 export const geography = {
   label: { ro: "Unde căutăm", ru: "Где ищем", en: "Where we look" } satisfies Localized,
   text: {
-    ro: "Toate obiectele noastre actuale sunt în Republica Moldova. Analizăm și propuneri din alte țări — fiecare separat.",
+    ro: "Toate imobilele noastre actuale sunt în Republica Moldova. Analizăm și propuneri din alte țări\u00a0— fiecare în parte.",
     ru: "Все наши объекты сегодня — в Молдове. Предложения из других стран тоже рассматриваем.",
     en: "All our current properties are in the Republic of Moldova. We also consider offers from other countries — each on its own merits.",
   } satisfies Localized,
@@ -241,12 +241,12 @@ export const geography = {
 
 /** Property operations of OWNED buildings (never a service to third parties). */
 export const operations = {
-  label: { ro: "Exploatare proprie", ru: "Свои здания", en: "Owned property operations" } satisfies Localized,
-  title: { ro: "Clădirile noastre le administrăm noi.", ru: "Свои здания ведём сами.", en: "We run our own buildings ourselves." } satisfies Localized,
+  label: { ro: "Exploatare proprie", ru: "Собственные здания", en: "Owned property operations" } satisfies Localized,
+  title: { ro: "Clădirile noastre le administrăm noi.", ru: "Своими зданиями занимаемся сами.", en: "We run our own buildings ourselves." } satisfies Localized,
   text: {
-    ro: "Închirierea, relația cu chiriașii, întreținerea și investițiile în îmbunătățire sunt făcute de echipa MEGAPARC — doar pentru obiectele MEGAPARC. Nu preluăm în administrare clădirile altor proprietari.",
+    ro: "Închirierea, relația cu chiriașii, întreținerea și investițiile în îmbunătățiri sunt asigurate de echipa MEGAPARC\u00a0— doar pentru imobilele MEGAPARC. Nu preluăm în administrare clădirile altor proprietari.",
     ru: "Аренду, обслуживание и улучшения ведёт собственная команда MEGAPARC. Здания других собственников в управление не берём.",
-    en: "Leasing, tenant relationships, maintenance and investment in improvements are handled by the MEGAPARC team — for MEGAPARC buildings only. We do not take other owners' buildings under management.",
+    en: "Leasing, tenant relationships, maintenance and investment in improvements are handled by the MEGAPARC team\u00a0— for MEGAPARC buildings only. We do not manage buildings for other owners.",
   } satisfies Localized,
   points: [
     { ro: "Închiriere și relația cu chiriașii", ru: "Аренда и работа с арендаторами", en: "Leasing and tenant relationships" },
@@ -258,18 +258,18 @@ export const operations = {
 
 /** How MEGAPARC decides — principles carried over from the approved strategy, reworded for the owner model. */
 export const principles: Titled[] = [
-  { title: { ro: "Cumpărăm ce înțelegem", ru: "Покупаем то, что понимаем", en: "We buy what we understand" }, text: { ro: "Locația, clădirea, piața și riscurile — înainte de preț.", ru: "Локация, здание, рынок и риски — раньше цены.", en: "Location, building, market and risks — before price." } },
+  { title: { ro: "Cumpărăm ce înțelegem", ru: "Покупаем то, что понимаем", en: "We buy what we understand" }, text: { ro: "Locația, clădirea, piața și riscurile — înainte de preț.", ru: "Сначала локация, здание, рынок и\u00a0риски\u00a0— потом цена.", en: "Location, building, market and risks — before price." } },
   { title: { ro: "Funcția înaintea formei", ru: "Функция прежде формы", en: "Function before form" }, text: { ro: "Mai întâi cine va folosi spațiul și cum, apoi arhitectura.", ru: "Сначала — кто и как будет пользоваться пространством, потом архитектура.", en: "First who will use the space and how, then the architecture." } },
-  { title: { ro: "Construim pentru exploatare", ru: "Строим для эксплуатации", en: "We build to operate" }, text: { ro: "Clădirile rămân la noi, deci calitatea se vede în costurile de mâine.", ru: "Здания остаются у нас, поэтому качество видно в завтрашних расходах.", en: "Our buildings stay with us, so quality shows in tomorrow's costs." } },
-  { title: { ro: "Chiriașul trebuie să câștige", ru: "Арендатор должен зарабатывать", en: "The tenant must succeed" }, text: { ro: "Un spațiu bun este cel în care afacerea chiriașului merge.", ru: "Хорошее помещение — то, в котором бизнес арендатора работает.", en: "A good space is one where the tenant's business works." } },
+  { title: { ro: "Construim pentru exploatare", ru: "Строим для эксплуатации", en: "We build to operate" }, text: { ro: "Exploatăm ceea ce construim, așa că o calitate bună azi înseamnă costuri mai mici mâine.", ru: "Мы сами эксплуатируем то, что строим,\u00a0— поэтому качество сегодня снижает расходы завтра.", en: "Because we run our buildings ourselves, quality today means lower costs tomorrow." } },
+  { title: { ro: "Chiriașul trebuie să câștige", ru: "Арендатор должен зарабатывать", en: "The tenant must succeed" }, text: { ro: "Un spațiu bun este cel în care afacerea chiriașului funcționează bine.", ru: "Хорошее помещение\u00a0— то, в\u00a0котором бизнес арендатора приносит доход.", en: "A good space is one where the tenant's business works." } },
 ];
 
 /** Development process — six stages, used on project pages (index = stage). */
 export const developmentStages: { no: string; title: Localized; text: Localized }[] = [
   { no: "01", title: { ro: "Analiză", ru: "Анализ", en: "Analysis" }, text: { ro: "Teren sau clădire existentă: evaluăm locația, destinația și posibilitățile.", ru: "Участок или существующее здание: оцениваем локацию, назначение и возможности.", en: "Site or existing building: we assess location, use and possibilities." } },
   { no: "02", title: { ro: "Concept", ru: "Концепция", en: "Concept" }, text: { ro: "Stabilim destinația, scara și formatul.", ru: "Определяем назначение, масштаб и формат.", en: "We define the use, the scale and the format." } },
-  { no: "03", title: { ro: "Evaluare economică", ru: "Экономическая оценка", en: "Economic assessment" }, text: { ro: "Calculăm economia proiectului și verificăm condițiile urbanistice și juridice.", ru: "Считаем экономику, проверяем градостроительные и юридические условия.", en: "We run the economics and check planning and legal conditions." } },
+  { no: "03", title: { ro: "Evaluare economică", ru: "Экономическая оценка", en: "Economic assessment" }, text: { ro: "Calculăm economia proiectului și verificăm condițiile urbanistice și juridice.", ru: "Считаем экономику, проверяем градостроительные и юридические условия.", en: "We model the economics and check planning and legal conditions." } },
   { no: "04", title: { ro: "Proiectare", ru: "Проектирование", en: "Design" }, text: { ro: "Proiectăm pentru exploatare, nu doar pentru predare.", ru: "Проектируем с расчётом на эксплуатацию, а не только на сдачу.", en: "We design for operation, not just for handover." } },
   { no: "05", title: { ro: "Realizare", ru: "Реализация", en: "Delivery" }, text: { ro: "Construim și controlăm bugetul, termenele și calitatea.", ru: "Строим и контролируем бюджет, сроки и качество.", en: "We build and control budget, schedule and quality." } },
-  { no: "06", title: { ro: "Închiriere și exploatare", ru: "Аренда и эксплуатация", en: "Leasing and operation" }, text: { ro: "Obiectul începe să lucreze: chiriași, întreținere, deciziile următoare.", ru: "Объект начинает работать: арендаторы, обслуживание, следующие решения.", en: "The building starts working: tenants, maintenance, the next decisions." } },
+  { no: "06", title: { ro: "Închiriere și exploatare", ru: "Аренда и эксплуатация", en: "Leasing and operation" }, text: { ro: "Clădirea intră în exploatare: chiriași, întreținere, deciziile următoare.", ru: "Объект начинает работать: арендаторы, обслуживание, следующие решения.", en: "The building goes into operation: tenants, maintenance, next decisions." } },
 ];

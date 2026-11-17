@@ -11,7 +11,7 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * promised; the official e-Cadastru verification appears only where the OWNER approved the cadastral number.
  */
 export const trustCopy = {
-  label: { ro: "Suport tehnic pentru chiriaș", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" },
+  label: { ro: "Suport tehnic pentru chiriași", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" },
   title: { ro: "Verificați spațiul pentru afacerea dumneavoastră.", ru: "Проверьте помещение под свой бизнес.", en: "Check the space for your business." },
   lead: {
     ro: "Înainte de semnarea contractului puteți discuta spațiul cu directorul tehnic și arhitectul MEGAPARC.",
@@ -27,7 +27,7 @@ export const trustCopy = {
   note: {
     ro: "Consultația ajută la evaluarea adaptării spațiului; nu înlocuiește autorizațiile și avizele, care se obțin separat, și nu garantează fezabilitatea.",
     ru: "Консультация помогает оценить адаптацию помещения; она не заменяет разрешений и согласований, которые оформляются отдельно, и не гарантирует реализуемость.",
-    en: "The consultation helps assess how the space can be adapted; it does not replace permits and approvals, obtained separately, nor guarantee feasibility.",
+    en: "The consultation helps you assess how the space can be adapted; it does not replace permits and approvals, which are obtained separately, and does not guarantee feasibility.",
   },
   discuss: { ro: "Discutați spațiul cu echipa tehnică", ru: "Обсудить помещение с технической командой", en: "Discuss the space with the technical team" },
   call: { ro: "Sunați", ru: "Позвонить", en: "Call" },

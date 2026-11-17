@@ -73,10 +73,10 @@ export const sectorLabel: Record<Sector, Localized> = {
   finance: L("Servicii financiare", "Финансовые услуги", "Financial services"),
   agro: L("Agrobusiness", "Агробизнес", "Agribusiness"),
   legal: L("Servicii juridice", "Юридические услуги", "Legal services"),
-  horeca: L("Restaurante", "Ресторанный бизнес", "Hospitality"),
+  horeca: L("Restaurante", "Ресторанный бизнес", "Restaurants"),
   energy: L("Energie", "Энергетика", "Energy"),
   industry: L("Proiecte industriale", "Промышленные проекты", "Industrial projects"),
-  ventures: L("Investiții în start-up-uri", "Венчурные инвестиции", "Venture investment"),
+  ventures: L("Investiții în start-upuri", "Венчурные инвестиции", "Venture investment"),
   consolidation: L("Restructurare", "Реструктуризация", "Restructuring"),
   trade: L("Comerț internațional", "Международная торговля", "International trade"),
   focus: L("Imobiliare", "Недвижимость", "Real estate"),
@@ -157,9 +157,9 @@ export const eras: Era[] = [
     label: L("Consolidarea", "Консолидация", "Consolidation"),
     title: L("Mai puține direcții. Mai mult focus.", "Меньше направлений. Больше фокуса.", "Fewer lines of business. More focus."),
     lead: L(
-      "Grupul transferă afacerile mature și vinde activele necore. Ultimele proiecte de comerț și logistică leagă China, România și Europa de Est.",
+      "Grupul transferă afacerile mature și vinde activele non-core. Ultimele proiecte de comerț și logistică leagă China, România și Europa de Est.",
       "Группа передаёт зрелые бизнесы и продаёт непрофильные активы. Последние торговые и логистические проекты связывают Китай, Румынию и Восточную Европу.",
-      "The group hands over its mature businesses and sells non-core assets. The last trade and logistics projects link China, Romania and Eastern Europe.",
+      "The group hands over its mature businesses and sells non-core assets. The last trading and logistics projects link China, Romania and Eastern Europe.",
     ),
     image: "era-distribution",
   },
@@ -185,7 +185,7 @@ export const eras: Era[] = [
     title: L("Cumpărăm. Dezvoltăm. Închiriem.", "Покупаем. Развиваем. Сдаём в аренду.", "We acquire. We develop. We lease."),
     lead: L(
       "MEGAPARC cumpără imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spațiile comerciale din clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
-      "MEGAPARC покупает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинэу; проекты развития — VATRA и Drochia.",
+      "MEGAPARC покупает недвижимость и\u00a0землю, развивает собственные проекты и\u00a0сдаёт в\u00a0аренду коммерческие площади в\u00a0своих зданиях. Действующие объекты\u00a0— в\u00a0Кишинэу; в\u00a0развитии\u00a0— проект VATRA и\u00a0участок Drochia.",
       "MEGAPARC buys real estate and land, develops its own projects and leases the commercial space in its buildings. Its operating properties are in Chișinău; its development projects are VATRA and Drochia.",
     ),
   },
@@ -207,9 +207,9 @@ export const entries: HistoryEntry[] = [
     place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Supermarketul de pe bulevardul Negruzzi", "Супермаркет на бульваре Негруцци", "The supermarket on Negruzzi Boulevard"),
     text: L(
-      "Primul proiect al fondatorilor. Aprovizionarea a trebuit construită de la zero — într-o economie care abia trecea de la comerțul de stat la cel de piață.",
+      "Primul proiect al fondatorilor. Aprovizionarea a trebuit organizată de la zero\u00a0— într-o economie care abia trecea de la comerțul de stat la cel de piață.",
       "Первый проект основателей. Поставки приходилось выстраивать с нуля — в экономике, которая только переходила от государственной торговли к рыночной.",
-      "The founders' first project. Supply had to be built from scratch — in an economy only just moving from state trade to a market.",
+      "The founders' first project. Supply had to be built from scratch\u00a0— in an economy only just moving from state-run trade to the market.",
     ),
     archive: L("Fațada și sala supermarketului, începutul anilor 1990", "Фасад и торговый зал супермаркета, начало 1990‑х", "The supermarket's facade and floor, early 1990s"),
   },
@@ -239,9 +239,9 @@ export const entries: HistoryEntry[] = [
     place: L("Portul Brăila, România", "Порт Брэила, Румыния", "Port of Brăila, Romania"),
     title: L("Romitech — hub în portul Brăila", "Romitech — хаб в порту Брэила", "Romitech — a hub in the port of Brăila"),
     text: L(
-      "Primul proiect al grupului în afara Moldovei: transbordarea mărfurilor generale, legând rutele de pe Dunăre de transportul rutier și feroviar.",
-      "Первый проект группы за пределами Молдовы: перевалка генеральных грузов, связка дунайских маршрутов с автомобильными и железнодорожными.",
-      "The group's first project outside Moldova: transhipment of general cargo, linking Danube routes with road and rail.",
+      "Primul proiect al fondatorilor în afara Moldovei: transbordarea mărfurilor generale, legând rutele de pe Dunăre de transportul rutier și feroviar.",
+      "Первый проект основателей за\u00a0пределами Молдовы: перевалка генеральных грузов, связка дунайских маршрутов с\u00a0автомобильными и\u00a0железнодорожными.",
+      "The founders' first project outside Moldova: transhipment of general cargo, linking Danube routes with road and rail.",
     ),
     archive: L("Cheiul și depozitele Romitech de la Brăila", "Причал и склады Romitech в Брэиле", "Romitech's quay and warehouses in Brăila"),
   },
@@ -302,9 +302,9 @@ export const entries: HistoryEntry[] = [
     place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Se formează structura de investiții a grupului", "Создана инвестиционная структура группы", "The group's investment structure is formed"),
     text: L(
-      "Un centru care coordonează toate direcțiile de afaceri și atrage capital strategic. Din acest an se numără istoria grupului.",
-      "Центр, который координирует все направления бизнеса и привлекает стратегический капитал. С этого года отсчитывается история группы.",
-      "A centre that coordinates every line of business and raises strategic capital. The group's history is counted from this year.",
+      "Un centru care coordonează toate direcțiile de afaceri și atrage capital strategic. Din acest an grupul funcționează ca o structură unitară.",
+      "Центр, который координирует все направления бизнеса и\u00a0привлекает стратегический капитал. С\u00a0этого года группа работает как единая структура.",
+      "A centre that coordinates every line of business and raises strategic capital. The group in its present form dates from this year.",
     ),
   },
   {
@@ -376,7 +376,7 @@ export const entries: HistoryEntry[] = [
     scope: "group",
     name: "Soiuz Agros-Intex",
     place: L("Republica Moldova", "Молдова", "Moldova"),
-    title: L("Soiuz Agros‑Intex — sistem agricol integrat", "Soiuz Agros‑Intex — агробизнес полного цикла", "Soiuz Agros‑Intex — an integrated farm system"),
+    title: L("Soiuz Agros‑Intex — sistem agricol integrat", "Soiuz Agros‑Intex — агробизнес полного цикла", "Soiuz Agros\u2011Intex\u00a0— integrated agribusiness"),
     text: L(
       "Tot ce îi trebuie fermierului, într-un singur sistem: semințe și îngrășăminte, colectarea recoltei, logistica exportului de cereale.",
       "Всё для фермера в одной системе: семена и удобрения, сбор урожая, логистика экспорта зерна.",
@@ -410,7 +410,7 @@ export const entries: HistoryEntry[] = [
     title: L("MEGAPARC", "MEGAPARC", "MEGAPARC"),
     text: L(
       "Compania cumpără clădiri comerciale degradate și le transformă în spații moderne, gata de închiriat — ceea ce astăzi se numește dezvoltare brownfield.",
-      "Компания покупает коммерческие здания в плохом состоянии и превращает их в современные пространства, готовые к аренде, — то, что сегодня называют brownfield-девелопментом.",
+      "Компания покупает коммерческие здания в\u00a0плохом состоянии и\u00a0превращает их в\u00a0современные пространства, готовые к\u00a0аренде,\u00a0— то, что сегодня называют редевелопментом.",
       "The company buys run-down commercial buildings and turns them into modern spaces ready to lease — what is now called brownfield development.",
     ),
   },
@@ -442,7 +442,7 @@ export const entries: HistoryEntry[] = [
     text: L(
       "Asistență juridică pentru tranzacții complexe și gestionarea riscurilor — pentru portofoliul propriu și pentru parteneri externi.",
       "Юридическое сопровождение сложных сделок и управление рисками — для собственного портфеля и внешних партнёров.",
-      "Legal support for complex transactions and risk control — for the group's own portfolio and for outside partners.",
+      "Legal support for complex transactions and risk management\u00a0— for the group's own portfolio and for outside partners.",
     ),
   },
   {
@@ -454,7 +454,7 @@ export const entries: HistoryEntry[] = [
     name: "Flying Pig",
     place: L("Chișinău", "Кишинэу", "Chișinău"),
     title: L("Flying Pig", "Flying Pig", "Flying Pig"),
-    text: L("O berărie în stil bavarez și un restaurant BBQ.", "Пивоварня в баварском стиле и BBQ-ресторан.", "A Bavarian-style brewery and a BBQ restaurant."),
+    text: L("O berărie în stil bavarez și un restaurant BBQ.", "Пивоварня в\u00a0баварском стиле и\u00a0ресторан барбекю.", "A Bavarian-style brewery and a BBQ restaurant."),
   },
   {
     id: "valahia",
@@ -479,7 +479,7 @@ export const entries: HistoryEntry[] = [
     text: L(
       "Construcții industriale și rafinare a țițeiului — pe baza relațiilor comerciale cu parteneri din Orientul Mijlociu.",
       "Промышленное строительство и нефтепереработка — на основе торговых связей с партнёрами с Ближнего Востока.",
-      "Industrial construction and crude refining — building on trade relationships with Middle Eastern partners.",
+      "Industrial construction and oil refining\u00a0— building on trade relationships with Middle Eastern partners.",
     ),
   },
   {
@@ -507,9 +507,9 @@ export const entries: HistoryEntry[] = [
     place: L("Republica Moldova", "Молдова", "Moldova"),
     title: L("Estate Industry Group", "Estate Industry Group", "Estate Industry Group"),
     text: L(
-      "Sprijin pentru startup-uri: nu doar capital, ci și experiență — în imobiliare și logistică.",
+      "Sprijin pentru start-upuri: nu doar capital, ci și experiență\u00a0— în imobiliare și logistică.",
       "Поддержка стартапов: не только капитал, но и опыт — в недвижимости и логистике.",
-      "Support for start-ups: not only capital but experience — in real estate and logistics.",
+      "Support for start-ups: not only capital but also experience\u00a0— in real estate and logistics.",
     ),
   },
   // V · CONSOLIDATION
@@ -523,7 +523,7 @@ export const entries: HistoryEntry[] = [
     place: L("Grupul", "Группа", "The group"),
     title: L("Transferul afacerilor", "Передача бизнесов", "Handing over the businesses"),
     text: L(
-      "Restructurarea activelor, transferul conducerii operaționale, vânzarea direcțiilor necore — capitalul se eliberează pentru ceva nou.",
+      "Restructurarea activelor, transferul conducerii operaționale, vânzarea direcțiilor non-core\u00a0— capitalul se eliberează pentru ceva nou.",
       "Реструктуризация активов, передача операционного управления, продажа непрофильных направлений — капитал освобождается для нового.",
       "Restructuring the assets, handing over operational management, selling non-core lines — capital is freed for something new.",
     ),
@@ -540,7 +540,7 @@ export const entries: HistoryEntry[] = [
     text: L(
       "Negocieri și contracte cu producători din China; fluxuri de mărfuri spre piețele din Europa de Est.",
       "Переговоры и контракты с производителями в Китае; товарные потоки на рынки Восточной Европы.",
-      "Negotiations and contracts with manufacturers in China; goods flows to Eastern European markets.",
+      "Negotiations and contracts with manufacturers in China; flows of goods to Eastern European markets.",
     ),
   },
   {
@@ -553,9 +553,9 @@ export const entries: HistoryEntry[] = [
     place: L("România", "Румыния", "Romania"),
     title: L("Logistică de tranzit în România", "Транзитная логистика в Румынии", "Transit logistics in Romania"),
     text: L(
-      "Depozite de tranzit: mărfurile din Asia se întâlnesc cu distribuția regională.",
-      "Склады для транзита: грузы из Азии встречаются с региональной дистрибуцией.",
-      "Transit warehouses where goods from Asia meet regional distribution.",
+      "Depozite de tranzit, unde mărfurile din Asia intră în distribuția regională.",
+      "Транзитные склады, где грузы из\u00a0Азии передаются в\u00a0региональную дистрибуцию.",
+      "Transit warehouses where goods from Asia enter regional distribution.",
     ),
   },
   // VI · FOCUS
@@ -622,10 +622,10 @@ export const historyCopy = {
   ),
   index: L("Capitole", "Главы", "Chapters"),
   chapter: L("Capitolul", "Глава", "Chapter"),
-  linesTitle: L("Două linii ale aceleiași istorii.", "Две линии одной истории.", "Two lines of one story."),
+  linesTitle: L("Două linii ale aceleiași istorii.", "Две линии одной истории.", "Two strands of one story."),
   linesText: L(
     "Grupul înseamnă antreprenorii și companiile cu care totul a început în 1991; în 1995 i-a reunit o structură de investiții. MEGAPARC este compania imobiliară fondată de grup în 2005. Din 2020, imobiliarele sunt activitatea principală a grupului, iar MEGAPARC — centrul ei.",
-    "Группа — это предприниматели и компании, с которых всё началось в 1991 году; в 1995‑м их объединила инвестиционная структура. MEGAPARC — компания недвижимости, которую группа основала в 2005 году. С 2020 года недвижимость — главное дело группы, а MEGAPARC — его центр.",
+    "Группа\u00a0— это предприниматели и\u00a0компании, с\u00a0которых всё началось в\u00a01991\u00a0году; в\u00a01995\u2011м их объединила инвестиционная структура. MEGAPARC\u00a0— компания в\u00a0сфере недвижимости, которую группа основала в\u00a02005\u00a0году. С\u00a02020\u00a0года недвижимость\u00a0— главное дело группы, а\u00a0MEGAPARC\u00a0— его центр.",
     "The group is the entrepreneurs and companies with which it all began in 1991; in 1995 an investment structure brought them together. MEGAPARC is the real-estate company the group founded in 2005. Since 2020 real estate has been the group's core business, with MEGAPARC at its centre.",
   ),
   lineGroup: L("Grupul · din 1991", "Группа · с 1991", "The group · since 1991"),
@@ -672,9 +672,9 @@ export const historyCopy = {
   },
   todayLinks: [
     ["/projects", L("Toate proiectele", "Все проекты", "All projects")],
-    ["/leasing#available", L("Spații libere", "Свободные помещения", "Available spaces")],
+    ["/leasing#available", L("Spații disponibile", "Свободные помещения", "Available spaces")],
     ["/partnership", L("Parteneriat investițional", "Инвестиционное партнёрство", "Investment partnership")],
-    ["/offer", L("Propuneți un obiect sau un teren", "Предложить объект или землю", "Offer a property or land")],
+    ["/offer", L("Propuneți un imobil sau un teren", "Предложить объект или землю", "Offer a property or land")],
   ] as [string, Localized][],
   /** The end transition (TRUST & PROOF PASS 2026-10-09): history → MEGAPARC → real estate → today → current projects. */
   todayChain: [
@@ -685,10 +685,10 @@ export const historyCopy = {
     ["#today-projects", L("Proiectele actuale", "Текущие проекты", "Current projects")],
   ] as [string, Localized][],
   todayFigures: {
-    operating: L("obiecte în funcțiune", "действующих объекта", "operating properties"),
+    operating: L("imobile în exploatare", "действующих объекта", "operating properties"),
     development: L("proiecte de dezvoltare", "проекта развития", "development projects"),
-    area: L("suprafața obiectelor în funcțiune", "площадь действующих объектов", "operating property area"),
-    spaces: L("spații libere", "свободные помещения", "available spaces"),
+    area: L("suprafața imobilelor în exploatare", "площадь действующих объектов", "operating property area"),
+    spaces: L("spații disponibile", "свободные помещения", "available spaces"),
   },
   indexTitle: L("Toată cronica, pe o pagină.", "Вся хроника на одной странице.", "The whole chronicle on one page."),
   indexAll: L("Toate", "Все", "All"),
@@ -764,7 +764,7 @@ export const chapters: Chapter[] = [
     label: L("MEGAPARC", "MEGAPARC", "MEGAPARC"),
     title: L("Apare MEGAPARC.", "Появляется MEGAPARC.", "MEGAPARC is founded."),
     lead: L(
-      "Imobiliarele devin o direcție de afaceri separată. Compania începe să lucreze cu obiecte comerciale: le cumpără, le renovează, le dezvoltă și le închiriază.",
+      "Imobiliarele devin o direcție de afaceri separată. Compania începe să lucreze cu imobile comerciale: le cumpără, le renovează, le dezvoltă și le închiriază.",
       "Недвижимость становится отдельным направлением бизнеса. Компания начинает работать с коммерческими объектами: приобретать, обновлять, развивать и сдавать их в аренду.",
       "Real estate becomes a business line of its own. The company starts working with commercial property: buying, renovating, developing and leasing it.",
     ),
@@ -778,7 +778,7 @@ export const chapters: Chapter[] = [
     label: L("Extindere", "Расширение", "Expansion"),
     title: L("Direcții noi.", "Новые направления.", "New lines of business."),
     lead: L(
-      "Practică juridică, restaurante, investiții în start-up-uri — grupul crește în Moldova și, în paralel, iese pe piețe externe.",
+      "Practică juridică, restaurante, investiții în start-upuri — grupul crește în Moldova și, în paralel, iese pe piețe externe.",
       "Юридическая практика, ресторанный бизнес, инвестиции в стартапы — группа растёт в Молдове и параллельно выходит на внешние рынки.",
       "Legal practice, restaurants, start-up investment — the group grows in Moldova and, in parallel, moves into foreign markets.",
     ),
@@ -794,7 +794,7 @@ export const chapters: Chapter[] = [
     lead: L(
       "Portul Brăila, zahărul în Ucraina, explorarea petrolieră în Irak, industria și logistica în Africa de Vest, aprovizionarea din China — grupul a lucrat acolo unde existau cerere și parteneri.",
       "Порт Брэила, сахар в Украине, нефтеразведка в Ираке, промышленность и логистика в Западной Африке, поставки из Китая — группа работала там, где были спрос и партнёры.",
-      "The port of Brăila, sugar in Ukraine, oil exploration in Iraq, industry and logistics in West Africa, supply from China — the group worked wherever there was demand and partners.",
+      "The port of Brăila, sugar in Ukraine, oil exploration in Iraq, industry and logistics in West Africa, supply from China — the group worked wherever it found demand and partners.",
     ),
     ids: ["valahia", "west-africa", "sdc-senegal"],
     tone: "international",
@@ -806,7 +806,7 @@ export const chapters: Chapter[] = [
     label: L("Consolidare", "Консолидация", "Consolidation"),
     title: L("Mai puține direcții, mai mult focus.", "Меньше направлений, больше фокуса.", "Fewer lines, more focus."),
     lead: L(
-      "Grupul transferă afacerile mature și vinde activele necore. Ultimele proiecte comerciale și logistice leagă China, România și Europa de Est.",
+      "Grupul transferă afacerile mature și vinde activele non-core. Ultimele proiecte comerciale și logistice leagă China, România și Europa de Est.",
       "Группа передаёт зрелые бизнесы и продаёт непрофильные активы. Последние торговые и логистические проекты связывают Китай, Румынию и Восточную Европу.",
       "The group hands over its mature businesses and sells non-core assets. The last trading and logistics projects link China, Romania and Eastern Europe.",
     ),
@@ -820,7 +820,7 @@ export const chapters: Chapter[] = [
     label: L("Focus pe imobiliare", "Фокус на недвижимости", "Real-estate focus"),
     title: L("Imobiliarele devin activitatea principală.", "Недвижимость становится главным делом.", "Real estate becomes the core business."),
     lead: L(
-      "În 2020 grupul iese din logistica internațională și din comerț. Rămâne imobiliarul — și centrul lui, MEGAPARC.",
+      "În 2020 grupul iese din logistica internațională și din comerț. Rămân imobiliarele — iar centrul lor este MEGAPARC.",
       "В 2020 году группа выходит из международной логистики и розницы. Остаётся недвижимость — и её центр, MEGAPARC.",
       "In 2020 the group leaves international logistics and retail. Real estate remains — with MEGAPARC at its centre.",
     ),
@@ -834,9 +834,9 @@ export const chapters: Chapter[] = [
     label: L("Astăzi", "Сегодня", "Today"),
     title: L("MEGAPARC astăzi.", "MEGAPARC сегодня.", "MEGAPARC today."),
     lead: L(
-      "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
-      "MEGAPARC приобретает недвижимость и землю, развивает собственные проекты и сдаёт в аренду коммерческие площади в своих зданиях. Действующие объекты — в Кишинэу; проекты развития — VATRA и Drochia.",
-      "MEGAPARC acquires real estate and land, develops its own projects and leases commercial space in its buildings. The operating properties are in Chișinău; the development projects are VATRA and Drochia.",
+      "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Imobilele în exploatare se află în Chișinău; în dezvoltare — proiectul VATRA și terenul Drochia.",
+      "MEGAPARC приобретает недвижимость и\u00a0землю, развивает собственные проекты и\u00a0сдаёт в\u00a0аренду коммерческие площади в\u00a0своих зданиях. Действующие объекты\u00a0— в\u00a0Кишинэу; в\u00a0развитии\u00a0— проект VATRA и\u00a0участок Drochia.",
+      "MEGAPARC acquires real estate and land, develops its own projects and leases commercial space in its buildings. The operating properties are in Chișinău; VATRA is under development, and Drochia is land for development.",
     ),
     ids: [],
     tone: "today",

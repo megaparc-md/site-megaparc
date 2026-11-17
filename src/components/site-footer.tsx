@@ -36,12 +36,12 @@ const copy = {
 
 const investmentLinks: { path: string; label: Localized }[] = [
   { path: "/partnership", label: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" } },
-  { path: "/offer", label: { ro: "Propuneți un obiect sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" } },
-  { path: "/contact?subject=partnership#partnership", label: { ro: "Discutăm o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" } },
+  { path: "/offer", label: { ro: "Propuneți un imobil sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" } },
+  { path: "/contact?subject=partnership#partnership", label: { ro: "Discutați o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" } },
 ];
 const leasingLinks: { path: string; label: Localized }[] = [
   { path: "/leasing#available", label: { ro: "Spații disponibile", ru: "Свободные помещения", en: "Available spaces" } },
-  { path: "/leasing#technical-support", label: { ro: "Suport tehnic pentru chiriaș", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" } },
+  { path: "/leasing#technical-support", label: { ro: "Suport tehnic pentru chiriași", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" } },
 ];
 const companyLinks: { path: string; label: Localized }[] = [
   { path: "/about", label: { ro: "Despre noi", ru: "О компании", en: "About" } },

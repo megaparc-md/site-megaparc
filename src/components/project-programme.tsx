@@ -25,7 +25,7 @@ const copy = {
   totalLabel: { ro: "Suprafață planificată", ru: "Планируемая площадь", en: "Planned area" },
   relatedLabel: { ro: "Clădirea existentă", ru: "Действующее здание", en: "The existing building" },
   relatedText: {
-    ro: "Proiect separat de clădirea de birouri Dacia 31 aflată în funcțiune.",
+    ro: "Proiect separat de clădirea de birouri Dacia 31 aflată în exploatare.",
     ru: "Отдельный проект — не действующее офисное здание Dacia 31.",
     en: "A separate project from the operating Dacia 31 office building.",
   },
@@ -34,10 +34,10 @@ const copy = {
     ru: "Стадию, сроки, назначение и архитектуру опубликуем после утверждения.",
     en: "The stage, timeline, use and architecture will be published once approved.",
   },
-  openRelated: { ro: "Vezi clădirea Dacia 31", ru: "Открыть здание Dacia 31", en: "View the Dacia 31 building" },
+  openRelated: { ro: "Vedeți clădirea Dacia 31", ru: "Смотреть здание Dacia\u00a031", en: "View the Dacia 31 building" },
   closeTitle: { ro: "Discutăm proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
-  discuss: { ro: "Discutăm o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" },
-  land: { ro: "Propuneți un obiect sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" },
+  discuss: { ro: "Discutați o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" },
+  land: { ro: "Propuneți un imobil sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
 } satisfies Record<string, Localized>;
 

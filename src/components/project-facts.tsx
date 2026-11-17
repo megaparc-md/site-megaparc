@@ -21,9 +21,9 @@ const N = " ";
 /** One editorial line per building, written from the confirmed format and location only. */
 export const storyLine: Record<string, Localized> = {
   "dacia-31": { ro: "Clădire de birouri independentă pentru o singură companie.", ru: "Отдельное офисное здание для одной компании.", en: "A stand-alone office building for one company." },
-  "moscova-9": { ro: "Obiect comercial independent pe bulevardul Moscova, în afara centrelor comerciale.", ru: `Отдельно стоящий торговый объект на${N}бульваре Москова${N}— вне торговых центров.`, en: "A stand-alone retail building on Moscova Boulevard, outside the malls." },
+  "moscova-9": { ro: "Clădire comercială independentă pe bulevardul Moscova, în afara centrelor comerciale.", ru: `Отдельно стоящий торговый объект на${N}бульваре Москова${N}— вне торговых центров.`, en: "A stand-alone retail building on Moscova Boulevard, outside shopping centres." },
   "moscova-20": { ro: "Spațiu comercial pe prima linie, la intersecția bulevardului Moscova cu strada Matei Basarab.", ru: `Коммерческое помещение первой линии на${N}пересечении бульвара Москова и${N}улицы Матей Басараб.`, en: "A boulevard-front commercial space where Moscova Boulevard meets Matei Basarab Street." },
-  "creanga-78": { ro: "Obiect comercial în funcțiune în Chișinău.", ru: `Действующий коммерческий объект в${N}Кишинэу.`, en: "An operating commercial property in Chișinău." },
+  "creanga-78": { ro: "Imobil comercial în exploatare în Chișinău.", ru: `Действующий коммерческий объект в${N}Кишинэу.`, en: "An operating commercial property in Chișinău." },
 };
 
 const statusCopy = {
@@ -55,10 +55,10 @@ export function ProjectStatus({ project, locale, tone, as: Tag = "p", className 
 }
 
 const editorialCopy = {
-  now: { ro: "Disponibil acum", ru: "Доступно сейчас", en: "Available now" },
-  soon: { ro: "Disponibil din", ru: "Доступно с", en: "Available from" },
+  now: { ro: "Disponibil acum", ru: "Свободно сейчас", en: "Available now" },
+  soon: { ro: "Disponibil din", ru: "Свободно с", en: "Available from" },
   reserved: { ro: "Rezervat", ru: "Забронировано", en: "Reserved" },
-  open: { ro: "Vezi obiectul", ru: "Смотреть объект", en: "View the property" },
+  open: { ro: "Vedeți imobilul", ru: "Смотреть объект", en: "View the property" },
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
 } as const;
 

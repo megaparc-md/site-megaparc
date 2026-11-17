@@ -50,7 +50,7 @@ export function scaleMetrics(): ScaleMetric[] {
           value: portfolioMetrics.totalAssetArea,
           plus: false,
           unit: m2,
-          label: { ro: "Suprafața obiectelor în funcțiune", ru: "Площадь действующих объектов", en: "Operating property area" },
+          label: { ro: "Suprafața imobilelor în exploatare", ru: "Площадь действующих объектов", en: "Operating property area" },
         },
     portfolioMetrics.developmentLandArea === null
       ? null
@@ -70,7 +70,7 @@ export function scaleMetrics(): ScaleMetric[] {
       key: "operating",
       value: portfolioMetrics.operatingAssets,
       pad: 2,
-      label: { ro: "Obiecte în funcțiune", ru: "Действующие объекты", en: "Operating properties" },
+      label: { ro: "Imobile în exploatare", ru: "Действующие объекты", en: "Operating properties" },
     },
     {
       key: "projects",

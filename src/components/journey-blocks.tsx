@@ -25,13 +25,13 @@ export type OwnerIntent = "sell" | "joint" | "unsure";
 export const ownerIntents: { key: OwnerIntent; label: Localized; thinking: Localized; assess: Localized[] }[] = [
   {
     key: "sell",
-    label: { ro: "Să vând", ru: "Продать", en: "Sell" },
+    label: { ro: "Vânzare", ru: "Продать", en: "Sell" },
     thinking: { ro: "Ne uităm la ce poate deveni obiectul în mâinile noastre — de aici vine o ofertă argumentată, nu o cifră aruncată.", ru: "Смотрим, чем объект может стать у нас, — поэтому предлагаем обоснованную цену, а не случайную цифру.", en: "We look at what the property could become in our hands — that is where a reasoned offer comes from, not a random figure." },
     assess: [{ ro: "Situația juridică", ru: "Юридический статус", en: "Legal status" }, { ro: "Starea tehnică", ru: "Техническое состояние", en: "Technical condition" }, { ro: "Potențialul locației", ru: "Потенциал локации", en: "Location potential" }],
   },
   {
     key: "joint",
-    label: { ro: "Dezvoltare împreună", ru: "Совместное развитие", en: "Develop together" },
+    label: { ro: "Dezvoltare în parteneriat", ru: "Совместное развитие", en: "Develop together" },
     thinking: { ro: "Proprietarul aduce terenul sau clădirea, MEGAPARC aduce conceptul, finanțarea și construcția — iar obiectul rămâne în proprietatea MEGAPARC sau comună, după acord.", ru: "Собственник вносит землю или здание, MEGAPARC — концепцию, финансирование и строительство; объект остаётся у MEGAPARC или в совместной собственности — по договорённости.", en: "The owner brings the land or building, MEGAPARC brings the concept, financing and construction — and the property stays with MEGAPARC or is owned jointly, as agreed." },
     assess: [{ ro: "Scara posibilă", ru: "Возможный масштаб", en: "Possible scale" }, { ro: "Cererea chiriașilor în zonă", ru: "Спрос арендаторов в районе", en: "Tenant demand in the area" }, { ro: "Urbanism și autorizații", ru: "Градостроительство и разрешения", en: "Planning and permits" }],
   },
@@ -44,9 +44,9 @@ export const ownerIntents: { key: OwnerIntent; label: Localized; thinking: Local
 ];
 
 const compassCopy: Record<SiteLocale, { have: string; consider: string; thinking: string; assess: string; proof: string; submit: string; proofTitle: string; proofText: string; proofCta: string }> = {
-  ro: { have: "Ce aveți?", consider: "Ce luați în calcul?", thinking: "Cum privim lucrurile", assess: "Ce verificăm mai întâi", proof: "Exemplu real", submit: "Trimite obiectul", proofTitle: "Drochia, 2,0 ha.", proofText: "Un teren al MEGAPARC la intrarea în oraș, cu două fronturi stradale — trei concepte se evaluează în paralel.", proofCta: "Vezi proiectul" },
-  ru: { have: "Что у вас есть?", consider: "Что вы рассматриваете?", thinking: "Как мы на это смотрим", assess: "Что проверяем в первую очередь", proof: "Реальный пример", submit: "Отправить объект", proofTitle: "Drochia, 2,0 га.", proofText: "Участок MEGAPARC на въезде в город выходит на две дороги. Сейчас параллельно оцениваем три концепции.", proofCta: "Смотреть проект" },
-  en: { have: "What do you have?", consider: "What are you considering?", thinking: "How we see it", assess: "What we check first", proof: "A real example", submit: "Send the property", proofTitle: "Drochia, 2.0 ha.", proofText: "MEGAPARC's own site at the town entrance with two road fronts — three concepts are assessed in parallel.", proofCta: "View the project" },
+  ro: { have: "Ce aveți?", consider: "Ce luați în calcul?", thinking: "Cum privim lucrurile", assess: "Ce verificăm mai întâi", proof: "Exemplu real", submit: "Trimiteți datele imobilului", proofTitle: "Drochia, 2,0 ha.", proofText: "Un teren al MEGAPARC la intrarea în oraș, cu două fronturi stradale — trei concepte se evaluează în paralel.", proofCta: "Vedeți proiectul" },
+  ru: { have: "Что у вас есть?", consider: "Что вы рассматриваете?", thinking: "Как мы на это смотрим", assess: "Что проверяем в первую очередь", proof: "Реальный пример", submit: "Отправить информацию об\u00a0объекте", proofTitle: "Drochia, 2,0 га.", proofText: "Участок MEGAPARC на въезде в город выходит на две дороги. Сейчас параллельно оцениваем три концепции.", proofCta: "Смотреть проект" },
+  en: { have: "What do you have?", consider: "What are you considering?", thinking: "How we see it", assess: "What we check first", proof: "A real example", submit: "Submit property details", proofTitle: "Drochia, 2.0 ha.", proofText: "MEGAPARC's own site at the town entrance with two road fronts — three concepts are assessed in parallel.", proofCta: "View the project" },
 };
 
 /** `formHref`: where the prefilled form lives (the Offer page itself — a full reload carries the choice into the form). */

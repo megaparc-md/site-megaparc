@@ -26,7 +26,7 @@ const subjects: Record<DirectSubject, Localized> = {
   lease: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
   viewing: { ro: "Vizionare", ru: "Просмотр помещения", en: "Viewing" },
   partnership: { ro: "Parteneriat investițional", ru: "Инвестиционное партнёрство", en: "Investment partnership" },
-  property: { ro: "Propunere de obiect sau teren", ru: "Предложение объекта или земли", en: "Property or land proposal" },
+  property: { ro: "Propunere de imobil sau teren", ru: "Предложение объекта или земли", en: "Property or land proposal" },
   careers: { ro: "Cariere", ru: "Вакансии", en: "Careers" },
   general: { ro: "Întrebare", ru: "Вопрос", en: "Question" },
 };

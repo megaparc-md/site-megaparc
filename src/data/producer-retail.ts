@@ -17,8 +17,8 @@ export const producerBlock = {
   title: T("Produsul dumneavoastră. Raftul dumneavoastră. Cumpărătorul dumneavoastră.", "Ваш продукт. Ваша полка. Ваш покупатель.", "Your product. Your shelf. Your customer."),
   lead: T(
     "Un magazin propriu este un canal direct de la producție la cumpărător: mai mult control asupra prețului, sortimentului și banilor. MEGAPARC oferă spații pentru acest format și verifică împreună cu dumneavoastră fezabilitatea lor tehnică.",
-    "Собственный магазин — прямой канал от производства к покупателю: больше контроля над ценой, ассортиментом и деньгами. MEGAPARC предлагает помещения для такого формата и вместе с вами проверяет их техническую реализуемость.",
-    "A store of your own is a direct channel from production to the customer: more control over price, range and cash. MEGAPARC offers premises for this format and checks their technical feasibility with you.",
+    "Собственный магазин — прямой канал от производства к покупателю: больше контроля над ценой, ассортиментом и деньгами. MEGAPARC предлагает помещения для такого формата и вместе с вами проверяет его техническую реализуемость.",
+    "A store of your own is a direct channel from production to the customer: more control over price, range and cash. MEGAPARC offers premises for this format and checks with you whether it is technically feasible there.",
   ),
   advantages: [
     {
@@ -26,7 +26,7 @@ export const producerBlock = {
       text: T("Prețul de vânzare cu amănuntul și adaosul le stabiliți dumneavoastră — fără intermediar între producție și cumpărător.", "Розничную цену и наценку устанавливаете вы — без посредника между производством и покупателем.", "You set the retail price and the markup — with no intermediary between production and the customer."),
     },
     {
-      title: T("Expunere fără aprobări", "Выкладка без согласований", "Display without approvals"),
+      title: T("Expunere fără aprobări", "Выкладка без согласований", "Display without chain approvals"),
       text: T("Sortimentul, expunerea și prezentarea produsului le decide brandul, nu negocierea cu rețeaua comercială.", "Ассортимент, выкладку и подачу продукта определяет бренд, а не согласование с торговой сетью.", "The brand decides the range, the display and how the product is presented — not a negotiation with a retail chain."),
     },
     {
@@ -45,8 +45,8 @@ export const producerBlock = {
       title: T("Mai puțină dependență de condițiile rețelelor", "Меньше зависимости от условий сетей", "Less dependence on chain terms"),
       text: T(
         "Un canal propriu reduce ponderea bonusurilor retroactive, a taxelor de listare și a schimbărilor de politică comercială a rețelelor în economia dumneavoastră.",
-        "Собственный канал снижает долю ретро‑бонусов, платы за листинг и изменений коммерческой политики сетей в вашей экономике.",
-        "Your own channel reduces the weight of retro-bonuses, listing fees and changes in chains' commercial policy in your economics.",
+        "Собственный канал уменьшает влияние ретро\u2011бонусов, платы за листинг и изменений коммерческой политики сетей на вашу экономику.",
+        "Your own channel reduces the impact of retro-bonuses, listing fees and changes in chains' commercial policies on your economics.",
       ),
     },
   ],
@@ -62,7 +62,7 @@ export const producerBlock = {
     "{area} на бульваре Москова: витрины на бульвар, прямой вход с тротуара, два уровня и служебный вход со двора для поставок.",
     "{area} on Moscova Boulevard: glazing to the boulevard, a direct entrance from the pavement, two levels and a service entrance from the courtyard for deliveries.",
   ),
-  exampleLink: T("Vezi scenariul „Magazin de firmă al producătorului”", "Смотреть сценарий «Фирменный магазин производителя»", "See the “Manufacturer's Own Store” scenario"),
+  exampleLink: T("Vedeți scenariul „Magazin de firmă al producătorului”", "Смотреть сценарий «Фирменный магазин производителя»", "View the “Manufacturer's own store” scenario"),
   role: T(
     "MEGAPARC este proprietarul și locatorul spațiilor. Magazinul îl conduce producătorul; decizia financiară vă aparține.",
     "MEGAPARC — собственник и арендодатель помещений. Магазином управляет производитель; финансовое решение остаётся за вами.",
@@ -94,11 +94,11 @@ export const producerFormat = {
   },
   /** the technical constraints — {ground} / {lower}: the approximate heights of the unit record M20-01 */
   levelsNote: T(
-    "Nivelurile sunt legate prin scara interioară; livrările — prin intrarea de serviciu din curte. Înălțimea ≈ {ground} m la parter și ≈ {lower} m la demisol. Climatizare: parterul — sisteme split, demisolul — sistem cu canale. Condițiile de păstrare, regimul de temperatură, echipamentele frigorifice și evacuarea aerului se stabilesc la verificarea tehnică pentru produsul dumneavoastră.",
+    "Nivelurile sunt legate prin scara interioară; livrările — prin intrarea de serviciu din curte. Înălțimea ≈ {ground} m la parter și ≈ {lower} m la demisol. Climatizare: parterul — sisteme split, demisolul — sistem canalizabil. Condițiile de păstrare, regimul de temperatură, echipamentele frigorifice și evacuarea aerului se stabilesc la verificarea tehnică pentru produsul dumneavoastră.",
     "Уровни связаны внутренней лестницей; поставки — через служебный вход со двора. Высота ≈ {ground} м на первом этаже и ≈ {lower} м в цоколе. Кондиционирование: первый этаж — сплит‑системы, цоколь — канальная система. Условия хранения, температурный режим, холодильное оборудование и вытяжка определяются при технической проверке под ваш продукт.",
-    "The levels are linked by the inner stair; deliveries come through the service entrance from the courtyard. Height ≈ {ground} m on the ground floor and ≈ {lower} m on the lower ground. Air conditioning: split systems on the ground floor, a ducted system on the lower ground. Storage conditions, temperature, refrigeration equipment and extraction are determined at the technical check for your product.",
+    "The levels are linked by the internal stair; deliveries come through the service entrance from the courtyard. Height ≈ {ground} m on the ground floor and ≈ {lower} m on the lower ground. Air conditioning: split systems on the ground floor, a ducted system on the lower ground. Storage conditions, temperature, refrigeration equipment and extraction are determined at the technical check for your product.",
   ),
-  levelsCaption: T("Scenariu posibil · se precizează la verificarea tehnică", "Возможный сценарий · уточняется при технической проверке", "A possible scenario · confirmed at the technical check"),
+  levelsCaption: T("Scenariu posibil · se precizează la verificarea tehnică", "Возможный сценарий · уточняется при технической проверке", "A possible scenario · to be confirmed at the technical check"),
   // OWNER «UI CORRECTION · PRODUCER FORMAT» (2026-11-13): the closing as a heading, a main line and a quieter note (RU verbatim; RO / EN
   // adapted). The R8 commercial terms stay in their own section and are not linked again from the scenario.
   closingTitle: T("Propriul punct de vânzare", "Собственная торговая точка", "Your Own Retail Store"),

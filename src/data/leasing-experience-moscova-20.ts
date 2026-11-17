@@ -60,7 +60,7 @@ const photos: Record<string, Photo> = {
   facadeWide: photo("m20-facade-wide", 1278, 709, T("Moscova 20: vitrina continuă, terasa cu scări și rampă, trotuarul bulevardului", "Moscova 20: сплошное остекление, терраса с лестницей и пандусом, тротуар бульвара", "Moscova 20: continuous glazing, the terrace with steps and a ramp, the boulevard pavement"), { position: "50% 42%" }),
   facadePhone: photo("m20-facade-phone", 945, 709, T("Moscova 20: intrarea cu scări și rampă și vitrina", "Moscova 20: вход с лестницей и пандусом, витрина", "Moscova 20: the entrance with steps and a ramp, the shop window"), { position: "50% 55%" }),
   frontage: photo("m20-frontage", 1278, 959, T("Moscova 20 de sus: fațada vitrată, intrarea cu scări și rampă, trotuarul și bulevardul", "Moscova 20 сверху: остеклённый фасад, вход с лестницей и пандусом, тротуар и бульвар", "Moscova 20 from above: the glazed frontage, the entrance with steps and ramp, the pavement and the boulevard")),
-  context: photo("m20-context", 1278, 959, T("Bulevardul Moscova, blocurile de locuit și obiectul pe prima linie", "Бульвар Москова, жилой массив и объект на первой линии", "Moscova Boulevard, the housing blocks and the property directly on the boulevard")),
+  context: photo("m20-context", 1278, 959, T("Bulevardul Moscova, blocurile de locuit și clădirea de pe prima linie", "Бульвар Москова, жилой массив и объект на первой линии", "Moscova Boulevard, the housing blocks and the property directly on the boulevard")),
   entrance: photo("m20-entrance", 1600, 1066, T("Intrarea: scări, rampă și ușa de sticlă", "Вход: лестница, пандус и стеклянная дверь", "The entrance: steps, ramp and the glass door")),
   // OWNER «MOSCOVA 20 — MAIN LEASING IMAGE» (2026-11-10): the OWNER-approved processed photograph of the same entrance («Chirie» sign removed) — the primary exterior frame
   entranceProcessed: photo("m20-entrance-processed", 1600, 900, T("Intrarea Moscova 20: vitrina, ușa de sticlă, scările și rampa de acces", "Вход Moscova 20: витрина, стеклянная дверь, лестница и пандус", "The Moscova 20 entrance: the shop window, the glass door, the steps and the access ramp"), { position: "18% 62%", source: "OWNER-approved processed photograph 2026-11-10 (the m20-entrance frame retouched: «Chirie» sign removed)" }),
@@ -110,7 +110,7 @@ export const moscova20Experience: LeasingExperience = {
     kind: "economics",
     teaser: {
       title: T("De câți clienți pe zi are nevoie afacerea dumneavoastră?", "Сколько клиентов в день нужно вашему бизнесу?", "How many customers a day does your business need?"),
-      text: T("Verificați-vă modelul înainte de a decide asupra locației.", "Проверьте свою модель до того, как принимать решение по локации.", "Check your model before you decide on the location."),
+      text: T("Verificați-vă modelul înainte de a decide asupra locației.", "Проверьте свою модель, прежде чем принимать решение о локации.", "Check your model before you decide on the location."),
     },
   },
 
@@ -122,7 +122,7 @@ export const moscova20Experience: LeasingExperience = {
     phonePhoto: "entranceProcessed",
     title: T("Spațiu pentru următorul pas al afacerii dumneavoastră.", "Пространство для следующего шага вашего бизнеса.", "Space for your business's next step."),
     place: T("Chișinău · Rîșcani", "Кишинэу · Рышкань", "Chișinău · Rîșcani"),
-    offer: T("oferiți în chirie", "предлагается в аренду", "offered for lease"),
+    offer: T("oferiți spre închiriere", "предлагается в аренду", "offered for lease"),
     // OWNER copy correction 2026-11-10 (capex / tenant investment): replaces «Капитальная база уже готова.» — the core capital works are done,
     // the tenant invests primarily in adapting the space to its format (never zero investment, never fit-out included)
     // OWNER «PREMIUM CONTENT AND INTERACTION PASS» §5 (2026-11-11): an editorial message block — the key thought on the first line, the explanation
@@ -146,19 +146,19 @@ export const moscova20Experience: LeasingExperience = {
     lead: T("Adresa nu este doar un punct pe hartă.\nEste mișcarea de zi cu zi din jurul afacerii dumneavoastră.", "Адрес — это не просто точка на карте.\nЭто повседневное движение вокруг вашего бизнеса.", "An address is not just a point on a map.\nIt is the everyday movement around your business."),
     ecosystemTitle: T("Ce creează activitate regulată în jurul locației", "Что создаёт регулярную активность вокруг локации", "What creates regular activity around the location"),
     ecosystem: [
-      { key: "residential", category: "residential", title: T("Cartier rezidențial", "Жилой район", "Residential district"), text: T("Un public local constant pe parcursul zilei.", "Постоянная локальная аудитория в течение дня.", "A steady local audience throughout the day.") },
+      { key: "residential", category: "residential", title: T("Cartier rezidențial", "Жилой район", "Residential district"), text: T("Un public local constant pe parcursul zilei.", "Постоянная местная аудитория в течение дня.", "A steady local audience throughout the day.") },
       { key: "education", category: "education", title: T("Educație", "Образование", "Education"), text: T("Școlile și grădinițele formează trasee zilnice regulate.", "Школы и детские учреждения формируют регулярные ежедневные маршруты.", "Schools and kindergartens create regular daily routes.") },
-      { key: "transport", category: "transport", title: T("Transport", "Транспорт", "Transport"), text: T("Rutele urbane asigură accesul angajaților și al clienților.", "Городские маршруты обеспечивают доступ сотрудников и клиентов.", "City routes give staff and customers access.") },
-      { key: "services", category: "services", title: T("Servicii zilnice", "Ежедневные сервисы", "Everyday services"), text: T("Alimentarele, farmaciile, serviciile și magazinele formează deja obiceiul de a veni în cartier.", "Продукты, аптеки, услуги и торговые точки уже формируют привычку посещения района.", "Groceries, pharmacies, services and shops already make the district a daily habit.") },
+      { key: "transport", category: "transport", title: T("Transport", "Транспорт", "Transport"), text: T("Rutele urbane asigură accesul angajaților și al clienților.", "Городской транспорт удобен и сотрудникам, и клиентам.", "City transport routes serve both staff and customers.") },
+      { key: "services", category: "services", title: T("Servicii zilnice", "Повседневные услуги", "Everyday services"), text: T("Magazinele, farmaciile și serviciile din apropiere aduc deja zilnic oameni în cartier.", "Магазины, аптеки и услуги рядом — сюда уже ходят каждый день.", "Shops, pharmacies and services nearby already bring people to the area every day.") },
     ],
     modelTitle: T("Analiză preliminară a locației · scenariu modelat", "Предварительный анализ локации · моделируемый сценарий", "Preliminary location analysis · modelled scenario"),
     modelCaption: T("Indicatori estimativi ai locației. Nu reprezintă rezultatele unor măsurători efective ale traficului auto și pietonal.", "Оценочные показатели локации. Не являются результатами фактического подсчёта транспортного и пешеходного потока.", "Estimated location indicators. Not based on direct vehicle or pedestrian traffic counts."),
     rhythmTitle: T("Cum trăiește locația", "Как живёт локация", "How the location lives"),
-    rhythmNote: T("Ritmul zilei după model: dimineața — constant, ziua — mediu, seara — vârf. Fără valori exacte până la numărătoare.", "Ритм дня по модели: утром — устойчиво, днём — средне, вечером — пик. Без точных значений до замера.", "The day's rhythm in the model: steady in the morning, medium in the day, a peak in the evening. No exact values before the count."),
+    rhythmNote: T("Ritmul zilei după model: dimineața — constant, ziua — mediu, seara — vârf. Fără valori exacte până la numărătoare.", "Ритм дня по модели: утром — устойчиво, днём — средне, вечером — пик. Без точных значений до замера.", "The day's rhythm in the model: steady in the morning, moderate during the day, peaking in the evening. No exact values until a field count is made."),
     mapTab: T("Împrejurimi", "Окружение", "Surroundings"),
     // OWNER micro-fix 2026-11-09: straight-line radii, not pedestrian isochrones — no «пешая доступность», no minutes until real walking routes are calculated
-    mapCaption: T("Raze orientative ale împrejurimilor: ≈ 400 / 800 / 1 200 m în linie dreaptă. Datele împrejurimilor © OpenStreetMap.", "Ориентировочные радиусы окружения: ≈ 400 / 800 / 1 200 м по прямой. Данные окружения © OpenStreetMap.", "Approximate surroundings radii: ≈ 400 / 800 / 1,200 m in a straight line. Surroundings data © OpenStreetMap."),
-    visibilityTab: T("Cum se vede obiectul", "Как виден объект", "How it is seen"),
+    mapCaption: T("Raze orientative ale împrejurimilor: ≈ 400 / 800 / 1.200 m în linie dreaptă. Datele împrejurimilor © OpenStreetMap.", "Ориентировочные радиусы окружения: ≈ 400 / 800 / 1 200 м по прямой. Данные окружения © OpenStreetMap.", "Indicative straight-line radii: ≈ 400 / 800 / 1,200 m. Surroundings data © OpenStreetMap."),
+    visibilityTab: T("Vizibilitatea imobilului", "Как виден объект", "Visibility"),
     visibility: {
       photo: "context",
       caption: T("Fotografie aeriană reală. Conturul indică vizual spațiul în cadru — nu este o limită cadastrală.", "Реальное аэрофото. Контур показывает помещение в кадре и не является кадастровой границей.", "A real aerial photograph. The outline shows the premises in the frame — it is not a cadastral boundary."),
@@ -168,7 +168,7 @@ export const moscova20Experience: LeasingExperience = {
       // name sit on the open boulevard asphalt, outside any architecture, tied to the premises' roof by a thin leader — never on a neighbour.
       marks: [
         { key: "object", kind: "object", label: T("Moscova 20", "Moscova 20", "Moscova 20"), shape: [[455, 352.3], [805, 415], [801, 473.3], [793.3, 545], [431.7, 456.7], [432.3, 388.3]], edge: [[432.3, 410], [801, 473.3]], pin: [522, 424], at: [190, 662], evidence: "OWNER_CONFIRMED", source: PHOTO },
-        { key: "glazing", kind: "glazing", label: T("Vitrine spre bulevard", "Витрины на бульвар", "Shopfronts to the boulevard"), shape: [[606, 512], [786, 556]], pin: [696, 534], at: [670, 596], evidence: "OWNER_CONFIRMED", source: PHOTO },
+        { key: "glazing", kind: "glazing", label: T("Vitrine spre bulevard", "Витрины на бульвар", "Shopfronts facing the boulevard"), shape: [[606, 512], [786, 556]], pin: [696, 534], at: [670, 596], evidence: "OWNER_CONFIRMED", source: PHOTO },
         { key: "entrance", kind: "entrance", label: T("Intrarea clienților: scări și rampă", "Клиентский вход: лестница и пандус", "Customer entrance: steps and a ramp"), shape: [], pin: [780, 563], at: [852, 604], evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §7 · ${PHOTO}` },
         { key: "pavement", kind: "pavement", label: T("Acces pietonal dinspre trotuar", "Пешеходный подход со стороны тротуара", "Pedestrian approach from the pavement"), shape: [], at: [962, 668], evidence: "OWNER_CONFIRMED", source: PHOTO },
         { key: "road", kind: "road", label: T("Bulevardul Moscova — circulație în ambele sensuri", "Бульвар Москова — движение в двух направлениях", "Moscova Boulevard — traffic in both directions"), shape: [], at: [300, 790], evidence: "DOCUMENT_CONFIRMED", source: `${PHOTO} · OSM: Bulevardul Moscova, primary, 6 lanes (docs/research)` },
@@ -196,7 +196,7 @@ export const moscova20Experience: LeasingExperience = {
       },
 // OWNER DECISION 2026-11-12: the main argument of the block; the distance is an estimate (entrance point ± 15 m, OSM pedestrian network) — never a GPS measurement
       walkValue: T("≈ {m} m|până la cea mai apropiată stație · circa {min} minute pe jos", "≈ {m} м|до ближайшей остановки · около {min} минут пешком", "≈ {m} m|to the nearest stop · about a {min}‑minute walk"),
-      estimate: T("Distanță estimată pe harta OpenStreetMap, de la intrarea clienților; precizie ≈ ± 15 m. Nu este o măsurătoare GPS.", "Расстояние оценочное: по карте OpenStreetMap, от клиентского входа; точность ≈ ± 15 м. Это не GPS‑замер.", "The distance is an estimate: from the OpenStreetMap map, measured from the customer entrance; accuracy ≈ ± 15 m. Not a GPS measurement."),
+      estimate: T("Distanță estimată pe harta OpenStreetMap, de la intrarea clienților; precizie ≈ ± 15 m. Nu este o măsurătoare GPS.", "Расстояние оценочное: по карте OpenStreetMap, от клиентского входа; точность ≈ ± 15 м. Это не GPS‑замер.", "Estimated distance, measured on OpenStreetMap from the customer entrance; accuracy ≈ ± 15 m. Not a GPS measurement."),
       walkShort: T("≈ {m} m · {min} min", "≈ {m} м · {min} мин", "≈ {m} m · {min} min"),
       routes: [
         { mode: "trolleybus", label: T("Troleibuz", "Троллейбус", "Trolleybus"), refs: ["10"] },
@@ -219,7 +219,7 @@ export const moscova20Experience: LeasingExperience = {
       note: T(
         "Timpul — la circa 80 m pe minut. Rutele — conform datelor operatorilor și ale hărților publice la 12.11.2026; orarul și traseele se pot modifica.",
         "Время — при скорости около 80 м в минуту. Маршруты — по данным перевозчиков и открытых карт на 12.11.2026; расписание и трассы могут меняться.",
-        "Time — at about 80 m per minute. Routes — per the operators' data and public maps as of 12 Nov 2026; timetables and itineraries may change.",
+        "Walking time at about 80 m per minute. Routes — per the operators' data and public maps as of 12\u00a0Nov 2026; timetables and itineraries may change.",
       ),
       aria: T("Harta transportului public lângă Moscova 20: stațiile de pe bulevard și traseul pietonal de la intrare.", "Карта общественного транспорта у Moscova 20: остановки на бульваре и пешеходный маршрут от входа.", "Public transport map at Moscova 20: the stops on the boulevard and the walking route from the entrance."),
       evidence: "DOCUMENT_CONFIRMED",
@@ -235,9 +235,9 @@ export const moscova20Experience: LeasingExperience = {
       kicker: T("Dezvoltarea cartierului", "Развитие района", "District growth"),
       title: T("Zona se dezvoltă. Oportunitățile cresc.", "Район развивается. Возможности растут.", "The district is growing. So are the opportunities."),
       lead: T(
-        "Vizavi de Moscova 20, peste bulevard, se află teritoriul fostei uzine „Mezon”. Pentru cartier a fost elaborat un plan urbanistic zonal: locuințe, comerț și birouri, o școală‑grădiniță.",
-        "Напротив Moscova 20, через бульвар, — территория бывшего завода «Мезон». Для квартала разработан зональный градостроительный план: жильё, торговля и офисы, школа‑детский сад.",
-        "Across the boulevard from Moscova 20 lies the site of the former Mezon plant. A zonal urban plan has been drawn up for the block: housing, retail and offices, a school‑kindergarten.",
+        "Vizavi de Moscova 20, peste bulevard, se află teritoriul fostei uzine „Mezon”. Pentru acest teritoriu a fost elaborat un proiect de plan urbanistic zonal: locuințe, comerț și birouri, o școală\u2011grădiniță.",
+        "Напротив Moscova 20, через бульвар, — территория бывшего завода «Мезон». Для этой территории разработан проект зонального градостроительного плана: жильё, торговля и офисы, школа\u2011детский сад.",
+        "Across the boulevard from Moscova 20 lies the site of the former Mezon plant. A draft zonal urban plan has been drawn up for the area: housing, retail and offices, a school and kindergarten.",
       ),
       facts: [
         { key: "plot", value: T("≈ 12,6 ha", "≈ 12,6 га", "≈ 12.6 ha"), label: T("terenul uzinei, bd. Moscova 21", "участок завода, бул. Москова, 21", "the plant's plot, 21 Moscova Blvd") },
@@ -249,10 +249,10 @@ export const moscova20Experience: LeasingExperience = {
         source: "OSM relation 13909134 (landuse, bd. Moscova 21) — an outline of the plot, ≈ 13,4 ha as mapped; the PUZ states 12,604 ha (cad. 0100413226)",
       },
       projects: [
-        { key: "mezon", status: "planned", name: T("Teritoriul uzinei „Mezon”", "Территория завода «Мезон»", "The Mezon plant site"), text: T("Plan urbanistic zonal: locuințe, comerț, birouri, școală‑grădiniță. La ≈ 130 m de Moscova 20, peste bulevard.", "Зональный план: жильё, торговля, офисы, школа‑детский сад. ≈ 130 м от Moscova 20, через бульвар.", "Zonal plan: housing, retail, offices, a school‑kindergarten. ≈ 130 m from Moscova 20, across the boulevard."), lat: 47.0577, lon: 28.8633, at: [403, 464], evidence: "DOCUMENT_CONFIRMED", source: "PUZ obj. 3676, Vol. I / III (rascani.md, 12.01.2024) · register oatucl.md nr. 332, aviz general nr. 313 of 15.07.2025" },
+        { key: "mezon", status: "planned", name: T("Teritoriul uzinei „Mezon”", "Территория завода «Мезон»", "The Mezon plant site"), text: T("Proiect de plan urbanistic zonal: locuințe, comerț, birouri, școală\u2011grădiniță. La ≈\u00a0130\u00a0m de Moscova 20, peste bulevard.", "Проект зонального плана: жильё, торговля, офисы, школа\u2011детский сад. ≈ 130 м от Moscova 20, через бульвар.", "Draft zonal plan: housing, retail, offices, a school and kindergarten. ≈\u00a0130\u00a0m from Moscova 20, across the boulevard."), lat: 47.0577, lon: 28.8633, at: [403, 464], evidence: "DOCUMENT_CONFIRMED", source: "PUZ obj. 3676, Vol. I / III (rascani.md, 12.01.2024) · register oatucl.md nr. 332, aviz general nr. 313 of 15.07.2025" },
         { key: "florilor-residence", status: "built", name: T("Florilor Residence", "Florilor Residence", "Florilor Residence"), text: T("Complex locativ: 5 blocuri, 484 de apartamente, 2018. ≈ 450 m spre vest.", "Жилой комплекс: 5 домов, 484 квартиры, 2018 год. ≈ 450 м к западу.", "Residential complex: 5 buildings, 484 apartments, 2018. ≈ 450 m to the west."), lat: 47.058, lon: 28.8611, evidence: "APPROXIMATE", source: "accesimobil.md (Horus · Florilor Residence, id81) — reported by a listing portal" },
-        { key: "basarab-residence", status: "built", name: T("Basarab Residence", "Basarab Residence", "Basarab Residence"), text: T("Complex locativ: 195 apartamente, blocuri date în exploatare în 2021–2022, spații comerciale la parter. ≈ 470 m spre vest.", "Жилой комплекс: 195 квартир, корпуса сданы в 2021–2022 гг., коммерческие помещения на первых этажах. ≈ 470 м к западу.", "Residential complex: 195 apartments, blocks completed in 2021–2022, ground-floor commercial units. ≈ 470 m to the west."), lat: 47.0568, lon: 28.8606, evidence: "APPROXIMATE", source: "korter.md (Basarab Residence: 16 floors, 195 apartments, completed 2021–2022) · horus.md/proiecte («Dat în exploatare») · OSM relation 13909133" },
-        { key: "utm-campus", status: "announced", name: T("Campusul Universității Tehnice", "Кампус Технического университета", "Technical University campus"), text: T("Renovarea energetică a căminelor studențești, anunțată la 26.11.2025. ≈ 420 m spre nord.", "Энергетическая реновация студенческих общежитий, объявлена 26.11.2025. ≈ 420 м к северу.", "Energy renovation of the student dormitories, announced on 26 Nov 2025. ≈ 420 m to the north."), lat: 47.0604, lon: 28.8649, evidence: "APPROXIMATE", source: "utm.md/?p=192741 (INSPIREE, 26.11.2025)" },
+        { key: "basarab-residence", status: "built", name: T("Basarab Residence", "Basarab Residence", "Basarab Residence"), text: T("Complex locativ: 195 de apartamente, blocuri date în exploatare în 2021–2022, spații comerciale la parter. ≈\u00a0470\u00a0m spre vest.", "Жилой комплекс: 195 квартир, корпуса сданы в 2021–2022 гг., коммерческие помещения на первых этажах. ≈ 470 м к западу.", "Residential complex: 195 apartments, blocks completed in 2021–2022, ground-floor commercial units. ≈ 470 m to the west."), lat: 47.0568, lon: 28.8606, evidence: "APPROXIMATE", source: "korter.md (Basarab Residence: 16 floors, 195 apartments, completed 2021–2022) · horus.md/proiecte («Dat în exploatare») · OSM relation 13909133" },
+        { key: "utm-campus", status: "announced", name: T("Campusul Universității Tehnice", "Кампус Технического университета", "Technical University campus"), text: T("Renovarea energetică a căminelor studențești, anunțată la 26.11.2025. ≈ 420 m spre nord.", "Энергоэффективная модернизация студенческих общежитий, объявлена 26.11.2025. ≈ 420 м к северу.", "Energy renovation of the student dormitories, announced on 26 Nov 2025. ≈ 420 m to the north."), lat: 47.0604, lon: 28.8649, evidence: "APPROXIMATE", source: "utm.md/?p=192741 (INSPIREE, 26.11.2025)" },
       ],
       status: {
         planned: T("în planificare", "в планах", "planned"),
@@ -264,8 +264,8 @@ export const moscova20Experience: LeasingExperience = {
       // general endorsement is NOT the approval of the plan. No Municipal Council decision was found; the city's architecture directorate
       // lists the plan as «în elaborare». Never «approved», never «under construction» (no permit, no start of works).
       state: T(
-        "Proiectul a trecut consultările publice (05.02.2024) și a primit avizul general favorabil al autorității de stat (nr. 313 din 15.07.2025; în registrul de stat — „Aprobat”). Aprobarea planului de către Consiliul Municipal Chișinău nu a fost publicată. Autorizații de construire și începerea lucrărilor nu sunt confirmate; dezvoltatorul și termenele nu sunt anunțate.",
-        "Проект прошёл общественные консультации (05.02.2024) и получил положительное общее заключение государственного органа (№ 313 от 15.07.2025; в государственном реестре — «Aprobat»). Утверждение плана Муниципальным советом Кишинэу не опубликовано. Разрешения на строительство и начало работ не подтверждены; застройщик и сроки не объявлены.",
+        "Proiectul a fost supus consultărilor publice (05.02.2024) și a primit avizul general favorabil al autorității de stat (nr.\u00a0313 din 15.07.2025; în registrul de stat — „Aprobat”). Aprobarea planului de către Consiliul Municipal Chișinău nu a fost publicată. Autorizații de construire și începerea lucrărilor nu sunt confirmate; dezvoltatorul și termenele nu sunt anunțate.",
+        "Проект прошёл общественные обсуждения (05.02.2024) и получил общее положительное заключение государственного органа (№\u00a0313 от 15.07.2025; в государственном реестре — «Aprobat»). Решение Муниципального совета Кишинэу об утверждении плана не опубликовано. Разрешения на строительство и начало работ не подтверждены; застройщик и сроки не объявлены.",
         "The draft passed public consultation (5 Feb 2024) and received the state authority's favourable general endorsement (No. 313 of 15 Jul 2025; “Aprobat” in the state register). Approval of the plan by the Chișinău Municipal Council has not been published. Building permits and a start of works are not confirmed; no developer or timetable has been announced.",
       ),
       balanceLabel: T("Ce înseamnă pentru chiriaș.", "Что это значит для арендатора.", "What it means for a tenant."),
@@ -282,8 +282,8 @@ export const moscova20Experience: LeasingExperience = {
       aria: T("Harta proiectelor de dezvoltare din jurul Moscova 20.", "Карта проектов развития вокруг Moscova 20.", "Map of the development projects around Moscova 20."),
     },
     verdict: {
-      title: T("Această locație merită verificată pentru afacerea dumneavoastră.", "Эта локация заслуживает проверки для вашего бизнеса.", "This location deserves a check for your business."),
-      text: T("Mișcarea din jurul obiectului creează potențial comercial. Cât de potrivit este pentru modelul dumneavoastră — verificăm împreună.", "Движение вокруг объекта создаёт коммерческий потенциал. Насколько он подходит именно вашей модели — проверим вместе.", "The movement around the property creates commercial potential. How well it suits your model is something we check together."),
+      title: T("Această locație merită verificată pentru afacerea dumneavoastră.", "Эта локация заслуживает проверки для вашего бизнеса.", "This location is worth checking for your business."),
+      text: T("Mișcarea din jurul clădirii creează potențial comercial. Cât de potrivit este pentru modelul dumneavoastră — verificăm împreună.", "Движение вокруг объекта создаёт коммерческий потенциал. Насколько он подходит именно вашей модели — проверим вместе.", "The movement around the property creates commercial potential. How well it suits your model is something we'll check together."),
     },
     cta: {
       title: T("Se potrivește acest flux afacerii dumneavoastră?", "Подходит ли этот поток именно вашему бизнесу?", "Does this flow suit your business?"),
@@ -293,8 +293,8 @@ export const moscova20Experience: LeasingExperience = {
 
   drawers: {
     // OWNER «TECHNICAL READINESS — OWNER REDESIGN» (2026-11-10): the drawer is the tenant technical passport
-    tech: { title: T("Pregătirea tehnică", "Техническая готовность", "Technical readiness"), lead: T("Infrastructura de bază a obiectului este deja realizată. Înainte de adaptarea spațiului verificăm cerințele afacerii concrete.", "Базовая инфраструктура объекта уже создана. Перед адаптацией помещения проверяем требования конкретного бизнеса.", "The building’s core infrastructure is already in place. Before the space is adapted, we check the requirements of the specific business.") },
-    readiness: { title: T("Pregătire pentru lansare", "Готовность к запуску", "Ready to open"), lead: T("Ce mai clarificăm pentru afacerea dumneavoastră și din ce se compune lansarea.", "Что ещё уточняем под ваш бизнес и из чего складывается запуск.", "What we still confirm for your business and what opening involves.") },
+    tech: { title: T("Pregătirea tehnică", "Техническая готовность", "Technical readiness"), lead: T("Infrastructura de bază a clădirii este deja realizată. Înainte de adaptarea spațiului verificăm cerințele afacerii dumneavoastră.", "Базовая инфраструктура объекта уже создана. Перед адаптацией помещения проверяем требования конкретного бизнеса.", "The building’s core infrastructure is already in place. Before the space is adapted, we check the requirements of the specific business.") },
+    readiness: { title: T("Pregătire pentru lansare", "Готовность к запуску", "Launch readiness"), lead: T("Ce mai clarificăm pentru afacerea dumneavoastră și din ce se compune lansarea.", "Что ещё уточняем под ваш бизнес и из чего складывается запуск.", "What we still need to confirm for your business — and what opening involves.") },
   },
 
   // TENANT TECHNICAL PASSPORT — every value repeats a confirmed record (this file, the OWNER technical data update
@@ -307,10 +307,10 @@ export const moscova20Experience: LeasingExperience = {
     facts: [
       // OWNER «TECHNICAL READINESS — CARDS + SANITARY WORDING» (2026-11-11): four specification cards — small label · large value · short explanation
       { key: "power", name: T("Putere", "Мощность", "Power"), figure: T("38", "38", "38"), unit: T("kW", "кВт", "kW"), label: T("alimentare trifazată, conform documentelor", "3‑фазное электроснабжение по документам", "three-phase supply, documented"), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-      { key: "heights", name: T("Înălțime", "Высота", "Clear height"), figure: "heights", unit: T("m", "м", "m"), label: { ro: "înălțimea încăperilor · parter / demisol", ru: "высота помещений · 1‑й этаж / цоколь", en: "clear height · ground floor / lower ground" }, evidence: "APPROXIMATE", source: "Unit record M20-01 · plans Anexa 1 / 2" },
+      { key: "heights", name: T("Înălțime", "Высота", "Ceiling height"), figure: "heights", unit: T("m", "м", "m"), label: { ro: "înălțimea încăperilor · parter / demisol", ru: "высота помещений · 1‑й этаж / цоколь", en: "ceiling height · ground floor / lower ground" }, evidence: "APPROXIMATE", source: "Unit record M20-01 · plans Anexa 1 / 2" },
       { key: "exits", name: T("Acces", "Доступ", "Access"), figure: T("4", "4", "4"), unit: T("ieșiri", "выхода", "exits"), label: { ro: "dintre care 2 spre bulevard și 1 spre curte", ru: "в том числе 2 к бульвару и 1 во двор", en: "including 2 to the boulevard and 1 to the courtyard" }, evidence: "OWNER_CONFIRMED", source: TECH },
       // OWNER sanitary wording 2026-11-11: the room is the amenity — «+ хозяйственное помещение», never «уборочный инвентарь» as a label
-      { key: "sanitary", name: T("Spații sanitare", "Санузлы", "Sanitary"), figure: T("3", "3", "3"), unit: T("grupuri sanitare", "санузла", "sanitary units"), label: T("+ spațiu gospodăresc separat", "+ хозяйственное помещение", "+ dedicated utility room"), evidence: "OWNER_CONFIRMED", source: TECH },
+      { key: "sanitary", name: T("Spații sanitare", "Санузлы", "Sanitary facilities"), figure: T("3", "3", "3"), unit: T("grupuri sanitare", "санузла", "toilets"), label: T("+ spațiu gospodăresc separat", "+ хозяйственное помещение", "+ dedicated utility room"), evidence: "OWNER_CONFIRMED", source: TECH },
     ],
     sides: {
       title: T("Două laturi: bulevardul și curtea", "Две стороны: бульвар и двор", "Two sides: the boulevard and the courtyard"),
@@ -319,21 +319,21 @@ export const moscova20Experience: LeasingExperience = {
         { key: "boulevard", name: T("Bulevardul Moscova", "Бульвар Москова", "Moscova Boulevard"), items: [T("intrare directă pentru clienți — scări și rampă", "прямой вход для клиентов — лестница и пандус", "direct customer entrance — steps and a ramp"), T("2 ieșiri", "2 выхода", "2 exits"), T("primirea mărfii", "приём товара", "goods delivery")], evidence: "OWNER_CONFIRMED", source: `${TECH} · ${OWNER} §4, §7 · ${PHOTO}` },
         { key: "courtyard", name: T("Curtea", "Двор", "Courtyard"), items: [T("1 ieșire", "1 выход", "1 exit"), T("rampă de descărcare", "разгрузочная рампа", "a loading ramp"), T("primirea mărfii", "приём товара", "goods delivery")], evidence: "OWNER_CONFIRMED", source: `${TECH} · ${PLANS}` },
       ],
-      caption: T("Schemă de direcții, fără scară.", "Схема направлений, не в масштабе.", "A diagram of directions, not to scale."),
+      caption: T("Schemă orientativă, fără scară.", "Схема направлений, не в масштабе.", "A diagram of directions, not to scale."),
     },
     groups: [
       {
         key: "engineering",
-        title: T("Inginerie", "Инженерия", "Engineering"),
+        title: T("Inginerie", "Инженерные системы", "Engineering"),
         items: [
-          { key: "power", title: T("Alimentare electrică", "Электроснабжение", "Power supply"), value: T("3 faze · 38 kW conform documentelor", "3 фазы · 38 кВт по документам", "3 phases · 38 kW, documented"), note: T("Dacă puterea este suficientă se verifică după cerințele formatului concret.", "Достаточность мощности проверяется под требования конкретного формата.", "Whether the capacity is enough is checked against the needs of the specific format."), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-          { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica", "Termoelectrica", "Termoelectrica"), note: T("Încălzire centralizată, calorifere pe ambele niveluri.", "Централизованное отопление, радиаторы на обоих уровнях.", "Central heating, radiators on both levels."), evidence: "OWNER_CONFIRMED", source: `${TECH_FINAL} · ${OWNER} §4 · ${PHOTO} · ${NET}` },
-          { key: "ac-ground", title: T("Climatizare · parter", "Кондиционирование · 1‑й этаж", "Air-conditioning · ground floor"), value: T("Sisteme split", "Сплит-системы", "Split systems"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "ac-lower", title: T("Climatizare · demisol", "Кондиционирование · цоколь", "Air-conditioning · lower ground"), value: T("Sistem de climatizare pe canale", "Канальная система кондиционирования", "A ducted air-conditioning system"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "ventilation", title: T("Ventilație", "Вентиляция", "Ventilation"), value: T("Prevăzută în infrastructura tehnică", "Предусмотрена в составе технической инфраструктуры", "Provided for in the technical infrastructure"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "extraction", title: T("Hotă", "Вытяжка", "Extraction"), value: T("După conceptul chiriașului", "Под концепцию арендатора", "To the tenant’s concept"), note: T("Cerințele pentru hotă se evaluează după conceptul comercial concret — împreună cu directorul tehnic și arhitectul. Restaurant, bucătărie sau producție — doar după verificarea tehnică.", "Требования к вытяжке оцениваются под конкретную коммерческую концепцию — вместе с техническим директором и архитектором. Ресторан, кухня или производство — только после технической проверки.", "Extraction requirements are assessed for the specific commercial concept — with the Technical Director and the Architect. A restaurant, kitchen or production only after a technical review."), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "power", title: T("Alimentare electrică", "Электроснабжение", "Power supply"), value: T("3 faze · 38 kW conform documentelor", "3 фазы · 38 кВт по документам", "3 phases · 38 kW, documented"), note: T("Verificăm dacă puterea este suficientă pentru cerințele formatului dumneavoastră.", "Хватит ли мощности — проверяем под требования конкретного формата.", "Whether the capacity is enough is checked against the needs of the specific format."), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
+          { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica", "Termoelectrica", "Termoelectrica"), note: T("Încălzire centralizată, calorifere pe ambele niveluri.", "Централизованное отопление, радиаторы на обоих уровнях.", "District heating; radiators on both levels."), evidence: "OWNER_CONFIRMED", source: `${TECH_FINAL} · ${OWNER} §4 · ${PHOTO} · ${NET}` },
+          { key: "ac-ground", title: T("Climatizare · parter", "Кондиционирование · 1‑й этаж", "Air conditioning · ground floor"), value: T("Sisteme split", "Сплит-системы", "Split systems"), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "ac-lower", title: T("Climatizare · demisol", "Кондиционирование · цоколь", "Air conditioning · lower ground"), value: T("Sistem de climatizare canalizabil", "Канальная система кондиционирования", "A ducted air-conditioning system"), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "ventilation", title: T("Ventilație", "Вентиляция", "Ventilation"), value: T("Prevăzută în infrastructura tehnică", "Предусмотрена", "Provided"), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "extraction", title: T("Evacuarea aerului", "Вытяжка", "Extraction"), value: T("După conceptul chiriașului", "Под концепцию арендатора", "Per the tenant's concept"), note: T("Cerințele pentru evacuarea aerului se evaluează în funcție de conceptul comercial al chiriașului — împreună cu directorul tehnic și arhitectul. Restaurant, bucătărie sau producție — doar după verificarea tehnică.", "Требования к вытяжке оцениваются под конкретную коммерческую концепцию — вместе с техническим директором и архитектором. Ресторан, кухня или производство — только после технической проверки.", "Extraction requirements are assessed for the specific commercial concept — with the Technical Director and the Architect. A restaurant, kitchen or production only after a technical review."), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "water", title: T("Apă și canalizare", "Вода и канализация", "Water and drainage"), value: T("Conectate", "Подключены", "Connected"), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-          { key: "internet", title: T("Internet și curenți slabi", "Интернет и слаботочные сети", "Internet and low-voltage networks"), value: T("Traseele există", "Трассы предусмотрены", "Routes in place"), note: T("Furnizorul și configurația le alege chiriașul.", "Провайдера и конфигурацию арендатор определяет сам.", "The tenant chooses the provider and the configuration."), evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §18` },
+          { key: "internet", title: T("Internet și curenți slabi", "Интернет и слаботочные сети", "Internet and data networks"), value: T("Traseele există", "Трассы предусмотрены", "Cable routes in place"), note: T("Furnizorul și configurația le alege chiriașul.", "Провайдера и конфигурацию арендатор определяет сам.", "The tenant chooses the provider and the configuration."), evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §18` },
         ],
       },
       {
@@ -343,36 +343,36 @@ export const moscova20Experience: LeasingExperience = {
           { key: "loading", title: T("Primirea mărfii", "Приём товара", "Goods delivery"), value: T("Dinspre bulevard și dinspre curte", "Со стороны бульвара и со стороны двора", "From the boulevard and from the courtyard"), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "ramp", title: T("Rampă", "Рампа", "Ramp"), value: T("Rampă de descărcare în curte", "Разгрузочная рампа во дворе", "A loading ramp in the courtyard"), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${PLANS}` },
           { key: "buffer", title: T("Zona intermediară", "Промежуточная зона", "Intermediate area"), value: T("Zonă intermediară de descărcare", "Промежуточная зона разгрузки", "An intermediate loading area"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "storage", title: T("Depozitarea mărfii", "Хранение товара", "Goods storage"), value: T("În zona comercială și în zona intermediară de descărcare", "В торговой зоне и в промежуточной зоне разгрузки", "In the trading zone and in the intermediate loading area"), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "storage", title: T("Depozitarea mărfii", "Хранение товара", "Goods storage"), value: T("În zona comercială și în zona intermediară de descărcare", "В торговой зоне и в промежуточной зоне разгрузки", "In the sales area and in the intermediate loading area"), evidence: "OWNER_CONFIRMED", source: TECH },
         ],
-        note: T("Primirea și depozitarea mărfii sunt integrate în funcționarea spațiului comercial.", "Приём и хранение товара встроены в работу самого коммерческого помещения.", "Goods handling and storage are part of how the commercial space itself works."),
+        note: T("Primirea și depozitarea mărfii sunt integrate în funcționarea spațiului comercial.", "Приём и хранение товара организуются в самом коммерческом помещении.", "Goods handling and storage are part of how the commercial space itself works."),
       },
       {
         key: "access",
         title: T("Acces", "Доступ", "Access"),
         items: [
           { key: "exits", title: T("Ieșiri", "Выходы", "Exits"), value: T("4 ieșiri", "4 выхода", "4 exits"), note: T("Dintre care 2 spre bulevard și 1 spre curte.", "В том числе 2 к бульвару и 1 во двор.", "Including 2 to the boulevard and 1 to the courtyard."), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "customer", title: T("Clienții", "Клиенты", "Customers"), value: T("Intrare directă dinspre bulevard", "Прямой вход с бульвара", "A direct entrance from the boulevard"), note: T("Din trotuar, prin terasă: scări și rampă.", "С тротуара через террасу: лестница и пандус.", "From the pavement through the terrace: steps and a ramp."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${OWNER} §4, §7 · ${PHOTO} · ${PLANS}` },
+          { key: "customer", title: T("Clienții", "Клиенты", "Customers"), value: T("Intrare directă dinspre bulevard", "Прямой вход с бульвара", "A direct entrance from the boulevard"), note: T("De pe trotuar, prin terasă: scări și rampă.", "С тротуара через террасу: лестница и пандус.", "From the pavement through the terrace: steps and a ramp."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${OWNER} §4, §7 · ${PHOTO} · ${PLANS}` },
           { key: "parking", title: T("Parcare", "Парковка", "Parking"), value: T("11 locuri de parcare", "11 парковочных мест", "11 parking spaces"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "fire", title: T("Securitate la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții", "Выходы в нескольких направлениях", "Exits in several directions"), note: T("Cerințele finale de securitate la incendiu se evaluează după conceptul chiriașului și cerințele tehnice aplicabile.", "Итоговые требования пожарной безопасности оцениваются под концепцию арендатора и применимые технические требования.", "Final fire-safety requirements are assessed against the tenant’s concept and the applicable technical requirements."), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "fire", title: T("Securitate la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții", "Выходы в нескольких направлениях", "Exits in several directions"), note: T("Cerințele finale de securitate la incendiu se evaluează după conceptul chiriașului și cerințele tehnice aplicabile.", "Итоговые требования пожарной безопасности определяются под концепцию арендатора с учётом действующих норм.", "Final fire-safety requirements are assessed against the tenant’s concept and the applicable technical requirements."), evidence: "OWNER_CONFIRMED", source: TECH },
           { key: "security", title: T("Pază", "Охрана", "Security"), value: T("Justar", "Justar", "Justar"), evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
         ],
       },
       {
         key: "sanitary",
-        title: T("Spații sanitare", "Санитарные помещения", "Sanitary rooms"),
+        title: T("Spații sanitare", "Санитарные помещения", "Toilets and utility room"),
         items: [
           { key: "toilets", title: T("Grupuri sanitare", "Санузлы", "Toilets"), value: T("3 grupuri sanitare", "3 санузла", "3 toilets"), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "cleaning", title: T("Spațiu gospodăresc", "Хозяйственное помещение", "Utility room"), value: T("Spațiu gospodăresc separat pentru curățenie și echipamentele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning and cleaning equipment."), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "cleaning", title: T("Spațiu gospodăresc", "Хозяйственное помещение", "Utility room"), value: T("Spațiu gospodăresc separat pentru curățenie și ustensilele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning services and equipment."), evidence: "OWNER_CONFIRMED", source: TECH },
         ],
       },
       {
         key: "fitout",
-        title: T("Pregătire pentru amenajare", "Подготовка к отделке", "Ready for fit-out"),
+        title: T("Pregătire pentru amenajare", "Подготовка к отделке", "Fit-out preparation"),
         items: [
-          { key: "lighting", title: T("Iluminat", "Освещение", "Lighting"), value: T("Puncte de racord pentru corpuri de iluminat", "Выводы под светильники", "Connection points for luminaires"), note: T("Pregătite pentru montarea corpurilor de iluminat după nivelul de iluminare cerut de viitorul concept comercial.", "Подготовлены для установки светильников с учётом требуемого уровня освещённости будущей коммерческой концепции.", "Prepared for fixture installation to the illumination level the future commercial concept requires."), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "signage", title: T("Firmă", "Вывеска", "Signage"), value: T("Firmă luminoasă sau panou luminos pe fațadă", "Световая вывеска или световая панель на фасаде", "An illuminated sign or light panel on the facade"), note: T("Posibilă după un proiect separat aprobat — împreună cu arhitectul și directorul tehnic.", "Возможна по отдельному согласованному проекту — вместе с архитектором и техническим директором.", "Possible under a separate approved design — with the Architect and the Technical Director."), evidence: "OWNER_CONFIRMED", source: TECH },
-          { key: "support", title: T("Suport tehnic", "Техническая поддержка", "Technical support"), value: T("Directorul tehnic și arhitectul MEGAPARC", "Технический директор и архитектор MEGAPARC", "MEGAPARC’s Technical Director and Architect"), note: T("Verificăm fezabilitatea tehnică a conceptului înainte de convenirea condițiilor comerciale.", "Проверяем техническую реализуемость концепции до согласования коммерческих условий.", "We check the technical feasibility of the concept before commercial terms are agreed."), evidence: "OWNER_CONFIRMED", source: `${OWNER} · R3 trust system` },
+          { key: "lighting", title: T("Iluminat", "Освещение", "Lighting"), value: T("Puncte de racord pentru corpuri de iluminat", "Выводы под светильники", "Connection points for luminaires"), note: T("Pregătite pentru montarea corpurilor de iluminat după nivelul de iluminare cerut de viitorul concept comercial.", "Подготовлены для установки светильников с учётом требуемого уровня освещённости будущей коммерческой концепции.", "Ready for light fittings to achieve the lighting level your concept requires."), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "signage", title: T("Firmă", "Вывеска", "Signage"), value: T("Firmă luminoasă sau panou luminos pe fațadă", "Световая вывеска или световое панно на фасаде", "An illuminated sign or light panel on the facade"), note: T("Posibilă după un proiect separat aprobat — împreună cu arhitectul și directorul tehnic.", "Возможна по отдельному согласованному проекту — вместе с архитектором и техническим директором.", "Possible under a separate approved design — with the Architect and the Technical Director."), evidence: "OWNER_CONFIRMED", source: TECH },
+          { key: "support", title: T("Suport tehnic", "Техническая поддержка", "Technical support"), value: T("Directorul tehnic și arhitectul MEGAPARC", "Технический директор и архитектор MEGAPARC", "MEGAPARC’s Technical Director and Architect"), note: T("Verificăm fezabilitatea tehnică a conceptului înainte de stabilirea condițiilor comerciale.", "Проверяем техническую реализуемость концепции до согласования коммерческих условий.", "We check the technical feasibility of the concept before commercial terms are agreed."), evidence: "OWNER_CONFIRMED", source: `${OWNER} · R3 trust system` },
         ],
       },
     ],
@@ -381,35 +381,35 @@ export const moscova20Experience: LeasingExperience = {
     // combined), each with a small label, a large value and one explanation — the same confirmed facts, no repetition of the four key cards'
     // sentences; nothing added (no tariff, capacity, guarantee, exclusive / reserved / free parking, no location for the fourth exit)
     ready: {
-      title: T("Infrastructura obiectului", "Инфраструктура объекта", "Property infrastructure"),
+      title: T("Infrastructura imobilului", "Инфраструктура объекта", "Property infrastructure"),
       cards: [
         { key: "electricity", title: T("Electricitate", "Электричество", "Electricity"), value: T("38 kW · trifazat", "38 кВт · три фазы", "38 kW · three-phase"), text: T("Racord conform documentației tehnice.", "Подключение по технической документации.", "Connection according to the technical documentation."), evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-        { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica", "Termoelectrica", "Termoelectrica"), text: T("Încălzire centralizată, calorifere pe ambele niveluri.", "Централизованное отопление, радиаторы на обоих уровнях.", "Central heating, radiators on both levels."), evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
+        { key: "heating", title: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica", "Termoelectrica", "Termoelectrica"), text: T("Încălzire centralizată, calorifere pe ambele niveluri.", "Централизованное отопление, радиаторы на обоих уровнях.", "District heating; radiators on both levels."), evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
         // OWNER R9 §02 (2026-11-13): the climate card in the OWNER's words — the main fact under the title, the ventilation / extraction
         // condition as the quieter note under the rule (same confirmed facts: split systems · ducted system · ventilation provided)
-        { key: "climate", title: T("Climatizare și ventilație", "Климат и вентиляция", "Climate and ventilation"), value: T("Climatizare pe două niveluri", "Кондиционирование на двух уровнях", "Air-conditioning on two levels"), lead: T("Parter — sisteme split. Demisol — sistem pe canale.", "Первый этаж — сплит-системы. Цоколь — канальная система.", "Ground floor — split systems. Lower ground — a ducted system."), text: T("Ventilația este prevăzută. Cerințele pentru hotă se stabilesc la verificarea tehnică a conceptului chiriașului.", "Вентиляция предусмотрена. Требования к вытяжке определяются при технической проверке концепции арендатора.", "Ventilation is provided for. Extraction requirements are defined during the technical review of the tenant's concept."), evidence: "OWNER_CONFIRMED", source: TECH },
+        { key: "climate", title: T("Climatizare și ventilație", "Климат и вентиляция", "Climate control and ventilation"), value: T("Climatizare pe două niveluri", "Кондиционирование на двух уровнях", "Air conditioning on two levels"), lead: T("Parter — sisteme split. Demisol — sistem canalizabil.", "Первый этаж — сплит-системы. Цоколь — канальная система.", "Ground floor — split systems. Lower ground — a ducted system."), text: T("Ventilația este prevăzută. Cerințele pentru evacuarea aerului se stabilesc la verificarea tehnică a conceptului chiriașului.", "Вентиляция предусмотрена. Требования к вытяжке определяются при технической проверке концепции арендатора.", "Ventilation is provided for. Extraction requirements are defined during the technical review of the tenant's concept."), evidence: "OWNER_CONFIRMED", source: TECH },
         { key: "access", title: T("Acces", "Доступ", "Access"), value: T("Bulevard și curte", "Бульвар и двор", "Boulevard and courtyard"), text: T("Intrare directă pentru clienți dinspre bulevard — scări și rampă; ieșire separată spre curte.", "Прямой вход для клиентов с бульвара — лестница и пандус; отдельный выход во двор.", "A direct customer entrance from the boulevard — steps and a ramp; a separate exit to the courtyard."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${PLANS}` },
         { key: "logistics", title: T("Logistică", "Логистика", "Logistics"), value: T("Descărcare din două laturi", "Разгрузка с двух сторон", "Loading from two sides"), text: T("Bulevard și curte; rampă de descărcare dinspre curte.", "Бульвар и двор; разгрузочная рампа со стороны двора.", "Boulevard and courtyard; a loading ramp on the courtyard side."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${PLANS}` },
-        { key: "sanitary", title: T("Spații sanitare și gospodărești", "Санузлы и хозпомещение", "Sanitary and utility"), value: T("3 grupuri sanitare", "3 санузла", "3 sanitary units"), text: T("Spațiu gospodăresc separat pentru curățenie și echipamentele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning and cleaning equipment."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${TECH_FINAL}` },
-        { key: "parking", title: T("Parcare", "Парковка", "Parking"), value: T("11 locuri", "11 мест", "11 spaces"), text: T("Parcare la obiect; condițiile de folosire se discută la vizionare.", "Парковка при объекте; порядок пользования обсуждается на просмотре.", "Parking at the property; the terms of use are discussed at the viewing."), evidence: "OWNER_CONFIRMED", source: TECH },
-        { key: "fitout", title: T("Pregătire pentru amenajare", "Подготовка к отделке", "Fit-out"), value: T("Puncte de racord pentru iluminat", "Выводы под светильники", "Lighting connection points"), text: T("Pregătite pentru montarea corpurilor de iluminat după conceptul de iluminare cerut; trasee pentru curenți slabi și internet.", "Подготовлены под монтаж светильников по требуемой концепции освещения; трассы для слаботочных сетей и интернета.", "Prepared for fixture installation to the required lighting concept; low-voltage and internet routes in place."), evidence: "OWNER_CONFIRMED", source: TECH },
+        { key: "sanitary", title: T("Spații sanitare și gospodărești", "Санузлы и хозпомещение", "Toilets and utility room"), value: T("3 grupuri sanitare", "3 санузла", "3 toilets"), text: T("Spațiu gospodăresc separat pentru curățenie și ustensilele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning services and equipment."), evidence: "OWNER_CONFIRMED", source: `${TECH} · ${TECH_FINAL}` },
+        { key: "parking", title: T("Parcare", "Парковка", "Parking"), value: T("11 locuri", "11 мест", "11 spaces"), text: T("Parcare lângă clădire; condițiile de folosire se discută la vizionare.", "Парковка при объекте; порядок пользования обсуждается на просмотре.", "Parking at the property; the terms of use are discussed at the viewing."), evidence: "OWNER_CONFIRMED", source: TECH },
+        { key: "fitout", title: T("Pregătire pentru amenajare", "Подготовка к отделке", "Fit-out preparation"), value: T("Puncte de racord pentru iluminat", "Выводы под светильники", "Lighting connection points"), text: T("Pregătite pentru montarea corpurilor de iluminat după conceptul de iluminare cerut; trasee pentru curenți slabi și internet.", "Подготовлены под монтаж светильников по требуемой концепции освещения; трассы для слаботочных сетей и интернета.", "Prepared for light fittings to suit the lighting concept; data and internet cable routes in place."), evidence: "OWNER_CONFIRMED", source: TECH },
       ],
     },
     capex: T("Lucrările capitale de bază sunt deja realizate — investiția chiriașului va fi necesară în primul rând pentru adaptarea spațiului la propriul format.", "Базовые капитальные работы уже выполнены — инвестиции арендатора потребуются прежде всего для адаптации пространства под собственный формат.", "The core capital works are already complete — the tenant’s investment will be needed primarily to adapt the space to its own format."),
     check: {
       title: T("Ce verificăm pentru formatul dumneavoastră", "Что проверим под ваш формат", "What we check for your format"),
-      lead: T("Directorul tehnic și arhitectul MEGAPARC verifică în ce măsură infrastructura existentă corespunde cerințelor afacerii dumneavoastră și ce adaptări vor fi necesare — înainte de convenirea condițiilor comerciale.", "Технический директор и архитектор MEGAPARC проверят, насколько существующая инфраструктура соответствует требованиям вашего бизнеса и какие адаптации потребуются, — до согласования коммерческих условий.", "MEGAPARC’s Technical Director and Architect check how well the existing infrastructure meets the needs of your business and which adaptations will be required — before commercial terms are agreed."),
+      lead: T("Directorul tehnic și arhitectul MEGAPARC verifică în ce măsură infrastructura existentă corespunde cerințelor afacerii dumneavoastră și ce adaptări vor fi necesare — înainte de stabilirea condițiilor comerciale.", "Технический директор и архитектор MEGAPARC проверят, насколько существующая инфраструктура соответствует требованиям вашего бизнеса и какие адаптации потребуются, — до согласования коммерческих условий.", "MEGAPARC’s Technical Director and Architect check how well the existing infrastructure meets the needs of your business and which adaptations will be required — before commercial terms are agreed."),
       items: [
         T("puterea electrică necesară", "необходимая электрическая мощность", "the electrical capacity you need"),
-        T("ventilația, climatizarea și hota", "вентиляция, кондиционирование и вытяжка", "ventilation, air-conditioning and extraction"),
-        T("amplasarea echipamentelor", "размещение оборудования", "where equipment goes"),
+        T("ventilația, climatizarea și evacuarea aerului", "вентиляция, кондиционирование и вытяжка", "ventilation, air conditioning and extraction"),
+        T("amplasarea echipamentelor", "размещение оборудования", "equipment placement"),
         T("configurația intrărilor", "конфигурация входов", "the entrance configuration"),
         T("traseele clienților și ale mărfii", "маршруты клиентов и товара", "customer and goods routes"),
         T("zonarea", "зонирование", "zoning"),
         T("firma luminoasă și fațada", "световая вывеска и фасад", "the illuminated sign and the facade"),
-        T("internetul și curenții slabi", "интернет и слаботочная инфраструктура", "internet and low-voltage infrastructure"),
-        T("cerințele pentru spațiile sanitare", "требования к санитарным помещениям", "sanitary-room requirements"),
-        T("cerințele speciale ale activității concrete", "специальные требования конкретного вида деятельности", "the special requirements of your specific activity"),
+        T("internetul și curenții slabi", "интернет и слаботочная инфраструктура", "internet and data-cabling infrastructure"),
+        T("cerințele pentru spațiile sanitare", "требования к санитарным помещениям", "toilet requirements"),
+        T("cerințele specifice ale activității", "специальные требования конкретного вида деятельности", "the special requirements of your specific activity"),
       ],
     },
     principle: T("Mai întâi verificăm fezabilitatea tehnică — apoi discutăm condițiile comerciale.", "Сначала проверяем техническую реализуемость — затем обсуждаем коммерческие условия.", "First we check technical feasibility — then we discuss commercial terms."),
@@ -417,8 +417,8 @@ export const moscova20Experience: LeasingExperience = {
 
   specs: [
     { key: "power", label: T("Alimentare electrică", "Электроснабжение", "Power"), value: T("3 faze · 38 kW conform documentelor", "3 фазы · 38 кВт по документам", "3 phases · 38 kW documented"), state: "ready", evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-    { key: "ventilation", label: T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), value: T("Parter — sisteme split · demisol — climatizare pe canale · ventilație prevăzută", "1-й этаж — сплит-системы · цоколь — канальное кондиционирование · вентиляция предусмотрена", "Ground floor — split systems · lower ground — ducted air-conditioning · ventilation provided for"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
-    { key: "extraction", label: T("Hotă", "Вытяжка", "Extraction"), value: T("Se evaluează după conceptul comercial concret", "Оценивается под конкретную коммерческую концепцию", "Assessed for the specific commercial concept"), state: "confirm", evidence: "OWNER_CONFIRMED", source: TECH },
+    { key: "ventilation", label: T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air conditioning"), value: T("Parter — sisteme split · demisol — climatizare pe canale · ventilație prevăzută", "1-й этаж — сплит-системы · цоколь — канальное кондиционирование · вентиляция предусмотрена", "Ground floor — split systems · lower ground — ducted air-conditioning · ventilation provided for"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
+    { key: "extraction", label: T("Evacuarea aerului", "Вытяжка", "Extraction"), value: T("Se evaluează în funcție de conceptul comercial al chiriașului", "Оценивается под конкретную коммерческую концепцию", "Assessed for the specific commercial concept"), state: "confirm", evidence: "OWNER_CONFIRMED", source: TECH },
   ],
 
   location: {
@@ -453,9 +453,9 @@ export const moscova20Experience: LeasingExperience = {
   },
 
   area: {
-    propertyLine: T("Obiectul întreg — 704 m²; 78 m² sunt deja ocupați.", "Объект целиком — 704 м²; 78 м² уже заняты.", "The whole property is 704 m²; 78 m² are already occupied."),
+    propertyLine: T("Întregul imobil — 704 m²; 78 m² sunt deja ocupați.", "Объект целиком — 704 м²; 78 м² уже заняты.", "The whole property is 704 m²; 78 m² are already occupied."),
     // never marketed as confirmed — the page adds «уточняется» from the evidence class
-    groundOnly: fact(T("Închirierea doar a parterului", "Аренда только 1-го этажа", "Leasing the ground floor alone"), "TO_CONFIRM", `${OWNER} §17`),
+    groundOnly: fact(T("Închirierea doar a parterului", "Аренда только 1-го этажа", "Leasing the ground floor only"), "TO_CONFIRM", `${OWNER} §17`),
   },
 
   access: [
@@ -470,14 +470,14 @@ export const moscova20Experience: LeasingExperience = {
   engineering: {
     rows: [
       { key: "power", label: T("Alimentare electrică", "Электроснабжение", "Power"), value: T("3 faze · 38 kW conform documentelor", "3 фазы · 38 кВт по документам", "3 phases · 38 kW documented"), state: "ready", evidence: "DOCUMENT_CONFIRMED", source: `${OWNER} §4 · ${NET}` },
-      { key: "reserve", label: T("Rezervă de putere", "Резерв мощности", "Power reserve"), value: T("Se clarifică pentru formatul dumneavoastră", "Уточняется под ваш формат", "Confirmed for your format"), state: "confirm", evidence: "TO_CONFIRM", source: `${OWNER} §19` },
+      { key: "reserve", label: T("Rezervă de putere", "Резерв мощности", "Spare power capacity"), value: T("Se clarifică pentru formatul dumneavoastră", "Уточняется под ваш формат", "To be confirmed for your format"), state: "confirm", evidence: "TO_CONFIRM", source: `${OWNER} §19` },
       { key: "heating", label: T("Încălzire", "Отопление", "Heating"), value: T("Termoelectrica; calorifere pe ambele niveluri", "Termoelectrica; радиаторы на обоих уровнях", "Termoelectrica; radiators on both levels"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${TECH_FINAL} · ${OWNER} §4 · ${PHOTO} · ${NET}` },
-      { key: "ventilation", label: T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), value: T("Parter — sisteme split; demisol — climatizare pe canale; ventilație prevăzută", "1-й этаж — сплит-системы; цоколь — канальное кондиционирование; вентиляция предусмотрена", "Ground floor — split systems; lower ground — ducted air-conditioning; ventilation provided for"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
-      { key: "extraction", label: T("Hotă", "Вытяжка", "Extraction"), value: T("Se evaluează după conceptul comercial concret", "Оценивается под конкретную коммерческую концепцию", "Assessed for the specific commercial concept"), state: "confirm", evidence: "OWNER_CONFIRMED", source: TECH },
-      { key: "water", label: T("Apă și canalizare", "Водоснабжение и канализация", "Water and sewer"), value: T("Conectate: 3 grupuri sanitare", "Подключены: 3 санузла", "Connected: 3 toilets"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${NET} · ${TECH} · ${TECH_FINAL}` },
-      { key: "cleaning", label: T("Spațiu gospodăresc", "Хозяйственное помещение", "Utility room"), value: T("Spațiu gospodăresc separat pentru curățenie și echipamentele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning and cleaning equipment."), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
-      { key: "internet", label: T("Curenți slabi și internet", "Слаботочные сети и интернет", "Low-current and internet"), value: T("Traseele există; internetul îl conectează chiriașul", "Трассы есть; интернет арендатор подключает сам", "Routes in place; the tenant connects the internet"), state: "tenant", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §18` },
-      { key: "fire", label: T("Siguranță la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții: 2 spre bulevard, 1 spre curte", "Выходы в нескольких направлениях: 2 к бульвару, 1 во двор", "Exits in several directions: 2 to the boulevard, 1 to the courtyard"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
+      { key: "ventilation", label: T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air conditioning"), value: T("Parter — sisteme split; demisol — climatizare pe canale; ventilație prevăzută", "1-й этаж — сплит-системы; цоколь — канальное кондиционирование; вентиляция предусмотрена", "Ground floor — split systems; lower ground — ducted air-conditioning; ventilation provided for"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
+      { key: "extraction", label: T("Evacuarea aerului", "Вытяжка", "Extraction"), value: T("Se evaluează în funcție de conceptul comercial al chiriașului", "Оценивается под конкретную коммерческую концепцию", "Assessed for the specific commercial concept"), state: "confirm", evidence: "OWNER_CONFIRMED", source: TECH },
+      { key: "water", label: T("Apă și canalizare", "Водоснабжение и канализация", "Water and drainage"), value: T("Conectate: 3 grupuri sanitare", "Подключены: 3 санузла", "Connected: 3 toilets"), state: "ready", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${NET} · ${TECH} · ${TECH_FINAL}` },
+      { key: "cleaning", label: T("Spațiu gospodăresc", "Хозяйственное помещение", "Utility room"), value: T("Spațiu gospodăresc separat pentru curățenie și ustensilele de curățenie.", "Отдельное хозяйственное помещение для клининга и уборочного инвентаря.", "A dedicated utility room for cleaning services and equipment."), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
+      { key: "internet", label: T("Curenți slabi și internet", "Слаботочные сети и интернет", "Data networks and internet"), value: T("Traseele există; internetul îl conectează chiriașul", "Трассы есть; интернет арендатор подключает сам", "Routes in place; the tenant connects the internet"), state: "tenant", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4, §18` },
+      { key: "fire", label: T("Securitate la incendiu", "Пожарная безопасность", "Fire safety"), value: T("Ieșiri în mai multe direcții: 2 spre bulevard, 1 spre curte", "Выходы в нескольких направлениях: 2 к бульвару, 1 во двор", "Exits in several directions: 2 to the boulevard, 1 to the courtyard"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
       { key: "security", label: T("Pază", "Охрана", "Security"), value: T("Justar", "Justar", "Justar"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH_FINAL },
       { key: "lighting", label: T("Iluminat", "Освещение", "Lighting"), value: T("Puncte de racord pregătite pentru nivelul de iluminare cerut de concept", "Выводы под светильники подготовлены под требуемый уровень освещённости концепции", "Connection points prepared for the illumination level the concept requires"), state: "ready", evidence: "OWNER_CONFIRMED", source: TECH },
     ],
@@ -485,25 +485,25 @@ export const moscova20Experience: LeasingExperience = {
   },
 
   readiness: {
-    confirmTitle: T("Clarificăm pentru afacerea dumneavoastră", "Уточняем под ваш бизнес", "We confirm for your business"),
+    confirmTitle: T("Clarificăm pentru afacerea dumneavoastră", "Уточняем под ваш бизнес", "To be confirmed for your business"),
     confirm: [
-      fact(T("Hota", "Вытяжка", "Extraction"), "TO_CONFIRM", OWNER),
-      fact(T("Rezerva de putere", "Резерв мощности", "Power reserve"), "TO_CONFIRM", OWNER),
-      fact(T("Formatul firmei", "Формат вывески", "Signage format"), "TO_CONFIRM", OWNER),
-      fact(T("Închirierea doar a parterului", "Аренда только 1-го этажа", "Ground floor alone"), "TO_CONFIRM", OWNER),
+      fact(T("Evacuarea aerului", "Вытяжка", "Extraction"), "TO_CONFIRM", OWNER),
+      fact(T("Rezerva de putere", "Резерв мощности", "Spare power capacity"), "TO_CONFIRM", OWNER),
+      fact(T("Formatul firmei luminoase", "Формат вывески", "Signage format"), "TO_CONFIRM", OWNER),
+      fact(T("Închirierea doar a parterului", "Аренда только 1-го этажа", "Leasing the ground floor only"), "TO_CONFIRM", OWNER),
       fact(T("Compatibilitatea tehnică cu formatul dumneavoastră", "Техническая совместимость с вашим форматом", "Technical fit with your format"), "TO_CONFIRM", OWNER),
       fact(T("Programul de lucru", "Режим работы", "Opening hours"), "TO_CONFIRM", OWNER),
       fact(T("Regulile terasei", "Правила использования террасы", "Terrace rules"), "TO_CONFIRM", OWNER),
       fact(T("Autorizații pentru activitatea dumneavoastră", "Разрешения под ваш вид деятельности", "Permits for your activity"), "TO_CONFIRM", OWNER),
-      fact(T("Dotarea cu corpuri de iluminat", "Комплектация освещения", "Lighting fittings"), "TO_CONFIRM", PHOTO),
+      fact(T("Dotarea cu corpuri de iluminat", "Комплектация освещения", "Light fittings"), "TO_CONFIRM", PHOTO),
     ],
-    costTitle: T("Din ce se compune lansarea", "Из чего складывается запуск", "What opening involves"),
+    costTitle: T("Ce presupune lansarea", "Из чего складывается запуск", "What opening involves"),
     cost: [
       { key: "capital", label: T("Lucrări capitale de construcție", "Капитальные строительные работы", "Capital building works"), state: "done", note: T("În mare parte executate", "В основном выполнены", "Largely done") },
-      { key: "fitout", label: T("Amenajare pentru concept", "Отделка под концепцию", "Fit-out for the concept"), state: "concept", note: T("După concept", "По концепции", "By concept") },
+      { key: "fitout", label: T("Amenajare pentru concept", "Отделка под концепцию", "Fit-out for the concept"), state: "concept", note: T("În funcție de concept", "По концепции", "Depends on the concept") },
       { key: "equipment", label: T("Echipamente", "Оборудование", "Equipment"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
       { key: "branding", label: T("Branding și firmă", "Брендинг и вывеска", "Branding and signage"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
-      { key: "engineering", label: T("Inginerie specială", "Специальная инженерия", "Special engineering"), state: "if-needed", note: T("Dacă formatul o cere", "Если требует формат", "If the format needs it") },
+      { key: "engineering", label: T("Inginerie specială", "Специальные инженерные системы", "Special engineering"), state: "if-needed", note: T("Dacă formatul o cere", "Если требует формат", "If the format needs it") },
       { key: "it", label: T("IT și comunicații", "IT и связь", "IT and communications"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
     ],
   },
@@ -511,14 +511,14 @@ export const moscova20Experience: LeasingExperience = {
   terms: {
     title: T("Condiții de închiriere", "Условия аренды", "Lease terms"),
     // OWNER R6 (2026-11-12): the two rates are published; every other term still follows the first check of the business format
-    pending: T("Tarifele de închiriere sunt publicate. Celelalte condiții se transmit după o primă verificare a formatului afacerii.", "Ставки аренды опубликованы. Остальные условия предоставляются после первичной проверки формата бизнеса.", "The rental rates are published. The other terms are provided after a first check of the business format."),
+    pending: T("Tarifele, garanția, regimul utilităților și indexarea sunt publicate. Celelalte condiții — după o primă verificare a formatului afacerii.", "Ставки, депозит, порядок коммунальных платежей и индексация опубликованы. Остальные условия — после первичной проверки формата бизнеса.", "The rates, deposit, utilities terms and indexation are published. The other terms follow a first check of the business format."),
     // what the proposal answers — topics only, never values (AGENTS.md: no public rent or payment terms)
     // OWNER «CORRECTIVE PASS R8» §02 (2026-11-13): the deposit and the utilities / operating-expense regime are published terms now — not topics
-    covers: [T("perioada de amenajare", "период на отделку", "fit-out period"), T("durata contractului", "срок договора", "lease term"), T("firma", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
+    covers: [T("perioada de amenajare", "период на отделку", "fit-out period"), T("durata contractului", "срок договора", "lease term"), T("firma luminoasă", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
     // structured, rendered only when the OWNER confirms a value AND approves it for publication
     rows: [
       // OWNER DECISION R6 / R7 (2026-11-12): the rates are confirmed and published — values from src/data/moscova-20-commercial.ts, never typed here
-      { key: "rent", label: T("Chiria", "Ставка аренды", "Rent"), value: { ro: ratesLine("ro"), ru: ratesLine("ru"), en: ratesLine("en") }, evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12 — src/data/moscova-20-commercial.ts", publish: true },
+      { key: "rent", label: T("Tariful de închiriere", "Ставка аренды", "Rent"), value: { ro: ratesLine("ro"), ru: ratesLine("ru"), en: ratesLine("en") }, evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12 — src/data/moscova-20-commercial.ts", publish: true },
       { key: "vat", label: T("TVA", "НДС", "VAT"), value: T("Tarifele nu includ TVA.", "Ставки указаны без НДС.", "Rates exclude VAT."), evidence: "OWNER_CONFIRMED", source: "OWNER mandates R6 / R7, 2026-11-12", publish: true },
       // OWNER «CORRECTIVE PASS R8» §02 + GO correction (2026-11-13): utilities at actual charges + 15 % of the utility cost for administration and engineering-network maintenance; other operating expenses by the lease
       { key: "utilities", label: commercialCopy.utilitiesRowLabel, value: commercialCopy.utilitiesTerm, evidence: "OWNER_CONFIRMED", source: "OWNER «CORRECTIVE PASS R8» §02, 2026-11-13 — src/data/moscova-20-commercial.ts", publish: true },
@@ -528,13 +528,13 @@ export const moscova20Experience: LeasingExperience = {
       { key: "indexation", label: T("Indexare", "Индексация", "Indexation"), value: commercialCopy.indexation, evidence: "OWNER_CONFIRMED", source: "OWNER addendum «Ежегодная индексация арендной платы», 2026-11-12 — wording as supplied; no percentage", publish: true },
       { key: "term", label: T("Durata minimă", "Минимальный срок", "Minimum term"), value: null, evidence: "TO_CONFIRM", source: "The 2026 offer states a minimum term — not confirmed as current", publish: false },
       { key: "handover", label: T("Starea la predare", "Состояние при передаче", "Handover condition"), value: null, evidence: "TO_CONFIRM", source: OWNER, publish: false },
-      { key: "signage", label: T("Firma", "Вывеска", "Signage"), value: null, evidence: "TO_CONFIRM", source: `${OWNER} §19`, publish: false },
+      { key: "signage", label: T("Firma luminoasă", "Вывеска", "Signage"), value: null, evidence: "TO_CONFIRM", source: `${OWNER} §19`, publish: false },
     ],
   },
 
   plans: {
     kicker: T("Planuri și suprafețe", "Планы и площади", "Plans and areas"),
-    title: T("Cum sunt organizați {area}.", "Как устроены {area}.", "How the {area} are organised."),
+    title: T("Cum sunt organizați {area}.", "Как устроены {area}.", "How the {area} is laid out."),
     levels: [
       {
         key: "ground",
@@ -544,9 +544,9 @@ export const moscova20Experience: LeasingExperience = {
         mark: "+0,000",
         drawing: { photo: "planGround", pdf: publicAsset(`${dir}/plans/moscova-20-plan-parter-0000.pdf`) },
         zones: [
-          zone("hall-ground", "1", "sales", T("Sală comercială", "Торговый зал", "Sales hall"), 195.46, rect(12650, 0, 29800, 10600), [22200, 3600]),
+          zone("hall-ground", "1", "sales", T("Sală comercială", "Торговый зал", "Sales area"), 195.46, rect(12650, 0, 29800, 10600), [22200, 3600]),
           zone("corridor", "2", "corridor", T("Coridor · intrare de serviciu", "Коридор · служебный вход", "Corridor · service entrance"), 30.5, rect(24400, -12800, 27700, 0), [25300, -9600]),
-          zone("wc-ground", "3", "wc", T("Grupuri sanitare și încăperi auxiliare", "Санузлы и подсобные помещения", "Washrooms and utility rooms"), 6.5, rect(26100, -6600, 27700, -2800), [26900, -4700]),
+          zone("wc-ground", "3", "wc", T("Grupuri sanitare și încăperi auxiliare", "Санузлы и подсобные помещения", "Toilets and utility rooms"), 6.5, rect(26100, -6600, 27700, -2800), [26900, -4700]),
           zone("ramp", "4", "ramp", T("Rampa intrării de serviciu", "Пандус служебного входа", "Service entrance ramp"), 8.5, rect(24400, -15100, 27700, -12800), [26050, -13950]),
           zone("terrace", "5", "terrace", T("Terasă", "Терраса", "Terrace"), 91.03, rect(12650, 10800, 31400, 16000), [16200, 13500]),
           zone("stair-west-g", null, "stair", stairLabel, null, stairWest),
@@ -554,7 +554,7 @@ export const moscova20Experience: LeasingExperience = {
         ],
         marks: [
           { key: "customer", kind: "customer", label: T("Intrarea clienților", "Вход для клиентов", "Customer entrance"), at: [21700, 10700], dir: "up" },
-          { key: "street", kind: "street", label: T("Din trotuar: scări și rampă", "С тротуара: лестница и пандус", "From the pavement: steps and a ramp"), at: [21700, 16300], dir: "up" },
+          { key: "street", kind: "street", label: T("De pe trotuar: scări și rampă", "С тротуара: лестница и пандус", "From the pavement: steps and a ramp"), at: [21700, 16300], dir: "up" },
           { key: "service", kind: "service", label: T("Intrarea de serviciu", "Служебный вход", "Service entrance"), at: [26050, -15400], dir: "down" },
         ],
         columns: grid([0, 5600, 10600], [12650, 17900, 23700, 29800]),
@@ -567,10 +567,10 @@ export const moscova20Experience: LeasingExperience = {
         mark: "−2,950 / −3,300",
         drawing: { photo: "planLower", pdf: publicAsset(`${dir}/plans/moscova-20-plan-demisol-2950-3300.pdf`) },
         zones: [
-          zone("hall-lower", "1", "sales", T("Sală comercială", "Торговый зал", "Sales hall"), 263.4, [[0, 0], [29800, 0], [29800, 10600], [12650, 10600], [12650, 5600], [0, 5600]], [8000, 2800]),
+          zone("hall-lower", "1", "sales", T("Sală comercială", "Торговый зал", "Sales area"), 263.4, [[0, 0], [29800, 0], [29800, 10600], [12650, 10600], [12650, 5600], [0, 5600]], [8000, 2800]),
           zone("aux-lower", "2", "aux", T("Încăpere auxiliară", "Вспомогательное помещение", "Auxiliary room"), 20.97, rect(24800, -4600, 29100, -500), [26950, -2550]),
           zone("tech-lower", "3", "tech", T("Încăpere tehnică", "Техническое помещение", "Technical room"), 6.59, rect(22800, -4600, 24800, -500), [23800, -2550]),
-          zone("wc-lower", "4", "wc", T("Grup sanitar", "Санузел", "Washroom"), 2.74, rect(29100, -4600, 30600, -2800), [29850, -3700]),
+          zone("wc-lower", "4", "wc", T("Grup sanitar", "Санузел", "Toilet"), 2.74, rect(29100, -4600, 30600, -2800), [29850, -3700]),
           zone("stair-west-l", null, "stair", stairLabel, null, stairWest),
           zone("stair-east-l", null, "stair", stairLabel, null, stairEast),
         ],
@@ -580,7 +580,7 @@ export const moscova20Experience: LeasingExperience = {
     ],
     schemeTab: T("Schema generală", "Общая схема", "Overview"),
     // OWNER plan replacement pass 2026-11-09: the drawings themselves are shown — never «схема»
-    note: T("Planurile — anexele nr. 1 și nr. 2 la contractul de locațiune, scara 1:100; suprafețele — conform borderourilor de pe planuri.", "Планы — приложения № 1 и № 2 к договору аренды, масштаб 1:100; площади — по экспликации на чертежах.", "The plans are annexes no. 1 and no. 2 to the lease agreement, scale 1:100; the areas follow the room schedules on the drawings."),
+    note: T("Planurile — anexele nr. 1 și nr. 2 la contractul de locațiune, scara 1:100; suprafețele — conform explicației încăperilor de pe planuri.", "Планы — приложения № 1 и № 2 к договору аренды, масштаб 1:100; площади — по экспликации на чертежах.", "The plans are annexes no. 1 and no. 2 to the lease agreement, scale 1:100; the areas follow the room schedules on the drawings."),
     source: PLANS,
     marks: { ground: "+0,000", lower: "−2,950 / −3,300", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
   },
@@ -595,25 +595,25 @@ export const moscova20Experience: LeasingExperience = {
     photo: "intLowerDepth",
     readyTitle: T("Deja prevăzut", "Уже предусмотрено", "Already provided"),
     ready: [
-      fact(T("Suprafețe de finisaj de bază", "Базовые отделочные поверхности", "Base finished surfaces"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
+      fact(T("Suprafețe de finisaj de bază", "Базовые отделочные поверхности", "Basic finishes"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO}`),
       fact(T("Infrastructura inginerească", "Инженерная инфраструктура", "Engineering infrastructure"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${OWNER} §4 · ${TECH}`),
       fact(T("Încălzire", "Отопление", "Heating"), "OWNER_CONFIRMED", `${OWNER} §4 · ${TECH_FINAL}`),
-      fact(T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air-conditioning"), "OWNER_CONFIRMED", TECH),
+      fact(T("Ventilație și climatizare", "Вентиляция и кондиционирование", "Ventilation and air conditioning"), "OWNER_CONFIRMED", TECH),
       fact(T("3 grupuri sanitare", "3 санузла", "3 toilets"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
       fact(T("Spațiu gospodăresc separat", "Хозяйственное помещение", "A dedicated utility room"), "OWNER_CONFIRMED", `${TECH} · ${TECH_FINAL}`),
       fact(T("Scări și intrări", "Лестницы и входные группы", "Stairs and entrances"), "OWNER_CONFIRMED", `${COMPACT} §1 · ${PHOTO} · ${PLANS}`),
       fact(T("Puncte de racord pentru iluminat", "Точки подключения освещения", "Lighting connection points"), "OWNER_CONFIRMED", TECH),
-      fact(T("Zonă de descărcare", "Зона загрузки", "A loading area"), "OWNER_CONFIRMED", TECH),
+      fact(T("Zonă de descărcare", "Зона разгрузки", "A loading area"), "OWNER_CONFIRMED", TECH),
       fact(T("Rampă dinspre curte", "Рампа со стороны двора", "A courtyard-side ramp"), "OWNER_CONFIRMED", `${TECH} · ${PLANS}`),
     ],
-    tenantTitle: T("Se adaptează formatului dumneavoastră", "Адаптируется под ваш формат", "Adapted to your format"),
+    tenantTitle: T("Se adaptează formatului dumneavoastră", "Адаптируется под ваш формат", "To be adapted to your format"),
     // concept-dependent items — never a statement of who pays for or performs the fit-out
     tenant: [
       fact(T("Planificarea și zonarea", "Планировка и зонирование", "Layout and zoning"), "OWNER_CONFIRMED", READINESS),
       fact(T("Echipamente comerciale sau de servicii", "Торговое или сервисное оборудование", "Retail or service equipment"), "OWNER_CONFIRMED", READINESS),
       fact(T("Mobilier și interior", "Мебель и интерьер", "Furniture and interior"), "OWNER_CONFIRMED", READINESS),
       fact(T("Iluminat și corpuri de iluminat", "Освещение и светильники", "Lighting and fixtures"), "OWNER_CONFIRMED", READINESS),
-      fact(T("Hotă pentru conceptul concret", "Вытяжка под конкретную концепцию", "Extraction for the specific concept"), "OWNER_CONFIRMED", READINESS),
+      fact(T("Evacuarea aerului pentru conceptul concret", "Вытяжка под конкретную концепцию", "Extraction for the specific concept"), "OWNER_CONFIRMED", READINESS),
       fact(T("Amplasarea echipamentelor", "Размещение оборудования", "Equipment placement"), "OWNER_CONFIRMED", READINESS),
       fact(T("Firmă și panou luminos după un proiect de design separat", "Вывеска и световое панно по отдельному дизайн-проекту", "Signage and a light panel under a separate design project"), "OWNER_CONFIRMED", READINESS),
     ],
@@ -632,23 +632,23 @@ export const moscova20Experience: LeasingExperience = {
     frames: [
       // R3.2 §17 (OWNER 2026-11-10): the elevated frontage frame belongs to the rejected aerial set (roof plane cut, the
       // facade running off the frame, neighbour lettering) — never a large tile; the address is shown at street level
-      { key: "address", no: "01", shot: { photo: "entranceProcessed", position: "24% 60%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova: intrarea din trotuar — scări, rampă, ușă de sticlă.", "Первая линия бульвара Москова: вход с тротуара — лестница, пандус, стеклянная дверь.", "Directly on Moscova Boulevard: the entrance from the pavement — steps, a ramp, a glass door.") },
+      { key: "address", no: "01", shot: { photo: "entranceProcessed", position: "24% 60%" }, label: T("Adresa", "Адрес", "Address"), caption: T("Prima linie a bulevardului Moscova: intrarea de pe trotuar — scări, rampă, ușă de sticlă.", "Первая линия бульвара Москова: вход с тротуара — лестница, пандус, стеклянная дверь.", "Directly on Moscova Boulevard: the entrance from the pavement — steps, a ramp, a glass door.") },
       { key: "light", no: "02", shot: { photo: "intGroundGlazing", position: "50% 50%" }, label: T("Lumina", "Свет", "Light"), caption: T("Vitrina continuă spre bulevard: sala se vede de pe trotuar.", "Сплошное остекление к бульвару: зал виден с тротуара.", "Continuous glazing to the boulevard: the hall is visible from the pavement.") },
       { key: "space", no: "03", shot: { photo: "intGroundHall", position: "50% 50%" }, label: T("Spațiul", "Пространство", "Space"), caption: T("Săli deschise cu stâlpi pe o rețea regulată.", "Открытые залы с колоннами по регулярной сетке.", "Open halls with columns on a regular grid.") },
-      { key: "connection", no: "04", shot: { photo: "intStairDetail", position: "60% 50%" }, label: T("Legătura", "Связь уровней", "Connection"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
+      { key: "connection", no: "04", shot: { photo: "intStairDetail", position: "60% 50%" }, label: T("Legătura dintre niveluri", "Связь уровней", "Between the levels"), caption: T("Scara interioară leagă parterul de demisol.", "Внутренняя лестница соединяет 1-й этаж и цоколь.", "The internal staircase joins the ground floor and the lower ground.") },
       { key: "lower", no: "05", shot: { photo: "intLowerColumns", position: "50% 50%" }, label: T("Demisolul", "Цоколь", "Lower ground"), caption: T("Demisolul: o sală lungă cu pardoseală finisată și climatizare.", "Цоколь: длинный зал с готовым полом и кондиционированием.", "The lower ground: a long hall with a finished floor and air-conditioning.") },
-      { key: "base", no: "06", shot: { photo: "intLowerExit", position: "50% 45%" }, label: T("Inginerie", "Инженерия", "Engineering"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja pe loc.", "Воздуховоды, отопление, указатели выходов — уже на месте.", "Ducts, heating, marked exits — already in place.") },
+      { key: "base", no: "06", shot: { photo: "intLowerExit", position: "50% 45%" }, label: T("Inginerie", "Инженерные системы", "Engineering"), caption: T("Trasee de ventilație, încălzire, ieșiri marcate — deja existente.", "Воздуховоды, отопление, указатели выходов — уже есть.", "Ducts, heating, marked exits — already in place.") },
     ],
   },
 
   lens: {
     kicker: T("Formatul dumneavoastră", "Ваш формат", "Your format"),
-    title: T("Ce afacere luați în considerare?", "Какой бизнес вы рассматриваете?", "Which business are you considering?"),
-    lead: T("Același spațiu poate fi privit diferit — în funcție de formatul dumneavoastră, de traseul clienților și de cerințele operaționale. Alegeți varianta ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Одно и то же помещение можно рассматривать по-разному — в зависимости от вашего формата, клиентского сценария и операционных требований. Выберите вариант, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same space can be read in different ways — depending on your format, your client journey and your operating requirements. Choose an option to see what deserves attention in your case."),
+    title: T("Ce afacere luați în considerare?", "Какой бизнес вы рассматриваете?", "What kind of business are you considering?"),
+    lead: T("Același spațiu poate fi privit diferit — în funcție de formatul dumneavoastră, de traseul clienților și de cerințele operaționale. Alegeți varianta ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Одно и то же помещение можно рассматривать по-разному — в зависимости от вашего формата, клиентского сценария и операционных требований. Выберите вариант, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same space can be read in different ways — depending on your format, your client journey and your operating requirements. Choose an option to see what to look out for in your case."),
     evidenceTitle: T("De ce se poate potrivi formatul", "Почему формат может подойти", "Why the format may fit"),
     checksTitle: T("Ce este important de verificat înainte de decizie", "Что важно проверить до принятия решения", "What to check before you decide"),
     scenarioNote: T("Scenariu posibil de organizare", "Возможный сценарий организации", "A possible way to organise it"),
-    honesty: T("Dacă obiectul se potrivește ca locație și format, următorul pas este verificarea fezabilității tehnice a scenariului dumneavoastră.", "Если объект подходит по локации и формату, следующим шагом проверим техническую реализуемость вашего сценария.", "If the property suits you in location and format, the next step is to check the technical feasibility of your scenario."),
+    honesty: T("Dacă imobilul se potrivește ca locație și format, următorul pas este verificarea fezabilității tehnice a scenariului dumneavoastră.", "Если объект подходит по локации и формату, следующим шагом проверим техническую реализуемость вашего сценария.", "If the property suits you in location and format, the next step is to check the technical feasibility of your scenario."),
     regulated: T("Pentru formatele reglementate — clinici, servicii medicale, alimentație publică și alte activități — se verifică suplimentar cerințele tehnice speciale și cele de autorizare.", "Для регулируемых форматов — клиники, медицинских услуг, общепита и других видов деятельности — дополнительно проверяются специальные технические и разрешительные требования.", "For regulated formats — clinics, medical services, food service and other activities — special technical and permit requirements are checked as well."),
     formats: [
       {
@@ -656,9 +656,9 @@ export const moscova20Experience: LeasingExperience = {
         label: T("Retail", "Ритейл", "Retail"),
         question: T("Mă vor observa?", "Увидят ли меня?", "Will they notice me?"),
         evidence: [
-          { title: T("Vitrina se vede din stradă", "Витрина просматривается с улицы", "The shop window is seen from the street"), text: T("Vitrina continuă face punctul de vânzare vizibil dinspre bulevard.", "Сплошное остекление помогает сделать торговую точку заметной со стороны бульвара.", "Continuous glazing makes the shop visible from the boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
-          { title: T("Intrarea este clară pentru client", "Вход понятен клиенту", "The entrance is clear to customers"), text: T("Traseul de pe trotuar până în spațiu se citește ușor, fără un parcurs complicat prin clădire.", "Маршрут от тротуара к помещению считывается без сложного прохода через здание.", "The route from the pavement into the space reads at a glance, with no complicated path through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
-          { title: T("Cartier rezidențial format", "Сформированный жилой район", "An established residential district"), text: T("Împrejurimile creează un public local constant pentru cumpărături și servicii zilnice.", "Окружение создаёт постоянную локальную аудиторию для повседневных покупок и сервисов.", "The surroundings create a steady local audience for everyday shopping and services."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { title: T("Vitrina se vede din stradă", "Витрина просматривается с улицы", "The shop window is visible from the street"), text: T("Vitrina continuă face punctul de vânzare vizibil dinspre bulevard.", "Сплошное остекление помогает сделать торговую точку заметной со стороны бульвара.", "Continuous glazing makes the shop visible from the boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
+          { title: T("Intrarea este clară pentru client", "Вход понятен клиенту", "The entrance is clear to customers"), text: T("Traseul de pe trotuar până în spațiu este ușor de urmat, fără un parcurs complicat prin clădire.", "Маршрут от тротуара к помещению понятен: проходить через здание не нужно.", "The route from the pavement into the space reads at a glance, with no complicated path through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
+          { title: T("Cartier rezidențial consacrat", "Сформированный жилой район", "An established residential district"), text: T("Împrejurimile creează un public local constant pentru cumpărături și servicii zilnice.", "Окружение создаёт постоянную местную аудиторию для повседневных покупок и сервисов.", "The surroundings create a steady local audience for everyday shopping and services."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
           { title: T("Transport public în apropiere", "Общественный транспорт рядом", "Public transport close by"), text: T("Stațiile și rutele simplifică accesul pentru cumpărători și personal.", "Остановки и маршруты упрощают доступ покупателям и персоналу.", "Stops and routes make access easy for shoppers and staff."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · 8 routes at stops within 350 m — current OSM research` },
         ],
         checks: [
@@ -670,7 +670,7 @@ export const moscova20Experience: LeasingExperience = {
           T("programul de lucru", "режим работы", "opening hours"),
           T("conformitatea spațiului cu cerințele formatului", "соответствие помещения требованиям формата", "how the space meets the format's requirements"),
         ],
-        closing: T("Dacă locația și formatul se potrivesc, următorul pas este verificarea tehnică și comercială a scenariului de funcționare.", "Если локация и формат совпадают, следующим шагом становится техническая и коммерческая проверка сценария работы.", "If the location and the format match, the next step is a technical and commercial check of how the business will run."),
+        closing: T("Dacă locația și formatul se potrivesc, următorul pas este verificarea tehnică și comercială a scenariului de funcționare.", "Если локация подходит вашему формату, следующий шаг — техническая и коммерческая проверка сценария.", "If the location and the format match, the next step is a technical and commercial check of how the business will run."),
         overlay: {
           photo: "intGroundGlazing",
           evidence: "DEMO",
@@ -687,9 +687,9 @@ export const moscova20Experience: LeasingExperience = {
         label: T("Showroom", "Шоурум", "Showroom"),
         question: T("Se poate prezenta bine produsul aici?", "Можно ли здесь хорошо показать продукт?", "Can the product be shown well here?"),
         evidence: [
-          { title: T("Spațiul se citește deschis", "Пространство читается открыто", "The space reads as open"), text: T("Planul deschis permite o prezentare clară a produsului.", "Открытая планировка позволяет выстроить понятную презентацию продукта.", "The open layout allows a clear presentation of the product."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
+          { title: T("Spațiu deschis", "Открытое пространство", "The space reads as open"), text: T("Planul deschis permite o prezentare clară a produsului.", "Такая планировка позволяет выстроить понятную презентацию продукта.", "The open layout allows a clear presentation of the product."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
           { title: T("Există potențial de zonare", "Есть потенциал для зонирования", "There is room for zoning"), text: T("Expoziția, consultanța și partea auxiliară se pot separa.", "Можно разделить экспозицию, консультационную и вспомогательную части.", "Display, consultation and support areas can be kept apart."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
-          { title: T("Traseu comod pentru client", "Удобный клиентский маршрут", "A comfortable client route"), text: T("Intrarea și logica interioară permit un scenariu de vizită coerent.", "Вход и внутренняя логика помещения позволяют организовать последовательный сценарий визита.", "The entrance and the inner logic of the space allow a coherent visit sequence."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PLANS}` },
+          { title: T("Traseu comod pentru client", "Удобный клиентский маршрут", "A comfortable client route"), text: T("Intrarea și logica interioară permit un scenariu de vizită coerent.", "Вход и планировка позволяют выстроить понятный маршрут посетителя.", "The entrance and the layout allow a clear, logical route through the space."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PLANS}` },
           { title: T("Locația se potrivește vizitelor țintite", "Локация подходит для целевых визитов", "The location suits planned visits"), text: T("Spațiul poate primi atât vizite programate, cât și fluxul natural de clienți.", "Объект можно использовать и для посещений по записи, и для естественного клиентского потока.", "The property can serve both appointments and the natural flow of customers."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
         ],
         checks: [
@@ -698,7 +698,7 @@ export const moscova20Experience: LeasingExperience = {
           T("posibilitatea de a organiza expoziția", "возможность организации экспозиции", "how the display can be organised"),
           T("zonarea spațiului", "зонирование помещения", "the zoning of the space"),
           T("locul pentru zona de discuții / consultanță", "место для переговорной / консультационной зоны", "room for a meeting / consultation area"),
-          T("comoditatea accesului auto", "удобство подъезда", "how easy it is to drive up"),
+          T("comoditatea accesului auto", "удобство подъезда", "car access"),
           T("cerințele tehnice ale formatului", "технические требования формата", "the format's technical requirements"),
         ],
         closing: T("Pentru un showroom contează nu doar spațiul, ci și felul în care clientul intră, se mișcă prin el și percepe produsul.", "Для шоурума важно не только само помещение, но и то, как клиент входит, двигается по нему и воспринимает продукт.", "For a showroom, what matters is not only the space but how the client enters, moves through it and experiences the product."),
@@ -716,28 +716,28 @@ export const moscova20Experience: LeasingExperience = {
       {
         key: "service",
         label: T("Servicii pentru clienți", "Клиентский сервис", "Client service"),
-        question: T("Le este comod clienților să ajungă aici?", "Удобно ли клиентам добираться сюда?", "Is it easy for clients to get here?"),
+        question: T("Ajung ușor clienții aici?", "Удобно ли клиентам добираться сюда?", "Is it easy for clients to get here?"),
         evidence: [
           { title: T("Transport public în apropiere", "Общественный транспорт рядом", "Public transport close by"), text: T("8 rute de transport public pe o rază de până la 350 m.", "8 маршрутов общественного транспорта в радиусе до 350 м.", "8 public transport routes within a 350 m radius."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12 · 8 routes at stops within 350 m — current OSM research (OWNER micro-fix 2026-11-09)` },
-          { title: T("Cartier rezidențial format", "Сформированный жилой район", "An established residential district"), text: T("Un public local constant susține serviciile de cerere zilnică.", "Постоянная локальная аудитория поддерживает сервисные форматы повседневного спроса.", "A steady local audience supports everyday service formats."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
+          { title: T("Cartier rezidențial consacrat", "Сформированный жилой район", "An established residential district"), text: T("Un public local constant susține serviciile de zi cu zi.", "Постоянная местная аудитория поддерживает сервисные форматы повседневного спроса.", "A steady local audience supports everyday service formats."), ref: "location", evidence: "OWNER_CONFIRMED", source: `${OWNER} §12` },
           { title: T("O intrare clară", "Понятный вход", "A clear entrance"), text: T("Traseul din stradă până în spațiu poate fi simplu și evident pentru client.", "Маршрут от улицы до помещения можно сделать простым и очевидным для клиента.", "The route from the street into the space can be simple and obvious for clients."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
-          { title: T("Partea clienților și cea de serviciu se pot separa", "Можно разделить клиентскую и служебную части", "Client and service areas can be separated"), text: T("Primul nivel se potrivește pentru primirea vizitatorilor, cel inferior — pentru funcțiile auxiliare.", "Первый уровень подходит для приёма посетителей, нижний — для вспомогательных функций.", "The first level suits visitor reception, the lower one the support functions."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Partea clienților și cea de serviciu se pot separa", "Можно разделить клиентскую и служебную части", "Client and service areas can be separated"), text: T("Parterul se potrivește pentru primirea vizitatorilor, demisolul — pentru funcțiile auxiliare.", "Первый этаж подходит для приёма посетителей, цоколь — для вспомогательных функций.", "The ground floor suits visitor reception, the lower ground the support functions."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
         ],
         checks: [
           T("accesul cu automobilul și cu transportul public", "доступность на автомобиле и общественном транспорте", "access by car and by public transport"),
           T("comoditatea intrării și a traseului clientului", "удобство входа и клиентского маршрута", "the entrance and the client route"),
           T("posibilitatea de a amplasa firma și semnalizarea", "возможность размещения вывески и навигации", "room for signage and wayfinding"),
           T("programul de lucru și accesul", "режим работы и доступ", "opening hours and access"),
-          T("internetul și infrastructura de curenți slabi", "интернет и слаботочная инфраструктура", "internet and low-current infrastructure"),
+          T("internetul și infrastructura de curenți slabi", "интернет и слаботочная инфраструктура", "internet and data-cabling infrastructure"),
           T("conformitatea cu cerințele activității concrete", "соответствие требованиям конкретного вида деятельности", "how the space meets the requirements of your specific activity"),
         ],
-        closing: T("Dacă obiectul corespunde modelului dumneavoastră, următorul pas este verificarea fezabilității tehnice a scenariului înainte de semnarea contractului.", "Если объект соответствует вашей модели, следующим шагом нужно проверить техническую реализуемость сценария до подписания договора.", "If the property fits your model, the next step is to check the technical feasibility of your scenario before signing."),
+        closing: T("Dacă imobilul corespunde modelului dumneavoastră, următorul pas este verificarea fezabilității tehnice a scenariului înainte de semnarea contractului.", "Если объект соответствует вашей модели, следующим шагом нужно проверить техническую реализуемость сценария до подписания договора.", "If the property fits your model, the next step is to check the technical feasibility of your scenario before signing."),
         overlay: {
           photo: "intLowerWide",
           evidence: "DEMO",
           source: SCENARIO,
           zones: [
-            { label: T("Recepție", "Ресепшн", "Reception"), shape: [[860, 650], [1150, 650], [1205, 805], [880, 822]], at: [1020, 735] },
+            { label: T("Recepție", "Ресепшен", "Reception"), shape: [[860, 650], [1150, 650], [1205, 805], [880, 822]], at: [1020, 735] },
             { label: T("Zona clienților", "Клиентская зона", "Client area"), shape: [[0, 808], [830, 790], [985, 1066], [0, 1066]], at: [420, 925] },
             { label: T("Zona de serviciu", "Служебная зона", "Service area"), shape: [[330, 566], [646, 562], [664, 604], [318, 610]], at: [490, 586] },
           ],
@@ -758,7 +758,7 @@ export const moscova20Experience: LeasingExperience = {
           T("separarea zonei pentru clienți de zona de lucru", "разделение клиентской и рабочей зон", "separating the client and work areas"),
           T("numărul și formatul locurilor de muncă", "количество и формат рабочих мест", "the number and type of workplaces"),
           T("zona de discuții / consultanță", "переговорная / консультационная зона", "a meeting / consultation area"),
-          T("internetul și infrastructura de curenți slabi", "интернет и слаботочная инфраструктура", "internet and low-current infrastructure"),
+          T("internetul și infrastructura de curenți slabi", "интернет и слаботочная инфраструктура", "internet and data-cabling infrastructure"),
           T("regimul de acces pentru angajați și clienți", "режим доступа сотрудников и клиентов", "access rules for staff and clients"),
           T("cerințele inginerești ale scenariului de birou", "инженерные требования офисного сценария", "the engineering requirements of an office scenario"),
         ],
@@ -781,14 +781,14 @@ export const moscova20Experience: LeasingExperience = {
       // calculation; never a statement about retail chains. A food producer is a regulated format — checked like the others.
       {
         key: "producer",
-        label: T("Magazin de firmă al producătorului", "Фирменный магазин производителя", "Manufacturer's Own Store"),
+        label: T("Magazin de firmă al producătorului", "Фирменный магазин производителя", "Manufacturer's own store"),
         question: T("De la producător — direct la consumator.", "От производства — напрямую к покупателю.", "From producer to customer. Directly."),
-        evidenceTitle: T("Ce oferă Moscova 20 unui magazin propriu", "Что Moscova 20 даёт собственному магазину", "What Moscova 20 gives an own store"),
+        evidenceTitle: T("Ce oferă Moscova 20 unui magazin propriu", "Что Moscova 20 даёт собственному магазину", "What Moscova 20 offers your own store"),
         evidence: [
-          { title: T("Vitrine spre bulevard", "Витрины на бульвар", "Glazing to the boulevard"), text: T("Vitrajul parterului arată produsele și brandul dinspre bulevardul Moscova.", "Остекление первого этажа показывает продукцию и бренд со стороны бульвара Москова.", "The ground-floor glazing shows the products and the brand to Moscova Boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
-          { title: T("Intrare directă din bulevard", "Прямой вход с бульвара", "A direct entrance from the boulevard"), text: T("Cumpărătorul intră de pe trotuar — scări și rampă, fără un parcurs prin clădire.", "Покупатель входит с тротуара — лестница и пандус, без прохода через здание.", "The buyer walks in from the pavement — steps and a ramp, with no path through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
-          { title: T("Două niveluri", "Два уровня", "Two levels"), text: T("Sala de vânzare la parter și un al doilea nivel la demisol, legate prin scara interioară.", "Торговый зал на первом этаже и второй уровень в цоколе, связанные внутренней лестницей.", "A sales floor on the ground floor and a second level below, linked by the inner stair."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
-          { title: T("Suprafețe de vânzare și auxiliare", "Торговые и вспомогательные площади", "Sales and support space"), text: T("Săli de vânzare, încăperi auxiliare și intrarea de serviciu din curte pentru livrarea propriei producții.", "Торговые залы, вспомогательные помещения и служебный вход со двора для поставок собственной продукции.", "Sales halls, support rooms and the service entrance from the courtyard for deliveries of your own products."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: `${PLANS} · ${OWNER} §7` },
+          { title: T("Vitrine spre bulevard", "Витрины на бульвар", "Glazing to the boulevard"), text: T("Vitrajul parterului arată produsele și brandul dinspre bulevardul Moscova.", "Остекление первого этажа показывает продукцию и бренд со стороны бульвара Москова.", "The ground-floor glazing puts the products and the brand on view from Moscova Boulevard."), ref: "photos", evidence: "OWNER_CONFIRMED", source: PHOTO },
+          { title: T("Intrare directă dinspre bulevard", "Прямой вход с бульвара", "A direct entrance from the boulevard"), text: T("Cumpărătorul intră de pe trotuar — scări și rampă, fără un parcurs prin clădire.", "Покупатель входит с тротуара — лестница и пандус, без прохода через здание.", "Customers walk in from the pavement — steps and a ramp, with no path through the building."), ref: "tech", evidence: "OWNER_CONFIRMED", source: `${OWNER} §4 · ${PHOTO}` },
+          { title: T("Două niveluri", "Два уровня", "Two levels"), text: T("Sala de vânzare la parter și un al doilea nivel la demisol, legate prin scara interioară.", "Торговый зал на первом этаже и второй уровень в цоколе, связанные внутренней лестницей.", "A sales floor on the ground floor and a second level below, linked by the internal stair."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: PLANS },
+          { title: T("Suprafețe de vânzare și auxiliare", "Торговые и вспомогательные площади", "Sales and support space"), text: T("Săli de vânzare, încăperi auxiliare și intrarea de serviciu din curte pentru livrarea propriei producții.", "Торговые залы, вспомогательные помещения и служебный вход со двора для поставок собственной продукции.", "Sales areas, support rooms and the service entrance from the courtyard for deliveries of your own products."), ref: "plans", evidence: "DOCUMENT_CONFIRMED", source: `${PLANS} · ${OWNER} §7` },
         ],
         checks: [
           T("sortimentul și condițiile de păstrare a producției", "ассортимент и условия хранения продукции", "the product range and its storage conditions"),
@@ -827,12 +827,12 @@ export const moscova20Experience: LeasingExperience = {
     kicker: T("Vizionare", "Просмотр", "Viewing"),
     // OWNER art direction 2026-11-09 §21: the statement, then «Посмотрите пространство лично.» on its own line, then the supporting line
     // card & air pass 2026-11-09 §17: «Посмотрите Moscova 20 лично.»
-    title: T("Nu decideți după fotografii.\nVedeți Moscova 20 personal.", "Не решайте по фотографиям.\nПосмотрите Moscova 20 лично.", "Don't decide from photographs.\nSee Moscova 20 in person."),
-    lead: T("Clarificăm din timp formatul afacerii dumneavoastră și pregătim pentru vizionare datele care contează tocmai pentru decizia dumneavoastră.", "Мы заранее уточним формат вашего бизнеса и подготовим к просмотру данные, которые имеют значение именно для вашего решения.", "We clarify your business format beforehand and prepare for the viewing the data that matters for your decision specifically."),
+    title: T("Nu decideți după fotografii.\nVedeți Moscova 20 personal.", "Не решайте по фотографиям.\nПосмотрите Moscova 20 лично.", "Don't decide on photographs alone.\nSee Moscova 20 in person."),
+    lead: T("Clarificăm din timp formatul afacerii dumneavoastră și pregătim pentru vizionare datele care contează tocmai pentru decizia dumneavoastră.", "Мы заранее уточним формат вашего бизнеса и подготовим к просмотру данные, которые имеют значение именно для вашего решения.", "We'll find out about your business format in advance and prepare the information that matters for your decision."),
     steps: [
-      { title: T("Înainte", "До просмотра", "Before"), text: T("formatul, cerințele tehnice, suprafața, termenul deschiderii", "формат, технические требования, площадь, срок открытия", "format, technical requirements, area, opening date") },
-      { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("spațiul, intrările, punctele inginerești, planurile, accesul", "пространство, входы, инженерные точки, планы, доступ", "the space, entrances, engineering points, plans, access") },
-      { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "the technical requirements checked, then the commercial terms") },
+      { title: T("Înainte", "До просмотра", "Before"), text: T("formatul, cerințele tehnice, suprafața, data deschiderii", "формат, технические требования, площадь, срок открытия", "format, technical requirements, area, opening date") },
+      { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("spațiul, intrările, punctele de racord, planurile, accesul", "пространство, входы, точки подключения, планы, доступ", "the space, entrances, service connection points, plans, access") },
+      { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "a check of the technical requirements, then the commercial terms") },
     ],
     // OWNER R3.1 §5: the approach crop belongs to the rejected facade shot — the ground-level entrance photograph instead
     photo: "entrance",

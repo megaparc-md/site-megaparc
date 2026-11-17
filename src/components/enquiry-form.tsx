@@ -49,7 +49,7 @@ const anchors: Record<Subject, string> = { lease: "occupier", partnership: "part
 
 const T = {
   ro: {
-    subjects: { lease: "Închiriere", partnership: "Parteneriat investițional", property: "Propuneți un obiect sau un teren", careers: "Cariere", general: "Întrebare generală" },
+    subjects: { lease: "Închiriere", partnership: "Parteneriat investițional", property: "Propuneți un imobil sau un teren", careers: "Cariere", general: "Întrebare generală" },
     intro: {
       lease: "Spuneți-ne ce trebuie să facă spațiul pentru afacerea dumneavoastră. Verificăm spațiile libere și vă recomandăm variantele potrivite.",
       property: "Descrieți obiectul sau terenul și ce luați în calcul. Primiți o primă evaluare, nu un formular automat.",
@@ -57,9 +57,9 @@ const T = {
       general: "Scrieți-ne întrebarea — o direcționăm către persoana potrivită.",
       careers: "Indicați direcția sau postul și un link spre CV. Datele candidaților se folosesc doar pentru recrutare.",
     },
-    groups: { business: "Despre afacere", need: "Ce vă trebuie", asset: "Despre obiect", org: "Despre organizație", role: "Despre rol", contact: "Date de contact" },
+    groups: { business: "Despre afacere", need: "De ce aveți nevoie", asset: "Despre imobil", org: "Despre organizație", role: "Despre rol", contact: "Date de contact" },
     f: {
-      company: "Companie / afacere", opening: "Ce deschideți?", openingDetail: "În câteva cuvinte", openingPh: "de ex. cabinet stomatologic, cafenea de specialitate", area: "Suprafața necesară", location: "Zona preferată", property: "Obiect de interes", date: "Data dorită de deschidere", critical: "Ce este critic?", other: "Altceva",
+      company: "Companie / afacere", opening: "Ce afacere deschideți?", openingDetail: "În câteva cuvinte", openingPh: "de ex. cabinet stomatologic, cafenea de specialitate", area: "Suprafața necesară", location: "Zona preferată", property: "Obiect de interes", date: "Data dorită de deschidere", critical: "Ce este critic?", other: "Altceva",
       have: "Ce aveți?", country: "Țara", city: "Orașul", size: "Suprafața", sizePh: "de ex. 1,5 ha sau 2.400 m²", consider: "Ce luați în calcul?", materials: "Link spre materiale (opțional)", materialsHint: "Planuri, fotografii, extras cadastral — prin Drive, Dropbox etc.",
       organisation: "Organizația", kind: "Tipul organizației", interest: "Ce vă interesează?", ticket: "Volumul orientativ", category: "Categoria", proposal: "Ce propuneți?", where: "Unde (oraș / regiune)",
       discipline: "Direcția", role: "Postul", cv: "Link spre CV (opțional dacă atașați fișierul)", cvPh: "https://…",
@@ -70,7 +70,7 @@ const T = {
     openRole: "Candidatură spontană",
     send: "Trimite solicitarea", sending: "Se verifică…",
     errors: { required: "Completați acest câmp.", email: "Introduceți o adresă de e-mail validă.", consent: "Este necesar acordul pentru a răspunde.", summary: "Verificați câmpurile marcate:" },
-    done: { kicker: "Previzualizare · nimic nu a fost trimis", title: "Solicitarea este pregătită.", text: (to: string, reply: string) => `În versiunea de lucru, solicitarea ajunge la ${to} (adresă demonstrativă). ${reply}.`, summary: "Rezumatul solicitării", edit: "Modifică", fresh: "O nouă solicitare" },
+    done: { kicker: "Previzualizare · nimic nu a fost trimis", title: "Solicitarea este pregătită.", text: (to: string, reply: string) => `În versiunea de lucru, solicitarea ajunge la ${to} (adresă demonstrativă). ${reply}.`, summary: "Rezumatul solicitării", edit: "Modificați", fresh: "O nouă solicitare" },
     required: "obligatoriu",
   },
   ru: {
@@ -109,7 +109,7 @@ const T = {
     },
     groups: { business: "About the business", need: "What you need", asset: "About the property", org: "About the organisation", role: "About the role", contact: "Contact details" },
     f: {
-      company: "Company / business", opening: "What are you opening?", openingDetail: "In a few words", openingPh: "e.g. dental practice, specialty coffee, furniture showroom", area: "Required area", location: "Preferred area", property: "Property of interest", date: "Target opening date", critical: "What is critical?", other: "Other",
+      company: "Company / business", opening: "What are you planning to open?", openingDetail: "In a few words", openingPh: "e.g. dental practice, specialty coffee, furniture showroom", area: "Required area", location: "Preferred area", property: "Property of interest", date: "Target opening date", critical: "What is critical?", other: "Other",
       have: "What do you have?", country: "Country", city: "City", size: "Size", sizePh: "e.g. 1.5 ha or 2,400 m²", consider: "What are you considering?", materials: "Link to materials (optional)", materialsHint: "Plans, photos, cadastral extract — via Drive, Dropbox, etc.",
       organisation: "Organisation", kind: "Type of organisation", interest: "What interests you?", ticket: "Indicative size", category: "Category", proposal: "What do you propose?", where: "Where (city / region)",
       discipline: "Area", role: "Role", cv: "Link to your CV (if no file)", cvPh: "https://…",

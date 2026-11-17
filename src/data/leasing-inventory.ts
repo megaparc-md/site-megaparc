@@ -146,7 +146,7 @@ const allSpaces: AvailableSpace[] = [
     ctaEnabled: true,
     headline: L(
       "Spațiu comercial pe prima linie: parter, demisol și terasă.",
-      "Коммерческое пространство на первой линии: 1‑й этаж, цоколь и терраса.",
+      "Коммерческое помещение на\u00a0первой линии: 1\u2011й этаж, цоколь и\u00a0терраса.",
       "A boulevard-front commercial space: ground floor, lower ground and terrace.",
     ),
     // the four hero micro-facts (OWNER mandate §7) — the same record feeds Leasing, Home and the property page
@@ -175,7 +175,7 @@ const allSpaces: AvailableSpace[] = [
         { label: L("Parter · util 195,46 m²", "1‑й этаж · полезная 195,46 м²", "Ground · useful 195.46 m²"), m2: 240.96, included: true },
         { label: L("Demisol · util 263,40 m²", "Цоколь · полезная 263,40 м²", "Lower ground · useful 263.40 m²"), m2: 293.7, included: true },
       ],
-      note: L("Închirierea doar a parterului — se clarifică.", "Аренда только 1‑го этажа — уточняется.", "Leasing the ground floor alone — to be confirmed."),
+      note: L("Închirierea doar a parterului — se clarifică.", "Аренда только 1‑го этажа — уточняется.", "Leasing the ground floor only — to be confirmed."),
     },
     // real photographs only: the concept placements (asset.moscova-20.gallery.*) are retired; the photo story lives in src/data/leasing-experience-moscova-20.ts
     photos: [{ kind: "asset", slug: "moscova-20" }],
@@ -205,7 +205,7 @@ const allSpaces: AvailableSpace[] = [
     ),
     highlights: [
       L("Sală de vânzare de 737,07 m²", "Торговый зал 737,07 м²", "A 737.07 m² sales floor"),
-      L("Două intrări pentru clienți, din bulevard", "Два входа для покупателей с бульвара", "Two customer entrances from the boulevard"),
+      L("Două intrări pentru clienți, dinspre bulevard", "Два входа для покупателей с бульвара", "Two customer entrances from the boulevard"),
       L("Descărcare 69,46 m² cu rampă", "Разгрузка 69,46 м² с рампой", "69.46 m² unloading with ramp"),
       L("Integral sau o parte convenită", "Целиком или согласованной частью", "Whole or an agreed part"),
     ],
@@ -215,7 +215,7 @@ const allSpaces: AvailableSpace[] = [
     technical: {
       power: L("Se confirmă pentru formatul ales", "Уточняется под формат", "To be confirmed for the chosen format"),
       ventilation: L("Ventilație de retail · adaptare la format", "Торговая вентиляция · адаптация под формат", "Retail ventilation · adapted to the format"),
-      height: L("cca. 4,0 m în sala de vânzare", "около 4,0 м в торговом зале", "approx. 4.0 m in the sales floor"),
+      height: L("cca 4,0 m în sala de vânzare", "около 4,0 м в торговом зале", "approx. 4.0 m in the sales floor"),
       condition: L("Sală liberă, gata pentru amenajare", "Свободный зал, готов к отделке", "Empty floor, ready for fit-out"),
     },
     fit: { visibility: "strong", flow: "strong", parking: "possible", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "strong", flexible: "strong", fast: "possible" },
@@ -225,7 +225,7 @@ const allSpaces: AvailableSpace[] = [
       entrances: [{ x: 22, y: 60 }, { x: 52, y: 60 }],
       zones: [
         { label: L("Sală de vânzare", "Торговый зал", "Sales floor"), m2: 737.07, x: 0, y: 18, w: 70, h: 42, tone: "main" },
-        { label: L("Spații auxiliare", "Вспомогательные", "Support rooms"), m2: 483.4, x: 0, y: 0, w: 100, h: 18, tone: "support" },
+        { label: L("Spații auxiliare", "Вспомогательные помещения", "Support rooms"), m2: 483.4, x: 0, y: 0, w: 100, h: 18, tone: "support" },
         { label: L("Descărcare · rampă", "Разгрузка · рампа", "Unloading · ramp"), m2: 69.46, x: 70, y: 18, w: 30, h: 42, tone: "service" },
       ],
     },
@@ -254,18 +254,18 @@ const allSpaces: AvailableSpace[] = [
       "A separate building for one company's headquarters — with its name on the facade.",
     ),
     highlights: [
-      L("Etaje mari, de 1.014–1.770 m²", "Крупные этажи 1 014–1 770 м²", "Large floors of 1,014–1,770 m²"),
+      L("Etaje mari, de 1.014–1.770 m²", "Просторные этажи 1 014–1 770\u00a0м²", "Large floors of 1,014–1,770 m²"),
       L("4+ variante de intrare și circulație", "4+ варианта входов и коммуникаций", "4+ entrance and circulation options"),
-      L("Instalații existente ale clădirii", "Существующая инженерия здания", "Existing building services"),
+      L("Instalații existente ale clădirii", "Существующие инженерные системы здания", "Existing building services"),
       L("Fațadă vizibilă pe Dacia, Traian, Decebal", "Заметный фасад у Дачия, Траян, Дечебал", "A visible facade by Dacia, Traian, Decebal"),
     ],
     parking: L("Cca. 60 de locuri pe teren", "Около 60 мест на участке", "About 60 spaces on the plot"),
-    entrance: L("Intrare proprie · 4+ variante de acces", "Собственный вход · 4+ варианта доступа", "Own entrance · 4+ access options"),
-    visibility: L("Fațadă vizibilă la intrarea în oraș dinspre aeroport", "Заметный фасад на въезде в город со стороны аэропорта", "A visible facade at the city's airport entrance"),
+    entrance: L("Intrare proprie · 4+ variante de acces", "Собственный вход · 4+ варианта доступа", "Dedicated entrance · 4+ access options"),
+    visibility: L("Fațadă vizibilă la intrarea în oraș dinspre aeroport", "Заметный фасад на въезде в город со стороны аэропорта", "A visible facade on the main approach from the airport"),
     technical: {
       power: L("Rețele existente · capacitatea se confirmă prin audit", "Сети есть · мощность подтверждается аудитом", "Services in place · capacity confirmed by audit"),
       ventilation: L("Tubulatură existentă · adaptare la utilizator", "Воздуховоды есть · адаптация под пользователя", "Ductwork in place · adapted to the occupier"),
-      height: L("cca. 3,2 m pe etajele de birouri", "около 3,2 м на офисных этажах", "approx. 3.2 m on office floors"),
+      height: L("cca 3,2 m pe etajele de birouri", "около 3,2 м на офисных этажах", "approx. 3.2 m on office floors"),
       condition: L("Pregătire pentru un singur utilizator din 2027", "Подготовка под одного пользователя с 2027", "Prepared for a single occupier from 2027"),
     },
     fit: { visibility: "strong", flow: "possible", parking: "strong", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "possible", flexible: "strong", fast: "limited" },
@@ -308,13 +308,13 @@ const allSpaces: AvailableSpace[] = [
       L("Parcare pe teren", "Парковка на участке", "Parking on the plot"),
       L("Gata de folosit", "Готово к работе", "Ready to use"),
     ],
-    parking: L("Parcare pe teren · cca. 40 de locuri comune", "Парковка на участке · около 40 общих мест", "On-plot parking · about 40 shared spaces"),
+    parking: L("Parcare pe teren · cca 40 de locuri comune", "Парковка на участке · около 40 общих мест", "On-plot parking · about 40 shared spaces"),
     entrance: L("Intrare separată din stradă", "Отдельный вход с улицы", "Separate street entrance"),
     visibility: L("Vitrină la nivelul străzii", "Витрина на уровне улицы", "Street-level window"),
     technical: {
       power: L("15 kW · extindere la cerere", "15 кВт · увеличение по запросу", "15 kW · upgrade on request"),
       ventilation: L("Ventilare și climatizare proprii", "Собственная вентиляция и кондиционирование", "Own ventilation and cooling"),
-      height: L("cca. 3,0 m", "около 3,0 м", "approx. 3.0 m"),
+      height: L("cca 3,0 m", "около 3,0 м", "approx. 3.0 m"),
       condition: L("Renovat · gata de folosit", "После ремонта · готово к работе", "Renovated · ready to use"),
     },
     fit: { visibility: "possible", flow: "possible", parking: "strong", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "limited", flexible: "possible", fast: "strong" },
@@ -353,7 +353,7 @@ const allSpaces: AvailableSpace[] = [
     technical: {
       power: L("Standard de birou · 20 kW", "Офисный стандарт · 20 кВт", "Office standard · 20 kW"),
       ventilation: L("Climatizare VRF, ventilare mecanică", "VRF-кондиционирование, механическая вентиляция", "VRF cooling, mechanical ventilation"),
-      height: L("cca. 2,9 m", "около 2,9 м", "approx. 2.9 m"),
+      height: L("cca 2,9 m", "около 2,9 м", "approx. 2.9 m"),
       condition: L("Gata de folosit · amenajare minimă", "Готово к работе · минимальная доводка", "Ready to use · minimal fit-out"),
     },
     fit: { visibility: "limited", flow: "limited", parking: "strong", ground: "limited", entrance: "possible", power: "possible", ventilation: "strong", delivery: "limited", flexible: "strong", fast: "strong" },
@@ -391,7 +391,7 @@ const allSpaces: AvailableSpace[] = [
     technical: {
       power: L("Standard de birou · 10 kW", "Офисный стандарт · 10 кВт", "Office standard · 10 kW"),
       ventilation: L("Climatizare split", "Сплит-кондиционирование", "Split cooling"),
-      height: L("cca. 2,9 m", "около 2,9 м", "approx. 2.9 m"),
+      height: L("cca 2,9 m", "около 2,9 м", "approx. 2.9 m"),
       condition: L("Se renovează după plecarea chiriașului", "Ремонт после выезда арендатора", "Refreshed after the current tenant leaves"),
     },
     fit: { visibility: "limited", flow: "limited", parking: "possible", ground: "limited", entrance: "possible", power: "possible", ventilation: "possible", delivery: "limited", flexible: "possible", fast: "possible" },
@@ -429,7 +429,7 @@ const allSpaces: AvailableSpace[] = [
     technical: {
       power: L("25 kW", "25 кВт", "25 kW"),
       ventilation: L("Canal de evacuare până pe acoperiș", "Канал вытяжки до кровли", "Extract duct to the roof"),
-      height: L("cca. 3,0 m", "около 3,0 м", "approx. 3.0 m"),
+      height: L("cca 3,0 m", "около 3,0 м", "approx. 3.0 m"),
       condition: L("La gri · amenajare de către chiriaș", "Под чистовую отделку арендатора", "Shell · tenant fit-out"),
     },
     fit: { visibility: "strong", flow: "possible", parking: "possible", ground: "strong", entrance: "strong", power: "strong", ventilation: "strong", delivery: "possible", flexible: "limited", fast: "possible" },
@@ -460,7 +460,7 @@ const allSpaces: AvailableSpace[] = [
     technical: {
       power: L("Standard de birou", "Офисный стандарт", "Office standard"),
       ventilation: L("Climatizare VRF", "VRF-кондиционирование", "VRF cooling"),
-      height: L("cca. 2,9 m", "около 2,9 м", "approx. 2.9 m"),
+      height: L("cca 2,9 m", "около 2,9 м", "approx. 2.9 m"),
       condition: L("Ocupat", "Занято", "Occupied"),
     },
     fit: { visibility: "limited", flow: "limited", parking: "possible", ground: "limited", entrance: "possible", power: "possible", ventilation: "strong", delivery: "limited", flexible: "possible", fast: "limited" },

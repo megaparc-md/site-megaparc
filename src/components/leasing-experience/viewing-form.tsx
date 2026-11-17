@@ -27,16 +27,16 @@ type Intent = "viewing" | "offer" | "presentation" | "plans";
 type Mode = "viewing" | "waitlist";
 const T = {
   ro: {
-    intents: { viewing: "Vizionare", offer: "Oferta comercială", presentation: "Prezentarea obiectului", plans: "Planurile" },
+    intents: { viewing: "Vizionare", offer: "Oferta comercială", presentation: "Prezentarea imobilului", plans: "Planurile" },
     intentLabel: "Ce doriți să primiți",
     company: "Companie / brand", business: "Tipul afacerii", businessPh: "de ex. showroom de mobilier", area: "Suprafața necesară", areaPh: "tot spațiul sau ≈ 300 m²", date: "Data planificată a deschiderii", datePh: "de ex. martie 2027", critical: "Ce este critic pentru spațiu?", criticalPh: "putere, hotă, depozitare, program…", name: "Nume", contact: "Telefon / e-mail",
     consent: "Sunt de acord ca datele mele să fie folosite pentru a răspunde la această cerere.",
     light: "Contactați-mă", more: "Adăugați detalii pentru pregătirea vizionării", less: "Ascundeți detaliile",
-    send: { viewing: "Solicită o vizionare", waitlist: "Anunțați-mă dacă se eliberează", offer: "Primește oferta comercială", presentation: "Primește prezentarea", plans: "Primește planurile" },
+    send: { viewing: "Solicită o vizionare", waitlist: "Anunțați-mă dacă se eliberează", offer: "Primiți oferta comercială", presentation: "Primește prezentarea", plans: "Primiți planurile" },
     required: "obligatoriu", note: "Răspundem după o primă verificare a formatului.",
     errors: { required: "Completați acest câmp.", contact: "Introduceți un telefon sau un e-mail valid.", consent: "Este necesar acordul pentru a răspunde.", summary: "Verificați câmpurile marcate:" },
-    done: { kicker: "Previzualizare · nimic nu a fost trimis", title: "Mulțumim.", text: { viewing: (p: string) => `Analizăm formatul dumneavoastră și vă contactăm pentru a pregăti o vizionare concretă la ${p}.`, waitlist: (p: string) => `Vă anunțăm dacă ${p} se eliberează.`, offer: (p: string) => `Analizăm formatul dumneavoastră și pregătim oferta comercială pentru ${p}.`, presentation: (p: string) => `Analizăm formatul dumneavoastră și vă trimitem prezentarea ${p}.`, plans: (p: string) => `Analizăm formatul dumneavoastră și vă trimitem planurile ${p}.` }, preview: (to: string) => `În versiunea de lucru cererea ajunge la ${to}.`, summary: "Rezumat", edit: "Modifică" },
-    calc: { title: "La cerere se atașează calculul dumneavoastră", remove: "Elimină" },
+    done: { kicker: "Previzualizare · nimic nu a fost trimis", title: "Mulțumim.", text: { viewing: (p: string) => `Analizăm formatul dumneavoastră și vă contactăm pentru a pregăti o vizionare concretă la ${p}.`, waitlist: (p: string) => `Vă anunțăm dacă ${p} se eliberează.`, offer: (p: string) => `Analizăm formatul dumneavoastră și pregătim oferta comercială pentru ${p}.`, presentation: (p: string) => `Analizăm formatul dumneavoastră și vă trimitem prezentarea ${p}.`, plans: (p: string) => `Analizăm formatul dumneavoastră și vă trimitem planurile ${p}.` }, preview: (to: string) => `În versiunea de lucru cererea ajunge la ${to}.`, summary: "Rezumat", edit: "Modificați" },
+    calc: { title: "La cerere se atașează calculul dumneavoastră", remove: "Eliminați" },
   },
   ru: {
     intents: { viewing: "Просмотр", offer: "Коммерческое предложение", presentation: "Презентация объекта", plans: "Планы" },
@@ -56,10 +56,10 @@ const T = {
     company: "Company / brand", business: "Type of business", businessPh: "e.g. a furniture showroom", area: "Area required", areaPh: "the whole space or ≈ 300 m²", date: "Planned opening date", datePh: "e.g. March 2027", critical: "What is critical for the space?", criticalPh: "power, extraction, storage, hours…", name: "Name", contact: "Telephone / e-mail",
     consent: "I agree that my data may be used to answer this request.",
     light: "Get in touch with me", more: "Add details to prepare the viewing", less: "Hide the details",
-    send: { viewing: "Request a viewing", waitlist: "Tell me if it frees up", offer: "Get the commercial proposal", presentation: "Get the presentation", plans: "Get the plans" },
+    send: { viewing: "Request a viewing", waitlist: "Tell me if it becomes available", offer: "Get the commercial proposal", presentation: "Get the presentation", plans: "Get the plans" },
     required: "required", note: "We reply after a first check of your format.",
     errors: { required: "Please fill in this field.", contact: "Please enter a telephone or a valid e-mail.", consent: "We need your consent to reply.", summary: "Please check the marked fields:" },
-    done: { kicker: "Preview · nothing was sent", title: "Thank you.", text: { viewing: (p: string) => `We will study your format and get in touch to prepare a focused viewing of ${p}.`, waitlist: (p: string) => `We will let you know if ${p} frees up.`, offer: (p: string) => `We will study your format and prepare the commercial proposal for ${p}.`, presentation: (p: string) => `We will study your format and send you the ${p} presentation.`, plans: (p: string) => `We will study your format and send you the ${p} plans.` }, preview: (to: string) => `In the working version this request goes to ${to}.`, summary: "Summary", edit: "Edit" },
+    done: { kicker: "Preview · nothing was sent", title: "Thank you.", text: { viewing: (p: string) => `We will study your format and get in touch to prepare a focused viewing of ${p}.`, waitlist: (p: string) => `We will let you know if ${p} becomes available.`, offer: (p: string) => `We will study your format and prepare the commercial proposal for ${p}.`, presentation: (p: string) => `We will study your format and send you the ${p} presentation.`, plans: (p: string) => `We will study your format and send you the ${p} plans.` }, preview: (to: string) => `In the working version this request goes to ${to}.`, summary: "Summary", edit: "Edit" },
     calc: { title: "Your calculation will be attached to the request", remove: "Remove" },
   },
 };

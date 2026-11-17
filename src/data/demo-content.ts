@@ -229,7 +229,7 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
   },
   "moscova-9": {
     category: "retail",
-    format: confirmed("asset.moscova-9.format", "PROJECTS", P("moscova-9"), "Format", { ro: "Obiect comercial independent", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" }),
+    format: confirmed("asset.moscova-9.format", "PROJECTS", P("moscova-9"), "Format", { ro: "Clădire comercială independentă", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" }),
     ...occupancyPoints("moscova-9"),
     land: demo("asset.moscova-9.land", "PROJECTS", P("moscova-9"), "Land plot", { ro: "0,31 ha", ru: "0,31 га", en: "0.31 ha" }, "OWNER — cadastre extract"),
     parking: demo("asset.moscova-9.parking", "PROJECTS", P("moscova-9"), "Parking", { ro: "25 de locuri de-a lungul bulevardului", ru: "25 мест вдоль бульвара", en: "25 spaces along the boulevard" }, "OWNER — site plan (parking along the boulevard is confirmed, the count is not)"),
@@ -275,8 +275,8 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
 /** Creangă 78: OWNER-confirmed area and occupancy (2026-10-09); district and location text stay DEMO; the earlier DEMO multi-tenant office profile is retired. */
 export const creangaProfile = {
   district: demo("asset.creanga-78.district", "PROJECTS", P("creanga-78"), "District", { ro: "Buiucani", ru: "Буюкань", en: "Buiucani" }, "OWNER — confirmed address"),
-  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un obiect comercial MEGAPARC în funcțiune din Chișinău, cu o suprafață de 2.158 m². Obiectul este ocupat 100 %.", ru: `Creangă 78 — действующий коммерческий объект MEGAPARC в Кишинэу площадью 2 158 м². Объект занят на 100 %.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
-  narrative: confirmed("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Un obiect în funcțiune, ocupat integral.", ru: "Действующий объект, занятый полностью.", en: "An operating property, fully let." }, "OWNER 2026-10-09"),
+  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un imobil comercial MEGAPARC în exploatare din Chișinău, cu o suprafață de 2.158 m². Imobilul este ocupat 100 %.", ru: `Creangă 78 — действующий коммерческий объект MEGAPARC в Кишинэу площадью 2 158 м². Объект занят на 100 %.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
+  narrative: confirmed("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Un imobil în exploatare, închiriat integral.", ru: "Действующий объект, занятый полностью.", en: "An operating property, fully let." }, "OWNER 2026-10-09"),
   location: demo("asset.creanga-78.location", "PROJECTS", P("creanga-78"), "Location text", { ro: "Un cartier consolidat din Chișinău, cu birouri, instituții, locuințe și transport public în apropiere.", ru: "Сложившийся район Кишинэу: офисы, учреждения, жильё и общественный транспорт рядом.", en: "An established Chișinău district with offices, institutions, housing and public transport nearby." }, "OWNER — confirmed address and access"),
 };
 
@@ -320,19 +320,19 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     bestForStatus: "CONFIRMED",
     why: [
       { ro: "Toate departamentele sub un singur acoperiș", ru: "Все подразделения под одной крышей", en: "Every department under one roof" },
-      { ro: "Intrare proprie și control unic al accesului", ru: "Собственный вход и единый контроль доступа", en: "Own entrance and single access control" },
-      { ro: "Fațadă vizibilă pe arterele Dacia, Traian, Decebal", ru: "Заметный фасад у магистралей Дачия, Траян, Дечебал", en: "A visible facade on the Dacia, Traian and Decebal arteries" },
+      { ro: "Intrare proprie și control centralizat al accesului", ru: "Собственный вход и единый контроль доступа", en: "Dedicated entrance and single access control" },
+      { ro: "Fațadă vizibilă pe arterele Dacia, Traian, Decebal", ru: "Заметный фасад у магистралей Дачия, Траян, Дечебал", en: "A visible facade on the Dacia, Traian and Decebal boulevards" },
       { ro: "Suprafețe mari, reorganizabile fără a modifica clădirea", ru: "Крупные площади, которые можно перестраивать без изменения здания", en: "Large floors that can be re-planned without altering the building" },
     ],
     capabilities: {
-      visibility: cap("dacia-31", "visibility", "strong", { ro: "Fațadă vizibilă, la intrarea în oraș dinspre aeroport", ru: "Заметный фасад на въезде в город со стороны аэропорта", en: "A visible facade at the city's airport entrance" }, "CONFIRMED"),
+      visibility: cap("dacia-31", "visibility", "strong", { ro: "Fațadă vizibilă, la intrarea în oraș dinspre aeroport", ru: "Заметный фасад на въезде в город со стороны аэропорта", en: "A visible facade on the main approach from the airport" }, "CONFIRMED"),
       ground: cap("dacia-31", "ground", "strong", { ro: "Clădire întreagă, cu acces de la nivelul solului", ru: "Здание целиком, вход с уровня земли", en: "Whole building with access at street level" }, "CONFIRMED"),
       parking: cap("dacia-31", "parking", "strong", { ro: "Aproximativ 60 de locuri pe teren", ru: "Около 60 мест на участке", en: "About 60 spaces on the plot" }, "DEMO"),
-      entrance: cap("dacia-31", "entrance", "strong", { ro: "Intrare proprie, 4+ variante de acces", ru: "Собственный вход · 4+ варианта доступа", en: "Own entrance, 4+ entrance options" }, "CONFIRMED"),
-      power: cap("dacia-31", "power", "possible", { ro: "Rețele existente; capacitatea se confirmă prin audit", ru: "Сети есть; мощность подтверждается аудитом", en: "Services in place; capacity confirmed by audit" }, "CONFIRMED"),
-      ventilation: cap("dacia-31", "ventilation", "possible", { ro: "Tubulatură existentă; adaptare la utilizator", ru: "Воздуховоды есть; адаптация под пользователя", en: "Ductwork in place; adapted to the occupier" }, "CONFIRMED"),
+      entrance: cap("dacia-31", "entrance", "strong", { ro: "Intrare proprie, 4+ variante de acces", ru: "Собственный вход · 4+ варианта доступа", en: "Dedicated entrance, 4+ access options" }, "CONFIRMED"),
+      power: cap("dacia-31", "power", "possible", { ro: "Rețele existente; capacitatea se confirmă prin audit", ru: "Сети есть; мощность подтверждается аудитом", en: "Services in place; capacity to be confirmed by audit" }, "CONFIRMED"),
+      ventilation: cap("dacia-31", "ventilation", "possible", { ro: "Tubulatură existentă; adaptare la utilizator", ru: "Воздуховоды есть; адаптация под\u00a0арендатора", en: "Ductwork in place; adaptable to the tenant" }, "CONFIRMED"),
       delivery: cap("dacia-31", "delivery", "possible", { ro: "Acces auto pe teren pentru livrări", ru: "Подъезд по участку для доставки", en: "Vehicle access on the plot for deliveries" }, "DEMO"),
-      flexible: cap("dacia-31", "flexible", "strong", { ro: "Etaje mari, organizare pe niveluri sau pe funcții", ru: "Крупные этажи, размещение по уровням или функциям", en: "Large floors, arranged by level or by function" }, "CONFIRMED"),
+      flexible: cap("dacia-31", "flexible", "strong", { ro: "Etaje mari, organizare pe niveluri sau pe funcții", ru: "Просторные этажи, размещение по\u00a0уровням или функциям", en: "Large floor plates, configurable by floor or by function" }, "CONFIRMED"),
     },
     area: { min: 5223, max: 5223, status: "CONFIRMED", note: { ro: "Se închiriază ca întreg", ru: "Сдаётся целиком", en: "Leased as a whole" } },
     from: "2027-01-01",
@@ -363,7 +363,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
   },
   "moscova-20": {
-    reason: { ro: "Pentru o afacere care trăiește din fluxul zilnic al cartierului — vitrină spre bulevard, prima linie.", ru: "Для бизнеса, который живёт ежедневным потоком района: витрина к бульвару, первая линия.", en: "For a business that lives on the neighbourhood's daily flow — a shop window directly on the boulevard." },
+    reason: { ro: "Pentru o afacere care contează pe fluxul zilnic de cumpărători și pe o poziție vizibilă\u00a0— vitrină spre bulevard, prima linie.", ru: "Для\u00a0бизнеса, которому важны ежедневный поток покупателей и\u00a0заметное расположение: витрина на\u00a0бульвар, первая линия.", en: "For a business that relies on daily customer flow and a visible location\u00a0— a shop window directly on the boulevard." },
     bestFor: ["retail", "services", "clinic", "fnb", "showroom"],
     bestForStatus: "DEMO",
     why: [
@@ -387,7 +387,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
   },
   "creanga-78": {
-    reason: { ro: "Obiect comercial MEGAPARC în funcțiune.", ru: "Действующий коммерческий объект MEGAPARC.", en: "An operating MEGAPARC commercial property." },
+    reason: { ro: "Imobil comercial MEGAPARC în exploatare.", ru: "Действующий коммерческий объект MEGAPARC.", en: "An operating MEGAPARC commercial property." },
     bestFor: [],
     bestForStatus: "CONFIRMED",
     why: [],
@@ -420,10 +420,10 @@ const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", sourc
   status === "CONFIRMED" ? confirmed(`project.${slug}.now`, "PROJECTS", `Project · ${slug}`, "What MEGAPARC is doing now", value) : demo(`project.${slug}.now`, "PROJECTS", `Project · ${slug}`, "What MEGAPARC is doing now", value, source);
 
 export const projectNow: Record<string, DataPoint> = {
-  "moscova-9": NOW("moscova-9", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
+  "moscova-9": NOW("moscova-9", { ro: "Imobilul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31": NOW("dacia-31", { ro: "Clădire de birouri în proprietatea MEGAPARC.", ru: "Офисное здание в собственности MEGAPARC.", en: "An office building owned by MEGAPARC." }, "CONFIRMED"),
   "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de pe prima linie.", ru: "Сдаём коммерческое пространство на первой линии.", en: "Leasing the boulevard-front commercial space." }, "CONFIRMED"),
-  "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
+  "creanga-78": NOW("creanga-78", { ro: "Imobilul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
   "drochia": NOW("drochia", { ro: "Evaluăm conceptul terenului de 2,0 ha.", ru: `Оцениваем концепцию участка 2,0 га.`, en: "Evaluating the concept for the 2.0 ha site." }, "CONFIRMED"),
@@ -453,7 +453,7 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       text: C("start", "Starting point", {
         ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2.536 m², sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
         ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: площадь объекта 2 536 м², основной зал 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
-        en: "A stand-alone retail building directly on Moscova Boulevard, outside the malls: a total property area of 2,536 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
+        en: "A stand-alone retail building directly on Moscova Boulevard, outside shopping centres: a total property area of 2,536 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
       }, "CONFIRMED"),
     },
     {
@@ -503,9 +503,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
     },
     {
       key: "status",
-      label: { ro: "Statutul actual", ru: "Текущий статус", en: "Current status" },
+      label: { ro: "Situația actuală", ru: "Текущий статус", en: "Current status" },
       text: C("status", "Current status", {
-        ro: "Obiectul este ocupat 100 %.",
+        ro: "Imobilul este ocupat 100 %.",
         ru: "Объект занят на 100 %.",
         en: "The property is 100% occupied.",
       }, "CONFIRMED", "OWNER 2026-10-09"),

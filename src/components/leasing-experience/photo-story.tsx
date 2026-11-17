@@ -20,7 +20,7 @@ const nav = {
   prev: { ro: "Cadrul anterior", ru: "Предыдущий кадр", en: "Previous frame" },
   next: { ro: "Cadrul următor", ru: "Следующий кадр", en: "Next frame" },
   of: { ro: "Secvența fotografiilor", ru: "Фотопоследовательность", en: "Photo sequence" },
-  all: { ro: "Vezi toate fotografiile", ru: "Смотреть все фотографии", en: "See all photographs" },
+  all: { ro: "Vedeți toate fotografiile", ru: "Смотреть все фотографии", en: "View all photographs" },
 } satisfies Record<string, Localized>;
 
 export const galleryTitle = nav.all;

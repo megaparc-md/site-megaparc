@@ -122,7 +122,7 @@ const workConcept: Partial<Record<string, string>> = { "drochia": "project.droch
 /** Production careers state (OWNER "PRODUCTION V1", 2026-11-09 §3): no vacancies published, no film, no culture claims. */
 const productionCopy = {
   label: { ro: "Cariere", ru: "Вакансии", en: "Careers" },
-  title: { ro: "Momentan nu avem posturi vacante.", ru: "Открытых вакансий сейчас нет.", en: "There are no open positions right now." },
+  title: { ro: "Momentan nu avem posturi vacante.", ru: "Открытых вакансий сейчас нет.", en: "There are no open vacancies right now." },
   contact: { ro: "Întrebări despre lucrul la MEGAPARC — prin e-mail sau telefon.", ru: "Вопросы о работе в MEGAPARC — по e‑mail или телефону.", en: "Questions about working at MEGAPARC — by e-mail or telephone." },
 };
 

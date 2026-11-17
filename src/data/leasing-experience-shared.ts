@@ -31,24 +31,24 @@ export const teamRow = (key: string, label: ReturnType<typeof T>): TechRow => ({
 export const fact = (text: ReturnType<typeof T>, evidence: Fact["evidence"], source: string): Fact => ({ text, evidence, source });
 
 export const sharedDrawers: LeasingExperience["drawers"] = {
-  tech: { title: T("Caracteristici tehnice", "Технические характеристики", "Technical characteristics"), lead: T("Doar parametrii importanți. Ce nu este confirmat este marcat ca atare.", "Только важные параметры. Неподтверждённое так и отмечено.", "Only the parameters that matter. Anything unconfirmed is marked as such.") },
-  readiness: { title: T("Pregătire pentru lansare", "Готовность к запуску", "Ready to open"), lead: T("Ce mai clarificăm pentru afacerea dumneavoastră și din ce se compune lansarea.", "Что ещё уточняем под ваш бизнес и из чего складывается запуск.", "What we still confirm for your business and what opening involves.") },
+  tech: { title: T("Caracteristici tehnice", "Технические характеристики", "Technical characteristics"), lead: T("Doar parametrii importanți. Ce nu este confirmat este marcat ca atare.", "Только ключевые параметры; неподтверждённые данные отмечены.", "Only the parameters that matter. Anything unconfirmed is marked as such.") },
+  readiness: { title: T("Pregătire pentru lansare", "Готовность к запуску", "Launch readiness"), lead: T("Ce mai clarificăm pentru afacerea dumneavoastră și din ce se compune lansarea.", "Что ещё уточняем под ваш бизнес и из чего складывается запуск.", "What we still need to confirm for your business — and what opening involves.") },
 };
 
 /** The one public line on terms — topics only, never values (AGENTS.md: no public rent or payment terms). */
 export const sharedTerms: LeasingExperience["terms"] = {
   title: T("Condiții de închiriere", "Условия аренды", "Lease terms"),
   pending: T("Condițiile comerciale se transmit după o primă verificare a formatului afacerii.", "Коммерческие условия предоставляются после первичной проверки формата бизнеса.", "Commercial terms are provided after a first check of the business format."),
-  covers: [T("chiria", "ставка", "rent"), T("TVA și utilitățile", "НДС и коммунальные платежи", "VAT and utilities"), T("cheltuielile de exploatare", "эксплуатационные расходы", "service costs"), T("perioada de amenajare", "период на отделку", "fit-out period"), T("indexarea", "индексация", "indexation"), T("durata contractului", "срок договора", "lease term"), T("firma", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
+  covers: [T("chiria", "ставка", "rent"), T("TVA și utilitățile", "НДС и коммунальные платежи", "VAT and utilities"), T("cheltuielile de exploatare", "эксплуатационные расходы", "operating expenses"), T("perioada de amenajare", "период на отделку", "fit-out period"), T("indexarea", "индексация", "indexation"), T("durata contractului", "срок договора", "lease term"), T("firma luminoasă", "вывеска", "signage"), T("starea la predare", "состояние при передаче", "handover condition")],
   rows: [],
 };
 
 /** What opening involves — the tenant's own scope; no statement about the building's capital works (confirmed only for Moscova 20). */
 export const sharedCost: CostRow[] = [
-  { key: "fitout", label: T("Amenajare pentru concept", "Отделка под концепцию", "Fit-out for the concept"), state: "concept", note: T("După concept", "По концепции", "By concept") },
+  { key: "fitout", label: T("Amenajare pentru concept", "Отделка под концепцию", "Fit-out for the concept"), state: "concept", note: T("În funcție de concept", "По концепции", "Depends on the concept") },
   { key: "equipment", label: T("Echipamente", "Оборудование", "Equipment"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
   { key: "branding", label: T("Branding și firmă", "Брендинг и вывеска", "Branding and signage"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
-  { key: "engineering", label: T("Inginerie specială", "Специальная инженерия", "Special engineering"), state: "if-needed", note: T("Dacă formatul o cere", "Если требует формат", "If the format needs it") },
+  { key: "engineering", label: T("Inginerie specială", "Специальные инженерные системы", "Special engineering"), state: "if-needed", note: T("Dacă formatul o cere", "Если требует формат", "If the format needs it") },
   { key: "it", label: T("IT și comunicații", "IT и связь", "IT and communications"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
 ];
 
@@ -64,12 +64,12 @@ export const sharedTenantScope: Fact[] = [
 /** The section words of «Какой бизнес вы рассматриваете?» (OWNER copy 2026-11-10, as on Moscova 20). */
 export const sharedLens = {
   kicker: T("Formatul dumneavoastră", "Ваш формат", "Your format"),
-  title: T("Ce afacere luați în considerare?", "Какой бизнес вы рассматриваете?", "Which business are you considering?"),
-  lead: T("Aceleași caracteristici ale obiectului — cerințe diferite față de spațiu. Alegeți formatul ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Те же характеристики объекта — разные требования к помещению. Выберите формат, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same property characteristics — different requirements for the space. Choose a format to see what deserves attention in your case."),
+  title: T("Ce afacere luați în considerare?", "Какой бизнес вы рассматриваете?", "What kind of business are you considering?"),
+  lead: T("Aceleași caracteristici ale imobilului — cerințe diferite față de spațiu. Alegeți formatul ca să vedeți la ce merită să fiți atenți tocmai în cazul dumneavoastră.", "Те же характеристики объекта — разные требования к помещению. Выберите формат, чтобы увидеть, на что стоит обратить внимание именно в вашем случае.", "The same property characteristics — different requirements for the space. Choose a format to see what to look out for in your case."),
   evidenceTitle: T("De ce se poate potrivi formatul", "Почему формат может подойти", "Why the format may fit"),
   checksTitle: T("Ce este important de verificat înainte de decizie", "Что важно проверить до принятия решения", "What to check before you decide"),
   scenarioNote: T("Scenariu posibil de organizare", "Возможный сценарий организации", "A possible way to organise it"),
-  honesty: T("Dacă obiectul se potrivește ca locație și format, următorul pas este verificarea fezabilității tehnice a scenariului dumneavoastră.", "Если объект подходит по локации и формату, следующим шагом проверим техническую реализуемость вашего сценария.", "If the property suits you in location and format, the next step is to check the technical feasibility of your scenario."),
+  honesty: T("Dacă imobilul se potrivește ca locație și format, următorul pas este verificarea fezabilității tehnice a scenariului dumneavoastră.", "Если объект подходит по локации и формату, следующим шагом проверим техническую реализуемость вашего сценария.", "If the property suits you in location and format, the next step is to check the technical feasibility of your scenario."),
   regulated: T("Pentru formatele reglementate — clinici, servicii medicale, alimentație publică și alte activități — se verifică suplimentar cerințele tehnice speciale și cele de autorizare.", "Для регулируемых форматов — клиники, медицинских услуг, общепита и других видов деятельности — дополнительно проверяются специальные технические и разрешительные требования.", "For regulated formats — clinics, medical services, food service and other activities — special technical and permit requirements are checked as well."),
 };
 
@@ -81,7 +81,7 @@ export const sharedPlans = {
 
 export const sharedStory = {
   kicker: T("Fotografii", "Фотографии", "Photographs"),
-  lead: T("O fotografie reală — arhitectura fără schimbări. Celelalte cadre le arătăm la vizionare.", "Реальная фотография — архитектура без изменений. Остальное покажем на просмотре.", "A real photograph — the architecture unchanged. The rest we show at the viewing."),
+  lead: T("O fotografie reală — arhitectura fără schimbări. Celelalte cadre le arătăm la vizionare.", "Реальная фотография — архитектура без изменений. Остальное покажем на просмотре.", "A real photograph, the architecture unchanged. We'll show the rest at the viewing."),
 };
 
 export const contactsLine = T("Sau direct:", "Или напрямую:", "Or directly:");
@@ -93,6 +93,6 @@ export const sharedMotion = {
   visibilityTab: T("Unde se află", "Где находится", "Where it is"),
   transport: {
     title: T("Stații de transport public în apropiere", "Остановки общественного транспорта рядом", "Public transport stops nearby"),
-    text: T("Stațiile din jurul obiectului sunt marcate pe hartă (OpenStreetMap). Nu publicăm cifre de flux fără o numărătoare pe teren.", "Остановки вокруг объекта отмечены на карте (OpenStreetMap). Цифры потока без полевого замера не публикуем.", "The stops around the property are marked on the map (OpenStreetMap). No flow figures are published without a field count."),
+    text: T("Stațiile din jurul clădirii sunt marcate pe hartă (OpenStreetMap). Nu publicăm cifre de flux fără o numărătoare pe teren.", "Остановки вокруг объекта отмечены на карте (OpenStreetMap). Цифры потока без полевого замера не публикуем.", "The stops around the property are marked on the map (OpenStreetMap). No flow figures are published without a field count."),
   },
 };
