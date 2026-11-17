@@ -14,10 +14,10 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 export const leasingUi = {
   details: { ro: "Vedeți spațiul", ru: "Смотреть помещение", en: "View the space" },
-  viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+  viewing: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it becomes available" },
   floor: { ro: "Etaj", ru: "Этаж", en: "Floor" },
-  use: { ro: "Potrivit pentru", ru: "Подходит для", en: "Suits" },
+  use: { ro: "Formate posibile", ru: "Возможные форматы", en: "Possible uses" },
 } satisfies Record<string, Localized>;
 
 /** Contact link prefilled for a space (lease subject). */

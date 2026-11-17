@@ -44,16 +44,16 @@ export const producerBlock = {
     {
       title: T("Mai puțină dependență de condițiile rețelelor", "Меньше зависимости от условий сетей", "Less dependence on chain terms"),
       text: T(
-        "Un canal propriu reduce ponderea bonusurilor retroactive, a taxelor de listare și a schimbărilor de politică comercială a rețelelor în economia dumneavoastră.",
+        "Un canal propriu reduce influența bonusurilor retroactive, a taxelor de listare și a schimbărilor de politică comercială a rețelelor asupra rezultatelor dumneavoastră.",
         "Собственный канал уменьшает влияние ретро\u2011бонусов, платы за листинг и изменений коммерческой политики сетей на вашу экономику.",
-        "Your own channel reduces the impact of retro-bonuses, listing fees and changes in chains' commercial policies on your economics.",
+        "Your own channel reduces the impact of retrospective rebates, listing fees and changes in chains' commercial policies on your economics.",
       ),
     },
   ],
   balance: T(
-    "Un magazin propriu nu înlocuiește rețelele comerciale și nu este întotdeauna mai profitabil decât vânzarea prin ele: rezultatul depinde de marja dumneavoastră, de fluxul de cumpărători și de costurile punctului. De aceea, cele două canale se compară pe cifrele dumneavoastră.",
+    "Un magazin propriu nu înlocuiește rețelele comerciale și nu este întotdeauna mai profitabil decât vânzarea prin ele: rezultatul depinde de marja dumneavoastră, de fluxul de cumpărători și de costurile punctului. De aceea, cele două canale se compară pe baza cifrelor dumneavoastră.",
     "Собственный магазин не заменяет торговые сети и не всегда выгоднее продаж через них: результат зависит от вашей маржи, потока покупателей и расходов на точку. Поэтому два канала сравниваются на ваших цифрах.",
-    "A store of your own does not replace retail chains and is not always more profitable than selling through them: the result depends on your margin, footfall and the costs of the outlet. That is why the two channels are compared on your figures.",
+    "A store of your own does not replace retail chains and is not always more profitable than selling through them: the result depends on your margin, footfall and the costs of the outlet. That is why the two channels are compared using your figures.",
   ),
   exampleLabel: T("Exemplu · Moscova 20", "Пример · Moscova 20", "Example · Moscova 20"),
   /** {area} — the marketed area read from the unit record M20-01, never typed here */
@@ -115,9 +115,9 @@ export const producerFormat = {
 export const consultCopy = {
   cta: T("Evaluați economia magazinului propriu", "Оценить экономику собственного магазина", "Assess the economics of your own store"),
   note: T(
-    "Calculatorul compară rețelele comerciale, magazinul propriu și ambele canale pe cifrele dumneavoastră. Sau sunați:",
+    "Calculatorul compară rețelele comerciale, magazinul propriu și ambele canale pe baza cifrelor dumneavoastră. Sau sunați:",
     "Калькулятор сравнит торговые сети, собственный магазин и оба канала на ваших цифрах. Или позвоните:",
-    "The calculator compares retail chains, your own store and both channels on your figures. Or call:",
+    "The calculator compares retail chains, your own store and both channels using your figures. Or call:",
   ),
 };
 

@@ -13,9 +13,9 @@ export type DirectSubject = "lease" | "partnership" | "property" | "careers" | "
 const copy = {
   title: { ro: "Scrieți-ne sau sunați.", ru: "Напишите или позвоните.", en: "Write or call." },
   note: {
-    ro: "Formularul online nu primește încă solicitări — folosiți e-mailul sau telefonul.",
-    ru: "Онлайн-форма пока не\u00a0принимает заявки\u00a0— напишите на\u00a0e\u2011mail или позвоните.",
-    en: "The online form is not accepting requests yet — please use e-mail or the telephone.",
+    ro: "Formularul online nu este încă disponibil — scrieți-ne pe e-mail sau sunați.",
+    ru: "Онлайн-формы на\u00a0сайте пока нет\u00a0— напишите на\u00a0e\u2011mail или позвоните.",
+    en: "There is no online form yet — please use e-mail or the telephone.",
   },
   email: { ro: "E-mail", ru: "E‑mail", en: "E-mail" },
   mobile: { ro: "Mobil", ru: "Мобильный", en: "Mobile" },

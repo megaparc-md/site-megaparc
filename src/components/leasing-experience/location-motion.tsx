@@ -76,7 +76,7 @@ const copy = {
   },
   status: {
     MODELLED: { ro: "Analiză preliminară a locației · scenariu modelat", ru: "Предварительный анализ локации · моделируемый сценарий", en: "Preliminary location analysis · modelled scenario" },
-    MEASURED: { ro: "Numărătoare pe teren MEGAPARC", ru: "Полевой замер MEGAPARC", en: "MEGAPARC field count" },
+    MEASURED: { ro: "Numărare pe teren MEGAPARC", ru: "Полевой замер MEGAPARC", en: "MEGAPARC field count" },
     VERIFIED: { ro: "Date verificate", ru: "Проверенные данные", en: "Verified data" },
   },
   series: {
@@ -91,7 +91,7 @@ const copy = {
     peak: { ro: "seara: vârf", ru: "вечер: пик", en: "evening: peak" },
     late: { ro: "seara târziu: scădere", ru: "поздний вечер: спад", en: "late evening: easing" },
   },
-  chartLabel: { ro: "Ritmul zilei 08–20 după modelul preliminar: dimineața constant, ziua mediu, seara vârf între 16 și 19. Fără valori.", ru: "Ритм дня с\u00a008:00 до\u00a020:00 по\u00a0предварительной модели: утром\u00a0— устойчивая активность, днём\u00a0— средняя, вечером\u00a0— пик с\u00a016:00 до\u00a019:00. Без\u00a0числовых значений.", en: "Daily rhythm, 08:00–20:00, in the preliminary model: steady in the morning, moderate during the day, peaking 16:00–19:00. Indicative, without values." },
+  chartLabel: { ro: "Ritmul zilei 08–20 după modelul preliminar: dimineața constant, ziua mediu, seara vârf între 16 și 19. Fără valori.", ru: "Ритм дня с\u00a008:00 до\u00a020:00 по\u00a0предварительной модели: утром\u00a0— устойчивая активность, днём\u00a0— средняя, вечером\u00a0— пик с\u00a016:00 до\u00a019:00. Без\u00a0числовых значений.", en: "Daily rhythm, 08:00–20:00, in the preliminary model: steady in the morning, moderate during the day, peaking 16:00–19:00. Indicative only — no values shown." },
   // the closed state of the decision tool (OWNER §19): its title and text come from the dataset (x.decision.teaser); the action word by kind
   go: { office: T("Calculați suprafața", "Посчитать площадь", "Calculate the area") },
 } as const;

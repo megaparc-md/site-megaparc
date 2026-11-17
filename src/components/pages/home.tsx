@@ -30,7 +30,7 @@ import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
  */
 const copy = {
   ro: {
-    heroTitle: ["Imobiliare comerciale —", "de la investiție", "la clădirea în exploatare."],
+    heroTitle: ["De la investiție", "la un imobil", "în exploatare."],
     invest: "Investiții",
     lease: "Închiriere",
     statement: "Investim capital în active reale — și răspundem pentru rezultatele lor.",
@@ -63,7 +63,7 @@ const copy = {
     partnership: "Discutați un parteneriat",
   },
   ru: {
-    heroTitle: [`Коммерческая недвижимость${NB}—`, `от${NB}инвестиции`, `до${NB}работающего объекта.`],
+    heroTitle: [`От${NB}инвестиции`, `до${NB}действующего`, `объекта недвижимости.`],
     invest: "Инвестиции",
     lease: "Аренда",
     statement: `Мы вкладываем капитал в${NB}реальные объекты${NB}— и${NB}отвечаем за${NB}результат.`,
@@ -78,7 +78,7 @@ const copy = {
     openProject: "Смотреть проект",
     all: "Все проекты",
     valueLabel: "Инвестиции",
-    valueTitle: `От${NB}участка до${NB}работающего здания.`,
+    valueTitle: `От${NB}участка до${NB}действующего здания.`,
     valueLink: `Инвестиции и${NB}партнёрство`,
     leaseLabel: "Аренда",
     leaseTitle: `Что можно арендовать.`,
@@ -96,7 +96,7 @@ const copy = {
     partnership: "Обсудить партнёрство",
   },
   en: {
-    heroTitle: ["Commercial real estate —", "from investment", "to an operating property."],
+    heroTitle: ["From investment", "to an operating", "property."],
     invest: "Investment",
     lease: "Leasing",
     statement: "We invest in real assets — and take responsibility for how they perform.",
@@ -123,7 +123,7 @@ const copy = {
     historyRule: "MEGAPARC was founded in 2005. The years before are the group's history.",
     nextLabel: "Next step",
     owner: "I have a property or land",
-    ownerNote: "We consider buying the property or developing it with you.",
+    ownerNote: "We'll consider buying the property or developing it with you.",
     tenant: "I need commercial space",
     tenantNote: "Space in our own buildings — with a technical check before you sign.",
     partnership: "Discuss a partnership",

@@ -190,9 +190,9 @@ const allSpaces: AvailableSpace[] = [
     project: "moscova-9",
     // OWNER FACT 2026-11-09 (overnight release §7): the 1st floor becomes available on 1 January 2027. Area = the street-level
     // zones of this record (sales floor + support rooms + unloading) — to be confirmed by the OWNER as the 1st-floor area.
-    unit: L("Etajul 1 al clădirii comerciale", "1\u2011й этаж торгового здания", "1st floor of the retail building"),
+    unit: L("Parterul clădirii comerciale", "1\u2011й этаж торгового здания", "Ground floor, retail building"),
     floor: "ground",
-    floorLabel: L("Etajul 1 · sală la nivelul străzii", "1\u2011й этаж · торговый зал на\u00a0уровне улицы", "1st floor · street-level sales floor"),
+    floorLabel: L("Parter · sală la nivelul străzii", "1\u2011й этаж · торговый зал на\u00a0уровне улицы", "Ground floor · street-level sales floor"),
     area: 1289.93,
     areaMin: 400,
     uses: ["retail", "showroom"],
@@ -243,7 +243,7 @@ const allSpaces: AvailableSpace[] = [
     project: "dacia-31",
     unit: L("Clădire de birouri întreagă", "Офисное здание целиком", "Whole office building"),
     floor: "whole",
-    floorLabel: L("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический", "Lower ground + 3 floors + technical"),
+    floorLabel: L("Demisol + parter + 2 etaje + etaj tehnic", "Цоколь + 3 этажа + технический", "Lower ground + ground + 2 upper floors + technical"),
     area: 5223,
     uses: ["office"],
     status: "TO_CONFIRM", // R3.3 data gate (2026-11-10): «5 223 m² from 1 January 2027» is a draft record (OWNER data 2026-10-09: unpublished until confirmed; R3.3 §7: do not assume 01.01.2027) — not published; Dacia 31 shows «for lease · area and timing on request» (src/lib/portfolio.ts) until the OWNER confirms
@@ -273,9 +273,9 @@ const allSpaces: AvailableSpace[] = [
       kind: "stack",
       levels: [
         { label: L("Etaj tehnic", "Технический этаж", "Technical floor"), m2: 260, included: true },
-        { label: L("Etajul 3", "3‑й этаж", "3rd floor"), m2: 1014, included: true },
-        { label: L("Etajul 2", "2‑й этаж", "2nd floor"), m2: 1770, included: true },
-        { label: L("Etajul 1", "1‑й этаж", "1st floor"), m2: 1138, included: true },
+        { label: L("Etajul 2", "3‑й этаж", "Second floor"), m2: 1014, included: true },
+        { label: L("Etajul 1", "2‑й этаж", "First floor"), m2: 1770, included: true },
+        { label: L("Parter", "1‑й этаж", "Ground floor"), m2: 1138, included: true },
         { label: L("Demisol", "Цоколь", "Lower ground"), m2: 1041, included: true },
       ],
       note: L("Se închiriază ca întreg.", "Сдаётся целиком.", "Leased as a whole."),

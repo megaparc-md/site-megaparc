@@ -41,7 +41,7 @@ export const directionLines: Record<SiteLocale, [string, string, string]> = {
 
 /** The model in one sentence (OWNER wording, adapted per language). */
 export const businessStatement: Localized = {
-  ro: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale.",
+  ro: "MEGAPARC investește în imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale.",
   ru: "MEGAPARC инвестирует в недвижимость и землю, развивает собственные проекты и сдаёт коммерческие площади в аренду.",
   en: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space.",
 };
@@ -267,9 +267,9 @@ export const principles: Titled[] = [
 /** Development process — six stages, used on project pages (index = stage). */
 export const developmentStages: { no: string; title: Localized; text: Localized }[] = [
   { no: "01", title: { ro: "Analiză", ru: "Анализ", en: "Analysis" }, text: { ro: "Teren sau clădire existentă: evaluăm locația, destinația și posibilitățile.", ru: "Участок или существующее здание: оцениваем локацию, назначение и возможности.", en: "Site or existing building: we assess location, use and possibilities." } },
-  { no: "02", title: { ro: "Concept", ru: "Концепция", en: "Concept" }, text: { ro: "Stabilim destinația, scara și formatul.", ru: "Определяем назначение, масштаб и формат.", en: "We define the use, the scale and the format." } },
+  { no: "02", title: { ro: "Concept", ru: "Концепция", en: "Concept" }, text: { ro: "Stabilim destinația, amploarea și formatul.", ru: "Определяем назначение, масштаб и формат.", en: "We define the use, the scale and the format." } },
   { no: "03", title: { ro: "Evaluare economică", ru: "Экономическая оценка", en: "Economic assessment" }, text: { ro: "Calculăm economia proiectului și verificăm condițiile urbanistice și juridice.", ru: "Считаем экономику, проверяем градостроительные и юридические условия.", en: "We model the economics and check planning and legal conditions." } },
-  { no: "04", title: { ro: "Proiectare", ru: "Проектирование", en: "Design" }, text: { ro: "Proiectăm pentru exploatare, nu doar pentru predare.", ru: "Проектируем с расчётом на эксплуатацию, а не только на сдачу.", en: "We design for operation, not just for handover." } },
+  { no: "04", title: { ro: "Proiectare", ru: "Проектирование", en: "Design" }, text: { ro: "Proiectăm pentru exploatare, nu doar pentru predare.", ru: "Проектируем с\u00a0расчётом на\u00a0эксплуатацию, а\u00a0не\u00a0только на\u00a0сдачу объекта.", en: "We design for operation, not just for handover." } },
   { no: "05", title: { ro: "Realizare", ru: "Реализация", en: "Delivery" }, text: { ro: "Construim și controlăm bugetul, termenele și calitatea.", ru: "Строим и контролируем бюджет, сроки и качество.", en: "We build and control budget, schedule and quality." } },
   { no: "06", title: { ro: "Închiriere și exploatare", ru: "Аренда и эксплуатация", en: "Leasing and operation" }, text: { ro: "Clădirea intră în exploatare: chiriași, întreținere, deciziile următoare.", ru: "Объект начинает работать: арендаторы, обслуживание, следующие решения.", en: "The building goes into operation: tenants, maintenance, next decisions." } },
 ];

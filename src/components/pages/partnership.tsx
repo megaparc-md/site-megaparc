@@ -65,7 +65,7 @@ const copy = {
     partner: "Vreau să discut un parteneriat investițional",
     partnerNote: "Un proiect concret, o discuție directă.",
     note: "MEGAPARC nu oferă produse de investiții destinate publicului larg. Fiecare parteneriat se discută separat, pentru un proiect concret.",
-    coop: "Constructori și proiectanți — scrieți despre colaborare",
+    coop: "Constructori și proiectanți — scrieți-ne despre colaborare",
   },
   ru: {
     label: `Инвестиции и${NB}партнёрство`,

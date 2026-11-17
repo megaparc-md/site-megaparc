@@ -24,7 +24,7 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  */
 const t = {
   back: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
-  viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+  viewing: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it becomes available" },
   fits: { ro: "Se potrivește afacerii mele?", ru: "Подходит ли моему бизнесу?", en: "Does it fit my business?" },
   dataLabel: { ro: "Datele spațiului", ru: "О помещении", en: "The space in figures" },

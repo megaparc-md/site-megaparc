@@ -119,9 +119,9 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Companies that need a building of their own for their offices: technology, services or administrative organisations with several departments.",
     },
     lead: {
-      ro: "Clădire independentă de 5.541 m² în sectorul Botanica, pentru o singură organizație. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
-      ru: "Отдельно стоящее здание площадью 5 541\u00a0м² в\u00a0секторе Ботаника для\u00a0одной компании. Единый контроль доступа, большие площади этажей, существующая инженерная инфраструктура и\u00a0заметный фасад.",
-      en: "A 5,541 m² stand-alone building in Botanica for a single organisation. Single access control, large floor areas, existing building services and a prominent facade.",
+      ro: "Clădire independentă de 5.541 m² în sectorul Botanica, potrivită pentru o singură companie. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
+      ru: "Отдельно стоящее здание площадью 5 541\u00a0м² в\u00a0секторе Ботаника\u00a0— подходит для\u00a0одной компании. Единый контроль доступа, большие площади этажей, существующая инженерная инфраструктура и\u00a0заметный фасад.",
+      en: "A 5,541 m² stand-alone building in Botanica, suited to a single company. Single access control, large floor areas, existing building services and a prominent facade.",
     },
     story: {
       ro: [
@@ -143,7 +143,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     keyFacts: [
       { label: { ro: "Suprafața totală a obiectului", ru: "Общая площадь объекта", en: "Total property area" }, value: { ro: "5.541 m²", ru: "5 541 м²", en: "5,541 m²" } },
       { label: { ro: "Format", ru: "Формат", en: "Format" }, value: { ro: "Clădire independentă", ru: "Отдельно стоящее здание", en: "Stand-alone building" } },
-      { label: { ro: "Niveluri", ru: "Уровни", en: "Levels" }, value: { ro: "Demisol + 3 etaje + etaj tehnic", ru: "Цоколь + 3 этажа + технический", en: "Lower ground + 3 floors + technical" } },
+      { label: { ro: "Niveluri", ru: "Уровни", en: "Levels" }, value: { ro: "Demisol + parter + 2 etaje + etaj tehnic", ru: "Цоколь + 3 этажа + технический", en: "Lower ground + ground + 2 upper floors + technical" } },
       { label: { ro: "Accese / circulații", ru: "Входы / коммуникации", en: "Entrances / circulation" }, value: { ro: "4+ posibilități", ru: "4+ варианта", en: "4+ possibilities" } },
     ],
     location: {
@@ -166,9 +166,9 @@ export const portfolioAssets: PortfolioAsset[] = [
       },
       programme: [
         { label: { ro: "Demisol", ru: "Цокольный этаж", en: "Lower ground floor" }, value: { ro: "1.041 m²", ru: "1 041 м²", en: "1,041 m²" } },
-        { label: { ro: "Etajul 1", ru: "1‑й этаж", en: "1st floor" }, value: { ro: "1.138 m²", ru: "1 138 м²", en: "1,138 m²" } },
-        { label: { ro: "Etajul 2", ru: "2‑й этаж", en: "2nd floor" }, value: { ro: "1.770 m²", ru: "1 770 м²", en: "1,770 m²" } },
-        { label: { ro: "Etajul 3", ru: "3‑й этаж", en: "3rd floor" }, value: { ro: "1.014 m²", ru: "1 014 м²", en: "1,014 m²" } },
+        { label: { ro: "Parter", ru: "1‑й этаж", en: "Ground floor" }, value: { ro: "1.138 m²", ru: "1 138 м²", en: "1,138 m²" } },
+        { label: { ro: "Etajul 1", ru: "2‑й этаж", en: "First floor" }, value: { ro: "1.770 m²", ru: "1 770 м²", en: "1,770 m²" } },
+        { label: { ro: "Etajul 2", ru: "3‑й этаж", en: "Second floor" }, value: { ro: "1.014 m²", ru: "1 014 м²", en: "1,014 m²" } },
         { label: { ro: "Etaj tehnic", ru: "Технический этаж", en: "Technical floor" }, value: { ro: "260 m²", ru: "260 м²", en: "260 m²" } },
       ],
       features: [
@@ -288,7 +288,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       },
       programme: [],
       features: [
-        { ro: "Fațadă lungă la bulevard, vizibilă de pe prima linie", ru: "Протяжённый фасад на бульвар, видимость с первой линии", en: "Long boulevard frontage, clearly visible from the street" },
+        { ro: "Fațadă lungă la bulevard, bine vizibilă din stradă", ru: "Протяжённый фасад на\u00a0бульвар, хорошо виден с\u00a0улицы", en: "Long boulevard frontage, clearly visible from the street" },
         { ro: "Două intrări pentru clienți", ru: "Два входа для покупателей", en: "Two customer entrances" },
         { ro: "Zonă de descărcare cu rampă", ru: "Зона разгрузки с рампой", en: "Unloading zone with ramp" },
         { ro: "Spații auxiliare: logistică, stoc, birou, pază", ru: "Вспомогательные помещения: логистика, склад, офис, охрана", en: "Support rooms: logistics, stock, office, security" },
@@ -540,7 +540,7 @@ export const developmentProjects: DevelopmentProject[] = [
     status: { ro: "Proiect în dezvoltare", ru: "Проект в\u00a0реализации", en: "Project in development" },
     kind: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     stage: 4,
-    headline: { ro: "Un amplasament în lucru.", ru: "Площадка в работе.", en: "Work under way." },
+    headline: { ro: "Lucrări în desfășurare.", ru: "Площадка в работе.", en: "Work under way." },
     lead: {
       ro: "Proiect propriu MEGAPARC — de la teren până la un cartier funcțional.",
       ru: "Собственный проект MEGAPARC — от участка до работающего квартала.",
@@ -548,8 +548,8 @@ export const developmentProjects: DevelopmentProject[] = [
     },
     intro: {
       ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, imobilul intră în faza de exploatare sau în următoarea etapă de investiție, prin decizia MEGAPARC.",
-      ru: "VATRA с\u00a0самого начала проектируется под\u00a0реальное использование и\u00a0долгий срок службы. Завершение стройки\u00a0— не\u00a0конец: дальше MEGAPARC сохраняет объект в\u00a0собственности или переходит к\u00a0следующему инвестиционному этапу.",
-      en: "VATRA is viewed from the outset in terms of use and long-term value. Development does not end at commissioning: after it, the property enters its operating or next investment phase, as MEGAPARC decides.",
+      ru: "VATRA с\u00a0самого начала проектируется под\u00a0реальное использование и\u00a0долгий срок службы. Завершение стройки\u00a0— не\u00a0конец: дальше MEGAPARC сохранит объект в\u00a0собственности или перейдёт к\u00a0следующему инвестиционному этапу.",
+      en: "VATRA is designed from the outset for real use and a long service life. Development does not end at commissioning: after it, the property enters its operating or next investment phase, as MEGAPARC decides.",
     },
     facts: [],
     sections: [
@@ -561,7 +561,7 @@ export const developmentProjects: DevelopmentProject[] = [
           en: "From concept to a long life for the building.",
         },
         items: [
-          { ro: "Concept — destinația, scara și economia proiectului", ru: "Концепция — назначение, масштаб и экономика проекта", en: "Concept — the use, the scale and the economics of the project" },
+          { ro: "Concept\u00a0— destinația, amploarea și economia proiectului", ru: "Концепция — назначение, масштаб и экономика проекта", en: "Concept — the use, the scale and the economics of the project" },
           { ro: "Planificare — proiectare, autorizații și pregătirea construcției", ru: "Планирование — проектирование, разрешения и подготовка к строительству", en: "Planning — design, permits and preparation for construction" },
           { ro: "Execuție — construcție, controlul calității și al costurilor", ru: "Реализация — строительство, контроль качества и затрат", en: "Delivery — construction, quality and cost control" },
           { ro: "Exploatare\u00a0— utilizarea clădirii sau următoarea etapă de investiție, prin decizia MEGAPARC", ru: "Эксплуатация\u00a0— MEGAPARC эксплуатирует объект или переходит к\u00a0следующему инвестиционному этапу", en: "Operation — the operating or next investment phase, as MEGAPARC decides" },
@@ -608,7 +608,7 @@ export const developmentProjects: DevelopmentProject[] = [
     },
     facts: [
       { label: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" }, value: { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" } },
-      { label: { ro: "Adresă", ru: "Адрес", en: "Address" }, value: { ro: "Bd. Independenței 65, Drochia", ru: "Бул. Индепенденцей, 65, Дрокия", en: "Bd. Independenței 65, Drochia" } },
+      { label: { ro: "Adresă", ru: "Адрес", en: "Address" }, value: { ro: "Bd. Independenței 65, Drochia", ru: "Бул. Индепенденцей, 65, Дрокия", en: "65 Independenței Blvd, Drochia" } },
       { label: { ro: "Fronturi stradale", ru: "Выход на\u00a0дороги", en: "Road frontage" }, value: { ro: "2", ru: "2", en: "2" } },
       { label: { ro: "Dezvoltator", ru: "Девелопер", en: "Developer" }, value: { ro: "MEGAPARC SRL", ru: "MEGAPARC SRL", en: "MEGAPARC SRL" } },
     ],

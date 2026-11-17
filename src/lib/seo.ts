@@ -39,7 +39,7 @@ export const pageSeo = {
       en: "MEGAPARC — commercial real estate investment, development and leasing",
     },
     description: {
-      ro: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în Chișinău. Vedeți spațiile disponibile acum.",
+      ro: "MEGAPARC investește în imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în Chișinău. Vedeți spațiile disponibile acum.",
       ru: "MEGAPARC инвестирует в недвижимость и землю, развивает собственные проекты и сдаёт коммерческие площади в Кишинэу. Смотрите, что сдаётся сейчас.",
       en: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space in Chișinău. See what is available now.",
     },
@@ -47,7 +47,7 @@ export const pageSeo = {
   about: {
     title: { ro: "Despre MEGAPARC — investiții, dezvoltare, închiriere", ru: "О\u00a0компании MEGAPARC\u00a0— инвестиции, девелопмент, аренда", en: "About MEGAPARC — investment, development, leasing" },
     description: {
-      ro: "MEGAPARC achiziționează imobile comerciale și terenuri, dezvoltă și reconstruiește proiecte proprii și închiriază spații în clădirile sale. Fondată în 2005.",
+      ro: "MEGAPARC achiziționează imobile comerciale și terenuri, dezvoltă proiecte proprii, reconstruiește clădirile sale și închiriază spații în ele. Fondată în 2005.",
       ru: "MEGAPARC приобретает коммерческие объекты и\u00a0землю, строит собственные проекты, реконструирует свои здания и\u00a0сдаёт в\u00a0них площади в\u00a0аренду. Основана в\u00a02005\u00a0году.",
       en: "MEGAPARC acquires commercial property and land, builds and redevelops its own projects and leases space in its own buildings. Founded in 2005.",
     },
@@ -63,8 +63,8 @@ export const pageSeo = {
   projects: {
     title: { ro: "Proiecte MEGAPARC\u00a0— proprietăți, dezvoltare, terenuri", ru: "Проекты MEGAPARC — объекты, девелопмент, земля", en: "MEGAPARC projects — properties, development, land" },
     description: {
-      ro: "Proprietățile comerciale MEGAPARC din Chișinău, proiectul VATRA și terenul Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
-      ru: "Коммерческие объекты MEGAPARC в\u00a0Кишинэу, проект VATRA и\u00a0участок Drochia: Dacia\u00a031, Moscova\u00a09, Moscova\u00a020, Creangă\u00a078.",
+      ro: "Proprietățile comerciale MEGAPARC din Chișinău (Dacia 31, Moscova 9, Moscova 20, Creangă 78), proiectul VATRA și terenul Drochia.",
+      ru: "Коммерческие объекты MEGAPARC в\u00a0Кишинэу (Dacia\u00a031, Moscova\u00a09, Moscova\u00a020, Creangă\u00a078), проект VATRA и\u00a0участок Drochia.",
       en: "MEGAPARC's commercial properties in Chișinău — Dacia 31, Moscova 9, Moscova 20, Creangă 78 — the VATRA project and the Drochia site.",
     },
   },
@@ -207,7 +207,7 @@ export function offerPrintMetadata(locale: SiteLocale): Metadata {
 
 /** the CFO-model prototype (OWNER R10 §04) — internal, noindex, OWNER preview only; stripped from the production artifact */
 export function producerEconomicsMetadata(locale: SiteLocale): Metadata {
-  return buildMetadata(locale, "/producer-economics", { title: { ro: "Rețele comerciale, magazin propriu sau ambele canale — calculator · MEGAPARC", ru: "Торговые сети, собственный магазин или оба канала\u00a0— калькулятор · MEGAPARC", en: "Retail chains, your own store or both channels — calculator · MEGAPARC" }, description: { ro: "Comparați trei scenarii pe cifrele dumneavoastră: contribuția operațională, banii de start, pragul de rentabilitate și termenul de recuperare. Evaluare preliminară, nu o prognoză.", ru: "Сравните три сценария на\u00a0своих цифрах: операционный вклад, деньги на\u00a0старте, безубыточность и\u00a0срок окупаемости. Предварительная оценка, а\u00a0не\u00a0прогноз.", en: "Compare three scenarios on your own figures: operating contribution, cash at the start, break-even and payback. A preliminary assessment, not a forecast." } });
+  return buildMetadata(locale, "/producer-economics", { title: { ro: "Rețele comerciale, magazin propriu sau ambele canale — calculator · MEGAPARC", ru: "Торговые сети, собственный магазин или оба канала\u00a0— калькулятор · MEGAPARC", en: "Retail chains, your own store or both channels — calculator · MEGAPARC" }, description: { ro: "Comparați trei scenarii pe baza cifrelor dumneavoastră: contribuția operațională, banii de start, pragul de rentabilitate și termenul de recuperare. Evaluare preliminară, nu o prognoză.", ru: "Сравните три сценария на\u00a0своих цифрах: операционный вклад, деньги на\u00a0старте, безубыточность и\u00a0срок окупаемости. Предварительная оценка, а\u00a0не\u00a0прогноз.", en: "Compare three scenarios using your own figures: operating contribution, cash at the start, break-even and payback. A preliminary assessment, not a forecast." } });
 }
 
 export function spaceMetadata(locale: SiteLocale, id: string): Metadata {

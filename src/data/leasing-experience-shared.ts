@@ -48,7 +48,7 @@ export const sharedCost: CostRow[] = [
   { key: "fitout", label: T("Amenajare pentru concept", "Отделка под концепцию", "Fit-out for the concept"), state: "concept", note: T("În funcție de concept", "По концепции", "Depends on the concept") },
   { key: "equipment", label: T("Echipamente", "Оборудование", "Equipment"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
   { key: "branding", label: T("Branding și firmă", "Брендинг и вывеска", "Branding and signage"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
-  { key: "engineering", label: T("Inginerie specială", "Специальные инженерные системы", "Special engineering"), state: "if-needed", note: T("Dacă formatul o cere", "Если требует формат", "If the format needs it") },
+  { key: "engineering", label: T("Instalații speciale", "Специальные инженерные системы", "Specialist building services"), state: "if-needed", note: T("Dacă formatul o cere", "Если требует формат", "If the format needs it") },
   { key: "it", label: T("IT și comunicații", "IT и связь", "IT and communications"), state: "tenant", note: T("Chiriașul", "Арендатор", "Tenant") },
 ];
 
@@ -93,6 +93,6 @@ export const sharedMotion = {
   visibilityTab: T("Unde se află", "Где находится", "Where it is"),
   transport: {
     title: T("Stații de transport public în apropiere", "Остановки общественного транспорта рядом", "Public transport stops nearby"),
-    text: T("Stațiile din jurul clădirii sunt marcate pe hartă (OpenStreetMap). Nu publicăm cifre de flux fără o numărătoare pe teren.", "Остановки вокруг объекта отмечены на карте (OpenStreetMap). Цифры потока без полевого замера не публикуем.", "The stops around the property are marked on the map (OpenStreetMap). No flow figures are published without a field count."),
+    text: T("Stațiile din jurul clădirii sunt marcate pe hartă (OpenStreetMap). Nu publicăm cifre de flux fără o numărare pe teren.", "Остановки вокруг объекта отмечены на карте (OpenStreetMap). Цифры потока без полевого замера не публикуем.", "The stops around the property are marked on the map (OpenStreetMap). No flow figures are published without a field count."),
   },
 };

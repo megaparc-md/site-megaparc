@@ -148,6 +148,11 @@
 .lp-bar__link:hover { color: var(--r3-burgundy, #74202f); border-bottom-color: currentColor; }
 .lp-bar__btn { min-height: 2.6rem; padding-inline: .95rem; white-space: nowrap; }
 .lg-sticky-on .xp-preview { bottom: 4.6rem; }
+/* OWNER R2 decision I (2026-11-17): while the decision bar is on, scrolling an element into view (keyboard focus, a link, a script)
+   keeps it above the bar — the bar never covers an action at the bottom edge of the screen. Anchor jumps align to the top: unchanged. */
+/* always on the pages that carry a bottom bar: an element focused or scrolled into view while the bar is still hidden (the hero on screen)
+   would otherwise end at the bottom edge and be covered a moment later, when the bar appears */
+html.lg-sticky-on, html:has(.lp-bar), html:has(.lg-sticky) { scroll-padding-bottom: calc(3.75rem + env(safe-area-inset-bottom) + 1rem); }
 @media (min-width: 720px) { .lp-bar { padding: .6rem clamp(1.25rem, 3vw, 2.5rem); } .lp-bar__meta { display: block; } .lp-bar__actions { gap: 1.4rem; } }
 @media (prefers-reduced-motion: reduce) { .lp-bar, .lp-toast, .lp-action .icon { transition: none; } }
 

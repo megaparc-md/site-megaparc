@@ -33,7 +33,7 @@ export const creanga78Experience: LeasingExperience = {
     title: T("Un imobil în exploatare, închiriat integral.", "Действующий объект, занятый полностью.", "An operating property, fully let."),
     place: T("Chișinău", "Кишинэу", "Chișinău"),
     offer: T("conform registrului · disponibil 0 m²", "площадь по реестру · свободно 0 м²", "registered area · 0 m² available"),
-    support: T("Lăsați o cerere — vă anunțăm când se eliberează un spațiu.", "Оставьте заявку — сообщим, когда освободится помещение.", "Leave a request — we'll let you know when a space becomes available."),
+    support: T("Trimiteți o cerere — vă anunțăm când se eliberează un spațiu.", "Напишите нам — сообщим, когда освободится помещение.", "Write to us — we'll let you know when a space becomes available."),
   },
   cta: {
     primary: T("Înscrieți-vă pe lista de așteptare", "Встать в лист ожидания", "Join the waiting list"),
@@ -55,7 +55,7 @@ export const creanga78Experience: LeasingExperience = {
     kind: "waitlist",
     teaser: {
       title: T("Când se eliberează un spațiu?", "Когда освободится помещение?", "When will a space become available?"),
-      text: T("Lăsați formatul și suprafața de care aveți nevoie — vă anunțăm când se eliberează un spațiu.", "Укажите формат и нужную площадь — сообщим, когда освободится помещение.", "Leave your format and the area you need — we'll let you know when a space becomes available."),
+      text: T("Comunicați-ne formatul și suprafața de care aveți nevoie — vă anunțăm când se eliberează un spațiu.", "Укажите формат и нужную площадь — сообщим, когда освободится помещение.", "Tell us your format and the area you need — we'll let you know when a space becomes available."),
     },
   },
 
@@ -81,7 +81,7 @@ export const creanga78Experience: LeasingExperience = {
     visibility: null,
     verdict: {
       title: T("Imobilul este în exploatare — spațiile sunt închiriate.", "Объект работает — помещения заняты.", "The property is in operation — its spaces are let."),
-      text: T("Dacă adresa vi se potrivește, lăsați o cerere: când se eliberează un spațiu, verificăm mai întâi formatul dumneavoastră.", "Если вам подходит этот адрес, оставьте заявку: когда освободится помещение, сначала проверим ваш формат.", "If the address suits you, leave a request: when a space becomes available, we'll check your format first."),
+      text: T("Dacă adresa vi se potrivește, trimiteți o cerere: când se eliberează un spațiu, verificăm mai întâi formatul dumneavoastră.", "Если вам подходит этот адрес, напишите нам: когда освободится помещение, сначала проверим ваш формат.", "If the address suits you, write to us: when a space becomes available, we'll check your format first."),
     },
     cta: {
       title: T("Doriți un spațiu aici când se eliberează?", "Хотите арендовать здесь, когда освободится помещение?", "Want a space here when one becomes available?"),
@@ -105,7 +105,7 @@ export const creanga78Experience: LeasingExperience = {
   access: [teamRow("entrance", T("Intrare", "Вход", "Entrance")), teamRow("parking", T("Parcare", "Парковка", "Parking")), teamRow("delivery", T("Acces pentru livrări", "Подъезд для доставки", "Delivery access"))],
   engineering: {
     rows: [teamRow("power", T("Alimentare electrică", "Электроснабжение", "Power")), teamRow("ventilation", T("Ventilație", "Вентиляция", "Ventilation")), teamRow("heating", T("Încălzire", "Отопление", "Heating")), teamRow("water", T("Apă și canalizare", "Водоснабжение и канализация", "Water and drainage"))],
-    note: T("Când se eliberează un spațiu, parametrii pentru formatul dumneavoastră se confirmă împreună cu directorul tehnic și arhitectul MEGAPARC.", "Когда помещение освободится, параметры под ваш формат подтвердим вместе с техническим директором и архитектором MEGAPARC.", "When a space becomes available, the parameters for your format are confirmed together with MEGAPARC's Technical Director and Architect."),
+    note: T("Când se eliberează un spațiu, parametrii pentru formatul dumneavoastră se confirmă împreună cu directorul tehnic și arhitectul MEGAPARC.", "Когда помещение освободится, параметры под ваш формат подтвердим вместе с техническим директором и архитектором MEGAPARC.", "When a space becomes available, the parameters for your format will be confirmed together with MEGAPARC's Technical Director and Architect."),
   },
   readiness: {
     confirmTitle: T("Clarificăm când se eliberează un spațiu", "Уточним, когда освободится помещение", "We confirm when a space becomes available"),
@@ -191,11 +191,11 @@ export const creanga78Experience: LeasingExperience = {
   viewing: {
     kicker: T("Lista de așteptare", "Лист ожидания", "Waiting list"),
     title: T("Spațiile sunt închiriate.\nÎnscrieți-vă pe lista de așteptare.", "Помещения заняты.\nВстаньте в лист ожидания.", "The spaces are let.\nJoin the waiting list."),
-    lead: T("Lăsați formatul și suprafața de care aveți nevoie — vă anunțăm când se eliberează un spațiu și verificăm mai întâi formatul dumneavoastră.", "Укажите формат и нужную площадь — когда помещение освободится, мы сообщим и сначала проверим ваш формат.", "Leave your format and the area you need — we'll let you know when a space becomes available and check your format first."),
+    lead: T("Comunicați-ne formatul și suprafața de care aveți nevoie — vă anunțăm când se eliberează un spațiu și verificăm mai întâi formatul dumneavoastră.", "Укажите формат и нужную площадь — когда помещение освободится, мы сообщим и сначала проверим ваш формат.", "Tell us your format and the area you need — we'll let you know when a space becomes available and check your format first."),
     steps: [
-      { title: T("Acum", "Сейчас", "Now"), text: T("formatul, suprafața necesară, termenul dorit", "формат, нужная площадь, желаемые сроки", "the format, the area you need, the timing you want") },
+      { title: T("Acum", "Сейчас", "Now"), text: T("formatul, suprafața necesară, data dorită", "формат, нужная площадь, желаемые сроки", "the format, the area you need, the timing you want") },
       { title: T("Când se eliberează", "Когда освободится", "When it becomes available"), text: T("vă anunțăm și vă arătăm spațiul", "сообщим и покажем помещение", "we'll let you know and show you the space") },
-      { title: T("După", "После", "After"), text: T("cerințele tehnice verificate, apoi condițiile comerciale", "проверенные технические требования, затем коммерческие условия", "a check of the technical requirements, then the commercial terms") },
+      { title: T("După", "После", "After"), text: T("verificarea cerințelor tehnice, apoi condițiile comerciale", "проверка технических требований, затем коммерческие условия", "a check of the technical requirements, then the commercial terms") },
     ],
     photo: null,
     contactsLine,

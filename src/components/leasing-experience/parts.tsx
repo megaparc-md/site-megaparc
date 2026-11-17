@@ -10,11 +10,11 @@ import { isPreviewBuild, isProductionEdition, type Localized, type SiteLocale } 
 
 /** Interface vocabulary — words, never property facts. */
 export const ui = {
-  viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+  viewing: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   checkForMe: { ro: "Verificați Moscova 20 pentru afacerea dumneavoastră", ru: "Проверить Moscova\u00a020 для\u00a0моего бизнеса", en: "Check Moscova 20 for my business" },
   viewingPersonal: { ro: "Solicitați o vizionare individuală", ru: "Запросить индивидуальный просмотр", en: "Request a private viewing" },
   presentation: { ro: "Primește prezentarea", ru: "Получить презентацию", en: "Get the presentation" },
-  plansGet: { ro: "Primiți planurile", ru: "Получить планы", en: "Get the plans" },
+  plansGet: { ro: "Solicitați planurile", ru: "Получить планы", en: "Get the plans" },
   plansSee: { ro: "Vedeți planurile", ru: "Смотреть планы", en: "View the plans" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it becomes available" },
   leasing: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
@@ -23,7 +23,7 @@ export const ui = {
   chLocation: { ro: "Locație și flux", ru: "Локация и\u00a0поток", en: "Location and flow" },
   chPlans: { ro: "Planuri", ru: "Планы", en: "Plans" },
   chReadiness: { ro: "Pregătire pentru lansare", ru: "Готовность к\u00a0запуску", en: "Launch readiness" },
-  economics: { ro: "Verificați economia punctului", ru: "Проверить экономику точки", en: "Check the unit economics" },
+  economics: { ro: "Verificați economia afacerii", ru: "Проверить экономику точки", en: "Check the unit economics" },
   close: { ro: "Închideți", ru: "Закрыть", en: "Close" },
   see: { ro: "vedeți", ru: "смотреть", en: "see" },
   ready: { ro: "Există", ru: "Есть", en: "In place" },
@@ -43,9 +43,9 @@ export const ui = {
   contacts: { ro: "Contacte", ru: "Контакты", en: "Contacts" },
   film: { ro: "Filmul", ru: "Фильм", en: "The film" },
   // OWNER "FINAL ART DIRECTION & VISUAL CONVERSION PASS" (2026-11-09): UI actions only — never a price or a term
-  offer: { ro: "Primiți oferta comercială", ru: "Получить коммерческое предложение", en: "Get the commercial proposal" },
+  offer: { ro: "Solicitați oferta comercială", ru: "Получить коммерческое предложение", en: "Get the commercial proposal" },
   call: { ro: "Sunați", ru: "Позвонить", en: "Call" },
-  plansFull: { ro: "Primiți planurile complete", ru: "Получить полные планы", en: "Get the full plans" },
+  plansFull: { ro: "Solicitați planurile complete", ru: "Получить полные планы", en: "Get the full plans" },
   economicsGo: { ro: "Verificați economia", ru: "Проверить экономику", en: "Check the economics" },
 } satisfies Record<string, Localized>;
 

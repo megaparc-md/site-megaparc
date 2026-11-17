@@ -111,13 +111,13 @@ export const eras: Era[] = [
     title: L("O structură de investiții. Și primele imobiliare.", "Инвестиционная структура. И первая недвижимость.", "An investment structure. And the first real estate."),
     lead: L(
       "În 1995 afacerile fondatorilor sunt reunite într-o structură de investiții a grupului, care coordonează direcțiile și atrage capital. În același an, în portofoliu apar imobiliarele.",
-      "В\u00a01995\u00a0году бизнесы основателей объединяет инвестиционная структура группы: она координирует направления и\u00a0привлекает капитал. В\u00a0том же году в\u00a0портфеле появляется недвижимость.",
+      "В\u00a01995\u00a0году компании основателей объединяет инвестиционная структура группы: она координирует направления и\u00a0привлекает капитал. В\u00a0том же году в\u00a0портфеле появляется недвижимость.",
       "In 1995 the founders' businesses are brought together under the group's investment structure, which coordinates them and raises capital. The same year, real estate enters the portfolio.",
     ),
     image: "era-sugar",
     close: L(
       "La mijlocul anilor 2000, afacerile ajunse la maturitate sunt vândute. Capitalul este liber pentru pasul următor.",
-      "К середине 2000‑х зрелые бизнесы группы проданы. Капитал свободен для следующего шага.",
+      "К\u00a0середине 2000\u2011х зрелые компании группы проданы. Капитал свободен для\u00a0следующего шага.",
       "By the mid-2000s the group's mature businesses have been sold. Capital is free for the next step.",
     ),
   },
@@ -158,7 +158,7 @@ export const eras: Era[] = [
     title: L("Mai puține direcții. Mai mult focus.", "Меньше направлений. Больше фокуса.", "Fewer lines of business. More focus."),
     lead: L(
       "Grupul transferă afacerile mature și vinde activele non-core. Ultimele proiecte de comerț și logistică leagă China, România și Europa de Est.",
-      "Группа передаёт зрелые бизнесы и продаёт непрофильные активы. Последние торговые и логистические проекты связывают Китай, Румынию и Восточную Европу.",
+      "Группа передаёт зрелые компании и\u00a0продаёт непрофильные активы. Последние торговые и\u00a0логистические проекты связывают Китай, Румынию и\u00a0Восточную Европу.",
       "The group hands over its mature businesses and sells non-core assets. The last trading and logistics projects link China, Romania and Eastern Europe.",
     ),
     image: "era-distribution",
@@ -184,9 +184,9 @@ export const eras: Era[] = [
     label: L("Astăzi", "Сегодня", "Today"),
     title: L("Cumpărăm. Dezvoltăm. Închiriem.", "Покупаем. Развиваем. Сдаём в аренду.", "We acquire. We develop. We lease."),
     lead: L(
-      "MEGAPARC cumpără imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spațiile comerciale din clădirile sale. Obiectele în funcțiune sunt în Chișinău; proiectele de dezvoltare — VATRA și Drochia.",
-      "MEGAPARC покупает недвижимость и\u00a0землю, развивает собственные проекты и\u00a0сдаёт в\u00a0аренду коммерческие площади в\u00a0своих зданиях. Действующие объекты\u00a0— в\u00a0Кишинэу; в\u00a0развитии\u00a0— проект VATRA и\u00a0участок Drochia.",
-      "MEGAPARC buys real estate and land, develops its own projects and leases the commercial space in its buildings. Its operating properties are in Chișinău; its development projects are VATRA and Drochia.",
+      "MEGAPARC cumpără imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spațiile comerciale din clădirile sale. Imobilele în exploatare se află în Chișinău; VATRA este în dezvoltare, iar Drochia este un teren pentru dezvoltare.",
+      "MEGAPARC покупает недвижимость и\u00a0землю, развивает собственные проекты и\u00a0сдаёт в\u00a0аренду коммерческие площади в\u00a0своих зданиях. Действующие объекты\u00a0— в\u00a0Кишинэу; проект VATRA в\u00a0реализации, участок Drochia\u00a0— земля под\u00a0развитие.",
+      "MEGAPARC buys real estate and land, develops its own projects and leases the commercial space in its buildings. Its operating properties are in Chișinău; VATRA is under development, and Drochia is land for development.",
     ),
   },
 ];
@@ -478,7 +478,7 @@ export const entries: HistoryEntry[] = [
     title: L("Proiecte industriale în Africa de Vest", "Промышленные проекты в Западной Африке", "Industrial projects in West Africa"),
     text: L(
       "Construcții industriale și rafinare a țițeiului — pe baza relațiilor comerciale cu parteneri din Orientul Mijlociu.",
-      "Промышленное строительство и нефтепереработка — на основе торговых связей с партнёрами с Ближнего Востока.",
+      "Промышленное строительство и\u00a0нефтепереработка\u00a0— на\u00a0основе торговых связей с\u00a0ближневосточными партнёрами.",
       "Industrial construction and oil refining\u00a0— building on trade relationships with Middle Eastern partners.",
     ),
   },
@@ -626,7 +626,7 @@ export const historyCopy = {
   linesText: L(
     "Grupul înseamnă antreprenorii și companiile cu care totul a început în 1991; în 1995 i-a reunit o structură de investiții. MEGAPARC este compania imobiliară fondată de grup în 2005. Din 2020, imobiliarele sunt activitatea principală a grupului, iar MEGAPARC — centrul ei.",
     "Группа\u00a0— это предприниматели и\u00a0компании, с\u00a0которых всё началось в\u00a01991\u00a0году; в\u00a01995\u2011м их объединила инвестиционная структура. MEGAPARC\u00a0— компания в\u00a0сфере недвижимости, которую группа основала в\u00a02005\u00a0году. С\u00a02020\u00a0года недвижимость\u00a0— главное дело группы, а\u00a0MEGAPARC\u00a0— его центр.",
-    "The group is the entrepreneurs and companies with which it all began in 1991; in 1995 an investment structure brought them together. MEGAPARC is the real-estate company the group founded in 2005. Since 2020 real estate has been the group's core business, with MEGAPARC at its centre.",
+    "The group means the entrepreneurs and companies with which it all began in 1991; in 1995 an investment structure brought them together. MEGAPARC is the real-estate company the group founded in 2005. Since 2020 real estate has been the group's core business, with MEGAPARC at its centre.",
   ),
   lineGroup: L("Grupul · din 1991", "Группа · с 1991", "The group · since 1991"),
   lineHolding: L("Structura de investiții · 1995", "Инвестиционная структура · 1995", "Investment structure · 1995"),
@@ -737,7 +737,7 @@ export const chapters: Chapter[] = [
     title: L("Structura de investiții a grupului.", "Инвестиционная структура группы.", "The group's investment structure."),
     lead: L(
       "În 1995 afacerile fondatorilor sunt reunite într-o structură de investiții care le coordonează și atrage capital. În același an în portofoliu apar primele imobile.",
-      "В 1995 году бизнесы основателей объединяет инвестиционная структура: она координирует направления и привлекает капитал. В том же году в портфеле появляется первая недвижимость.",
+      "В\u00a01995\u00a0году компании основателей объединяет инвестиционная структура: она координирует направления и\u00a0привлекает капитал. В\u00a0том же году в\u00a0портфеле появляется первая недвижимость.",
       "In 1995 the founders' businesses come together in an investment structure that coordinates them and raises capital. The same year the first real estate enters the portfolio.",
     ),
     ids: ["holding", "ym-capitol", "green-hills", "farmatrade"],
@@ -807,7 +807,7 @@ export const chapters: Chapter[] = [
     title: L("Mai puține direcții, mai mult focus.", "Меньше направлений, больше фокуса.", "Fewer lines, more focus."),
     lead: L(
       "Grupul transferă afacerile mature și vinde activele non-core. Ultimele proiecte comerciale și logistice leagă China, România și Europa de Est.",
-      "Группа передаёт зрелые бизнесы и продаёт непрофильные активы. Последние торговые и логистические проекты связывают Китай, Румынию и Восточную Европу.",
+      "Группа передаёт зрелые компании и\u00a0продаёт непрофильные активы. Последние торговые и\u00a0логистические проекты связывают Китай, Румынию и\u00a0Восточную Европу.",
       "The group hands over its mature businesses and sells non-core assets. The last trading and logistics projects link China, Romania and Eastern Europe.",
     ),
     ids: ["transfer", "china", "romania-logistics"],
@@ -834,8 +834,8 @@ export const chapters: Chapter[] = [
     label: L("Astăzi", "Сегодня", "Today"),
     title: L("MEGAPARC astăzi.", "MEGAPARC сегодня.", "MEGAPARC today."),
     lead: L(
-      "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Imobilele în exploatare se află în Chișinău; în dezvoltare — proiectul VATRA și terenul Drochia.",
-      "MEGAPARC приобретает недвижимость и\u00a0землю, развивает собственные проекты и\u00a0сдаёт в\u00a0аренду коммерческие площади в\u00a0своих зданиях. Действующие объекты\u00a0— в\u00a0Кишинэу; в\u00a0развитии\u00a0— проект VATRA и\u00a0участок Drochia.",
+      "MEGAPARC cumpără imobile și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în clădirile sale. Imobilele în exploatare se află în Chișinău; VATRA este în dezvoltare, iar Drochia este un teren pentru dezvoltare.",
+      "MEGAPARC приобретает недвижимость и\u00a0землю, развивает собственные проекты и\u00a0сдаёт в\u00a0аренду коммерческие площади в\u00a0своих зданиях. Действующие объекты\u00a0— в\u00a0Кишинэу; проект VATRA в\u00a0реализации, участок Drochia\u00a0— земля под\u00a0развитие.",
       "MEGAPARC acquires real estate and land, develops its own projects and leases commercial space in its buildings. The operating properties are in Chișinău; VATRA is under development, and Drochia is land for development.",
     ),
     ids: [],

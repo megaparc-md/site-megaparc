@@ -43,9 +43,9 @@ const register: [statement: string, emphasis: string | null][] = [
   ["Адрес — первая линия бульвара.", "первая линия бульвара."], // visibility
   ["Adresa este prima linie a bulevardului.", "prima linie a bulevardului."],
   ["An address directly on the boulevard.", "directly on the boulevard."],
-  ["Собственное здание. Адаптация — после технической проверки.", "после технической проверки."], // feasibility first
-  ["Clădire proprie. Adaptarea — după verificarea tehnică.", "după verificarea tehnică."],
-  ["A building of its own. Adaptation after the technical check.", "after the technical check."],
+  ["Отдельное здание. Адаптация — после технической проверки.", "после технической проверки."], // feasibility first
+  ["Clădire independentă. Adaptarea — după verificarea tehnică.", "după verificarea tehnică."],
+  ["A stand-alone building. Adaptation after the technical check.", "after the technical check."],
 
   // ---- Dacia 31 · a whole building ----
   ["Отдельное здание для одной компании.", "для одной компании."], // exclusivity of use — the phrase, not «компании»
@@ -57,9 +57,9 @@ const register: [statement: string, emphasis: string | null][] = [
   ["Въезд в город со стороны аэропорта.", "Въезд в город"], // location
   ["Intrarea în oraș dinspre aeroport.", "Intrarea în oraș"],
   ["The main approach from the airport.", "The main approach"],
-  ["Здание целиком. Адаптация — после технического аудита.", "Здание целиком."], // flexibility of use
-  ["O clădire întreagă. Adaptarea — după auditul tehnic.", "O clădire întreagă."],
-  ["A whole building. Adaptation after the technical audit.", "A whole building."],
+  ["Отдельное здание. Адаптация — после технического аудита.", "Отдельное здание."], // flexibility of use (R2 decision A: never «целиком»)
+  ["O clădire independentă. Adaptarea — după auditul tehnic.", "O clădire independentă."],
+  ["A stand-alone building. Adaptation after the technical audit.", "A stand-alone building."],
 
   // ---- Creangă 78 · a fully let operating property ----
   ["Действующий объект, занятый полностью.", "занятый полностью."], // proof of quality
@@ -80,7 +80,7 @@ const register: [statement: string, emphasis: string | null][] = [
   // the cue line under it, already set apart as a whole (600, burgundy); it needs no second accent.
   ["Не решайте по фотографиям.", null],
   ["Nu decideți după fotografii.", null],
-  ["Don't decide on photographs alone.", null],
+  ["Don't judge by photographs alone.", null],
   ["Помещения заняты.", null],
   ["Spațiile sunt închiriate.", null],
   ["The spaces are let.", null],

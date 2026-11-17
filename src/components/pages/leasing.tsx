@@ -59,12 +59,12 @@ const copy = {
     areaLabel: "Suprafață",
     floorLabel: "Nivel",
     statusLabel: "Status",
-    viewingCta: "Solicită o vizionare",
+    viewingCta: "Solicitați o vizionare",
     reply: "Răspuns",
     viewing: "Vizionare",
     closeLabel: "Nu ați găsit spațiul potrivit?",
     closeTitle: "Spuneți-ne ce căutați. Vă anunțăm când apare un spațiu potrivit.",
-    routes: [["Lăsați o cerere de spațiu", "/contact?subject=lease#occupier"], ["Toate proiectele", "/projects"], ["Propuneți un imobil sau un teren", "/offer"]],
+    routes: [["Trimiteți o cerere de spațiu", "/contact?subject=lease#occupier"], ["Toate proiectele", "/projects"], ["Propuneți un imobil sau un teren", "/offer"]],
   },
   ru: {
     label: "Аренда",
@@ -85,7 +85,7 @@ const copy = {
     availableLabel: "Сейчас сдаётся",
     availableTitle: "Всё, что свободно, — с полными данными.",
     advisorLabel: "Что вы открываете?",
-    advisorTitle: "Расскажите о своём бизнесе — покажем, что подходит и почему.",
+    advisorTitle: "Расскажите о\u00a0своём бизнесе\u00a0— покажем, что может подойти и\u00a0почему.",
     buildingsLabel: "Здания",
     buildingsTitle: "Где находятся помещения.",
     spacesIn: (n: number) => (n === 1 ? "1 помещение" : n < 5 ? `${n} помещения` : `${n} помещений`),
@@ -99,7 +99,7 @@ const copy = {
     viewing: "Просмотр",
     closeLabel: "Не нашли?",
     closeTitle: "Расскажите, что ищете. Сообщим, когда появится подходящее помещение.",
-    routes: [["Оставить запрос на помещение", "/contact?subject=lease#occupier"], ["Все проекты", "/projects"], ["Предложить объект или землю", "/offer"]],
+    routes: [["Написать о\u00a0нужном помещении", "/contact?subject=lease#occupier"], ["Все проекты", "/projects"], ["Предложить объект или землю", "/offer"]],
   },
   en: {
     label: "Leasing",
@@ -120,7 +120,7 @@ const copy = {
     availableLabel: "Available now",
     availableTitle: "What is free — with every detail.",
     advisorLabel: "What are you planning to open?",
-    advisorTitle: "Tell us about your business — we'll show what fits and why.",
+    advisorTitle: "Tell us about your business — we'll show you what could fit and why.",
     buildingsLabel: "The buildings",
     buildingsTitle: "Where the spaces are.",
     spacesIn: (n: number) => (n === 1 ? "1 space" : `${n} spaces`),
@@ -140,9 +140,9 @@ const copy = {
 
 
 const advisorCopy: Record<SiteLocale, AdvisorCopy> = {
-  ro: { stepUse: "Ce afacere deschideți?", stepNeeds: "Ce contează pentru afacere?", stepArea: "Ce suprafață?", typical: "Pentru „{type}” contează de obicei punctele marcate cu roșu.", anyArea: "Nu contează", result: "Recomandare", more: "Alte variante", why: "De ce se potrivește", check: "De verificat împreună", quality: { strong: "Se potrivește foarte bine", good: "Se potrivește", partial: "Se potrivește parțial" }, useFits: `Potrivit pentru formatul „{type}”`, useMiss: "", areaFits: "Suprafața se încadrează", areaMiss: "", reserved: "Spațiul este rezervat — vă anunțăm dacă se eliberează", details: "Vedeți spațiul", viewing: "Solicită o vizionare", emptyTitle: "Acum nu avem un spațiu potrivit.", emptyText: "Lăsați cerințele\u00a0— vă scriem când se eliberează un spațiu sau apare un imobil nou.", emptyCta: "Lăsați o cerere", demo: "Datele acestui spațiu sunt demonstrative." },
-  ru: { stepUse: "Что вы открываете?", stepNeeds: "Что важно для бизнеса?", stepArea: "Какая площадь?", typical: "Для формата «{type}» обычно важны пункты, отмеченные красным.", anyArea: "Неважно", result: "Рекомендация", more: "Ещё варианты", why: "Почему подходит", check: "Что проверить вместе", quality: { strong: "Отлично подходит", good: "Хорошо подходит", partial: "Подходит частично" }, useFits: "Подходит для формата «{type}»", useMiss: "", areaFits: "Площадь подходит", areaMiss: "", reserved: "Помещение забронировано — сообщим, если освободится", details: "Смотреть помещение", viewing: "Запросить просмотр", emptyTitle: "Сейчас подходящего помещения нет.", emptyText: "Опишите требования — напишем, когда освободится помещение или появится новый объект.", emptyCta: "Оставить запрос", demo: "Данные этого помещения — демонстрационные." },
-  en: { stepUse: "What are you planning to open?", stepNeeds: "What matters for the business?", stepArea: "How much space?", typical: "For “{type}”, the points marked in red usually matter most.", anyArea: "Doesn't matter", result: "Recommendation", more: "Other options", why: "Why it fits", check: "To check together", quality: { strong: "Strong fit", good: "Good fit", partial: "Partial fit" }, useFits: `Suits the “{type}” format`, useMiss: "", areaFits: "The area fits", areaMiss: "", reserved: "The space is reserved\u00a0— we'll let you know if it becomes available", details: "View the space", viewing: "Request a viewing", emptyTitle: "We have no suitable space right now.", emptyText: "Describe your requirements\u00a0— we'll write when a space becomes available or a new property comes up.", emptyCta: "Leave a request", demo: "This space's data is a demonstration." },
+  ro: { stepUse: "Ce afacere deschideți?", stepNeeds: "Ce contează pentru afacere?", stepArea: "Ce suprafață?", typical: "Pentru „{type}” contează de obicei punctele marcate cu roșu.", anyArea: "Nu contează", result: "Recomandare", more: "Alte variante", why: "Ce corespunde", check: "De verificat împreună", quality: { strong: "Potrivire ridicată", good: "Potrivire bună", partial: "Potrivire parțială" }, useFits: "Formatul „{type}” — printre cele posibile", useMiss: "", areaFits: "Suprafața se încadrează", areaMiss: "", reserved: "Spațiul este rezervat — vă anunțăm dacă se eliberează", details: "Vedeți spațiul", viewing: "Solicitați o vizionare", emptyTitle: "Momentan nu avem un spațiu potrivit.", emptyText: "Descrieți-ne cerințele\u00a0— vă scriem dacă se eliberează un spațiu sau apare un imobil nou.", emptyCta: "Trimiteți o cerere", demo: "Datele acestui spațiu sunt demonstrative." },
+  ru: { stepUse: "Что вы открываете?", stepNeeds: "Что важно для бизнеса?", stepArea: "Какая площадь?", typical: "Для формата «{type}» обычно важны пункты, отмеченные красным.", anyArea: "Неважно", result: "Рекомендация", more: "Ещё варианты", why: "Что совпадает", check: "Что проверить вместе", quality: { strong: "Высокое совпадение", good: "Хорошее совпадение", partial: "Частичное совпадение" }, useFits: "Формат «{type}»\u00a0— в\u00a0числе возможных", useMiss: "", areaFits: "Площадь в\u00a0нужном диапазоне", areaMiss: "", reserved: "Помещение забронировано — сообщим, если освободится", details: "Смотреть помещение", viewing: "Запросить просмотр", emptyTitle: "Сейчас подходящего помещения нет.", emptyText: "Опишите требования\u00a0— напишем, если освободится помещение или появится новый объект.", emptyCta: "Написать нам", demo: "Данные этого помещения — демонстрационные." },
+  en: { stepUse: "What are you planning to open?", stepNeeds: "What matters for the business?", stepArea: "How much space?", typical: "For “{type}”, the points marked in red usually matter most.", anyArea: "Doesn't matter", result: "Recommendation", more: "Other options", why: "What matches", check: "To check together", quality: { strong: "Strong match", good: "Good match", partial: "Partial match" }, useFits: "“{type}” is among the possible uses", useMiss: "", areaFits: "The area is in your range", areaMiss: "", reserved: "The space is reserved\u00a0— we'll let you know if it becomes available", details: "View the space", viewing: "Request a viewing", emptyTitle: "We have no suitable space right now.", emptyText: "Describe your requirements\u00a0— we'll write if a space becomes available or a new property comes up.", emptyCta: "Write to us", demo: "This space's data is a demonstration." },
 };
 
 /**
@@ -195,7 +195,7 @@ const r3Copy = {
   },
   ru: {
     open: "Смотреть объект", portfolio: (n: number) => `${n}${NB}объекта MEGAPARC${NB}— у${NB}каждого свой актуальный статус.`,
-    earlyCta: "Оставить заявку заранее", stepsLabel: "Как проходит аренда", advisorOpen: "Подобрать помещение под\u00a0формат бизнеса",
+    earlyCta: "Сообщить об\u00a0интересе", stepsLabel: "Как проходит аренда", advisorOpen: "Подобрать помещение под\u00a0формат бизнеса",
     question: ["Что можно", "арендовать."],
     nowTitle: "Можно посмотреть сейчас", soonTitle: "Скоро",
     soonNote: "Здание занято до\u00a0указанной даты\u00a0— планируйте локацию заранее.",

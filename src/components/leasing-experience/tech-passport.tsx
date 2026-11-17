@@ -20,13 +20,19 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  */
 
 const copy = {
-  facts: { ro: "Faptele principale", ru: "Ключевые факты", en: "Key facts" },
+  facts: { ro: "Datele principale", ru: "Ключевые факты", en: "Key facts" },
   level: { ro: "Nivel", ru: "Уровень", en: "Level" },
   gross: { ro: "Totală", ru: "Общая", en: "Total" },
   useful: { ro: "Comercială", ru: "Коммерческая", en: "Commercial" }, // the term of the official drawings (Suprafața comercială), as in the plans block
   height: { ro: "Înălțime", ru: "Высота", en: "Height" },
   offered: { ro: "Spre închiriere se oferă {a} — {levels}.", ru: "В\u00a0аренду предлагается {a}\u00a0— {levels}.", en: "{a} is offered for lease — {levels}." },
   and: { ro: " și ", ru: " и ", en: " and " },
+  // OWNER R2 decision F (2026-11-17): the three areas kept apart — the two levels, their commercial (sales) area, the total with the terrace
+  drawings: {
+    ro: "Conform planurilor oficiale: două niveluri — {levels} (din care suprafața comercială a sălilor de vânzare — {halls}), împreună cu terasa — {total}.",
+    ru: "По\u00a0официальным чертежам: два уровня\u00a0— {levels} (из\u00a0них коммерческая площадь торговых залов\u00a0— {halls}), вместе с\u00a0террасой\u00a0— {total}.",
+    en: "On the official drawings: two levels of {levels} (of which {halls} is commercial sales area), {total} with the terrace.",
+  },
 } satisfies Record<string, Localized>;
 
 const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB" };
@@ -87,6 +93,20 @@ export function InfraCards({ cards, locale, className = "" }: { cards: PassportC
   );
 }
 
+/** «По официальным чертежам: два уровня — … (из них торговые залы — …), вместе с террасой — …» — only when the record has exactly two
+ *  levels with a commercial area and a terrace (Moscova 20); summed from the record, never typed. */
+function drawingAreas(levels: TemplateOffer["breakdown"], locale: SiteLocale): string | null {
+  const charged = levels.filter((level) => level.key !== "terrace");
+  const terrace = levels.find((level) => level.key === "terrace");
+  if (charged.length !== 2 || !terrace || charged.some((level) => !level.useful)) return null;
+  const sum = (values: number[]) => Math.round(values.reduce((a, b) => a + b, 0) * 100) / 100;
+  const two = sum(charged.map((level) => level.area));
+  return `${copy.drawings[locale]
+    .replace("{levels}", formatAreaExact(two, locale))
+    .replace("{halls}", formatAreaExact(sum(charged.map((level) => level.useful ?? 0)), locale))
+    .replace("{total}", formatAreaExact(sum([two, terrace.area]), locale))} `;
+}
+
 function Levels({ offer, x, locale }: { offer: TemplateOffer; x: LeasingExperience; locale: SiteLocale }) {
   const levels = offer.breakdown;
   if (!levels.length) return null;
@@ -115,6 +135,7 @@ function Levels({ offer, x, locale }: { offer: TemplateOffer; x: LeasingExperien
       </table>
       <p className="lg-pass__levelsnote">
         {offer.area ? `${copy.offered[locale].replace("{a}", offer.figure).replace("{levels}", lower(list(names, locale), locale))} ` : null}
+        {drawingAreas(levels, locale)}
         {x.area.propertyLine[locale]}
         {x.area.groundOnly ? ` ${x.area.groundOnly.text[locale]} — ${lower(ui.toConfirm[locale], locale)}.` : null}
       </p>

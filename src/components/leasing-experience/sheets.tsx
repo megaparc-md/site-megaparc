@@ -26,7 +26,7 @@ const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale 
 
 const copy = {
   areas: { ro: "Suprafețe și niveluri", ru: "Площади и\u00a0уровни", en: "Areas and levels" },
-  engineering: { ro: "Inginerie", ru: "Инженерные системы", en: "Engineering" },
+  engineering: { ro: "Instalații", ru: "Инженерные системы", en: "Engineering" },
   access: { ro: "Acces", ru: "Доступ", en: "Access" },
   levelsN: { ro: "niveluri", ru: "уровня", en: "levels" },
   power: { ro: "alimentare conform documentelor", ru: "электроснабжение по\u00a0документам", en: "power supply, documented" },
@@ -37,7 +37,7 @@ const copy = {
 } satisfies Record<string, Localized>;
 
 const costCopy: Record<CostState, Localized> = {
-  done: { ro: "în mare parte executat", ru: "в\u00a0основном выполнено", en: "largely done" },
+  done: { ro: "în mare parte executat", ru: "в\u00a0основном выполнено", en: "largely complete" },
   concept: { ro: "după concept", ru: "по\u00a0концепции", en: "depends on the concept" },
   tenant: { ro: "chiriașul", ru: "арендатор", en: "tenant" },
   "if-needed": { ro: "dacă e nevoie", ru: "если требуется", en: "if needed" },

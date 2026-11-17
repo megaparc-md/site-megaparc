@@ -64,8 +64,8 @@ const copy = {
 const vision: Record<string, Localized> = {
   vatra: {
     ro: "Un cartier cu locuințe cu regim mic de înălțime și spații publice, gândit pentru o utilizare îndelungată și o exploatare simplă. După finalizare, clădirile rămân în proprietatea MEGAPARC sau trec în etapa următoare\u00a0— prin decizia companiei.",
-    ru: "Малоэтажный квартал с\u00a0общественными пространствами, рассчитанный на\u00a0долгий срок службы и\u00a0простую эксплуатацию. После завершения MEGAPARC сохраняет здания в\u00a0собственности или переходит к\u00a0следующему инвестиционному этапу.",
-    en: "A low-rise neighbourhood with public spaces, designed for a long life and simple operation. Once complete, the buildings stay with MEGAPARC or move to the next stage — as the company decides.",
+    ru: "Малоэтажный квартал с\u00a0общественными пространствами, рассчитанный на\u00a0долгий срок службы и\u00a0простую эксплуатацию. После завершения проекта MEGAPARC сохранит здания в\u00a0собственности или перейдёт к\u00a0следующему инвестиционному этапу.",
+    en: "A low-rise neighbourhood with public spaces, designed to last and to be simple to operate. Once complete, MEGAPARC keeps the buildings or moves on to the next investment stage.",
   },
   "drochia": {
     ro: "O poartă comercială și logistică pentru oraș și regiune: comerț în față, spre drum, logistică în spate, cu accese separate. Una din trei direcții va fi aleasă după verificări.",

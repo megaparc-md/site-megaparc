@@ -65,7 +65,7 @@ const c = {
   registered: T("Suprafața înregistrată", "Зарегистрированная площадь", "Registered area"),
   boundary: T("Planul cu limitele terenului — în pachetul pentru dezvoltator, după verificarea planului cadastral. Nu desenăm limite neconfirmate.", "План участка с границами — в пакете для девелопера, после проверки кадастрового плана. Неподтверждённые границы не рисуем.", "The site plan with its boundary will go into the development pack, once the cadastral plan is verified. We never draw unconfirmed boundaries."),
   p9: T("09 · Scenariul de dezvoltare", "09 · Сценарий девелопмента", "09 · Development scenario"),
-  p9title: T("Verificați scenariul pe ipotezele dumneavoastră.", "Проверьте сценарий на своих допущениях.", "Test a scenario on your own assumptions."),
+  p9title: T("Verificați scenariul cu ipotezele dumneavoastră.", "Проверьте сценарий на своих допущениях.", "Test a scenario using your own assumptions."),
   p9lead: T("Un instrument de decizie, nu o evaluare: rezultatul se schimbă cu fiecare ipoteză.", "Инструмент для решения, а не оценка: результат меняется с каждым допущением.", "A decision tool, not a valuation: the result changes with every assumption."),
   value: T("Cum creează MEGAPARC valoare", "Как MEGAPARC создаёт стоимость", "How MEGAPARC creates value"),
   valueTitle: T("MEGAPARC creează valoare transformând terenul într-un imobil comercial în exploatare.", "MEGAPARC создаёт стоимость, превращая землю в действующий коммерческий объект.", "MEGAPARC creates value by turning land into an operating asset."),
@@ -90,14 +90,14 @@ const journey = [
   { key: "concept", label: T("Concept", "Концепция", "Concept") },
   { key: "development", label: T("Dezvoltare", "Девелопмент", "Development") },
   { key: "lease", label: T("Închiriere / vânzare", "Аренда / продажа", "Leasing / sale") },
-  { key: "asset", label: T("Imobil în exploatare", "Работающий объект", "Operating asset") },
+  { key: "asset", label: T("Imobil în exploatare", "Действующий объект", "Operating asset") },
   { key: "reinvest", label: T("Reinvestire", "Реинвестиции", "Reinvestment") },
 ];
 
 const deals = [
   { key: "sale", no: "01", title: T("Vânzare", "Продажа", "Sale"), text: T("Dezvoltatorul achiziționează terenul.", "Девелопер приобретает участок.", "The developer acquires the site.") },
   { key: "joint", no: "02", title: T("Dezvoltare comună", "Совместный девелопмент", "Joint development"), text: T("MEGAPARC aduce terenul sau activele, iar părțile convin structura proiectului.", "MEGAPARC вносит землю или активы, стороны согласуют структуру проекта.", "MEGAPARC contributes the land or assets and the parties agree the project structure.") },
-  { key: "exchange", no: "03", title: T("Teren contra spații finalizate", "Земля в обмен на готовые площади", "Land in exchange for completed space"), text: T("O parte din valoarea terenului se poate schimba pe spații comerciale finalizate, printr-o structură negociată separat.", "Часть стоимости земли может быть обменена на готовые коммерческие помещения по отдельно согласованной структуре.", "Part of the land value may be exchanged for completed commercial premises under a separately negotiated structure.") },
+  { key: "exchange", no: "03", title: T("Teren contra spații finalizate", "Земля в обмен на готовые площади", "Land in exchange for completed space"), text: T("O parte din valoarea terenului poate fi preschimbată în spații comerciale finalizate, printr-o structură negociată separat.", "Часть стоимости земли может быть обменена на готовые коммерческие помещения по отдельно согласованной структуре.", "Part of the land value may be exchanged for completed commercial premises under a separately negotiated structure.") },
 ];
 
 const team = [

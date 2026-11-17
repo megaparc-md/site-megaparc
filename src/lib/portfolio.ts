@@ -26,7 +26,7 @@ export const portfolioCategories: { key: PortfolioKey; anchor: string; label: Lo
     // OWNER «LAND DEVELOPMENT OPPORTUNITIES» §20 (2026-11-10): land appears as development opportunities, not generic projects
     label: { ro: "Oportunități de dezvoltare", ru: "Возможности для\u00a0девелопмента", en: "Development opportunities" },
     title: { ro: "Terenul ca oportunitate de dezvoltare.", ru: "Земля как возможность для\u00a0девелопмента.", en: "Land as a development opportunity." },
-    lead: { ro: "Terenuri în proprietatea MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.", ru: "Участки в\u00a0собственности MEGAPARC. Планы по\u00a0каждому участку публикуем после утверждения.", en: "Plots owned by MEGAPARC. Plans for each plot are published once approved." },
+    lead: { ro: "Terenuri în proprietatea MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.", ru: "Участки в\u00a0собственности MEGAPARC. Планы по\u00a0каждому участку публикуем после утверждения.", en: "Plots owned by MEGAPARC. Plans for each plot will be published once approved." },
   },
   {
     key: "development",
@@ -65,10 +65,10 @@ const landArea = (slug: string): Localized | null => {
   return record && record.area ? record.point.value : null;
 };
 export const landPortfolio: LandItem[] = [
-  { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, place: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: landArea("hincesti"), page: null },
+  { slug: "hincesti", name: { ro: "Hîncești", ru: "Hîncești", en: "Hîncești" }, place: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: landArea("hincesti"), page: null },
   { slug: "drochia", name: { ro: "Drochia", ru: "Drochia", en: "Drochia" }, place: { ro: "Drochia", ru: "Дрокия", en: "Drochia" }, area: landArea("drochia"), page: "drochia" },
-  { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, place: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: landArea("orhei"), page: null },
-  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, place: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, area: null, page: null },
+  { slug: "orhei", name: { ro: "Orhei", ru: "Orhei", en: "Orhei" }, place: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: landArea("orhei"), page: null },
+  { slug: "chisinau", name: { ro: "Chișinău", ru: "Chișinău", en: "Chișinău" }, place: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, area: null, page: null },
   // a repositioning / redevelopment opportunity: 0,847 ha of land + 1 490 m² of registered existing construction (OWNER, LAND brief §18)
   { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, place: null, area: { ro: "0,847 ha + construcție 1.490 m²", ru: "0,847 га + постройка 1 490 м²", en: "0.847 ha + 1,490 m² building" }, page: null },
 ];

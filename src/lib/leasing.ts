@@ -24,7 +24,7 @@ export const needs: Record<SpaceNeed, { label: Localized; why: Localized }> = {
   parking: { label: { ro: "Parcare", ru: "Парковка", en: "Parking" }, why: { ro: "Clienții și echipa ajung ușor cu mașina.", ru: "Клиентам и команде удобно приезжать на машине.", en: "Easy access by car for customers and staff." } },
   ground: { label: { ro: "Parter", ru: "Первый этаж", en: "Ground floor" }, why: { ro: "Intrare fără scări — pentru clienți, pacienți și marfă.", ru: "Вход без лестниц — для клиентов, пациентов и товара.", en: "Step-free entry for customers, patients and goods." } },
   entrance: { label: { ro: "Intrare separată", ru: "Отдельный вход", en: "Separate entrance" }, why: { ro: "Propria adresă, propriul program, propriul control.", ru: "Свой адрес, свой режим работы, свой контроль.", en: "Your own address, your own hours, full control." } },
-  power: { label: { ro: "Putere electrică", ru: "Электрическая мощность", en: "Power" }, why: { ro: "Putere suficientă pentru echipamente de bucătărie, medicale sau tehnice.", ru: "Достаточная мощность для\u00a0кухонного, медицинского или технического оборудования.", en: "Enough power for kitchen, medical or technical equipment." } },
+  power: { label: { ro: "Putere electrică", ru: "Электрическая мощность", en: "Power" }, why: { ro: "Putere electrică pentru echipamente de bucătărie, medicale sau tehnice.", ru: "Мощность для\u00a0кухонного, медицинского или технического оборудования.", en: "Power for kitchen, medical or technical equipment." } },
   ventilation: { label: { ro: "Ventilație", ru: "Вентиляция", en: "Ventilation" }, why: { ro: "Ventilație, climatizare și evacuarea aerului pentru activitatea dumneavoastră.", ru: "Вентиляция, климат и вытяжка под ваш формат.", en: "Ventilation, air conditioning and extraction for your business." } },
   delivery: { label: { ro: "Acces pentru livrări", ru: "Подъезд для доставки", en: "Delivery access" }, why: { ro: "Marfa intră separat de clienți.", ru: "Приём товара\u00a0— отдельно от\u00a0входа для\u00a0покупателей.", en: "Goods come in by a different route from customers." } },
   flexible: { label: { ro: "Planificare flexibilă", ru: "Гибкая планировка", en: "Flexible layout" }, why: { ro: "Spațiul se poate reorganiza pe măsură ce afacerea crește.", ru: "Планировку можно изменить по\u00a0мере роста бизнеса.", en: "The space can be reconfigured as the business grows." } },
@@ -41,7 +41,7 @@ export const needOrder: SpaceNeed[] = ["visibility", "flow", "parking", "ground"
 export const needGroups: { key: string; label: Localized; needs: SpaceNeed[] }[] = [
   { key: "location", label: { ro: "Locație și vizibilitate", ru: "Локация и\u00a0видимость", en: "Location and visibility" }, needs: ["visibility", "flow"] },
   { key: "access", label: { ro: "Acces și logistică", ru: "Доступ и\u00a0логистика", en: "Access and logistics" }, needs: ["ground", "entrance", "parking", "delivery"] },
-  { key: "engineering", label: { ro: "Inginerie și utilități", ru: "Инженерия и\u00a0мощности", en: "Engineering and utilities" }, needs: ["power", "ventilation"] },
+  { key: "engineering", label: { ro: "Instalații și utilități", ru: "Инженерия и\u00a0мощности", en: "Engineering and utilities" }, needs: ["power", "ventilation"] },
   { key: "format", label: { ro: "Format și flexibilitate", ru: "Формат и\u00a0гибкость", en: "Format and flexibility" }, needs: ["flexible", "fast"] },
 ];
 

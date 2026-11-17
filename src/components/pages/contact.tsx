@@ -5,7 +5,7 @@ import { PageShell } from "@/components/page-shell";
 import { TenantEntry } from "@/components/tenant-entry";
 import { company, contactLinks, leasingProcess, shown } from "@/data/demo-content";
 import { Icon } from "@/components/ui";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CONTACT — start with the right conversation (OWNER "PREMIUM PHASE 2",
@@ -92,14 +92,18 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
             <p className="pm-kicker" data-reveal>{c.label}</p>
             <h1 className="ct2-hero__title" data-reveal>{c.title}</h1>
             <p className="ct2-hero__lead" data-reveal>{c.lead}</p>
-            <ul className="ct2-direct" data-reveal>
-              {direct.map(([label, point, href]) => (
-                <li key={href}>
-                  <span>{label}</span>
-                  <a href={href} aria-label={`${label}: ${point.value[locale]}`}>{point.value[locale]}</a>
-                </li>
-              ))}
-            </ul>
+            {/* the contacts once per page (OWNER R2 decision G, 2026-11-17): in the production edition the direct-contact panel of the
+                next section carries them (no form yet), so the first screen does not repeat them; the preview keeps them here above the form */}
+            {isProductionEdition ? null : (
+              <ul className="ct2-direct" data-reveal>
+                {direct.map(([label, point, href]) => (
+                  <li key={href}>
+                    <span>{label}</span>
+                    <a href={href} aria-label={`${label}: ${point.value[locale]}`}>{point.value[locale]}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <nav className="ct2-routes" aria-label={c.label} data-reveal>
             {c.routes.map(([label, action, href]) => {
@@ -127,13 +131,8 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
           <EnquiryFormBlock locale={locale} />
           <aside className="xp-contact__aside">
             <p className="xp-label">{c.details}</p>
+            {/* R2 decision G: the e-mail and the telephones are not repeated here — the company / office / hours rows only */}
             <dl className="xp-details">
-              {direct.map(([label, point, href]) => (
-                <div key={href}>
-                  <dt>{label}</dt>
-                  <dd><a className="xp-details__link" href={href}>{point.value[locale]}</a></dd>
-                </div>
-              ))}
               {rows.map(([label, point]) => (
                 <div key={label}>
                   <dt>{label}</dt>

@@ -63,7 +63,7 @@ export const toolkitCopy = {
     dossier: { ro: "Descarcă dosarul obiectului", ru: "Скачать досье объекта", en: "Download property dossier" },
     dossierMeta: { ro: "PDF · {pages} pagini · {version}", ru: "PDF · {pages} страниц · {version}", en: "PDF · {pages} pages · {version}" },
     // the technical pre-check labels live in @/components/leasing-toolkit/precheck-copy (edition-aware: the production edition has no form)
-    book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+    book: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
     bookMeta: { ro: "cerere de vizionare · ziua și intervalul preferat", ru: "запрос на\u00a0просмотр · удобный день и\u00a0время", en: "a viewing request · your preferred day and time window" },
     cadastre: { ro: "Deschideți e\u2011Cadastru", ru: "Открыть e‑Cadastru", en: "Open e-Cadastru" },
     cadastreMeta: { ro: "numărul cadastral {n}", ru: "кадастровый номер {n}", en: "cadastral number {n}" },
@@ -95,7 +95,7 @@ export const toolkitCopy = {
     circulation: { ro: "Circulația între niveluri", ru: "Связь уровней", en: "Vertical circulation" },
     technical: { ro: "Tehnic", ru: "Инженерные системы", en: "Technical" },
     onPlan: { ro: "Pe planul acestui nivel", ru: "На\u00a0плане этого уровня", en: "On this level's plan" },
-    noneOnLevel: { ro: "Pe acest nivel nu există elemente documentate din această categorie — vedeți celălalt nivel.", ru: "На\u00a0этом уровне документированных элементов этой категории нет\u00a0— смотрите другой уровень.", en: "This level has no documented elements of this category — see the other level." },
+    noneOnLevel: { ro: "Pe acest nivel nu există elemente documentate din această categorie — vedeți celălalt nivel.", ru: "На\u00a0плане этого уровня таких элементов нет\u00a0— смотрите другой уровень.", en: "This level has no documented elements of this category — see the other level." },
     facts: { ro: "Ce este confirmat", ru: "Что подтверждено", en: "What is confirmed" },
     official: { ro: "Descărcați planul oficial (PDF)", ru: "Скачать официальный план (PDF)", en: "Download the official plan (PDF)" },
     note: { ro: "Pozițiile exacte ale punctelor tehnice nu sunt desenate: sunt arătate la vizionare pe planul oficial.", ru: "Точное расположение точек подключения на\u00a0схеме не\u00a0показано\u00a0— его покажем на\u00a0просмотре по\u00a0официальному плану.", en: "The exact positions of service connection points are not drawn; we show them at the viewing on the official plan." },
@@ -117,9 +117,9 @@ export const toolkitCopy = {
     telegram: { ro: "Telegram", ru: "Telegram", en: "Telegram" },
     whatsapp: { ro: "WhatsApp", ru: "WhatsApp", en: "WhatsApp" },
     text: {
-      ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (parter + demisol). Planuri, date tehnice și cererea de vizionare:",
-      ru: "Moscova\u00a020\u00a0— коммерческое помещение 625,7\u00a0м² на\u00a0бульваре Москова, Кишинэу (1\u2011й этаж + цоколь). Планы, технические данные и\u00a0запрос на\u00a0просмотр:",
-      en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău (ground + lower ground). Plans, technical data and a viewing request:",
+      ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău (două niveluri și terasă). Planuri, date tehnice și cererea de vizionare:",
+      ru: "Moscova\u00a020\u00a0— коммерческое помещение 625,7\u00a0м² на\u00a0бульваре Москова, Кишинэу (два уровня и\u00a0терраса). Планы, технические данные и\u00a0запрос на\u00a0просмотр:",
+      en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău (two levels and a terrace). Plans, technical data and a viewing request:",
     },
   },
   bar: {
@@ -127,7 +127,7 @@ export const toolkitCopy = {
     // OWNER «COMMERCIAL PRESENTATION RESET» §1 (2026-11-13): the bar opens the one current commercial document, never the old dossier;
     // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): the document is the commercial proposal
     dossier: { ro: "Ofertă", ru: "Предложение", en: "Proposal" },
-    book: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+    book: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   },
   // OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE» (2026-11-11): the service block on the property page — one primary action
   // (the Leasing Pack), two secondary (the PDF presentation, the plans), one utility (the QR in a compact drawer)
@@ -193,7 +193,7 @@ export const toolkitCopy = {
     coverLevels: { ro: "parter + demisol + terasă", ru: "1‑й этаж + цоколь + терраса", en: "ground + lower ground + terrace" },
     coverKicker: { ro: "MEGAPARC · LEASING DOSSIER", ru: "MEGAPARC · LEASING DOSSIER", en: "MEGAPARC · LEASING DOSSIER" },
     figures: { ro: "Cifre-cheie", ru: "Ключевые цифры", en: "Key figures" },
-    offered: { ro: "oferiți spre închiriere", ru: "предлагается в\u00a0аренду", en: "offered for lease" },
+    offered: { ro: "propuși spre închiriere", ru: "предлагается в\u00a0аренду", en: "offered for lease" },
     total: { ro: "total", ru: "общая", en: "total" },
     commercial: { ro: "comercială", ru: "коммерческая", en: "commercial" },
     height: { ro: "înălțime", ru: "высота", en: "height" },
@@ -216,7 +216,7 @@ export const toolkitCopy = {
     footerMark: { ro: "MEGAPARC · MOSCOVA 20", ru: "MEGAPARC · MOSCOVA 20", en: "MEGAPARC · MOSCOVA 20" },
     finalTitle: { ro: "Vedeți Moscova 20 pe viu.", ru: "Посмотрите Moscova\u00a020 вживую.", en: "See Moscova 20 in person." },
     finalSupport: { ro: "Înainte de stabilirea condițiilor comerciale putem verifica fezabilitatea tehnică a formatului dumneavoastră.", ru: "До\u00a0согласования коммерческих условий мы можем проверить техническую реализуемость вашего формата.", en: "Before commercial terms are agreed, we can check the technical feasibility of your format." },
-    ctaPrimary: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+    ctaPrimary: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
     ctaSecondary: { ro: "Verificați fezabilitatea tehnică", ru: "Проверить техническую реализуемость", en: "Check technical feasibility" },
     qrCaption: { ro: "Deschide Digital Leasing Pack", ru: "Открыть Digital Leasing Pack", en: "Open the Digital Leasing Pack" },
     mailSubject: { ro: "Moscova 20 — cerere de vizionare", ru: "Moscova\u00a020\u00a0— запрос на\u00a0просмотр", en: "Moscova 20 — viewing request" },

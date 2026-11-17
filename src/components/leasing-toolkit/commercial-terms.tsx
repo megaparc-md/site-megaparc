@@ -24,6 +24,17 @@ export function offerLink(locale: SiteLocale, fallbackHref: string): { href: str
   return { href: fallbackHref, pdf: false, draft: false };
 }
 
+/** The basis of the preliminary calculation with its areas (OWNER R2 decision F): the charged levels' full area and their commercial
+ *  (sales) area, summed from the unit record; the generic wording when a level has no commercial area on record. */
+function basisNote(breakdown: AreaLevel[], charged: string[], locale: SiteLocale): string {
+  const levels = breakdown.filter((level) => charged.includes(level.key));
+  if (!levels.length || levels.some((level) => !level.useful)) return c.basisNote[locale];
+  const sum = (values: number[]) => Math.round(values.reduce((a, b) => a + b, 0) * 100) / 100;
+  return c.basisNoteAreas[locale]
+    .replace("{levels}", formatAreaExact(sum(levels.map((level) => level.area)), locale))
+    .replace("{halls}", formatAreaExact(sum(levels.map((level) => level.useful ?? 0)), locale));
+}
+
 export function HeroRates({ locale, className = "" }: { locale: SiteLocale; className?: string }) {
   const levels = Object.keys(m20Commercial.rates) as RateLevel[];
   return (
@@ -109,7 +120,7 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
         </div>
 
         <div className="ct__notes">
-          <p>{c.basisNote[locale]}</p>
+          <p>{basisNote(breakdown, calc.lines.map((line) => line.key), locale)}</p>
           <p>{c.vatNote[locale]}</p>
           {calc.terrace ? <p>{c.terraceNote[locale]}</p> : null}
         </div>

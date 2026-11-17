@@ -28,7 +28,7 @@ const copy = {
     "The building is fully let. Join the waiting list and we'll let you know when a space for your format becomes available.",
   ),
   steps: [
-    { title: T("Lăsați o cerere", "Оставьте заявку", "Leave a request"), text: T("formatul, suprafața de care aveți nevoie, termenul dorit", "формат, нужная площадь, желаемые сроки", "the format, the area you need, the timing you want") },
+    { title: T("Trimiteți o cerere", "Напишите нам", "Write to us"), text: T("formatul, suprafața de care aveți nevoie, data dorită", "формат, нужная площадь, желаемые сроки", "the format, the area you need, the timing you want") },
     { title: T("Vă anunțăm", "Мы сообщим", "We'll let you know"), text: T("când se eliberează un spațiu potrivit — și vi-l arătăm", "когда освободится подходящее помещение, — и покажем его", "when a suitable space becomes available — and show it to you") },
     { title: T("Verificăm formatul", "Проверим формат", "We'll check the format"), text: T("mai întâi tehnic, cu directorul tehnic și arhitectul — apoi condițiile comerciale", "сначала — технические требования, с техническим директором и архитектором; затем — коммерческие условия", "technically first, with the Technical Director and the Architect — then the commercial terms") },
   ],

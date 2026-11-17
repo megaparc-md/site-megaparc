@@ -55,7 +55,7 @@ const copy = {
     title: (origins: number, mp: number, focus: string) => [`${origins}+ лет предпринимательского опыта.`, `${mp}+ лет MEGAPARC.`, `Недвижимость — главное дело с ${focus} года.`],
     years: (n: number) => `${n}+ лет`,
     originsScope: "Истоки бизнеса",
-    originsTitle: "Первые бизнесы основателей",
+    originsTitle: "Первые компании основателей",
     originsText: `Розница, производство, логистика. ${anchors.holding} — инвестиционная структура группы.`,
     establishedTitle: "Основана MEGAPARC",
     establishedText: "Покупка коммерческих зданий и превращение их в пространства для аренды.",

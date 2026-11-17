@@ -128,7 +128,15 @@ export const commercialCopy = {
   basisNote: {
     ro: "Calcul preliminar: suprafața integrală a celor două niveluri, fără terasă. Baza de calcul se confirmă în oferta comercială și în contractul de locațiune.",
     ru: `Расчёт предварительный: полная площадь двух этажей, без${N}террасы. База начисления подтверждается в${N}коммерческом предложении и${N}договоре аренды.`,
-    en: "A preliminary calculation: the full area of the two levels, without the terrace. The charging basis is confirmed in the commercial leasing proposal and the lease agreement.",
+    en: "A preliminary calculation: the full area of the two levels, without the terrace. The charging basis is to be confirmed in the commercial leasing proposal and the lease agreement.",
+  },
+  // the site's wording of the same basis with its areas (OWNER R2 decision F, 2026-11-17): {levels} = the full area of the two charged
+  // levels, {halls} = their commercial (sales) area — both summed from the unit record by CommercialTerms, never typed; the PDF keeps
+  // basisNote until its next OWNER-approved reprint
+  basisNoteAreas: {
+    ro: "Calcul preliminar: include suprafețele totale ale celor două niveluri — {levels}, din care suprafața comercială a sălilor de vânzare — {halls}. Baza de calcul se confirmă în oferta comercială și în contractul de locațiune.",
+    ru: `Расчёт предварительный: в${N}него входят полные площади двух уровней${N}— {levels}, из${N}них коммерческая площадь торговых залов${N}— {halls}. База начисления подтверждается в${N}коммерческом предложении и${N}договоре аренды.`,
+    en: "A preliminary calculation: it includes the full area of the two levels — {levels}, of which {halls} is commercial sales area. The charging basis is to be confirmed in the commercial leasing proposal and the lease agreement.",
   },
   vatNote: {
     ro: "Tarifele nu includ TVA. Utilitățile și celelalte cheltuieli de exploatare nu sunt incluse în calcul.",
@@ -143,12 +151,12 @@ export const commercialCopy = {
   depositFigure: { ro: `${m20Commercial.deposit.months}${N}luni`, ru: `${m20Commercial.deposit.months}${N}месяца`, en: `${m20Commercial.deposit.months}${N}months` },
   depositUnit: { ro: "de chirie de bază", ru: "базовой аренды", en: "of base rent" },
   depositTerm: {
-    ro: `Echivalentă cu ${m20Commercial.deposit.months}${N}luni de chirie de bază.`,
+    ro: `Echivalent cu ${m20Commercial.deposit.months} luni de chirie de bază.`,
     ru: `${m20Commercial.deposit.months}${N}месяца базовой аренды.`,
     en: `Equal to ${m20Commercial.deposit.months}${N}months’ base rent.`,
   },
   utilitiesLabel: { ro: "Utilități", ru: "Коммунальные услуги", en: "Utilities" },
-  utilitiesShort: { ro: "Conform facturării efective", ru: "По\u00a0фактическим начислениям", en: "Charged at actual cost" },
+  utilitiesShort: { ro: "Conform facturării efective", ru: "По\u00a0фактическим начислениям", en: "As actually billed" },
   otherExpenses: {
     ro: "Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.",
     ru: `Иные эксплуатационные расходы определяются договором аренды.`,
@@ -162,13 +170,13 @@ export const commercialCopy = {
   utilitiesTerm: {
     ro: `Utilitățile se achită conform facturării efective. Suplimentar se percepe ${m20Commercial.fee.percentOfUtilities}${N}% din costul utilităților pentru administrarea și întreținerea rețelelor inginerești. Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.`,
     ru: `Коммунальные услуги оплачиваются по${N}фактическим начислениям. Дополнительно взимается ${m20Commercial.fee.percentOfUtilities}${N}% от${N}стоимости коммунальных услуг за${N}администрирование и${N}обслуживание инженерных сетей. Иные эксплуатационные расходы определяются договором аренды.`,
-    en: `Utilities are charged at actual cost. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the building's utility networks. Other operating expenses are defined in the lease agreement.`,
+    en: `Utilities are paid as actually billed. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the building's utility networks. Other operating expenses are defined in the lease agreement.`,
   },
   indexationTitle: { ro: "Indexare anuală", ru: "Ежегодная индексация", en: "Annual indexation" },
   // OWNER addendum «Ежегодная индексация арендной платы» (2026-11-12) — verbatim; no percentage of annual increase is ever added
   indexation: {
     ro: "Chiria se indexează anual în baza indicelui oficial al prețurilor de consum (IPC), publicat de Biroul Național de Statistică al Republicii Moldova (BNS). Modalitatea de indexare este stabilită în contractul de locațiune.",
-    ru: `Ежегодная индексация арендной платы на${N}основании официального индекса потребительских цен (IPC), публикуемого Национальным бюро статистики Республики Молдова (BNS). Порядок индексации определяется договором аренды.`,
+    ru: `Ежегодная индексация арендной платы на${N}основании официального индекса потребительских цен (ИПЦ), публикуемого Национальным бюро статистики Республики Молдова (НБС). Порядок индексации определяется договором аренды.`,
     en: "Rent is indexed annually based on the official Consumer Price Index (CPI) published by the National Bureau of Statistics of the Republic of Moldova (NBS). The indexation mechanism is defined in the lease agreement.",
   },
   // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16) — supersedes «Коммерческая презентация»: one premium name for the document, one action

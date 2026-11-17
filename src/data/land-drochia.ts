@@ -67,7 +67,7 @@ export const drochiaLand: LandOpportunity = {
     title: T("Ce creează potențialul terenului.", "Что создаёт потенциал участка.", "What creates the site's potential."),
     lead: T("Faptul — și de ce contează pentru dezvoltare. Doar ce este confirmat.", "Факт — и почему он важен для девелопмента. Только подтверждённое.", "The fact — and why it matters for development. Confirmed facts only."),
     factors: [
-      { key: "scale", fact: T("20.000 m²", "20 000 м²", "20,000 m²"), why: T("Scara terenului permite evaluarea mai multor scenarii de dezvoltare.", "Масштаб участка позволяет оценить несколько сценариев застройки.", "The site's scale allows several development scenarios to be evaluated."), source: TAX },
+      { key: "scale", fact: T("20.000 m²", "20 000 м²", "20,000 m²"), why: T("Dimensiunea terenului permite evaluarea mai multor scenarii de dezvoltare.", "Масштаб участка позволяет оценить несколько сценариев застройки.", "The site's scale allows several development scenarios to be evaluated."), source: TAX },
       { key: "fronts", fact: T("Două fronturi stradale", "Выход на две дороги", "Frontage on two roads"), why: T("Două fronturi dau opțiuni pentru accese și pentru separarea fluxurilor — schema acceselor se verifică.", "Выход на две дороги даёт варианты въездов и разделения потоков — схема подъездов проверяется.", "Frontage on two roads gives options for access and for separating traffic flows — the access scheme is being verified."), source: DATA },
       { key: "address", fact: T("Bulevardul Independenței", "Бульвар Индепенденцей", "Independenței Boulevard"), why: T("O adresă pe bulevard face orientarea și logistica mai clare.", "Адрес на бульваре делает навигацию и логистику понятнее.", "An address on the boulevard makes wayfinding and logistics clearer."), source: `${TAX} · ${OSM}` },
       { key: "owner", fact: T("Teren propriu MEGAPARC", "Собственная земля MEGAPARC", "MEGAPARC's own land"), why: T("Un singur proprietar și date cadastrale verificabile simplifică structurarea proiectului.", "Один собственник и проверяемые кадастровые данные упрощают структурирование проекта.", "One owner and verifiable cadastral data simplify structuring the project."), source: DATA },
@@ -93,7 +93,7 @@ export const drochiaLand: LandOpportunity = {
       T("rețelele și capacitățile de racordare", "инженерные сети и мощности подключения", "the utilities and connection capacities"),
       T("restricțiile de mediu", "экологические ограничения", "the environmental constraints"),
       T("cerințele pentru drumuri și accese", "требования к дорогам и подъездам", "the road and access requirements"),
-      T("limitele terenului pe teren", "границы участка на местности", "the boundary on the ground"),
+      T("trasarea limitelor pe teren", "границы участка на местности", "the boundary on the ground"),
     ],
   },
 
@@ -101,7 +101,7 @@ export const drochiaLand: LandOpportunity = {
     title: T("Scenarii pentru evaluarea inițială.", "Сценарии для первичной оценки.", "Scenarios for initial evaluation."),
     lead: T("Formatele pe care MEGAPARC le analizează pentru teren — un punct de plecare pentru discuție, nu o destinație aprobată.", "Форматы, которые MEGAPARC рассматривает для участка, — отправная точка для разговора, а не утверждённое назначение.", "The formats MEGAPARC is considering for the site — a starting point for the discussion, not an approved use."),
     items: [
-      { key: "retail", title: T("Comerț", "Торговля", "Retail"), text: T("Comerț de proximitate și servicii pentru oraș și regiune.", "Торговля и услуги для города и района.", "Retail and services for the town and the region."), verify: T("destinația permisă, accesele, parcarea", "разрешённое использование, подъезды, парковка", "permitted use, access, parking"), source: COPY },
+      { key: "retail", title: T("Comerț", "Торговля", "Retail"), text: T("Comerț și servicii pentru oraș și raion.", "Торговля и услуги для города и района.", "Retail and services for the town and the region."), verify: T("destinația permisă, accesele, parcarea", "разрешённое использование, подъезды, парковка", "permitted use, access, parking"), source: COPY },
       { key: "logistics", title: T("Logistică", "Логистика", "Logistics"), text: T("Depozitare și distribuție cu acces separat pentru marfă.", "Склад и дистрибуция с отдельным подъездом для грузов.", "Storage and distribution with separate freight access."), verify: T("drumurile, sarcina pe acces, rețelele", "дороги, нагрузка на подъезды, сети", "roads, access loads, utilities"), source: COPY },
       { key: "mixed", title: T("Format mixt", "Смешанный формат", "Mixed use"), text: T("Comerț spre drum, logistică în spate — pe același teren.", "Торговля со стороны дороги, логистика в глубине — на одной площадке.", "Retail facing the road, logistics at the rear — on one site."), verify: T("configurația terenului, fluxurile, regimul urbanistic", "конфигурация участка, потоки, градостроительный режим", "site configuration, flows, planning regime"), source: COPY },
     ],
@@ -113,7 +113,7 @@ export const drochiaLand: LandOpportunity = {
   },
 
   readiness: [
-    item("title", T("Titlu / proprietate", "Право собственности", "Title / ownership"), "CONFIRMED", T("Teren MEGAPARC", "Земля MEGAPARC", "MEGAPARC land"), DATA),
+    item("title", T("Dreptul de proprietate", "Право собственности", "Title / ownership"), "CONFIRMED", T("Teren MEGAPARC", "Земля MEGAPARC", "MEGAPARC land"), DATA),
     item("cadastre", T("Cadastru", "Кадастр", "Cadastre"), "CONFIRMED", T("3601104.441 · 20.000 m²", "3601104.441 · 20 000 м²", "3601104.441 · 20,000 m²"), TAX),
     item("boundary", T("Limitele terenului", "Границы участка", "Boundary"), "TO_VERIFY", T("Planul cadastral se verifică", "Кадастровый план проверяется", "The cadastral plan is being verified")),
     item("access", T("Acces", "Подъезд", "Access"), "TO_VERIFY", T("Două fronturi confirmate; schema acceselor se verifică", "Выход на две дороги подтверждён; схема подъездов проверяется", "Frontage on two roads confirmed; the access scheme is being verified"), DATA),
@@ -123,7 +123,7 @@ export const drochiaLand: LandOpportunity = {
     item("topography", T("Topografie", "Топография", "Topography"), "REQUIRED", T("Ridicarea topografică este necesară", "Нужна топографическая съёмка", "A topographic survey is required")),
     item("geology", T("Geologie", "Геология", "Geology"), "REQUIRED", T("Studiul geotehnic este necesar", "Нужны инженерно-геологические изыскания", "A geotechnical study is required")),
     item("concept", T("Concept", "Концепция", "Concept"), "NOT_AVAILABLE", T("Nu există un concept aprobat", "Утверждённой концепции нет", "No approved concept")),
-    item("model", T("Model financiar", "Финансовая модель", "Financial model"), "NOT_AVAILABLE", T("Se construiește cu partenerul, pe un scenariu concret", "Строится с партнёром под конкретный сценарий", "Built with the partner for a specific scenario")),
+    item("model", T("Model financiar", "Финансовая модель", "Financial model"), "NOT_AVAILABLE", T("Se elaborează cu partenerul, pentru un scenariu concret", "Строится с партнёром под конкретный сценарий", "Built with the partner for a specific scenario")),
   ],
 
   utilities: [

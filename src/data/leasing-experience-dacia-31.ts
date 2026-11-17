@@ -21,8 +21,8 @@ export const dacia31Experience: LeasingExperience = {
   project: "dacia-31",
   address: T("Bd. Dacia 31", "бул. Дачия, 31", "31 Dacia Blvd"),
   photos: {
-    building: portfolioPhoto("d31-building", "dacia-31", 2200, 1467, T("Dacia 31: clădirea întreagă, scara de acces, aleea pietonală și parcarea de-a lungul bulevardului", "Dacia 31: здание целиком, лестница к входу, пешеходная аллея и парковка вдоль бульвара", "Dacia 31: the whole building, the entrance steps, the pedestrian promenade and parking along the boulevard"), "50% 56%"),
-    buildingPhone: portfolioPhoto("d31-building-phone", "dacia-31-mobile", 1000, 1250, T("Dacia 31: clădirea întreagă și scara de acces", "Dacia 31: здание целиком и лестница к входу", "Dacia 31: the whole building and the entrance steps")),
+    building: portfolioPhoto("d31-building", "dacia-31", 2200, 1467, T("Dacia 31: vedere generală a clădirii, scara de acces, aleea pietonală și parcarea de-a lungul bulevardului", "Dacia 31: общий вид здания, лестница к входу, пешеходная аллея и парковка вдоль бульвара", "Dacia 31: the building, the entrance steps, the pedestrian promenade and parking along the boulevard"), "50% 56%"),
+    buildingPhone: portfolioPhoto("d31-building-phone", "dacia-31-mobile", 1000, 1250, T("Dacia 31: vedere generală a clădirii și scara de acces", "Dacia 31: общий вид здания и лестница к входу", "Dacia 31: the building and the entrance steps")),
   },
   ownerInput: ["facade 3/4", "entrance", "interior floor plates", "technical spaces", "parking / access", "context at street level"],
 
@@ -35,7 +35,7 @@ export const dacia31Experience: LeasingExperience = {
     support: T("Suprafața și data disponibilității — la cerere, după vizionare.", "Площадь и сроки аренды — по запросу, после просмотра.", "The area and timing of the lease are given on request, after a viewing."),
   },
   cta: {
-    primary: T("Solicită o vizionare", "Запросить просмотр", "Request a viewing"),
+    primary: T("Solicitați o vizionare", "Запросить просмотр", "Request a viewing"),
     secondary: { label: T("Solicitați planurile", "Запросить планы", "Request the plans"), href: "#plans" },
   },
   figure: 5537.6,
@@ -53,14 +53,14 @@ export const dacia31Experience: LeasingExperience = {
     kind: "office",
     teaser: {
       title: T("De câtă suprafață are nevoie echipa dumneavoastră?", "Сколько площади нужно вашей команде?", "How much space does your team need?"),
-      text: T("Calculați pe datele dumneavoastră înainte de vizionare.", "Посчитайте на своих данных до просмотра.", "Calculate it on your own figures before the viewing."),
+      text: T("Calculați cu datele dumneavoastră înainte de vizionare.", "Посчитайте на своих данных до просмотра.", "Calculate it using your own figures before the viewing."),
     },
   },
 
   reasons: {
     label: T("Trei motive pentru o vizionare", "Три причины для просмотра", "Three reasons for a viewing"),
     items: [
-      { key: "own", no: "01", label: T("Clădire proprie", "Своё здание", "A stand-alone building"), text: T("Fără hol, fațadă sau adresă comune cu alți chiriași.", "Без общего холла, фасада и адреса с другими арендаторами.", "No lobby, facade or address shared with other tenants.") },
+      { key: "own", no: "01", label: T("Clădire independentă", "Отдельное здание", "A stand-alone building"), text: T("Fără hol, fațadă sau adresă comune cu alți chiriași.", "Без общего холла, фасада и адреса с другими арендаторами.", "No lobby, facade or address shared with other tenants.") },
       { key: "access", no: "02", label: T("Acces centralizat", "Единый доступ", "Single access control"), text: T("Intrare proprie, 4+ variante de acces.", "Собственный вход, 4+ варианта доступа.", "Own entrance, 4+ access options.") },
       { key: "floors", no: "03", label: T("Etaje mari", "Просторные этажи", "Large floor plates"), text: T("Organizare pe niveluri sau pe funcții.", "Размещение по уровням или функциям.", "Configurable by floor or by function.") },
     ],
@@ -79,7 +79,7 @@ export const dacia31Experience: LeasingExperience = {
     addressText: T("Bd. Dacia 31, sectorul Botanica — lângă arterele Dacia, Traian și Decebal.", "Бул. Дачия, 31, сектор Ботаника — у магистралей Дачия, Траян и Дечебал.", "31 Dacia Blvd, Botanica district — by the Dacia, Traian and Decebal boulevards."),
     visibility: null,
     verdict: {
-      title: T("Această adresă merită verificată pentru compania dumneavoastră.", "Этот адрес заслуживает проверки для вашей компании.", "This address is worth checking for your company."),
+      title: T("Această adresă merită verificată pentru compania dumneavoastră.", "Этот адрес стоит проверить для вашей компании.", "This address is worth checking for your company."),
       text: T("Clădirea se află lângă arterele principale ale sectorului. Cât de potrivită este pentru compania dumneavoastră — verificăm împreună, la vizionare.", "Здание стоит у главных магистралей сектора. Насколько оно подходит вашей компании — проверим вместе на просмотре.", "The building stands by the district's main roads. How well it suits your company is something we'll check together at the viewing."),
     },
     cta: {
@@ -108,7 +108,7 @@ export const dacia31Experience: LeasingExperience = {
   },
   access: [
     { key: "entrance", label: T("Intrare", "Вход", "Entrance"), value: T("Intrare proprie · 4+ variante de acces.", "Собственный вход · 4+ варианта доступа.", "Dedicated entrance · 4+ access options."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
-    { key: "ground", label: T("Acces", "Доступ", "Access"), value: T("Clădire întreagă, intrare de la nivelul solului.", "Здание целиком, вход с уровня земли.", "The whole building, access at street level."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
+    { key: "ground", label: T("Acces", "Доступ", "Access"), value: T("Clădire independentă, intrare de la nivelul solului.", "Отдельное здание, вход с уровня земли.", "A stand-alone building, access at ground level."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
     { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), value: T("Fațadă vizibilă la intrarea în oraș dinspre aeroport.", "Заметный фасад на въезде в город со стороны аэропорта.", "A visible facade on the main approach from the airport."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
     { key: "flexible", label: T("Organizare", "Планировка", "Layout"), value: T("Etaje mari, organizare pe niveluri sau pe funcții.", "Просторные этажи, размещение по уровням или функциям.", "Large floor plates, configurable by floor or by function."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
     teamRow("parking", T("Parcare", "Парковка", "Parking")),
@@ -147,13 +147,13 @@ export const dacia31Experience: LeasingExperience = {
       tab: T("Clădirea", "Здание", "Building"),
       title: T("Planurile etajelor", "Поэтажные планы", "Floor plans"),
       text: T("Le pregătim pentru vizionare și pentru verificarea tehnică a cerințelor dumneavoastră.", "Подготовим к просмотру и технической проверке ваших требований.", "We'll prepare them for the viewing and the technical check of your requirements."),
-      floors: [T("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический этаж", "Lower ground + 3 floors + technical floor"), T("Suprafața și data disponibilității — la cerere", "Площадь и сроки — по запросу", "Area and timing — on request")],
+      floors: [T("Demisol + parter + 2 etaje + etaj tehnic", "Цоколь + 3 этажа + технический этаж", "Lower ground + ground + 2 upper floors + technical floor"), T("Suprafața și data disponibilității — la cerere", "Площадь и сроки — по запросу", "Area and timing — on request")],
     },
   },
 
   capex: {
     kicker: T("Ce există deja", "Что уже есть", "What is in place"),
-    title: T("O clădire întreagă.\nAdaptarea — după auditul tehnic.", "Здание целиком.\nАдаптация — после технического аудита.", "A whole building.\nAdaptation after the technical audit."),
+    title: T("O clădire independentă.\nAdaptarea — după auditul tehnic.", "Отдельное здание.\nАдаптация — после технического аудита.", "A stand-alone building.\nAdaptation after the technical audit."),
     lead: T("Intrarea proprie, etajele mari și rețelele inginerești ale clădirii există deja; capacitățile exacte le stabilește auditul tehnic.", "Собственный вход, просторные этажи и инженерные сети здания уже есть; точные мощности покажет технический аудит.", "The dedicated entrance, the large floor plates and the building services are already in place; the technical audit will set the exact capacities."),
     photo: null,
     readyTitle: T("Deja există", "Уже есть", "Already in place"),
@@ -172,7 +172,7 @@ export const dacia31Experience: LeasingExperience = {
     ...sharedStory,
     title: T("Clădirea așa cum este astăzi.", "Здание таким, какое оно есть сегодня.", "The building as it is today."),
     frames: [
-      { key: "address", no: "01", shot: { photo: "building", position: "50% 56%" }, label: T("Clădirea", "Здание", "The building"), caption: T("Clădirea întreagă: scara de acces, aleea pietonală și parcarea de-a lungul bulevardului.", "Здание целиком: лестница к входу, пешеходная аллея и парковка вдоль бульвара.", "The whole building: the entrance steps, the pedestrian promenade and parking along the boulevard.") },
+      { key: "address", no: "01", shot: { photo: "building", position: "50% 56%" }, label: T("Clădirea", "Здание", "The building"), caption: T("Vedere generală: scara de acces, aleea pietonală și parcarea de-a lungul bulevardului.", "Вид на здание: лестница к входу, пешеходная аллея и парковка вдоль бульвара.", "The building: the entrance steps, the pedestrian promenade and parking along the boulevard.") },
     ],
   },
 
@@ -185,10 +185,10 @@ export const dacia31Experience: LeasingExperience = {
         label: T("Sediu central", "Штаб-квартира", "Headquarters"),
         question: T("Încape toată compania într-o singură clădire?", "Поместится ли вся компания в одном здании?", "Does the whole company fit in one building?"),
         evidence: [
-          { text: T("O clădire întreagă — pentru o singură companie.", "Здание целиком — для одной компании.", "A whole building — for one company."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
+          { text: T("O clădire independentă — potrivită pentru o singură companie.", "Отдельное здание — подходит для одной компании.", "A stand-alone building — suited to a single company."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Intrare proprie și control centralizat al accesului.", "Собственный вход и единый контроль доступа.", "A dedicated entrance and a single access-control system."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Etaje mari: organizare pe niveluri sau pe funcții.", "Просторные этажи: размещение по уровням или функциям.", "Large floor plates, configurable by floor or by function."), ref: "plans", evidence: "OWNER_CONFIRMED", source: OWNER },
-          { text: T("Fațadă vizibilă — numele companiei pe clădire.", "Заметный фасад — название компании на здании.", "A visible facade — the company's name on the building."), ref: "photos", evidence: "OWNER_CONFIRMED", source: ASSET },
+          { text: T("Fațadă vizibilă; numele companiei pe clădire — de comun acord și cu autorizațiile necesare.", "Заметный фасад; название компании на здании — по согласованию и с необходимыми разрешениями.", "A visible facade; the company's name on the building — subject to agreement and the required permits."), ref: "photos", evidence: "OWNER_CONFIRMED", source: ASSET },
         ],
         checks: [T("suprafața și data disponibilității", "площадь и сроки аренды", "the area and timing of the lease"), T("puterea și redundanța — prin audit tehnic", "мощность и резервирование по техническому аудиту", "power and redundancy subject to a technical audit"), T("numărul de locuri de muncă pentru procesul dumneavoastră", "количество рабочих мест под ваш процесс", "the number of workplaces you need")],
         closing: sharedLens.honesty,
@@ -199,7 +199,7 @@ export const dacia31Experience: LeasingExperience = {
 
   viewing: {
     kicker: T("Vizionare", "Просмотр", "Viewing"),
-    title: T("Nu decideți după fotografii.\nVedeți Dacia 31 personal.", "Не решайте по фотографиям.\nПосмотрите Dacia 31 лично.", "Don't decide on photographs alone.\nSee Dacia 31 in person."),
+    title: T("Nu decideți după fotografii.\nVedeți Dacia 31 personal.", "Не решайте по фотографиям.\nПосмотрите Dacia 31 лично.", "Don't judge by photographs alone.\nSee Dacia 31 in person."),
     lead: T("Clarificăm din timp cum este organizată compania dumneavoastră și pregătim pentru vizionare datele care contează pentru decizie.", "Заранее уточним, как устроена ваша компания, и подготовим к просмотру данные, которые важны для решения.", "We'll find out in advance how your company is organised and prepare the information that matters for the decision."),
     steps: [
       { title: T("Înainte", "До просмотра", "Before"), text: T("echipa, suprafața necesară, cerințele tehnice, data mutării", "команда, нужная площадь, технические требования, срок переезда", "the team, the area you need, technical requirements, move-in date") },

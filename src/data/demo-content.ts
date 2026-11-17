@@ -140,9 +140,9 @@ export type LandRecord = { slug: string; name: Localized; area: number | null; p
 export const landRecords: LandRecord[] = [
   { slug: "drochia", name: { ro: "Drochia", ru: "Drochia", en: "Drochia" }, area: 20000, published: true, project: "drochia", point: confirmed("land.drochia.area", "DEVELOPMENT", "Land · Drochia", "Land area", ha(20000), "Confirmed — same parcel as dev.drochia.site") },
   { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, area: 8470, published: true, point: confirmed("land.florilor-32-2.area", "DEVELOPMENT", "Land · Florilor 32/2", "Land area", ha(8470), "OWNER 2026-10-09") },
-  { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: 22000, published: true, point: confirmed("land.orhei.area", "DEVELOPMENT", "Land · Orhei", "Land area", ha(22000), "OWNER 2026-10-09") },
-  { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: 38000, published: true, point: confirmed("land.hincesti.area", "DEVELOPMENT", "Land · Hîncești", "Land area", ha(38000), "OWNER tax data (R3.3.1 §13, 2026-11-10) — 3,8 ha in total") },
-  { slug: "chisinau", name: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, area: null, published: true, point: confirmed("land.chisinau.exists", "DEVELOPMENT", "Land · Chișinău", "Land plot listed by name — area pending", "—", "OWNER R3.3 §5 (2026-11-10) — address and area to be supplied") },
+  { slug: "orhei", name: { ro: "Orhei", ru: "Orhei", en: "Orhei" }, area: 22000, published: true, point: confirmed("land.orhei.area", "DEVELOPMENT", "Land · Orhei", "Land area", ha(22000), "OWNER 2026-10-09") },
+  { slug: "hincesti", name: { ro: "Hîncești", ru: "Hîncești", en: "Hîncești" }, area: 38000, published: true, point: confirmed("land.hincesti.area", "DEVELOPMENT", "Land · Hîncești", "Land area", ha(38000), "OWNER tax data (R3.3.1 §13, 2026-11-10) — 3,8 ha in total") },
+  { slug: "chisinau", name: { ro: "Chișinău", ru: "Chișinău", en: "Chișinău" }, area: null, published: true, point: confirmed("land.chisinau.exists", "DEVELOPMENT", "Land · Chișinău", "Land plot listed by name — area pending", "—", "OWNER R3.3 §5 (2026-11-10) — address and area to be supplied") },
 ];
 export const publicLand = landRecords.filter((plot) => plot.published && plot.area);
 export const landTotal = publicLand.reduce((sum, plot) => sum + (plot.area ?? 0), 0);
@@ -349,7 +349,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
       { ro: "Integral sau parțial", ru: "Целиком или частью", en: "Whole or in part" },
     ],
     capabilities: {
-      visibility: cap("moscova-9", "visibility", "strong", { ro: "Fațadă lungă, vizibilă de pe prima linie", ru: "Протяжённый фасад, виден с первой линии", en: "Long frontage, clearly visible from the boulevard" }, "CONFIRMED"),
+      visibility: cap("moscova-9", "visibility", "strong", { ro: "Fațadă lungă, bine vizibilă dinspre bulevard", ru: "Протяжённый фасад, хорошо виден с\u00a0бульвара", en: "Long frontage, clearly visible from the boulevard" }, "CONFIRMED"),
       ground: cap("moscova-9", "ground", "strong", { ro: "Sală de vânzare de 737 m² la nivelul străzii", ru: "Торговый зал 737 м² на уровне улицы", en: "A 737 m² sales floor at street level" }, "CONFIRMED"),
       parking: cap("moscova-9", "parking", "possible", { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the boulevard" }, "CONFIRMED"),
       entrance: cap("moscova-9", "entrance", "strong", { ro: "Clădire independentă, două intrări proprii", ru: "Отдельное здание, два собственных входа", en: "Stand-alone building, two own entrances" }, "CONFIRMED"),

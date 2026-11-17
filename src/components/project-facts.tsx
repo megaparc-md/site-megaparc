@@ -59,7 +59,7 @@ const editorialCopy = {
   soon: { ro: "Disponibil din", ru: "Свободно с", en: "Available from" },
   reserved: { ro: "Rezervat", ru: "Забронировано", en: "Reserved" },
   open: { ro: "Vedeți imobilul", ru: "Смотреть объект", en: "View the property" },
-  viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+  viewing: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
 } as const;
 
 /**

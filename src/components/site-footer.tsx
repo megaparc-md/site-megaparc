@@ -29,7 +29,7 @@ const copy = {
   // OWNER «REGISTERED TRADEMARK» (2026-11-16): the trademark line — the ® appears with the logo and here, never in running text
   trademark: {
     ro: "MEGAPARC® este marcă înregistrată.",
-    ru: "MEGAPARC®\u00a0— зарегистрированная торговая марка.",
+    ru: "MEGAPARC®\u00a0— зарегистрированный товарный знак.",
     en: "MEGAPARC® is a registered trademark.",
   },
 } satisfies Record<string, Localized>;

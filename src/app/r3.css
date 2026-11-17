@@ -1420,7 +1420,9 @@ html body.menu-open .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -we
    ================================================================== */
 
 /* format lens — no interior photograph yet: the visual's frame on the drafting board */
-.lg-lens__nophoto { display: grid; align-content: end; gap: .7rem; aspect-ratio: 3 / 2; padding: clamp(1.2rem, 2.6vw, 2.2rem); border: 1px solid var(--lg-card-line); border-radius: var(--lg-radius); background-color: var(--lg-board); background-image: linear-gradient(rgba(17, 18, 22, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 18, 22, .05) 1px, transparent 1px); background-size: 28px 28px; }
+/* OWNER R2 (2026-11-17): min-width 0 — in the grid the aspect-ratio box took its minimum width from the text's min-content height and pushed
+   the property pages (Moscova 9, Dacia 31, Creangă 78) sideways on phones; the box keeps its proportions where the text fits */
+.lg-lens__nophoto { display: grid; min-width: 0; align-content: end; gap: .7rem; aspect-ratio: 3 / 2; padding: clamp(1.2rem, 2.6vw, 2.2rem); border: 1px solid var(--lg-card-line); border-radius: var(--lg-radius); background-color: var(--lg-board); background-image: linear-gradient(rgba(17, 18, 22, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 18, 22, .05) 1px, transparent 1px); background-size: 28px 28px; }
 .lg-lens__nophoto-label { color: var(--brand); font-size: .72rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
 .lg-lens__nophoto-text { max-width: 26ch; margin: 0; font-family: var(--font); font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 350; line-height: 1.2; letter-spacing: -.015em; text-wrap: balance; }
 
@@ -1948,4 +1950,23 @@ html body.menu-open .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -we
   .lg-pass__fact.is-card, .lg-pass__fact.is-card:first-child, .lg-pass__fact.is-card + .lg-pass__fact.is-card { padding: 1.25rem 1.25rem 1.15rem; border: 0; }
   .lg-pass__fact.is-card .lg-pass__num { font-size: clamp(2.5rem, 5cqi, 3.2rem); }
   .lg-pass__fact.is-card[data-fact="heights"] .lg-pass__num { font-size: clamp(1.7rem, 3.4cqi, 2.1rem); }
+}
+
+/* OWNER R2 (2026-11-17) — phones 320–430 px without sideways scroll (RU / RO / EN), no change at 360 px and wider except where noted:
+   · the calculators' field grids get an explicit track, so an input's intrinsic width never widens the column (Drochia land tool);
+   · at 359 px and narrower the two capital-base cards stack (as the long variant already does on phones) and the hero's status
+     moves under the area figure — a seven-character area (5 537,6 · 2.561,3) left the status no room beside it */
+@media (max-width: 559px) {
+  .lg-eco-tool__grid:not(.is-adv), .lg-eco-tool__field { grid-template-columns: minmax(0, 1fr); }
+}
+/* RU display headlines on small phones: below 390 px (Home) and 360 px (Projects) the longest unbreakable unit («до действующего»,
+   «Недвижимость») was wider than the screen and clipped; the size shrinks only as much as that unit needs — unchanged from 390 / 360 px up,
+   unchanged in RO / EN */
+@media (max-width: 389px) {
+  html[lang="ru"] .site .r4-home .r33-hero.r331-hero .r3-hero__title { font-size: min(2.7rem, calc((100vw - 2.5rem) / 8)); }
+}
+@media (max-width: 359px) {
+  html[lang="ru"] .r3-opening--projects .r3-opening__title { font-size: min(3rem, calc((100vw - 2.5rem) / 6.3)); }
+  .lg-capex__lists { grid-template-columns: minmax(0, 1fr); }
+  .lg-hero__offer { grid-template-columns: minmax(0, 1fr); grid-template-areas: "area" "offered" "status"; }
 }
