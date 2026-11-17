@@ -162,9 +162,9 @@ const allSpaces: AvailableSpace[] = [
     visibility: L("Prima linie, vitrină panoramică spre bulevard", "Первая линия, панорамное остекление на бульвар", "Boulevard frontage, panoramic glazing"),
     technical: {
       power: L("3 faze · 38 kW (conform documentelor)", "3 фазы · 38 кВт (по документам)", "3 phases · 38 kW (documented)"),
-      ventilation: L("Parter — sisteme split · demisol — climatizare pe canale · ventilație prevăzută", "1‑й этаж — сплит-системы · цоколь — канальное кондиционирование · вентиляция предусмотрена", "Ground floor — split systems · lower ground — ducted air-conditioning · ventilation provided for"),
+      ventilation: L("Parter — sisteme split · demisol — climatizare pe canale · ventilație prevăzută", "1\u2011й этаж\u00a0— сплит-системы · цоколь\u00a0— канальное кондиционирование · вентиляция предусмотрена", "Ground floor — split systems · lower ground — ducted air-conditioning · ventilation provided for"),
       // OWNER FACT OVERRIDE 2026-11-11: public commercial heights ≈ 3,0 м (ground) · ≈ 2,8 м (lower ground) — approximate, never a survey figure; the official drawings stay documentary
-      height: L("Parter ≈ 3,0 m · demisol ≈ 2,8 m", "1‑й этаж ≈ 3,0 м · цоколь ≈ 2,8 м", "Ground floor ≈ 3.0 m · lower ground ≈ 2.8 m"),
+      height: L("Parter ≈ 3,0 m · demisol ≈ 2,8 m", "1\u2011й этаж ≈ 3,0\u00a0м · цоколь ≈ 2,8\u00a0м", "Ground floor ≈ 3.0 m · lower ground ≈ 2.8 m"),
       condition: L("Renovat: pardoseli, pereți, încălzire, grupuri sanitare", "Отремонтировано: полы, стены, отопление, санузлы", "Renovated: floors, walls, heating, washrooms"),
     },
     fit: { visibility: "strong", flow: "strong", parking: "possible", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "strong", flexible: "possible", fast: "strong" },
@@ -190,9 +190,9 @@ const allSpaces: AvailableSpace[] = [
     project: "moscova-9",
     // OWNER FACT 2026-11-09 (overnight release §7): the 1st floor becomes available on 1 January 2027. Area = the street-level
     // zones of this record (sales floor + support rooms + unloading) — to be confirmed by the OWNER as the 1st-floor area.
-    unit: L("Etajul 1 al clădirii comerciale", "1-й этаж торгового здания", "1st floor of the retail building"),
+    unit: L("Etajul 1 al clădirii comerciale", "1\u2011й этаж торгового здания", "1st floor of the retail building"),
     floor: "ground",
-    floorLabel: L("Etajul 1 · sală la nivelul străzii", "1-й этаж · торговый зал на уровне улицы", "1st floor · street-level sales floor"),
+    floorLabel: L("Etajul 1 · sală la nivelul străzii", "1\u2011й этаж · торговый зал на\u00a0уровне улицы", "1st floor · street-level sales floor"),
     area: 1289.93,
     areaMin: 400,
     uses: ["retail", "showroom"],
@@ -200,7 +200,7 @@ const allSpaces: AvailableSpace[] = [
     availableFrom: "2027-01-01",
     headline: L(
       "Prima linie a bulevardului: fațadă lungă, două intrări, rampă de descărcare.",
-      "Первая линия бульвара: длинный фасад, два входа, рампа для разгрузки.",
+      "Первая линия бульвара: длинный фасад, два входа, рампа для\u00a0разгрузки.",
       "Directly on the boulevard: a long frontage, two entrances, an unloading ramp.",
     ),
     highlights: [

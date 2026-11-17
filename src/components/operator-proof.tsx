@@ -11,15 +11,15 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  * term, rent, turnover, exclusivity or partnership; a property is named under a brand only when the OWNER assigned it.
  */
 const copy = {
-  label: { ro: "Operatori în clădirile MEGAPARC", ru: "Операторы в зданиях MEGAPARC", en: "Operators in MEGAPARC buildings" },
+  label: { ro: "Operatori în clădirile MEGAPARC", ru: "Операторы в\u00a0зданиях MEGAPARC", en: "Operators in MEGAPARC buildings" },
   title: {
     ro: "Mărci care operează în proprietățile noastre.",
-    ru: "Бренды, которые работают в наших зданиях.",
+    ru: "Бренды, которые работают в\u00a0наших зданиях.",
     en: "Brands operating in our buildings.",
   },
   note: {
     ro: "Operatori confirmați de proprietar. Fără condiții comerciale, fără declarații de parteneriat.",
-    ru: "Операторы подтверждены собственником. Без коммерческих условий и заявлений о партнёрстве.",
+    ru: "Операторы подтверждены собственником. Без\u00a0коммерческих условий и\u00a0заявлений о\u00a0партнёрстве.",
     en: "Operators confirmed by the owner. No commercial terms, no partnership claims.",
   },
 } satisfies Record<string, Localized>;

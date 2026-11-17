@@ -140,7 +140,7 @@ const valueVerbs: Record<"acquire" | "develop" | "operate" | "reinvest", Localiz
   reinvest: { ro: "Reinvestim", ru: "Реинвестируем", en: "Reinvest" },
 };
 
-const devLabel: Localized = { ro: "proiect nou în dezvoltare", ru: "новый проект в работе", en: "a new project in progress" };
+const devLabel: Localized = { ro: "proiect nou în dezvoltare", ru: "новый проект в\u00a0работе", en: "a new project in progress" };
 
 export function ValueSequence({ locale, tone = "dark" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
   const p = (path: string) => localePath(locale, path);

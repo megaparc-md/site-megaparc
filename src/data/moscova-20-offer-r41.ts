@@ -12,19 +12,19 @@ export const offerR41 = {
    * OFERTĂ COMERCIALĂ · ÎNCHIRIERE / COMMERCIAL LEASING PROPOSAL — the document's approved name, never «презентация» */
   kicker: { ro: "Ofertă comercială · închiriere", ru: "Коммерческое предложение · аренда", en: "Commercial leasing proposal" },
   /** the PDF's own title (the tab of a PDF viewer) = the document name on every button of the site and the Pack (commercialCopy.offerTitle) */
-  title: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
+  title: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova\u00a020\u00a0— Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
   coverLevels: { ro: `Parter + demisol`, ru: `1‑й этаж + цоколь`, en: "Ground floor + lower ground" },
   captions: {
     space: { ro: "Parter · vitrina spre bulevard", ru: `1‑й этаж · витрина на${N}бульвар`, en: "Ground floor · the boulevard shopfront" },
     tech: { ro: "Demisol · trasee de ventilație, unitate split, calorifere", ru: "Цоколь · воздуховоды, сплит‑система, радиаторы", en: "Lower ground · ventilation ducts, a split unit, radiators" },
     formats: { ro: "Parter · sala deschisă", ru: "1‑й этаж · открытый зал", en: "Ground floor · the open hall" },
-    final: { ro: "Demisol · sala cu stâlpi", ru: "Цоколь · зал с колоннами", en: "Lower ground · the hall with columns" },
+    final: { ro: "Demisol · sala cu stâlpi", ru: "Цоколь · зал с\u00a0колоннами", en: "Lower ground · the hall with columns" },
   },
   conditionsTitle: { ro: "Garanție, cheltuieli,\nindexare.", ru: "Депозит, расходы,\nиндексация.", en: "Deposit, expenses,\nindexation." },
   /** the next step on the terms page — the individual offer goes to the confirmed e-mail (OWNER «PDF R5 ADDENDUM» §5) */
   individualLead: {
     ro: "Pentru formatul și suprafața dumneavoastră pregătim o ofertă individuală.",
-    ru: `Под ваш формат и${N}нужную площадь подготовим индивидуальное предложение.`,
+    ru: `Под${N}ваш формат и${N}нужную площадь подготовим индивидуальное предложение.`,
     en: "We'll prepare an individual offer for your format and the space you need.",
   },
   // OWNER R4.1 visual review P2 (2026-11-14): the official drawings are shown reduced — the scale belongs to the original; measure on the PDF
@@ -39,7 +39,7 @@ export const offerR41 = {
     label: { ro: "Dezvoltarea cartierului", ru: "Развитие района", en: "District development" },
     text: {
       ro: "Vizavi, peste bulevard, se află fosta uzină „Mezon”: pentru teritoriu a fost elaborat un proiect de plan urbanistic zonal (locuințe, comerț, birouri).",
-      ru: `Напротив, через бульвар,${N}— бывший завод «Мезон»: для территории разработан проект зонального плана (жильё, торговля, офисы).`,
+      ru: `Напротив, через бульвар,${N}— бывший завод «Мезон»: для${N}территории разработан проект зонального плана (жильё, торговля, офисы).`,
       en: "Across the boulevard lies the former Mezon plant: a draft zonal plan has been prepared for the site (housing, retail, offices).",
     },
     status: {

@@ -49,7 +49,7 @@ const copy = {
   decision: { ro: "Decizie privind conceptul", ru: "Решение по концепции", en: "Concept decision" },
   team: { ro: "Pe șantier", ru: "На площадке", en: "On site" },
   teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество проверяем на площадке, а не в презентациях: каждую неделю — работы, бюджет и график.", en: "Quality is controlled on site, not in presentations: the team reviews the works, budget and schedule every week." },
-  closeTitle: { ro: "Discutăm proiectul\u00a0— sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
+  closeTitle: { ro: "Discutați proiectul\u00a0— sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
   discuss: { ro: "Discutați o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" },
   land: { ro: "Propuneți un imobil sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },

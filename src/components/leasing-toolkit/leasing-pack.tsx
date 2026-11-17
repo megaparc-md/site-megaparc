@@ -46,7 +46,7 @@ const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB"
 const metres = (m: number, locale: SiteLocale) => m.toLocaleString(intl[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const planCopy = {
   title: { ro: "Planul spațiului", ru: "План помещения", en: "Premises plan" },
-  note: { ro: "Anexă la contractul de locațiune · Sc. 1:100", ru: "Приложение к договору аренды · М 1:100", en: "Lease agreement annex · Scale 1:100" },
+  note: { ro: "Anexă la contractul de locațiune · Sc. 1:100", ru: "Приложение к\u00a0договору аренды · М 1:100", en: "Lease agreement annex · Scale 1:100" },
 };
 /** which layer a documented room or mark belongs to (the dataset's zone kinds, never new geometry) */
 const zoneLayers: Record<ZoneKind, Exclude<LayerKey, "all">[]> = { sales: [], aux: ["logistics"], wc: ["sanitary"], tech: ["technical"], corridor: ["access", "logistics"], terrace: ["access"], ramp: ["access", "logistics"], stair: ["circulation"] };

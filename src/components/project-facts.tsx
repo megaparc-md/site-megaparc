@@ -20,7 +20,7 @@ export function ProjectFacts({ project, locale, className = "" }: { project: Pro
 const N = " ";
 /** One editorial line per building, written from the confirmed format and location only. */
 export const storyLine: Record<string, Localized> = {
-  "dacia-31": { ro: "Clădire de birouri independentă pentru o singură companie.", ru: "Отдельное офисное здание для одной компании.", en: "A stand-alone office building for one company." },
+  "dacia-31": { ro: "Clădire de birouri independentă pentru o singură companie.", ru: "Отдельное офисное здание для\u00a0одной компании.", en: "A stand-alone office building for one company." },
   "moscova-9": { ro: "Clădire comercială independentă pe bulevardul Moscova, în afara centrelor comerciale.", ru: `Отдельно стоящий торговый объект на${N}бульваре Москова${N}— вне торговых центров.`, en: "A stand-alone retail building on Moscova Boulevard, outside shopping centres." },
   "moscova-20": { ro: "Spațiu comercial pe prima linie, la intersecția bulevardului Moscova cu strada Matei Basarab.", ru: `Коммерческое помещение первой линии на${N}пересечении бульвара Москова и${N}улицы Матей Басараб.`, en: "A boulevard-front commercial space where Moscova Boulevard meets Matei Basarab Street." },
   "creanga-78": { ro: "Imobil comercial în exploatare în Chișinău.", ru: `Действующий коммерческий объект в${N}Кишинэу.`, en: "An operating commercial property in Chișinău." },

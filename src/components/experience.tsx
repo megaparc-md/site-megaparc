@@ -222,7 +222,7 @@ export function Val({ point, locale }: { point: DataPoint; locale: SiteLocale })
 
 const markerNote: Localized = {
   ro: "Previzualizare pentru aprobare. Unele cifre, texte, fotografii și video sunt demonstrative și nu reprezintă date MEGAPARC.",
-  ru: "Превью для согласования. Часть цифр, текстов, фотографий и видео — демонстрационные, это не данные MEGAPARC.",
+  ru: "Превью для\u00a0согласования. Часть цифр, текстов, фотографий и\u00a0видео\u00a0— демонстрационные, это не\u00a0данные MEGAPARC.",
   en: "Approval preview. Some figures, texts, photographs and video are demonstrations and are not MEGAPARC data.",
 };
 

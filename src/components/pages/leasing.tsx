@@ -80,7 +80,7 @@ const copy = {
     boardAll: "Все помещения",
     buildings: ["объект", "объекта", "объектов"],
     shortcutArea: "Помещения",
-    shortcutFood: "Для кафе и ресторана",
+    shortcutFood: "Для\u00a0кафе и\u00a0ресторана",
     shortcutAll: "Все помещения",
     availableLabel: "Сейчас сдаётся",
     availableTitle: "Всё, что свободно, — с полными данными.",
@@ -133,7 +133,7 @@ const copy = {
     reply: "Reply",
     viewing: "Viewing",
     closeLabel: "Didn't find what you need?",
-    closeTitle: "Tell us what you need — we'll let you know.",
+    closeTitle: "Tell us what you need — we'll keep you posted.",
     routes: [["Send a space request", "/contact?subject=lease#occupier"], ["All projects", "/projects"], ["Offer a property or land", "/offer"]],
   },
 } as const;
@@ -195,10 +195,10 @@ const r3Copy = {
   },
   ru: {
     open: "Смотреть объект", portfolio: (n: number) => `${n}${NB}объекта MEGAPARC${NB}— у${NB}каждого свой актуальный статус.`,
-    earlyCta: "Оставить заявку заранее", stepsLabel: "Как проходит аренда", advisorOpen: "Подобрать помещение под формат бизнеса",
+    earlyCta: "Оставить заявку заранее", stepsLabel: "Как проходит аренда", advisorOpen: "Подобрать помещение под\u00a0формат бизнеса",
     question: ["Что можно", "арендовать."],
     nowTitle: "Можно посмотреть сейчас", soonTitle: "Скоро",
-    soonNote: "Здание занято до указанной даты — планируйте локацию заранее.",
+    soonNote: "Здание занято до\u00a0указанной даты\u00a0— планируйте локацию заранее.",
     count: (now: number, soon: number) => `${now} ${now === 1 ? "предложение можно посмотреть" : "предложения можно посмотреть"} сейчас · ${soon} скоро`,
   },
   en: {
@@ -221,7 +221,7 @@ const whyCopy = {
   title: { ro: "De ce să închiriați de la MEGAPARC.", ru: `Почему арендовать у${NB}MEGAPARC.`, en: "Why lease from MEGAPARC." },
   team: { ro: "Directorul tehnic și arhitectul", ru: `Технический директор и${NB}архитектор`, en: "The Technical Director and the Architect" },
   feasibility: { ro: "Mai întâi tehnic, apoi comercial", ru: `Сначала техника, потом условия`, en: "Technical check first, terms second" },
-  owner: { ro: "Direct cu proprietarul", ru: "Напрямую с собственником", en: "Directly with the owner" },
+  owner: { ro: "Direct cu proprietarul", ru: "Напрямую с\u00a0собственником", en: "Directly with the owner" },
   ownerText: { ro: "Spațiul îl discutați cu MEGAPARC — proprietarul clădirii.", ru: `Помещение вы обсуждаете с${NB}MEGAPARC${NB}— владельцем здания.`, en: "You discuss the space with MEGAPARC — the owner of the building." },
   data: { ro: "Date verificabile", ru: "Проверяемые данные", en: "Verifiable data" },
   // the architectural plans exist for Moscova 20 only; the cadastral numbers for every property the OWNER approved

@@ -44,7 +44,7 @@ export const dacia31Experience: LeasingExperience = {
     decision: { label: T("Scenariul\nbiroului", "Расчёт\nплощади", "Office\nscenario"), word: T("Câtă suprafață îi trebuie echipei", "Сколько площади нужно команде", "How much space the team needs") },
   },
   summary: [
-    { key: "readiness", label: T("Pregătire", "Готовность", "Readiness"), title: T("Vizionare la cerere", "Просмотр по запросу", "Viewing on request"), text: T("Clădirea se închiriază; suprafața și termenul se confirmă individual, după vizionare.", "Здание сдаётся в аренду; площадь и сроки подтверждаем индивидуально, после просмотра.", "The building is for lease; the area and timing are confirmed individually, after a viewing.") },
+    { key: "readiness", label: T("Pregătire", "Готовность", "Readiness"), title: T("Vizionare la cerere", "Просмотр по запросу", "Viewing on request"), text: T("Clădirea se închiriază; suprafața și data disponibilității se confirmă individual, după vizionare.", "Здание сдаётся в аренду; площадь и сроки подтверждаем индивидуально, после просмотра.", "The building is for lease; the area and timing are confirmed individually, after a viewing.") },
     { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), title: T("Fațadă vizibilă", "Заметный фасад", "A visible facade"), text: T("La intrarea în oraș dinspre aeroport.", "На въезде в город со стороны аэропорта.", "On the main approach from the airport.") },
     { key: "area", label: T("Suprafață", "Площадь", "Area"), title: T("8 spații înregistrate", "8 зарегистрированных помещений", "8 registered premises"), text: T("Suprafața înregistrată — nu este suprafața disponibilă pentru închiriere.", "Зарегистрированная площадь — это не свободная площадь для аренды.", "The registered area — not the area available for lease.") },
   ],
@@ -62,7 +62,7 @@ export const dacia31Experience: LeasingExperience = {
     items: [
       { key: "own", no: "01", label: T("Clădire proprie", "Своё здание", "A stand-alone building"), text: T("Fără hol, fațadă sau adresă comune cu alți chiriași.", "Без общего холла, фасада и адреса с другими арендаторами.", "No lobby, facade or address shared with other tenants.") },
       { key: "access", no: "02", label: T("Acces centralizat", "Единый доступ", "Single access control"), text: T("Intrare proprie, 4+ variante de acces.", "Собственный вход, 4+ варианта доступа.", "Own entrance, 4+ access options.") },
-      { key: "floors", no: "03", label: T("Etaje mari", "Просторные этажи", "Large floors"), text: T("Organizare pe niveluri sau pe funcții.", "Размещение по уровням или функциям.", "Arranged by level or by function.") },
+      { key: "floors", no: "03", label: T("Etaje mari", "Просторные этажи", "Large floor plates"), text: T("Organizare pe niveluri sau pe funcții.", "Размещение по уровням или функциям.", "Configurable by floor or by function.") },
     ],
   },
 
@@ -147,7 +147,7 @@ export const dacia31Experience: LeasingExperience = {
       tab: T("Clădirea", "Здание", "Building"),
       title: T("Planurile etajelor", "Поэтажные планы", "Floor plans"),
       text: T("Le pregătim pentru vizionare și pentru verificarea tehnică a cerințelor dumneavoastră.", "Подготовим к просмотру и технической проверке ваших требований.", "We'll prepare them for the viewing and the technical check of your requirements."),
-      floors: [T("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический этаж", "Lower ground + 3 floors + technical floor"), T("Suprafața și termenul — la cerere", "Площадь и сроки — по запросу", "Area and timing — on request")],
+      floors: [T("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический этаж", "Lower ground + 3 floors + technical floor"), T("Suprafața și data disponibilității — la cerere", "Площадь и сроки — по запросу", "Area and timing — on request")],
     },
   },
 
@@ -158,8 +158,8 @@ export const dacia31Experience: LeasingExperience = {
     photo: null,
     readyTitle: T("Deja există", "Уже есть", "Already in place"),
     ready: [
-      fact(T("Intrare proprie", "Собственный вход", "Own entrance"), "OWNER_CONFIRMED", OWNER),
-      fact(T("Etaje mari", "Просторные этажи", "Large floors"), "OWNER_CONFIRMED", OWNER),
+      fact(T("Intrare proprie", "Собственный вход", "Dedicated entrance"), "OWNER_CONFIRMED", OWNER),
+      fact(T("Etaje mari", "Просторные этажи", "Large floor plates"), "OWNER_CONFIRMED", OWNER),
       fact(T("Rețele inginerești", "Инженерные сети", "Building services"), "OWNER_CONFIRMED", OWNER),
       fact(T("Tubulatură de aer", "Воздуховоды", "Ductwork"), "OWNER_CONFIRMED", OWNER),
       fact(T("Fațadă vizibilă", "Заметный фасад", "A visible facade"), "OWNER_CONFIRMED", OWNER),

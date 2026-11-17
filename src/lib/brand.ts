@@ -24,7 +24,7 @@ export const brandLayers = {
   /** Business model — three directions (OWNER brief 2026-10-08). Hold or sell and reinvestment are supporting logic. */
   model: {
     ro: "Investiții imobiliare · Dezvoltare · Închiriere",
-    ru: "Инвестиции в недвижимость · Девелопмент · Аренда",
+    ru: "Инвестиции в\u00a0недвижимость · Девелопмент · Аренда",
     en: "Real estate investment · Development · Leasing",
   } satisfies Localized,
   /** Positioning. */
@@ -94,7 +94,7 @@ export const brandColours: BrandColour[] = [
   { name: "Paper / Ivory", role: { ro: "Fundal principal", ru: "Основной фон", en: "Primary ground" }, hex: "#F3F1EC", rgb: "243 241 236", token: "--paper", status: "supporting" },
   { name: "Soft Grey", role: { ro: "Text secundar · linii", ru: "Вторичный текст · линии", en: "Secondary text · rules" }, hex: "#8A8E94", rgb: "138 142 148", token: "--grey", status: "supporting" },
   { name: "Burgundy Deep", role: { ro: "Hover pe butoane · accent profund", ru: "Hover кнопок · глубокий акцент", en: "Button hover · deep accent" }, hex: "#5C1925", rgb: "92 25 37", token: "--brand-deep", status: "supporting" },
-  { name: "Burgundy Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F3E7E8", rgb: "243 231 232", token: "--brand-tint", status: "supporting" },
+  { name: "Burgundy Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на\u00a0светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F3E7E8", rgb: "243 231 232", token: "--brand-tint", status: "supporting" },
 ];
 
 export const gradientPolicy = {

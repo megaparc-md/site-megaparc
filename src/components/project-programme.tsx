@@ -26,7 +26,7 @@ const copy = {
   relatedLabel: { ro: "Clădirea existentă", ru: "Действующее здание", en: "The existing building" },
   relatedText: {
     ro: "Proiect separat de clădirea de birouri Dacia 31 aflată în exploatare.",
-    ru: "Отдельный проект — не действующее офисное здание Dacia 31.",
+    ru: "Отдельный проект\u00a0— не\u00a0действующее офисное здание Dacia\u00a031.",
     en: "A separate project from the operating Dacia 31 office building.",
   },
   pending: {
@@ -35,7 +35,7 @@ const copy = {
     en: "The stage, timeline, use and architecture will be published once approved.",
   },
   openRelated: { ro: "Vedeți clădirea Dacia 31", ru: "Смотреть здание Dacia\u00a031", en: "View the Dacia 31 building" },
-  closeTitle: { ro: "Discutăm proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
+  closeTitle: { ro: "Discutați proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
   discuss: { ro: "Discutați o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" },
   land: { ro: "Propuneți un imobil sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },

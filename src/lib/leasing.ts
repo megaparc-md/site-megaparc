@@ -39,10 +39,10 @@ export const needOrder: SpaceNeed[] = ["visibility", "flow", "parking", "ground"
  * submitted data do not change.
  */
 export const needGroups: { key: string; label: Localized; needs: SpaceNeed[] }[] = [
-  { key: "location", label: { ro: "Locație și vizibilitate", ru: "Локация и видимость", en: "Location and visibility" }, needs: ["visibility", "flow"] },
-  { key: "access", label: { ro: "Acces și logistică", ru: "Доступ и логистика", en: "Access and logistics" }, needs: ["ground", "entrance", "parking", "delivery"] },
-  { key: "engineering", label: { ro: "Inginerie și utilități", ru: "Инженерия и мощности", en: "Engineering and utilities" }, needs: ["power", "ventilation"] },
-  { key: "format", label: { ro: "Format și flexibilitate", ru: "Формат и гибкость", en: "Format and flexibility" }, needs: ["flexible", "fast"] },
+  { key: "location", label: { ro: "Locație și vizibilitate", ru: "Локация и\u00a0видимость", en: "Location and visibility" }, needs: ["visibility", "flow"] },
+  { key: "access", label: { ro: "Acces și logistică", ru: "Доступ и\u00a0логистика", en: "Access and logistics" }, needs: ["ground", "entrance", "parking", "delivery"] },
+  { key: "engineering", label: { ro: "Inginerie și utilități", ru: "Инженерия и\u00a0мощности", en: "Engineering and utilities" }, needs: ["power", "ventilation"] },
+  { key: "format", label: { ro: "Format și flexibilitate", ru: "Формат и\u00a0гибкость", en: "Format and flexibility" }, needs: ["flexible", "fast"] },
 ];
 
 export const fitCopy = {

@@ -35,7 +35,7 @@ export const pageSeo = {
   home: {
     title: {
       ro: "MEGAPARC — investiții imobiliare, dezvoltare și închiriere de spații comerciale",
-      ru: "MEGAPARC — инвестиции, девелопмент и аренда коммерческой недвижимости",
+      ru: "MEGAPARC\u00a0— инвестиции, девелопмент и\u00a0аренда коммерческой недвижимости",
       en: "MEGAPARC — commercial real estate investment, development and leasing",
     },
     description: {
@@ -45,7 +45,7 @@ export const pageSeo = {
     },
   },
   about: {
-    title: { ro: "Despre MEGAPARC — investiții, dezvoltare, închiriere", ru: "О компании MEGAPARC — инвестиции, девелопмент, аренда", en: "About MEGAPARC — investment, development, leasing" },
+    title: { ro: "Despre MEGAPARC — investiții, dezvoltare, închiriere", ru: "О\u00a0компании MEGAPARC\u00a0— инвестиции, девелопмент, аренда", en: "About MEGAPARC — investment, development, leasing" },
     description: {
       ro: "MEGAPARC achiziționează imobile comerciale și terenuri, dezvoltă și reconstruiește proiecte proprii și închiriază spații în clădirile sale. Fondată în 2005.",
       ru: "MEGAPARC приобретает коммерческие объекты и\u00a0землю, строит собственные проекты, реконструирует свои здания и\u00a0сдаёт в\u00a0них площади в\u00a0аренду. Основана в\u00a02005\u00a0году.",
@@ -56,7 +56,7 @@ export const pageSeo = {
     title: { ro: "Istoric — cronica grupului și a MEGAPARC", ru: "История — хроника группы и MEGAPARC", en: "History — the chronicle of the group and MEGAPARC" },
     description: {
       ro: "Din 1991: comerț, producție, logistică, finanțe, agrobusiness, proiecte internaționale. MEGAPARC, fondată în 2005; din 2020\u00a0— accentul pe imobiliare.",
-      ru: "С 1991 года: розница, производство, логистика, финансы, агробизнес, международные проекты. MEGAPARC основана в 2005 году; с 2020‑го — фокус на недвижимости.",
+      ru: "С\u00a01991\u00a0года: розница, производство, логистика, финансы, агробизнес, международные проекты. MEGAPARC основана в\u00a02005\u00a0году; с\u00a02020\u2011го\u00a0— фокус на\u00a0недвижимости.",
       en: "Since 1991: retail, manufacturing, logistics, finance, agribusiness, international projects. MEGAPARC was founded in 2005; real estate has been the focus since 2020.",
     },
   },
@@ -64,7 +64,7 @@ export const pageSeo = {
     title: { ro: "Proiecte MEGAPARC\u00a0— proprietăți, dezvoltare, terenuri", ru: "Проекты MEGAPARC — объекты, девелопмент, земля", en: "MEGAPARC projects — properties, development, land" },
     description: {
       ro: "Proprietățile comerciale MEGAPARC din Chișinău, proiectul VATRA și terenul Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
-      ru: "Коммерческие объекты MEGAPARC в Кишинэу, проект VATRA и участок Drochia: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      ru: "Коммерческие объекты MEGAPARC в\u00a0Кишинэу, проект VATRA и\u00a0участок Drochia: Dacia\u00a031, Moscova\u00a09, Moscova\u00a020, Creangă\u00a078.",
       en: "MEGAPARC's commercial properties in Chișinău — Dacia 31, Moscova 9, Moscova 20, Creangă 78 — the VATRA project and the Drochia site.",
     },
   },
@@ -77,7 +77,7 @@ export const pageSeo = {
     },
   },
   partnership: {
-    title: { ro: "Parteneriat investițional — MEGAPARC", ru: "Инвестиционное партнёрство — MEGAPARC", en: "Investment partnership — MEGAPARC" },
+    title: { ro: "Parteneriat investițional — MEGAPARC", ru: "Инвестиционное партнёрство\u00a0— MEGAPARC", en: "Investment partnership — MEGAPARC" },
     description: {
       ro: "Pentru investitori, bănci și parteneri: ce analizează MEGAPARC, ce aduce fiecare parte, imobilele în exploatare și proiectele de dezvoltare.",
       ru: "Для\u00a0инвесторов, банков и\u00a0партнёров: что рассматривает MEGAPARC, что вносит каждая сторона, действующие объекты и\u00a0проекты развития.",
@@ -101,10 +101,10 @@ export const pageSeo = {
     },
   },
   contact: {
-    title: { ro: "Contact — MEGAPARC", ru: "Контакты — MEGAPARC", en: "Contact — MEGAPARC" },
+    title: { ro: "Contact — MEGAPARC", ru: "Контакты\u00a0— MEGAPARC", en: "Contact — MEGAPARC" },
     description: {
       ro: "Contactați MEGAPARC: închiriere, parteneriat investițional, propunerea unui imobil sau teren, cariere, întrebări generale.",
-      ru: "Связаться с MEGAPARC: аренда, инвестиционное партнёрство, предложение объекта или земли, вакансии, общие вопросы.",
+      ru: "Связаться с\u00a0MEGAPARC: аренда, инвестиционное партнёрство, предложение объекта или земли, вакансии, общие вопросы.",
       en: "Contact MEGAPARC: leasing, investment partnership, offering a property or land, careers, general questions.",
     },
   },
@@ -143,7 +143,7 @@ type ShareImage = { url: string; width: number; height: number; alt: string; typ
  * shown by every messenger; the dimensions and the alt text travel with it.
  */
 function m20ShareImage(locale: SiteLocale): ShareImage {
-  const alt: Localized = { ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău", ru: "Moscova 20 — коммерческое помещение 625,7 м² на бульваре Москова, Кишинэу", en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău" };
+  const alt: Localized = { ro: "Moscova 20 — spațiu comercial de 625,7 m² pe bulevardul Moscova, Chișinău", ru: "Moscova\u00a020\u00a0— коммерческое помещение 625,7\u00a0м² на\u00a0бульваре Москова, Кишинэу", en: "Moscova 20 — a 625.7 m² commercial space on Moscova Boulevard, Chișinău" };
   return { url: `/assets/leasing/moscova-20/share/moscova-20-share-${locale}.jpg`, width: 1200, height: 630, alt: alt[locale], type: "image/jpeg" };
 }
 
@@ -185,10 +185,10 @@ export function projectMetadata(locale: SiteLocale, slug: string): Metadata {
 export function packMetadata(locale: SiteLocale): Metadata {
   // OWNER «FINAL 2-DAY DELIVERY MANDATE» §05 (2026-11-14): the link card says what the recipient opens — never a price
   const copy: PageCopy = {
-    title: { ro: "Moscova 20 · 625,7 m² pe bulevardul Moscova · Leasing Pack · MEGAPARC", ru: "Moscova 20 · 625,7 м² на бульваре Москова · Leasing Pack · MEGAPARC", en: "Moscova 20 · 625.7 m² on Moscova Boulevard · Leasing Pack · MEGAPARC" },
+    title: { ro: "Moscova 20 · 625,7 m² pe bulevardul Moscova · Leasing Pack · MEGAPARC", ru: "Moscova\u00a020 · 625,7\u00a0м² на\u00a0бульваре Москова · Leasing Pack · MEGAPARC", en: "Moscova 20 · 625.7 m² on Moscova Boulevard · Leasing Pack · MEGAPARC" },
     description: {
       ro: "Spațiu comercial în Chișinău, parter + demisol: oferta comercială, planurile oficiale, datele tehnice și cererea de vizionare.",
-      ru: "Коммерческое помещение в Кишинэу, 1‑й этаж + цоколь: коммерческое предложение, официальные планы, технические данные и запрос на просмотр.",
+      ru: "Коммерческое помещение в\u00a0Кишинэу, 1\u2011й этаж + цоколь: коммерческое предложение, официальные планы, технические данные и\u00a0запрос на\u00a0просмотр.",
       en: "A commercial space in Chișinău, ground + lower ground: the commercial leasing proposal, the official plans, the technical data and a viewing request.",
     },
   };
@@ -197,17 +197,17 @@ export function packMetadata(locale: SiteLocale): Metadata {
 
 /** The A4 print source of the PDF dossier — internal: noindex, removed from the production artifact. */
 export function dossierPrintMetadata(locale: SiteLocale): Metadata {
-  return buildMetadata(locale, "/leasing/moscova-20/dossier-print", { title: { ro: "Moscova 20 — dosar (sursă de tipar)", ru: "Moscova 20 — досье (источник для печати)", en: "Moscova 20 — dossier (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
+  return buildMetadata(locale, "/leasing/moscova-20/dossier-print", { title: { ro: "Moscova 20 — dosar (sursă de tipar)", ru: "Moscova\u00a020\u00a0— досье (источник для\u00a0печати)", en: "Moscova 20 — dossier (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
 }
 
 /** the internal A4 source of the commercial offer (brochure R2) — same rules as the dossier print source: noindex, never public */
 export function offerPrintMetadata(locale: SiteLocale): Metadata {
-  return buildMetadata(locale, "/leasing/moscova-20/offer-print", { title: { ro: "Moscova 20 — ofertă comercială (sursă de tipar)", ru: "Moscova 20 — коммерческое предложение (источник для печати)", en: "Moscova 20 — commercial offer (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
+  return buildMetadata(locale, "/leasing/moscova-20/offer-print", { title: { ro: "Moscova 20 — ofertă comercială (sursă de tipar)", ru: "Moscova\u00a020\u00a0— коммерческое предложение (источник для\u00a0печати)", en: "Moscova 20 — commercial offer (print source)" }, description: { ro: "Sursa internă a PDF-ului.", ru: "Внутренний источник PDF.", en: "Internal source of the PDF." } }, { noindex: true });
 }
 
 /** the CFO-model prototype (OWNER R10 §04) — internal, noindex, OWNER preview only; stripped from the production artifact */
 export function producerEconomicsMetadata(locale: SiteLocale): Metadata {
-  return buildMetadata(locale, "/producer-economics", { title: { ro: "Rețele comerciale, magazin propriu sau ambele canale — calculator · MEGAPARC", ru: "Торговые сети, собственный магазин или оба канала — калькулятор · MEGAPARC", en: "Retail chains, your own store or both channels — calculator · MEGAPARC" }, description: { ro: "Comparați trei scenarii pe cifrele dumneavoastră: contribuția operațională, banii de start, pragul de rentabilitate și termenul de recuperare. Evaluare preliminară, nu o prognoză.", ru: "Сравните три сценария на своих цифрах: операционный вклад, деньги на старте, безубыточность и срок окупаемости. Предварительная оценка, а не прогноз.", en: "Compare three scenarios on your own figures: operating contribution, cash at the start, break-even and payback. A preliminary assessment, not a forecast." } });
+  return buildMetadata(locale, "/producer-economics", { title: { ro: "Rețele comerciale, magazin propriu sau ambele canale — calculator · MEGAPARC", ru: "Торговые сети, собственный магазин или оба канала\u00a0— калькулятор · MEGAPARC", en: "Retail chains, your own store or both channels — calculator · MEGAPARC" }, description: { ro: "Comparați trei scenarii pe cifrele dumneavoastră: contribuția operațională, banii de start, pragul de rentabilitate și termenul de recuperare. Evaluare preliminară, nu o prognoză.", ru: "Сравните три сценария на\u00a0своих цифрах: операционный вклад, деньги на\u00a0старте, безубыточность и\u00a0срок окупаемости. Предварительная оценка, а\u00a0не\u00a0прогноз.", en: "Compare three scenarios on your own figures: operating contribution, cash at the start, break-even and payback. A preliminary assessment, not a forecast." } });
 }
 
 export function spaceMetadata(locale: SiteLocale, id: string): Metadata {

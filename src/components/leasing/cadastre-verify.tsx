@@ -17,7 +17,7 @@ const copy = {
     en: "The property can be checked by its cadastral number on the official e-Cadastru portal.",
   },
   copyNumber: { ro: "Copiați numărul", ru: "Скопировать номер", en: "Copy the number" },
-  open: { ro: "Verificați imobilul în e-Cadastru ↗", ru: "Проверить объект в e‑Cadastru ↗", en: "Verify the property in e-Cadastru ↗" },
+  open: { ro: "Verificați imobilul în e-Cadastru ↗", ru: "Проверить объект в\u00a0e\u2011Cadastru ↗", en: "Verify the property in e-Cadastru ↗" },
   // OWNER «LEASING TEMPLATE LOCK» §11 (2026-11-10): the same component on every leasing object — one number, the list of registered premises, or the number being verified
   titleMany: { ro: "Numerele cadastrale ale spațiilor", ru: "Кадастровые номера помещений", en: "Cadastral numbers of the premises" },
   textMany: {
@@ -25,7 +25,7 @@ const copy = {
     ru: "Зарегистрированные помещения можно проверить по\u00a0кадастровым номерам на\u00a0официальном портале e\u2011Cadastru.",
     en: "The registered premises can be checked by their cadastral numbers on the official e-Cadastru portal.",
   },
-  openMany: { ro: "Verificați numerele în e-Cadastru ↗", ru: "Проверить номера в e‑Cadastru ↗", en: "Verify the numbers in e-Cadastru ↗" },
+  openMany: { ro: "Verificați numerele în e-Cadastru ↗", ru: "Проверить номера в\u00a0e\u2011Cadastru ↗", en: "Verify the numbers in e-Cadastru ↗" },
   total: { ro: "Total înregistrat", ru: "Итого зарегистрировано", en: "Registered in total" },
   pending: { ro: "Numărul cadastral este în curs de verificare", ru: "Кадастровый номер проверяется", en: "Cadastral number is being verified" },
   pendingText: {
@@ -37,7 +37,7 @@ const copy = {
   premises: { ro: "Numerele cadastrale ale spațiilor:", ru: "Кадастровые номера помещений:", en: "Cadastral numbers of the premises:" },
   copied: {
     ro: "Numărul a fost copiat — inserați-l în căutarea e-Cadastru.",
-    ru: "Номер скопирован — вставьте его в поиск e‑Cadastru.",
+    ru: "Номер скопирован\u00a0— вставьте его в\u00a0поиск e\u2011Cadastru.",
     en: "Number copied — paste it into the e-Cadastru search.",
   },
 } satisfies Record<string, Localized>;

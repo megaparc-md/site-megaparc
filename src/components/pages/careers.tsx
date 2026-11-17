@@ -54,9 +54,9 @@ const copy = {
     workLabel: "Над чем вы будете работать",
     workTitle: "На объектах и проектах, которые можно увидеть завтра.",
     workLines: {
-      "dacia-31": "Подготовка здания к новому пользователю с 2027 года: аудит, инженерия, планировки.",
+      "dacia-31": "Подготовка здания к\u00a0новому пользователю с\u00a02027\u00a0года: аудит, инженерия, планировки.",
       "moscova-9": "Работа с брендом-арендатором: фасад, логистика, эксплуатация.",
-      "moscova-20": "Запуск помещения под новый формат с августа 2026 года.",
+      "moscova-20": "Запуск помещения под\u00a0новый формат с\u00a0августа 2026\u00a0года.",
       "creanga-78": "Здание, где много арендаторов: обслуживание и сервис.",
       vatra: "Строительство: качество, бюджет, график.",
       "drochia": "Оценка участка: градостроительство, концепции, экономика.",
@@ -123,7 +123,7 @@ const workConcept: Partial<Record<string, string>> = { "drochia": "project.droch
 const productionCopy = {
   label: { ro: "Cariere", ru: "Вакансии", en: "Careers" },
   title: { ro: "Momentan nu avem posturi vacante.", ru: "Открытых вакансий сейчас нет.", en: "There are no open vacancies right now." },
-  contact: { ro: "Întrebări despre lucrul la MEGAPARC — prin e-mail sau telefon.", ru: "Вопросы о работе в MEGAPARC — по e‑mail или телефону.", en: "Questions about working at MEGAPARC — by e-mail or telephone." },
+  contact: { ro: "Întrebări despre lucrul la MEGAPARC — prin e-mail sau telefon.", ru: "Вопросы о\u00a0работе в\u00a0MEGAPARC\u00a0— по\u00a0e\u2011mail или телефону.", en: "Questions about working at MEGAPARC — by e-mail or telephone." },
 };
 
 function CareersProductionPage({ locale }: { locale: SiteLocale }) {

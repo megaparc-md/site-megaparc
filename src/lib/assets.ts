@@ -130,7 +130,7 @@ export const portfolioAssets: PortfolioAsset[] = [
         "Infrastructura inginerească a clădirii există deja: rețele și instalații, tubulatură de aer, trasee de alimentare electrică și curenți slabi. Capacitățile exacte se stabilesc printr-un audit tehnic și se adaptează la cerințele utilizatorului.",
       ],
       ru: [
-        "Dacia 31 — не этаж в бизнес-центре, а отдельное здание. Компания получает собственный вход, единый контроль доступа и фасад, на котором может разместить своё название.",
+        "Dacia\u00a031\u00a0— не\u00a0этаж в\u00a0бизнес-центре, а\u00a0отдельное здание. Компания получает собственный вход, единый контроль доступа и\u00a0фасад, на\u00a0котором может разместить своё название.",
         "Четыре больших уровня и технический этаж: все подразделения — в одном здании, а пространство можно перестраивать по мере роста.",
         "Инженерия в здании уже есть: сети, воздуховоды, трассы электроснабжения и слаботочных систем. Точные мощности покажет технический аудит — их адаптируют под пользователя.",
       ],
@@ -205,7 +205,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     availability: {
       headline: {
         ro: "5.223 m² sunt disponibili de la 1 ianuarie 2027 pentru sediul unei singure companii.",
-        ru: "5 223 м² доступны с 1 января 2027 года для размещения одной компании.",
+        ru: "5\u00a0223\u00a0м² доступны с\u00a01\u00a0января 2027\u00a0года для\u00a0размещения одной компании.",
         en: "5,223 m² are available from 1 January 2027 for a single company's headquarters.",
       },
       area: { ro: "5.223 m²", ru: "5 223 м²", en: "5,223 m²" },
@@ -253,7 +253,7 @@ export const portfolioAssets: PortfolioAsset[] = [
         "Bulevardul aduce un flux constant de mașini și pietoni, parcare de-a lungul drumului și un cartier rezidențial dens în jur. Fațada lungă de pe prima linie se vede bine din stradă.",
       ],
       ru: [
-        "В торговом центре бренд арендует секцию. На Moscova 9 бренд получает отдельное здание: собственное оформление фасада и вывески, свой вход и свой торговый зал — в рамках согласованных технических и юридических условий.",
+        "В\u00a0торговом центре бренд арендует секцию. На\u00a0Moscova\u00a09 бренд получает отдельное здание: собственное оформление фасада и\u00a0вывески, свой вход и\u00a0свой торговый зал\u00a0— в\u00a0рамках согласованных технических и\u00a0юридических условий.",
         "Основной торговый зал площадью 737,07 м² дополнен зоной разгрузки с рампой и помещениями для склада, логистики, офиса и охраны. Товар и покупатели не пересекаются.",
         "Бульвар даёт постоянный поток автомобилей и пешеходов, парковку вдоль дороги и плотный жилой район вокруг. Протяжённый фасад на первой линии хорошо виден с улицы.",
       ],
@@ -361,7 +361,7 @@ export const portfolioAssets: PortfolioAsset[] = [
         "Spațiul ocupă parterul și demisolul: 458,86 m² suprafață netă de vânzare și o terasă. Se potrivește pentru retail alimentar, servicii, showroom sau comerț specializat.",
       ],
       ru: [
-        "Moscova 20 стоит на бульваре, по которому жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка.",
+        "Moscova\u00a020 стоит на\u00a0бульваре, по\u00a0которому жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и\u00a0сервисы, выделенная парковка.",
         "Панорамный фасад превращает помещение в сплошную витрину. Вход для покупателей и отдельный служебный доступ с рампой разводят покупателей и товар.",
         "Помещение занимает первый и цокольный этажи: чистая торговая площадь 458,86 м² и терраса. Подходит для продуктового ритейла, услуг, шоурума или специализированной торговли.",
       ],
@@ -398,7 +398,7 @@ export const portfolioAssets: PortfolioAsset[] = [
         { label: { ro: "Parter", ru: "Первый этаж", en: "Ground floor" }, value: { ro: "240,96 m² · vânzare 195,46 m²", ru: "240,96 м² · торговая 195,46 м²", en: "240.96 m² · sales 195.46 m²" } },
         { label: { ro: "Demisol", ru: "Цокольный этаж", en: "Lower ground" }, value: { ro: "293,70 m² · vânzare 263,40 m²", ru: "293,70 м² · торговая 263,40 м²", en: "293.70 m² · sales 263.40 m²" } },
         { label: { ro: "Terasă", ru: "Терраса", en: "Terrace" }, value: { ro: "91,03 m²", ru: "91,03 м²", en: "91.03 m²" } },
-        { label: { ro: "Înălțime utilă", ru: "Высота помещений", en: "Ceiling height" }, value: { ro: "parter ≈ 3,0 m · demisol ≈ 2,8 m", ru: "1‑й этаж ≈ 3,0 м · цоколь ≈ 2,8 м", en: "ground floor ≈ 3.0 m · lower ground ≈ 2.8 m" } },
+        { label: { ro: "Înălțime utilă", ru: "Высота помещений", en: "Ceiling height" }, value: { ro: "parter ≈ 3,0 m · demisol ≈ 2,8 m", ru: "1\u2011й этаж ≈ 3,0\u00a0м · цоколь ≈ 2,8\u00a0м", en: "ground floor ≈ 3.0 m · lower ground ≈ 2.8 m" } },
       ],
       features: [
         { ro: "Fațadă panoramică cu loc pentru firmă", ru: "Панорамный фасад с местом для вывески", en: "Panoramic frontage with room for signage" },
@@ -435,7 +435,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     // the pedestrian estimate and the ≈ 50 kVA figure are retired (OWNER Moscova 20 mandate 2026-11-06 §4, §12)
     caveat: {
       ro: "Înălțimile libere sunt aproximative. Hota se confirmă pentru formatul concret.",
-      ru: "Высота помещений — ориентировочная. Вытяжка подтверждается под конкретный формат.",
+      ru: "Высота помещений\u00a0— ориентировочная. Вытяжка подтверждается под\u00a0конкретный формат.",
       en: "Clear heights are approximate. Extraction is confirmed for the specific format.",
     },
   },
@@ -461,7 +461,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     story: {
       ro: ["Creangă 78 este un obiect MEGAPARC în funcțiune. Datele despre localizare, clădire și destinație vor fi publicate pe măsură ce sunt aprobate."],
-      ru: ["Creangă 78 — действующий объект MEGAPARC. Сведения о расположении, здании и назначении будут опубликованы по мере утверждения."],
+      ru: ["Creangă\u00a078\u00a0— действующий объект MEGAPARC. Сведения о\u00a0расположении, здании и\u00a0назначении будут опубликованы по\u00a0мере утверждения."],
       en: ["Creangă 78 is an operating MEGAPARC property. Details on location, building and use will be published as they are approved."],
     },
     keyFacts: [],

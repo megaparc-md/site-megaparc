@@ -17,16 +17,16 @@ export const tenantCabinet = {
   externalUrl: null as string | null,
   // the hidden OWNER demo (synthetic data, direct URL only) lives in src/data/tenant-cabinet-demo.ts — deliberately not referenced
   // here: this object reaches the public navigation bundle, which must not name the demo route
-  label: { ro: "Pentru chiriașii actuali", ru: "Для действующих арендаторов", en: "For existing tenants" } satisfies Localized,
-  action: { ro: "Intră în cabinet", ru: "Войти в кабинет", en: "Tenant portal" } satisfies Localized,
+  label: { ro: "Pentru chiriașii actuali", ru: "Для\u00a0действующих арендаторов", en: "For existing tenants" } satisfies Localized,
+  action: { ro: "Intră în cabinet", ru: "Войти в\u00a0кабинет", en: "Tenant portal" } satisfies Localized,
   /** the informational page (OPTION B) — kept for the day the OWNER prefers it before launch; not rendered under OPTION A */
   page: {
     title: { ro: "Cabinetul chiriașului", ru: "Кабинет арендатора", en: "Tenant portal" } satisfies Localized,
-    statement: { ro: "Serviciul digital pentru chiriașii actuali MEGAPARC se pregătește de lansare.", ru: "Цифровой сервис для действующих арендаторов MEGAPARC готовится к запуску.", en: "The digital service for existing MEGAPARC tenants is being prepared for launch." } satisfies Localized,
+    statement: { ro: "Serviciul digital pentru chiriașii actuali MEGAPARC se pregătește de lansare.", ru: "Цифровой сервис для\u00a0действующих арендаторов MEGAPARC готовится к\u00a0запуску.", en: "The digital service for existing MEGAPARC tenants is being prepared for launch." } satisfies Localized,
     planned: [
-      { ro: "facturi și calcule", ru: "счета и начисления", en: "invoices and charges" },
+      { ro: "facturi și calcule", ru: "счета и\u00a0начисления", en: "invoices and charges" },
       { ro: "documente", ru: "документы", en: "documents" },
-      { ro: "solicitări privind obiectul", ru: "обращения по объекту", en: "property requests" },
+      { ro: "solicitări privind obiectul", ru: "обращения по\u00a0объекту", en: "property requests" },
       { ro: "contactele responsabililor", ru: "контакты ответственных", en: "contacts of the people responsible" },
     ] satisfies Localized[],
   },

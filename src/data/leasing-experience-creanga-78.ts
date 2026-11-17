@@ -55,7 +55,7 @@ export const creanga78Experience: LeasingExperience = {
     kind: "waitlist",
     teaser: {
       title: T("Când se eliberează un spațiu?", "Когда освободится помещение?", "When will a space become available?"),
-      text: T("Lăsați formatul și suprafața de care aveți nevoie — vă anunțăm când se eliberează un spațiu.", "Оставьте формат и нужную площадь — сообщим, когда освободится помещение.", "Leave your format and the area you need — we'll let you know when a space becomes available."),
+      text: T("Lăsați formatul și suprafața de care aveți nevoie — vă anunțăm când se eliberează un spațiu.", "Укажите формат и нужную площадь — сообщим, когда освободится помещение.", "Leave your format and the area you need — we'll let you know when a space becomes available."),
     },
   },
 

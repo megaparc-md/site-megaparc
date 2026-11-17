@@ -340,7 +340,7 @@ export const projects: ProjectEntry[] = [
     city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     format: { ro: "Proiect de dezvoltare · 3 clădiri", ru: "Проект развития · 3 здания", en: "Development project · 3 buildings" },
     formatDemo: false,
-    line: { ro: "Un proiect de dezvoltare separat la Dacia 31: trei clădiri de ≈ 1.600 m² fiecare.", ru: "Отдельный проект развития на Dacia 31: три здания по ≈ 1 600 м².", en: "A separate development project at Dacia 31: three buildings of ≈ 1,600 m² each." },
+    line: { ro: "Un proiect de dezvoltare separat la Dacia 31: trei clădiri de ≈ 1.600 m² fiecare.", ru: "Отдельный проект развития на\u00a0Dacia\u00a031: три здания по\u00a0≈ 1 600\u00a0м².", en: "A separate development project at Dacia 31: three buildings of ≈ 1,600 m² each." },
     now: projectNow["dacia-31-development"],
     media: null,
     facts: [{ label: { ro: "Clădiri", ru: "Здания", en: "Buildings" }, point: daciaDevelopment.buildings }, { label: { ro: "Suprafață planificată", ru: "Планируемая площадь", en: "Planned area" }, point: daciaDevelopment.total }],

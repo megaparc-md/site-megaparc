@@ -15,13 +15,13 @@ export const offerCopy = {
     title: { ro: "O adresă care merită\nluată în considerare.", ru: "Адрес, который\nстоит рассмотреть.", en: "An address\nworth considering." },
   },
   space: {
-    kicker: { ro: "Obiectul și spațiul", ru: "Объект и пространство", en: "Property & space" },
+    kicker: { ro: "Obiectul și spațiul", ru: "Объект и\u00a0пространство", en: "Property & space" },
     statement: { ro: "Două niveluri. Un singur concept.", ru: "Два уровня. Одна концепция.", en: "Two levels. One concept." },
-    total: { ro: "Oferit spre închiriere", ru: "Предлагается в аренду", en: "Offered for lease" },
+    total: { ro: "Oferit spre închiriere", ru: "Предлагается в\u00a0аренду", en: "Offered for lease" },
   },
   schedule: { ro: "Explicația încăperilor", ru: "Экспликация помещений", en: "Room schedule" },
   // R3 brochure (OWNER «CORRECTIVE PASS R8» §05, 2026-11-13)
-  aerialLegend: { ro: "Pe fotografia aeriană", ru: "На аэрофото", en: "On the aerial photograph" },
+  aerialLegend: { ro: "Pe fotografia aeriană", ru: "На\u00a0аэрофото", en: "On the aerial photograph" },
   scenarios: {
     kicker: { ro: "Scenarii de utilizare", ru: "Сценарии использования", en: "Use scenarios" },
     title: { ro: "Un spațiu —\ndiferite formate.", ru: `Одно пространство —\nразные форматы.`, en: "One space —\ndifferent formats." },
@@ -33,14 +33,14 @@ export const offerCopy = {
   location: {
     routes: { ro: " rute de transport public conform datelor actuale OpenStreetMap", ru: `${N}маршрутов общественного транспорта по${N}текущим данным OpenStreetMap`, en: " public-transport routes per current OpenStreetMap data" },
   },
-  mailSubject: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
+  mailSubject: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova\u00a020\u00a0— коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
   // R4 brochure (OWNER R9 §04, 2026-11-13). The second argument of the opportunity page is the OWNER's «Прямой клиентский вход»; its
   // explanation is the confirmed access card of the passport. The fee line repeats the OWNER's rule «без двойного начисления».
   r4: {
     entranceTitle: { ro: "Intrare directă pentru clienți", ru: "Прямой клиентский вход", en: "A direct customer entrance" },
     feeOnce: {
       ro: "Întreținerea rețelelor inginerești este inclusă doar în acești 15 % — fără dublă facturare.",
-      ru: `Обслуживание инженерных сетей входит только в${N}эти 15${N}% — без${N}двойного начисления.`,
+      ru: `Обслуживание инженерных сетей входит только в${N}эти 15${N}%${N}— без${N}двойного начисления.`,
       en: "Engineering-network maintenance is covered by this 15% only — never charged twice.",
     },
   },

@@ -12,10 +12,10 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
  */
 export const trustCopy = {
   label: { ro: "Suport tehnic pentru chiriași", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" },
-  title: { ro: "Verificați spațiul pentru afacerea dumneavoastră.", ru: "Проверьте помещение под свой бизнес.", en: "Check the space for your business." },
+  title: { ro: "Verificați spațiul pentru afacerea dumneavoastră.", ru: "Проверьте помещение под\u00a0свой бизнес.", en: "Check the space for your business." },
   lead: {
     ro: "Înainte de semnarea contractului puteți discuta spațiul cu directorul tehnic și arhitectul MEGAPARC.",
-    ru: "До подписания договора вы можете обсудить помещение с техническим директором и архитектором MEGAPARC.",
+    ru: "До\u00a0подписания договора вы можете обсудить помещение с\u00a0техническим директором и\u00a0архитектором MEGAPARC.",
     en: "Before signing, you can discuss the space with MEGAPARC's Technical Director and Architect.",
   },
   checks: { ro: "Ce putem evalua împreună", ru: "Что можно оценить вместе", en: "What we can assess together" },
@@ -26,10 +26,10 @@ export const trustCopy = {
   },
   note: {
     ro: "Consultația ajută la evaluarea adaptării spațiului; nu înlocuiește autorizațiile și avizele, care se obțin separat, și nu garantează fezabilitatea.",
-    ru: "Консультация помогает оценить адаптацию помещения; она не заменяет разрешений и согласований, которые оформляются отдельно, и не гарантирует реализуемость.",
+    ru: "Консультация помогает оценить адаптацию помещения; она не\u00a0заменяет разрешений и\u00a0согласований, которые оформляются отдельно, и\u00a0не\u00a0гарантирует реализуемость.",
     en: "The consultation helps you assess how the space can be adapted; it does not replace permits and approvals, which are obtained separately, and does not guarantee feasibility.",
   },
-  discuss: { ro: "Discutați spațiul cu echipa tehnică", ru: "Обсудить помещение с технической командой", en: "Discuss the space with the technical team" },
+  discuss: { ro: "Discutați spațiul cu echipa tehnică", ru: "Обсудить помещение с\u00a0технической командой", en: "Discuss the space with the technical team" },
   call: { ro: "Sunați", ru: "Позвонить", en: "Call" },
 } satisfies Record<string, Localized>;
 
@@ -38,11 +38,11 @@ export const trustItems: Localized[] = [
   { ro: "Puterea electrică", ru: "Электрическая мощность", en: "Electrical power" },
   { ro: "Punctele de racordare", ru: "Точки подключения", en: "Connection points" },
   { ro: "Ventilația", ru: "Вентиляция", en: "Ventilation" },
-  { ro: "Climatizarea", ru: "Кондиционирование", en: "Air-conditioning" },
+  { ro: "Climatizarea", ru: "Кондиционирование", en: "Air conditioning" },
   { ro: "Amplasarea echipamentelor", ru: "Размещение оборудования", en: "Equipment placement" },
   { ro: "Accesul", ru: "Доступ", en: "Access" },
   { ro: "Logistica", ru: "Логистика", en: "Logistics" },
-  { ro: "Fațada și semnalistica", ru: "Фасад и вывеска", en: "Facade and signage" },
+  { ro: "Fațada și semnalistica", ru: "Фасад и\u00a0вывеска", en: "Facade and signage" },
   { ro: "Adaptarea necesară", ru: "Необходимая адаптация", en: "Required adaptation" },
 ];
 

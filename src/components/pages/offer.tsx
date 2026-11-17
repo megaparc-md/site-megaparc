@@ -55,7 +55,7 @@ const copy = {
     checkLabel: "Что проверяем",
     checkTitle: "Шесть вопросов до любого предложения.",
     compassLabel: "Ваша ситуация",
-    compassTitle: `Что у вас есть — и что мы проверим в первую очередь.`,
+    compassTitle: `Что у\u00a0вас есть\u00a0— и\u00a0что мы проверим в\u00a0первую очередь.`,
     processLabel: "Как это происходит",
     processTitle: "От первого сообщения до решения.",
     steps: [["Отправьте информацию об\u00a0объекте", "Адрес, площадь, документы, которые есть."], ["Первый разговор", "Звонит тот, кто оценивает объект."], ["Выезд и документы", "На объекте; материалы — под соглашение о конфиденциальности."], ["Оценка", "Право, техника, рынок — и чем объект может стать."], ["Решение", "Аргументированное предложение или ясный ответ."]],
@@ -87,7 +87,7 @@ const copy = {
     formLabel: "Form",
     formTitle: "Describe the property.",
     closeLabel: "Something else?",
-    closeTitle: "If you have another question.",
+    closeTitle: "For any other question.",
     routes: [["Available spaces", "/leasing#available"], ["Our projects", "/projects"], ["Investment partnership", "/partnership"], ["View vacancies", "/careers#positions"]],
   },
 } as const;

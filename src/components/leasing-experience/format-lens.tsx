@@ -160,7 +160,7 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
 /** the instruction above the format controls (OWNER selector redesign 2026-11-11) — what the buttons do, nothing about the business */
 const pickHint: Record<SiteLocale, string> = {
   ro: "Alegeți formatul — scenariul de mai jos se actualizează.",
-  ru: "Выберите формат — сценарий ниже обновится.",
+  ru: "Выберите формат\u00a0— сценарий ниже обновится.",
   en: "Choose a format — the scenario below updates.",
 };
 

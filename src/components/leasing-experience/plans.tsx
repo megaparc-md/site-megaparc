@@ -47,19 +47,19 @@ const copy = {
   commercial: { ro: "comercială", ru: "коммерческая", en: "commercial" },
   commercialTotal: { ro: "Suprafață comercială", ru: "Коммерческая площадь", en: "Commercial area" },
   planTitle: { ro: "Planul spațiului", ru: "План помещения", en: "Premises plan" },
-  planNote: { ro: "Anexă la contractul de locațiune · Sc. 1:100", ru: "Приложение к договору аренды · М 1:100", en: "Lease agreement annex · Scale 1:100" },
+  planNote: { ro: "Anexă la contractul de locațiune · Sc. 1:100", ru: "Приложение к\u00a0договору аренды · М 1:100", en: "Lease agreement annex · Scale 1:100" },
   openFull: { ro: "Deschideți planul complet", ru: "Открыть полный план", en: "Open full plan" },
-  swipe: { ro: "Glisați pe plan pentru detalii", ru: "Проведите по плану, чтобы рассмотреть детали", en: "Swipe the plan to see the details" },
+  swipe: { ro: "Glisați pe plan pentru detalii", ru: "Проведите по\u00a0плану, чтобы рассмотреть детали", en: "Swipe the plan to see the details" },
   legend: { ro: "Încăperi", ru: "Помещения", en: "Rooms" },
   entrances: { ro: "Intrări", ru: "Входы", en: "Entrances" },
   stairs: { ro: "Scări între niveluri", ru: "Лестницы между уровнями", en: "Stairs between the levels" },
   showSchedule: { ro: "Afișați explicația încăperilor", ru: "Показать экспликацию", en: "Show the room schedule" },
   hideSchedule: { ro: "Ascundeți explicația încăperilor", ru: "Скрыть экспликацию", en: "Hide the room schedule" },
   // no approved drawing (OWNER «LEASING TEMPLATE LOCK» §2): the same frame, «Планы предоставляются по запросу», the confirmed floor logic and registered premises
-  onRequestShort: { ro: "La cerere", ru: "По запросу", en: "On request" },
+  onRequestShort: { ro: "La cerere", ru: "По\u00a0запросу", en: "On request" },
   registered: { ro: "înregistrată", ru: "зарегистрированная", en: "registered" },
-  registeredNote: { ro: "Suprafața spațiilor înregistrate (date cadastrale / fiscale) — nu este suprafața disponibilă pentru închiriere.", ru: "Площадь зарегистрированных помещений (кадастр / налоговый учёт) — это не свободная площадь для аренды.", en: "The area of the registered premises (cadastral / tax records) — not the area available for lease." },
-  floors: { ro: "Niveluri și spațiu", ru: "Уровни и помещение", en: "Levels and space" },
+  registeredNote: { ro: "Suprafața spațiilor înregistrate (date cadastrale / fiscale) — nu este suprafața disponibilă pentru închiriere.", ru: "Площадь зарегистрированных помещений (кадастр / налоговый учёт)\u00a0— это не\u00a0свободная площадь для\u00a0аренды.", en: "The area of the registered premises (cadastral / tax records) — not the area available for lease." },
+  floors: { ro: "Niveluri și spațiu", ru: "Уровни и\u00a0помещение", en: "Levels and space" },
 } satisfies Record<string, Localized>;
 
 /** The drawing of one level in its dossier frame. */

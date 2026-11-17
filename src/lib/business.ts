@@ -79,7 +79,7 @@ export const directions: Direction[] = [
     statement: { ro: "Transformăm potențialul în proiecte care funcționează.", ru: "Превращаем потенциал в работающий проект.", en: "We turn potential into projects that work." },
     text: {
       ro: "Construim, reconstruim și adaptăm imobilele la nevoile reale ale pieței.",
-      ru: "Строим, реконструируем и адаптируем недвижимость под реальные потребности рынка.",
+      ru: "Строим, реконструируем и\u00a0адаптируем недвижимость под\u00a0реальные потребности рынка.",
       en: "We build, redevelop and adapt property to what the market really needs.",
     },
     short: {
@@ -95,12 +95,12 @@ export const directions: Direction[] = [
     statement: { ro: "Spații în care funcționează afacerile.", ru: "Пространства, в которых работает бизнес.", en: "Spaces where businesses operate." },
     text: {
       ro: "Închiriem spații comerciale în imobilele MEGAPARC și creăm condiții pentru activitatea pe termen lung a chiriașilor.",
-      ru: "Сдаём коммерческие площади в объектах MEGAPARC и создаём условия для долгосрочной работы арендаторов.",
+      ru: "Сдаём коммерческие площади в\u00a0объектах MEGAPARC и\u00a0создаём условия для\u00a0долгосрочной работы арендаторов.",
       en: "We lease commercial space in MEGAPARC properties and create the conditions for tenants to stay for the long term.",
     },
     short: {
       ro: "Creăm spații comerciale pentru afaceri și închiriem suprafețe în obiectele MEGAPARC.",
-      ru: "Создаём коммерческие пространства для бизнеса и сдаём площади в объектах MEGAPARC.",
+      ru: "Создаём коммерческие пространства для\u00a0бизнеса и\u00a0сдаём площади в\u00a0объектах MEGAPARC.",
       en: "We create commercial space for business and lease it in MEGAPARC properties.",
     },
   },

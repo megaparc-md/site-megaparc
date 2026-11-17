@@ -14,7 +14,7 @@ const copy = {
   title: { ro: "Scrieți-ne sau sunați.", ru: "Напишите или позвоните.", en: "Write or call." },
   note: {
     ro: "Formularul online nu primește încă solicitări — folosiți e-mailul sau telefonul.",
-    ru: "Онлайн-форма пока не принимает заявки — напишите на e‑mail или позвоните.",
+    ru: "Онлайн-форма пока не\u00a0принимает заявки\u00a0— напишите на\u00a0e\u2011mail или позвоните.",
     en: "The online form is not accepting requests yet — please use e-mail or the telephone.",
   },
   email: { ro: "E-mail", ru: "E‑mail", en: "E-mail" },

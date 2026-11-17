@@ -15,14 +15,14 @@ const copy = {
   kicker: { ro: "Două direcții MEGAPARC", ru: "Два направления MEGAPARC", en: "Two MEGAPARC directions" },
   lead: {
     ro: "MEGAPARC cumpără și dezvoltă imobiliare și terenuri — și închiriază spații în clădirile proprii.",
-    ru: `MEGAPARC покупает и${N}развивает недвижимость и${N}землю — и${N}сдаёт в${N}аренду площади в${N}собственных зданиях.`,
+    ru: `MEGAPARC покупает и${N}развивает недвижимость и${N}землю${N}— и${N}сдаёт в${N}аренду площади в${N}собственных зданиях.`,
     en: "MEGAPARC buys and develops real estate and land — and leases space in its own buildings.",
   },
-  investLabel: { ro: "01 · Investiții și parteneriat", ru: "01 · Инвестиции и партнёрство", en: "01 · Investment and partnership" },
+  investLabel: { ro: "01 · Investiții și parteneriat", ru: "01 · Инвестиции и\u00a0партнёрство", en: "01 · Investment and partnership" },
   investTitle: { ro: "Un imobil, un teren sau un proiect comun.", ru: `Объект, земля или совместный проект.`, en: "A property, land or a joint project." },
   investText: {
     ro: "Cumpărăm imobiliare comerciale și terenuri, dezvoltăm și reconstruim, analizăm parteneriate — acolo unde putem crea valoare prin investiție, dezvoltare și exploatare ulterioară.",
-    ru: `Покупаем коммерческую недвижимость и${N}землю, развиваем и${N}реконструируем, рассматриваем партнёрства — там, где можем создать стоимость через инвестиции, развитие и${N}последующую эксплуатацию.`,
+    ru: `Покупаем коммерческую недвижимость и${N}землю, развиваем и${N}реконструируем, рассматриваем партнёрства${N}— там, где можем создать стоимость через инвестиции, развитие и${N}последующую эксплуатацию.`,
     en: "We buy commercial real estate and land, develop and redevelop, and consider partnerships — where we can create value through investment, development and subsequent operation.",
   },
   investCta: { ro: "Propuneți un imobil sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" },
@@ -31,11 +31,11 @@ const copy = {
   leaseTitle: { ro: "Spații pentru afacerea dumneavoastră.", ru: `Помещения для${N}вашего бизнеса.`, en: "Space for your business." },
   leaseText: {
     ro: "Închiriem direct spații în clădirile proprii — iar înainte de semnarea contractului verificăm împreună fezabilitatea tehnică a formatului dumneavoastră.",
-    ru: `Сдаём площади в${N}собственных зданиях напрямую — а${N}до${N}подписания договора вместе с${N}вами проверяем техническую реализуемость вашего формата.`,
+    ru: `Сдаём площади в${N}собственных зданиях напрямую${N}— а${N}до${N}подписания договора вместе с${N}вами проверяем техническую реализуемость вашего формата.`,
     en: "We lease space in our own buildings directly — and before signing, we check the technical feasibility of your format together with you.",
   },
   leaseCta: { ro: "Spații disponibile", ru: "Свободные помещения", en: "Available spaces" },
-  leaseLink: { ro: "Verificați spațiul pentru afacerea dumneavoastră", ru: "Проверить помещение под свой бизнес", en: "Check the space for your business" },
+  leaseLink: { ro: "Verificați spațiul pentru afacerea dumneavoastră", ru: "Проверить помещение под\u00a0свой бизнес", en: "Check the space for your business" },
   offer: { ro: "Oferta acum", ru: "Предложение сейчас", en: "On offer now" },
 } satisfies Record<string, Localized>;
 
@@ -105,10 +105,10 @@ export function HomePortals({ locale }: { locale: SiteLocale }) {
 
 const doors = {
   label: { ro: "Direcțiile MEGAPARC", ru: "Направления MEGAPARC", en: "MEGAPARC directions" },
-  investTitle: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" },
+  investTitle: { ro: "Investiții și parteneriat", ru: "Инвестиции и\u00a0партнёрство", en: "Investment and partnership" },
   investText: { ro: "Imobile, terenuri, proiecte comune", ru: "Объекты, земля, совместные проекты", en: "Properties, land, joint projects" },
   leaseTitle: { ro: "Închirierea spațiilor", ru: "Аренда помещений", en: "Leasing space" },
-  leaseText: { ro: "Spații în clădirile proprii MEGAPARC", ru: "Помещения в собственных зданиях MEGAPARC", en: "Space in MEGAPARC's own buildings" },
+  leaseText: { ro: "Spații în clădirile proprii MEGAPARC", ru: "Помещения в\u00a0собственных зданиях MEGAPARC", en: "Space in MEGAPARC's own buildings" },
   now: { ro: "Disponibil acum", ru: "Свободно сейчас", en: "Available now" },
 } satisfies Record<string, Localized>;
 

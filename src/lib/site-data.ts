@@ -81,7 +81,7 @@ export const navigation: Record<SiteLocale, NavItem[]> = {
     { label: "Проекты", path: "/projects" },
     { label: "Аренда", path: "/leasing" },
     { label: "Инвестиции", path: "/partnership", also: ["/offer"] },
-    { label: "О компании", path: "/about", also: ["/history"] },
+    { label: "О\u00a0компании", path: "/about", also: ["/history"] },
     { label: "Контакты", path: "/contact" },
   ],
   en: [

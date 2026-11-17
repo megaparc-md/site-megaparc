@@ -110,15 +110,15 @@ export const commercialCopy = {
     lower: { ro: "Demisol", ru: "Цоколь", en: "Lower Ground" },
     terrace: { ro: "Terasă", ru: "Терраса", en: "Terrace" },
   } satisfies Record<RateLevel | "terrace", Localized>,
-  vat: { ro: "Fără TVA", ru: "Без НДС", en: "Excl. VAT" },
-  vatInline: { ro: "fără TVA", ru: "без НДС", en: "excl. VAT" },
+  vat: { ro: "Fără TVA", ru: "Без\u00a0НДС", en: "Excl. VAT" },
+  vatInline: { ro: "fără TVA", ru: "без\u00a0НДС", en: "excl. VAT" },
   ratesLabel: { ro: "Tarife de închiriere", ru: "Ставки аренды", en: "Rental rates" },
   area: { ro: "Suprafață", ru: "Площадь", en: "Area" },
   rate: { ro: "Tarif", ru: "Ставка", en: "Rate" },
-  monthly: { ro: "Pe lună", ru: "В месяц", en: "Per month" },
+  monthly: { ro: "Pe lună", ru: "В\u00a0месяц", en: "Per month" },
   calcTitle: { ro: "Calcul preliminar al chiriei", ru: "Предварительный расчёт аренды", en: "Preliminary rent calculation" },
-  total: { ro: "Total pe lună, preliminar", ru: "Итого в месяц, предварительно", en: "Monthly total, preliminary" },
-  annual: { ro: "Chirie de bază pentru 12 luni, preliminar", ru: "Базовая аренда за 12 месяцев, предварительно", en: "Base rent for 12 months, preliminary" },
+  total: { ro: "Total pe lună, preliminar", ru: "Итого в\u00a0месяц, предварительно", en: "Monthly total, preliminary" },
+  annual: { ro: "Chirie de bază pentru 12 luni, preliminar", ru: "Базовая аренда за\u00a012 месяцев, предварительно", en: "Base rent for 12 months, preliminary" },
   terraceNote: {
     ro: "Condițiile comerciale pentru terasă urmează a fi confirmate; terasa nu este inclusă în calcul.",
     ru: `Коммерческие условия по${N}террасе уточняются; в${N}расчёт терраса не${N}включена.`,
@@ -138,7 +138,7 @@ export const commercialCopy = {
   // OWNER «CORRECTIVE PASS R8» §02 + the R8 GO correction (2026-11-13): utilities at actual charges; a fee of 15 % of the utility cost
   // for the administration and maintenance of the engineering networks — that maintenance is covered by the fee only, never charged a
   // second time; other operating expenses defined by the lease. RU = the OWNER's paragraph; RO / EN adapted with the same meaning.
-  termsTitle: { ro: "Garanție și cheltuieli", ru: "Депозит и расходы", en: "Deposit and charges" },
+  termsTitle: { ro: "Garanție și cheltuieli", ru: "Депозит и\u00a0расходы", en: "Deposit and charges" },
   depositLabel: { ro: "Depozit de garanție", ru: "Гарантийный депозит", en: "Security deposit" },
   depositFigure: { ro: `${m20Commercial.deposit.months}${N}luni`, ru: `${m20Commercial.deposit.months}${N}месяца`, en: `${m20Commercial.deposit.months}${N}months` },
   depositUnit: { ro: "de chirie de bază", ru: "базовой аренды", en: "of base rent" },
@@ -148,17 +148,17 @@ export const commercialCopy = {
     en: `Equal to ${m20Commercial.deposit.months}${N}months’ base rent.`,
   },
   utilitiesLabel: { ro: "Utilități", ru: "Коммунальные услуги", en: "Utilities" },
-  utilitiesShort: { ro: "Conform facturării efective", ru: "По фактическим начислениям", en: "Charged at actual cost" },
+  utilitiesShort: { ro: "Conform facturării efective", ru: "По\u00a0фактическим начислениям", en: "Charged at actual cost" },
   otherExpenses: {
     ro: "Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.",
     ru: `Иные эксплуатационные расходы определяются договором аренды.`,
     en: "Other operating expenses are defined in the lease agreement.",
   },
-  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești", ru: "Администрирование и обслуживание инженерных сетей", en: "Administration and building-network maintenance" },
+  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești", ru: "Администрирование и\u00a0обслуживание инженерных сетей", en: "Administration and building-network maintenance" },
   feeFigure: { ro: `${m20Commercial.fee.percentOfUtilities}${N}%`, ru: `${m20Commercial.fee.percentOfUtilities}${N}%`, en: `${m20Commercial.fee.percentOfUtilities}%` },
-  feeUnit: { ro: "din costul utilităților", ru: "от стоимости коммунальных услуг", en: "of the utility costs" },
+  feeUnit: { ro: "din costul utilităților", ru: "от\u00a0стоимости коммунальных услуг", en: "of the utility costs" },
   /** the lease-terms row — the OWNER's paragraph */
-  utilitiesRowLabel: { ro: "Utilități și cheltuieli de exploatare", ru: "Коммунальные и эксплуатационные расходы", en: "Utilities and operating expenses" },
+  utilitiesRowLabel: { ro: "Utilități și cheltuieli de exploatare", ru: "Коммунальные и\u00a0эксплуатационные расходы", en: "Utilities and operating expenses" },
   utilitiesTerm: {
     ro: `Utilitățile se achită conform facturării efective. Suplimentar se percepe ${m20Commercial.fee.percentOfUtilities}${N}% din costul utilităților pentru administrarea și întreținerea rețelelor inginerești. Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.`,
     ru: `Коммунальные услуги оплачиваются по${N}фактическим начислениям. Дополнительно взимается ${m20Commercial.fee.percentOfUtilities}${N}% от${N}стоимости коммунальных услуг за${N}администрирование и${N}обслуживание инженерных сетей. Иные эксплуатационные расходы определяются договором аренды.`,
@@ -173,26 +173,26 @@ export const commercialCopy = {
   },
   // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16) — supersedes «Коммерческая презентация»: one premium name for the document, one action
   // on every button that downloads it, a caption with the page count and the language; never a version, an internal code or a file name
-  offerTitle: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova 20 — Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
+  offerTitle: { ro: "Moscova 20 — Ofertă comercială", ru: "Moscova\u00a020\u00a0— Коммерческое предложение", en: "Moscova 20 — Commercial Leasing Proposal" },
   offerCta: { ro: "Descărcați oferta comercială", ru: "Скачать коммерческое предложение", en: "Download the commercial leasing proposal" },
   offerMeta: { ro: "PDF · {pages} pagini · română", ru: "PDF · {pages} страниц · русский", en: "PDF · {pages} pages · English" },
   /** where no accepted PDF exists (the production edition before the OWNER GO): the action leads to the direct contact — never a dead link */
   offerContactMeta: { ro: "prin contact direct cu MEGAPARC", ru: `через прямой контакт с${N}MEGAPARC`, en: "through direct contact with MEGAPARC" },
-  candidate: { ro: "Proiect pentru aprobarea OWNER", ru: "Проект на согласование OWNER", en: "Draft for OWNER approval" },
+  candidate: { ro: "Proiect pentru aprobarea OWNER", ru: "Проект на\u00a0согласование OWNER", en: "Draft for OWNER approval" },
   // OWNER «PDF R5 ADDENDUM» §5 (2026-11-13): the individual offer goes to the working contact channel, not to the universal PDF
   individualCta: { ro: "Solicitați o ofertă individuală", ru: "Запросить индивидуальное предложение", en: "Request an individual offer" },
-  individualSubject: { ro: "Moscova 20 · Solicitare de ofertă individuală", ru: "Moscova 20 · Запрос индивидуального предложения", en: "Moscova 20 · Individual offer request" },
+  individualSubject: { ro: "Moscova 20 · Solicitare de ofertă individuală", ru: "Moscova\u00a020 · Запрос индивидуального предложения", en: "Moscova 20 · Individual offer request" },
   individualBody: {
     ro: ["Bună ziua! Vă rog să pregătiți o ofertă individuală pentru Moscova 20.", "", "Compania și domeniul de activitate:", "Suprafața necesară (parter, demisol sau ambele niveluri):", "Termenul dorit de deschidere:", "Telefon de contact:"],
-    ru: ["Здравствуйте! Прошу подготовить индивидуальное предложение по Moscova 20.", "", "Компания и вид деятельности:", "Нужная площадь (1‑й этаж, цоколь или оба уровня):", "Желаемый срок открытия:", "Телефон для связи:"],
+    ru: ["Здравствуйте! Прошу подготовить индивидуальное предложение по\u00a0Moscova\u00a020.", "", "Компания и\u00a0вид деятельности:", "Нужная площадь (1‑й этаж, цоколь или оба уровня):", "Желаемый срок открытия:", "Телефон для\u00a0связи:"],
     en: ["Hello, please prepare an individual offer for Moscova 20.", "", "Company and line of business:", "Space needed (ground floor, lower ground or both levels):", "Target opening date:", "Contact telephone:"],
   },
   why: {
-    title: { ro: "De ce Moscova 20", ru: "Почему Moscova 20", en: "Why Moscova 20" },
+    title: { ro: "De ce Moscova 20", ru: "Почему Moscova\u00a020", en: "Why Moscova 20" },
     items: [
-      { key: "glazing", title: { ro: "Vitrine spre bulevard", ru: "Витрины на бульвар", en: "Boulevard-facing glazing" }, text: { ro: "Vitrajul parterului este orientat spre bulevardul Moscova — brandul se vede din stradă.", ru: `Остекление первого этажа обращено к${N}бульвару Москова${N}— бренд виден с${N}улицы.`, en: "The ground-floor glazing faces Moscova Boulevard — the brand is visible from the street." } },
+      { key: "glazing", title: { ro: "Vitrine spre bulevard", ru: "Витрины на\u00a0бульвар", en: "Boulevard-facing glazing" }, text: { ro: "Vitrajul parterului este orientat spre bulevardul Moscova — brandul se vede din stradă.", ru: `Остекление первого этажа обращено к${N}бульвару Москова${N}— бренд виден с${N}улицы.`, en: "The ground-floor glazing faces Moscova Boulevard — the brand is visible from the street." } },
       { key: "district", title: { ro: "Cartier rezidențial consacrat", ru: "Сложившийся жилой район", en: "Established residential surroundings" }, text: { ro: "În jur — blocuri de locuit, școli și servicii de zi cu zi ale sectorului Rîșcani.", ru: `Вокруг${N}— жилые дома, школы и${N}повседневные услуги сектора Рышкань.`, en: "Around it — residential blocks, schools and everyday services in the Rîșcani district." } },
-      { key: "levels", title: { ro: "Două niveluri pentru formatul dumneavoastră", ru: "Два уровня под ваш формат", en: "Two levels adaptable to your format" }, text: { ro: "Parter și demisol: zona pentru clienți și suprafețele auxiliare într-un singur concept.", ru: `Первый этаж и${N}цоколь: клиентская зона и${N}вспомогательные площади в${N}одной концепции.`, en: "Ground floor and lower ground: the customer area and the support space in one concept." } },
+      { key: "levels", title: { ro: "Două niveluri pentru formatul dumneavoastră", ru: "Два уровня под\u00a0ваш формат", en: "Two levels adaptable to your format" }, text: { ro: "Parter și demisol: zona pentru clienți și suprafețele auxiliare într-un singur concept.", ru: `Первый этаж и${N}цоколь: клиентская зона и${N}вспомогательные площади в${N}одной концепции.`, en: "Ground floor and lower ground: the customer area and the support space in one concept." } },
     ],
   },
 } as const;

@@ -23,19 +23,19 @@ const copy = {
   language: { ro: "Limba", ru: "Язык", en: "Language" },
   legal: {
     ro: "Informațiile juridice și politica de confidențialitate — la cerere.",
-    ru: "Юридическая информация и политика конфиденциальности — по запросу.",
+    ru: "Юридическая информация и\u00a0политика конфиденциальности\u00a0— по\u00a0запросу.",
     en: "Legal information and privacy policy — on request.",
   },
   // OWNER «REGISTERED TRADEMARK» (2026-11-16): the trademark line — the ® appears with the logo and here, never in running text
   trademark: {
     ro: "MEGAPARC® este marcă înregistrată.",
-    ru: "MEGAPARC® — зарегистрированная торговая марка.",
+    ru: "MEGAPARC®\u00a0— зарегистрированная торговая марка.",
     en: "MEGAPARC® is a registered trademark.",
   },
 } satisfies Record<string, Localized>;
 
 const investmentLinks: { path: string; label: Localized }[] = [
-  { path: "/partnership", label: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" } },
+  { path: "/partnership", label: { ro: "Investiții și parteneriat", ru: "Инвестиции и\u00a0партнёрство", en: "Investment and partnership" } },
   { path: "/offer", label: { ro: "Propuneți un imobil sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" } },
   { path: "/contact?subject=partnership#partnership", label: { ro: "Discutați o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" } },
 ];
@@ -44,7 +44,7 @@ const leasingLinks: { path: string; label: Localized }[] = [
   { path: "/leasing#technical-support", label: { ro: "Suport tehnic pentru chiriași", ru: "Техническая поддержка арендатора", en: "Technical support for tenants" } },
 ];
 const companyLinks: { path: string; label: Localized }[] = [
-  { path: "/about", label: { ro: "Despre noi", ru: "О компании", en: "About" } },
+  { path: "/about", label: { ro: "Despre noi", ru: "О\u00a0компании", en: "About" } },
   { path: "/history", label: { ro: "Istoric", ru: "История", en: "History" } },
   { path: "/careers", label: { ro: "Cariere", ru: "Вакансии", en: "Careers" } },
   { path: "/contact", label: { ro: "Contact", ru: "Контакты", en: "Contact" } },

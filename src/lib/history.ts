@@ -111,7 +111,7 @@ export const eras: Era[] = [
     title: L("O structură de investiții. Și primele imobiliare.", "Инвестиционная структура. И первая недвижимость.", "An investment structure. And the first real estate."),
     lead: L(
       "În 1995 afacerile fondatorilor sunt reunite într-o structură de investiții a grupului, care coordonează direcțiile și atrage capital. În același an, în portofoliu apar imobiliarele.",
-      "В 1995 году бизнесы основателей объединяет инвестиционная структура группы: она координирует направления и привлекает капитал. В том же году в портфеле появляется недвижимость.",
+      "В\u00a01995\u00a0году бизнесы основателей объединяет инвестиционная структура группы: она координирует направления и\u00a0привлекает капитал. В\u00a0том же году в\u00a0портфеле появляется недвижимость.",
       "In 1995 the founders' businesses are brought together under the group's investment structure, which coordinates them and raises capital. The same year, real estate enters the portfolio.",
     ),
     image: "era-sugar",
@@ -172,7 +172,7 @@ export const eras: Era[] = [
     title: L("Imobiliarele devin activitatea principală.", "Недвижимость становится главным делом.", "Real estate becomes the core business."),
     lead: L(
       "În 2020 grupul iese din logistica internațională și din comerț. Rămân imobiliarele — iar centrul lor este MEGAPARC.",
-      "В 2020 году группа выходит из международной логистики и розницы. Остаётся недвижимость — и её центр, MEGAPARC.",
+      "В\u00a02020\u00a0году группа выходит из\u00a0международной логистики и\u00a0розницы. Остаётся недвижимость\u00a0— и\u00a0её центр, MEGAPARC.",
       "In 2020 the group exits international logistics and retail. What remains is real estate — with MEGAPARC at its centre.",
     ),
   },
@@ -567,7 +567,7 @@ export const entries: HistoryEntry[] = [
     scope: "megaparc",
     name: "MEGAPARC",
     place: L("Republica Moldova", "Молдова", "Moldova"),
-    title: L("Decizia din 2020", "Решение 2020 года", "The 2020 decision"),
+    title: L("Decizia din 2020", "Решение 2020\u00a0года", "The 2020 decision"),
     text: L(
       "Ieșirea din logistica internațională și din comerț. Resursele grupului se concentrează pe imobiliare.",
       "Выход из международной логистики и розницы. Ресурсы группы сосредоточены на недвижимости.",
@@ -617,7 +617,7 @@ export const historyCopy = {
   title: { ro: ["Peste trei decenii", "de antreprenoriat."], ru: ["Более трёх десятилетий", "предпринимательства."], en: ["Over three decades", "of enterprise."] },
   lead: L(
     "De la comerț și producție — la finanțare, proiecte internaționale și imobiliare. Experiența acumulată în domenii și țări diferite a format, în timp, ceea ce este astăzi MEGAPARC.",
-    "От торговли и производства — к финансированию, международным проектам и недвижимости. Опыт, накопленный в разных отраслях и странах, со временем сформировал то, чем сегодня является MEGAPARC.",
+    "От\u00a0торговли и\u00a0производства\u00a0— к\u00a0финансированию, международным проектам и\u00a0недвижимости. Опыт, накопленный в\u00a0разных отраслях и\u00a0странах, со\u00a0временем сформировал то, чем сегодня является MEGAPARC.",
     "From retail and manufacturing to finance, international projects and real estate. Experience gathered across industries and countries shaped, over time, what MEGAPARC is today.",
   ),
   index: L("Capitole", "Главы", "Chapters"),
@@ -634,7 +634,7 @@ export const historyCopy = {
   lineFocus: L("Focus pe imobiliare · din 2020", "Фокус на недвижимости · с 2020", "Real-estate focus · since 2020"),
   rule: L(
     "MEGAPARC a fost fondată în 2005. Anii de dinainte sunt istoria grupului.",
-    "MEGAPARC основана в 2005 году. Годы до этого — история группы.",
+    "MEGAPARC основана в\u00a02005\u00a0году. Годы до\u00a0этого\u00a0— история группы.",
     "MEGAPARC was founded in 2005. The years before are the group's history.",
   ),
   scopeGroup: L("Istoria grupului", "История группы", "Group history"),
@@ -747,7 +747,7 @@ export const chapters: Chapter[] = [
     key: "finance",
     no: "03",
     range: "1996–1997",
-    label: L("Finanțe și agrobusiness", "Финансы и агробизнес", "Finance and agribusiness"),
+    label: L("Finanțe și agrobusiness", "Финансы и\u00a0агробизнес", "Finance and agribusiness"),
     title: L("Leasing, cereale, zahăr.", "Лизинг, зерно, сахар.", "Leasing, grain, sugar."),
     lead: L(
       "Grupul intră în serviciile financiare și în agrobusiness: leasing de echipamente pentru companii, ciclul complet al cerealelor în Moldova și producția de zahăr în Ucraina.",
@@ -790,7 +790,7 @@ export const chapters: Chapter[] = [
     no: "06",
     range: "1991–2020",
     label: L("Experiență internațională", "Международный опыт", "International experience"),
-    title: L("Dincolo de Moldova.", "За пределами Молдовы.", "Beyond Moldova."),
+    title: L("Dincolo de Moldova.", "За\u00a0пределами Молдовы.", "Beyond Moldova."),
     lead: L(
       "Portul Brăila, zahărul în Ucraina, explorarea petrolieră în Irak, industria și logistica în Africa de Vest, aprovizionarea din China — grupul a lucrat acolo unde existau cerere și parteneri.",
       "Порт Брэила, сахар в Украине, нефтеразведка в Ираке, промышленность и логистика в Западной Африке, поставки из Китая — группа работала там, где были спрос и партнёры.",
@@ -817,7 +817,7 @@ export const chapters: Chapter[] = [
     key: "focus",
     no: "08",
     range: "2020",
-    label: L("Focus pe imobiliare", "Фокус на недвижимости", "Real-estate focus"),
+    label: L("Focus pe imobiliare", "Фокус на\u00a0недвижимости", "Real-estate focus"),
     title: L("Imobiliarele devin activitatea principală.", "Недвижимость становится главным делом.", "Real estate becomes the core business."),
     lead: L(
       "În 2020 grupul iese din logistica internațională și din comerț. Rămân imobiliarele — iar centrul lor este MEGAPARC.",

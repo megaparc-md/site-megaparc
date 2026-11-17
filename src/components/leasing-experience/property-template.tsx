@@ -48,11 +48,11 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  */
 
 const portalCopy = {
-  location: { label: { ro: "Locație\nși flux", ru: "Локация\nи поток", en: "Location\nand flow" }, word: { ro: "Viața din jurul adresei", ru: "Как живёт адрес", en: "Life around the address" } },
+  location: { label: { ro: "Locație\nși flux", ru: "Локация\nи\u00a0поток", en: "Location\nand flow" }, word: { ro: "Viața din jurul adresei", ru: "Как живёт адрес", en: "Life around the address" } },
   plans: { label: { ro: "Planurile\nspațiului", ru: "Планы\nпомещения", en: "Space\nplans" }, word: { ro: "Cum funcționează spațiul", ru: "Как работает пространство", en: "How the space works" } },
   ready: { label: { ro: "Pregătirea\ntehnică", ru: "Техническая\nготовность", en: "Technical\nreadiness" }, word: { ro: "Ce este deja gata", ru: "Что уже готово", en: "What is already in place" } },
   economics: { label: { ro: "Economia\npunctului", ru: "Экономика\nточки", en: "Unit\neconomics" }, word: { ro: "Câți clienți îi trebuie modelului dumneavoastră", ru: "Сколько клиентов требуется вашей модели", en: "How many customers your model needs" } },
-  launch: { label: { ro: "Pregătire\npentru lansare", ru: "Готовность\nк запуску", en: "Launch\nreadiness" }, word: { ro: "Ce presupune lansarea", ru: "Из чего складывается запуск", en: "What opening involves" } },
+  launch: { label: { ro: "Pregătire\npentru lansare", ru: "Готовность\nк\u00a0запуску", en: "Launch\nreadiness" }, word: { ro: "Ce presupune lansarea", ru: "Из\u00a0чего складывается запуск", en: "What opening involves" } },
 } satisfies Record<string, { label: Localized; word: Localized }>;
 
 /** The decision tool is shown where it is approved (src/data/tenant-intelligence.ts); the waiting list needs no approval — it holds no figure. */

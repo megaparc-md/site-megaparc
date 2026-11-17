@@ -18,7 +18,7 @@ import type { SiteLocale } from "@/lib/site-data";
 
 /** the decisive phrase of the readiness explanation, set strong (OWNER art-direction pass §7) */
 const emphasis: Record<SiteLocale, string[]> = {
-  ru: ["адаптации помещения под собственный формат"],
+  ru: ["адаптации помещения под\u00a0собственный формат"],
   ro: ["adaptarea spațiului la propriul format"],
   en: ["adapting the premises to its own format"],
 };

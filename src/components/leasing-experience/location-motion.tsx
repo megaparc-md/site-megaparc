@@ -48,10 +48,10 @@ const copy = {
   filters: { ro: "Straturi ale hărții", ru: "Слои карты", en: "Map layers" },
   // OWNER «REAL PREMIUM ART-DIRECTION PASS» §10–§12 (2026-11-11): the control zone explains itself — the question, the instruction, the status line
   explorer: {
-    question: { ro: "Ce influențează această locație?", ru: "Что влияет на эту локацию?", en: "What shapes this location?" },
-    hint: { ro: "Alegeți un aspect — harta arată stratul corespunzător.", ru: "Выберите аспект — карта покажет соответствующий слой.", en: "Choose an aspect — the map shows the matching layer." },
+    question: { ro: "Ce influențează această locație?", ru: "Что влияет на\u00a0эту локацию?", en: "What shapes this location?" },
+    hint: { ro: "Alegeți un aspect — harta arată stratul corespunzător.", ru: "Выберите аспект\u00a0— карта покажет соответствующий слой.", en: "Choose an aspect — the map shows the matching layer." },
     active: { ro: "Activ", ru: "Активно", en: "Active" },
-    now: { ro: "Acum pe hartă", ru: "Сейчас на карте", en: "Now on the map" },
+    now: { ro: "Acum pe hartă", ru: "Сейчас на\u00a0карте", en: "Now on the map" },
   },
   option: {
     address: { ro: "Adresa", ru: "Адрес", en: "Address" },
@@ -70,7 +70,7 @@ const copy = {
     vehicles: { label: { ro: "Automobile", ru: "Автомобили", en: "Vehicles" }, unit: { ro: "auto / zi", ru: "авто / сутки", en: "vehicles / day" } },
     pedestrians: { label: { ro: "Pietoni", ru: "Пешеходы", en: "Pedestrians" }, unit: { ro: "deplasări / zi", ru: "перемещений / сутки", en: "movements / day" } },
     // a researched OSM fact, not a model figure (OWNER micro-fix 2026-11-09)
-    transit: { label: { ro: "Transport public", ru: "Общественный транспорт", en: "Public transport" }, unit: { ro: "rute conform datelor actuale OpenStreetMap", ru: "маршрутов по текущим данным OpenStreetMap", en: "routes per current OpenStreetMap data" } },
+    transit: { label: { ro: "Transport public", ru: "Общественный транспорт", en: "Public transport" }, unit: { ro: "rute conform datelor actuale OpenStreetMap", ru: "маршрутов по\u00a0текущим данным OpenStreetMap", en: "routes per current OpenStreetMap data" } },
     // OWNER OVERRIDE «LOCATION METRICS» (2026-11-12): 16:00–19:00 is an estimated period of higher activity, not a measured peak
     peak: { label: { ro: "Vârf", ru: "Пик", en: "Peak" }, unit: { ro: "perioadă estimată de activitate sporită", ru: "оценочный период повышенной активности", en: "estimated period of higher activity" } },
   },
@@ -201,7 +201,7 @@ function DayRhythm({ traffic, locale, narrow = false }: { traffic: LocationTraff
 /* ------------------------------------------------------------ the address on the aerial */
 
 /** OWNER «LOCATION VISUAL INTELLIGENCE R4» §01: the aerial with the architectural annotation (variant B — OWNER decision 2026-11-12) */
-const aerialLegend: Record<SiteLocale, string> = { ro: "Ce este marcat pe fotografie", ru: "Что отмечено на фотографии", en: "What is marked on the photograph" };
+const aerialLegend: Record<SiteLocale, string> = { ro: "Ce este marcat pe fotografie", ru: "Что отмечено на\u00a0фотографии", en: "What is marked on the photograph" };
 function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name: string; locale: SiteLocale; marked: boolean }) {
   const v = x.motion.visibility;
   if (!v) return null;

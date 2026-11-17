@@ -38,7 +38,7 @@ const t = {
   parking: { ro: "Parcare", ru: "Парковка", en: "Parking" },
   entrance: { ro: "Intrare", ru: "Вход", en: "Entrance" },
   visibility: { ro: "Vizibilitate", ru: "Видимость", en: "Visibility" },
-  delivery: { ro: "Livrări", ru: "Доставка и разгрузка", en: "Deliveries" },
+  delivery: { ro: "Livrări", ru: "Доставка и\u00a0разгрузка", en: "Deliveries" },
   power: { ro: "Putere electrică", ru: "Электрическая мощность", en: "Power" },
   ventilation: { ro: "Ventilație", ru: "Вентиляция", en: "Ventilation" },
   height: { ro: "Înălțime", ru: "Высота", en: "Ceiling height" },

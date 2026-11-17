@@ -17,8 +17,8 @@ export const precheckCopy: {
 } = {
   title: { ro: "Verificarea tehnică a conceptului", ru: "Техническая проверка концепции", en: "Technical concept review" },
   meta: { ro: "contact direct cu MEGAPARC", ru: `прямой контакт с${NB}MEGAPARC`, en: "direct contact with MEGAPARC" },
-  action: { ro: "Contact pentru verificare tehnică", ru: "Связаться для технической проверки", en: "Contact us for a technical review" },
-  directTitle: { ro: "Contact pentru verificare tehnică", ru: "Связаться для технической проверки", en: "Contact us for a technical review" },
+  action: { ro: "Contact pentru verificare tehnică", ru: "Связаться для\u00a0технической проверки", en: "Contact us for a technical review" },
+  directTitle: { ro: "Contact pentru verificare tehnică", ru: "Связаться для\u00a0технической проверки", en: "Contact us for a technical review" },
   directNote: {
     ro: "Descrieți formatul afacerii dumneavoastră — directorul tehnic și arhitectul MEGAPARC vă pot ajuta să evaluați cerințele pentru spațiu.",
     ru: `Опишите ваш формат${NB}— технический директор и${NB}архитектор MEGAPARC помогут оценить требования к${NB}помещению.`,

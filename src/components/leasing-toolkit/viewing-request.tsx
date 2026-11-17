@@ -20,11 +20,11 @@ const T = {
     done: { kicker: "Previzualizare · nimic nu a fost trimis", title: "Cerere de vizionare", text: "Cererea este pregătită: confirmăm ziua și ora personal — telefonic sau prin e‑mail. Nu este o confirmare automată.", summary: "Detaliile cererii", again: "O nouă cerere" },
   },
   ru: {
-    intro: "Выберите удобный день и время — точный час подтвердим лично.", day: "Удобный день", window: "Удобное время", windows: { morning: "Утром", afternoon: "Днём", other: "Другое время" },
+    intro: "Выберите удобный день и\u00a0время\u00a0— точный час подтвердим лично.", day: "Удобный день", window: "Удобное время", windows: { morning: "Утром", afternoon: "Днём", other: "Другое время" },
     name: "Имя", phone: "Телефон", company: "Компания (необязательно)", comment: "Комментарий (необязательно)", commentPh: "например, приедем вдвоём, интересует цоколь",
-    consent: "Согласен(на) на использование моих данных для ответа на этот запрос.", send: "Отправить запрос на просмотр", required: "обязательно",
+    consent: "Согласен(на) на\u00a0использование моих данных для\u00a0ответа на\u00a0этот запрос.", send: "Отправить запрос на\u00a0просмотр", required: "обязательно",
     errors: { required: "Заполните это поле.", phone: "Укажите корректный номер телефона.", consent: "Нужно согласие, чтобы мы могли ответить.", summary: "Проверьте отмеченные поля:" },
-    done: { kicker: "Превью · ничего не отправлено", title: "Запрос на просмотр", text: "Запрос подготовлен: день и час подтвердим лично — по телефону или e‑mail. Это не автоматическое подтверждение.", summary: "Детали запроса", again: "Новый запрос" },
+    done: { kicker: "Превью · ничего не\u00a0отправлено", title: "Запрос на\u00a0просмотр", text: "Запрос подготовлен: день и\u00a0час подтвердим лично\u00a0— по\u00a0телефону или e\u2011mail. Это не\u00a0автоматическое подтверждение.", summary: "Детали запроса", again: "Новый запрос" },
   },
   en: {
     intro: "Choose the day and time window that suit you — we confirm the exact time personally.", day: "Preferred day", window: "Preferred time window", windows: { morning: "Morning", afternoon: "Afternoon", other: "Other" },

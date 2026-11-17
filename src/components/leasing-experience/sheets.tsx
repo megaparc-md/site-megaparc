@@ -25,20 +25,20 @@ const joined = (names: string[], locale: SiteLocale) => names.map((name, i) => (
 const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${locale === "ru" ? "м" : "m"}`;
 
 const copy = {
-  areas: { ro: "Suprafețe și niveluri", ru: "Площади и уровни", en: "Areas and levels" },
+  areas: { ro: "Suprafețe și niveluri", ru: "Площади и\u00a0уровни", en: "Areas and levels" },
   engineering: { ro: "Inginerie", ru: "Инженерные системы", en: "Engineering" },
   access: { ro: "Acces", ru: "Доступ", en: "Access" },
   levelsN: { ro: "niveluri", ru: "уровня", en: "levels" },
-  power: { ro: "alimentare conform documentelor", ru: "электроснабжение по документам", en: "power supply, documented" },
-  documented: { ro: "conform documentelor", ru: "по документам", en: "documented" },
-  confirm: { ro: "Clarificăm pentru afacerea dumneavoastră", ru: "Уточняем под ваш бизнес", en: "To be confirmed for your business" },
-  cost: { ro: "Ce presupune lansarea", ru: "Из чего складывается запуск", en: "What opening involves" },
-  covers: { ro: "Oferta comercială răspunde la", ru: "В коммерческом предложении", en: "The commercial proposal covers" },
+  power: { ro: "alimentare conform documentelor", ru: "электроснабжение по\u00a0документам", en: "power supply, documented" },
+  documented: { ro: "conform documentelor", ru: "по\u00a0документам", en: "documented" },
+  confirm: { ro: "Clarificăm pentru afacerea dumneavoastră", ru: "Уточняем под\u00a0ваш бизнес", en: "To be confirmed for your business" },
+  cost: { ro: "Ce presupune lansarea", ru: "Из\u00a0чего складывается запуск", en: "What opening involves" },
+  covers: { ro: "Oferta comercială răspunde la", ru: "В\u00a0коммерческом предложении", en: "The commercial proposal covers" },
 } satisfies Record<string, Localized>;
 
 const costCopy: Record<CostState, Localized> = {
-  done: { ro: "în mare parte executat", ru: "в основном выполнено", en: "largely done" },
-  concept: { ro: "după concept", ru: "по концепции", en: "depends on the concept" },
+  done: { ro: "în mare parte executat", ru: "в\u00a0основном выполнено", en: "largely done" },
+  concept: { ro: "după concept", ru: "по\u00a0концепции", en: "depends on the concept" },
   tenant: { ro: "chiriașul", ru: "арендатор", en: "tenant" },
   "if-needed": { ro: "dacă e nevoie", ru: "если требуется", en: "if needed" },
 };

@@ -19,7 +19,7 @@ export const precheckCopy: {
   directNote: Localized | null;
 } = {
   title: { ro: "Verificarea tehnică a conceptului", ru: "Техническая проверка концепции", en: "Technical concept check" },
-  meta: { ro: "8 întrebări scurte · analizează directorul tehnic și arhitectul", ru: "8 коротких вопросов · разбирают технический директор и архитектор", en: "8 short questions · reviewed by the Technical Director and the Architect" },
+  meta: { ro: "8 întrebări scurte · analizează directorul tehnic și arhitectul", ru: "8 коротких вопросов · разбирают технический директор и\u00a0архитектор", en: "8 short questions · reviewed by the Technical Director and the Architect" },
   action: { ro: "Solicită verificarea tehnică", ru: "Запросить техническую проверку", en: "Request the technical check" },
   directTitle: null,
   directNote: null,

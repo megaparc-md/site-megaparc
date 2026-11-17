@@ -26,14 +26,14 @@ const q = {
   assess: { ro: "Cum are loc evaluarea inițială?", ru: "Как проходит первичная оценка?", en: "How does the initial assessment work?" },
   assessLine: {
     ro: "Privim imobilul din șase perspective — ca pe un viitor activ propriu.",
-    ru: `Мы смотрим на${N}объект с${N}шести сторон — как на${N}собственный будущий актив.`,
+    ru: `Мы смотрим на${N}объект с${N}шести сторон${N}— как на${N}собственный будущий актив.`,
     en: "We look at the property from six angles — as we would at our own future asset.",
   },
   involve: { ro: "Ce poate include un parteneriat?", ru: "Что может включать партнёрство?", en: "What can a partnership involve?" },
   next: { ro: "Ce urmează?", ru: "Что дальше?", en: "What happens next?" },
   nextLine: {
     ro: "Scrieți-ne sau sunați — materialele despre obiect pot fi trimise prin e-mail.",
-    ru: `Напишите или позвоните — материалы по${N}объекту можно прислать на${N}e‑mail.`,
+    ru: `Напишите или позвоните${N}— материалы по${N}объекту можно прислать на${N}e\u2011mail.`,
     en: "Write or call — the materials on the property can be sent by e-mail.",
   },
 } satisfies Record<string, Localized>;
@@ -41,22 +41,22 @@ const q = {
 const considered: Localized[] = [
   { ro: "Imobiliare comerciale existente", ru: "Существующая коммерческая недвижимость", en: "Existing commercial real estate" },
   { ro: "Terenuri", ru: "Земельные участки", en: "Land" },
-  { ro: "Redezvoltare și reconstrucție", ru: "Редевелопмент и реконструкция", en: "Redevelopment and reconstruction" },
+  { ro: "Redezvoltare și reconstrucție", ru: "Редевелопмент и\u00a0реконструкция", en: "Redevelopment and reconstruction" },
   { ro: "Proiecte comune", ru: "Совместные проекты", en: "Joint projects" },
-  { ro: "Tranzacții imobiliare structurate", ru: "Структурированные сделки с недвижимостью", en: "Structured property opportunities" },
+  { ro: "Tranzacții imobiliare structurate", ru: "Структурированные сделки с\u00a0недвижимостью", en: "Structured property opportunities" },
 ];
 
 const inputs: Localized[] = [
   { ro: "Amplasarea", ru: "Расположение", en: "Location" },
   { ro: "Numărul cadastral", ru: "Кадастровый номер", en: "Cadastral number" },
-  { ro: "Suprafața terenului și a clădirilor", ru: "Площадь земли и зданий", en: "Land and building area" },
+  { ro: "Suprafața terenului și a clădirilor", ru: "Площадь земли и\u00a0зданий", en: "Land and building area" },
   { ro: "Fotografii", ru: "Фотографии", en: "Photographs" },
   { ro: "Dreptul de proprietate", ru: "Права собственности", en: "Ownership" },
   { ro: "Utilizarea actuală", ru: "Текущее использование", en: "Current use" },
   { ro: "Prețul, dacă este stabilit", ru: "Цена, если она определена", en: "Asking price, if available" },
   { ro: "Documentația de urbanism", ru: "Градостроительная документация", en: "Planning documents" },
   { ro: "Rețelele inginerești", ru: "Инженерные сети", en: "Utilities" },
-  { ro: "Chiriașii și contractele de locațiune", ru: "Арендаторы и договоры аренды", en: "Occupancy and leases" },
+  { ro: "Chiriașii și contractele de locațiune", ru: "Арендаторы и\u00a0договоры аренды", en: "Occupancy and leases" },
 ];
 
 /** The useful materials — the practical checklist (Partnership and Offer). */

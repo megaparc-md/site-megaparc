@@ -17,22 +17,22 @@ export const portfolioCategories: { key: PortfolioKey; anchor: string; label: Lo
     key: "leasing",
     anchor: "leasing",
     label: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
-    title: { ro: "Clădiri MEGAPARC pentru închiriere.", ru: "Объекты MEGAPARC в аренде.", en: "MEGAPARC buildings for lease." },
-    lead: { ro: "Clădiri în exploatare, deținute de companie — fiecare cu statusul său actual.", ru: "Действующие здания в собственности компании — у каждого свой актуальный статус.", en: "Operating buildings owned by the company — each with its own current status." },
+    title: { ro: "Clădiri MEGAPARC pentru închiriere.", ru: "Объекты MEGAPARC в\u00a0аренде.", en: "MEGAPARC buildings for lease." },
+    lead: { ro: "Clădiri în exploatare, deținute de companie — fiecare cu statusul său actual.", ru: "Действующие здания в\u00a0собственности компании\u00a0— у\u00a0каждого свой актуальный статус.", en: "Operating buildings owned by the company — each with its own current status." },
   },
   {
     key: "land",
     anchor: "land",
     // OWNER «LAND DEVELOPMENT OPPORTUNITIES» §20 (2026-11-10): land appears as development opportunities, not generic projects
-    label: { ro: "Oportunități de dezvoltare", ru: "Возможности для девелопмента", en: "Development opportunities" },
-    title: { ro: "Terenul ca oportunitate de dezvoltare.", ru: "Земля как возможность для девелопмента.", en: "Land as a development opportunity." },
-    lead: { ro: "Terenuri în proprietatea MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.", ru: "Участки в собственности MEGAPARC. Планы по каждому участку публикуем после утверждения.", en: "Plots owned by MEGAPARC. Plans for each plot are published once approved." },
+    label: { ro: "Oportunități de dezvoltare", ru: "Возможности для\u00a0девелопмента", en: "Development opportunities" },
+    title: { ro: "Terenul ca oportunitate de dezvoltare.", ru: "Земля как возможность для\u00a0девелопмента.", en: "Land as a development opportunity." },
+    lead: { ro: "Terenuri în proprietatea MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.", ru: "Участки в\u00a0собственности MEGAPARC. Планы по\u00a0каждому участку публикуем после утверждения.", en: "Plots owned by MEGAPARC. Plans for each plot are published once approved." },
   },
   {
     key: "development",
     anchor: "development",
-    label: { ro: "Proiecte în dezvoltare și construcție", ru: "Проекты в разработке и строительстве", en: "Projects under development and construction" },
-    title: { ro: "Proiecte proprii în lucru.", ru: "Собственные проекты в работе.", en: "Our own projects in progress." },
+    label: { ro: "Proiecte în dezvoltare și construcție", ru: "Проекты в\u00a0разработке и\u00a0строительстве", en: "Projects under development and construction" },
+    title: { ro: "Proiecte proprii în lucru.", ru: "Собственные проекты в\u00a0работе.", en: "Our own projects in progress." },
     lead: { ro: "Spațiile din aceste proiecte nu se oferă deocamdată spre închiriere.", ru: "Помещения в\u00a0этих проектах пока не\u00a0предлагаются в\u00a0аренду.", en: "Space in these projects is not offered for lease yet." },
   },
 ];
@@ -48,11 +48,11 @@ export const leasingProjects = (): ProjectEntry[] => leasingSlugs.map((slug) => 
  * area and timing are «on request» until the OWNER confirms them.
  */
 export const leasingOnRequest: Partial<Record<string, Localized>> = {
-  "dacia-31": { ro: "Se închiriază · suprafața și data disponibilității — la cerere", ru: "Сдаётся в аренду · площадь и сроки — по запросу", en: "For lease · area and timing on request" },
+  "dacia-31": { ro: "Se închiriază · suprafața și termenele — la cerere", ru: "Сдаётся в\u00a0аренду · площадь и\u00a0сроки\u00a0— по\u00a0запросу", en: "For lease · area and timing on request" },
 };
 
 /** A fully let building in the leasing portfolio keeps a waiting list (OWNER 2026-10-09: «only fully let and a waitlist»). */
-export const waitlistLabel: Localized = { ro: "Înscrieți-vă pe lista de așteptare", ru: "Встать в лист ожидания", en: "Join the waiting list" };
+export const waitlistLabel: Localized = { ro: "Înscrieți-vă pe lista de așteptare", ru: "Встать в\u00a0лист ожидания", en: "Join the waiting list" };
 export const waitlistHref = (locale: SiteLocale, slug: string) => `${localePath(locale, "/contact")}?subject=lease&property=${slug}#occupier`;
 export const viewingPropertyHref = (locale: SiteLocale, slug: string) => `${localePath(locale, "/contact")}?subject=lease&property=${slug}#occupier`;
 
