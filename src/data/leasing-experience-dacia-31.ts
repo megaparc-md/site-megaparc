@@ -108,7 +108,7 @@ export const dacia31Experience: LeasingExperience = {
   },
   access: [
     { key: "entrance", label: T("Intrare", "Вход", "Entrance"), value: T("Intrare proprie · 4+ variante de acces.", "Собственный вход · 4+ варианта доступа.", "Dedicated entrance · 4+ access options."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
-    { key: "ground", label: T("Acces", "Доступ", "Access"), value: T("Clădire independentă, intrare de la nivelul solului.", "Отдельное здание, вход с уровня земли.", "A stand-alone building, access at ground level."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
+    { key: "ground", label: T("Acces", "Доступ", "Access"), value: T("Clădire independentă; accesul fără bariere se verifică în cadrul auditului tehnic.", "Отдельное здание; безбарьерный доступ уточнит технический аудит.", "A stand-alone building; step-free access to be confirmed by the technical audit."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
     { key: "visibility", label: T("Vizibilitate", "Видимость", "Visibility"), value: T("Fațadă vizibilă la intrarea în oraș dinspre aeroport.", "Заметный фасад на въезде в город со стороны аэропорта.", "A visible facade on the main approach from the airport."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
     { key: "flexible", label: T("Organizare", "Планировка", "Layout"), value: T("Etaje mari, organizare pe niveluri sau pe funcții.", "Просторные этажи, размещение по уровням или функциям.", "Large floor plates, configurable by floor or by function."), state: "ready", evidence: "OWNER_CONFIRMED", source: OWNER },
     teamRow("parking", T("Parcare", "Парковка", "Parking")),

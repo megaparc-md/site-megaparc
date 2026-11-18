@@ -326,7 +326,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     ],
     capabilities: {
       visibility: cap("dacia-31", "visibility", "strong", { ro: "Fațadă vizibilă, la intrarea în oraș dinspre aeroport", ru: "Заметный фасад на въезде в город со стороны аэропорта", en: "A visible facade on the main approach from the airport" }, "CONFIRMED"),
-      ground: cap("dacia-31", "ground", "strong", { ro: "Clădire întreagă, cu acces de la nivelul solului", ru: "Здание целиком, вход с уровня земли", en: "Whole building with access at street level" }, "CONFIRMED"),
+      ground: cap("dacia-31", "ground", "strong", { ro: "Clădire întreagă", ru: "Здание целиком", en: "The whole building" }, "CONFIRMED"),
       parking: cap("dacia-31", "parking", "strong", { ro: "Aproximativ 60 de locuri pe teren", ru: "Около 60 мест на участке", en: "About 60 spaces on the plot" }, "DEMO"),
       entrance: cap("dacia-31", "entrance", "strong", { ro: "Intrare proprie, 4+ variante de acces", ru: "Собственный вход · 4+ варианта доступа", en: "Dedicated entrance, 4+ access options" }, "CONFIRMED"),
       power: cap("dacia-31", "power", "possible", { ro: "Rețele existente; capacitatea se confirmă prin audit", ru: "Сети есть; мощность подтверждается аудитом", en: "Services in place; capacity to be confirmed by audit" }, "CONFIRMED"),
