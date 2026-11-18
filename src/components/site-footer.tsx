@@ -5,14 +5,14 @@ import { TenantEntry } from "@/components/tenant-entry";
 import { developmentPortfolio, itemHref, landPortfolio, leasingProjects, portfolioCategories } from "@/lib/portfolio";
 import { company, contactLinks } from "@/data/demo-content";
 import { businessStatement } from "@/lib/business";
-import { brand, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * INSTITUTIONAL FOOTER (OWNER "SITEWIDE R3" §14): a dark architectural ending — the company positioning,
  * then Investment · Leasing · Projects · Company · Contact, the legal line and the languages, and the
  * MEGAPARC wordmark as the last architectural line of the page. Leasing and Projects read the content
  * source, so a unit that is let or a new project changes the footer without code.
- * `statement={false}` omits WE BUILD THE FUTURE on a page that has just closed on it.
+ * `statement={false}` omits the translated slogan line on a page that has just closed on it (the logo with its slogan stays).
  */
 const copy = {
   investment: { ro: "Investiții", ru: "Инвестиции", en: "Investment" },
@@ -64,12 +64,13 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
     <footer className="ftr r3-ftr">
       <div className="r3-shell r3-ftr__top">
         <p className="r3-ftr__position">{businessStatement[locale]}</p>
-        {statement ? (
-          <p className="r3-ftr__future">
-            <span lang="en">We build the future.</span>
-            {locale !== "en" ? <span>{brand.tagline[locale]}.</span> : null}
-          </p>
-        ) : null}
+        {/* the approved logo with the slogan (Brand Guidelines: «logotipul cu slogan — în subsol»), the version for a dark background; the
+            slogan the footer used to type is now the logo's own «We build the Future» (the OWNER's spelling) and stays in the alt text */}
+        <div className="r3-ftr__future">
+          {/* eslint-disable-next-line @next/next/no-img-element -- a static vector logo, no optimisation to gain */}
+          <img className="r3-ftr__logo" src={publicAsset("/brand/megaparc-logo-on-dark.svg")} alt="Megaparc — We build the Future" lang="en" width={1121} height={319} />
+          {statement && locale !== "en" ? <span>{brand.tagline[locale]}.</span> : null}
+        </div>
       </div>
 
       <div className="r3-shell r3-ftr__cols">

@@ -3,24 +3,24 @@
    leasing page (--r3-*). Nothing else of the calculators changes. */
 .cur-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem 1.6rem; margin: 1rem 0 0; }
 .cur-bar__switch { display: inline-flex; align-items: center; gap: .7rem; }
-.cur-bar__label, .cur-bar__ratelabel { color: var(--r8-ink, var(--r3-ink, #121316)); font-size: .86rem; font-weight: 600; }
-.cur-bar__seg { display: inline-flex; border: 1px solid rgba(18, 19, 22, .22); border-radius: var(--r8-radius, 2px); background: #fff; overflow: hidden; }
-.cur-bar__seg button { min-height: 2.6rem; min-width: 3.4rem; padding: 0 .95rem; border: 0; background: transparent; color: var(--r8-text, var(--r3-text, #3a3c40)); font: inherit; font-size: .9rem; font-weight: 600; letter-spacing: .02em; cursor: pointer; }
-.cur-bar__seg button + button { border-left: 1px solid rgba(18, 19, 22, .16); }
-.cur-bar__seg button.is-on { background: var(--r8-graphite, #23252a); color: #fff; }
-.cur-bar__seg button:focus-visible, .cur-bar__restore:focus-visible { outline: 2px solid var(--r8-burgundy, #74202f); outline-offset: -2px; }
+.cur-bar__label, .cur-bar__ratelabel { color: var(--r8-ink, var(--r3-ink, #232323)); font-size: .86rem; font-weight: 600; }
+.cur-bar__seg { display: inline-flex; border: 1px solid rgba(19, 19, 19, .22); border-radius: var(--r8-radius, 2px); background: #fff; overflow: hidden; }
+.cur-bar__seg button { min-height: 2.6rem; min-width: 3.4rem; padding: 0 .95rem; border: 0; background: transparent; color: var(--r8-text, var(--r3-text, #424242)); font: inherit; font-size: .9rem; font-weight: 600; letter-spacing: .02em; cursor: pointer; }
+.cur-bar__seg button + button { border-left: 1px solid rgba(19, 19, 19, .16); }
+.cur-bar__seg button.is-on { background: var(--r8-graphite, #303030); color: #fff; }
+.cur-bar__seg button:focus-visible, .cur-bar__restore:focus-visible { outline: 2px solid var(--r8-burgundy, #cb0102); outline-offset: -2px; }
 .cur-bar__rate { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; }
-.cur-bar__ratefield { display: inline-flex; align-items: center; gap: .4rem; color: var(--r8-text, var(--r3-text, #3a3c40)); font-size: .88rem; font-variant-numeric: tabular-nums; }
-.cur-bar__input { width: 6.2rem; min-height: 2.6rem; padding: 0 .6rem; border: 1px solid rgba(18, 19, 22, .22); border-radius: var(--r8-radius, 2px); background: #fff; color: var(--r8-ink, var(--r3-ink, #121316)); font: inherit; font-size: .9rem; font-variant-numeric: tabular-nums; text-align: right; }
-.cur-bar__input:focus-visible { outline: 2px solid var(--r8-burgundy, #74202f); outline-offset: 1px; }
-.cur-bar__src { color: var(--r8-muted, var(--r3-muted, #6b6e74)); font-size: .78rem; line-height: 1.45; }
-.cur-bar__restore { padding: 0; border: 0; border-bottom: 1px solid currentColor; background: none; color: var(--r8-burgundy, #74202f); font: inherit; cursor: pointer; }
+.cur-bar__ratefield { display: inline-flex; align-items: center; gap: .4rem; color: var(--r8-text, var(--r3-text, #424242)); font-size: .88rem; font-variant-numeric: tabular-nums; }
+.cur-bar__input { width: 6.2rem; min-height: 2.6rem; padding: 0 .6rem; border: 1px solid rgba(19, 19, 19, .22); border-radius: var(--r8-radius, 2px); background: #fff; color: var(--r8-ink, var(--r3-ink, #232323)); font: inherit; font-size: .9rem; font-variant-numeric: tabular-nums; text-align: right; }
+.cur-bar__input:focus-visible { outline: 2px solid var(--r8-burgundy, #cb0102); outline-offset: 1px; }
+.cur-bar__src { color: var(--r8-muted, var(--r3-muted, #6e6e6e)); font-size: .78rem; line-height: 1.45; }
+.cur-bar__restore { padding: 0; border: 0; border-bottom: 1px solid currentColor; background: none; color: var(--r8-burgundy, #cb0102); font: inherit; cursor: pointer; }
 /* OWNER «AUTOMATIC NBM FX» (2026-11-16): the manual status reads as a status (ink), the restore stays the quiet burgundy link; a newer NBM
    rate that arrives after a calculation has started is offered on one quiet line, never applied under the visitor's hands */
-.cur-bar__src.is-manual { color: var(--r8-ink, var(--r3-ink, #121316)); font-weight: 600; }
+.cur-bar__src.is-manual { color: var(--r8-ink, var(--r3-ink, #232323)); font-weight: 600; }
 .cur-bar__src.is-manual .cur-bar__restore { font-weight: 400; }
-.cur-bar__offer { flex-basis: 100%; margin: 0; color: var(--r8-ink, var(--r3-ink, #121316)); font-size: .78rem; line-height: 1.45; }
-.cur-bar__note { flex-basis: 100%; margin: 0; color: var(--r8-muted, var(--r3-muted, #6b6e74)); font-size: .76rem; line-height: 1.45; }
+.cur-bar__offer { flex-basis: 100%; margin: 0; color: var(--r8-ink, var(--r3-ink, #232323)); font-size: .78rem; line-height: 1.45; }
+.cur-bar__note { flex-basis: 100%; margin: 0; color: var(--r8-muted, var(--r3-muted, #6e6e6e)); font-size: .76rem; line-height: 1.45; }
 @media (max-width: 699px) {
   .cur-bar { gap: .6rem 1rem; }
   .cur-bar__switch, .cur-bar__rate { width: 100%; }

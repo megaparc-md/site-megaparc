@@ -15,7 +15,7 @@
    ================================================================== */
 
 /* ---- Availability chip -------------------------------------------- */
-.lx-chip { display: inline-flex; align-items: center; gap: .5rem; padding: .42rem .7rem .42rem .6rem; border-radius: 999px; background: white; color: var(--ink); font-size: .66rem; font-weight: 700; line-height: 1; letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 1px 0 rgba(17, 18, 22, .06); }
+.lx-chip { display: inline-flex; align-items: center; gap: .5rem; padding: .42rem .7rem .42rem .6rem; border-radius: 999px; background: white; color: var(--ink); font-size: .66rem; font-weight: 700; line-height: 1; letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 1px 0 rgba(18, 18, 18, .06); }
 .lx-chip i { width: .5rem; height: .5rem; border-radius: 50%; background: #1f9d55; box-shadow: 0 0 0 3px rgba(31, 157, 85, .16); }
 /* Status language (acceptance pass 2026-10-08): available now = white pill, live green dot;
    from a date = warm amber pill, hollow amber ring; reserved = ink pill, hollow ring.
@@ -124,7 +124,7 @@
 .lx-adv__use:focus-within { outline: 2px solid var(--red); outline-offset: 3px; }
 .lx-adv__use-label { font-size: 1.02rem; font-weight: 500; line-height: 1.2; }
 .lx-adv__use-goal { color: var(--muted); font-size: .8rem; line-height: 1.35; }
-.lx-adv__use.is-active .lx-adv__use-goal { color: rgba(255, 255, 255, .65); }
+.lx-adv__use.is-active .lx-adv__use-goal { color: rgba(255, 255, 255, 0.694); }
 .lx-adv__result { min-width: 0; }
 .lx-adv__more { padding-top: .9rem; border-top: 1px solid var(--xp-line); }
 .lx-adv__more ul { display: grid; }
@@ -191,7 +191,7 @@
 .lx-plan--stack .lx-plan__label { font-size: 3.1px; fill: var(--muted); letter-spacing: .04em; }
 .lx-plan--stack .lx-plan__value { font-size: 3.2px; fill: var(--ink); font-weight: 600; }
 .lx-plan__level { fill: var(--stone); stroke: var(--ink); stroke-width: .25; }
-.lx-plan .is-included .lx-plan__level { fill: rgba(116, 32, 47, .14); stroke: var(--brand); stroke-width: .4; }
+.lx-plan .is-included .lx-plan__level { fill: rgba(203, 1, 2, .14); stroke: var(--brand); stroke-width: .4; }
 .lx-plan__outline { fill: none; stroke: var(--ink); stroke-width: .7; }
 .lx-plan__unit rect { fill: white; stroke: var(--ink); stroke-width: .3; }
 .lx-plan__unit.is-core rect { stroke-width: .3; }
@@ -201,7 +201,7 @@
 .lx-plan__unit.is-core .lx-plan__label { font-size: 2.4px; fill: var(--muted); }
 .lx-plan__you { font-size: 2px; fill: white; letter-spacing: .06em; text-transform: uppercase; }
 .lx-plan__zone rect { stroke: var(--ink); stroke-width: .3; }
-.lx-plan__zone--main rect { fill: rgba(116, 32, 47, .12); stroke: var(--brand); stroke-width: .45; }
+.lx-plan__zone--main rect { fill: rgba(203, 1, 2, .12); stroke: var(--brand); stroke-width: .45; }
 .lx-plan__zone--service rect { fill: var(--stone); }
 .lx-plan__zone--support rect { fill: var(--paper); }
 .lx-plan__door { fill: none; stroke: var(--red); stroke-width: .8; stroke-linecap: round; stroke-linejoin: round; }
@@ -232,7 +232,7 @@
 .pj-available__dot { flex: none; width: .5rem; height: .5rem; border-radius: 50%; background: #1f9d55; }
 .xp-progress--six { margin-top: var(--xp-3); }
 @media (min-width: 1280px) { .xp-progress--six { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
-.pj-pending { position: relative; display: grid; align-content: center; justify-items: start; gap: .6rem; aspect-ratio: 4 / 3; padding: clamp(1.4rem, 4vw, 2.6rem); background: repeating-linear-gradient(135deg, transparent 0 14px, rgba(17, 18, 22, .035) 14px 15px), var(--paper); border: 1px solid var(--xp-line); }
+.pj-pending { position: relative; display: grid; align-content: center; justify-items: start; gap: .6rem; aspect-ratio: 4 / 3; padding: clamp(1.4rem, 4vw, 2.6rem); background: repeating-linear-gradient(135deg, transparent 0 14px, rgba(18, 18, 18, .035) 14px 15px), var(--paper); border: 1px solid var(--xp-line); }
 .pj-pending__marks i { position: absolute; width: 1.4rem; height: 1.4rem; border-color: var(--ink); border-style: solid; border-width: 0; }
 .pj-pending__marks i:nth-child(1) { top: .8rem; left: .8rem; border-top-width: 1.5px; border-left-width: 1.5px; }
 .pj-pending__marks i:nth-child(2) { top: .8rem; right: .8rem; border-top-width: 1.5px; border-right-width: 1.5px; }
@@ -319,12 +319,12 @@
 .ps-sk__line { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
 .ps-sk__thin { fill: none; stroke: var(--ink); stroke-opacity: .45; stroke-width: .9; }
 .ps-sk__guide { fill: none; stroke: var(--muted); stroke-opacity: .7; stroke-width: .8; stroke-dasharray: 3 3; }
-.ps-sk__subject { fill: rgba(116, 32, 47, .1); stroke: var(--brand); stroke-width: 1.4; stroke-linejoin: round; }
+.ps-sk__subject { fill: rgba(203, 1, 2, .1); stroke: var(--brand); stroke-width: 1.4; stroke-linejoin: round; }
 .ps-sk__person circle { fill: var(--ink); }
 .ps-sk__person path { fill: none; stroke: var(--ink); stroke-width: 1.1; stroke-linecap: round; }
 .ps-sk__accent .ps-sk__person circle { fill: var(--brand); }
 .ps-sk__accent .ps-sk__person path { stroke: var(--brand); }
-.ps-sk__night { fill: rgba(17, 18, 22, .1); }
+.ps-sk__night { fill: rgba(18, 18, 18, .1); }
 .ps-sk__lit { fill: none; stroke: var(--brand); stroke-width: 2.2; stroke-linecap: round; }
 .ps-sk__cam { fill: var(--red); }
 .ps-sk__points circle { fill: white; stroke: var(--brand); stroke-width: 1.2; }

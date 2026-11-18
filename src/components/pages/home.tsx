@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandArcs } from "@/components/brand-arcs";
 import { OperatorProof } from "@/components/operator-proof";
 import { MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
@@ -281,6 +282,8 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             <R3Link href={p("/partnership")} tone="light" large>{c.valueLink}</R3Link>
           </div>
         </div>
+        {/* the brand arcs, once on the page: the bottom of the dark investment scene (Brand Guidelines «Brand Graphics», on a dark ground) */}
+        <BrandArcs className="brand-arcs--section" />
       </section>
 
       {/* 05 LEASING — the leasing portfolio (R3.3 §5): four buildings, each with its own status — never copied */}

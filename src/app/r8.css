@@ -9,28 +9,28 @@
    accent on dark tones only.
    ================================================================== */
 :root {
-  --r8-paper: #fbf9f5;
-  --r8-ivory: #f5f2ec;
-  --r8-stone: #e7dfd3;
-  --r8-sand: #d9ccb9;
-  --r8-blush: #f1e5e2;
-  --r8-burgundy: #74202f;
-  --r8-oxblood: #4c1622;
-  --r8-graphite: #1f2125;
-  --r8-ink: #121316;
-  --r8-text: #3a3d43;
-  --r8-muted: #6a6d74;
+  --r8-paper: #fbfbfb;
+  --r8-ivory: #f7f7f7;
+  --r8-stone: #ebebeb;
+  --r8-sand: #d9d9d9;
+  --r8-blush: #e7e7e7;
+  --r8-burgundy: #cb0102;
+  --r8-oxblood: #545454;
+  --r8-graphite: #222222;
+  --r8-ink: #222222;
+  --r8-text: #424242;
+  --r8-muted: #6d6d6d;
   --r8-radius: 4px;
 }
 
 /* tone variables — one place for every card of this pass */
-.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-fee, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"], .lp-actions li[data-action="kit"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: rgba(18, 19, 22, .16); }
-.r8-t-stone, .lg-pass__card[data-card="heating"], .ct-level.is-lower, .ct-term.is-utilities, .lpx-why__list li:nth-child(2), .lp-key:nth-child(2), .lp-actions li[data-action^="plan-"] { --t-bg: var(--r8-stone); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #625f5a; --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .14); --t-edge: transparent; }
-.r8-t-sand, .lg-pass__card[data-card="logistics"] { --t-bg: var(--r8-sand); --t-ink: var(--r8-ink); --t-text: #34322f; --t-muted: #5d574f; --t-accent: var(--r8-burgundy); --t-rule: rgba(18, 19, 22, .16); --t-edge: transparent; }
-.r8-t-blush, .lg-pass__card[data-card="sanitary"], .ct-term.is-deposit { --t-bg: var(--r8-blush); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #6f5f61; --t-accent: var(--r8-burgundy); --t-rule: rgba(116, 32, 47, .18); --t-edge: transparent; }
+.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-fee, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"], .lp-actions li[data-action="kit"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .14); --t-edge: rgba(19, 19, 19, .16); }
+.r8-t-stone, .lg-pass__card[data-card="heating"], .ct-level.is-lower, .ct-term.is-utilities, .lpx-why__list li:nth-child(2), .lp-key:nth-child(2), .lp-actions li[data-action^="plan-"] { --t-bg: var(--r8-stone); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #545454; --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .14); --t-edge: transparent; }
+.r8-t-sand, .lg-pass__card[data-card="logistics"] { --t-bg: var(--r8-sand); --t-ink: var(--r8-ink); --t-text: #3a3a3a; --t-muted: #545454; --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .16); --t-edge: transparent; }
+.r8-t-blush, .lg-pass__card[data-card="sanitary"], .ct-term.is-deposit { --t-bg: var(--r8-blush); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #545454; --t-accent: var(--r8-burgundy); --t-rule: rgba(203, 1, 2, .18); --t-edge: transparent; }
 .r8-t-burgundy, .lg-pass__card[data-card="electricity"], .ct-level.is-ground, .lpx-why__list li:nth-child(1), .lp-key:nth-child(3), .lp-actions li[data-action="brochure"] { --t-bg: var(--r8-burgundy); --t-ink: #fff; --t-text: rgba(255, 255, 255, .86); --t-muted: rgba(255, 255, 255, .68); --t-accent: #fff; --t-rule: rgba(255, 255, 255, .24); --t-edge: transparent; }
-.r8-t-oxblood, .lg-pass__card[data-card="fitout"] { --t-bg: var(--r8-oxblood); --t-ink: #fff; --t-text: rgba(255, 255, 255, .84); --t-muted: rgba(255, 255, 255, .62); --t-accent: #ed1c2e; --t-rule: rgba(255, 255, 255, .2); --t-edge: transparent; }
-.r8-t-graphite, .lg-pass__card[data-card="access"], .ct__total, .lpx-why__list li:nth-child(3), .lp-key:nth-child(4) { --t-bg: var(--r8-graphite); --t-ink: #fff; --t-text: rgba(255, 255, 255, .82); --t-muted: rgba(255, 255, 255, .6); --t-accent: #ed1c2e; --t-rule: rgba(255, 255, 255, .18); --t-edge: transparent; }
+.r8-t-oxblood, .lg-pass__card[data-card="fitout"] { --t-bg: var(--r8-oxblood); --t-ink: #fff; --t-text: rgba(255, 255, 255, .84); --t-muted: rgba(255, 255, 255, .62); --t-accent: #cb0102; --t-rule: rgba(255, 255, 255, .2); --t-edge: transparent; }
+.r8-t-graphite, .lg-pass__card[data-card="access"], .ct__total, .lpx-why__list li:nth-child(3), .lp-key:nth-child(4) { --t-bg: var(--r8-graphite); --t-ink: #fff; --t-text: rgba(255, 255, 255, .82); --t-muted: rgba(255, 255, 255, .6); --t-accent: #cb0102; --t-rule: rgba(255, 255, 255, .18); --t-edge: transparent; }
 
 /* ------------------------------------------------ §04 infrastructure cards */
 .lg-pass__cards.r8-infra { gap: .75rem; }
@@ -75,19 +75,19 @@
 /* ------------------------------------------------ §02 commercial terms */
 .ct .ct__levels { gap: .75rem; border: 0; }
 .ct .ct-level { position: relative; gap: .8rem; padding: 1.35rem 1.3rem 1.3rem; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg); color: var(--t-text); }
-.ct .ct-level.is-terrace { border: 1px dashed rgba(18, 19, 22, .32); }
+.ct .ct-level.is-terrace { border: 1px dashed rgba(19, 19, 19, .32); }
 .ct .ct-level__name { color: var(--t-muted); }
-.ct .ct-level.is-ground .ct-level__name { color: rgba(255, 255, 255, .78); }
+.ct .ct-level.is-ground .ct-level__name { color: rgba(255, 255, 255, 0.845); }
 .ct .ct-level__rate strong { color: var(--t-ink); }
 .ct .ct-level__rate span, .ct .ct-level__pending { color: var(--t-text); }
 .ct .ct-level__rows > div { border-top-color: var(--t-rule); }
 .ct .ct-level__rows dt { color: var(--t-muted); }
 .ct .ct-level__rows dd { color: var(--t-ink); }
 .ct .ct__total { gap: .45rem; padding: 1.4rem 1.4rem 1.35rem; border-radius: var(--r8-radius); background: var(--t-bg); }
-.ct .ct__total-label { color: rgba(255, 255, 255, .7); }
+.ct .ct__total-label { color: rgba(255, 255, 255, 0.752); }
 .ct .ct__total-figure strong { color: #fff; }
-.ct .ct__total-figure span { color: rgba(255, 255, 255, .82); }
-.ct .ct__sum { color: rgba(255, 255, 255, .6); }
+.ct .ct__total-figure span { color: rgba(255, 255, 255, 0.891); }
+.ct .ct__sum { color: rgba(255, 255, 255, 0.637); }
 .ct__terms { display: grid; gap: .75rem; }
 .ct-term { position: relative; display: grid; gap: .6rem; align-content: start; padding: 1.3rem 1.3rem 1.3rem; border: 1px solid var(--t-edge, transparent); border-radius: var(--r8-radius); background: var(--t-bg); color: var(--t-text); }
 .ct-term::before { content: ""; position: absolute; top: 0; left: 1.3rem; width: 1.6rem; height: 2px; background: var(--t-accent); }
@@ -100,7 +100,7 @@
 .ct .ct__index { padding: 1.2rem 1.3rem 1.25rem; border: 1px solid var(--t-edge); border-left: 2px solid var(--r8-burgundy); border-radius: var(--r8-radius); background: var(--t-bg); }
 @media (min-width: 720px) {
   .ct .ct__levels { border: 0; }
-  .ct .ct-level.is-terrace { padding-left: 1.3rem; border-left: 1px dashed rgba(18, 19, 22, .32); }
+  .ct .ct-level.is-terrace { padding-left: 1.3rem; border-left: 1px dashed rgba(19, 19, 19, .32); }
   .ct__terms { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 1024px) { .ct__terms { grid-column: 2; } }
@@ -123,7 +123,7 @@
 @media (min-width: 900px) { .lp-keys { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; } }
 
 .lpx-infra { container-type: inline-size; margin-top: clamp(1.6rem, 3vw, 2.4rem); }
-.lpx-infra__title { margin: 0 0 .9rem; color: var(--r3-ink, #0f1012); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.lpx-infra__title { margin: 0 0 .9rem; color: var(--r3-ink, #222222); font-size: var(--type-label, .75rem); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .lpx-infra__rows { margin-top: 1.1rem; }
 @media (min-width: 720px) { .lpx-infra__rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
 
@@ -145,6 +145,6 @@
 
 /* ------------------------------------------------ R9 addendum (OWNER, 2026-11-13) · the cadastral numbers of the premises */
 /* one quiet line under the property number in the e-Cadastru block — the numbers never break inside, the line wraps between them */
-.tr-cad__premises { margin: .6rem 0 0; color: var(--muted, #6a6d74); font-size: var(--type-caption, .8125rem); line-height: 1.55; letter-spacing: .004em; }
-.tr-cad__premises > span:first-child { color: var(--ink, #121316); font-weight: 600; }
+.tr-cad__premises { margin: .6rem 0 0; color: var(--muted, #6d6d6d); font-size: var(--type-caption, .8125rem); line-height: 1.55; letter-spacing: .004em; }
+.tr-cad__premises > span:first-child { color: var(--ink, #232323); font-weight: 600; }
 .tr-cad__premise { white-space: nowrap; font-variant-numeric: tabular-nums; }

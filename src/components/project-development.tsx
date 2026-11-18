@@ -87,9 +87,9 @@ function SitePlan({ locale }: { locale: SiteLocale }) {
         <path d="M0 236 L400 214" stroke="currentColor" strokeOpacity=".35" strokeWidth="14" fill="none" />
         <path d="M58 300 L92 0" stroke="currentColor" strokeOpacity=".22" strokeWidth="10" fill="none" />
         <polygon points="104,62 352,48 360,198 112,210" fill="url(#drochia-hatch)" stroke="currentColor" strokeWidth="1.5" />
-        <polygon points="114,150 356,140 360,198 112,210" fill="#74202f" fillOpacity=".14" stroke="#74202f" strokeWidth="1.2" />
+        <polygon points="114,150 356,140 360,198 112,210" fill="#cb0102" fillOpacity=".14" stroke="#cb0102" strokeWidth="1.2" />
         <polygon points="106,68 350,56 354,120 110,128" fill="currentColor" fillOpacity=".07" stroke="currentColor" strokeOpacity=".5" strokeDasharray="4 4" />
-        <text x="236" y="182" textAnchor="middle" fontSize="11" fill="#74202f" fontWeight="600">{copy.planRetail[locale].toUpperCase()}</text>
+        <text x="236" y="182" textAnchor="middle" fontSize="11" fill="#cb0102" fontWeight="600">{copy.planRetail[locale].toUpperCase()}</text>
         <text x="230" y="96" textAnchor="middle" fontSize="11" fill="currentColor" fillOpacity=".7" fontWeight="600">{copy.planLogistics[locale].toUpperCase()}</text>
         <text x="300" y="246" textAnchor="middle" fontSize="10" fill="currentColor" fillOpacity=".6">{copy.planEntry[locale]} →</text>
         <text x="40" y="40" fontSize="10" fill="currentColor" fillOpacity=".6" transform="rotate(-83 40 40)">{copy.planRoad[locale]}</text>

@@ -48,7 +48,7 @@ function Stop({ stop, name, sub, crop }: { stop: TransportStop; name: string; su
     <g className={`lg-tr__stop is-${stop.role}`} transform={`translate(${stop.x} ${stop.y})`}>
       {nearest ? <circle r="17" className="lg-tr__stop-halo" /> : null}
       <circle r={nearest ? 11 : 8.2} className="lg-tr__stop-dot" />
-      <BusGlyph fg={nearest ? "#fff" : "#1c1d21"} cut={nearest ? "#74202f" : "#fff"} scale={nearest ? 1.08 : 0.86} />
+      <BusGlyph fg={nearest ? "#fff" : "#2a2a2a"} cut={nearest ? "#cb0102" : "#fff"} scale={nearest ? 1.08 : 0.86} />
       <text className="lg-tr__stop-name" x={place.dx} y={place.dy} textAnchor={place.anchor}>{name}</text>
       <text className="lg-tr__stop-sub" x={place.dx} y={place.dy + (crop === "tall" ? 17 : 15)} textAnchor={place.anchor}>{sub}</text>
     </g>

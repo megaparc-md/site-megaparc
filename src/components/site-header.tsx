@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { MobileMenu } from "@/components/mobile-menu";
 import type { MenuProject, ProjectsMenuData } from "@/components/projects-menu";
@@ -6,7 +7,7 @@ import { SiteNav } from "@/components/site-nav";
 import { getProject } from "@/content/source";
 import { projectState } from "@/components/r3";
 import { developmentPortfolio, itemHref, landPortfolio, leasingProjects, portfolioCategories } from "@/lib/portfolio";
-import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, publicAsset, ui, type SiteLocale } from "@/lib/site-data";
 
 const allProjects = { ro: "Toate proiectele →", ru: "Все проекты →", en: "All projects →" } as const;
 
@@ -28,13 +29,17 @@ function projectsMenu(locale: SiteLocale): Omit<ProjectsMenuData, "label" | "act
   return { href: localePath(locale, "/projects"), allLabel: allProjects[locale], items };
 }
 
+/**
+ * The approved logo, compact version (OWNER «APPROVED BRAND ALIGNMENT», 2026-11-18; Brand Guidelines: «în antet — versiunea compactă»,
+ * the logo as a vector image, never typed). The approved vector file is used as a mask filled with the current colour, so the mark
+ * follows every state of the header exactly as the typed word did (dark on light, white over a photograph) — the letterforms are the
+ * approved file's, never redrawn or stretched (`mask-size: contain` on the file's own aspect ratio). No ® on the graphic version until
+ * the OWNER confirms it may be applied to it; no red rule — it is not part of the approved logo.
+ */
 export function Brand({ locale, href, light = false }: { locale: SiteLocale; href?: string; light?: boolean }) {
   return (
     <Link className={`brand${light ? " brand--light" : ""}`} href={href ?? localePath(locale, "/")} aria-label={`${brand.name} — ${ui.home[locale]}`}>
-      {/* OWNER «REGISTERED TRADEMARK» (2026-11-16): ® small, top right of the word, the word's colour — out of the flow, so the width of
-          the mark and its red rule stay exactly as they were */}
-      <span className="brand__name">{brand.wordmark}<span className="brand__reg" aria-hidden="true">®</span></span>
-      <span className="brand__rule" aria-hidden="true" />
+      <span className="brand__logo" aria-hidden="true" style={{ "--brand-logo": `url("${publicAsset("/brand/megaparc-logo-compact.svg")}")` } as CSSProperties} />
     </Link>
   );
 }

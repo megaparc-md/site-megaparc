@@ -157,11 +157,6 @@ html { font-variant-ligatures: no-common-ligatures; }
 .tc-h2, .tc-brand__product { font-weight: 700; letter-spacing: -.015em; }
 
 /* ---- shared chrome ---- */
-.brand__name { font-weight: 700; letter-spacing: -.045em; }
-/* OWNER «REGISTERED TRADEMARK» (2026-11-16): the ® of the wordmark — small, top right, the colour of the word, never in the flow (the
-   width of the mark and the red rule under it do not change) */
-.brand__name { position: relative; }
-.brand__reg { position: absolute; left: 100%; top: .04em; margin-left: .08em; font-size: .34em; font-weight: 600; letter-spacing: 0; line-height: 1; }
 .lg-portal__label { font-weight: 700; letter-spacing: .005em; }
 .site main .lt-dossier__title { font-weight: 300; letter-spacing: -.03em; line-height: 1.08; }
 .lt-dossier__row-label { font-weight: 600; }
@@ -183,7 +178,6 @@ html { font-variant-ligatures: no-common-ligatures; }
    ================================================================== */
 
 /* 01 · wordmark (temporary text mark, Manrope 700): the descenders of «g» and «p» clear the red rule */
-.brand__rule { margin-top: .5rem; }
 
 /* 02 · final scene: one dominant thought; the second line is a quiet cue that leads to the action */
 .lg-page .lg-viewing__title { gap: 1.15rem; }
@@ -198,7 +192,7 @@ html { font-variant-ligatures: no-common-ligatures; }
 .lg-pass__fact.is-card .lg-pass__approx { align-self: center; margin-right: -.08rem; font-size: clamp(1.5rem, 5.6cqi, 1.9rem); font-weight: 300; line-height: 1; transform: translateY(-.04em); color: inherit; opacity: .85; }
 .lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__num { font-weight: 500; letter-spacing: -.035em; }
 .lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__unit { font-weight: 700; }
-.lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__why { color: rgba(255, 255, 255, .9); }
+.lg-pass__fact.is-card:is([data-fact="exits"], [data-fact="sanitary"]) .lg-pass__why { color: rgba(255, 255, 255, 0.984); }
 @media (max-width: 519px) {
   .lg-pass__fact.is-card[data-fact="heights"] .lg-pass__num { font-size: 1.9rem; }
   .lg-pass__fact.is-card .lg-pass__approx { font-size: 1.5rem; }
@@ -213,10 +207,10 @@ html { font-variant-ligatures: no-common-ligatures; }
 .lg-motion__lead-more { margin-top: .7rem; color: var(--r3-muted); font-size: clamp(.95rem, 1.05vw, 1.02rem); font-weight: 400; line-height: 1.55; letter-spacing: 0; }
 
 /* 06 · business-format selector: inactive is quiet, active is unmistakable — weight, a selection mark, the arrow and contrast */
-.lg-lens__tab { border-color: rgba(17, 18, 22, .16); }
-.lg-lens__tab .lg-lens__tablabel { color: #3a3c42; font-weight: 500; }
+.lg-lens__tab { border-color: rgba(18, 18, 18, .16); }
+.lg-lens__tab .lg-lens__tablabel { color: #424242; font-weight: 500; }
 .lg-lens__tab .lg-lens__tabno { font-weight: 700; opacity: .7; }
-.lg-lens__tab .lg-lens__tabchev { border-color: rgba(17, 18, 22, .16); color: var(--r3-muted); }
+.lg-lens__tab .lg-lens__tabchev { border-color: rgba(18, 18, 18, .16); color: var(--r3-muted); }
 .lg-lens__tab:hover .lg-lens__tablabel { color: var(--ink); }
 .lg-lens__tab.is-active { border-color: var(--brand); }
 .lg-lens__tab.is-active::before { content: ""; position: absolute; left: 0; top: 24%; bottom: 24%; width: 3px; border-radius: 0 3px 3px 0; background: #fff; }
@@ -233,7 +227,7 @@ html { font-variant-ligatures: no-common-ligatures; }
      micro    .72rem   (11.5 px)· 700 · uppercase · .10em     — labels inside compact tiles, ordinals
      caption  .8125rem (13 px)  · 400 · leading 1.5 · no tracking — notes, hints, meta
      small    .875rem  (14 px)  · 400 · leading 1.5           — card explanations                                              */
-.lg-page, .lp-page { --muted: #50545b; --r3-muted: #50545b; --type-label: .75rem; --type-micro: .72rem; --type-caption: .8125rem; --type-small: .875rem; }
+.lg-page, .lp-page { --muted: #545454; --r3-muted: #545454; --type-label: .75rem; --type-micro: .72rem; --type-caption: .8125rem; --type-small: .875rem; }
 
 /* tracking and weight: small text is never light and never tightened */
 .lg-kpi__unit { font-weight: 600; letter-spacing: 0; }

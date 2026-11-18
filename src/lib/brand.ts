@@ -84,17 +84,17 @@ export type BrandColour = {
 };
 
 export const brandColours: BrandColour[] = [
-  { name: "MEGAPARC Burgundy", role: { ro: "Accent principal de brand · cifre, reguli, stări selectate, câmpul-semnătură", ru: "Основной акцент бренда · номера, линейки, выбранные состояния, сигнатурное поле", en: "Primary brand accent · numbers, rules, selected states, the signature field" }, hex: "#74202F", rgb: "116 32 47", token: "--brand", status: "core" },
-  { name: "MEGAPARC Signal Red", role: { ro: "Doar semnal mic · punct de stare, săgeată, pin, subliniere activă, logo", ru: "Только малый сигнал · точка статуса, стрелка, метка, активное подчёркивание, логотип", en: "Small signal only · status dot, arrow, pin, active underline, the logo" }, hex: "#ED1C2E", rgb: "237 28 46", token: "--signal", status: "core" },
-  { name: "Carbon", role: { ro: "Câmp întunecat · text principal", ru: "Тёмное поле · основной текст", en: "Dark field · primary text" }, hex: "#111216", rgb: "17 18 22", token: "--ink", status: "core", onDark: true },
-  { name: "Architectural White", role: { ro: "Fundal luminos · text pe întunecat", ru: "Светлый фон · текст на тёмном", en: "Light ground · text on dark" }, hex: "#FFFFFF", rgb: "255 255 255", token: "--white", status: "core" },
-  { name: "Graphite", role: { ro: "Câmp întunecat secundar", ru: "Вторичное тёмное поле", en: "Secondary dark field" }, hex: "#1F2126", rgb: "31 33 38", token: "--graphite", status: "supporting", onDark: true },
-  { name: "Warm Stone", role: { ro: "Secțiuni calde · fundaluri editoriale", ru: "Тёплые секции · редакционные фоны", en: "Warm sections · editorial grounds" }, hex: "#E4DFD5", rgb: "228 223 213", token: "--stone", status: "supporting" },
-  { name: "Concrete", role: { ro: "Fundal neutru intermediar", ru: "Нейтральный промежуточный фон", en: "Intermediate neutral ground" }, hex: "#D3D0CA", rgb: "211 208 202", token: "--concrete", status: "supporting" },
-  { name: "Paper / Ivory", role: { ro: "Fundal principal", ru: "Основной фон", en: "Primary ground" }, hex: "#F3F1EC", rgb: "243 241 236", token: "--paper", status: "supporting" },
-  { name: "Soft Grey", role: { ro: "Text secundar · linii", ru: "Вторичный текст · линии", en: "Secondary text · rules" }, hex: "#8A8E94", rgb: "138 142 148", token: "--grey", status: "supporting" },
-  { name: "Burgundy Deep", role: { ro: "Hover pe butoane · accent profund", ru: "Hover кнопок · глубокий акцент", en: "Button hover · deep accent" }, hex: "#5C1925", rgb: "92 25 37", token: "--brand-deep", status: "supporting" },
-  { name: "Burgundy Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на\u00a0светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F3E7E8", rgb: "243 231 232", token: "--brand-tint", status: "supporting" },
+  // OWNER «APPROVED BRAND ALIGNMENT» (2026-11-18): the approved palette of the Brand Guidelines; neutral surfaces are greys of the same
+  // lightness as the earlier warm ones (lifted slightly toward white), set by tools/brand/recolor.mjs — burgundy is no longer a brand colour
+  { name: "Megaparc Red", role: { ro: "Accent · linii, marcaje, stări active, placa sloganului", ru: "Акцент · линии, метки, активные состояния, плашка слогана", en: "Accent · rules, marks, active states, the slogan plate" }, hex: "#CB0102", rgb: "203 1 2", token: "--brand", status: "core" },
+  { name: "Dark", role: { ro: "Text principal · secțiuni întunecate · butoane", ru: "Основной текст · тёмные секции · кнопки", en: "Primary text · dark sections · buttons" }, hex: "#222222", rgb: "34 34 34", token: "--ink", status: "core", onDark: true },
+  { name: "White", role: { ro: "Fundal · text pe întunecat", ru: "Фон · текст на тёмном", en: "Ground · text on dark" }, hex: "#FFFFFF", rgb: "255 255 255", token: "--white", status: "core" },
+  { name: "Graphite", role: { ro: "Text secundar · suprafețe întunecate mari", ru: "Вторичный текст · крупные тёмные поверхности", en: "Secondary text · large dark surfaces" }, hex: "#545454", rgb: "84 84 84", token: "--muted", status: "core", onDark: true },
+  { name: "Silver", role: { ro: "Arcul gri · text discret pe întunecat", ru: "Серая дуга · тихий текст на тёмном", en: "The grey arc · quiet text on dark" }, hex: "#C2C7C5", rgb: "194 199 197", token: "—", status: "supporting" },
+  { name: "Light Grey", role: { ro: "Fundaluri auxiliare · separatoare", ru: "Вспомогательные фоны · разделители", en: "Auxiliary grounds · dividers" }, hex: "#D9D9D9", rgb: "217 217 217", token: "—", status: "supporting" },
+  { name: "Paper", role: { ro: "Fundal principal al secțiunilor", ru: "Основной фон секций", en: "Primary section ground" }, hex: "#F7F7F7", rgb: "247 247 247", token: "--paper", status: "supporting" },
+  { name: "Stone", role: { ro: "Secțiuni alternante", ru: "Чередующиеся секции", en: "Alternating sections" }, hex: "#EBEBEB", rgb: "235 235 235", token: "--stone", status: "supporting" },
+  { name: "Concrete", role: { ro: "Fundal neutru intermediar", ru: "Нейтральный промежуточный фон", en: "Intermediate neutral ground" }, hex: "#DCDCDC", rgb: "220 220 220", token: "--concrete", status: "supporting" },
 ];
 
 export const gradientPolicy = {
