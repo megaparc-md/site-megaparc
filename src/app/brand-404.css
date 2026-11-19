@@ -1,0 +1,9 @@
+/*
+ * MEGAPARC — the brand roles of the global 404 page (OWNER «BRAND ALIGNMENT R2», 2026-11-19). The 404 page renders its own document with
+ * globals.css only; this file is imported by src/app/global-not-found.tsx alone (brand.css must stay the last stylesheet of the locale
+ * pages — importing it here moves it into the first CSS chunk). Colour only.
+ */
+/* red is never text on the dark #222222 (2,7 : 1): «404 / MEGAPARC» is white at 72 % (8,9 : 1) */
+.not-found .label--red { color: rgba(255, 255, 255, .72); }
+/* the keyboard focus ring on the dark page is white (the red ring is 2,7 : 1) */
+.not-found :is(a, button):focus-visible { outline-color: #fff; }

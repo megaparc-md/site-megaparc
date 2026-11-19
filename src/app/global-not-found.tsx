@@ -4,6 +4,9 @@ import Link from "next/link";
 import { RootDocument } from "@/components/root-document";
 import { brand, localePath, locales, ui } from "@/lib/site-data";
 import "./globals.css";
+// the 404 page's own brand roles — never import brand.css here: a stylesheet shared with the locale layouts moves into the first CSS chunk
+// and loses its place as the last stylesheet of every page (OWNER «BRAND ALIGNMENT R2», 2026-11-19)
+import "./brand-404.css";
 
 /**
  * Global 404 for URLs that match no locale tree. It bypasses the locale root

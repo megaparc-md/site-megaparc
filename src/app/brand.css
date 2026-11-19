@@ -40,8 +40,8 @@
 /* ---------- the key-fact cards: one red card per row at most; the former deep-burgundy card is Graphite */
 .kf__card--burgundy { background: #545454; }
 
-/* ---------- large numerals are dark: a red figure of 100–400 px is a red field. The red stays in the rule and the label beside them;
-   the medium MEGAPARC years of the history timeline keep red — there the colour tells MEGAPARC's history from the group's */
+/* ---------- large numerals are dark: a red figure of 100–400 px is a red field. The red stays in the rule and the label beside them
+   (R2: the history year index too — see the R2 block below) */
 /* (the giant era year only where it was the burgundy MEGAPARC era — the dark era and the minor eras keep their own colours) */
 .site .r3-heritage__year, .site .r3-era--megaparc .r3-era__year, .site .r3-from__years span, .site .r3-split__count { color: var(--ink); }
 
@@ -53,3 +53,66 @@
 
 /* ---------- the format tabs' numbers were burgundy at 70 % opacity (≈ 5 : 1); red at 70 % is 4 : 1 — the number is solid red (5,9 : 1) */
 .lg-lens__tab .lg-lens__tabno { opacity: 1; }
+
+/* ==================================================================================================================================
+   BRAND ALIGNMENT R2 (OWNER «BRAND ALIGNMENT R2», 2026-11-19) — colour only; text, layout, data and behaviour unchanged.
+   ================================================================================================================================== */
+
+/* ---------- §5 the accent words of the large statements and headings are dark. Red stays a dosed accent: rules, marks, labels,
+   statuses, small numbers, the active control. (The words keep their weight — the accent is typographic, not a colour.) */
+.lg-statement__title .xp-mask__line:first-child,           /* «625,7 м². Два уровня. Одна концепция.» and the datasets' statements */
+.lg-lens__question,                                        /* «Увидят ли меня?» — the question of each business format */
+.lg-viewing__sub, .lg-page .lg-viewing__sub,               /* «Посмотрите Moscova 20 лично.» — the second line of the final heading */
+.lg-motion__verdict .lg-motion__cta-title,                 /* «Подходит ли этот поток именно вашему бизнесу?» */
+.ld-deal__no,                                              /* Drochia — the three deal structures 01 · 02 · 03 */
+.r3-register__list .is-megaparc .r3-register__name,        /* MEGAPARC in the register of the group's companies */
+.r3-trust__cad .tr-cad__number--pending { color: var(--ink); } /* «Кадастровый номер проверяется» */
+.ct-term__figure strong { color: var(--t-ink); }           /* «3 месяца» · «15 %» — the figure of a commercial-terms card */
+/* the history year index: no 118 px red years. MEGAPARC's own years (2005 · 2020) are the ink, the group's years (1991 · 1995) Graphite,
+   so the two histories stay distinct without a red field; the hover keeps the red */
+.r3-hyears li:not(.is-megaparc) .r3-hyears__year { color: #545454; }
+.r3-hyears .is-megaparc .r3-hyears__year { color: var(--ink); }
+.r3-hyears a:hover .r3-hyears__year, .r3-hyears a:focus-visible .r3-hyears__year { color: var(--brand); }
+
+/* ---------- no large red field in any state a visitor can open (found by the open-state scan: a drawer, a format pane) */
+.lg-pass__fact.is-card[data-fact="exits"] { background: #545454; } /* the technical drawer — «4 выхода» (was the burgundy card) */
+.r10-adv__card:nth-child(1) { --t-bg: #545454; }                   /* the fifth format — advantage 01 (was the burgundy card) */
+
+/* ---------- WCAG AA for the quiet controls. The inactive items stay quieter than the active one — only their level rises to 4,5 : 1 */
+/* the header utility navigation and language switch (ink at 68 % on the light header = 5,3 : 1; was 58 % / 50 % = 3,9 / 2,5 : 1) */
+.site-nav--utility a, html.hx-solid .site--overlay .site-nav--utility a { opacity: .68; }
+.languages--header a, .languages--header span { opacity: .68; }
+/* the Leasing Pack language row on phones (was 55 % = 3,6 : 1) */
+.lp-lang a, .lp-lang span { opacity: .68; }
+/* the footer language switch on the dark (was 2,6 : 1): the inactive languages white at 60 % (6,6 : 1), the active one white */
+.languages--footer a, .languages--footer span { opacity: 1; color: rgba(255, 255, 255, .6); }
+.languages--footer a:hover, .languages--footer .is-active { color: #fff; }
+/* the projects dropdown — the status line under each property (was 3,6 : 1) */
+.pmenu__status:not(.is-now) { color: #545454; opacity: 1; }
+/* the stages of a development project (VATRA): the stages still ahead stay quieter, readable (was 55 % = 2,6 : 1) */
+.xp-process--stages li { opacity: .82; }
+.xp-process--stages li.is-done { opacity: .92; }
+/* About — «1991» beside «2005»: the earlier year stays lighter, at 3 : 1 for large text (was 2,7 : 1) */
+.r3-from__years span:first-child { opacity: .55; }
+
+/* ---------- on the dark surfaces red is never text (2,7 : 1 on #222222): there the text is white, red stays the mark */
+.r3-sec--ink .r3-label--dark { color: rgba(255, 255, 255, 0.637); }   /* Drochia — the section labels of the two dark sections */
+.r3-sec--ink .ld-status.is-required { color: #fff; }                   /* Drochia — «Требуется»: white text, the red dot */
+.r3-sec--ink .ld-status.is-required::before { background: var(--brand); }
+/* (the 404 page renders its own document — its label and focus ring live in brand-404.css) */
+
+/* ---------- text on photographs and maps, where colour alone can lift it (measured on the real pixels behind the text) */
+.loc__credit { color: #545454; }                                       /* «© OpenStreetMap» on the light map (was #969696, 2,2 : 1) */
+.lg-portal__no { color: rgba(255, 255, 255, .82); }                    /* Moscova 20 navigation tiles — 01 · 03 on the photograph */
+.lg-portal__word { color: rgba(255, 255, 255, .9); }                   /* their supporting phrase (was 4,1 : 1 on the photograph) */
+.lg-portal.is-plans .lg-portal__no, .lg-portal.is-plans .lg-portal__word { color: var(--muted); } /* the light plan tile keeps Graphite */
+.xp-hero__lead { color: #fff; }                                        /* the lead of the photographic page heroes (was white at 94 %) */
+.lg-story__label b, .lg-story__fig.is-statement .lg-story__label b { color: inherit; } /* «02 · Свет» — the number takes its label's colour (white on the photograph) */
+
+/* ---------- the keyboard focus ring on the dark surfaces is white: the red ring is 2,7 : 1 on #222222 and 1,3 : 1 on Graphite (WCAG 1.4.11
+   asks 3 : 1; the former #ED1C2E on #0F1012 was 4,4 : 1). On the light surfaces the ring stays Megaparc Red (5,9 : 1). */
+:is(.r3-ftr, .ftr, .r3-sec--ink, .xp-sec--ink, .xp-sec--graphite, .xp-dark, .xp-opening--dark, .xp-hero, .cm, .lg-capex, .r10-example,
+    .r8-t-burgundy, .r8-t-oxblood, .r8-t-graphite, .lg-pass__card[data-card="electricity"], .lg-pass__card[data-card="fitout"], .lg-pass__card[data-card="access"],
+    .ct-level.is-ground, .ct__total, .lpx-why__list li:nth-child(1), .lpx-why__list li:nth-child(3), .lp-key:nth-child(3), .lp-key:nth-child(4),
+    .lp-actions li[data-action="brochure"], .kf__card--burgundy, .r10-adv__card:nth-child(1), .r10-adv__card:nth-child(3))
+  :is(a, button, summary, input, select, textarea, [tabindex]):focus-visible { outline-color: #fff; }
