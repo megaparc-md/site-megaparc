@@ -116,3 +116,43 @@
     .ct-level.is-ground, .ct__total, .lpx-why__list li:nth-child(1), .lpx-why__list li:nth-child(3), .lp-key:nth-child(3), .lp-key:nth-child(4),
     .lp-actions li[data-action="brochure"], .kf__card--burgundy, .r10-adv__card:nth-child(1), .r10-adv__card:nth-child(3))
   :is(a, button, summary, input, select, textarea, [tabindex]):focus-visible { outline-color: #fff; }
+
+/* ---------- R2 FINAL POLISH (OWNER «BRAND R2 FINAL POLISH», 2026-11-19): text and controls on photographs, measured on the real pixels
+   behind them (photo-v2 scan: the glyphs made transparent, no text-shadow counted). Local, soft layers strictly under the text —
+   never a global darkening of the photographs; absolutely positioned pseudo-elements, so no box moves. */
+
+/* 1. the header while it floats over a photograph (overlay pages — VATRA, Offer — before the page scrolls): a soft band under the header
+   line only (it is gone 10rem down); every item white there (the 68–86 % of the light header is for ink on light — on the photograph the
+   bright sky leaves them at 3,6–4,3 : 1); the active item keeps its rule, which turns white with the keyboard focus ring — red is
+   1,0–2,5 : 1 on the photograph, white over the band ≥ 3 : 1 (WCAG 1.4.11). Once the page scrolls, the solid header is unchanged */
+.site--overlay .xp-hero__veil::before { content: ""; position: absolute; inset: 0 0 auto; height: 10rem; background: linear-gradient(180deg, rgba(11, 11, 11, .54) 0, rgba(11, 11, 11, .48) 4.5rem, rgba(11, 11, 11, 0) 10rem); pointer-events: none; }
+html:not(.hx-solid) body:not(.menu-open) .site--overlay :is(.site-nav--desktop > a, .pmenu__toggle, .site-nav--utility a, .languages--header a, .languages--header span) { opacity: 1; }
+html:not(.hx-solid) body:not(.menu-open) .site--overlay :is(.site-nav--desktop a[aria-current="page"], .pmenu__toggle[aria-current="page"], .pmenu.is-open .pmenu__toggle, .languages--header .is-active)::after { background: #fff; }
+html:not(.hx-solid) body:not(.menu-open) .site--overlay .hdr :is(.brand, .site-nav--desktop > a, .site-nav--utility > a, .pmenu__toggle, .languages--header a, .menu__button):focus-visible { outline-color: #fff; }
+
+/* 2. the copy of the photographic page heroes (overlay pages): a soft pool under the text block; the rest of the photograph untouched.
+   position: relative without offsets (the copy loses its transform under reduced motion — the pool must still follow the copy) */
+.site--overlay .xp-hero__copy { position: relative; }
+.site--overlay .xp-hero__copy::before { content: ""; position: absolute; z-index: -1; inset: -4rem -6rem -2rem; pointer-events: none; background: radial-gradient(closest-side, rgba(11, 11, 11, .3) 62%, rgba(11, 11, 11, 0)); }
+@media (min-width: 1024px) { .site--overlay .xp-hero__copy::before { inset: -8rem auto -2rem -12rem; width: 72rem; background: radial-gradient(closest-side, rgba(11, 11, 11, .36) 52%, rgba(11, 11, 11, 0)); } }
+
+/* 3. captions on photographs (Dacia 31 on Home, About, Investment; the VATRA tile; «02 · Свет»; «Концептуальное изображение»):
+   a soft dark ellipse strictly under the line */
+.r3-wide__caption, .r3-band__caption { isolation: isolate; }
+.lg-story__fig.is-statement .lg-story__label { position: relative; isolation: isolate; }
+:is(.r331-hero__caption, .r3-wide__caption, .r3-band__caption, .lg-story__fig.is-statement .lg-story__label)::before,
+.xp-disclosure::after { content: ""; position: absolute; z-index: -1; inset: -1.5em -3.5em; pointer-events: none; background: radial-gradient(closest-side, rgba(17, 17, 17, .5) 50%, rgba(17, 17, 17, .3) 74%, rgba(17, 17, 17, 0)); }
+/* «Концептуальное изображение» — the smallest of them (9–10 px) on the brightest frame (white steel, pale sand): white, a denser pool */
+.xp-disclosure, .r3-hero .xp-disclosure, .r4-iband .xp-disclosure { color: #fff; }
+.xp-disclosure::after { background: radial-gradient(closest-side, rgba(17, 17, 17, .62) 50%, rgba(17, 17, 17, .36) 74%, rgba(17, 17, 17, 0)); }
+.r3-band__caption::before { right: auto; left: -3.5em; width: 21em; } /* the caption box spans the shell; the pool follows the text at its start */
+/* «02 · Свет» (Moscova 20): the statement's corner veil reaches a little further — at 1920 px its first line ran onto the bright
+   radiator and glazing (2,2 : 1); the glazing on the left stays clean */
+.lg-story__fig.is-statement .lg-photo::after { background: linear-gradient(to top left, rgba(15, 15, 15, .84) 0%, rgba(15, 15, 15, .66) 28%, rgba(15, 15, 15, .3) 52%, rgba(15, 15, 15, 0) 72%); }
+.lg-portal__no { color: #fff; } /* Moscova 20 navigation tiles — 01 · 03 white (at 82 % «03» was 2,95 : 1 at 1024 px); the light plan tile keeps Graphite */
+
+/* 4. the labels of the location maps, measured on the map's pixels (halo not counted): the street names (were #858585, 2,7 : 1), the
+   scale (#6B6B6B, 4,1 : 1) and the ring radii (red on the ring's tint, 4,3 : 1) Graphite — the frontage street stays ink and larger, the
+   rings themselves stay red */
+.loc__street:not(.is-frontage), .loc__scale, .loc__ring-label { color: #545454; }
+.loc__scale i { border-color: #545454; }
