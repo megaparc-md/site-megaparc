@@ -3,50 +3,89 @@
 import { useEffect } from "react";
 
 /**
- * The behaviour of the language entry (OWNER «PREMIUM LANGUAGE ENTRY EXPERIENCE», 2026-11-12 — preview concept): the choice is stored,
- * the layer closes; keyboard and touch work alike. The layer itself is shown by the inline script before the first paint — this
- * component only wires the controls once the page is interactive, so nothing depends on it for the first render:
- *   · a language link stores the choice and navigates (a plain link — it works even before hydration); choosing the current
- *     language closes the layer without a navigation;
- *   · the close button and Escape keep the current language and close;
- *   · cinema (a modal welcome screen): focus moves to the first language, Tab stays inside, the page behind does not scroll;
- *   · overlay (a compact panel): no focus is taken and nothing is trapped — the page stays fully usable behind it.
+ * The behaviour of the brand entrance (OWNER «PREMIUM BRAND ENTRANCE», 2026-11-20 — preview). The layer itself is shown by the inline
+ * script before the first paint; this component wires the controls once the page is interactive, so nothing depends on it for the
+ * first render — the three languages are plain links and work before hydration and without it:
+ *   · a language link stores the choice; another language opens with `location.replace` (the entrance leaves no entry in the browser
+ *     history — Back returns to where the visitor came from, never to the entrance); the root's own language fades the layer away
+ *     without a navigation; a modified click (new tab, new window) is left to the browser;
+ *   · A «entrance» (a modal first screen): focus moves to the layer; Tab and Shift+Tab move among the three languages and nowhere
+ *     else — the dialog moves the focus itself, because Safari's Tab skips links by default and would otherwise leave for a button of
+ *     the page behind; everything outside the layer is `inert` while it is open (keyboard and screen readers alike); the page behind
+ *     does not scroll; Escape continues in the root's language;
+ *   · B «direct» (a slim band): no focus is taken and nothing is trapped — the page stays fully usable; the close button and Escape
+ *     keep the current language;
+ *   · a page restored from the back / forward cache re-reads the stored choice, so a layer that was open never comes back.
  */
 export function LanguageEntryControls({ storageKey, current }: { storageKey: string; current: string }) {
   useEffect(() => {
     const root = document.documentElement;
     const layer = document.getElementById("language-entry");
-    const variant = root.getAttribute("data-entry");
-    if (!layer || !variant) return;
+    if (!layer) return;
+    const variant = () => root.getAttribute("data-entry");
     const remember = (lang: string) => { try { localStorage.setItem(storageKey, lang); } catch { /* storage blocked: the choice simply is not remembered */ } };
-    const close = () => { root.removeAttribute("data-entry"); };
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let timer = 0;
+    // A: everything outside the layer is inert while the entrance is open — the siblings of the layer and of each of its ancestors
+    const inerted: Element[] = [];
+    const setInert = () => {
+      for (let node: Element | null = layer; node && node !== document.body && node.parentElement; node = node.parentElement) {
+        for (const sibling of [...node.parentElement.children]) {
+          if (sibling !== node && sibling.tagName !== "SCRIPT" && sibling.tagName !== "STYLE" && !sibling.hasAttribute("inert")) { sibling.setAttribute("inert", ""); inerted.push(sibling); }
+        }
+      }
+    };
+    const clearInert = () => { inerted.splice(0).forEach((el) => el.removeAttribute("inert")); };
+    const close = () => {
+      if (!variant()) return;
+      clearInert();
+      if (reduced) { root.removeAttribute("data-entry"); return; }
+      root.setAttribute("data-entry-leaving", "");
+      timer = window.setTimeout(() => { root.removeAttribute("data-entry"); root.removeAttribute("data-entry-leaving"); }, 380);
+    };
     const links = [...layer.querySelectorAll<HTMLAnchorElement>("[data-lang]")];
     const onLink = (event: MouseEvent) => {
-      const lang = (event.currentTarget as HTMLAnchorElement).dataset.lang ?? current;
+      const link = event.currentTarget as HTMLAnchorElement;
+      const lang = link.dataset.lang ?? current;
       remember(lang);
-      if (lang === current) { event.preventDefault(); close(); }
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      if (lang === current) close();
+      else window.location.replace(link.href);
     };
     links.forEach((link) => link.addEventListener("click", onLink));
     const closer = layer.querySelector<HTMLButtonElement>("[data-close]");
     const onClose = () => { remember(current); close(); };
     closer?.addEventListener("click", onClose);
-    const focusable = [...links, ...(closer ? [closer] : [])];
     const onKey = (event: KeyboardEvent) => {
-      if (!root.hasAttribute("data-entry")) return;
+      const v = variant();
+      if (v !== "entrance" && v !== "direct") return;
       if (event.key === "Escape") { onClose(); return; }
-      if (event.key === "Tab" && variant === "cinema" && focusable.length) {
-        const first = focusable[0], last = focusable[focusable.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-        else if (!layer.contains(document.activeElement)) { event.preventDefault(); first.focus(); }
+      if (event.key === "Tab" && v === "entrance" && links.length && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault();
+        const at = links.indexOf(document.activeElement as HTMLAnchorElement);
+        const next = at < 0 ? (event.shiftKey ? links.length - 1 : 0) : (at + (event.shiftKey ? links.length - 1 : 1)) % links.length;
+        links[next].focus();
       }
     };
     document.addEventListener("keydown", onKey);
-    if (variant === "cinema") links[0]?.focus({ preventScroll: true });
+    // a page restored from the back / forward cache: the stored choice decides again
+    const onShow = (event: PageTransitionEvent) => {
+      if (!event.persisted || !variant()) return;
+      let stored: string | null = null;
+      try { stored = localStorage.getItem(storageKey); } catch { /* no storage */ }
+      if (stored && stored !== current && (stored === "ru" || stored === "en")) window.location.replace(links.find((l) => l.dataset.lang === stored)?.href ?? window.location.href);
+      else if (stored) { clearInert(); root.removeAttribute("data-entry"); }
+    };
+    window.addEventListener("pageshow", onShow);
+    if (variant() === "entrance") { setInert(); layer.focus({ preventScroll: true }); }
     return () => {
+      window.clearTimeout(timer);
+      clearInert();
       links.forEach((link) => link.removeEventListener("click", onLink));
       closer?.removeEventListener("click", onClose);
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("pageshow", onShow);
     };
   }, [storageKey, current]);
   return null;

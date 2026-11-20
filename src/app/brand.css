@@ -45,11 +45,28 @@
 /* (the giant era year only where it was the burgundy MEGAPARC era — the dark era and the minor eras keep their own colours) */
 .site .r3-heritage__year, .site .r3-era--megaparc .r3-era__year, .site .r3-from__years span, .site .r3-split__count { color: var(--ink); }
 
-/* ---------- the brand arcs (src/components/brand-arcs.tsx): once on a page, at the bottom of a surface, never over text */
+/* ---------- the brand arcs (src/components/brand-arcs.tsx): once on a page, at the bottom of a surface, never over text.
+   OWNER «CORPORATE ARC REFINEMENT» (2026-11-20) — three compositions of the same approved curves:
+     A  controlled crop   the bands rise out of the section's bottom edge and leave by its right edge — no end inside the section;
+     B  contained accent  the whole stroke inside the section, with margins; the two ends dissolve;
+     C  minimal lines     the same curves as fine lines, compact, from the bottom edge to the right edge.
+   The production edition renders one composition; the preview renders the three and `<html data-arcs>` (the «?arcs=» review switch)
+   shows one of them, or none. */
 .r32-value { position: relative; }
 .brand-arcs { display: block; height: auto; pointer-events: none; }
-.brand-arcs--section { position: absolute; right: 0; bottom: 0; width: min(34%, 30rem); }
-@media (max-width: 1023px) { .brand-arcs--section { width: min(54%, 17rem); } }
+.brand-arcs--section { position: absolute; right: 0; bottom: 0; }
+.brand-arcs--section.brand-arcs--a { width: min(31%, 27rem); }
+.brand-arcs--section.brand-arcs--b { right: max(1.25rem, (100% - var(--r3-shell)) / 2); bottom: clamp(1.9rem, 4.4vw, 4rem); width: min(25%, 21rem); }
+.brand-arcs--section.brand-arcs--c { width: min(21%, 17rem); }
+@media (max-width: 1023px) {
+  .brand-arcs--section.brand-arcs--a { width: min(50%, 15rem); }
+  .brand-arcs--section.brand-arcs--b { bottom: 1.15rem; width: min(40%, 11rem); }
+  .brand-arcs--section.brand-arcs--c { width: min(38%, 10.5rem); }
+}
+/* the review switch of the preview: one composition at a time */
+.brand-arcs--section:not(.is-default) { display: none; }
+html[data-arcs] .brand-arcs--section.is-default { display: none; }
+html[data-arcs="a"] .brand-arcs--section.brand-arcs--a, html[data-arcs="b"] .brand-arcs--section.brand-arcs--b, html[data-arcs="c"] .brand-arcs--section.brand-arcs--c { display: block; }
 
 /* ---------- the format tabs' numbers were burgundy at 70 % opacity (≈ 5 : 1); red at 70 % is 4 : 1 — the number is solid red (5,9 : 1) */
 .lg-lens__tab .lg-lens__tabno { opacity: 1; }
