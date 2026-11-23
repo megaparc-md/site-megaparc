@@ -39,9 +39,9 @@ export const offerCopy = {
   r4: {
     entranceTitle: { ro: "Intrare directă pentru clienți", ru: "Прямой клиентский вход", en: "A direct customer entrance" },
     feeOnce: {
-      ro: "Întreținerea rețelelor inginerești este inclusă doar în acești 15 % — fără dublă facturare.",
-      ru: `Обслуживание инженерных сетей входит только в${N}эти 15${N}%${N}— без${N}двойного начисления.`,
-      en: "Engineering-network maintenance is covered by this 15% only — never charged twice.",
+      ro: "Întreținerea rețelelor inginerești externe este inclusă doar în acești 15 % — fără dublă facturare.",
+      ru: `Обслуживание внешних инженерных сетей входит только в${N}эти 15${N}%${N}— без${N}двойного начисления.`,
+      en: "External utility-network maintenance is covered by this 15% only — never charged twice.",
     },
   },
 } satisfies Record<string, Localized | Record<string, Localized>>;

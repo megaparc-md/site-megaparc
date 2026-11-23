@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui";
 import { getProject } from "@/content/source";
 import { developmentPortfolio } from "@/lib/portfolio";
 import { assetProfiles, portfolioFigures } from "@/data/demo-content";
+import { corporateProfile } from "@/data/corporate-profile";
 import { businessStatement, directions, geography, operations, principles } from "@/lib/business";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
@@ -114,7 +115,14 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
           <MaskTitle as="h1" className="r3-opening__title" lines={[...c.title]} />
           <div className="r3-opening__base" data-reveal>
             <p className="r3-statement">{businessStatement[locale]}</p>
-            <p className="r3-lead">{c.lead}</p>
+            <div>
+              <p className="r3-lead">{c.lead}</p>
+              {/* OWNER «COMMERCIAL BRAND PACK 2026» §11 (2026-11-20): the Corporate Profile 2026 — one quiet download in the existing composition */}
+              <div className="r3-actions">
+                <R3Link href={corporateProfile.file[locale]} external>{corporateProfile.card.cta[locale]}</R3Link>
+                <span className="r3-note">{corporateProfile.card.meta[locale].replace("{pages}", String(corporateProfile.pages))}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -15,8 +15,9 @@ export const packCopy = {
   // print sources only
   brochure: { ro: "Ofertă comercială", ru: "Коммерческое предложение", en: "Commercial Leasing Proposal" },
   // §05: the document kit — the current commercial proposal of the language and the two official plans in one ZIP; nothing older inside
+  // (+ the branded technical sheet, file 04 — OWNER «COMMERCIAL BRAND PACK 2026», 2026-11-20)
   kit: { ro: "Descărcați documentele", ru: "Скачать комплект документов", en: "Download the document kit" },
-  kitMeta: { ro: "ZIP · oferta comercială + 2 planuri oficiale · {size}", ru: `ZIP · коммерческое предложение + 2${N}официальных плана · {size}`, en: `ZIP · commercial leasing proposal + 2 official plans · {size}` },
+  kitMeta: { ro: "ZIP · oferta comercială + 2 planuri oficiale + fișa tehnică · {size}", ru: `ZIP · коммерческое предложение + 2${N}официальных плана + технический паспорт · {size}`, en: `ZIP · commercial leasing proposal + 2 official plans + technical sheet · {size}` },
   // §03: the two premises cadastral numbers, one quiet row beside the property number (OWNER R9 addendum wording)
   premises: { ro: "Numerele cadastrale ale spațiilor", ru: "Кадастровые номера помещений", en: "Cadastral numbers of the premises" },
   officialPlan: { ro: "Plan oficial", ru: "Официальный план", en: "Official floor plan" },

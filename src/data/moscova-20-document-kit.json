@@ -1,38 +1,41 @@
 {
-  "version": "M20-CO-2026-11 R4.1",
-  "updated": "14.11.2026",
+  "version": "M20-CO-2026-11 B2",
+  "updated": "23.11.2026",
   "kits": {
     "ro": {
       "href": "/assets/leasing/moscova-20/pack/MEGAPARC-Moscova-20-RO.zip",
-      "bytes": 6109488,
-      "size": "5,8 MB",
+      "bytes": 8573695,
+      "size": "8,2 MB",
       "files": [
         "00_Continut.txt",
         "01_MEGAPARC-Moscova-20-RO.pdf",
         "02_Moscova-20_Plan-oficial_Parter_cota-0.000_Anexa-2.pdf",
-        "03_Moscova-20_Plan-oficial_Demisol_cota-2.950-3.300_Anexa-1.pdf"
+        "03_Moscova-20_Plan-oficial_Demisol_cota-2.950-3.300_Anexa-1.pdf",
+        "04_MEGAPARC-Moscova-20_Fisa-tehnica-RO.pdf"
       ]
     },
     "ru": {
       "href": "/assets/leasing/moscova-20/pack/MEGAPARC-Moscova-20-RU.zip",
-      "bytes": 6096753,
-      "size": "5,8 МБ",
+      "bytes": 8475210,
+      "size": "8,1 МБ",
       "files": [
         "00_Soderzhanie.txt",
         "01_MEGAPARC-Moscova-20-RU.pdf",
         "02_Moscova-20_Official-plan_Ground-floor_0.000_Annex-2.pdf",
-        "03_Moscova-20_Official-plan_Lower-ground_-2.950-3.300_Annex-1.pdf"
+        "03_Moscova-20_Official-plan_Lower-ground_-2.950-3.300_Annex-1.pdf",
+        "04_MEGAPARC-Moscova-20_Technical-sheet-RU.pdf"
       ]
     },
     "en": {
       "href": "/assets/leasing/moscova-20/pack/MEGAPARC-Moscova-20-EN.zip",
-      "bytes": 6078286,
-      "size": "5.8 MB",
+      "bytes": 8539803,
+      "size": "8.1 MB",
       "files": [
         "00_Contents.txt",
         "01_MEGAPARC-Moscova-20-EN.pdf",
         "02_Moscova-20_Official-plan_Ground-floor_0.000_Annex-2.pdf",
-        "03_Moscova-20_Official-plan_Lower-ground_-2.950-3.300_Annex-1.pdf"
+        "03_Moscova-20_Official-plan_Lower-ground_-2.950-3.300_Annex-1.pdf",
+        "04_MEGAPARC-Moscova-20_Technical-sheet-EN.pdf"
       ]
     }
   }

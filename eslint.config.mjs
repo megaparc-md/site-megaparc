@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // QA scratch: headless Chrome profiles and screenshots (gitignored).
     ".qa/**",
   ]),
+  // Node CommonJS tooling (tools/release/*.cjs, 2026-11-15): `require` is how a .cjs file imports — the rule is for the ES-module code
+  { files: ["**/*.cjs"], rules: { "@typescript-eslint/no-require-imports": "off" } },
 ]);
 
 export default eslintConfig;

@@ -158,3 +158,48 @@ html:not(.hx-solid) body:not(.menu-open) .site--overlay .hdr :is(.brand, .site-n
    rings themselves stay red */
 .loc__street:not(.is-frontage), .loc__scale, .loc__ring-label { color: #545454; }
 .loc__scale i { border-color: #545454; }
+
+/* ==================================================================================================================================
+   DARK GREY #4D3F46 — selective integration (OWNER CORRECTION «Commercial Documents & Corporate Colour Integration», 2026-11-23) —
+   OWNER PREVIEW ONLY until the OWNER approves it. The approved secondary Dark Grey (Brand Guidelines 2026 v1.0.1, p. 8: «accents,
+   backgrounds and auxiliary elements, without replacing the primary colours») takes ONE role: the colour of value and decision —
+   development in work, the investment partnership, the commercial total, the emphasised card (the role of the retired burgundy,
+   carried by Graphite since R1). The deep Dark #222222 stays the ground: the footer, the Home signature scene with the arcs, About,
+   the capital base, the history era — never a mechanical replacement of #222222. Contrast: white on Dark Grey 9,9 : 1, Silver 5,8 : 1;
+   red on Dark Grey 1,7 : 1 — on Dark Grey red is never text, a thin rule, a mark or a focus ring: they are white.
+   ================================================================================================================================== */
+.site { --dark-grey: #4d3f46; }
+
+/* 1 · development in work — Projects, «Собственные проекты в работе» (VATRA · Vasile Lupu 48/3) */
+.r3-pjdev { background: var(--dark-grey); }
+
+/* 2 · the investment partnership — Investment, «Что вносит MEGAPARC / Что вносит собственник или партнёр»: the page's one dark block */
+.r3-brings { background: var(--dark-grey); color: #fff; }
+.r3-brings .r3-label { color: rgba(255, 255, 255, .7); }
+.site .r3-brings .r3-brings__title { color: #fff; }
+.r3-brings .r3-lead { color: rgba(255, 255, 255, .82); }
+.r3-brings .r3-caps-list { border-top-color: rgba(255, 255, 255, .2); }
+.r3-brings .r3-caps-list div { border-bottom-color: rgba(255, 255, 255, .2); }
+.r3-brings .r3-caps-list dt { color: #fff; }
+.r3-brings .r3-caps-list dd { color: rgba(255, 255, 255, .76); }
+.r3-brings .r3-brings__list { border-bottom-color: rgba(255, 255, 255, .2); }
+.r3-brings .r3-brings__list li { border-top-color: rgba(255, 255, 255, .2); color: rgba(255, 255, 255, .9); }
+.r3-brings .r3-brings__col--mp { border-left-color: rgba(255, 255, 255, .32); }
+.r3-brings .r3-note { color: rgba(255, 255, 255, .72); }
+.r3-brings a { color: #fff; }
+
+/* 3 · the commercial total — Moscova 20 and the Leasing Pack, «Итого в месяц, предварительно» */
+.ct__total { --t-bg: var(--dark-grey); --t-mark: #fff; }
+
+/* 4 · the emphasised card — the role of the retired burgundy (Graphite since R1): the electricity and fit-out cards, the ground-floor
+   rate, the first «why Moscova 20» card, the key-fact and download accents, the technical drawer's «4 выхода», the fifth format's 01 */
+.r8-t-burgundy, .lg-pass__card[data-card="electricity"], .ct-level.is-ground, .lpx-why__list li:nth-child(1), .lp-key:nth-child(3), .lp-actions li[data-action="brochure"],
+.r8-t-oxblood, .lg-pass__card[data-card="fitout"], .r10-adv__card:nth-child(1) { --t-bg: var(--dark-grey); }
+.kf__card--burgundy, .lg-pass__fact.is-card[data-fact="exits"] { background: var(--dark-grey); }
+
+/* 5 · the property card on a dark ground — Leasing, the Moscova 20 example of the block «Для производителей и брендов» */
+.r10-example { background: var(--dark-grey); }
+
+/* the marks on every Dark Grey surface are white (red is 1,7 : 1 there); the keyboard ring white */
+:is(.r3-pjdev, .r3-brings, .r10-example) .r3-label::before, .r10-example__label::before { background: rgba(255, 255, 255, .78); }
+:is(.r3-brings) :is(a, button, summary, input, select, textarea, [tabindex]):focus-visible { outline-color: #fff; }

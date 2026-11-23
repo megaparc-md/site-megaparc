@@ -50,8 +50,13 @@ export const m20Commercial = {
     // files stay in place as static files for rollback and for links already sent; no page links them.
     // version and date are internal (the print, the document kit, the CMS check) — never shown on a public card or caption
     // (OWNER «PREMIUM DOCUMENT NAMES», 2026-11-16)
-    version: "M20-CO-2026-11 R4.1",
-    updated: "14.11.2026",
+    // OWNER «AUTONOMOUS WEEKEND MANDATE · COMMERCIAL BRAND PACK 2026» (2026-11-20): the brand edition B1 replaces R4.1 in place — the same
+    // content and structure (eleven pages) set in the approved Brand Guidelines 2026 v1.0.1 (src/components/leasing-toolkit/offer-print-brand.tsx);
+    // the R4.1 files stay at offer/r4-1/ for rollback and for links already sent
+    // OWNER CORRECTION «Commercial Documents & Corporate Colour Integration» (2026-11-23): edition B2 — the R4.1 cover restored with the
+    // approved logo, the invitation without the business-card art; data, areas, rates and the external-networks wording unchanged
+    version: "M20-CO-2026-11 B2",
+    updated: "23.11.2026",
     pages: 11,
     // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): the file the visitor downloads carries a clear name — MEGAPARC-Moscova-20-<LANG>.pdf,
     // byte-identical to the approved R4.1 of the language (offer/r4-1/…); the earlier URLs stay published for links, QR codes and
@@ -162,15 +167,17 @@ export const commercialCopy = {
     ru: `Иные эксплуатационные расходы определяются договором аренды.`,
     en: "Other operating expenses are defined in the lease agreement.",
   },
-  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești", ru: "Администрирование и\u00a0обслуживание инженерных сетей", en: "Administration and building-network maintenance" },
+  // OWNER «COMMERCIAL BRAND PACK 2026» §6 (2026-11-20): the 15 % fee is for the administration and maintenance of the EXTERNAL engineering
+  // networks — never described as the maintenance of the tenant's internal building systems (the EN «building-network» read exactly so)
+  feeLabel: { ro: "Administrarea și întreținerea rețelelor inginerești externe", ru: "Администрирование и\u00a0обслуживание внешних инженерных сетей", en: "Administration and maintenance of external utility networks" },
   feeFigure: { ro: `${m20Commercial.fee.percentOfUtilities}${N}%`, ru: `${m20Commercial.fee.percentOfUtilities}${N}%`, en: `${m20Commercial.fee.percentOfUtilities}%` },
   feeUnit: { ro: "din costul utilităților", ru: "от\u00a0стоимости коммунальных услуг", en: "of the utility costs" },
   /** the lease-terms row — the OWNER's paragraph */
   utilitiesRowLabel: { ro: "Utilități și cheltuieli de exploatare", ru: "Коммунальные и\u00a0эксплуатационные расходы", en: "Utilities and operating expenses" },
   utilitiesTerm: {
-    ro: `Utilitățile se achită conform facturării efective. Suplimentar se percepe ${m20Commercial.fee.percentOfUtilities}${N}% din costul utilităților pentru administrarea și întreținerea rețelelor inginerești. Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.`,
-    ru: `Коммунальные услуги оплачиваются по${N}фактическим начислениям. Дополнительно взимается ${m20Commercial.fee.percentOfUtilities}${N}% от${N}стоимости коммунальных услуг за${N}администрирование и${N}обслуживание инженерных сетей. Иные эксплуатационные расходы определяются договором аренды.`,
-    en: `Utilities are paid as actually billed. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the building's utility networks. Other operating expenses are defined in the lease agreement.`,
+    ro: `Utilitățile se achită conform facturării efective. Suplimentar se percepe ${m20Commercial.fee.percentOfUtilities}${N}% din costul utilităților pentru administrarea și întreținerea rețelelor inginerești externe. Alte cheltuieli de exploatare se stabilesc prin contractul de locațiune.`,
+    ru: `Коммунальные услуги оплачиваются по${N}фактическим начислениям. Дополнительно взимается ${m20Commercial.fee.percentOfUtilities}${N}% от${N}стоимости коммунальных услуг за${N}администрирование и${N}обслуживание внешних инженерных сетей. Иные эксплуатационные расходы определяются договором аренды.`,
+    en: `Utilities are paid as actually billed. An additional ${m20Commercial.fee.percentOfUtilities}% of the utility cost is charged for the administration and maintenance of the external utility networks. Other operating expenses are defined in the lease agreement.`,
   },
   indexationTitle: { ro: "Indexare anuală", ru: "Ежегодная индексация", en: "Annual indexation" },
   // OWNER addendum «Ежегодная индексация арендной платы» (2026-11-12) — verbatim; no percentage of annual increase is ever added
