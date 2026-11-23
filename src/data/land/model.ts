@@ -136,6 +136,11 @@ export type DealStructure = {
   enabled: boolean;
   /** false until MEGAPARC confirms the format for this site — then the page stops calling it «possible» */
   agreed: boolean;
+  /**
+   * MEGAPARC's internal priority for this site (OWNER «DROCHIA MASTER TEMPLATE R2» §4): «primary» formats lead the deal section,
+   * «individual» ones are shown as «обсуждается индивидуально». It orders the page; it never publishes a term, a price or a commitment.
+   */
+  priority: "primary" | "individual";
   title: Localized;
   text: Localized;
   suits: Localized;
@@ -201,12 +206,19 @@ export type LandAsset = {
     boundary: { coords: [number, number][]; source: string; checked: string } | null;
   };
   place: Localized;
+  /** the town in the genitive / attributive form (RU «Дрокии») — the template's titles, map labels and e-mails read it, never a literal name */
+  townGen: Localized;
   address: Localized;
   /** cadastral parcels (OWNER published data until the extract is checked) */
   parcels: { number: string; area: number }[];
   area: number;
   status: Localized;
   hero: { kicker: Localized; positioning: Localized; statement: Localized; lead: Localized; published: Localized };
+  /**
+   * WHY THIS SITE (OWNER R2 §1 «главная страница должна продавать инвестиционную возможность»): three or four short arguments right
+   * under the first screen. Each one is a verified fact (source in `source`), never a forecast, a superlative or a tenant's interest.
+   */
+  arguments: { key: string; title: Localized; text: Localized; nature: Nature; source: Localized }[];
   media: MediaSlot[];
   /** the published current facts of the first screen and their status (§4: published data, not a substitute for the cadastral check) */
   facts: { key: string; label: Localized; value: Localized; status: Register; provenance?: string }[];

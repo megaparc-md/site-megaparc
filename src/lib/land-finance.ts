@@ -17,8 +17,11 @@
  *     on those five lines; never on land, financing or tax);
  *   · FINANCING = a loan of `ltc` % of each month's development cost, interest at one effective monthly rate (1 + r)^(1/12) − 1, rolled up
  *     during construction; A repays from the sales receipts, B / C pay interest from operations and repay at the exit;
- *   · TAX = a simplified profit tax (no depreciation, no loss carry-forward): A on the realised profit at the end; B / C on the monthly
- *     operating result and on the exit gain; the unlevered view taxes the result before interest, the equity view after it;
+ *   · TAX = a simplified profit tax (no depreciation, no loss carry-forward): A on the realised profit; B / C on the monthly operating
+ *     result and on the exit gain; the unlevered view taxes the result before interest, the equity view after it. Since 2.1 (R2) the
+ *     land's market value is NOT a tax deduction: the economic value of an owned asset is an opportunity cost, not a deductible expense
+ *     (the deductible book value is MEGAPARC-internal and not modelled) — so the land enters the flows exactly once, at month 0, and the
+ *     cash flows (the return on the additional investment) never depend on it;
  *   · REVENUE and OPERATING COSTS (sales commission · non-recoverable operating costs · exit costs) apart.
  * IRR and NPV are read from the dated monthly flows (never a profit formula); the monthly IRR is annualised (1 + m)^12 − 1; NPV discounts
  * with the same effective monthly rate. An IRR that has no sign change of the NPV in the search range is «not defined» (null), never
@@ -145,6 +148,8 @@ export type Summary = {
   irrEquity: number | null;
   npv: number;
   npvEquity: number;
+  /** NPV of the cash flows without the land line — the return on the ADDITIONAL investment in construction (R2) */
+  npvCash: number;
   peakEquity: number;
   paybackMonths: number | null;
   noiStabilised: number | null;
@@ -315,7 +320,7 @@ export function ledgerOf(i: Inputs, opts: { rentOverride?: number; earlyBreak?: 
     // the tax on the realised profit is paid with the sales receipts, in proportion to each month's net receipt (never one lump at the
     // end, which would turn the last month negative and give the flows a second IRR)
     const netSales = sum(L.revenue) - sum(L.saleCosts);
-    const gain = netSales - cashCost - land;
+    const gain = netSales - cashCost; // 2.1: the land's market value is not a deductible cost (see the header)
     for (let t = completion; t < months; t++) {
       const share = netSales > 0 ? (L.revenue[t] - L.saleCosts[t]) / netSales : 0;
       L.taxUnlevered[t] = tax * Math.max(0, gain) * share;
@@ -326,7 +331,7 @@ export function ledgerOf(i: Inputs, opts: { rentOverride?: number; earlyBreak?: 
       L.taxUnlevered[t] = tax * Math.max(0, L.noi[t]);
       L.taxLevered[t] = tax * Math.max(0, L.noi[t] - L.interestPaid[t]);
     }
-    const exitGain = L.terminal[months - 1] - cashCost - land;
+    const exitGain = L.terminal[months - 1] - cashCost; // 2.1: no land deduction
     L.taxUnlevered[months - 1] += tax * Math.max(0, exitGain);
     L.taxLevered[months - 1] += tax * Math.max(0, exitGain - capitalised);
   }
@@ -373,7 +378,7 @@ export function run(i: Inputs, opts: { rentOverride?: number; earlyBreak?: boole
       roi: totalCost > 0 ? profit / totalCost : null,
       marginOnRevenue: revenueTotal > 0 ? profit / revenueTotal : null,
       irrProject: irrOf(L.unlevered), irrCash: irrOf(L.cash), irrEquity: irrOf(L.levered),
-      npv: npvOf(L.unlevered, v(i.discount)), npvEquity: npvOf(L.levered, v(i.discount)),
+      npv: npvOf(L.unlevered, v(i.discount)), npvEquity: npvOf(L.levered, v(i.discount)), npvCash: npvOf(L.cash, v(i.discount)),
       peakEquity: -peak, paybackMonths, noiStabilised, yieldOnCost, terminalValue, simplePaybackYears,
     },
   };
@@ -416,6 +421,26 @@ export function breakEven(i: Inputs): BreakEven {
 }
 
 export type Bts = { minRent: number | null; rent: number | null; full: Summary | null; early: Summary | null };
+
+/**
+ * R2 · THE MAXIMUM LAND VALUE at the hurdle rate (residual land value): the economic value of the land L* at which the project NPV at the
+ * hurdle is zero — the discount rate for A / B, the owner's required return for C (at the proposed rent; without a proposed rent there is
+ * nothing to value against, so null). The land enters only as the contribution at month 0 (undiscounted) and is no tax deduction (2.1), so
+ * NPV(L) = NPV(0) − L exactly and L* = NPV(0) at the hurdle — the NPV of the additional investment. When the project misses the hurdle even
+ * with free land, the answer is 0 with `belowHurdle` — never a negative land value.
+ */
+export type LandResidual = { value: number | null; hurdle: number | null; belowHurdle: boolean };
+export function maxLandValue(i: Inputs): LandResidual {
+  if (validate({ ...i, includeLand: true, landValue: 0 }).length) return { value: null, hurdle: null, belowHurdle: false };
+  const bts = i.model === "bts";
+  if (bts && !(i.rent && i.rent > 0)) return { value: null, hurdle: v(i.target), belowHurdle: false };
+  const hurdle = bts ? v(i.target) : v(i.discount);
+  const at = (L: number) => { const r = run({ ...i, includeLand: true, landValue: L, discount: hurdle }, bts ? { rentOverride: i.rent! } : {}); return r.ok ? r.summary.npv : Number.NaN; };
+  const npv0 = at(0);
+  if (!Number.isFinite(npv0)) return { value: null, hurdle, belowHurdle: false };
+  if (npv0 <= 0) return { value: 0, hurdle, belowHurdle: true };
+  return { value: npv0, hurdle, belowHurdle: false };
+}
 
 /** C · the minimum rent (per m² of leasable area per month) at which the unlevered NPV at the owner's required return is zero */
 export function btsAnalysis(i: Inputs): Bts {

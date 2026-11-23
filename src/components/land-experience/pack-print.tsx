@@ -219,9 +219,10 @@ export function LandPackPrint({ locale, asset: full }: { locale: SiteLocale; ass
       <div>
         <p className="lp-kicker">{L(p.deals)}</p>
         <div className="lp-deals">
-          {asset.deals.filter((d) => d.enabled).map((d, i) => (
-            <div key={d.key}>
-              <span className="lp-no">{String(i + 1).padStart(2, "0")} · {L(d.agreed ? c.agreed : c.possible)}</span>
+          {/* R2 §4: the priority formats first and marked; the others «discussed individually» — never a term */}
+          {[...asset.deals.filter((d) => d.enabled && d.priority === "primary"), ...asset.deals.filter((d) => d.enabled && d.priority !== "primary")].map((d, i) => (
+            <div key={d.key} className={d.priority === "primary" ? "is-primary" : undefined}>
+              <span className="lp-no">{String(i + 1).padStart(2, "0")} · {L(d.agreed ? c.agreed : d.priority === "primary" ? c.possible : c.dealIndividual)}</span>
               <h3>{L(d.title)}</h3>
               <p>{L(d.text)}</p>
             </div>

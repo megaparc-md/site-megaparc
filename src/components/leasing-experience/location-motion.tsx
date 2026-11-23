@@ -376,7 +376,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
             <p>{m.verdict.text[locale]}</p>
             <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
             <div className="lg-motion__actions">
-              <a className="btn" href="#format"><span>{ui.checkForMe[locale].replace(/Moscova\s20/, project.name)}</span><Icon /></a>
+              <a className="btn" href="#format"><span>{ui.checkForMe[locale].replace(/Moscova(\s)20/, (_, space: string) => project.name.replace(/ /g, space))}</span><Icon /></a>
               <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{offer.primary}</span><Icon /></a>
             </div>
           </div>

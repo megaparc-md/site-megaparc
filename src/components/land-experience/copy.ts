@@ -51,12 +51,12 @@ export const c = {
     explorer: T("Locația", "Локация", "Location"),
     market: T("Piața", "Рынок", "Market"),
     scenarios: T("Scenarii", "Сценарии", "Scenarios"),
-    passport: T("Pașaport", "Паспорт", "Passport"),
-    readiness: T("Pregătire", "Готовность", "Readiness"),
-    model: T("Model", "Модель", "Model"),
+    model: T("Calculator", "Калькулятор", "Calculator"),
     deals: T("Tranzacție", "Сделка", "Deal"),
+    technical: T("Datele terenului", "Данные участка", "Site data"),
     pack: T("Developer Pack", "Developer Pack", "Developer Pack"),
   },
+  why: T("De ce acest teren", "Почему этот участок", "Why this site"),
   navLabel: T("Secțiunile paginii", "Разделы страницы", "Page sections"),
   media: {
     label: T("Materialele terenului", "Материалы участка", "Site materials"),
@@ -86,7 +86,7 @@ export const c = {
   straight: T("în linie dreaptă", "по прямой", "straight line"),
   withinKm: T("în raza de 1 km", "в радиусе 1 км", "within 1 km"),
   legend: {
-    site: T("Terenul (adresa geocodată)", "Участок (геокодированный адрес)", "The site (geocoded address)"),
+    site: T("Terenul (punct aproximativ)", "Участок (ориентировочная точка)", "The site (approximate point)"),
     road: T("Drumuri principale", "Главные дороги", "Main roads"),
     rail: T("Calea ferată", "Железная дорога", "Railway"),
     residential: T("Zone rezidențiale", "Жилые зоны", "Residential zones"),
@@ -114,19 +114,23 @@ export const c = {
 
   // 02 · market
   p2: T("02 · Studiul pieței", "02 · Исследование рынка", "02 · Market research"),
-  p2title: T("Drochia în cifre — cu sursă și dată.", "Дрокия в цифрах — с источником и датой.", "Drochia in figures — with source and date."),
+  p2title: T("{place} în cifre — cu sursă și dată.", "{place} в цифрах — с источником и датой.", "{place} in figures — with source and date."),
   p2lead: T("Fiecare indicator arată sursa, data, metoda și gradul de încredere. Faptele, estimările și ipotezele nu se amestecă.", "У каждого показателя — источник, дата, метод и достоверность. Факты, оценки и допущения не смешиваются.", "Every indicator shows its source, date, method and confidence. Facts, estimates and assumptions are never mixed."),
   conclusion: T("Concluzie", "Вывод", "Conclusion"),
   gaps: T("Ce nu publicăm", "Что мы не публикуем", "What we do not publish"),
   gapsText: T("Nu există o numărătoare a traficului auto sau pietonal lângă teren — nu publicăm cifre de trafic.", "Подсчёта автомобильного или пешеходного потока рядом с участком нет — цифр трафика мы не публикуем.", "There is no vehicle or pedestrian count near the site — we publish no traffic figures."),
   detail: T("Studiul complet, cu toate sursele — la cerere", "Полное исследование со всеми источниками — по запросу", "The full research with every source — on request"),
+  researchMore: T("Rezultatele detaliate ale studiului", "Подробные результаты исследования", "Detailed research results"),
+  researchCount: T("indicatori cu sursă și dată", "показателей с источником и датой", "indicators with source and date"),
   source: T("Sursa", "Источник", "Source"),
   date: T("Data", "Дата", "Date"),
   method: T("Metoda", "Метод", "Method"),
 
   // 03 · scenarios
   p3: T("03 · Scenarii de dezvoltare", "03 · Сценарии развития", "03 · Development scenarios"),
-  p3title: T("Patru direcții de evaluat.", "Четыре направления для оценки.", "Four directions to evaluate."),
+  p3title: T("{n} de evaluat.", "{n} для оценки.", "{n} to evaluate."),
+  scenMore: T("Cerințe, accese, rețele și riscuri", "Требования, подъезды, сети и риски", "Requirements, access, utilities and risks"),
+  scenLess: T("Ascundeți detaliile", "Свернуть подробности", "Hide the details"),
   p3lead: T("Pentru fiecare: cui i se adresează, logica comercială, ce îi trebuie terenului, ce verificăm și care sunt riscurile.", "Для каждого: для кого, коммерческая логика, что нужно от участка, что проверяем и какие риски.", "For each: who it serves, the commercial logic, what it needs from the site, what we check and the risks."),
   scenAsk: T("Ce format evaluați?", "Какой формат вы рассматриваете?", "Which format are you considering?"),
   audience: T("Publicul țintă", "Целевая аудитория", "Target audience"),
@@ -140,15 +144,25 @@ export const c = {
   visualSlot: T("Loc pentru vizualizări, plan general și concept 3D — după conceptul aprobat.", "Место для визуализаций, генплана и 3D-концепции — после утверждённой концепции.", "Room for visualisations, the masterplan and a 3D concept — after an approved concept."),
   scenDisclaimer: T("Acestea nu sunt proiecte de construire și nu confirmă destinația permisă. Admisibilitatea formatului se stabilește după verificarea urbanistică.", "Это не проекты застройки и не подтверждение разрешённого использования. Допустимость формата определяется после градостроительной проверки.", "These are not building projects and do not confirm the permitted use. Whether a format is admissible is established by the planning check."),
 
+  // 06 · site data and readiness (R2 §1: a compact summary; the full passport and the register open on demand)
+  pTech: T("06 · Datele terenului și pregătirea", "06 · Данные участка и готовность", "06 · Site data and readiness"),
+  pTechTitle: T("Ce știm despre teren — și ce nu știm încă.", "Что известно об участке — и что ещё нет.", "What we know about the site — and what we do not yet."),
+  pTechLead: T("Fiecare parametru și fiecare pas au un status, o sursă și un responsabil. Unde nu există încă un document, nu scriem o cifră.", "У каждого параметра и каждого шага — статус, источник и ответственный. Где документа ещё нет, цифры нет.", "Every parameter and every step has a status, a source and an owner. Where there is no document yet, there is no figure."),
+  known: T("Confirmat sau primit", "Подтверждено или получено", "Confirmed or received"),
+  toGet: T("Urmează de obținut", "Предстоит получить", "Still to obtain"),
+  nextSteps: T("Primii pași", "Первые шаги", "First steps"),
+  params: T("parametri", "параметров", "parameters"),
+  steps: T("pași", "пунктов", "items"),
+
   // 04 · passport
-  p4: T("04 · Pașaportul tehnic", "04 · Технический паспорт", "04 · Technical passport"),
+  p4: T("Pașaportul tehnic", "Технический паспорт", "Technical passport"),
   p4title: T("Ce știm despre teren — și ce nu știm încă.", "Что известно об участке — и что ещё нет.", "What we know about the site — and what we do not yet."),
   p4lead: T("Fiecare parametru are valoare, sursă, data verificării și status. Unde nu există încă un document, nu scriem o cifră.", "У каждого параметра — значение, источник, дата проверки и статус. Где документа ещё нет, цифры нет.", "Every parameter has a value, a source, a check date and a status. Where there is no document yet, there is no figure."),
   groups: { land: T("Teren și drept", "Земля и право", "Land and title"), geometry: T("Geometrie și teren", "Геометрия и рельеф", "Geometry and ground"), planning: T("Urbanism", "Градостроительство", "Planning"), utilities: T("Rețele inginerești", "Инженерные сети", "Utilities") },
   col: { param: T("Parametru", "Параметр", "Parameter"), value: T("Valoare", "Значение", "Value"), source: T("Sursa · data", "Источник · дата", "Source · date"), status: T("Status", "Статус", "Status"), doc: T("Document", "Документ", "Document"), who: T("Responsabil", "Ответственный", "Responsible") },
 
   // 05 · readiness
-  p5: T("05 · Registrul de pregătire", "05 · Реестр готовности к девелопменту", "05 · Development readiness register"),
+  p5: T("Registrul de pregătire pentru dezvoltare", "Реестр готовности к девелопменту", "Development readiness register"),
   p5title: T("Ce este cunoscut. Ce urmează de verificat.", "Что известно. Что предстоит проверить.", "What is known. What remains to be checked."),
   p5lead: T("Un registru, nu un rating: fiecare rând spune pe ce se bazează statusul și care este pasul următor.", "Реестр, а не рейтинг: в каждой строке — на чём основан статус и какой следующий шаг.", "A register, not a rating: every line says what the status rests on and what the next step is."),
   all: T("Toate", "Все", "All"),
@@ -157,20 +171,23 @@ export const c = {
   next: T("Pasul următor", "Следующий шаг", "Next step"),
 
   // 06 · model
-  p6: T("06 · Model de dezvoltare 2.0", "06 · Development Calculator 2.0", "06 · Development Calculator 2.0"),
+  p6: T("04 · Model de dezvoltare 2.0", "04 · Development Calculator 2.0", "04 · Development Calculator 2.0"),
   p6title: T("Verificați economia proiectului pe ipotezele dumneavoastră.", "Проверьте экономику проекта на своих допущениях.", "Test the project's economics on your own assumptions."),
   p6lead: T("Fluxuri de numerar lunare, terenul separat de investițiile în bani, finanțarea și impozitele separat, IRR și NPV din fluxurile reale.", "Помесячные денежные потоки, земля отдельно от денежных вложений, финансирование и налоги отдельно, IRR и NPV по реальным потокам.", "Monthly cash flows, the land apart from the cash invested, financing and tax apart, IRR and NPV from the real flows."),
 
   // 07 · deals
-  p7: T("07 · Structura tranzacției", "07 · Структуры сделки", "07 · Deal structures"),
+  p7: T("05 · Structura tranzacției", "05 · Структуры сделки", "05 · Deal structures"),
   p7title: T("Cum se poate structura proiectul.", "Как можно структурировать проект.", "How the project can be structured."),
   possible: T("Format posibil", "Возможный формат", "Possible format"),
   agreed: T("Format confirmat", "Подтверждённый формат", "Confirmed format"),
   suits: T("Potrivit pentru", "Подходит", "Suits"),
+  dealPrimary: T("Formatele prioritare pentru acest teren", "Приоритетные форматы для этого участка", "The priority formats for this site"),
+  dealOthers: T("Alte formate — se discută individual", "Другие форматы — обсуждаются индивидуально", "Other formats — discussed individually"),
+  dealIndividual: T("Se discută individual", "Обсуждается индивидуально", "Discussed individually"),
   dealNote: T("Formatele enumerate sunt variante de discutat, nu condiții convenite. Formatele admise pentru teren le stabilește MEGAPARC; condițiile — pentru fiecare proiect separat.", "Перечисленные форматы — варианты для обсуждения, а не согласованные условия. Допустимые для участка форматы определяет MEGAPARC; условия — отдельно для каждого проекта.", "The formats listed are options to discuss, not agreed terms. MEGAPARC decides which formats are admissible for the site; the terms are set project by project."),
 
   // 08 · developer pack
-  p8: T("08 · Developer Pack", "08 · Developer Pack", "08 · Developer Pack"),
+  p8: T("07 · Developer Pack", "07 · Developer Pack", "07 · Developer Pack"),
   p8title: T("Documentele pentru decizie — într-un singur pachet.", "Документы для решения — в одном пакете.", "The documents for a decision — in one pack."),
   p8lead: T("Pachetul se completează pe măsura verificărilor. Trimitem ce este gata; nu publicăm documente goale sau cifre neconfirmate.", "Пакет дополняется по мере проверок. Отправим то, что готово; пустых документов и неподтверждённых цифр не публикуем.", "The pack grows as the checks progress. We send what is ready; we never publish empty documents or unconfirmed figures."),
   ready: T("Gata", "Готово", "Ready"),
@@ -181,7 +198,7 @@ export const c = {
   call: T("Sunați", "Позвонить", "Call"),
 
   // 09 · technical assessment
-  p9: T("09 · Evaluarea tehnică", "09 · Техническая оценка", "09 · Technical assessment"),
+  p9: T("08 · Evaluarea tehnică", "08 · Техническая оценка", "08 · Technical assessment"),
   p9title: T("Prima evaluare a terenului — cu directorul tehnic și arhitectul MEGAPARC.", "Первичная оценка участка — с техническим директором и архитектором MEGAPARC.", "The first assessment of the site — with MEGAPARC's Technical Director and Architect."),
   p9lead: T("Mai întâi verificăm fezabilitatea tehnică — apoi discutăm structura.", "Сначала проверяем техническую реализуемость — затем обсуждаем структуру.", "Technical feasibility first — then the structure."),
   p9note: T("Evaluarea ajută decizia; nu înlocuiește autorizațiile și avizele, care se obțin separat.", "Оценка помогает принять решение, но не заменяет разрешений и согласований — они оформляются отдельно.", "The assessment supports the decision; it does not replace permits and approvals, which are obtained separately."),
@@ -197,6 +214,15 @@ export const c = {
 
 /** the subject and the body of the confirmed public mailbox (qa-static accepts only subject / body on receptie@imc.md) */
 export const mailCopy = {
-  pack: { subject: T("Drochia — Developer Pack", "Drochia — Developer Pack", "Drochia — Developer Pack"), body: T("Bună ziua! Vă rog să-mi trimiteți Developer Pack pentru terenul Drochia (bd. Independenței 65).\n\nCompania:\nFormatul evaluat:\nTelefon:", "Здравствуйте! Прошу прислать Developer Pack по участку Drochia (бул. Индепенденцей, 65).\n\nКомпания:\nРассматриваемый формат:\nТелефон:", "Hello! Please send me the Developer Pack for the Drochia site (65 Independenței Blvd).\n\nCompany:\nFormat considered:\nPhone:") },
-  research: { subject: T("Drochia — studiul pieței", "Drochia — исследование рынка", "Drochia — market research"), body: T("Bună ziua! Vă rog să-mi trimiteți studiul complet al pieței pentru terenul Drochia.\n\nCompania:\nTelefon:", "Здравствуйте! Прошу прислать полное исследование рынка по участку Drochia.\n\nКомпания:\nТелефон:", "Hello! Please send me the full market research for the Drochia site.\n\nCompany:\nPhone:") },
+  pack: { subject: T("{name} — Developer Pack", "{name} — Developer Pack", "{name} — Developer Pack"), body: T("Bună ziua! Vă rog să-mi trimiteți Developer Pack pentru terenul {name} ({address}).\n\nCompania:\nFormatul evaluat:\nTelefon:", "Здравствуйте! Прошу прислать Developer Pack по участку {name} ({address}).\n\nКомпания:\nРассматриваемый формат:\nТелефон:", "Hello! Please send me the Developer Pack for the {name} site ({address}).\n\nCompany:\nFormat considered:\nPhone:") },
+  research: { subject: T("{name} — studiul pieței", "{name} — исследование рынка", "{name} — market research"), body: T("Bună ziua! Vă rog să-mi trimiteți studiul complet al pieței pentru terenul {name}.\n\nCompania:\nTelefon:", "Здравствуйте! Прошу прислать полное исследование рынка по участку {name}.\n\nКомпания:\nТелефон:", "Hello! Please send me the full market research for the {name} site.\n\nCompany:\nPhone:") },
 };
+
+/** «Four directions» from the number of scenarios of the site — the template never hard-codes a count */
+export function directionsWord(n: number, locale: "ro" | "ru" | "en"): string {
+  const ro = ["", "O direcție", "Două direcții", "Trei direcții", "Patru direcții", "Cinci direcții", "Șase direcții"];
+  const ru = ["", "Одно направление", "Два направления", "Три направления", "Четыре направления", "Пять направлений", "Шесть направлений"];
+  const en = ["", "One direction", "Two directions", "Three directions", "Four directions", "Five directions", "Six directions"];
+  const list = { ro, ru, en }[locale];
+  return list[n] ?? `${n} ${{ ro: "direcții", ru: "направлений", en: "directions" }[locale]}`;
+}

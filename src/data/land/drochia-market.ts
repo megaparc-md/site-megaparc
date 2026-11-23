@@ -3,13 +3,17 @@ import type { Distance, MarketIndicator } from "@/data/land/model";
 
 /**
  * DROCHIA LOCATION MARKET RESEARCH — the public layer of the desk research of 2026-11-23 (OWNER «DROCHIA · DEVELOPMENT & INVESTMENT
- * EXPERIENCE» §6). The full internal record — every source, date, method, confidence, the data gaps and the 999.md listing sample —
+ * EXPERIENCE» §6). The full internal record — every source, date, method, confidence, the data gaps and the asking-price listing sample —
  * is docs/research/DROCHIA_LOCATION_MARKET_RESEARCH.md. Rules kept here:
  *   · facts, the sources' own estimates and our assumptions are kept apart (`nature`); confidence per indicator;
  *   · NO vehicle or pedestrian traffic is published — no count exists for R7, R12 or bd. Independenței;
  *   · asking prices and rents from listings are NOT published (small sample, asking prices, LOW confidence) — internal record only;
  *   · third-party chains are named only as facts of the town's retail offer (their own store locators), never as operators of the site;
  *   · the population of the catchment is not estimated — only official figures of the town and the district.
+ * R2 (2026-11-23, docs/research/DROCHIA_CLAIMS_VERIFICATION_R2.md): «no hypermarkets» is withdrawn (Linella's own store list labels its
+ * Mitropolit Varlaam 1 store «Hypermarket») — the page names the chains present and the chains absent, each from the chain's own site;
+ * the FEZ line adds the Soroca subzone; the industrial parks line is new (13 parks at 31.12.2025, MDED); the road distances are
+ * recomputed from the corrected site point (≤ 0,2 km change).
  */
 
 const NB = String.fromCharCode(160);
@@ -20,7 +24,8 @@ const PASSPORT = "https://drochia.md/wp-content/uploads/2026/04/PASAPORTUL-Droch
 const census = T("recensământ (BNS)", "перепись (НБС)", "census (NBS)");
 const register = T("serie statistică oficială (BNS)", "официальный статистический ряд (НБС)", "official statistical series (NBS)");
 const doc = T("document oficial", "официальный документ", "official document");
-const osrm = T("Estimare a rutării OSRM pe rețeaua OpenStreetMap, de la punctul adresei; nu este o măsurătoare oficială.", "Оценка маршрутизатора OSRM по дорогам OpenStreetMap от адресной точки; не официальное измерение.", "An OSRM routing estimate on the OpenStreetMap road network from the address point; not an official measurement.");
+const osrm = T("Estimare a rutării OSRM pe rețeaua OpenStreetMap, de la punctul aproximativ al terenului; nu este o măsurătoare oficială.", "Оценка маршрутизатора OSRM по дорогам OpenStreetMap от ориентировочной точки участка; не официальное измерение.", "An OSRM routing estimate on the OpenStreetMap road network from the approximate site point; not an official measurement.");
+const MDED_PARKS = "https://mded.gov.md/wp-content/uploads/2026/06/Raport-functionarea-PI-anul-2025-fin-pdf.pdf";
 
 const indicators: MarketIndicator[] = [
   { key: "population-town", public: true, nature: "FACT", confidence: "HIGH", refDate: "08.04.2024", source: "BNS · RPL2024", url: BNS_GEO, method: census,
@@ -45,10 +50,14 @@ const indicators: MarketIndicator[] = [
     label: T("Ocolirea orașului pe R7", "Объезд города по R7", "The R7 bypass of the town"), display: "text", value: T("Guvernul a inițiat procedura de utilitate publică; traseul față de teren nu este publicat", "Правительство начало процедуру общественной полезности; трасса относительно участка не опубликована", "The Government started the public-utility procedure; the route relative to the site is not published") },
   { key: "rail", public: true, nature: "FACT", confidence: "MEDIUM", refDate: "28.03.2026", source: "IPN · CFM", url: "https://ipn.md/en/the-railway-embankments-in-causeni-drochia-and-cimislia-have-been-repaired/", method: T("presă, cu referire la CFM", "пресса со ссылкой на CFM", "press, citing CFM"),
     label: T("Gara Drochia · marfă", "Станция Дрокия · грузы", "Drochia station · freight"), display: "text", value: T("Platforma de descărcare a mărfurilor în vrac — reparată și în funcțiune", "Платформа выгрузки сыпучих грузов отремонтирована и работает", "The bulk-cargo unloading platform is repaired and in operation") },
-  { key: "fez", public: true, nature: "FACT", confidence: "HIGH", refDate: "08.2025", source: "Invest Moldova", url: "https://invest.gov.md/en/invest_region/drochia-2/", method: doc,
-    label: T("Zone economice libere", "Свободные экономические зоны", "Free economic zones"), display: "text", value: T("Nicio subzonă a ZEL «Bălți» în raionul Drochia", "Ни одной подзоны СЭЗ «Бэлць» в Дрокийском районе", "No subzone of the «Bălți» free economic zone in Drochia district") },
-  { key: "retail", public: true, nature: "FACT", confidence: "HIGH", refDate: "23.11.2026", source: "linella.md · mylocal.md · enter.online · darwin.md · ff.md", url: null, method: T("verificare pe site-urile rețelelor", "проверка по сайтам сетей", "check on the chains' own sites"),
-    label: T("Rețele comerciale în oraș", "Торговые сети в городе", "Retail chains in the town"), display: "text", value: T("Supermarketuri, electronice, farmacii naționale; fără hipermarketuri, cash & carry și rețele de bricolaj — cele mai apropiate sunt la Bălți", "Супермаркеты, электроника, национальные аптечные сети; гипермаркетов, cash & carry и сетей стройматериалов нет — ближайшие в Бэлць", "Supermarkets, electronics, national pharmacy chains; no hypermarkets, cash & carry or DIY chains — the nearest are in Bălți") },
+  { key: "fez", public: true, nature: "FACT", confidence: "HIGH", refDate: "2025", source: "Invest Moldova · MDED", url: "https://invest.gov.md/en/invest_region/drochia-2/", method: doc,
+    label: T("Zone economice libere", "Свободные экономические зоны", "Free economic zones"), display: "text", value: T(`Nicio subzonă de zonă economică liberă în raionul Drochia; cele mai apropiate — la Bălți (ZEL «Bălți») și la Soroca (ZEL «Ungheni-Business»), la circa 42–43${NB}km pe drum`, `Подзон свободных экономических зон в Дрокийском районе нет; ближайшие — в Бэлць (СЭЗ «Бэлць») и в Сороке (СЭЗ «Унгень-Бизнес»), около 42–43${NB}км по дороге`, "No free-economic-zone subzone in Drochia district; the nearest are in Bălți (FEZ «Bălți») and Soroca (FEZ «Ungheni-Business»), about 42–43 km by road") },
+  { key: "parks", public: true, nature: "FACT", confidence: "HIGH", refDate: "31.12.2025", source: "MDED · Invest Moldova", url: MDED_PARKS, method: doc,
+    label: T("Parcuri industriale în apropiere", "Индустриальные парки рядом", "Industrial parks nearby"), display: "text", value: T(`Parcul industrial privat «Bioenergagro» (13,49${NB}ha), în s. Țarigrad, la circa 5${NB}km — unul dintre cele 13 parcuri ale țării la sfârșitul anului 2025; celelalte cele mai apropiate — «Răut» (Bălți), Glodeni, Edineț, la circa 42–54${NB}km pe drum`, `Частный индустриальный парк «Bioenergagro» (13,49${NB}га) в с. Цариград, около 5${NB}км — один из 13 индустриальных парков страны на конец 2025 года; другие ближайшие — «Răut» (Бэлць), Глодень, Единец, около 42–54${NB}км по дороге`, "The private «Bioenergagro» industrial park (13.49 ha) in Țarigrad village, about 5 km away — one of the country's 13 industrial parks at the end of 2025; the other nearest are «Răut» (Bălți), Glodeni and Edineț, about 42–54 km by road") },
+  { key: "retail", public: true, nature: "FACT", confidence: "HIGH", refDate: "23.11.2026", source: "linella.md · mylocal.md · enter.online · darwin.md · ff.md · hippocrates.md · felicia.md", url: null, method: T("verificare pe site-urile rețelelor", "проверка по сайтам сетей", "check on the chains' own sites"),
+    label: T("Rețele naționale în oraș", "Национальные сети в городе", "National chains in the town"), display: "text", value: T("Alimentar: Linella — 3 magazine, Local — 1 · electronice: Enter, Darwin · farmacii: Farmacia Familiei — 5, Hippocrates — 4, Felicia — 3", "Продукты: Linella — 3 магазина, Local — 1 · электроника: Enter, Darwin · аптеки: Farmacia Familiei — 5, Hippocrates — 4, Felicia — 3", "Food: Linella — 3 stores, Local — 1 · electronics: Enter, Darwin · pharmacies: Farmacia Familiei — 5, Hippocrates — 4, Felicia — 3") },
+  { key: "retail-absent", public: true, nature: "FACT", confidence: "MEDIUM", refDate: "23.11.2026", source: "kaufland.md · metro.md · supraten.md · maximum.md", url: null, method: T("listele de magazine ale rețelelor (METRO — după surse secundare)", "списки магазинов сетей (METRO — по вторичным источникам)", "the chains' store lists (METRO — from secondary sources)"),
+    label: T("Formate mari", "Крупные форматы", "Large formats"), display: "text", value: T(`Magazinele Kaufland, METRO Cash & Carry, Supraten și Maximum nu sunt în oraș; cele mai apropiate Kaufland, METRO și Maximum — la Bălți, la circa 40–43${NB}km pe drum`, `Магазинов Kaufland, METRO Cash & Carry, Supraten и Maximum в городе нет; ближайшие Kaufland, METRO и Maximum — в Бэлць, около 40–43${NB}км по дороге`, "There are no Kaufland, METRO Cash & Carry, Supraten or Maximum stores in the town; the nearest Kaufland, METRO and Maximum are in Bălți, about 40–43 km by road") },
   { key: "grain", public: true, nature: "FACT", confidence: "HIGH", refDate: "2013–2023", source: "ANSA · dataset.gov.md", url: null, method: T("registru (înregistrare, nu capacitate)", "реестр (регистрация, не мощность)", "register (registration, not capacity)"),
     label: T("Depozite de cereale înregistrate", "Зарегистрированные зерновые склады", "Registered grain stores"), display: "text", value: T("17 în raion, dintre care 7 în oraș", "17 в районе, из них 7 в городе", "17 in the district, 7 of them in the town") },
   { key: "pug", public: true, nature: "FACT", confidence: "MEDIUM", refDate: "2004 · 2023", source: "Primăria Drochia", url: "https://primariadrochia.md/proiecte-de-decizii-anul-2023/", method: doc,
@@ -59,17 +68,17 @@ const km = (key: string, to: ReturnType<typeof T>, value: number): Distance => (
 
 export const drochiaMarket: { distances: Distance[]; market: { summary: ReturnType<typeof T>; indicators: MarketIndicator[]; record: string; checked: string } } = {
   distances: [
-    km("balti", T("Bălți", "Бэлць", "Bălți"), 44.1),
-    km("soroca", T("Soroca", "Сороки", "Soroca"), 43.3),
-    km("chisinau", T("Chișinău", "Кишинэу", "Chișinău"), 173.9),
-    km("costesti", T("PTF Costești – Stânca (România)", "КПП Костешть – Стынка (Румыния)", "Costești – Stânca crossing (Romania)"), 62.4),
-    km("otaci", T("PTF Otaci – Moghiliov-Podolski (Ucraina)", "КПП Отачь – Могилёв-Подольский (Украина)", "Otaci – Mohyliv-Podilskyi crossing (Ukraine)"), 67.0),
+    km("balti", T("Bălți", "Бэлць", "Bălți"), 42.5),
+    km("soroca", T("Soroca", "Сороки", "Soroca"), 43.4),
+    km("chisinau", T("Chișinău", "Кишинэу", "Chișinău"), 174.0),
+    km("costesti", T("PTF Costești – Stânca (România)", "КПП Костешть – Стынка (Румыния)", "Costești – Stânca crossing (Romania)"), 62.3),
+    km("otaci", T("PTF Otaci – Moghiliov-Podolski (Ucraina)", "КПП Отачь – Могилёв-Подольский (Украина)", "Otaci – Mohyliv-Podilskyi crossing (Ukraine)"), 67.1),
   ],
   market: {
     summary: T(
-      `Drochia este centru raional în nordul Republicii Moldova: 12${NB}939 de locuitori în oraș și 53${NB}738 în raion (recensământul din 2024). Prin oraș trec drumurile naționale R7 și R12 și calea ferată Ocnița – Bălți; Bălți este la circa 44${NB}km pe drum, Chișinău — la circa 174${NB}km. Economia raionului se sprijină pe agricultură, industria alimentară și comerț. Formatul de dezvoltare a terenului este în evaluare.`,
-      `Дрокия — районный центр на севере Молдовы: 12${NB}939 жителей в городе и 53${NB}738 в районе (перепись 2024 года). Через город проходят национальные дороги R7 и R12 и железная дорога Окница – Бэлць; до Бэлць около 44${NB}км по дороге, до Кишинэу — около 174${NB}км. Экономика района держится на сельском хозяйстве, пищевой промышленности и торговле. Формат развития участка находится в стадии оценки.`,
-      `Drochia is a district centre in the north of Moldova: 12,939 residents in the town and 53,738 in the district (2024 census). National roads R7 and R12 and the Ocnița – Bălți railway cross the town; Bălți is about 44 km by road, Chișinău about 174 km. The district's economy rests on agriculture, food processing and trade. The site's development format is under evaluation.`,
+      `Drochia este centru raional în nordul Republicii Moldova: 12${NB}939 de locuitori în oraș și 53${NB}738 în raion (recensământul din 2024). Prin oraș trec drumurile naționale R7 și R12 și calea ferată Ocnița – Bălți; Bălți este la circa 43${NB}km pe drum, Chișinău — la circa 174${NB}km. Economia raionului se sprijină pe agricultură, industria alimentară și comerț. Formatul de dezvoltare a terenului este în evaluare.`,
+      `Дрокия — районный центр на севере Молдовы: 12${NB}939 жителей в городе и 53${NB}738 в районе (перепись 2024 года). Через город проходят национальные дороги R7 и R12 и железная дорога Окница – Бэлць; до Бэлць около 43${NB}км по дороге, до Кишинэу — около 174${NB}км. Экономика района держится на сельском хозяйстве, пищевой промышленности и торговле. Формат развития участка находится в стадии оценки.`,
+      `Drochia is a district centre in the north of Moldova: 12,939 residents in the town and 53,738 in the district (2024 census). National roads R7 and R12 and the Ocnița – Bălți railway cross the town; Bălți is about 43 km by road, Chișinău about 174 km. The district's economy rests on agriculture, food processing and trade. The site's development format is under evaluation.`,
     ),
     indicators,
     record: "docs/research/DROCHIA_LOCATION_MARKET_RESEARCH.md",

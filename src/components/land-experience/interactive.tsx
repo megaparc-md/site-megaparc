@@ -44,6 +44,7 @@ export function MediaStage({ locale, map, slots, preview }: { locale: SiteLocale
 /** DEVELOPMENT SCENARIOS (§7) — one format at a time; «model this scenario» loads its labelled demonstration example into the calculator. */
 export function ScenarioSelector({ locale, scenarios, preview }: { locale: SiteLocale; scenarios: DevelopmentScenario[]; preview: boolean }) {
   const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(false);
   const s = scenarios[active];
   const list = (items: { ro: string; ru: string; en: string }[]) => <ul className="lx-scen__list">{items.map((x) => <li key={x.en}>{x[locale]}</li>)}</ul>;
   return (
@@ -65,14 +66,16 @@ export function ScenarioSelector({ locale, scenarios, preview }: { locale: SiteL
           <p className="lx-scen__logic"><span>{c.logic[locale]}</span>{s.logic[locale]}</p>
           <button type="button" className="lx-btn lx-btn--dark" onClick={() => window.dispatchEvent(new CustomEvent("lx:scenario", { detail: { preset: s.preset } }))}><span>{c.calcThis[locale]}</span><Icon size={16} /></button>
         </div>
-        <dl className="lx-scen__grid">
+        {/* R2 §1: on phones the audience and the checks stay, the rest folds (wide screens always show all six — land-experience.css) */}
+        <dl className={`lx-scen__grid${open ? " is-open" : ""}`} id="lx-scen-grid">
           <div><dt>{c.audience[locale]}</dt><dd>{list(s.audience)}</dd></div>
-          <div><dt>{c.needs[locale]}</dt><dd>{list(s.siteNeeds)}</dd></div>
-          <div><dt>{c.access[locale]}</dt><dd><p>{s.access[locale]}</p></dd></div>
-          <div><dt>{c.utilities[locale]}</dt><dd>{list(s.utilities)}</dd></div>
           <div className="is-check"><dt>{c.checks[locale]}</dt><dd>{list(s.checks)}</dd></div>
-          <div className="is-risk"><dt>{c.risks[locale]}</dt><dd>{list(s.risks)}</dd></div>
+          <div className="is-extra"><dt>{c.needs[locale]}</dt><dd>{list(s.siteNeeds)}</dd></div>
+          <div className="is-extra"><dt>{c.access[locale]}</dt><dd><p>{s.access[locale]}</p></dd></div>
+          <div className="is-extra"><dt>{c.utilities[locale]}</dt><dd>{list(s.utilities)}</dd></div>
+          <div className="is-extra is-risk"><dt>{c.risks[locale]}</dt><dd>{list(s.risks)}</dd></div>
         </dl>
+        <button type="button" className="lx-scen__more" aria-expanded={open} aria-controls="lx-scen-grid" onClick={() => setOpen(!open)}><span>{(open ? c.scenLess : c.scenMore)[locale]}</span><Icon name="down" size={14} /></button>
         {/* eslint-disable-next-line @next/next/no-img-element -- the architect's visual, a static export */}
         {s.visual ? <img className="lx-scen__visual" src={s.visual} alt={s.title[locale]} /> : preview ? <p className="lx-scen__slot">{c.visualSlot[locale]}</p> : null}
       </div>

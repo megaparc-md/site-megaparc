@@ -72,6 +72,7 @@
 .lp-scen__item .lp-label { margin-top: 3.5mm; }
 .lp-scen__item .lp-list li { font-size: 7.8pt; padding: .9mm 0; }
 .lp-deals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6mm; padding-top: 4mm; border-top: .35mm solid var(--ink); }
+.lp-deals .is-primary { padding-top: 2mm; border-top: 1.2mm solid var(--red); }
 /* final */
 .lp-final { max-width: 210mm; }
 .lp-final .lp-h2 { font-size: 24pt; }

@@ -4,7 +4,7 @@ import { useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as Rea
 import { Icon } from "@/components/ui";
 import { c, natureCopy } from "@/components/land-experience/copy";
 import type { Distance, ExplorerData, ExplorerPoint, LayerKey, LocationLayer, MarketIndicator } from "@/data/land/model";
-import { numberLocale, type SiteLocale } from "@/lib/site-data";
+import { numberLocale, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * LOCATION EXPLORER (§5) — eight switchable layers over one light OpenStreetMap base: location · cadastral boundary · access and
@@ -16,6 +16,9 @@ import { numberLocale, type SiteLocale } from "@/lib/site-data";
 
 type Props = {
   locale: SiteLocale;
+  /** the site name on the map and the town in the genitive (RU «Центр Дрокии») — from the asset, never a literal */
+  name: string;
+  townGen: Localized;
   data: ExplorerData;
   layers: LocationLayer[];
   distances: Distance[];
@@ -29,7 +32,7 @@ type Props = {
 const MAX = 6;
 const RETAIL = new Set(["retail", "market", "trade", "fuel", "service", "shop"]);
 
-export function LandExplorer({ locale, data, layers, distances, indicators, boundary, tour, preview, directions }: Props) {
+export function LandExplorer({ locale, name, townGen, data, layers, distances, indicators, boundary, tour, preview, directions }: Props) {
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState({ x: data.frame.w / 2, y: data.frame.h / 2 });
@@ -261,7 +264,7 @@ export function LandExplorer({ locale, data, layers, distances, indicators, boun
             <>
               <line className="lx-ex__tie" x1={data.town.x} y1={data.town.y} x2={data.site.x} y2={data.site.y} style={{ strokeWidth: 2 * s, strokeDasharray: `${5 * s} ${6 * s}` }} />
               <circle className="lx-ex__town" cx={data.town.x} cy={data.town.y} r={9 * s} />
-              <text className="lx-ex__label" x={data.town.x} y={data.town.y} dy={-18 * s} textAnchor="middle" style={{ fontSize: 22 * s }}>{locale === "ru" ? "Центр Дрокии" : locale === "ro" ? "Centrul orașului" : "Town centre"}</text>
+              <text className="lx-ex__label" x={data.town.x} y={data.town.y} dy={-18 * s} textAnchor="middle" style={{ fontSize: 22 * s }}>{locale === "ru" ? `Центр ${townGen.ru}` : locale === "ro" ? "Centrul orașului" : "Town centre"}</text>
             </>
           ) : null}
           {shown.map((p) => (
@@ -282,7 +285,7 @@ export function LandExplorer({ locale, data, layers, distances, indicators, boun
           <g className="lx-ex__site" transform={`translate(${data.site.x} ${data.site.y}) scale(${s})`}>
             <circle r="30" className="lx-ex__site-halo" />
             <circle r="11" className="lx-ex__site-dot" />
-            <text y="-40" textAnchor="middle" className="lx-ex__site-name">Drochia</text>
+            <text y="-40" textAnchor="middle" className="lx-ex__site-name">{name}</text>
           </g>
           {hover ? (
             <g transform={`translate(${hover.x} ${hover.y}) scale(${s})`} className="lx-ex__tip" pointerEvents="none">
