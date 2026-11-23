@@ -52,7 +52,7 @@ export const leasingOnRequest: Partial<Record<string, Localized>> = {
   // OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B: where the Dacia 31 catalogue is shown (OWNER preview until approved) the status names
   // what is free — offices and large floors, per the lease register; otherwise «area and timing on request»
   "dacia-31": catalogVisible()
-    ? { ro: "Liber acum · birouri și suprafețe mari", ru: "Свободно сейчас · офисы и\u00a0крупные площади", en: "Free now · offices and large floors" }
+    ? { ro: "Liber acum · suprafețe mari", ru: "Свободно сейчас · крупные площади", en: "Free now · large floors" }
     : { ro: "Se închiriază · suprafața și termenele — la cerere", ru: "Сдаётся в\u00a0аренду · площадь и\u00a0сроки\u00a0— по\u00a0запросу", en: "For lease · area and timing on request" },
 };
 

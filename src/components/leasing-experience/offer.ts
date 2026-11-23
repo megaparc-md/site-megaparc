@@ -33,7 +33,7 @@ export type TemplateOffer = {
 // short like every status line (the hero title already says «operating property»; «ДЕЙСТВУЮЩИЙ ОБЪЕКТ · …» did not fit beside a four-digit figure at 390 px)
 const fullLine: Localized = { ro: "Ocupat 100 %", ru: "Занят на 100 %", en: "100% occupied" };
 // the Dacia 31 catalogue (OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B): free spaces exist — the status says so, with its source
-const catalogLine: Localized = { ro: "Liber acum · conform registrului", ru: "Свободно сейчас · по реестру аренды", en: "Free now · per the lease register" };
+const catalogLine: Localized = { ro: "Liber acum · săli și open space", ru: "Свободно сейчас · залы и open space", en: "Free now · halls and open space" };
 
 export function templateOffer(x: LeasingExperience, unit: AvailableSpace | null, name: string, locale: SiteLocale): TemplateOffer {
   const slug = x.project as OperatingSlug;
