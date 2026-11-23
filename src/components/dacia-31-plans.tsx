@@ -3,15 +3,14 @@ import { formatAreaExact } from "@/content/source";
 import { catalogVisible } from "@/data/dacia-31-spaces";
 import { dacia31PlanLevels, type PlanRoom } from "@/data/dacia-31-plans";
 import { mailHref } from "@/lib/contact-mail";
-import Link from "next/link";
-import { isProductionEdition, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
+import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * DACIA 31 — THE FLOOR-BY-FLOOR SCENE (OWNER addendum «DACIA 31 · ARCHITECTURAL PLANS», 2026-11-23). The server half: the levels and rooms of
- * the generated plan data (src/data/dacia-31-plans.ts, from the five OWNER PDFs), localised; the room status comes from the lease register
- * (occupied · free · to be confirmed — never a tenant name), the area from the plan's own room schedule (a figure drawn differently in the
+ * the generated plan data (src/data/dacia-31-plans.ts, from the five OWNER PDFs), localised; a room status other than «уточняется» appears only once
+ * confirmed in the private master workbook (never a tenant name), the area from the plan's own room schedule
  * drawing is said to be confirmed, never corrected), the two requests of a room as the confirmed e-mail with its name, level and area.
- * The technical floor is shown and never offered. OWNER preview until the OWNER confirms the data (`dacia31Catalog.ownerApproved`).
+ * The technical floor is shown and never offered. OWNER preview until the OWNER confirms the data (`dacia31Public.ownerApproved`).
  */
 
 const N = " ";
@@ -30,7 +29,7 @@ const t = {
   commercial: { ro: "Suprafețe comerciale mari", ru: "Крупные коммерческие площади", en: "Large commercial floors" },
   free: { ro: "Liber", ru: "Свободно", en: "Free" },
   occupied: { ro: "Ocupat", ru: "Занято", en: "Occupied" },
-  confirm: { ro: "Se confirmă", ru: "Уточняется", en: "To be confirmed" },
+  confirm: { ro: "Statutul se confirmă", ru: "Статус уточняется", en: "Status to be confirmed" },
   service: { ro: "Spații comune și tehnice", ru: "Общие и технические помещения", en: "Common and technical rooms" },
   notOfferedStatus: { ro: "Nu se închiriază", ru: "Не сдаётся", en: "Not for lease" },
   choose: { ro: "Atingeți un spațiu pe plan sau alegeți-l din listă.", ru: `Нажмите на${N}помещение на${N}плане или выберите его в${N}списке.`, en: "Tap a space on the plan or choose it from the list." },
@@ -60,7 +59,7 @@ const t = {
   technical: { ro: "nu se închiriază", ru: "не сдаётся", en: "not for lease" },
   drawnNote: { ro: "Pe desen — {v}; suprafața se confirmă.", ru: `На${N}чертеже${N}— {v}; площадь уточняется.`, en: "The drawing shows {v}; the area is being confirmed." },
   sharedNote: { ro: "Pe desen birourile 023–025 sunt un singur spațiu de {v}; suprafața se confirmă.", ru: `На${N}чертеже офисы 023–025 показаны одним пространством {v}; площадь уточняется.`, en: "The drawing shows offices 023–025 as one space of {v}; the area is being confirmed." },
-  confirmNote: { ro: "Statutul și suprafața se confirmă.", ru: "Статус и площадь уточняются.", en: "The status and the area are being confirmed." },
+  confirmNote: { ro: "Disponibilitatea se confirmă la cerere.", ru: `Доступность уточняется по${N}запросу.`, en: "Availability is confirmed on request." },
   terraceNote: { ro: "Nu intră în suprafața totală a nivelului; condițiile se stabilesc.", ru: `Не${N}входит в${N}общую площадь уровня; условия уточняются.`, en: "Not included in the level total; terms to be set." },
   unscheduled: { ro: "Nu figurează în borderoul planului.", ru: `Нет в${N}экспликации плана.`, en: "Not in the plan's room schedule." },
   kind: {
@@ -139,8 +138,6 @@ export function Dacia31Plans({ locale, name }: { locale: SiteLocale; name: strin
           <p className="sc-lead">{L(t.lead, locale)}</p>
         </div>
         <PlanNavigator levels={levels} copy={copy} initial="l1" />
-        {/* the internal reconciliation register — OWNER preview only (the route does not exist in production) */}
-        {isProductionEdition ? null : <p className="pn-owner"><Link className="pm-link" href="/owner-demo/dacia-31-reconciliation/"><span>OWNER · реестр соответствия планов и реестра аренды</span></Link></p>}
       </div>
     </section>
   );

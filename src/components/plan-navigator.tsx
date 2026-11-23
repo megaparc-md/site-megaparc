@@ -144,7 +144,7 @@ export function PlanNavigator({ levels, copy, initial }: { levels: NavLevel[]; c
           </div>
           <figcaption className="pn-caption">
             <ul className="pn-legend">
-              {(["free", "occupied", "to-confirm"] as const).map((s) => (
+              {(["free", "occupied", "to-confirm"] as const).filter((s) => level.rooms.some((r) => r.status === s)).map((s) => (
                 <li key={s}><i className={`pn-swatch is-${s}`} aria-hidden="true" />{copy.status[s]}{level.offered ? ` · ${counts[s]}` : ""}</li>
               ))}
               <li><i className="pn-swatch is-service" aria-hidden="true" />{copy.status.service}</li>

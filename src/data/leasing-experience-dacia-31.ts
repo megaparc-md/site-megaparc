@@ -1,5 +1,4 @@
 import { catalogVisible } from "@/data/dacia-31-spaces";
-import { planCounts, planFreeArea } from "@/data/dacia-31-offer";
 import { T, type LeasingExperience } from "@/data/leasing-experience-model";
 import { OWNER_TEAM, contactsLine, fact, portfolioPhoto, sharedCost, sharedDrawers, sharedLens, sharedMotion, sharedPlans, sharedStory, sharedTenantScope, sharedTerms, teamRow } from "@/data/leasing-experience-shared";
 
@@ -10,29 +9,27 @@ import { OWNER_TEAM, contactsLine, fact, portfolioPhoto, sharedCost, sharedDrawe
  * by area and status) and B · large commercial floors (available area, one or several tenants — division shown only once technically
  * confirmed —, retail and service formats, engineering, entrances, parking, unloading, an individual offer request).
  *
- * The catalogue comes from the OWNER lease register (src/data/dacia-31-spaces.ts — free spaces only, no tenant data); it is PRELIMINARY
- * and shown on the OWNER preview until the OWNER confirms it (`dacia31Catalog.ownerApproved`). Without it the production edition keeps the
+ * The floor plans come from the OWNER architectural drawings (src/data/dacia-31-plans.ts — public data only; availability is never claimed
+ * and shown on the OWNER preview until the OWNER confirms it (`dacia31Public.ownerApproved`). Without it the production edition keeps the
  * property-level state «площадь и сроки — по запросу» and the hero figure is the registered area of the eight premises (5 537,6 m², OWNER
  * tax records) — labelled as registered. The register area and the registered area are never shown side by side or added up.
  * No rate anywhere. No traffic figure (none is published without a field count); the district facts come from the location research
  * (docs/research/DACIA_31_LOCATION_RESEARCH.md) with their sources.
  *
- * Sources (internal): the OWNER lease register 23.11.2026 · OWNER tax records R3.3.1 §7 · the confirmed capabilities of the asset
+ * Sources (internal): the OWNER architectural plans 23.11.2026 · OWNER tax records R3.3.1 §7 · the confirmed capabilities of the asset
  * (tenantFit: entrance, visibility, ground, power and ventilation notes, flexibility) · the asset copy (src/lib/assets.ts) · one OWNER
  * photograph.
  */
 
 const OWNER = "OWNER — confirmed capability (src/data/demo-content.ts tenantFit)";
 const ASSET = "src/lib/assets.ts — Dacia 31 asset record (OWNER copy)";
-const REG = "OWNER lease register «INFORMAȚIA CHIRIA DACIA 31» (23.11.2026) — preliminary";
+const REG = "OWNER architectural plan PLAN NIVEL 3 ETAJ 2 (23.11.2026)";
 
 // OWNER addendum «DACIA 31 · ARCHITECTURAL PLANS» (2026-11-23): the figures read the architectural plans (src/data/dacia-31-offer.ts) —
 // the lease-register figures stay in the internal reconciliation (they differ from the plans; nothing is corrected or merged)
+// OWNER «COMMERCIAL DEVELOPMENT REVIEW» (2026-11-23): the plans are shown; availability is never claimed until a responsible employee confirms it
+// in the private master workbook — the hero, the status and the cards say «площадь и сроки — по запросу»
 const catalog = catalogVisible();
-const freeArea = planFreeArea;
-const offices = planCounts.officesToConfirm;
-const floors = planCounts.freeCommercial;
-const n = (value: number) => String(value);
 
 export const dacia31Experience: LeasingExperience = {
   unitId: null,
@@ -51,7 +48,7 @@ export const dacia31Experience: LeasingExperience = {
     title: T("Birouri, cabinete și suprafețe comerciale mari.", "Офисы, кабинеты и крупные коммерческие площади.", "Offices, cabinets and large commercial floors."),
     place: T("Chișinău · Botanica", "Кишинэу · Ботаника", "Chișinău · Botanica"),
     offer: catalog
-      ? T("liberi conform planurilor arhitecturale · preliminar", "свободно по архитектурным планам · предварительно", "free per the architectural plans · preliminary")
+      ? T("suprafață înregistrată · 8 spații", "зарегистрированная площадь · 8 помещений", "registered area · 8 premises")
       : T("suprafață înregistrată · 8 spații", "зарегистрированная площадь · 8 помещений", "registered area · 8 premises"),
     support: catalog
       ? T("Două scenarii într-o singură clădire: birouri și cabinete — și suprafețe mari pentru comerț și servicii.", "Два сценария в одном здании: офисы и кабинеты — и крупные площади для торговли и услуг.", "Two scenarios in one building: offices and cabinets — and large floors for retail and services.")
@@ -60,19 +57,19 @@ export const dacia31Experience: LeasingExperience = {
   cta: {
     primary: T("Solicitați o vizionare", "Запросить просмотр", "Request a viewing"),
     secondary: catalog
-      ? { label: T("Vedeți spațiile libere", "Смотреть свободные помещения", "See the free spaces"), href: "#spaces" }
+      ? { label: T("Vedeți planurile nivelurilor", "Смотреть поэтажные планы", "See the floor plans"), href: "#spaces" }
       : { label: T("Solicitați planurile", "Запросить планы", "Request the plans"), href: "#plans" },
   },
-  figure: catalog ? freeArea : 5537.6,
+  figure: 5537.6,
   portals: {
     location: { label: T("Locație\nși acces", "Локация\nи доступ", "Location\nand access"), word: T("Botanica, bd. Dacia", "Ботаника, бул. Дачия", "Botanica, Dacia Blvd") },
     decision: { label: T("Calculul\nformatului", "Расчёт\nпод формат", "Your format\nin figures"), word: T("Birou sau comerț — cu cifrele dumneavoastră", "Офис или торговля — на ваших цифрах", "Office or retail — on your own figures") },
   },
   summary: catalog
     ? [
-        { key: "readiness", label: T("Disponibilitate", "Доступность", "Availability"), title: T("Liber acum", "Свободно сейчас", "Free now"), text: T(`Pe planuri: săli și spații mari libere — ${n(floors)}; birouri cu statut în curs de confirmare — ${n(offices)}.`, `По планам: свободных залов и площадей — ${n(floors)}; офисов, статус которых уточняется, — ${n(offices)}.`, `On the plans: free halls and floors — ${n(floors)}; offices whose status is being confirmed — ${n(offices)}.`) },
+        { key: "readiness", label: T("Planuri", "Планы", "Plans"), title: T("Cinci niveluri", "Пять уровней", "Five levels"), text: T("Planurile arhitecturale interactive; statutul spațiilor se confirmă la cerere.", "Интерактивные архитектурные планы; статус помещений уточняется по запросу.", "The interactive architectural plans; the status of the spaces is confirmed on request.") },
         { key: "visibility", label: T("Formate", "Форматы", "Formats"), title: T("Două scenarii", "Два сценария", "Two scenarios"), text: T("Birouri și cabinete pentru echipe și servicii; suprafețe mari pentru comerț, servicii, showroom.", "Офисы и кабинеты — для команд и услуг; крупные площади — для торговли, сервиса, шоурума.", "Offices and cabinets for teams and services; large floors for retail, services, a showroom.") },
-        { key: "area", label: T("Suprafață", "Площадь", "Area"), title: T("{area} liberi", "{area} свободно", "{area} free"), text: T("Conform borderourilor planurilor, preliminar — nu este suprafața înregistrată a clădirii.", "По экспликациям планов, предварительно — это не зарегистрированная площадь здания.", "Per the plans' room schedules, preliminary — not the registered area of the building.") },
+        { key: "area", label: T("Suprafață", "Площадь", "Area"), title: T("8 spații înregistrate", "8 зарегистрированных помещений", "8 registered premises"), text: T("Suprafața înregistrată — nu este suprafața disponibilă pentru închiriere.", "Зарегистрированная площадь — это не свободная площадь для аренды.", "The registered area — not the area available for lease.") },
       ]
     : [
         { key: "readiness", label: T("Pregătire", "Готовность", "Readiness"), title: T("Vizionare la cerere", "Просмотр по запросу", "Viewing on request"), text: T("Spațiile se închiriază; suprafața și data disponibilității se confirmă individual, după vizionare.", "Помещения сдаются в аренду; площадь и сроки подтверждаем индивидуально, после просмотра.", "The spaces are for lease; the area and timing are confirmed individually, after a viewing.") },
@@ -249,7 +246,7 @@ export const dacia31Experience: LeasingExperience = {
         label: T("Comerț și servicii", "Торговля и услуги", "Retail and services"),
         question: T("Se va potrivi o suprafață mare formatului dumneavoastră?", "Подойдёт ли крупная площадь вашему формату?", "Will a large floor suit your format?"),
         evidence: [
-          ...(catalog ? [{ text: T("Săli libere la demisol și parter și spațiul open space de la etajul 1 — pe planurile arhitecturale.", "Свободные залы цоколя и 1‑го этажа и open space 2‑го этажа — по архитектурным планам.", "Free halls on the lower ground and ground floor and the first-floor open space — per the architectural plans."), ref: "spaces" as const, evidence: "OWNER_CONFIRMED" as const, source: "OWNER architectural plans (23.11.2026)" }] : []),
+          ...(catalog ? [{ text: T("Săli mari la demisol și parter și spațiul open space de la etajul 1 — pe planurile arhitecturale.", "Крупные залы цоколя и 1‑го этажа и open space 2‑го этажа — на архитектурных планах.", "Large halls on the lower ground and ground floor and the first-floor open space — on the architectural plans."), ref: "spaces" as const, evidence: "OWNER_CONFIRMED" as const, source: "OWNER architectural plans (23.11.2026)" }] : []),
           { text: T("Rețele inginerești și tubulatură de aer existente.", "Инженерные сети и воздуховоды уже есть.", "Building services and ductwork in place."), ref: "tech", evidence: "OWNER_CONFIRMED", source: OWNER },
           { text: T("Fațadă vizibilă dinspre arterele principale ale sectorului.", "Фасад заметен с главных магистралей сектора.", "A facade visible from the district's main roads."), ref: "photos", evidence: "OWNER_CONFIRMED", source: OWNER },
         ],
@@ -266,7 +263,7 @@ export const dacia31Experience: LeasingExperience = {
     lead: T("Spuneți-ne ce căutați — birou, cabinet sau suprafață comercială — și pregătim pentru vizionare datele care contează pentru decizie.", "Расскажите, что ищете — офис, кабинет или торговую площадь, — и мы подготовим к просмотру данные, которые важны для решения.", "Tell us what you are looking for — an office, a cabinet or a commercial floor — and we'll prepare the information that matters for the decision."),
     steps: [
       { title: T("Înainte", "До просмотра", "Before"), text: T("formatul, suprafața necesară, cerințele tehnice, data mutării", "формат, нужная площадь, технические требования, срок переезда", "the format, the area you need, technical requirements, move-in date") },
-      { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("spațiile libere, intrările, nivelurile, punctele de racord, accesul și descărcarea", "свободные помещения, входы, уровни, точки подключения, доступ и разгрузка", "the free spaces, entrances, levels, service connection points, access and unloading") },
+      { title: T("La vizionare", "На просмотре", "At the viewing"), text: T("spațiile, intrările, nivelurile, punctele de racord, accesul și descărcarea", "помещения, входы, уровни, точки подключения, доступ и разгрузка", "the spaces, entrances, levels, service connection points, access and unloading") },
       { title: T("După", "После", "After"), text: T("verificarea tehnică pentru formatul dumneavoastră, apoi o ofertă individuală", "техническая проверка под ваш формат, затем индивидуальное предложение", "the technical check for your format, then an individual offer") },
     ],
     photo: null,

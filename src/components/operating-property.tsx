@@ -7,8 +7,6 @@ import { PageShell } from "@/components/page-shell";
 import { Icon } from "@/components/ui";
 import { availabilityOf, formatArea, formatDate, getProject, isDemoField, publicSpaces, sortSpaces, type ProjectEntry } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
-import { catalogVisible } from "@/data/dacia-31-spaces";
-import { planCounts } from "@/data/dacia-31-offer";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import { mailHref } from "@/lib/contact-mail";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -60,10 +58,6 @@ function freeElsewhere(slug: string, locale: SiteLocale): Free[] {
       status: a.key === "soon" && a.date ? `${copy.soon[locale]} ${formatDate(a.date, locale)}` : copy.now[locale],
     };
   });
-  if (slug !== "dacia-31" && catalogVisible()) {
-    const free = { length: planCounts.freeCommercial };
-    if (free.length) units.push({ key: "dacia-31", name: "Dacia 31", href: `${localePath(locale, "/projects/dacia-31")}/`, what: `${copy.d31[locale]} · ${copy.count[locale]}${free.length}`, status: copy.now[locale] });
-  }
   // the property's own confirmed future vacancy is shown in its own block, never in this list
   return units;
 }

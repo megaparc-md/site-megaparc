@@ -32,8 +32,8 @@ export type TemplateOffer = {
 
 // short like every status line (the hero title already says «operating property»; «ДЕЙСТВУЮЩИЙ ОБЪЕКТ · …» did not fit beside a four-digit figure at 390 px)
 const fullLine: Localized = { ro: "Ocupat 100 %", ru: "Занят на 100 %", en: "100% occupied" };
-// the Dacia 31 catalogue (OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B): free spaces exist — the status says so, with its source
-const catalogLine: Localized = { ro: "Liber acum · săli și open space", ru: "Свободно сейчас · залы и open space", en: "Free now · halls and open space" };
+// (OWNER «COMMERCIAL DEVELOPMENT REVIEW», 2026-11-23: the Dacia 31 plans never change the status — availability only once confirmed)
+
 
 export function templateOffer(x: LeasingExperience, unit: AvailableSpace | null, name: string, locale: SiteLocale): TemplateOffer {
   const slug = x.project as OperatingSlug;
@@ -43,8 +43,8 @@ export function templateOffer(x: LeasingExperience, unit: AvailableSpace | null,
   const fullyLet = !unit && propertyOccupancy(slug).fullyLet;
   const onRequest = !unit && !fullyLet ? leasingOnRequest[slug] ?? null : null;
   const unitState = unit ? (unit.status === "RESERVED" ? "reserved" : availabilityOf(unit).key) : null;
-  const state: TemplateOffer["state"] = unitState ?? (x.catalog ? "now" : fullyLet ? "full" : "request");
-  const status = unit ? availabilityLabel(unit, locale) : x.catalog ? catalogLine[locale] : fullyLet ? fullLine[locale] : (onRequest ?? fullLine)[locale];
+  const state: TemplateOffer["state"] = unitState ?? (fullyLet ? "full" : "request");
+  const status = unit ? availabilityLabel(unit, locale) : fullyLet ? fullLine[locale] : (onRequest ?? fullLine)[locale];
   const open = unit ? viewingEnabled(unit) : !fullyLet;
   const primary = x.cta && (open || fullyLet) ? x.cta.primary[locale] : open ? ui.viewing[locale] : ui.waitlist[locale];
   const secondary = x.cta ? { label: x.cta.secondary.label[locale], href: x.cta.secondary.href } : { label: ui.plansSee[locale], href: "#plans" };

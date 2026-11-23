@@ -1,5 +1,4 @@
 import { getProject, spacesFor, type ProjectEntry } from "@/content/source";
-import { catalogVisible } from "@/data/dacia-31-spaces";
 import { landRecords } from "@/data/demo-content";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -49,11 +48,8 @@ export const leasingProjects = (): ProjectEntry[] => leasingSlugs.map((slug) => 
  * area and timing are «on request» until the OWNER confirms them.
  */
 export const leasingOnRequest: Partial<Record<string, Localized>> = {
-  // OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B: where the Dacia 31 catalogue is shown (OWNER preview until approved) the status names
-  // what is free — offices and large floors, per the lease register; otherwise «area and timing on request»
-  "dacia-31": catalogVisible()
-    ? { ro: "Liber acum · suprafețe mari", ru: "Свободно сейчас · крупные площади", en: "Free now · large floors" }
-    : { ro: "Se închiriază · suprafața și termenele — la cerere", ru: "Сдаётся в\u00a0аренду · площадь и\u00a0сроки\u00a0— по\u00a0запросу", en: "For lease · area and timing on request" },
+  // OWNER «COMMERCIAL DEVELOPMENT REVIEW» (2026-11-23): no availability is claimed until a responsible employee confirms it — «area and timing on request»
+  "dacia-31": { ro: "Se închiriază · suprafața și termenele — la cerere", ru: "Сдаётся в\u00a0аренду · площадь и\u00a0сроки\u00a0— по\u00a0запросу", en: "For lease · area and timing on request" },
 };
 
 /** A fully let building in the leasing portfolio keeps a waiting list (OWNER 2026-10-09: «only fully let and a waitlist»). */
