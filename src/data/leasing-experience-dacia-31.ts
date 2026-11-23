@@ -103,7 +103,7 @@ export const dacia31Experience: LeasingExperience = {
     internalNote: "No traffic or demographic figure for Dacia 31 — none is published without a field count.",
   },
   area: {
-    propertyLine: T("Suprafața înregistrată — 5.537,6 m² în 8 spații; nu este suprafața disponibilă. Suprafața și data disponibilității — la cerere.", "Зарегистрированная площадь — 5 537,6 м² в 8 помещениях; это не свободная площадь. Площадь и сроки аренды — по запросу.", "The registered area is 5,537.6 m² in 8 premises — not the available area. The area and timing of the lease are given on request."),
+    propertyLine: T("Suprafața înregistrată — 5\u00a0537,6 m² în 8 spații; nu este suprafața disponibilă. Suprafața și data disponibilității — la cerere.", "Зарегистрированная площадь — 5 537,6 м² в 8 помещениях; это не свободная площадь. Площадь и сроки аренды — по запросу.", "The registered area is 5,537.6 m² in 8 premises — not the available area. The area and timing of the lease are given on request."),
     groundOnly: null,
   },
   access: [

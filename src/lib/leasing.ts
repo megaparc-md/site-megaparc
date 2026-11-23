@@ -56,8 +56,8 @@ export const areaBands: { key: string; min: number; max: number; label: Localize
   { key: "lt120", min: 0, max: 120, label: { ro: "până la 120 m²", ru: "до 120 м²", en: "up to 120 m²" } },
   { key: "120-300", min: 120, max: 300, label: { ro: "120–300 m²", ru: "120–300 м²", en: "120–300 m²" } },
   { key: "300-700", min: 300, max: 700, label: { ro: "300–700 m²", ru: "300–700 м²", en: "300–700 m²" } },
-  { key: "700-1500", min: 700, max: 1500, label: { ro: "700–1.500 m²", ru: "700–1 500 м²", en: "700–1,500 m²" } },
-  { key: "gt1500", min: 1500, max: 100000, label: { ro: "1.500+ m²", ru: "1 500+ м²", en: "1,500+ m²" } },
+  { key: "700-1500", min: 700, max: 1500, label: { ro: "700–1\u00a0500 m²", ru: "700–1 500 м²", en: "700–1,500 m²" } },
+  { key: "gt1500", min: 1500, max: 100000, label: { ro: "1\u00a0500+ m²", ru: "1 500+ м²", en: "1,500+ m²" } },
 ];
 
 /** A space fits a band when its offered range overlaps the band. */

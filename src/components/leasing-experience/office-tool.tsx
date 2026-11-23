@@ -1,5 +1,6 @@
 "use client";
 
+import { numberLocale } from "@/lib/site-data";
 import { useId, useMemo, useState } from "react";
 import { NumberInput, numberOf } from "@/components/number-input";
 import type { SiteLocale } from "@/lib/site-data";
@@ -83,7 +84,7 @@ const num = (value: string) => numberOf(value);
 export function OfficeTool({ locale, property, example, visitLabel }: { locale: SiteLocale; property: string; example: Example; visitLabel?: string }) {
   const t = copy[locale];
   const uid = useId();
-  const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
+  const nf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 0 }), [locale]);
   const f = (n: number) => nf.format(Math.round(n));
   const [v, setV] = useState<Record<"people" | "perSeat" | "shared", string>>({ people: "", perSeat: "", shared: "" });
   const [isExample, setIsExample] = useState(false);

@@ -99,7 +99,7 @@ export const creanga78Experience: LeasingExperience = {
     internalNote: "No traffic or demographic figure for Creangă 78; the district is not confirmed and is not shown.",
   },
   area: {
-    propertyLine: T("Suprafața înregistrată — 2.158,3 m² (număr cadastral 0100514.140.01.120); suprafața disponibilă — 0 m².", "Зарегистрированная площадь — 2 158,3 м² (кадастровый номер 0100514.140.01.120); свободная площадь — 0 м².", "The registered area is 2,158.3 m² (cadastral number 0100514.140.01.120); the available area is 0 m²."),
+    propertyLine: T("Suprafața înregistrată — 2\u00a0158,3 m² (număr cadastral 0100514.140.01.120); suprafața disponibilă — 0 m².", "Зарегистрированная площадь — 2 158,3 м² (кадастровый номер 0100514.140.01.120); свободная площадь — 0 м².", "The registered area is 2,158.3 m² (cadastral number 0100514.140.01.120); the available area is 0 m²."),
     groundOnly: null,
   },
   access: [teamRow("entrance", T("Intrare", "Вход", "Entrance")), teamRow("parking", T("Parcare", "Парковка", "Parking")), teamRow("delivery", T("Acces pentru livrări", "Подъезд для доставки", "Delivery access"))],
@@ -145,7 +145,7 @@ export const creanga78Experience: LeasingExperience = {
       fact(T("Proprietate MEGAPARC", "Собственность MEGAPARC", "A MEGAPARC property"), "OWNER_CONFIRMED", OWNER),
       fact(T("Ocupat 100 %", "Занят на 100 %", "100% occupied"), "OWNER_CONFIRMED", OWNER),
       fact(T("Număr cadastral 0100514.140.01.120", "Кадастровый номер 0100514.140.01.120", "Cadastral number 0100514.140.01.120"), "DOCUMENT_CONFIRMED", CAD),
-      fact(T("Suprafață înregistrată 2.158,3 m²", "Зарегистрированная площадь 2 158,3 м²", "Registered area 2,158.3 m²"), "DOCUMENT_CONFIRMED", CAD),
+      fact(T("Suprafață înregistrată 2\u00a0158,3 m²", "Зарегистрированная площадь 2 158,3 м²", "Registered area 2,158.3 m²"), "DOCUMENT_CONFIRMED", CAD),
     ],
     tenantTitle: T("Verificăm pentru formatul dumneavoastră", "Проверим под ваш формат", "We'll check for your format"),
     tenant: [

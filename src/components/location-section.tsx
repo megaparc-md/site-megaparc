@@ -3,7 +3,7 @@ import { SectionIndex } from "@/components/primitives";
 import { Icon } from "@/components/ui";
 import { locationMaps } from "@/data/location-maps";
 import { googleDirectionsUrl, googleMapsUrl, type MapLocation } from "@/lib/assets";
-import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
+import { publicAsset, type Localized, type SiteLocale, numberLocale } from "@/lib/site-data";
 
 const copy = {
   label: { ro: "Amplasare", ru: "Расположение", en: "Location" },
@@ -127,7 +127,7 @@ export function LocationMap({ locale, mapKey, name, place, className = "" }: { l
       </div>
       <figcaption className="loc__legend">
         {data.stops ? <span className="loc__key loc__key--stop">{copy.stops[locale]}</span> : null}
-        <span className="loc__key loc__key--ring">{copy.walk[locale].replace("{m}", data.ring.meters >= 1000 && locale !== "en" ? data.ring.meters.toLocaleString(locale === "ru" ? "ru-RU" : "ro-RO").replace(/\s/g, "\u00a0") : data.ring.meters.toLocaleString("en-GB"))}</span>
+        <span className="loc__key loc__key--ring">{copy.walk[locale].replace("{m}", data.ring.meters >= 1000 && locale !== "en" ? data.ring.meters.toLocaleString(numberLocale(locale)).replace(/\s/g, "\u00a0") : data.ring.meters.toLocaleString("en-GB"))}</span>
       </figcaption>
     </figure>
   );

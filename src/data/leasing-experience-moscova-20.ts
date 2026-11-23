@@ -157,7 +157,7 @@ export const moscova20Experience: LeasingExperience = {
     rhythmNote: T("Ritmul zilei după model: dimineața — constant, ziua — mediu, seara — vârf. Fără valori exacte până la numărare.", "Ритм дня по модели: утром — устойчивая активность, днём — средняя, вечером — пик. Без точных значений до замера.", "The day's rhythm in the model: steady in the morning, moderate during the day, peaking in the evening. No exact values until a field count is made."),
     mapTab: T("Împrejurimi", "Окружение", "Surroundings"),
     // OWNER micro-fix 2026-11-09: straight-line radii, not pedestrian isochrones — no «пешая доступность», no minutes until real walking routes are calculated
-    mapCaption: T("Raze orientative ale împrejurimilor: ≈ 400 / 800 / 1.200 m în linie dreaptă. Datele împrejurimilor © OpenStreetMap.", "Ориентировочные радиусы окружения: ≈ 400 / 800 / 1 200 м по прямой. Данные окружения © OpenStreetMap.", "Indicative straight-line radii: ≈ 400 / 800 / 1,200 m. Surroundings data © OpenStreetMap."),
+    mapCaption: T("Raze orientative ale împrejurimilor: ≈ 400 / 800 / 1\u00a0200 m în linie dreaptă. Datele împrejurimilor © OpenStreetMap.", "Ориентировочные радиусы окружения: ≈ 400 / 800 / 1 200 м по прямой. Данные окружения © OpenStreetMap.", "Indicative straight-line radii: ≈ 400 / 800 / 1,200 m. Surroundings data © OpenStreetMap."),
     visibilityTab: T("Vizibilitatea imobilului", "Как виден объект", "Visibility"),
     visibility: {
       photo: "context",
@@ -241,8 +241,8 @@ export const moscova20Experience: LeasingExperience = {
       ),
       facts: [
         { key: "plot", value: T("≈ 12,6 ha", "≈ 12,6 га", "≈ 12.6 ha"), label: T("terenul uzinei, bd. Moscova 21", "участок завода, бул. Москова, 21", "the plant's plot, 21 Moscova Blvd") },
-        { key: "homes", value: T("≈ 2.670", "≈ 2 670", "≈ 2,670"), label: T("apartamente în proiectul planului", "квартир в проекте плана", "apartments in the draft plan") },
-        { key: "people", value: T("≈ 8.000", "≈ 8 000", "≈ 8,000"), label: T("locuitori în proiectul planului", "жителей в проекте плана", "residents in the draft plan") },
+        { key: "homes", value: T("≈ 2\u00a0670", "≈ 2 670", "≈ 2,670"), label: T("apartamente în proiectul planului", "квартир в проекте плана", "apartments in the draft plan") },
+        { key: "people", value: T("≈ 8\u00a0000", "≈ 8 000", "≈ 8,000"), label: T("locuitori în proiectul planului", "жителей в проекте плана", "residents in the draft plan") },
       ],
       zone: {
         path: "M344.3 481.8L353.9 445.7L355.7 438.9L352.9 437.9L351.7 438.8L348.9 439.5L343.5 437.9L343.2 438.7L331.9 435.3L333.1 431.3L327.2 429.3L334.1 407.2L337.9 408.1L341.7 405.1L346.3 398.5L348.5 391.4L366.6 397.4L373.9 369L417.7 380.5L417.9 379.6L421 380.4L420.8 381.5L462.5 392L462.4 392.6L479.8 397L472.1 427L470.9 427L470 427.4L469.7 427.9L458.7 470.9L456.9 478.3L445.6 522.5L450.7 523.8L450.4 524.6L450.3 525.4L450.3 526.2L452.6 527L450.5 535.6L437.5 532.2L436.9 534.7L435.6 534.4L434.5 535L427.8 533.8L426.5 530.9L427.5 526.6L422.1 525.1L421.8 526.4L416.5 525.2L410.6 547.7L410.4 548.3L332.2 527.8L332.6 526.6Z",

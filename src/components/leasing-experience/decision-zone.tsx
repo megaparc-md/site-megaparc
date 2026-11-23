@@ -1,3 +1,4 @@
+import { numberLocale } from "@/lib/site-data";
 import { economicsCopy } from "@/components/leasing-experience/economics-copy";
 import { EconomicsTool } from "@/components/leasing-experience/economics-tool";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
@@ -42,7 +43,7 @@ export function DecisionSheet({ x, offer, project, locale }: { x: LeasingExperie
   const visitLabel = x.cta || !offer.open ? offer.primary : undefined;
   if (x.decision.kind === "economics") {
     const traffic = locationTraffic[x.project];
-    const fmt = (n: number) => n.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB");
+    const fmt = (n: number) => n.toLocaleString(numberLocale(locale));
     const summary = trafficVisible(traffic, ownerPreview)
       ? {
           status: traffic.trafficStatus,

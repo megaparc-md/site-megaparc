@@ -70,7 +70,7 @@ export const landPortfolio: LandItem[] = [
   { slug: "orhei", name: { ro: "Orhei", ru: "Orhei", en: "Orhei" }, place: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: landArea("orhei"), page: null },
   { slug: "chisinau", name: { ro: "Chișinău", ru: "Chișinău", en: "Chișinău" }, place: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" }, area: null, page: null },
   // a repositioning / redevelopment opportunity: 0,847 ha of land + 1 490 m² of registered existing construction (OWNER, LAND brief §18)
-  { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, place: null, area: { ro: "0,847 ha + construcție 1.490 m²", ru: "0,847 га + постройка 1 490 м²", en: "0.847 ha + 1,490 m² building" }, page: null },
+  { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, place: null, area: { ro: "0,847 ha + construcție 1\u00a0490 m²", ru: "0,847 га + постройка 1 490 м²", en: "0.847 ha + 1,490 m² building" }, page: null },
 ];
 export const landWithoutArea = landPortfolio.filter((plot) => !plot.area).length;
 
@@ -81,7 +81,7 @@ export const developmentPortfolio = (): DevelopmentItem[] => {
   return [
     ...(vatra ? [{ slug: vatra.slug, name: vatra.name, status: vatra.card.status, page: vatra.slug }] : []),
     // OWNER tax data (R3.3.1 §14): the plot and the registered existing building — never read as the future project's GBA
-    { slug: "vasile-lupu-48-3", name: "Vasile Lupu 48/3", status: { ro: "Teren 1.000 m² · construcție existentă înregistrată 172,1 m²", ru: "Участок 1 000 м² · зарегистрированная существующая постройка 172,1 м²", en: "Plot 1,000 m² · registered existing building 172.1 m²" }, page: null },
+    { slug: "vasile-lupu-48-3", name: "Vasile Lupu 48/3", status: { ro: "Teren 1\u00a0000 m² · construcție existentă înregistrată 172,1 m²", ru: "Участок 1 000 м² · зарегистрированная существующая постройка 172,1 м²", en: "Plot 1,000 m² · registered existing building 172.1 m²" }, page: null },
   ];
 };
 

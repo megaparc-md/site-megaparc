@@ -10,7 +10,7 @@ import { holdOrSell, lifecycle, reinvestment } from "@/lib/business";
 import type { AvailableSpace } from "@/data/leasing-inventory";
 import { cadastreNumbers, eCadastruPortal, premisesCadastre } from "@/data/property-trust";
 import { registeredData } from "@/data/registered";
-import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
+import { localePath, type Localized, type SiteLocale, numberLocale } from "@/lib/site-data";
 
 /**
  * SITEWIDE R3 — shared building blocks of the premium rebuild (OWNER "SITEWIDE R3", 2026-11-09).
@@ -86,7 +86,7 @@ export function projectState(project: ProjectEntry, locale: SiteLocale): { text:
 export function R3Trust({ slug, locale, tone = "paper", id = "technical-support", verify = false }: { slug?: string; locale: SiteLocale; tone?: "paper" | "ivory" | "stone"; id?: string; /** the leasing template (OWNER «LEASING TEMPLATE LOCK» §11): the verification block always shows — one number, the registered premises, or «проверяется» */ verify?: boolean }) {
   const number = slug ? cadastreNumbers[slug] : undefined;
   const reg = slug ? registeredData[slug] : undefined;
-  const fmt = (m2: number) => `${m2.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 }).replace(/\s/g, "\u00a0")}\u00a0${locale === "ru" ? "м²" : "m²"}`;
+  const fmt = (m2: number) => `${m2.toLocaleString(numberLocale(locale), { minimumFractionDigits: 1, maximumFractionDigits: 2 }).replace(/\s/g, "\u00a0")}\u00a0${locale === "ru" ? "м²" : "m²"}`;
   const many = !number && reg && reg.premises.length > 1 ? reg.premises.map((premise) => ({ cadastral: premise.cadastral, area: fmt(premise.area) })) : null;
   const cadastre = number ? (
     <CadastreVerify number={number} premises={slug ? premisesCadastre[slug] : undefined} portal={eCadastruPortal} locale={locale} />

@@ -99,7 +99,7 @@ export const moscova9Experience: LeasingExperience = {
     internalNote: "No traffic or demographic figure for Moscova 9 — none is published without a field count.",
   },
   area: {
-    propertyLine: T("Suprafața înregistrată a clădirii — 2.561,3 m²; suprafața parterului pentru închiriere — la cerere.", "Зарегистрированная площадь здания — 2 561,3 м²; площадь 1-го этажа к аренде — по запросу.", "The registered building area is 2,561.3 m²; the ground-floor area for lease is given on request."),
+    propertyLine: T("Suprafața înregistrată a clădirii — 2\u00a0561,3 m²; suprafața parterului pentru închiriere — la cerere.", "Зарегистрированная площадь здания — 2 561,3 м²; площадь 1-го этажа к аренде — по запросу.", "The registered building area is 2,561.3 m²; the ground-floor area for lease is given on request."),
     groundOnly: null,
   },
   access: [

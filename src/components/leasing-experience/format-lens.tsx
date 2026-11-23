@@ -7,7 +7,7 @@ import { company, contactLinks } from "@/data/demo-content";
 import { calculatorHref, producerBlock } from "@/data/producer-retail";
 import Link from "next/link";
 import { publishable, type LeasingExperience, type LensFormat, type LensRef } from "@/data/leasing-experience-model";
-import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, localePath, type SiteLocale, numberLocale } from "@/lib/site-data";
 import { formatAreaExact } from "@/content/source";
 
 /**
@@ -34,7 +34,7 @@ const target: Record<LensRef, { href: string; drawer?: string }> = {
 };
 
 /** the approximate height of a level, one decimal in the visitor's locale (≈ 3,0 · 3.0) — read from the unit record */
-const height = (value: number | undefined, locale: SiteLocale) => (value ? value.toLocaleString(locale === "en" ? "en-GB" : locale === "ru" ? "ru-RU" : "ro-RO", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "—");
+const height = (value: number | undefined, locale: SiteLocale) => (value ? value.toLocaleString(numberLocale(locale), { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "—");
 
 function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: LensFormat; locale: SiteLocale; offer: TemplateOffer }) {
   const l = x.lens;

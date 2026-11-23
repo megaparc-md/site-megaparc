@@ -53,7 +53,7 @@ export const drochiaLand: LandOpportunity = {
   today: {
     title: T("Terenul astăzi.", "Участок сегодня.", "The site today."),
     facts: [
-      { key: "area", label: T("Suprafața terenului", "Площадь участка", "Site area"), value: T("2,0 ha · 20.000 m²", "2,0 га · 20 000 м²", "2.0 ha · 20,000 m²"), status: "CONFIRMED", source: TAX },
+      { key: "area", label: T("Suprafața terenului", "Площадь участка", "Site area"), value: T("2,0 ha · 20\u00a0000 m²", "2,0 га · 20 000 м²", "2.0 ha · 20,000 m²"), status: "CONFIRMED", source: TAX },
       { key: "cadastre", label: T("Număr cadastral", "Кадастровый номер", "Cadastral number"), value: T("3601104.441", "3601104.441", "3601104.441"), status: "CONFIRMED", source: TAX },
       { key: "address", label: T("Adresă", "Адрес", "Address"), value: T("Bd. Independenței 65, Drochia", "Бул. Индепенденцей, 65, Дрокия", "65 Independenței Blvd, Drochia"), status: "CONFIRMED", source: TAX },
       { key: "owner", label: T("Proprietar", "Собственник", "Owner"), value: T("MEGAPARC", "MEGAPARC", "MEGAPARC"), status: "CONFIRMED", source: DATA },
@@ -67,7 +67,7 @@ export const drochiaLand: LandOpportunity = {
     title: T("Ce creează potențialul terenului.", "Что создаёт потенциал участка.", "What creates the site's potential."),
     lead: T("Faptul — și de ce contează pentru dezvoltare. Doar ce este confirmat.", "Факт — и почему он важен для девелопмента. Только подтверждённое.", "The fact — and why it matters for development. Confirmed facts only."),
     factors: [
-      { key: "scale", fact: T("20.000 m²", "20 000 м²", "20,000 m²"), why: T("Dimensiunea terenului permite evaluarea mai multor scenarii de dezvoltare.", "Масштаб участка позволяет оценить несколько сценариев застройки.", "The site's scale allows several development scenarios to be evaluated."), source: TAX },
+      { key: "scale", fact: T("20\u00a0000 m²", "20 000 м²", "20,000 m²"), why: T("Dimensiunea terenului permite evaluarea mai multor scenarii de dezvoltare.", "Масштаб участка позволяет оценить несколько сценариев застройки.", "The site's scale allows several development scenarios to be evaluated."), source: TAX },
       { key: "fronts", fact: T("Două fronturi stradale", "Выход на две дороги", "Frontage on two roads"), why: T("Două fronturi dau opțiuni pentru accese și pentru separarea fluxurilor — schema acceselor se verifică.", "Выход на две дороги даёт варианты въездов и разделения потоков — схема подъездов проверяется.", "Frontage on two roads gives options for access and for separating traffic flows — the access scheme is being verified."), source: DATA },
       { key: "address", fact: T("Bulevardul Independenței", "Бульвар Индепенденцей", "Independenței Boulevard"), why: T("O adresă pe bulevard face orientarea și logistica mai clare.", "Адрес на бульваре делает навигацию и логистику понятнее.", "An address on the boulevard makes wayfinding and logistics clearer."), source: `${TAX} · ${OSM}` },
       { key: "owner", fact: T("Teren propriu MEGAPARC", "Собственная земля MEGAPARC", "MEGAPARC's own land"), why: T("Un singur proprietar și date cadastrale verificabile simplifică structurarea proiectului.", "Один собственник и проверяемые кадастровые данные упрощают структурирование проекта.", "One owner and verifiable cadastral data simplify structuring the project."), source: DATA },
@@ -76,7 +76,7 @@ export const drochiaLand: LandOpportunity = {
 
   development: {
     confirmed: [
-      { key: "area", label: T("Suprafața cadastrală", "Кадастровая площадь", "Cadastral area"), value: T("20.000 m²", "20 000 м²", "20,000 m²"), status: "CONFIRMED", source: TAX },
+      { key: "area", label: T("Suprafața cadastrală", "Кадастровая площадь", "Cadastral area"), value: T("20\u00a0000 m²", "20 000 м²", "20,000 m²"), status: "CONFIRMED", source: TAX },
       { key: "cadastre", label: T("Număr cadastral", "Кадастровый номер", "Cadastral number"), value: T("3601104.441", "3601104.441", "3601104.441"), status: "CONFIRMED", source: TAX },
       { key: "address", label: T("Adresă", "Адрес", "Address"), value: T("Bd. Independenței 65", "Бул. Индепенденцей, 65", "65 Independenței Blvd"), status: "CONFIRMED", source: TAX },
       { key: "fronts", label: T("Fronturi stradale", "Выход на дороги", "Road frontage"), value: T("2", "2", "2"), status: "CONFIRMED", source: DATA },
@@ -114,7 +114,7 @@ export const drochiaLand: LandOpportunity = {
 
   readiness: [
     item("title", T("Dreptul de proprietate", "Право собственности", "Title / ownership"), "CONFIRMED", T("Teren MEGAPARC", "Земля MEGAPARC", "MEGAPARC land"), DATA),
-    item("cadastre", T("Cadastru", "Кадастр", "Cadastre"), "CONFIRMED", T("3601104.441 · 20.000 m²", "3601104.441 · 20 000 м²", "3601104.441 · 20,000 m²"), TAX),
+    item("cadastre", T("Cadastru", "Кадастр", "Cadastre"), "CONFIRMED", T("3601104.441 · 20\u00a0000 m²", "3601104.441 · 20 000 м²", "3601104.441 · 20,000 m²"), TAX),
     item("boundary", T("Limitele terenului", "Границы участка", "Boundary"), "TO_VERIFY", T("Planul cadastral se verifică", "Кадастровый план проверяется", "The cadastral plan is being verified")),
     item("access", T("Acces", "Подъезд", "Access"), "TO_VERIFY", T("Două fronturi confirmate; schema acceselor se verifică", "Выход на две дороги подтверждён; схема подъездов проверяется", "Frontage on two roads confirmed; the access scheme is being verified"), DATA),
     item("urbanism", T("Urbanism", "Градостроительство", "Planning"), "TO_VERIFY", T("Certificatul de urbanism — de obținut", "Градостроительный сертификат — предстоит получить", "Planning certificate — to be obtained")),

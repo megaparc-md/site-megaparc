@@ -24,7 +24,7 @@
 }
 
 /* tone variables — one place for every card of this pass */
-.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-fee, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"], .lp-actions li[data-action="kit"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .14); --t-edge: rgba(19, 19, 19, .16); }
+.r8-t-paper, .lg-pass__card[data-card="climate"], .lg-pass__card[data-card="parking"], .ct-level.is-terrace, .ct-term.is-fee, .ct__index, .lp-key:nth-child(1), .lp-actions li[data-action="dossier"], .lp-actions li[data-action="kit"], .lp-actions li[data-action="technical"] { --t-bg: var(--r8-paper); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: var(--r8-muted); --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .14); --t-edge: rgba(19, 19, 19, .16); }
 .r8-t-stone, .lg-pass__card[data-card="heating"], .ct-level.is-lower, .ct-term.is-utilities, .lpx-why__list li:nth-child(2), .lp-key:nth-child(2), .lp-actions li[data-action^="plan-"] { --t-bg: var(--r8-stone); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #545454; --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .14); --t-edge: transparent; }
 .r8-t-sand, .lg-pass__card[data-card="logistics"] { --t-bg: var(--r8-sand); --t-ink: var(--r8-ink); --t-text: #3a3a3a; --t-muted: #545454; --t-accent: var(--r8-burgundy); --t-rule: rgba(19, 19, 19, .16); --t-edge: transparent; }
 .r8-t-blush, .lg-pass__card[data-card="sanitary"], .ct-term.is-deposit { --t-bg: var(--r8-blush); --t-ink: var(--r8-ink); --t-text: var(--r8-text); --t-muted: #545454; --t-accent: var(--r8-burgundy); --t-rule: rgba(203, 1, 2, .18); --t-edge: transparent; }
@@ -139,7 +139,7 @@
 #pack-downloads li[data-action="brochure"] .lp-action__label { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 300; letter-spacing: -.02em; }
 @media (min-width: 720px) {
   #pack-downloads .lp-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #pack-downloads li[data-action="brochure"], #pack-downloads li[data-action="dossier"], #pack-downloads li[data-action="kit"] { grid-column: 1 / -1; }
+  #pack-downloads li[data-action="brochure"], #pack-downloads li[data-action="dossier"], #pack-downloads li[data-action="kit"], #pack-downloads li[data-action="technical"] { grid-column: 1 / -1; }
 }
 .lpx-next { background: var(--r8-stone); }
 

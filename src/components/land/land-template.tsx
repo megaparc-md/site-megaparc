@@ -12,7 +12,7 @@ import { T } from "@/data/leasing-experience-model";
 import type { DueStatus, LandOpportunity } from "@/data/land-model";
 import { eCadastruPortal } from "@/data/property-trust";
 import { googleDirectionsUrl, googleMapsUrl } from "@/lib/assets";
-import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
+import { localePath, type Localized, type SiteLocale, numberLocale } from "@/lib/site-data";
 
 /**
  * THE LAND DEVELOPMENT OPPORTUNITY TEMPLATE — OWNER «MEGAPARC · LAND DEVELOPMENT OPPORTUNITIES · DROCHIA = MASTER
@@ -117,7 +117,7 @@ function Status({ status, locale }: { status: DueStatus; locale: SiteLocale }) {
 
 export function LandOpportunityPage({ locale, project, land }: { locale: SiteLocale; project: ProjectEntry; land: LandOpportunity }) {
   const p = (path: string) => localePath(locale, path);
-  const ha = (m2: number) => `${(m2 / 10000).toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 3 })}${locale === "ru" ? " га" : " ha"}`;
+  const ha = (m2: number) => `${(m2 / 10000).toLocaleString(numberLocale(locale), { minimumFractionDigits: 1, maximumFractionDigits: 3 })}${locale === "ru" ? " га" : " ha"}`;
   const m2 = formatArea(land.area, locale);
   const map = project.development?.map ?? null;
   // the confirmed public mailbox only (no subject parameters — qa-static accepts the OWNER-confirmed contact links as they are)

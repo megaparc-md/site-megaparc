@@ -119,7 +119,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Companies that need a building of their own for their offices: technology, services or administrative organisations with several departments.",
     },
     lead: {
-      ro: "Clădire independentă de 5.541 m² în sectorul Botanica, potrivită pentru o singură companie. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
+      ro: "Clădire independentă de 5\u00a0541 m² în sectorul Botanica, potrivită pentru o singură companie. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
       ru: "Отдельно стоящее здание площадью 5 541\u00a0м² в\u00a0секторе Ботаника\u00a0— подходит для\u00a0одной компании. Единый контроль доступа, большие площади этажей, существующая инженерная инфраструктура и\u00a0заметный фасад.",
       en: "A 5,541 m² stand-alone building in Botanica, suited to a single company. Single access control, large floor areas, existing building services and a prominent facade.",
     },
@@ -141,7 +141,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Suprafața totală a obiectului", ru: "Общая площадь объекта", en: "Total property area" }, value: { ro: "5.541 m²", ru: "5 541 м²", en: "5,541 m²" } },
+      { label: { ro: "Suprafața totală a obiectului", ru: "Общая площадь объекта", en: "Total property area" }, value: { ro: "5\u00a0541 m²", ru: "5 541 м²", en: "5,541 m²" } },
       { label: { ro: "Format", ru: "Формат", en: "Format" }, value: { ro: "Clădire independentă", ru: "Отдельно стоящее здание", en: "Stand-alone building" } },
       { label: { ro: "Niveluri", ru: "Уровни", en: "Levels" }, value: { ro: "Demisol + parter + 2 etaje + etaj tehnic", ru: "Цоколь + 3 этажа + технический", en: "Lower ground + ground + 2 upper floors + technical" } },
       { label: { ro: "Accese / circulații", ru: "Входы / коммуникации", en: "Entrances / circulation" }, value: { ro: "4+ posibilități", ru: "4+ варианта", en: "4+ possibilities" } },
@@ -165,10 +165,10 @@ export const portfolioAssets: PortfolioAsset[] = [
         en: "On every level: open work areas and support rooms, glazed zones, large floor areas and several entrance and circulation options. The floor structure allows departments to be arranged by level or by function.",
       },
       programme: [
-        { label: { ro: "Demisol", ru: "Цокольный этаж", en: "Lower ground floor" }, value: { ro: "1.041 m²", ru: "1 041 м²", en: "1,041 m²" } },
-        { label: { ro: "Parter", ru: "1‑й этаж", en: "Ground floor" }, value: { ro: "1.138 m²", ru: "1 138 м²", en: "1,138 m²" } },
-        { label: { ro: "Etajul 1", ru: "2‑й этаж", en: "First floor" }, value: { ro: "1.770 m²", ru: "1 770 м²", en: "1,770 m²" } },
-        { label: { ro: "Etajul 2", ru: "3‑й этаж", en: "Second floor" }, value: { ro: "1.014 m²", ru: "1 014 м²", en: "1,014 m²" } },
+        { label: { ro: "Demisol", ru: "Цокольный этаж", en: "Lower ground floor" }, value: { ro: "1\u00a0041 m²", ru: "1 041 м²", en: "1,041 m²" } },
+        { label: { ro: "Parter", ru: "1‑й этаж", en: "Ground floor" }, value: { ro: "1\u00a0138 m²", ru: "1 138 м²", en: "1,138 m²" } },
+        { label: { ro: "Etajul 1", ru: "2‑й этаж", en: "First floor" }, value: { ro: "1\u00a0770 m²", ru: "1 770 м²", en: "1,770 m²" } },
+        { label: { ro: "Etajul 2", ru: "3‑й этаж", en: "Second floor" }, value: { ro: "1\u00a0014 m²", ru: "1 014 м²", en: "1,014 m²" } },
         { label: { ro: "Etaj tehnic", ru: "Технический этаж", en: "Technical floor" }, value: { ro: "260 m²", ru: "260 м²", en: "260 m²" } },
       ],
       features: [
@@ -204,11 +204,11 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     availability: {
       headline: {
-        ro: "5.223 m² sunt disponibili de la 1 ianuarie 2027 pentru sediul unei singure companii.",
+        ro: "5\u00a0223 m² sunt disponibili de la 1 ianuarie 2027 pentru sediul unei singure companii.",
         ru: "5\u00a0223\u00a0м² доступны с\u00a01\u00a0января 2027\u00a0года для\u00a0размещения одной компании.",
         en: "5,223 m² are available from 1 January 2027 for a single company's headquarters.",
       },
-      area: { ro: "5.223 m²", ru: "5 223 м²", en: "5,223 m²" },
+      area: { ro: "5\u00a0223 m²", ru: "5 223 м²", en: "5,223 m²" },
       from: { ro: "1 ianuarie 2027", ru: "1 января 2027", en: "1 January 2027" },
     },
     caveat: {
@@ -602,12 +602,12 @@ export const developmentProjects: DevelopmentProject[] = [
       en: "A 2.0 ha site in Drochia, under consideration for commercial, logistics or mixed-use development.",
     },
     intro: {
-      ro: "Terenul de pe bd. Independenței 65 (20.000 m²) are două fronturi stradale și se vede bine de pe drumul care intră în oraș. Sunt posibile accese separate pentru clienți și pentru transportul de marfă. MEGAPARC analizează concepte de format comercial, logistic și mixt.",
+      ro: "Terenul de pe bd. Independenței 65 (20\u00a0000 m²) are două fronturi stradale și se vede bine de pe drumul care intră în oraș. Sunt posibile accese separate pentru clienți și pentru transportul de marfă. MEGAPARC analizează concepte de format comercial, logistic și mixt.",
       ru: "Участок 20 000 м² на бул. Индепенденцей, 65 выходит на две дороги и хорошо виден с трассы на въезде в город. Подъезды для покупателей и грузовиков можно развести. MEGAPARC рассматривает торговый, логистический и смешанный форматы.",
       en: "The site at Bd. Independenței 65 (20,000 m²) has two road fronts and is clearly visible from the road into the town. Separate access for customers and freight is possible. MEGAPARC is considering retail, logistics and mixed-use concepts.",
     },
     facts: [
-      { label: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" }, value: { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" } },
+      { label: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" }, value: { ro: "2,0 ha · 20\u00a0000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" } },
       { label: { ro: "Adresă", ru: "Адрес", en: "Address" }, value: { ro: "Bd. Independenței 65, Drochia", ru: "Бул. Индепенденцей, 65, Дрокия", en: "65 Independenței Blvd, Drochia" } },
       { label: { ro: "Fronturi stradale", ru: "Выход на\u00a0дороги", en: "Road frontage" }, value: { ro: "2", ru: "2", en: "2" } },
       { label: { ro: "Dezvoltator", ru: "Девелопер", en: "Developer" }, value: { ro: "MEGAPARC SRL", ru: "MEGAPARC SRL", en: "MEGAPARC SRL" } },

@@ -1,58 +1,72 @@
-/* ==================================================================================================================================
-   PREMIUM BRAND ENTRANCE — variant A (OWNER FINAL GO «PREMIUM ENTRANCE A + CORPORATE ARCS A», 2026-11-20).
-   Hidden by default; `<html data-entry="entrance | redirect">` (set by the inline script before the first paint) decides:
-     entrance  a quiet dark first screen — the approved logo for a dark ground and the three languages;
-     redirect  a returning visitor is being sent to the remembered language — the page stays unpainted meanwhile (no flash).
-   A fixed layer: it never moves the layout. Approved palette only — dark #222222, white, Megaparc Red #CB0102 in the logo itself and as
-   the mark of the language under the pointer; Manrope; no glow, no video, no library.
-   The languages (OWNER FINAL GO §2): 14 px at every width (the tracking and the gaps narrow on small phones, never the type), targets
-   ≥ 44 × 44 px, white 78 % on #222222 = 10 : 1, the pointer mark a 2 px line, the keyboard ring white.
-   ================================================================================================================================== */
+/* ==================================================================
+   PREMIUM LANGUAGE ENTRY (OWNER mandate 2026-11-12) — preview concept.
+   Hidden by default; `<html data-entry="overlay | cinema">` (set by
+   the inline script before the first paint) shows one of two variants.
+   Fixed layer: it never moves the layout. Manrope · ivory · graphite ·
+   burgundy; the red rule only under the wordmark.
+   ================================================================== */
 .le { display: none; }
-html[data-entry="redirect"] body { visibility: hidden; }
+html[data-entry] .le { display: block; position: fixed; z-index: 1200; color: var(--ink, #242424); font-family: var(--font); }
+.le__photo { display: none; margin: 0; }
+.le__brand { display: none; }
+.le__label { margin: 0; color: var(--brand, #cb0102); font-size: .75rem; font-weight: 700; letter-spacing: .13em; line-height: 1.3; text-transform: uppercase; }
+.le__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.le__lang { display: grid; color: inherit; text-decoration: none; }
+.le__lang:focus-visible, .le__close:focus-visible { outline: 2px solid var(--signal, #cb0102); outline-offset: 3px; }
+.le__code { font-size: .75rem; font-weight: 700; letter-spacing: .13em; color: var(--brand, #cb0102); }
+.le__name { font-weight: 700; letter-spacing: -.012em; }
+.le__close { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; cursor: pointer; }
+.le__close:hover { background: rgba(21, 21, 21, .07); }
 
-.le__title { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
-.le__logo { display: block; width: clamp(13.5rem, 27vw, 23rem); height: auto; }
-/* the logo already carries the red of its slogan plate: the rule between the logo and the languages stays a quiet hairline */
-.le__rule { display: block; width: 2.75rem; height: 1px; background: rgba(255, 255, 255, .3); }
-.le__langs { --le-gap: clamp(2.4rem, 5.4vw, 4.2rem); --le-track: .18em; display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; }
-.le__lang { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 2.75rem; min-height: 2.75rem; padding: .25rem .1rem; color: rgba(255, 255, 255, .78); font-family: var(--font); font-size: .875rem; font-weight: 500; letter-spacing: var(--le-track); line-height: 1; text-decoration: none; text-transform: uppercase; white-space: nowrap; transition: color .3s ease; }
-/* the mark of the language under the pointer or the keyboard: a red line drawn from the left under the word (the trailing tracking excluded) */
-.le__lang::after { content: ""; position: absolute; left: .1rem; right: calc(.1rem + var(--le-track)); bottom: .55rem; height: 2px; background: #cb0102; transform: scaleX(0); transform-origin: left center; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
-.le__lang:hover, .le__lang:focus-visible { color: #fff; }
-.le__lang:hover::after, .le__lang:focus-visible::after { transform: scaleX(1); }
-/* on the dark ground the keyboard ring is white (red on #222222 is 2,7 : 1) — written above the site's general ring */
-html[data-entry] .le .le__lang:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
-/* the separator between two languages — a quiet point, decorative, centred in the visual gap between the two words */
-.le__lang + .le__lang { margin-left: var(--le-gap); }
-.le__lang + .le__lang::before { content: "·"; position: absolute; left: calc((var(--le-gap) + var(--le-track)) / -2 - 1em); width: 2em; color: rgba(255, 255, 255, .4); letter-spacing: 0; text-align: center; pointer-events: none; }
-.le:focus { outline: none; }
-
-/* ---- the entrance: one dark screen, the logo, a hairline, the three languages ---- */
-html[data-entry="entrance"] { overflow: hidden; scrollbar-gutter: stable; background: #222; }
-html[data-entry="entrance"] .le { position: fixed; inset: 0; z-index: 1200; display: grid; place-items: center; overflow: auto; overscroll-behavior: contain; background: #222; color: #fff; }
-html[data-entry="entrance"] .le__stage { display: grid; justify-items: center; padding: 2rem 1.25rem max(2rem, env(safe-area-inset-bottom)); transform: translateY(-2.5vh); }
-html[data-entry="entrance"] .le__rule { margin-top: clamp(2.6rem, 6.5vh, 4.25rem); }
-html[data-entry="entrance"] .le__langs { margin-top: clamp(1.1rem, 3vh, 1.9rem); }
-/* phones: the type stays 14 px — the tracking and the gaps narrow so the three languages keep one row from 320 px */
-@media (max-width: 419px) { html[data-entry="entrance"] .le__langs { --le-gap: 1.75rem; --le-track: .12em; } }
-@media (max-width: 339px) { html[data-entry="entrance"] .le__langs { --le-gap: 1.15rem; --le-track: .06em; } }
-/* a low landscape phone: the composition tightens, nothing is cut */
-@media (max-height: 420px) {
-  html[data-entry="entrance"] .le__logo { width: clamp(11rem, 22vw, 15rem); }
-  html[data-entry="entrance"] .le__rule { margin-top: 1.5rem; }
-  html[data-entry="entrance"] .le__langs { margin-top: .5rem; }
-  html[data-entry="entrance"] .le__stage { transform: none; padding-block: 1rem; }
+/* ---- A · compact overlay: a quiet panel at the foot of the screen; the page stays visible and usable ---- */
+html[data-entry="overlay"] .le { left: 50%; bottom: max(1rem, env(safe-area-inset-bottom)); width: min(100% - 2rem, 44rem); transform: translateX(-50%); }
+html[data-entry="overlay"] .le__panel { position: relative; display: grid; gap: .8rem; padding: 1.05rem 3.4rem 1.1rem 1.25rem; border: 1px solid rgba(21, 21, 21, .16); border-radius: 6px; background: #f8f8f8; box-shadow: 0 24px 60px -28px rgba(21, 21, 21, .55); }
+html[data-entry="overlay"] .le__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+html[data-entry="overlay"] .le__lang { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .1rem .6rem; min-height: 3rem; padding: .55rem .8rem; border: 1px solid rgba(21, 21, 21, .2); border-radius: 4px; background: #fff; transition: border-color .25s ease, background-color .25s ease, color .25s ease; }
+html[data-entry="overlay"] .le__lang:hover { border-color: var(--brand, #cb0102); background: var(--brand, #cb0102); color: #fff; }
+html[data-entry="overlay"] .le__lang:hover .le__code { color: rgba(255, 255, 255, 0.845); }
+html[data-entry="overlay"] .le__name { font-size: 1rem; line-height: 1.2; }
+html[data-entry="overlay"] :is(.le__line, .le__go) { display: none; }
+html[data-entry="overlay"] .le__close { position: absolute; top: .35rem; right: .35rem; }
+/* wide screens: the panel sits at the lower right, over the photograph — clear of the statement and its two paths */
+@media (min-width: 1024px) { html[data-entry="overlay"] .le { left: auto; right: clamp(1.5rem, 3vw, 3rem); bottom: clamp(1.5rem, 3vw, 3rem); width: min(100% - 3rem, 36rem); transform: none; } }
+@media (max-width: 479px) {
+  html[data-entry="overlay"] .le__lang { grid-template-columns: minmax(0, 1fr); justify-items: start; padding: .55rem .7rem; }
+  html[data-entry="overlay"] .le__name { font-size: .9375rem; }
 }
 
-/* ---- motion: calm, once, transform and opacity only; none under reduced motion ---- */
-html[data-entry-leaving] .le { opacity: 0; transition: opacity .36s ease; pointer-events: none; }
+/* the phone menu always wins: while it is open the compact panel steps aside */
+html[data-entry="overlay"]:has(body.menu-open) .le { display: none; }
+
+/* ---- B · cinematic welcome: the architecture full-bleed, the choice on an ivory band ---- */
+html[data-entry="cinema"] { overflow: hidden; }
+html[data-entry="cinema"] .le { inset: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: #f8f8f8; }
+html[data-entry="cinema"] .le__photo { display: block; position: relative; min-height: 0; overflow: hidden; background: #e0e0e0; }
+html[data-entry="cinema"] .le__photo > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+html[data-entry="cinema"] .le__photo img { width: 100%; height: 100%; object-fit: cover; }
+html[data-entry="cinema"] .le__panel { position: relative; display: grid; gap: clamp(.9rem, 1.6vw, 1.4rem); padding: clamp(1.3rem, 3vw, 2.4rem) clamp(1.25rem, 4vw, 4rem) max(clamp(1.3rem, 3vw, 2.4rem), env(safe-area-inset-bottom)); }
+html[data-entry="cinema"] .le__brand { display: inline-grid; gap: .5rem; margin: 0; font-size: 1.05rem; font-weight: 700; letter-spacing: .16em; }
+html[data-entry="cinema"] .le__brand i { display: block; width: 2.4rem; height: 3px; background: var(--signal, #cb0102); }
+html[data-entry="cinema"] .le__list { border-top: 1px solid rgba(21, 21, 21, .3); }
+html[data-entry="cinema"] .le__lang { grid-template-columns: 2.4rem minmax(0, 1fr) auto; grid-template-areas: "code name go" "code line go"; align-items: center; column-gap: .9rem; padding: .95rem 0; border-bottom: 1px solid rgba(21, 21, 21, .14); transition: color .25s ease; }
+html[data-entry="cinema"] .le__code { grid-area: code; }
+html[data-entry="cinema"] .le__name { grid-area: name; font-size: clamp(1.5rem, 3vw, 2.3rem); font-weight: 300; line-height: 1.1; letter-spacing: -.024em; }
+html[data-entry="cinema"] .le__line { grid-area: line; color: #545454; font-size: .875rem; line-height: 1.4; }
+html[data-entry="cinema"] .le__go { grid-area: go; display: none; color: var(--brand, #cb0102); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+html[data-entry="cinema"] .le__lang:hover .le__name, html[data-entry="cinema"] .le__lang:focus-visible .le__name { font-weight: 700; }
+html[data-entry="cinema"] .le__close { position: absolute; top: clamp(.8rem, 2vw, 1.6rem); right: clamp(.8rem, 3vw, 3.2rem); }
+@media (min-width: 900px) {
+  html[data-entry="cinema"] .le__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(1.6rem, 3.4vw, 3.4rem); }
+  html[data-entry="cinema"] .le__lang { grid-template-columns: minmax(0, 1fr); grid-template-areas: "code" "name" "line" "go"; row-gap: .35rem; align-items: start; padding: 1.3rem 0 .4rem; border-bottom: 0; }
+  html[data-entry="cinema"] .le__go { display: block; margin-top: .5rem; opacity: 0; transition: opacity .25s ease; }
+  html[data-entry="cinema"] .le__lang:hover .le__go, html[data-entry="cinema"] .le__lang:focus-visible .le__go { opacity: 1; }
+}
+@media (max-height: 560px) and (min-width: 900px) { html[data-entry="cinema"] .le__line { display: none; } }
+
+/* a calm entrance; none under reduced motion */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-entry="entrance"] .le__logo { animation: le-rise .9s cubic-bezier(.2, .7, .2, 1) .1s both; }
-  html[data-entry="entrance"] .le__rule { animation: le-draw .7s cubic-bezier(.2, .7, .2, 1) .55s both; transform-origin: center; }
-  html[data-entry="entrance"] .le__langs { animation: le-fade .7s ease .8s both; }
+  html[data-entry="overlay"] .le { animation: le-rise .5s cubic-bezier(.2, .7, .2, 1) .25s both; }
+  html[data-entry="cinema"] .le__panel { animation: le-fade .6s ease .1s both; }
 }
-@keyframes le-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-@keyframes le-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes le-rise { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
 @keyframes le-fade { from { opacity: 0; } to { opacity: 1; } }
-@media (forced-colors: active) { .le__rule, .le__lang::after { background: Highlight; } }

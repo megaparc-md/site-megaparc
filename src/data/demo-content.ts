@@ -96,8 +96,8 @@ export const company = {
 
 const NB = "\u00a0";
 const group = (n: number, sep: string) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
-/** m² in the three editions: 5.541 m² · 5 541 м² · 5,541 m². */
-export const m2 = (n: number): Localized => ({ ro: `${group(n, ".")} m²`, ru: `${group(n, NB)}${NB}м²`, en: `${group(n, ",")} m²` });
+/** m² in the three editions: 5 541 m² · 5 541 м² · 5,541 m² — RO groups with a no-break space like RU (OWNER «DARK GREY FINAL REVIEW» §2, 2026-11-23). */
+export const m2 = (n: number): Localized => ({ ro: `${group(n, NB)} m²`, ru: `${group(n, NB)}${NB}м²`, en: `${group(n, ",")} m²` });
 const pct = (v: number): Localized => { const t = (Math.round(v * 10) / 10).toFixed(1).replace(/\.0$/, ""); return { ro: `${t.replace(".", ",")} %`, ru: `${t.replace(".", ",")}${NB}%`, en: `${t}%` }; };
 /** Hectares with the square metres in brackets: 0,847 га · 8 470 м². */
 const ha = (m: number): Localized => { const r = m / 10000; const v = Number.isInteger(r) ? r.toFixed(1) : String(r); const loc = { ro: v.replace(".", ","), ru: v.replace(".", ","), en: v }; return { ro: `${loc.ro} ha · ${m2(m).ro}`, ru: `${loc.ru}${NB}га · ${m2(m).ru}`, en: `${loc.en} ha · ${m2(m).en}` }; };
@@ -155,8 +155,8 @@ export const landTotalExact: Localized = ha(landTotal);
 /** Dacia 31 · Development — a separate record from the operating Dacia 31 building (OWNER 2026-10-09). No timeline, CAPEX, use mix, permits or completion date until supplied. */
 export const daciaDevelopment = {
   buildings: confirmed("dev.dacia-31.buildings", "DEVELOPMENT", "Development · Dacia 31", "Buildings", "3", "OWNER 2026-10-09"),
-  each: confirmed("dev.dacia-31.each", "DEVELOPMENT", "Development · Dacia 31", "Planned area per building", { ro: "≈ 1.600 m²", ru: `≈ 1${NB}600${NB}м²`, en: "≈ 1,600 m²" }, "OWNER 2026-10-09 — approximately / planned"),
-  total: confirmed("dev.dacia-31.total", "DEVELOPMENT", "Development · Dacia 31", "Planned total area", { ro: "≈ 4.800 m²", ru: `≈ 4${NB}800${NB}м²`, en: "≈ 4,800 m²" }, "OWNER 2026-10-09 — derived 3 × 1 600 m²"),
+  each: confirmed("dev.dacia-31.each", "DEVELOPMENT", "Development · Dacia 31", "Planned area per building", { ro: "≈ 1\u00a0600 m²", ru: `≈ 1${NB}600${NB}м²`, en: "≈ 1,600 m²" }, "OWNER 2026-10-09 — approximately / planned"),
+  total: confirmed("dev.dacia-31.total", "DEVELOPMENT", "Development · Dacia 31", "Planned total area", { ro: "≈ 4\u00a0800 m²", ru: `≈ 4${NB}800${NB}м²`, en: "≈ 4,800 m²" }, "OWNER 2026-10-09 — derived 3 × 1 600 m²"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -275,7 +275,7 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
 /** Creangă 78: OWNER-confirmed area and occupancy (2026-10-09); district and location text stay DEMO; the earlier DEMO multi-tenant office profile is retired. */
 export const creangaProfile = {
   district: demo("asset.creanga-78.district", "PROJECTS", P("creanga-78"), "District", { ro: "Buiucani", ru: "Буюкань", en: "Buiucani" }, "OWNER — confirmed address"),
-  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un imobil comercial MEGAPARC în exploatare din Chișinău, cu o suprafață de 2.158 m². Imobilul este ocupat 100 %.", ru: `Creangă\u00a078\u00a0— действующий коммерческий объект MEGAPARC в\u00a0Кишинэу площадью 2\u00a0158\u00a0м². Объект занят на\u00a0100\u00a0%.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
+  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un imobil comercial MEGAPARC în exploatare din Chișinău, cu o suprafață de 2\u00a0158 m². Imobilul este ocupat 100 %.", ru: `Creangă\u00a078\u00a0— действующий коммерческий объект MEGAPARC в\u00a0Кишинэу площадью 2\u00a0158\u00a0м². Объект занят на\u00a0100\u00a0%.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
   narrative: confirmed("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Un imobil în exploatare, închiriat integral.", ru: "Действующий объект, занятый полностью.", en: "An operating property, fully let." }, "OWNER 2026-10-09"),
   location: demo("asset.creanga-78.location", "PROJECTS", P("creanga-78"), "Location text", { ro: "Un cartier consolidat din Chișinău, cu birouri, instituții, locuințe și transport public în apropiere.", ru: "Сложившийся район Кишинэу: офисы, учреждения, жильё и общественный транспорт рядом.", en: "An established Chișinău district with offices, institutions, housing and public transport nearby." }, "OWNER — confirmed address and access"),
 };
@@ -424,7 +424,7 @@ export const projectNow: Record<string, DataPoint> = {
   "dacia-31": NOW("dacia-31", { ro: "Clădire de birouri în proprietatea MEGAPARC.", ru: "Офисное здание в собственности MEGAPARC.", en: "An office building owned by MEGAPARC." }, "CONFIRMED"),
   "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul comercial de pe prima linie.", ru: "Сдаём коммерческое пространство на первой линии.", en: "Leasing the boulevard-front commercial space." }, "CONFIRMED"),
   "creanga-78": NOW("creanga-78", { ro: "Imobilul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
-  "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
+  "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1\u00a0600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
   "drochia": NOW("drochia", { ro: "Evaluăm conceptul terenului de 2,0 ha.", ru: `Оцениваем концепцию участка 2,0 га.`, en: "Evaluating the concept for the 2.0 ha site." }, "CONFIRMED"),
 };
@@ -451,7 +451,7 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "start",
       label: { ro: "Punctul de plecare", ru: "Исходная точка", en: "Starting point" },
       text: C("start", "Starting point", {
-        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2.536 m², sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
+        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2\u00a0536 m², sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
         ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: площадь объекта 2 536 м², основной зал 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
         en: "A stand-alone retail building directly on Moscova Boulevard, outside shopping centres: a total property area of 2,536 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
       }, "CONFIRMED"),
@@ -541,15 +541,15 @@ export const vatraProfile = {
   stage: confirmed("dev.vatra.stage", "DEVELOPMENT", "Development · VATRA", "Stage", { ro: "05 · Realizare", ru: "05 · Реализация", en: "05 · Delivery" }, "Confirmed — src/lib/assets.ts (stage index 4)"),
   site: demo("dev.vatra.site", "DEVELOPMENT", "Development · VATRA", "Site area", { ro: "4,6 ha", ru: "4,6 га", en: "4.6 ha" }, "OWNER — cadastre / project passport"),
   programme: demo("dev.vatra.programme", "DEVELOPMENT", "Development · VATRA", "Programme", { ro: "Cartier de locuințe joase și spații publice", ru: "Малоэтажный квартал и общественные пространства", en: "Low-rise neighbourhood and public spaces" }, "OWNER — approved programme"),
-  gba: demo("dev.vatra.gba", "DEVELOPMENT", "Development · VATRA", "Gross building area", { ro: "≈ 9.800 m²", ru: "≈ 9 800 м²", en: "≈ 9,800 m²" }, "OWNER — approved programme"),
+  gba: demo("dev.vatra.gba", "DEVELOPMENT", "Development · VATRA", "Gross building area", { ro: "≈ 9\u00a0800 m²", ru: "≈ 9 800 м²", en: "≈ 9,800 m²" }, "OWNER — approved programme"),
   start: demo("dev.vatra.start", "DEVELOPMENT", "Development · VATRA", "Works started", "2024", "OWNER — project timeline"),
   completion: demo("dev.vatra.completion", "DEVELOPMENT", "Development · VATRA", "Target completion", "2027", "OWNER — project timeline"),
 };
 
 export const drochiaProfile = {
-  site: confirmed("dev.drochia.site", "DEVELOPMENT", "Development · Drochia", "Site area", { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" }),
+  site: confirmed("dev.drochia.site", "DEVELOPMENT", "Development · Drochia", "Site area", { ro: "2,0 ha · 20\u00a0000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" }),
   fronts: confirmed("dev.drochia.fronts", "DEVELOPMENT", "Development · Drochia", "Road fronts", "2"),
-  potential: demo("dev.drochia.potential", "DEVELOPMENT", "Development · Drochia", "Potential built area", { ro: "12.000–18.000 m²", ru: "12 000–18 000 м²", en: "12,000–18,000 m²" }, "OWNER — feasibility study (internal site study indicates 7,000–9,000 m² built scenarios; not published)"),
+  potential: demo("dev.drochia.potential", "DEVELOPMENT", "Development · Drochia", "Potential built area", { ro: "12\u00a0000–18\u00a0000 m²", ru: "12 000–18 000 м²", en: "12,000–18,000 m²" }, "OWNER — feasibility study (internal site study indicates 7,000–9,000 m² built scenarios; not published)"),
   status: confirmed("dev.drochia.status", "DEVELOPMENT", "Development · Drochia", "Status", { ro: "În evaluare", ru: "Идёт оценка", en: "Under evaluation" }),
   decision: demo("dev.drochia.decision", "DEVELOPMENT", "Development · Drochia", "Concept decision", "2027", "OWNER — project timeline"),
 };

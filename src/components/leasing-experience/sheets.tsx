@@ -1,3 +1,4 @@
+import { numberLocale } from "@/lib/site-data";
 import { ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
 import { formatAreaExact, type ProjectEntry } from "@/content/source";
@@ -22,7 +23,7 @@ const visible = (row: TechRow) => publishable(row.evidence) || row.state === "co
 const toRow = (row: TechRow, locale: SiteLocale): Row => ({ key: row.key, label: row.label[locale], value: row.value[locale], state: row.state });
 const says = /уточня|подтвержда|clarific|confirm/i;
 const joined = (names: string[], locale: SiteLocale) => names.map((name, i) => (i && locale !== "en" ? name.charAt(0).toLocaleLowerCase(locale) + name.slice(1) : name));
-const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${locale === "ru" ? "м" : "m"}`;
+const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(numberLocale(locale), { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${locale === "ru" ? "м" : "m"}`;
 
 const copy = {
   areas: { ro: "Suprafețe și niveluri", ru: "Площади и\u00a0уровни", en: "Areas and levels" },

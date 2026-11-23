@@ -1967,6 +1967,8 @@ html body.menu-open .hdr, html.hx-solid body.menu-open .site--overlay .hdr { -we
 }
 @media (max-width: 359px) {
   html[lang="ru"] .r3-opening--projects .r3-opening__title { font-size: min(3rem, calc((100vw - 2.5rem) / 6.3)); }
+  /* About: «Девелопмент.» (5,9 em at 48 px) was 1,9 px wider than the shell at 320 px (OWNER «DARK GREY FINAL REVIEW» §2, 2026-11-23) */
+  html[lang="ru"] .r4-about .r3-opening__title { font-size: min(3rem, calc((100vw - 2.5rem) / 6)); }
   .lg-capex__lists { grid-template-columns: minmax(0, 1fr); }
   .lg-hero__offer { grid-template-columns: minmax(0, 1fr); grid-template-areas: "area" "offered" "status"; }
 }

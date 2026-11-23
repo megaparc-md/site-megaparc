@@ -18,6 +18,9 @@ export const packCopy = {
   // (+ the branded technical sheet, file 04 — OWNER «COMMERCIAL BRAND PACK 2026», 2026-11-20)
   kit: { ro: "Descărcați documentele", ru: "Скачать комплект документов", en: "Download the document kit" },
   kitMeta: { ro: "ZIP · oferta comercială + 2 planuri oficiale + fișa tehnică · {size}", ru: `ZIP · коммерческое предложение + 2${N}официальных плана + технический паспорт · {size}`, en: `ZIP · commercial leasing proposal + 2 official plans + technical sheet · {size}` },
+  // OWNER «DARK GREY FINAL REVIEW» (2026-11-23): the branded technical sheet as its own download beside the plans (it is also file 04 of
+  // the kit); the title = the PDF’s own title, the pages of the B1 sheet (six)
+  technicalTitle: { ro: "Moscova 20 — Fișă tehnică", ru: `Moscova${N}20${N}— Технический паспорт`, en: "Moscova 20 — Technical Sheet" },
   // §03: the two premises cadastral numbers, one quiet row beside the property number (OWNER R9 addendum wording)
   premises: { ro: "Numerele cadastrale ale spațiilor", ru: "Кадастровые номера помещений", en: "Cadastral numbers of the premises" },
   officialPlan: { ro: "Plan oficial", ru: "Официальный план", en: "Official floor plan" },

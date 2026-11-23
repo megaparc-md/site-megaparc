@@ -32,7 +32,7 @@ export type ProducerInputs = {
   retailMarkup: number | null; // the store's retail price above the list price, %
   rent: number | null; // base rent (Moscova 20: the visitor may insert the preliminary calculation)
   utilities: number | null; // at actual charges
-  utilitiesFee: number | null; // % added to the utilities (Moscova 20: 15 — administration and maintenance of the engineering networks)
+  utilitiesFee: number | null; // % added to the utilities (Moscova 20: 15 — administration and maintenance of the external engineering networks)
   opex: number | null; // other operating costs: security, IT and till, cleaning, maintenance, insurance
   staff: number | null; // staff including payroll taxes
   marketing: number | null;

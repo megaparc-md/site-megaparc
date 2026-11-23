@@ -1,5 +1,6 @@
 "use client";
 
+import { numberLocale, type SiteLocale } from "@/lib/site-data";
 import { useEffect, useRef } from "react";
 
 /**
@@ -9,7 +10,7 @@ import { useEffect, useRef } from "react";
 export function CountUp({ value, locale, pad = 0 }: { value: number; locale: string; pad?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const format = (n: number) => {
-    const s = new Intl.NumberFormat(locale === "en" ? "en-GB" : locale === "ru" ? "ru-RU" : "ro-RO").format(n);
+    const s = new Intl.NumberFormat(numberLocale(locale as SiteLocale)).format(n);
     return pad ? s.padStart(pad, "0") : s;
   };
 

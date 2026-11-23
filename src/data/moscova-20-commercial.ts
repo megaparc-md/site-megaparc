@@ -15,7 +15,7 @@ import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
  *   · the terrace has NO approved commercial regime: it is shown apart, never with a zero rate and never as free;
  *   · OWNER «CORRECTIVE PASS R8» §02 + the R8 GO correction (2026-11-13) add, OWNER_CONFIRMED: a security deposit equal to 3 months
  *     of base rent; utilities paid at actual charges; an additional 15 % of the utility cost for the administration and maintenance of
- *     the engineering networks (that maintenance is covered by this fee only — never charged twice); other operating expenses defined
+ *     the external engineering networks (that maintenance is covered by this fee only — never charged twice); other operating expenses defined
  *     by the lease. The deposit is stated in months only — no amount is calculated or published;
  *   · lease term, rent-free period, fixed service-charge or utility figures, a percentage of annual increase — not approved, not
  *     invented, not shown (the lease-terms rows of the dataset keep them TO_CONFIRM / unpublished).
@@ -35,7 +35,7 @@ export const m20Commercial = {
   terrace: "TO_CONFIRM" as const,
   /** OWNER «CORRECTIVE PASS R8» §02 (2026-11-13) — OWNER_CONFIRMED */
   deposit: { months: 3 },
-  /** % of the utility cost charged for the administration and maintenance of the engineering networks — OWNER_CONFIRMED (R8 GO correction) */
+  /** % of the utility cost charged for the administration and maintenance of the external engineering networks — OWNER_CONFIRMED (R8 GO correction) */
   fee: { percentOfUtilities: 15 },
   /**
    * THE COMMERCIAL OFFER (the commercial brochure R2). `published: true` since the «FINAL OWNER GO · FULL PRODUCTION RELEASE
@@ -149,7 +149,7 @@ export const commercialCopy = {
     en: "Rates exclude VAT. Utilities and other operating expenses are not included in the calculation.",
   },
   // OWNER «CORRECTIVE PASS R8» §02 + the R8 GO correction (2026-11-13): utilities at actual charges; a fee of 15 % of the utility cost
-  // for the administration and maintenance of the engineering networks — that maintenance is covered by the fee only, never charged a
+  // for the administration and maintenance of the external engineering networks — that maintenance is covered by the fee only, never charged a
   // second time; other operating expenses defined by the lease. RU = the OWNER's paragraph; RO / EN adapted with the same meaning.
   termsTitle: { ro: "Garanție și cheltuieli", ru: "Депозит и\u00a0расходы", en: "Deposit and charges" },
   depositLabel: { ro: "Depozit de garanție", ru: "Гарантийный депозит", en: "Security deposit" },

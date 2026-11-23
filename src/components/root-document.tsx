@@ -37,7 +37,7 @@ const fontFaces = WEIGHTS.map(
  */
 export function RootDocument({ locale, children }: { locale: SiteLocale; children: ReactNode }) {
   return (
-    <html lang={locale} className="antialiased" suppressHydrationWarning>
+    <html lang={locale} className="antialiased">
       {/* App Router root layout: a real <head> is correct here (the lint rule targets the Pages Router) */}
       {/* eslint-disable-next-line @next/next/no-head-element */}
       <head>

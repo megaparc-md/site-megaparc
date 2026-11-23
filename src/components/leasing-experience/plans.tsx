@@ -1,3 +1,4 @@
+import { numberLocale } from "@/lib/site-data";
 import type { ReactNode } from "react";
 import { LgHead, LgPhoto, LgSection, splitArea, ui } from "@/components/leasing-experience/parts";
 import { PlanViewer } from "@/components/leasing-experience/plan-viewer";
@@ -39,7 +40,7 @@ const sizesOf = (key: PlanLevel["key"]) =>
     `(min-width: 720px) calc((100vw - 66px) * ${sheetScale[key].tablet})`,
     `calc((100vw - 42px) * ${sheetScale[key].phone})`,
   ].join(", ");
-const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${locale === "ru" ? "м" : "m"}`;
+const fmtHeight = (m: number, locale: SiteLocale) => `${m.toLocaleString(numberLocale(locale), { minimumFractionDigits: 1, maximumFractionDigits: 1 })} ${locale === "ru" ? "м" : "m"}`;
 
 const copy = {
   views: { ro: "Niveluri", ru: "Уровни", en: "Levels" },

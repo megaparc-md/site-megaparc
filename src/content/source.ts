@@ -3,7 +3,7 @@ import { leasingExperiences } from "@/data/leasing-experience";
 import { spaces, type AvailableSpace, type SpaceField, type SpaceProject, type SpaceStatus } from "@/data/leasing-inventory";
 import { developmentProjects, portfolioAssets, type AssetMedia, type DevelopmentProject, type PortfolioAsset } from "@/lib/assets";
 import { openVacancies, type Vacancy } from "@/lib/careers";
-import type { Localized, SiteLocale } from "@/lib/site-data";
+import { numberLocale, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CONTENT SOURCE — the one read API every page uses for CMS-managed content
@@ -34,7 +34,7 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 const intl: Record<SiteLocale, string> = { ro: "ro-RO", ru: "ru-RU", en: "en-GB" };
 
 export function formatArea(m2: number, locale: SiteLocale) {
-  const n = m2.toLocaleString(intl[locale], { maximumFractionDigits: 2 }).replace(/\s/g, " ");
+  const n = m2.toLocaleString(numberLocale(locale), { maximumFractionDigits: 2 }).replace(/\s/g, " ");
   return `${n} ${locale === "ru" ? "м²" : "m²"}`;
 }
 
@@ -42,13 +42,13 @@ export function formatArea(m2: number, locale: SiteLocale) {
 export function formatAreaExact(m2: number, locale: SiteLocale) {
   if (Number.isInteger(m2)) return formatArea(m2, locale);
   const nb = " ";
-  const n = m2.toLocaleString(intl[locale], { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/\s/g, nb);
+  const n = m2.toLocaleString(numberLocale(locale), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/\s/g, nb);
   return `${n}${nb}${locale === "ru" ? "м²" : "m²"}`;
 }
 
 export function formatAreaRange(min: number | undefined, max: number, locale: SiteLocale) {
   if (!min || min === max) return formatArea(max, locale);
-  const a = min.toLocaleString(intl[locale], { maximumFractionDigits: 2 }).replace(/\s/g, " ");
+  const a = min.toLocaleString(numberLocale(locale), { maximumFractionDigits: 2 }).replace(/\s/g, " ");
   return `${a}–${formatArea(max, locale)}`;
 }
 
@@ -340,7 +340,7 @@ export const projects: ProjectEntry[] = [
     city: { ro: "Chișinău", ru: "Кишинэу", en: "Chișinău" },
     format: { ro: "Proiect de dezvoltare · 3 clădiri", ru: "Проект развития · 3 здания", en: "Development project · 3 buildings" },
     formatDemo: false,
-    line: { ro: "Un proiect de dezvoltare separat la Dacia 31: trei clădiri de ≈ 1.600 m² fiecare.", ru: "Отдельный проект развития на\u00a0Dacia\u00a031: три здания по\u00a0≈ 1 600\u00a0м².", en: "A separate development project at Dacia 31: three buildings of ≈ 1,600 m² each." },
+    line: { ro: "Un proiect de dezvoltare separat la Dacia 31: trei clădiri de ≈ 1\u00a0600 m² fiecare.", ru: "Отдельный проект развития на\u00a0Dacia\u00a031: три здания по\u00a0≈ 1 600\u00a0м².", en: "A separate development project at Dacia 31: three buildings of ≈ 1,600 m² each." },
     now: projectNow["dacia-31-development"],
     media: null,
     facts: [{ label: { ro: "Clădiri", ru: "Здания", en: "Buildings" }, point: daciaDevelopment.buildings }, { label: { ro: "Suprafață planificată", ru: "Планируемая площадь", en: "Planned area" }, point: daciaDevelopment.total }],

@@ -1,5 +1,6 @@
 "use client";
 
+import { numberLocale } from "@/lib/site-data";
 import { useId, useMemo, useState, type ChangeEvent } from "react";
 import type { SiteLocale } from "@/lib/site-data";
 
@@ -77,8 +78,8 @@ const num = (value: string) => {
 export function DevelopmentCalculator({ locale, area }: { locale: SiteLocale; /** the confirmed land area, m² — the only pre-filled value */ area: number }) {
   const t = copy[locale];
   const uid = useId();
-  const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
-  const pf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 1 }), [locale]);
+  const nf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 0 }), [locale]);
+  const pf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 1 }), [locale]);
   const blank = { area: String(area) } as Record<Key, string>;
   const [v, setV] = useState<Record<Key, string>>(blank);
   const [mode, setMode] = useState<"sale" | "rent">("sale");

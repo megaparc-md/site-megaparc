@@ -6,7 +6,7 @@ import { calcEconomics } from "@/components/leasing-experience/economics-math";
 import type { EconomicsHandoff } from "@/components/leasing-experience/viewing-form";
 import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { NumberInput, numberOf, type NumberFormat } from "@/components/number-input";
-import { isProductionEdition, type SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, type SiteLocale, numberLocale } from "@/lib/site-data";
 import { CurrencyBar, currencyCopy, currencyRateLine, useFx } from "@/components/currency-bar";
 import { amountIn, convert, shown, type Currency } from "@/lib/currency";
 
@@ -45,7 +45,7 @@ const MONEY = new Set<Key>(["ticket", "revenue", "rent", "opex", "payroll", "uti
 export function EconomicsTool({ locale, property, example, rates, traffic, visitLabel, precheck = false, currencySwitch = false }: { locale: SiteLocale; property: string; example: Example; rates: number[]; traffic: TrafficSummary; /** the status of the unit decides the visit action (a RESERVED unit → the waitlist) */ visitLabel?: string; /** the property page carries the technical pre-check drawer (Digital Leasing Toolkit — Moscova 20 only) */ precheck?: boolean; /** the MDL / EUR switch (OWNER «CALCULATOR CURRENCY R1» — Moscova 20 only) */ currencySwitch?: boolean }) {
   const t = economicsCopy[locale];
   const uid = useId();
-  const nf = useMemo(() => new Intl.NumberFormat(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB", { maximumFractionDigits: 0 }), [locale]);
+  const nf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 0 }), [locale]);
   const f = (n: number) => nf.format(Math.round(n));
 
   const [preset, setPreset] = useState<PresetKey>("retail");

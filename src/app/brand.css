@@ -45,13 +45,11 @@
 /* (the giant era year only where it was the burgundy MEGAPARC era — the dark era and the minor eras keep their own colours) */
 .site .r3-heritage__year, .site .r3-era--megaparc .r3-era__year, .site .r3-from__years span, .site .r3-split__count { color: var(--ink); }
 
-/* ---------- the brand arcs (src/components/brand-arcs.tsx): once on a page, at the bottom of a surface, never over text.
-   Composition A «Controlled Crop» (OWNER FINAL GO, 2026-11-20): the bands rise out of the section's bottom edge and leave by its right
-   edge — no end of a band inside the section; ≥ 27 px clear of the nearest link at every width from 320 to 1920. */
+/* ---------- the brand arcs (src/components/brand-arcs.tsx): once on a page, at the bottom of a surface, never over text */
 .r32-value { position: relative; }
 .brand-arcs { display: block; height: auto; pointer-events: none; }
-.brand-arcs--section { position: absolute; right: 0; bottom: 0; width: min(31%, 27rem); }
-@media (max-width: 1023px) { .brand-arcs--section { width: min(50%, 15rem); } }
+.brand-arcs--section { position: absolute; right: 0; bottom: 0; width: min(34%, 30rem); }
+@media (max-width: 1023px) { .brand-arcs--section { width: min(54%, 17rem); } }
 
 /* ---------- the format tabs' numbers were burgundy at 70 % opacity (≈ 5 : 1); red at 70 % is 4 : 1 — the number is solid red (5,9 : 1) */
 .lg-lens__tab .lg-lens__tabno { opacity: 1; }

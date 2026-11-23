@@ -1,3 +1,4 @@
+import { numberLocale } from "@/lib/site-data";
 import { accentLast } from "@/components/accent";
 import { AerialAnnotation, AerialLegend } from "@/components/leasing-experience/aerial-annotation";
 import type { CSSProperties } from "react";
@@ -96,7 +97,7 @@ const copy = {
   go: { office: T("Calculați suprafața", "Посчитать площадь", "Calculate the area") },
 } as const;
 
-const fmt = (n: number, locale: SiteLocale) => n.toLocaleString(locale === "ru" ? "ru-RU" : locale === "ro" ? "ro-RO" : "en-GB");
+const fmt = (n: number, locale: SiteLocale) => n.toLocaleString(numberLocale(locale));
 const range = (low: number | null, high: number | null, locale: SiteLocale) => (low !== null && high !== null ? `${fmt(low, locale)}–${fmt(high, locale)}` : null);
 
 /* ------------------------------------------------------------ catchment map */

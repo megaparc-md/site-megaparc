@@ -126,6 +126,8 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
   const downloads: PackAction[] = [
     // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): «Moscova 20 — Коммерческое предложение» · «PDF · 11 страниц · русский»
     ...(brochure.pdf ? [{ key: "brochure", label: commercialCopy.offerTitle[locale], meta: `${commercialCopy.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages))}${brochure.draft ? ` · ${commercialCopy.candidate[locale]}` : ""}`, href: brochure.href, event: "m20_dossier_download" as const, download: true, dated: locale }] : []),
+    // OWNER «DARK GREY FINAL REVIEW» (2026-11-23): the technical sheet as its own download (also file 04 of the kit) — before the plans it introduces
+    ...(brochure.pdf ? [{ key: "technical", label: p.technicalTitle[locale], meta: commercialCopy.offerMeta[locale].replace("{pages}", "6"), href: publicAsset(`/assets/leasing/moscova-20/pack/MEGAPARC-Moscova-20-Technical-${locale.toUpperCase()}.pdf`), event: "m20_technical_sheet_download", download: true }] : []),
     ...x.plans.levels.filter((level) => level.drawing).map((level) => ({ key: `plan-${level.key}`, label: `${p.officialPlan[locale]} · ${level.label[locale]}`, meta: p.planMeta[locale], href: level.drawing!.pdf, event: "m20_plan_open" as const, external: true })),
     ...(kitCurrent && brochure.pdf ? [{ key: "kit", label: p.kit[locale], meta: p.kitMeta[locale].replace("{size}", kit.size), href: publicAsset(kit.href), event: "m20_kit_download", download: true }] : []),
     // OWNER «COMMERCIAL PRESENTATION RESET» + addendum (2026-11-13): one commercial presentation (the brochure above); the old leasing

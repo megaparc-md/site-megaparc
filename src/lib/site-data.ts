@@ -40,6 +40,11 @@ export function neutralPath(pathname: string) {
 
 export type Localized = Record<SiteLocale, string>;
 
+/** The Intl locale of NUMBERS. RO is set like RU — thousands with a no-break space, the decimal comma («10 939 m²», «5 537,6 m²»);
+ *  Intl's ro-RO would print «10.939» (OWNER «DARK GREY FINAL REVIEW» §2, 2026-11-23: one RO number format — the one of the
+ *  commercial terms, the calculators and the PDFs). Dates keep the language's own locale. */
+export const numberLocale = (locale: SiteLocale) => (locale === "en" ? "en-GB" : "ru-RU");
+
 /* ------------------------------------------------------------------ */
 /* Brand                                                                */
 /* ------------------------------------------------------------------ */
