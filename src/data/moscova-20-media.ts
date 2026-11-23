@@ -37,12 +37,21 @@ export const m20Film = {
   durationSec: 30,
   /** the voice-over versions — null until the final files arrive (planned paths in docs/qa/2026-11-23-property-commercial-experience/VIDEO_SPEC.md) */
   versions: { ro: null, ru: null } as Record<"ro" | "ru", FilmVersion | null>,
-  /** which version each page language plays; EN = the RO voice-over with English subtitles on */
+  /** which version each page language plays first; EN offers both voice-overs (a version switch) with English subtitles when supplied */
   byLocale: { ro: "ro", ru: "ru", en: "ro" } as Record<SiteLocale, "ro" | "ru">,
+  /** page languages that show the version switch */
+  chooser: { ro: false, ru: false, en: true } as Record<SiteLocale, boolean>,
   subtitlesOnByDefault: { ro: false, ru: false, en: true } as Record<SiteLocale, boolean>,
   copy: {
-    kicker: L("Film", "Фильм", "Film"),
-    title: L("Moscova 20 în 30 de secunde.", `Moscova${N}20 за${N}30${N}секунд.`, "Moscova 20 in 30 seconds."),
+    kicker: L("Film · Moscova 20", `Фильм · Moscova${N}20`, "Film · Moscova 20"),
+    // OWNER «MOSCOVA 20 MEDIA INTEGRATION» (2026-11-23): the block's title
+    title: L("Următorul pas începe aici.", `Ваш следующий шаг начинается здесь.`, "Your next step starts here."),
+    language: L("Versiunea filmului", "Версия фильма", "Film version"),
+    languages: { ro: L("Română", "Румынский", "Romanian"), ru: L("Rusă", "Русский", "Russian") },
+    fullscreen: L("Ecran complet", "Во весь экран", "Full screen"),
+    // the OWNER preview shows the finished frame of the player until the final file arrives — never on the public site
+    pendingBadge: L("OWNER PREVIEW · se așteaptă fișierul final", `OWNER PREVIEW · ожидается финальный файл`, "OWNER PREVIEW · final file awaited"),
+    pendingText: L("Filmul de prezentare de 30 de secunde · 16:9 · versiunile RO și RU. Aici va fi player-ul.", `Рекламный ролик 30${N}секунд · 16:9 · версии RU и${N}RO. Здесь будет плеер.`, "The 30-second promo film · 16:9 · RO and RU versions. The player goes here."),
     play: L("Porniți filmul", "Смотреть фильм", "Play the film"),
     duration: L("0:30 · cu sunet", `0:30 · со${N}звуком`, "0:30 · with sound"),
     enNote: L("", "", "Romanian voice-over with English subtitles."),
@@ -76,6 +85,8 @@ const at = (to: string, label: Localized): TourLink => ({ to, label, yaw: null, 
 
 export const m20Tour = {
   ownerApproved: false,
+  /** a ready-made hosted tour from the photographer (instead of the nine files for our own viewer) — iframe, loaded on the visitor's click */
+  embed: null as { url: string; provider: string } | null,
   /** filled with `file(id)` for each scene once the panoramas are delivered and checked (docs/…/PHOTOGRAPHER_BRIEF_360.md) */
   delivered: [] as string[],
   levels: {
@@ -136,3 +147,39 @@ export const m20ConceptFrames = {
 };
 export const conceptFrameFor = (project: string, format: string): ConceptFrame | null =>
   project === "moscova-20" && m20ConceptFrames.ownerApproved && format in m20ConceptFrames.frames ? m20ConceptFrames.frames[format as ConceptKey] : null;
+/** the format whose visual is a concept interior (whether or not its frame has arrived) */
+export const conceptSlotFor = (project: string, format: string): ConceptKey | null =>
+  project === "moscova-20" && format in m20ConceptFrames.frames ? (format as ConceptKey) : null;
+
+/* ---------------------------------------------------------------- OWNER preview modes (OWNER «MOSCOVA 20 MEDIA INTEGRATION · OWNER VISUAL REVIEW», 2026-11-23) */
+
+/**
+ * The OWNER wants to see the final composition of the page before the photographer's files arrive. On the OWNER PREVIEW only:
+ *   · the film block shows the finished frame of the player with a clear «ожидается финальный файл» mark;
+ *   · the three concept slots of «Какой бизнес вы рассматриваете?» show neutral mock areas («кадр ожидается»);
+ *   · the address view of «Адрес — часть бизнес-модели» shows the final 360° interface on neutral generated placeholders, labelled
+ *     «Демонстрация интерфейса · панорамы ожидаются» — never presented as a real tour.
+ * The production edition never renders any of this: no empty player, no demo panorama, no unconfirmed visualisation — until the files are
+ * delivered it keeps the clean real photographs and the aerial.
+ */
+export const mediaPreview = (process.env.NEXT_PUBLIC_SITE_EDITION ?? "production") !== "production";
+
+export const conceptCopy = {
+  names: { producer: L("magazin", "магазин", "store"), showroom: L("showroom", "шоурум", "showroom"), office: L("birou pentru clienți", "клиентский офис", "client office") } satisfies Record<ConceptKey, Localized>,
+  pendingTitle: L("Interior conceptual · {name}", "Концептуальный интерьер · {name}", "Concept interior · {name}"),
+  pendingText: L("Cadrul din filmul de prezentare se așteaptă. Va fi marcat ca vizualizare conceptuală.", `Кадр из${"\u00a0"}рекламного ролика ожидается. Будет подписан как концептуальная визуализация.`, "The frame from the promo film is awaited. It will be labelled as a concept visualisation."),
+  pendingBadge: L("OWNER PREVIEW · cadru în așteptare", "OWNER PREVIEW · кадр ожидается", "OWNER PREVIEW · frame awaited"),
+  realPhoto: L("Fotografia spațiului", "Фото помещения", "Photograph of the space"),
+};
+
+export const tourPreviewCopy = {
+  banner: L("Demonstrația interfeței · panoramele se așteaptă de la fotograf", `Демонстрация интерфейса · панорамы ожидаются от${"\u00a0"}фотографа`, "Interface demonstration · panoramas awaited from the photographer"),
+  placeholder: L("PANORAMA SE AȘTEAPTĂ", "ПАНОРАМА ОЖИДАЕТСЯ", "PANORAMA AWAITED"),
+  start: L("Vedeți interfața turului 360°", "Посмотреть интерфейс тура 360°", "See the 360° tour interface"),
+  embed: L("Deschideți turul virtual", "Открыть виртуальный тур", "Open the virtual tour"),
+};
+
+/** the nine scenes for the interface demonstration of the OWNER preview: generated neutral placeholders, illustrative arrow positions */
+export const tourPreviewScenes = (): TourScene[] => (mediaPreview && !tourScenes().length && !m20Tour.embed
+  ? m20Tour.scenes.map((scene) => ({ ...scene, files: { full: `placeholder:${scene.no}`, medium: `placeholder:${scene.no}`, poster: "" }, links: scene.links.map((link, i) => ({ ...link, yaw: (scene.start.yaw + 40 + i * 95) % 360, pitch: -10 })) }))
+  : []);

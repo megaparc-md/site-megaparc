@@ -95,24 +95,17 @@
 .lg-tools__tab.is-active span { color: rgba(255, 255, 255, .8); }
 .lg-tools__pane[hidden] { display: none; }
 
-/* ================================================================ C · minimal interactive markers on real photographs */
-.pce-mk { position: relative; display: block; }
-.pce-mk__layer { position: absolute; inset: 0; }
-.pce-mk__pt { position: absolute; display: block; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 0; border: 0; background: none; cursor: default; }
-.pce-mk__pt b { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; margin: -.8rem 0 0 -.8rem; border: 1.5px solid #fff; border-radius: 50%; background: rgba(34, 34, 34, .82); color: #fff; font-size: .72rem; font-weight: 700; font-variant-numeric: tabular-nums; box-shadow: 0 2px 10px rgba(0, 0, 0, .35); transition: transform .3s var(--pm-ease, ease), background .3s; }
-.pce-mk__pt.is-strong b { background: #fff; color: var(--ink); border-color: #fff; }
-.pce-mk__pt.is-strong b::after { content: ""; position: absolute; inset: -6px; border: 1px solid rgba(255, 255, 255, .7); border-radius: 50%; }
-.pce-mk__tip { position: absolute; left: calc(50% + 1.15rem); top: 50%; width: max-content; max-width: 16rem; padding: .4rem .6rem; border-radius: 4px; background: rgba(34, 34, 34, .92); color: #fff; font-size: .78rem; font-weight: 600; line-height: 1.3; text-align: left; white-space: normal; opacity: 0; transform: translate(-.3rem, -50%); transition: opacity .25s, transform .25s; pointer-events: none; }
-.pce-mk__pt.is-flip .pce-mk__tip { left: auto; right: calc(50% + 1.15rem); transform: translate(.3rem, -50%); }
-.pce-mk__pt:hover b, .pce-mk__pt:focus-visible b { transform: scale(1.12); }
-.pce-mk__pt:hover .pce-mk__tip, .pce-mk__pt:focus-visible .pce-mk__tip { opacity: 1; transform: translate(0, -50%); }
-.pce-mk__pt:focus-visible { outline: none; }
-.pce-mk__pt:focus-visible b { outline: 2px solid #fff; outline-offset: 3px; }
-@media (hover: none) { .pce-mk__tip { display: none; } }
-@media (prefers-reduced-motion: reduce) { .pce-mk__pt b, .pce-mk__tip { transition: none; } }
-/* the retired overlay classes are no longer rendered (Part C) — nothing to style */
+/* ================================================================ C · «Какой бизнес вы рассматриваете?» — clean photographs, concept slots
+   (OWNER «MOSCOVA 20 MEDIA INTEGRATION», 2026-11-23: nothing drawn over a photograph) */
+.lg-lens__note.is-quiet { color: var(--muted); }
+.lg-lens__slot { position: relative; display: grid; align-content: end; gap: .55rem; aspect-ratio: 3 / 2; padding: clamp(1.2rem, 3vw, 2.2rem); border-radius: var(--lg-radius, 6px); background: linear-gradient(160deg, #f1eee8 0%, #e4e0d8 100%); box-shadow: inset 0 0 0 1px rgba(34, 34, 34, .08); color: var(--ink); overflow: hidden; }
+.lg-lens__slot::before { content: ""; position: absolute; inset: clamp(1rem, 2.4vw, 1.6rem); border: 1px solid rgba(34, 34, 34, .12); border-radius: 4px; pointer-events: none; }
+.lg-lens__slot-badge { position: absolute; left: clamp(1.6rem, 3.6vw, 2.4rem); top: clamp(1.6rem, 3.6vw, 2.4rem); padding: .3rem .55rem; border-radius: 4px; background: #222222; color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .06em; }
+.lg-lens__slot-title { position: relative; max-width: 22rem; font-size: clamp(1.2rem, 2.4vw, 1.7rem); font-weight: 300; line-height: 1.15; letter-spacing: -.02em; text-wrap: balance; }
+.lg-lens__slot-text { position: relative; max-width: 26rem; color: #545454; font-size: .9rem; line-height: 1.45; }
+@media (max-width: 559px) { .lg-lens__slot { aspect-ratio: 4 / 3; } }
 
-/* ================================================================ C · the promo film (renders only with the final files) */
+/* ================================================================ C · the promo film (public site: only with the final files) */
 .film-sec__title, .tour-sec__title { margin: .7rem 0 1.4rem; font-size: clamp(1.8rem, 4.4vw, 3.2rem); font-weight: 300; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
 .film { position: relative; }
 .film__poster, .film__video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--lg-radius, 6px); background: #222222; }
@@ -124,8 +117,23 @@
 .film__play { position: absolute; left: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .7rem 1.1rem; border-radius: var(--lg-radius, 6px); background: #fff; color: var(--ink); font-weight: 600; }
 .film__duration { position: absolute; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); padding: .3rem .55rem; border-radius: 4px; background: rgba(34, 34, 34, .8); color: #fff; font-size: .8rem; font-weight: 600; }
 .film__note { margin: .8rem 0 0; color: var(--muted); font-size: .86rem; }
+/* the OWNER preview frame of the player until the final file arrives — nothing plays */
+.film__poster.is-pending { display: grid; place-items: center; cursor: default; background: radial-gradient(120% 90% at 30% 20%, #3a3a3a 0%, #222222 55%, #1a1a1a 100%); }
+.film__poster.is-pending::before { content: ""; position: absolute; inset: clamp(.8rem, 2vw, 1.4rem); border: 1px solid rgba(255, 255, 255, .14); border-radius: 4px; pointer-events: none; }
+.film__badge { position: absolute; left: clamp(1rem, 3vw, 2rem); top: clamp(1rem, 3vw, 2rem); padding: .35rem .6rem; border-radius: 4px; background: #fff; color: var(--ink); font-size: .74rem; font-weight: 700; letter-spacing: .06em; }
+.film__play.is-off { opacity: .55; }
+.film__mark { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: clamp(4.2rem, 8vw, 6rem); aspect-ratio: 1; border: 1.5px solid rgba(255, 255, 255, .55); border-radius: 50%; transform: translate(-50%, -50%); }
+.film__mark i { width: 0; height: 0; margin-left: 12%; border-style: solid; border-width: .85em 0 .85em 1.45em; border-color: transparent transparent transparent rgba(255, 255, 255, .7); font-size: clamp(.8rem, 1.4vw, 1.05rem); }
+.film__bar { position: absolute; left: clamp(1rem, 3vw, 2rem); right: clamp(1rem, 3vw, 2rem); bottom: clamp(4.2rem, 8vw, 5.6rem); height: 2px; border-radius: 1px; background: rgba(255, 255, 255, .16); }
+@media (max-width: 559px) { .film__play.is-off { display: none; } .film__bar { bottom: 3.2rem; } }
+.film__langs { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; margin-top: .9rem; }
+.film__langs .lg-label { margin-right: .3rem; }
+.film__lang { display: inline-flex; align-items: center; min-height: 44px; padding: .5rem .9rem; border: 1px solid rgba(18, 18, 18, .22); border-radius: var(--lg-radius, 6px); background: var(--white); color: var(--ink); font: inherit; font-size: .9rem; cursor: pointer; }
+span.film__lang { cursor: default; }
+.film__lang.is-on { background: #222222; border-color: #222222; color: #fff; }
+.film__lang:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
-/* ================================================================ D · the 360° tour in «Адрес — часть бизнес-модели» (renders only when all nine panoramas exist) */
+/* ================================================================ D · the 360° tour in «Адрес — часть бизнес-модели» (public site: only when all nine panoramas exist) */
 .tour-poster { margin: 0; }
 .tour-poster__btn { position: relative; display: block; width: 100%; padding: 0; border: 0; border-radius: var(--lg-radius, 6px); background: #222222; overflow: hidden; cursor: pointer; aspect-ratio: 16 / 10; }
 .tour-poster__btn img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--pm-ease, ease); }
@@ -169,6 +177,14 @@
 @keyframes pano-hint { to { opacity: 0; } }
 @media (max-width: 559px) { .pano__hint { white-space: normal; width: calc(100% - 2rem); text-align: center; } .tour-stage .pano { aspect-ratio: 4 / 5; } .tour-seq .tour-btn { flex: 1 1 100%; justify-content: center; } }
 @media (prefers-reduced-motion: reduce) { .pano.is-ready .pano__hint { animation: none; } .tour-poster__btn img, .film__poster img { transition: none; } }
+/* the OWNER preview interface demonstration of the tour: a neutral poster and the always-visible mark (never on the public site) */
+.tour-poster__mock { position: absolute; inset: 0; display: grid; place-items: center; background: radial-gradient(120% 90% at 50% 30%, #3c3c3c 0%, #262626 60%, #1b1b1b 100%); }
+.tour-poster__mock span { color: rgba(255, 255, 255, .22); font-size: clamp(3rem, 10vw, 7rem); font-weight: 200; letter-spacing: -.04em; }
+.tour-banner { position: absolute; left: clamp(1rem, 3vw, 1.6rem); top: clamp(1rem, 3vw, 1.6rem); max-width: calc(100% - 8rem); padding: .35rem .6rem; border-radius: 4px; background: #fff; color: var(--ink); font-size: .74rem; font-weight: 700; letter-spacing: .04em; line-height: 1.3; text-align: left; }
+.tour-banner.is-stage { position: static; max-width: none; margin: 0; border-radius: 0; padding: .45rem .9rem; background: #f3f1ec; }
+.tour-embed { position: relative; aspect-ratio: 16 / 10; background: #111; }
+.tour-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+@media (max-width: 559px) { .tour-embed { aspect-ratio: 4 / 5; } }
 
 /* ================================================================ B · Dacia 31 — district analytics (no decorative images) */
 .da-head { display: grid; gap: .8rem; max-width: 52rem; margin-bottom: clamp(1.4rem, 3vw, 2.2rem); }

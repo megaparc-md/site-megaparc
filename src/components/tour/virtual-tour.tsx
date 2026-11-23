@@ -15,7 +15,7 @@ import { Icon } from "@/components/ui";
  */
 
 export type TourSceneView = { id: string; no: string; level: string; levelLabel: string; title: string; caption: string; full: string; medium: string; poster: string; start: { yaw: number; pitch: number; fov: number }; links: { to: string; label: string; yaw: number | null; pitch: number | null }[]; info: { key: string; label: string; text: string; yaw: number | null; pitch: number | null }[] };
-export type TourCopy = { kicker: string; start: string; scenes: string; fullscreen: string; plans: string; hint: string; loading: string; noGl: string; near: string; prev: string; next: string; levels: { key: string; label: string }[] };
+export type TourCopy = { kicker: string; start: string; scenes: string; fullscreen: string; plans: string; hint: string; loading: string; noGl: string; near: string; prev: string; next: string; levels: { key: string; label: string }[]; /** OWNER preview interface demonstration: the always-visible mark and the placeholder label (never on the public site) */ banner?: string; placeholder?: string };
 
 export function VirtualTour({ scenes, copy, plansHref }: { scenes: TourSceneView[]; copy: TourCopy; plansHref: string }) {
   const [started, setStarted] = useState(false);
@@ -41,8 +41,13 @@ export function VirtualTour({ scenes, copy, plansHref }: { scenes: TourSceneView
     return (
       <figure className="tour-poster">
         <button type="button" className="tour-poster__btn" onClick={() => setStarted(true)} aria-label={`${copy.start} — ${scene.title}`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={scene.poster} alt="" loading="lazy" decoding="async" />
+          {scene.poster ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={scene.poster} alt="" loading="lazy" decoding="async" />
+          ) : (
+            <span className="tour-poster__mock" aria-hidden="true"><span>360°</span></span>
+          )}
+          {copy.banner ? <span className="tour-banner">{copy.banner}</span> : null}
           <span className="tour-poster__play"><Icon /> {copy.start}</span>
           <span className="tour-poster__count">{copy.kicker} · {scenes.length}</span>
         </button>
@@ -60,7 +65,8 @@ export function VirtualTour({ scenes, copy, plansHref }: { scenes: TourSceneView
           <button type="button" className="tour-btn" onClick={fullscreen}>{copy.fullscreen}</button>
         </div>
       </div>
-      <PanoViewer key={scene.id} src={scene.full} fallbackSrc={scene.medium} start={scene.start} links={links} onLink={go} loadingText={copy.loading} noGlText={copy.noGl} hint={copy.hint} />
+      {copy.banner ? <p className="tour-banner is-stage">{copy.banner}</p> : null}
+      <PanoViewer key={scene.id} src={scene.full} fallbackSrc={scene.medium} start={scene.start} links={links} onLink={go} loadingText={copy.loading} noGlText={copy.noGl} hint={copy.hint} placeholderText={copy.placeholder ? `${copy.placeholder}\n${scene.no} · ${scene.title}` : undefined} />
       <div className="tour-stage__foot">
         <p className="tour-stage__caption">{scene.caption}</p>
         <div className="tour-seq">

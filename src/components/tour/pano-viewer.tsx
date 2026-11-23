@@ -38,7 +38,7 @@ const clamp = (x: number, a: number, b: number) => Math.min(b, Math.max(a, x));
 
 type View = { yaw: number; pitch: number; fov: number };
 
-export function PanoViewer({ src, fallbackSrc, start, links, onLink, loadingText, noGlText, hint }: { src: string; fallbackSrc: string; start: View; links: ViewerLink[]; onLink: (key: string) => void; loadingText: string; noGlText: string; hint: string }) {
+export function PanoViewer({ src, fallbackSrc, start, links, onLink, loadingText, noGlText, hint, placeholderText }: { src: string; fallbackSrc: string; start: View; links: ViewerLink[]; onLink: (key: string) => void; loadingText: string; noGlText: string; hint: string; /** the label of the generated placeholder sphere (OWNER preview interface demonstration) */ placeholderText?: string }) {
   const wrap = useRef<HTMLDivElement | null>(null);
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const view = useRef<View>({ ...start });
@@ -98,6 +98,38 @@ export function PanoViewer({ src, fallbackSrc, start, links, onLink, loadingText
     const max = ctx.getParameter(ctx.MAX_TEXTURE_SIZE) as number;
     const big = max >= 8192 && window.matchMedia("(min-width: 1024px)").matches;
     let cancelled = false;
+    const upload = (source: TexImageSource) => {
+      ctx.bindTexture(ctx.TEXTURE_2D, tex);
+      ctx.pixelStorei(ctx.UNPACK_FLIP_Y_WEBGL, false);
+      ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGBA, ctx.RGBA, ctx.UNSIGNED_BYTE, source);
+      ctx.generateMipmap(ctx.TEXTURE_2D);
+      ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_MIN_FILTER, ctx.LINEAR_MIPMAP_LINEAR);
+      ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_MAG_FILTER, ctx.LINEAR);
+      ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_WRAP_S, ctx.REPEAT);
+      ctx.texParameteri(ctx.TEXTURE_2D, ctx.TEXTURE_WRAP_T, ctx.CLAMP_TO_EDGE);
+      ctx.uniform1i(u.tex, 0);
+      setState("ready");
+      schedule();
+    };
+    // OWNER preview interface demonstration: a neutral generated sphere (no photograph, no imitation of the premises), plainly labelled
+    if (src.startsWith("placeholder:")) {
+      const c = document.createElement("canvas"); c.width = 4096; c.height = 2048;
+      const g = c.getContext("2d")!;
+      const sky = g.createLinearGradient(0, 0, 0, 2048); sky.addColorStop(0, "#e9e7e3"); sky.addColorStop(0.5, "#f4f3f1"); sky.addColorStop(0.5, "#d9d6d1"); sky.addColorStop(1, "#bdb9b3");
+      g.fillStyle = sky; g.fillRect(0, 0, 4096, 2048);
+      g.strokeStyle = "rgba(34,34,34,.10)"; g.lineWidth = 2;
+      for (let x = 0; x <= 4096; x += 4096 / 24) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 2048); g.stroke(); }
+      for (let y = 0; y <= 2048; y += 2048 / 12) { g.beginPath(); g.moveTo(0, y); g.lineTo(4096, y); g.stroke(); }
+      g.strokeStyle = "rgba(34,34,34,.28)"; g.lineWidth = 3; g.beginPath(); g.moveTo(0, 1024); g.lineTo(4096, 1024); g.stroke();
+      // the label: line 1 «ПАНОРАМА ОЖИДАЕТСЯ», line 2 the scene (number · title), repeated four times around the sphere
+      const [first, second] = (placeholderText ?? "").split("\n");
+      g.fillStyle = "rgba(34,34,34,.55)"; g.textAlign = "center"; g.font = "600 64px Manrope, Arial, sans-serif";
+      for (let k = 0; k < 4; k++) g.fillText(first ?? "", 512 + k * 1024, 960);
+      g.font = "500 44px Manrope, Arial, sans-serif"; g.fillStyle = "rgba(34,34,34,.45)";
+      for (let k = 0; k < 4; k++) g.fillText(second ?? src.slice("placeholder:".length), 512 + k * 1024, 1100);
+      upload(c);
+      return () => { cancelled = true; if (frame.current) window.cancelAnimationFrame(frame.current); ctx.deleteTexture(tex); ctx.deleteProgram(prog); ctx.deleteBuffer(buf); gl.current = null; };
+    }
     const img = new Image();
     img.decoding = "async";
     img.onload = () => {
@@ -124,7 +156,7 @@ export function PanoViewer({ src, fallbackSrc, start, links, onLink, loadingText
       ctx.deleteTexture(tex); ctx.deleteProgram(prog); ctx.deleteBuffer(buf);
       gl.current = null;
     };
-  }, [src, fallbackSrc, schedule]);
+  }, [src, fallbackSrc, schedule, placeholderText]);
 
   useEffect(() => { view.current = { ...start }; schedule(); }, [start, schedule]);
 

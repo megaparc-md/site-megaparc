@@ -34,35 +34,3 @@ export function PhotoScene({ photo, locale, sizes, drawing, labels, className = 
     </span>
   );
 }
-
-/**
- * MARKER SCENE — OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part C (2026-11-23): the real photograph whole, untouched, with minimal
- * interactive markers only — no colour zones, contours, veils, leader lines or arrows drawn over the architecture. Each marker is a small
- * numbered point on the feature it names; hover or keyboard focus shows its short label, the full wording stays in the legend beside the
- * picture. Used by «Какой бизнес вы рассматриваете?» and «Адрес — часть бизнес-модели» (the earlier red zones and the drawn aerial contour
- * are retired by this mandate).
- */
-export type SceneMarker = { key: string; no: string; text: string; at: Pt; strong?: boolean };
-
-export function MarkerScene({ photo, locale, sizes, markers, className = "", label }: { photo: Photo; locale: SiteLocale; sizes: string; markers: SceneMarker[]; className?: string; label: string }) {
-  const { width: w, height: h } = photo;
-  return (
-    <span className={`lg-scene pce-mk ${className}`.trim()}>
-      <LgPhoto photo={photo} locale={locale} ratio={`${w} / ${h}`} sizes={sizes} className="lg-scene__photo" />
-      <span className="pce-mk__layer" role="group" aria-label={label}>
-        {markers.map((marker) => (
-          <button
-            key={marker.key}
-            type="button"
-            className={`pce-mk__pt${marker.strong ? " is-strong" : ""}${marker.at[0] / w > 0.62 ? " is-flip" : ""}${marker.at[1] / h < 0.2 ? " is-low" : ""}`}
-            style={{ left: `${(marker.at[0] / w) * 100}%`, top: `${(marker.at[1] / h) * 100}%` } as CSSProperties}
-            aria-label={`${marker.no} · ${marker.text}`}
-          >
-            <b aria-hidden="true">{marker.no}</b>
-            <span className="pce-mk__tip" aria-hidden="true">{marker.text}</span>
-          </button>
-        ))}
-      </span>
-    </span>
-  );
-}

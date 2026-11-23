@@ -1,7 +1,6 @@
 import { FormatPicker } from "@/components/leasing-experience/format-picker";
 import { LgHead, LgPhoto, ui } from "@/components/leasing-experience/parts";
-import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
-import { conceptFrameFor, m20ConceptFrames } from "@/data/moscova-20-media";
+import { conceptCopy, conceptFrameFor, conceptSlotFor, m20ConceptFrames, mediaPreview } from "@/data/moscova-20-media";
 import { Icon } from "@/components/ui";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { company, contactLinks } from "@/data/demo-content";
@@ -17,9 +16,9 @@ import { formatAreaExact } from "@/content/source";
  * "FINAL ART DIRECTION & VISUAL CONVERSION PASS", 2026-11-09, §13–14). An
  * editorial selector, not tabs in a white box: the four formats as large
  * numbered words beside a large real interior; the chosen format changes the
- * photograph, the delicate zoning on it (generic zones, always captioned
- * «Возможный сценарий организации» — never furniture, never a render), the main
- * question and the proof. Only one format is shown at a time.
+ * photograph, the main question and the proof. Only one format is shown at a
+ * time. Since OWNER «MOSCOVA 20 MEDIA INTEGRATION» (2026-11-23) nothing is drawn
+ * over the photograph; three formats show a labelled concept interior.
  * Card & air pass (2026-11-09, §10): the arguments «что говорит в пользу» as
  * short evidence cards (one thesis each, with «смотреть»), the checks «что
  * проверим вместе» apart and quieter beside the question.
@@ -44,6 +43,7 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
   const o = format.overlay;
   const photo = o ? x.photos[o.photo] : undefined;
   const concept = conceptFrameFor(x.project, format.key);
+  const slot = conceptSlotFor(x.project, format.key);
   // OWNER R10 §03: the levels of the scenario exist only where the unit record carries them (areas and heights never typed twice)
   const levels = format.levels ? (["ground", "lower"] as const).flatMap((key) => {
     const item = format.levels!.items[key];
@@ -67,9 +67,10 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
           </ol>
         </div>
       ) : null}
-      {/* OWNER CLARIFICATION «Video & Virtual Tour Integration» (2026-11-23): a frame of the concept interior from the finished promo film
-          replaces the photograph with the red zones (producer store · showroom · client office), labelled as a concept visualisation; until
-          the frames are delivered and approved the current working version below stays */}
+      {/* OWNER «MOSCOVA 20 MEDIA INTEGRATION · OWNER VISUAL REVIEW» (2026-11-23): nothing is drawn over a photograph any more — no zones,
+          dashed lines, numbers or labels. A concept format (store · showroom · client office) shows its concept-interior frame, labelled as a
+          concept visualisation, once delivered and approved; until then the OWNER preview shows a neutral slot and the public site the clean
+          real photograph. The other formats show the clean real photograph. */}
       {concept ? (
         <figure className="lg-lens__visual is-concept">
           <span className="lg-scene lg-lens__scene">
@@ -77,33 +78,30 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
           </span>
           <figcaption className="lg-lens__caption"><span className="lg-lens__note">{m20ConceptFrames.label[locale]}</span></figcaption>
         </figure>
-      ) : /* no interior photograph yet: the same frame says where the organisation is shown — never a borrowed or repeated photo */
-      !o || !photo ? (
+      ) : slot && mediaPreview ? (
+        <figure className="lg-lens__visual is-slot">
+          <span className="lg-lens__slot" role="img" aria-label={`${conceptCopy.pendingTitle[locale].replace("{name}", conceptCopy.names[slot][locale])} — ${conceptCopy.pendingBadge[locale]}`}>
+            <span className="lg-lens__slot-badge">{conceptCopy.pendingBadge[locale]}</span>
+            <span className="lg-lens__slot-title">{conceptCopy.pendingTitle[locale].replace("{name}", conceptCopy.names[slot][locale])}</span>
+            <span className="lg-lens__slot-text">{conceptCopy.pendingText[locale]}</span>
+          </span>
+          <figcaption className="lg-lens__caption"><span className="lg-lens__note">{m20ConceptFrames.label[locale]}</span></figcaption>
+        </figure>
+      ) : photo ? (
+        <figure className="lg-lens__visual is-photo">
+          <span className="lg-scene lg-lens__scene">
+            <LgPhoto photo={photo} locale={locale} ratio={`${photo.width} / ${photo.height}`} sizes="(min-width: 1024px) 66vw, 100vw" className="lg-scene__photo" />
+          </span>
+          <figcaption className="lg-lens__caption"><span className="lg-lens__note is-quiet">{conceptCopy.realPhoto[locale]}</span></figcaption>
+        </figure>
+      ) : (
+        /* no interior photograph yet: the same frame says where the organisation is shown — never a borrowed or repeated photo */
         <figure className="lg-lens__visual">
           <div className="lg-lens__nophoto">
             <span className="lg-lens__nophoto-label">{l.scenarioNote[locale]}</span>
             <p className="lg-lens__nophoto-text">{l.noPhoto?.[locale] ?? ""}</p>
           </div>
         </figure>
-      ) : (
-      <figure className="lg-lens__visual">
-        <PhotoScene
-          photo={photo}
-          locale={locale}
-          sizes="(min-width: 1024px) 66vw, 100vw"
-          className="lg-lens__scene"
-          drawing={o.zones.map((zone, i) => <path key={zone.label.en} d={pathOf(zone.shape)} className={`lg-zone is-${i}`} />)}
-          labels={o.zones.map((zone, i) => ({ key: zone.label.en, no: String(i + 1), text: zone.label[locale], at: zone.at }))}
-        />
-        <figcaption className="lg-lens__caption">
-          <span className="lg-lens__note">{l.scenarioNote[locale]}</span>
-          <ol className="lg-scene__legend">
-            {o.zones.map((zone, i) => (
-              <li key={zone.label.en}><b>{i + 1}</b>{zone.label[locale]}</li>
-            ))}
-          </ol>
-        </figcaption>
-      </figure>
       )}
       <div className="lg-lens__ask">
         <p className="lg-lens__question">{format.question[locale]}</p>

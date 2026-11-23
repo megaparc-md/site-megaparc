@@ -221,10 +221,10 @@ function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name
 
 /* ------------------------------------------------------------ scene */
 
-const tourWord: Record<SiteLocale, { tab: string; text: string }> = {
-  ro: { tab: "Tur virtual 360°", text: "De la vederea de sus a cartierului — la clădire, intrare, ambele niveluri, depozitare și rampa de descărcare." },
-  ru: { tab: "Виртуальный тур 360°", text: "От вида на район с высоты — к зданию, входу, обоим уровням, складским зонам и разгрузочной рампе." },
-  en: { tab: "360° virtual tour", text: "From the district seen from above — to the building, the entrance, both levels, the storage and the unloading ramp." },
+const tourWord: Record<SiteLocale, { text: string }> = {
+  ro: { text: "De la vederea de sus a cartierului — la clădire, intrare, ambele niveluri, depozitare și rampa de descărcare." },
+  ru: { text: "От вида на район с высоты — к зданию, входу, обоим уровням, складским зонам и разгрузочной рампе." },
+  en: { text: "From the district seen from above — to the building, the entrance, both levels, the storage and the unloading ramp." },
 };
 
 export function LocationMotion({ x, offer, project, locale, decision }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale; /** the decision zone is shown (property-template decisionOn) */ decision: boolean }) {
@@ -240,8 +240,9 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
   const growth = m.growth && toolVisible(`${x.project}.district-growth`, ownerPreview) ? m.growth : null;
   const economicsOn = decision;
   const map = project.asset?.map ?? null;
-  // OWNER CLARIFICATION «Video & Virtual Tour Integration» (2026-11-23): the nine-point 360° tour replaces the drawn aerial in the address view
-  // once delivered and approved; until then the working aerial stays (src/data/moscova-20-media.ts)
+  // OWNER «MOSCOVA 20 MEDIA INTEGRATION» + clarification (2026-11-23): only tab 01 «Адрес — как виден объект» changes — the nine-point 360°
+  // tour replaces the drawn aerial (public site: once delivered and approved; OWNER preview: the interface demonstration); the four other tabs,
+  // the map, the layers and the analytics stay as they are (src/data/moscova-20-media.ts)
   const tour = x.project === "moscova-20" ? m20TourNode(locale) : null;
 
   const figures =
@@ -307,7 +308,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
   const options: ExplorerOption[] = [
     // no aerial photograph (Moscova 9 · Dacia 31 · Creangă 78): the address card shows the OSM location map and the address line
     tour
-      ? { key: "address", label: copy.option.address[locale], title: tourWord[locale].tab, visual: "tour", detail: <><p className="lg-explorer__text">{tourWord[locale].text}</p><ol className="lg-air__legend">{tour.list.map((item) => <li key={item.no}><b>{Number(item.no)}</b><span>{item.title}</span></li>)}</ol>{routeLinks}</> }
+      ? { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: "tour", detail: <><p className="lg-explorer__text">{tourWord[locale].text}</p><ol className="lg-air__legend">{tour.list.map((item) => <li key={item.no}><b>{Number(item.no)}</b><span>{item.title}</span></li>)}</ol>{routeLinks}</> }
       : { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <>{v && marksOn ? <AerialLegend marks={v.marks.filter((mark) => publishable(mark.evidence))} locale={locale} label={aerialLegend[locale]} /> : null}<p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
     {
       key: "around",
