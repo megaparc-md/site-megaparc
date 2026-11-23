@@ -1,0 +1,78 @@
+/* DEVELOPER PACK — print source (A4 landscape), OWNER «DROCHIA · DEVELOPMENT & INVESTMENT EXPERIENCE» §13 (2026-11-23). Manrope, the approved
+   palette (ink #222222 · Graphite #545454 · Megaparc Red #CB0102 as a rule / mark · Dark Grey #4D3F46 for the cover band), the approved vector
+   logo; no business-card texture on a document (DESIGN_SYSTEM §35). Imported by src/components/land-experience/pack-print.tsx only. */
+@page { size: 297mm 210mm; margin: 0; }
+.lp-doc { --ink: #222222; --graphite: #545454; --red: #cb0102; --dg: #4d3f46; --hair: rgba(34, 34, 34, .16); margin: 0 auto; width: 297mm; color: var(--ink); font-family: var(--font, "Manrope", Arial, sans-serif); font-size: 9.6pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.lp-page { position: relative; display: flex; flex-direction: column; width: 297mm; height: 210mm; overflow: hidden; background: #fff; break-after: page; page-break-after: always; }
+@media screen { body:has(.lp-doc) { background: #d9d9d9; } .lp-page { margin: 0 auto 6mm; box-shadow: 0 2mm 8mm rgba(0, 0, 0, .14); } }
+.lp-body { flex: 1; min-height: 0; padding: 16mm 18mm 0; }
+.lp-foot { display: flex; justify-content: space-between; gap: 6mm; padding: 5mm 18mm 7mm; border-top: .3mm solid var(--hair); margin: 0 18mm; padding-inline: 0; color: var(--graphite); font-size: 7.2pt; letter-spacing: .04em; }
+.lp-kicker { display: flex; align-items: center; gap: 3mm; margin: 0 0 6mm; color: var(--graphite); font-size: 8pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.lp-kicker::before { content: ""; width: 9mm; height: .5mm; background: var(--red); }
+.lp-label { margin: 5mm 0 2mm; color: var(--graphite); font-size: 7.4pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.lp-h2 { margin: 0; font-size: 26pt; font-weight: 300; letter-spacing: -.02em; line-height: 1.08; text-wrap: balance; }
+.lp-lead { margin: 6mm 0 0; font-size: 10.4pt; line-height: 1.5; max-width: 125mm; }
+.lp-lead--wide { max-width: 230mm; margin: 0 0 6mm; }
+.lp-small { margin: 4mm 0 0; color: var(--graphite); font-size: 7.6pt; line-height: 1.45; }
+.lp-src { color: var(--graphite); font-size: 6.8pt; line-height: 1.35; }
+.lp-no { color: var(--red); font-size: 7.6pt; font-weight: 700; letter-spacing: .06em; }
+.lp-list { margin: 0; padding: 0; list-style: none; }
+.lp-list li { padding: 1.4mm 0; border-bottom: .25mm solid var(--hair); font-size: 8.8pt; }
+.lp-list.is-muted li { color: var(--graphite); }
+/* cover */
+.lp-page--cover .lp-body { padding: 0; }
+.lp-cover { display: grid; grid-template-columns: 1.05fr 1fr; height: 100%; }
+.lp-cover__text { display: flex; flex-direction: column; padding: 16mm 14mm 10mm 18mm; }
+.lp-logo { width: 42mm; height: auto; margin-bottom: 16mm; }
+.lp-name { margin: 2mm 0 0; font-size: 64pt; font-weight: 700; letter-spacing: -.045em; line-height: .92; }
+.lp-pos { margin: 5mm 0 0; font-size: 11pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.lp-facts { display: grid; grid-template-columns: 1fr 1fr; margin: 10mm 0 0; border-top: .35mm solid var(--ink); }
+.lp-facts div { padding: 2.6mm 3mm 2.6mm 0; border-bottom: .25mm solid var(--hair); }
+.lp-facts dt { color: var(--graphite); font-size: 6.8pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.lp-facts dd { margin: 1mm 0 0; font-size: 10pt; font-weight: 600; }
+.lp-cover__map, .lp-map { position: relative; background-size: cover; background-position: center; background-color: #f4f4f2; }
+.lp-cover__map { border-left: 2.4mm solid var(--dg); }
+.lp-cover__map i, .lp-map i { position: absolute; left: 50%; top: 50%; width: 7mm; height: 7mm; margin: -3.5mm 0 0 -3.5mm; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 1.4mm #fff, 0 0 0 6mm rgba(203, 1, 2, .16); }
+/* contents */
+.lp-two { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16mm; height: 100%; }
+.lp-two--map { grid-template-columns: 1.2fr 1fr; }
+.lp-map { height: 160mm; border: .25mm solid var(--hair); }
+.lp-big { display: flex; align-items: baseline; gap: 4mm; margin: 10mm 0 0; font-size: 44pt; font-weight: 300; letter-spacing: -.03em; line-height: 1; }
+.lp-big span { color: var(--graphite); font-size: 11pt; font-weight: 600; letter-spacing: 0; }
+/* tables */
+.lp-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 12mm; }
+.lp-table { width: 100%; border-collapse: collapse; font-size: 7.8pt; }
+.lp-table caption { padding-bottom: 1.6mm; font-size: 9pt; font-weight: 700; text-align: left; }
+.lp-table th, .lp-table td { padding: 1.3mm 2mm 1.3mm 0; border-bottom: .25mm solid var(--hair); text-align: left; vertical-align: top; }
+.lp-table th { font-weight: 600; width: 42%; }
+.lp-table--wide { font-size: 7.4pt; }
+.lp-table--wide th { width: 34%; }
+.lp-st { white-space: nowrap; font-weight: 600; }
+.lp-st::before { content: ""; display: inline-block; width: 2mm; height: 2mm; margin-right: 1.4mm; border-radius: 50%; vertical-align: .1mm; }
+.lp-st.is-documented::before { background: var(--ink); }
+.lp-st.is-verifying::before { background: linear-gradient(90deg, var(--graphite) 50%, transparent 50%); box-shadow: inset 0 0 0 .3mm var(--graphite); }
+.lp-st.is-to_obtain::before { background: var(--red); }
+.lp-st.is-not_applicable::before { box-shadow: inset 0 0 0 .3mm #8a8a8a; }
+.lp-rows { margin: 0; border-top: .25mm solid var(--hair); }
+.lp-rows div { display: flex; justify-content: space-between; gap: 4mm; padding: 1.8mm 0; border-bottom: .25mm solid var(--hair); font-size: 9pt; }
+.lp-rows dd { margin: 0; font-weight: 700; }
+/* market */
+.lp-ind { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 8mm; }
+.lp-ind__item { display: grid; gap: .8mm; padding: 2.4mm 0; border-top: .25mm solid var(--hair); }
+.lp-ind__item .lp-label { margin: 0; }
+.lp-ind__v { font-size: 9pt; font-weight: 600; }
+.lp-ind__item.is-figure .lp-ind__v { font-size: 20pt; font-weight: 300; letter-spacing: -.02em; }
+.lp-ind--facts { grid-template-columns: repeat(3, 1fr); gap: 0 9mm; }
+.lp-ind--facts .lp-ind__item { padding: 3.2mm 0; }
+.lp-ind--facts .lp-ind__v { font-size: 9.6pt; font-weight: 500; line-height: 1.4; }
+/* scenarios, deals */
+.lp-scen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7mm; }
+.lp-scen__item h3, .lp-deals h3 { margin: 1.5mm 0 2mm; font-size: 12pt; font-weight: 700; line-height: 1.15; }
+.lp-scen__item p, .lp-deals p { margin: 0; font-size: 8.4pt; }
+.lp-scen__item .lp-label { margin-top: 3.5mm; }
+.lp-scen__item .lp-list li { font-size: 7.8pt; padding: .9mm 0; }
+.lp-deals { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6mm; padding-top: 4mm; border-top: .35mm solid var(--ink); }
+/* final */
+.lp-final { max-width: 210mm; }
+.lp-final .lp-h2 { font-size: 24pt; }
+.lp-rows--contacts { margin-top: 12mm; max-width: 160mm; }
