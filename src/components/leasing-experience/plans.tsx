@@ -170,7 +170,7 @@ export function PlansScene({ x, offer, locale }: { x: LeasingExperience; offer: 
   };
 
   const req = !levels.length ? p.onRequest ?? null : null;
-  const reg = registeredData[x.project] ?? null;
+  const reg = x.catalog ? null : registeredData[x.project] ?? null;
   const regFigure = reg ? splitArea(formatArea(reg.area, locale)) : null;
   const requestTab = req
     ? {

@@ -23,6 +23,9 @@ import { BookViewing, PreCheck } from "@/components/leasing-toolkit/tools";
 import { m20Toolkit, toolkitCopy } from "@/data/moscova-20-toolkit";
 import { R3Trust } from "@/components/r3";
 import { PageShell } from "@/components/page-shell";
+import { CatalogSection } from "@/components/catalog-section";
+import { M20Film } from "@/components/tour/m20-media";
+import { DistrictAnalytics } from "@/components/district-analytics";
 import type { ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import type { AvailableSpace } from "@/data/leasing-inventory";
@@ -94,15 +97,22 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
   return (
     <PageShell locale={locale} experience mainClassName={`lg-page lg-page--${x.project}`}>
       <LeasingHero x={x} offer={offer} project={project} locale={locale} />
+      {/* OWNER CLARIFICATION «Video & Virtual Tour Integration» (2026-11-23): the 30-second promo film right after the first screen —
+          renders only when the final RO / RU files are delivered and approved (src/data/moscova-20-media.ts); until then nothing renders */}
+      {toolkit ? <M20Film locale={locale} /> : null}
       <DecisionNav portals={portals} label={ui.chapters[locale]} cta={offer.primary} status={offer.status} />
       <SummaryCards x={x} offer={offer} locale={locale} />
       {/* the digital property dossier — only on the property that carries the Digital Leasing Toolkit */}
       {toolkit ? <DigitalDossier copy={dossierCopy} packHref={packPath} pdfHref={presentation} plansHref="#plans" /> : null}
       {/* OWNER R6 §03 / R7 (2026-11-12): the commercial terms — the two rates, the preliminary calculation, the indexation, the offer */}
       {toolkit ? <CommercialTerms breakdown={offer.breakdown} locale={locale} fallbackHref="#viewing" /> : null}
+      {/* OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B (2026-11-23): the space finder + floor navigator where the dataset has a catalogue (Dacia 31) */}
+      {x.catalog ? <CatalogSection locale={locale} name={project.name} /> : null}
       <Reasons x={x} offer={offer} locale={locale} />
       <FormatLens x={x} offer={offer} locale={locale} />
       <LocationMotion x={x} offer={offer} project={project} locale={locale} decision={decision} />
+      {/* Part B (2026-11-23): the sourced district analytics after the location scene (Dacia 31; OWNER preview until approved) */}
+      <DistrictAnalytics project={x.project} locale={locale} />
       <PhotoStory x={x} locale={locale} />
       <PlansScene x={x} offer={offer} locale={locale} />
       <CapitalBase x={x} locale={locale} />

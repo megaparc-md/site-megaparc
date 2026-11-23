@@ -17,6 +17,26 @@ const OSM = "OpenStreetMap — the streets around the property on the location m
 export const creanga78Experience: LeasingExperience = {
   unitId: null,
   project: "creanga-78",
+  // OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part A (2026-11-23): the property is let — the short page of an operating property;
+  // the leasing dataset below stays complete (a freed space switches the CMS field back to "leasing")
+  presentation: "operating",
+  operating: {
+    status: T("Închiriat", "Сдан в аренду", "Leased"),
+    title: T("Imobil comercial în exploatare.", "Действующий коммерческий объект.", "An operating commercial property."),
+    lead: T(
+      "Proprietate MEGAPARC pe strada Ion Creangă, închiriată integral: fațadă comercială cu operatori în activitate, intrare cu scări și rampă, parcare în fața clădirii.",
+      "Объект MEGAPARC на улице Иона Крянгэ, сдан полностью: коммерческий фасад с действующими арендаторами, вход с лестницей и пандусом, парковка перед зданием.",
+      "A MEGAPARC property on Ion Creangă Street, fully let: a commercial frontage with operating tenants, an entrance with steps and a ramp, parking in front of the building.",
+    ),
+    facts: [
+      { key: "status", label: T("Statut", "Статус", "Status"), value: T("Închiriat integral", "Сдан полностью", "Fully let"), note: T("Nu sunt spații disponibile acum.", "Свободных помещений сейчас нет.", "No space is available right now."), evidence: "OWNER_CONFIRMED", source: OWNER },
+      { key: "area", label: T("Suprafață înregistrată", "Зарегистрированная площадь", "Registered area"), value: T("2 158,3 m²", "2 158,3 м²", "2,158.3 m²"), note: T("Conform e‑Cadastru.", "По данным e‑Cadastru.", "Per e‑Cadastru."), evidence: "DOCUMENT_CONFIRMED", source: CAD },
+      { key: "cadastre", label: T("Număr cadastral", "Кадастровый номер", "Cadastral number"), value: T("0100514.140.01.120", "0100514.140.01.120", "0100514.140.01.120"), note: T("Se verifică pe portalul oficial e‑Cadastru.", "Проверяется на официальном портале e‑Cadastru.", "Checked on the official e‑Cadastru portal."), evidence: "DOCUMENT_CONFIRMED", source: CAD },
+      { key: "address", label: T("Adresă", "Адрес", "Address"), value: T("Str. Ion Creangă 78, Chișinău", "ул. Иона Крянгэ, 78, Кишинэу", "78 Ion Creangă St, Chișinău"), evidence: "DOCUMENT_CONFIRMED", source: OSM },
+    ],
+    gallery: [{ photo: "frontage", caption: T("Fațada dinspre parcare, intrarea și trecerea de pietoni.", "Фасад со стороны парковки, вход и пешеходный переход.", "The frontage from the parking side, the entrance and the crossing.") }],
+    future: null,
+  },
   address: T("Str. Ion Creangă 78", "ул. Иона Крянгэ, 78", "78 Ion Creangă St"),
   photos: {
     // OWNER «CREANGĂ 78 — OWNER PHOTOGRAPHY UPDATE» (2026-11-11): two OWNER-approved frontage photographs, used as supplied

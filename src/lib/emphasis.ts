@@ -48,9 +48,10 @@ const register: [statement: string, emphasis: string | null][] = [
   ["A stand-alone building. Adaptation after the technical check.", "after the technical check."],
 
   // ---- Dacia 31 · a whole building ----
-  ["Отдельное здание для одной компании.", "для одной компании."], // exclusivity of use — the phrase, not «компании»
-  ["O clădire separată pentru o singură companie.", "pentru o singură companie."],
-  ["A separate building for one company.", "for one company."],
+  // Dacia 31 repositioned (OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B): the two leasing scenarios carry the accent
+  ["Офисы, кабинеты и крупные коммерческие площади.", "коммерческие площади."], // a short accent: the bold phrase never breaks, so at 320 px the long one stuck out
+  ["Birouri, cabinete și suprafețe comerciale mari.", "comerciale mari."],
+  ["Offices, cabinets and large commercial floors.", "commercial floors."],
   ["5 537,6 м². Одно здание. Одна компания.", null], // calm: the hero has just made this point
   ["5.537,6 m². O clădire. O singură companie.", null],
   ["5,537.6 m². One building. One company.", null],

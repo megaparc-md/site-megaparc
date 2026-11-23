@@ -116,6 +116,7 @@ export const previewTools: PreviewTool[] = [
   // OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10): the same decision-support zone on every leasing object — the tool differs, no location data is used outside Moscova 20
   { key: "moscova-9.economics-tool", property: "moscova-9", label: "Tenant scenario — the same reverse calculation on the visitor’s own figures (no location data)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10) — «Moscova 9: use tenant scenario block with parameters entered by user»" },
   { key: "dacia-31.office-tool", property: "dacia-31", label: "Office scenario — how much space the tenant’s team needs (workplaces × area + shared part)", publishScope: "PUBLIC", ownerApproved: true, note: "OWNER «LEASING TEMPLATE LOCK» §9 (2026-11-10) — «Dacia 31: use office / whole-building tenant scenario»; never compared with the registered area, no rent" },
+  { key: "dacia-31.economics-tool", property: "dacia-31", label: "Retail / service point — the reverse calculation on the visitor’s own figures for the large commercial floors (no location data, no rent)", publishScope: "OWNER_PREVIEW", ownerApproved: false, note: "OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B (2026-11-23) — calculators adapted to the real formats: the office scenario for offices, this tool for the retail and service floors only; OWNER preview until approved" },
 ];
 
 /**

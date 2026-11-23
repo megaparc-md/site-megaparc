@@ -214,7 +214,7 @@ function lever(key: string, slug: string, title: Localized, text: Localized) {
 export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creanga-78", AssetProfile> = {
   "dacia-31": {
     category: "office",
-    format: confirmed("asset.dacia-31.format", "PROJECTS", P("dacia-31"), "Format", { ro: "Clădire de birouri independentă", ru: "Отдельное офисное здание", en: "Stand-alone office building" }),
+    format: confirmed("asset.dacia-31.format", "PROJECTS", P("dacia-31"), "Format", { ro: "Clădire comercială: birouri și suprafețe comerciale", ru: "Коммерческое здание: офисы и торговые площади", en: "Commercial building: offices and commercial floors" }),
     ...occupancyPoints("dacia-31"),
     land: demo("asset.dacia-31.land", "PROJECTS", P("dacia-31"), "Land plot", { ro: "0,42 ha", ru: "0,42 га", en: "0.42 ha" }, "OWNER — cadastre extract"),
     parking: demo("asset.dacia-31.parking", "PROJECTS", P("dacia-31"), "Parking", { ro: "60 locuri", ru: "60 мест", en: "60 spaces" }, "OWNER — site plan"),

@@ -7,6 +7,7 @@ import { UnitPlan } from "@/components/leasing/unit-plan";
 import { PageShell } from "@/components/page-shell";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { LeasingPropertyTemplate } from "@/components/leasing-experience/property-template";
+import { OperatingPropertyPage } from "@/components/operating-property";
 import { availabilityCopy, availabilityOf, formatDate, spaceArea, getProject, isDemoField, leasingExperienceForSpace, publicSpaces, sortSpaces } from "@/content/source";
 import { leasingProcess, tenantFit, shown } from "@/data/demo-content";
 import type { AvailableSpace, SpaceField } from "@/data/leasing-inventory";
@@ -76,6 +77,8 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
   // OWNER «LEASING TEMPLATE LOCK» (2026-11-10): a unit whose property has a leasing dataset opens the shared
   // leasing template (canonical: the project page); every other unit keeps this template.
   const experience = leasingExperienceForSpace(space.id);
+  // OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part A (2026-11-23): a let property keeps the URL and opens its short page
+  if (experience?.experience.presentation === "operating") return <OperatingPropertyPage locale={locale} project={getProject(space.project)!} x={experience.experience} />;
   if (experience) return <LeasingPropertyTemplate locale={locale} project={getProject(space.project)!} unit={experience.unit} experience={experience.experience} />;
   return <UnitTemplate locale={locale} space={space} />;
 }

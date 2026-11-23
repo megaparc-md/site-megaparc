@@ -9,6 +9,7 @@ import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { EconomicsGlyph, ownerPreview, ui } from "@/components/leasing-experience/parts";
 import { PhotoScene } from "@/components/leasing-experience/photo-scene";
 import { TransitBrief, TransportMap } from "@/components/leasing-experience/transport-map";
+import { m20TourNode } from "@/components/tour/m20-media";
 import { LocationMap } from "@/components/location-section";
 import { Icon } from "@/components/ui";
 import type { ProjectEntry } from "@/content/source";
@@ -220,6 +221,12 @@ function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name
 
 /* ------------------------------------------------------------ scene */
 
+const tourWord: Record<SiteLocale, { tab: string; text: string }> = {
+  ro: { tab: "Tur virtual 360°", text: "De la vederea de sus a cartierului — la clădire, intrare, ambele niveluri, depozitare și rampa de descărcare." },
+  ru: { tab: "Виртуальный тур 360°", text: "От вида на район с высоты — к зданию, входу, обоим уровням, складским зонам и разгрузочной рампе." },
+  en: { tab: "360° virtual tour", text: "From the district seen from above — to the building, the entrance, both levels, the storage and the unloading ramp." },
+};
+
 export function LocationMotion({ x, offer, project, locale, decision }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale; /** the decision zone is shown (property-template decisionOn) */ decision: boolean }) {
   const m = x.motion;
   const v = m.visibility;
@@ -233,6 +240,9 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
   const growth = m.growth && toolVisible(`${x.project}.district-growth`, ownerPreview) ? m.growth : null;
   const economicsOn = decision;
   const map = project.asset?.map ?? null;
+  // OWNER CLARIFICATION «Video & Virtual Tour Integration» (2026-11-23): the nine-point 360° tour replaces the drawn aerial in the address view
+  // once delivered and approved; until then the working aerial stays (src/data/moscova-20-media.ts)
+  const tour = x.project === "moscova-20" ? m20TourNode(locale) : null;
 
   const figures =
     modelOn && traffic
@@ -296,7 +306,9 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
 
   const options: ExplorerOption[] = [
     // no aerial photograph (Moscova 9 · Dacia 31 · Creangă 78): the address card shows the OSM location map and the address line
-    { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <>{v && marksOn ? <AerialLegend marks={v.marks.filter((mark) => publishable(mark.evidence))} locale={locale} label={aerialLegend[locale]} /> : null}<p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
+    tour
+      ? { key: "address", label: copy.option.address[locale], title: tourWord[locale].tab, visual: "tour", detail: <><p className="lg-explorer__text">{tourWord[locale].text}</p><ol className="lg-air__legend">{tour.list.map((item) => <li key={item.no}><b>{Number(item.no)}</b><span>{item.title}</span></li>)}</ol>{routeLinks}</> }
+      : { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <>{v && marksOn ? <AerialLegend marks={v.marks.filter((mark) => publishable(mark.evidence))} locale={locale} label={aerialLegend[locale]} /> : null}<p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
     {
       key: "around",
       label: m.mapTab[locale],
@@ -324,7 +336,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
     ...(growth ? [{ key: "growth", label: growth.tab[locale], title: growth.title[locale], visual: "growth", detail: <GrowthBrief copy={growth} locale={locale} /> }] : []),
   ];
   const visuals = [
-    ...(v ? [{ key: "aerial", node: <AddressAerial x={x} name={project.name} locale={locale} marked={marksOn} /> }] : []),
+    ...(tour ? [{ key: "tour", node: tour.node }] : v ? [{ key: "aerial", node: <AddressAerial x={x} name={project.name} locale={locale} marked={marksOn} /> }] : []),
     { key: "map", node: mapView },
     ...(transit ? [{ key: "transit", node: <TransportMap copy={transit} name={project.name} locale={locale} /> }] : []),
     ...(rhythmView ? [{ key: "rhythm", node: rhythmView }] : []),
@@ -363,7 +375,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
             <p>{m.verdict.text[locale]}</p>
             <p className="lg-motion__cta-title">{m.cta.title[locale]}</p>
             <div className="lg-motion__actions">
-              <a className="btn" href="#format"><span>{ui.checkForMe[locale].replace("Moscova 20", project.name)}</span><Icon /></a>
+              <a className="btn" href="#format"><span>{ui.checkForMe[locale].replace(/Moscova\s20/, project.name)}</span><Icon /></a>
               <a className="btn btn--ghost" href="#viewing" data-intent="viewing"><span>{offer.primary}</span><Icon /></a>
             </div>
           </div>

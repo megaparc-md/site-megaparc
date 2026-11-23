@@ -1,13 +1,14 @@
 import { FormatPicker } from "@/components/leasing-experience/format-picker";
-import { LgHead, ui } from "@/components/leasing-experience/parts";
+import { LgHead, LgPhoto, ui } from "@/components/leasing-experience/parts";
 import { PhotoScene, pathOf } from "@/components/leasing-experience/photo-scene";
+import { conceptFrameFor, m20ConceptFrames } from "@/data/moscova-20-media";
 import { Icon } from "@/components/ui";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { company, contactLinks } from "@/data/demo-content";
 import { calculatorHref, producerBlock } from "@/data/producer-retail";
 import Link from "next/link";
 import { publishable, type LeasingExperience, type LensFormat, type LensRef } from "@/data/leasing-experience-model";
-import { isProductionEdition, localePath, type SiteLocale, numberLocale } from "@/lib/site-data";
+import { isProductionEdition, localePath, publicAsset, type SiteLocale, numberLocale } from "@/lib/site-data";
 import { formatAreaExact } from "@/content/source";
 
 /**
@@ -31,6 +32,8 @@ const target: Record<LensRef, { href: string; drawer?: string }> = {
   plans: { href: "#plans" },
   photos: { href: "#photos" },
   capex: { href: "#capex" },
+  // the Dacia 31 space finder (OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B)
+  spaces: { href: "#spaces" },
 };
 
 /** the approximate height of a level, one decimal in the visitor's locale (≈ 3,0 · 3.0) — read from the unit record */
@@ -40,6 +43,7 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
   const l = x.lens;
   const o = format.overlay;
   const photo = o ? x.photos[o.photo] : undefined;
+  const concept = conceptFrameFor(x.project, format.key);
   // OWNER R10 §03: the levels of the scenario exist only where the unit record carries them (areas and heights never typed twice)
   const levels = format.levels ? (["ground", "lower"] as const).flatMap((key) => {
     const item = format.levels!.items[key];
@@ -63,8 +67,18 @@ function Pane({ x, format, locale, offer }: { x: LeasingExperience; format: Lens
           </ol>
         </div>
       ) : null}
-      {/* no interior photograph yet: the same frame says where the organisation is shown — never a borrowed or repeated photo */}
-      {!o || !photo ? (
+      {/* OWNER CLARIFICATION «Video & Virtual Tour Integration» (2026-11-23): a frame of the concept interior from the finished promo film
+          replaces the photograph with the red zones (producer store · showroom · client office), labelled as a concept visualisation; until
+          the frames are delivered and approved the current working version below stays */}
+      {concept ? (
+        <figure className="lg-lens__visual is-concept">
+          <span className="lg-scene lg-lens__scene">
+            <LgPhoto photo={{ id: `concept-${format.key}`, src: publicAsset(concept.src), small: publicAsset(concept.small), smallWidth: 960, width: concept.width, height: concept.height, alt: concept.alt, evidence: "OWNER_CONFIRMED", source: "OWNER — a concept-interior frame of the promo film, labelled as a concept visualisation" }} locale={locale} ratio={`${concept.width} / ${concept.height}`} sizes="(min-width: 1024px) 66vw, 100vw" className="lg-scene__photo" />
+          </span>
+          <figcaption className="lg-lens__caption"><span className="lg-lens__note">{m20ConceptFrames.label[locale]}</span></figcaption>
+        </figure>
+      ) : /* no interior photograph yet: the same frame says where the organisation is shown — never a borrowed or repeated photo */
+      !o || !photo ? (
         <figure className="lg-lens__visual">
           <div className="lg-lens__nophoto">
             <span className="lg-lens__nophoto-label">{l.scenarioNote[locale]}</span>

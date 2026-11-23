@@ -99,7 +99,7 @@ export type TechPassport = {
  * shown on the page), what is checked together, and a possible organisation of
  * the space drawn on the real plan (generic zones only, always captioned).
  */
-export type LensRef = "location" | "tech" | "readiness" | "plans" | "photos" | "capex";
+export type LensRef = "location" | "tech" | "readiness" | "plans" | "photos" | "capex" | "spaces";
 /**
  * A possible organisation drawn delicately on a real photograph (OWNER "FINAL
  * VIEWING CONVERSION PASS", 2026-11-06): generic zones only, always captioned
@@ -108,7 +108,7 @@ export type LensRef = "location" | "tech" | "readiness" | "plans" | "photos" | "
  */
 export type PhotoZone = { label: Localized; shape: Pt[]; at: Pt };
 export type LensFormat = {
-  key: "retail" | "showroom" | "service" | "office" | "producer" | "headquarters" | "commercial";
+  key: "retail" | "showroom" | "service" | "office" | "producer" | "headquarters" | "commercial" | "cabinet";
   label: Localized;
   /** the format's own question about the location and the space */
   question: Localized;
@@ -242,10 +242,32 @@ export type CtaCopy = { primary: Localized; secondary: { label: Localized; href:
 /** The decision-support zone (portal 04, the teaser card, the drawer): the economics reverse calculation, the office scenario, or the waiting list. */
 export type DecisionKind = "economics" | "office" | "waitlist";
 
+/**
+ * THE OPERATING-PROPERTY PAGE — OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part A (2026-11-23). A let property (Creangă 78,
+ * Moscova 9) is presented as a short premium page of an operating MEGAPARC property: the photograph, the name and address, the
+ * status «Сдан в аренду», the confirmed key facts, a short description, the gallery, the location and the way to the spaces MEGAPARC
+ * has free now. No business scenarios, no calculators, no offer to lease an occupied space. A confirmed future vacancy is shown apart,
+ * with its confirmed date only — never an area that is not confirmed, never a promise. The full leasing dataset of the property stays
+ * in the repository: when a space frees up, the CMS field «Формат страницы» switches the property back to the leasing template.
+ */
+export type OperatingProfile = {
+  status: Localized;
+  title: Localized;
+  lead: Localized;
+  facts: { key: string; label: Localized; value: Localized; note?: Localized; evidence: Evidence; source: string }[];
+  /** photo keys of the dataset with their captions — real photographs only, the hero frame is never repeated */
+  gallery: { photo: string; caption: Localized }[];
+  /** a confirmed future vacancy (Moscova 9: the ground floor from 1 January 2027) — its confirmed date only */
+  future: { kicker: Localized; title: Localized; link: Localized; date: string; text: Localized; action: Localized; evidence: Evidence; source: string } | null;
+};
+
 export type LeasingExperience = {
   /** the published unit whose status drives the page (Moscova 20, Moscova 9) — null for a property-level offer (Dacia 31, Creangă 78) */
   unitId: string | null;
   project: string;
+  /** the CMS field «Формат страницы» (Part A, 2026-11-23): "operating" renders the short page of a let property from `operating`; absent → the leasing template */
+  presentation?: "leasing" | "operating";
+  operating?: OperatingProfile;
   address: Localized;
   photos: Record<string, Photo>;
   /** missing photograph slots of the sixteen-shot brief — internal OWNER INPUT, never rendered */
@@ -263,7 +285,11 @@ export type LeasingExperience = {
   summary?: { key: string; label: Localized; title: Localized; text: Localized }[];
   /** the statement scene (absent → «{area}. / N уровня. / Одна концепция.» from the unit record, Moscova 20) */
   statement?: { lines: Localized[]; photo: string | null };
-  decision: { kind: DecisionKind; teaser: { title: Localized; text: Localized } };
+  /** `also` — a second tool beside the first (Dacia 31: the office scenario for offices and cabinets, the reverse economics for the large
+   *  commercial floors — OWNER Part B: never the retail calculator for offices without an economic reason) */
+  decision: { kind: DecisionKind; also?: "economics"; teaser: { title: Localized; text: Localized } };
+  /** the space finder + floor navigator (OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part B — Dacia 31: src/data/dacia-31-spaces.ts) */
+  catalog?: boolean;
 
   /** Three reasons visible at once, right after the decision bar. */
   reasons: { label: Localized; items: { key: string; no: string; label: Localized; text: Localized }[] };

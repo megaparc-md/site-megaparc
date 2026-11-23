@@ -1,0 +1,252 @@
+/*
+ * PROPERTY COMMERCIAL EXPERIENCE 2026 (OWNER STRATEGIC MANDATE, 2026-11-23) — the short page of an operating property (Part A),
+ * the Dacia 31 catalogue and district analytics (Part B), the Moscova 20 promo film and the 360° tour (Parts C–D).
+ * The existing system only: Manrope, the brand tokens (Red #CB0102 as a mark, never a large field or text on dark), the lg-* card
+ * language, hairlines, 6 px radius. Loaded before brand.css, which stays the last stylesheet.
+ */
+
+/* ================================================================ A · the operating property */
+.op-hero__address { margin: 0; color: var(--lg-text, var(--ink)); font-size: 1.02rem; line-height: 1.35; }
+.op-hero__status { grid-area: auto; }
+/* let: a quiet graphite dot, no breathing — nothing to rush to */
+.op-hero__status.is-full i { background: var(--muted); box-shadow: 0 0 0 4px rgba(18, 18, 18, .08); animation: none; }
+.op-hero__lead { max-width: 34rem; font-weight: 450; color: var(--lg-text, var(--ink)); }
+
+.op-facts { padding-block: clamp(2.4rem, 4vw, 3.6rem); border-top: 1px solid var(--line); }
+.op-facts__list { display: grid; gap: 0; margin: 1.2rem 0 0; }
+.op-fact { display: grid; gap: .35rem; padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.op-fact:last-child { border-bottom: 1px solid var(--line); }
+.op-fact dt { color: var(--muted); font-size: .72rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
+.op-fact dd { display: grid; gap: .3rem; margin: 0; }
+.op-fact dd strong { font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 600; line-height: 1.15; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.op-fact dd span { color: var(--muted); font-size: .92rem; line-height: 1.4; }
+@media (min-width: 720px) {
+  .op-facts__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.6rem, 3vw, 3rem); }
+  .op-fact:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--line); }
+}
+@media (min-width: 1100px) {
+  .op-facts__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .op-fact { border-bottom: 1px solid var(--line); }
+}
+
+/* the confirmed future vacancy — one calm band, the date is the figure */
+.op-future { background: var(--paper); }
+.op-future__grid { display: grid; gap: 1.6rem; align-items: end; }
+.op-future__title { margin: .7rem 0 0; font-size: clamp(2.2rem, 6vw, 3.6rem); font-weight: 300; line-height: 1; letter-spacing: -.04em; }
+.op-future__date { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem .8rem; margin: 1rem 0 0; }
+.op-future__date span { color: var(--muted); font-size: .76rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
+.op-future__date strong { font-size: clamp(1.3rem, 2.6vw, 1.8rem); font-weight: 700; letter-spacing: -.02em; }
+.op-future__side { display: grid; gap: 1.2rem; justify-items: start; }
+.op-future__text { max-width: 34rem; margin: 0; font-size: 1.02rem; line-height: 1.5; }
+@media (min-width: 900px) { .op-future__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(2rem, 5vw, 5rem); } }
+
+.op-gallery__list { display: grid; gap: clamp(1rem, 2vw, 1.6rem); margin: 1.2rem 0 0; padding: 0; list-style: none; }
+.op-gallery__list figure { margin: 0; }
+.op-gallery__photo { --lg-ratio: 16 / 10; border-radius: var(--lg-radius, 6px); }
+.op-gallery__list figcaption { margin-top: .7rem; color: var(--muted); font-size: .9rem; line-height: 1.4; }
+@media (min-width: 900px) {
+  /* one photograph: the frame and its caption side by side — no empty column */
+  .op-gallery__list.is-1 figure { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); column-gap: clamp(1.6rem, 3vw, 3rem); align-items: end; }
+  .op-gallery__list.is-1 figcaption { margin: 0; font-size: 1rem; line-height: 1.5; color: var(--lg-text, var(--ink)); }
+  .op-gallery__list:not(.is-1) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.op-location { background: var(--white); }
+.op-location__grid { display: grid; gap: 1.6rem; }
+.op-location__title { margin: .7rem 0 0; font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 300; line-height: 1.1; letter-spacing: -.03em; text-wrap: balance; }
+.op-location__text { max-width: 30rem; margin: 1rem 0 0; color: var(--lg-text, var(--ink)); font-size: 1rem; line-height: 1.5; }
+@media (min-width: 1024px) { .op-location__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: start; } }
+
+.op-free__title { margin: .7rem 0 0; font-size: clamp(1.8rem, 4.2vw, 3rem); font-weight: 300; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.op-free__lead { max-width: 36rem; margin: 1rem 0 0; color: var(--lg-text, var(--ink)); line-height: 1.5; }
+.op-free__list { display: grid; gap: 1rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.op-free__card { display: grid; gap: .45rem; height: 100%; padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-radius: var(--lg-radius, 6px); background: var(--white); color: inherit; text-decoration: none; transition: border-color .3s, transform .3s var(--pm-ease, ease); }
+.op-free__card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.op-free__card:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.op-free__card strong { font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; }
+.op-free__card > span { color: var(--lg-text, var(--ink)); font-size: .95rem; line-height: 1.4; }
+.op-free__status { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted) !important; font-size: .72rem !important; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
+.op-free__status i { width: .5rem; height: .5rem; border-radius: 50%; background: var(--signal); }
+.op-free__see { display: inline-flex; align-items: center; gap: .4rem; margin-top: .5rem; font-weight: 600; }
+.op-free__all { margin: 1.4rem 0 0; }
+@media (min-width: 720px) { .op-free__list { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); } }
+
+.op-contact { background: var(--paper); border-top: 1px solid var(--line); }
+.op-contact__grid { display: grid; gap: 1rem; align-items: baseline; }
+.op-contact__title { margin: 0; font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 300; letter-spacing: -.03em; }
+.op-contact__grid p { margin: 0; line-height: 1.5; }
+.op-contact__links { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin-top: .6rem !important; }
+.op-contact__links a { color: inherit; font-weight: 600; text-underline-offset: .2em; }
+@media (min-width: 900px) { .op-contact__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+
+/* ================================================================ B · Dacia 31 — the space finder + floor navigator */
+.sc-head { display: grid; gap: .8rem; max-width: 52rem; }
+.sc-title { margin: 0; font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 300; line-height: 1.02; letter-spacing: -.04em; text-wrap: balance; }
+.sc-lead { margin: 0; color: var(--lg-text, var(--ink)); font-size: 1.02rem; line-height: 1.5; }
+.sc { display: grid; gap: 1.6rem; margin-top: clamp(1.6rem, 3vw, 2.6rem); }
+@media (min-width: 1024px) { .sc { grid-template-columns: minmax(15rem, 3fr) minmax(0, 9fr); column-gap: clamp(2rem, 4vw, 3.6rem); align-items: start; } }
+
+/* the level stack — a schematic, the top level first, never to scale */
+.sc-nav { display: grid; gap: .8rem; }
+@media (min-width: 1024px) { .sc-nav { position: sticky; top: calc(var(--header-h) + 1.2rem); } }
+.sc-stack { display: grid; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.sc-level { display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: 100%; min-height: 44px; padding: .8rem .95rem; border: 1px solid var(--line); border-radius: var(--lg-radius, 6px); background: var(--white); color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: border-color .3s, background .3s, color .3s; }
+.sc-level:hover { border-color: var(--ink); }
+.sc-level:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.sc-level.is-on { background: #222222; border-color: #222222; color: #fff; }
+.sc-level__name { font-size: .98rem; font-weight: 700; letter-spacing: -.01em; }
+.sc-level__free { color: var(--muted); font-size: .86rem; }
+.sc-level.is-on .sc-level__free { color: rgba(255, 255, 255, .8); }
+.sc-level__bar { display: block; height: 3px; border-radius: 2px; background: var(--line); }
+.sc-level__bar i { display: block; height: 100%; border-radius: 2px; background: var(--brand); }
+.sc-level.is-on .sc-level__bar { background: rgba(255, 255, 255, .22); }
+.sc-level.is-on .sc-level__bar i { background: #fff; }
+.sc-nav__note { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.4; }
+
+.sc-filters { display: grid; gap: 1rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line); }
+@media (min-width: 900px) { .sc-filters { grid-template-columns: repeat(3, auto); justify-content: start; column-gap: 2.4rem; } }
+.sc-filter { display: grid; gap: .55rem; margin: 0; padding: 0; border: 0; min-width: 0; }
+.sc-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+/* quiet text options, not CRM pills (OWNER final craft pass) — a hairline, the chosen one inked */
+.sc-chip { min-height: 44px; padding: .5rem .85rem; border: 1px solid var(--line); border-radius: var(--lg-radius, 6px); background: transparent; color: var(--ink); font: inherit; font-size: .9rem; font-weight: 500; cursor: pointer; transition: border-color .25s, background .25s, color .25s; }
+.sc-chip:hover:not(:disabled) { border-color: var(--ink); }
+.sc-chip:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.sc-chip.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.sc-chip:disabled { color: var(--grey); cursor: default; }
+.sc-found { margin: 1rem 0 0; color: var(--muted); font-size: .86rem; }
+
+.sc-list { display: grid; gap: 1rem; margin: .9rem 0 0; padding: 0; list-style: none; }
+@media (min-width: 720px) { .sc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sc-card { display: grid; align-content: start; gap: .7rem; padding: clamp(1.2rem, 2vw, 1.6rem); border: 1px solid var(--line); border-radius: var(--lg-radius, 6px); background: var(--white); box-shadow: var(--lg-card-shadow, none); }
+.sc-card.is-commercial { background: var(--paper); }
+.sc-card__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.sc-card__status { display: inline-flex; align-items: center; gap: .5rem; color: var(--muted); font-size: .72rem; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; }
+.sc-card__status i { width: .5rem; height: .5rem; border-radius: 50%; background: var(--signal); }
+.sc-card__code { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+.sc-card__unit { margin: 0; font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+.sc-card__area { margin: 0; font-size: clamp(2.2rem, 4.4vw, 3rem); font-weight: 300; line-height: 1; letter-spacing: -.04em; font-variant-numeric: lining-nums; white-space: nowrap; }
+.sc-card__rows { display: grid; gap: 0; margin: .2rem 0 0; }
+.sc-card__rows > div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: .8rem; padding: .55rem 0; border-top: 1px solid var(--line); font-size: .92rem; line-height: 1.35; }
+.sc-card__rows dt { color: var(--muted); }
+.sc-card__rows dd { margin: 0; }
+.sc-card__divisible { margin: 0; padding: .7rem .8rem; border-left: 2px solid var(--brand); background: rgba(18, 18, 18, .03); font-size: .88rem; line-height: 1.4; }
+.sc-card__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; margin-top: .4rem; }
+.sc-empty { display: grid; gap: .6rem; justify-items: start; margin-top: 1rem; padding: 1.4rem; border: 1px dashed var(--line-strong); border-radius: var(--lg-radius, 6px); }
+.sc-empty p { margin: 0; }
+.sc-empty .pm-link { border: 0; background: none; font: inherit; cursor: pointer; padding: 0; }
+.sc-note { margin: 1.2rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+@media (max-width: 479px) { .sc-card__rows > div { grid-template-columns: minmax(0, 1fr); gap: .15rem; } }
+
+/* two tools in one drawer (Dacia 31) */
+.lg-tools__tabs { display: grid; gap: .5rem; margin-bottom: 1.4rem; }
+@media (min-width: 640px) { .lg-tools__tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lg-tools__tab { display: grid; gap: .25rem; min-height: 44px; padding: .85rem 1rem; border: 1px solid rgba(18, 18, 18, .22); border-radius: var(--lg-radius, 6px); background: var(--white); color: var(--ink); font: inherit; text-align: left; cursor: pointer; transition: background .3s, color .3s, border-color .3s; }
+.lg-tools__tab strong { font-size: 1rem; font-weight: 700; }
+.lg-tools__tab span { color: var(--muted); font-size: .86rem; }
+.lg-tools__tab:hover { border-color: var(--ink); }
+.lg-tools__tab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.lg-tools__tab.is-active { background: #222222; border-color: #222222; color: #fff; }
+.lg-tools__tab.is-active span { color: rgba(255, 255, 255, .8); }
+.lg-tools__pane[hidden] { display: none; }
+
+/* ================================================================ C · minimal interactive markers on real photographs */
+.pce-mk { position: relative; display: block; }
+.pce-mk__layer { position: absolute; inset: 0; }
+.pce-mk__pt { position: absolute; display: block; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 0; border: 0; background: none; cursor: default; }
+.pce-mk__pt b { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; margin: -.8rem 0 0 -.8rem; border: 1.5px solid #fff; border-radius: 50%; background: rgba(34, 34, 34, .82); color: #fff; font-size: .72rem; font-weight: 700; font-variant-numeric: tabular-nums; box-shadow: 0 2px 10px rgba(0, 0, 0, .35); transition: transform .3s var(--pm-ease, ease), background .3s; }
+.pce-mk__pt.is-strong b { background: #fff; color: var(--ink); border-color: #fff; }
+.pce-mk__pt.is-strong b::after { content: ""; position: absolute; inset: -6px; border: 1px solid rgba(255, 255, 255, .7); border-radius: 50%; }
+.pce-mk__tip { position: absolute; left: calc(50% + 1.15rem); top: 50%; width: max-content; max-width: 16rem; padding: .4rem .6rem; border-radius: 4px; background: rgba(34, 34, 34, .92); color: #fff; font-size: .78rem; font-weight: 600; line-height: 1.3; text-align: left; white-space: normal; opacity: 0; transform: translate(-.3rem, -50%); transition: opacity .25s, transform .25s; pointer-events: none; }
+.pce-mk__pt.is-flip .pce-mk__tip { left: auto; right: calc(50% + 1.15rem); transform: translate(.3rem, -50%); }
+.pce-mk__pt:hover b, .pce-mk__pt:focus-visible b { transform: scale(1.12); }
+.pce-mk__pt:hover .pce-mk__tip, .pce-mk__pt:focus-visible .pce-mk__tip { opacity: 1; transform: translate(0, -50%); }
+.pce-mk__pt:focus-visible { outline: none; }
+.pce-mk__pt:focus-visible b { outline: 2px solid #fff; outline-offset: 3px; }
+@media (hover: none) { .pce-mk__tip { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pce-mk__pt b, .pce-mk__tip { transition: none; } }
+/* the retired overlay classes are no longer rendered (Part C) — nothing to style */
+
+/* ================================================================ C · the promo film (renders only with the final files) */
+.film-sec__title, .tour-sec__title { margin: .7rem 0 1.4rem; font-size: clamp(1.8rem, 4.4vw, 3.2rem); font-weight: 300; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.film { position: relative; }
+.film__poster, .film__video { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--lg-radius, 6px); background: #222222; }
+.film.is-portrait .film__poster, .film.is-portrait .film__video { aspect-ratio: 9 / 16; max-height: 82svh; margin-inline: auto; }
+.film__poster { position: relative; overflow: hidden; padding: 0; cursor: pointer; }
+.film__poster img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--pm-ease, ease); }
+.film__poster:hover img { transform: scale(1.02); }
+.film__poster:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.film__play { position: absolute; left: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .7rem 1.1rem; border-radius: var(--lg-radius, 6px); background: #fff; color: var(--ink); font-weight: 600; }
+.film__duration { position: absolute; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); padding: .3rem .55rem; border-radius: 4px; background: rgba(34, 34, 34, .8); color: #fff; font-size: .8rem; font-weight: 600; }
+.film__note { margin: .8rem 0 0; color: var(--muted); font-size: .86rem; }
+
+/* ================================================================ D · the 360° tour in «Адрес — часть бизнес-модели» (renders only when all nine panoramas exist) */
+.tour-poster { margin: 0; }
+.tour-poster__btn { position: relative; display: block; width: 100%; padding: 0; border: 0; border-radius: var(--lg-radius, 6px); background: #222222; overflow: hidden; cursor: pointer; aspect-ratio: 16 / 10; }
+.tour-poster__btn img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--pm-ease, ease); }
+.tour-poster__btn:hover img { transform: scale(1.02); }
+.tour-poster__btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.tour-poster__play { position: absolute; left: clamp(1rem, 3vw, 1.6rem); bottom: clamp(1rem, 3vw, 1.6rem); display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .7rem 1.1rem; border-radius: var(--lg-radius, 6px); background: #fff; color: var(--ink); font-weight: 600; }
+.tour-poster__count { position: absolute; right: clamp(1rem, 3vw, 1.6rem); top: clamp(1rem, 3vw, 1.6rem); padding: .3rem .55rem; border-radius: 4px; background: rgba(34, 34, 34, .8); color: #fff; font-size: .78rem; font-weight: 600; letter-spacing: .04em; }
+.tour-stage { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; border-radius: var(--lg-radius, 6px); background: #111; color: #fff; overflow: hidden; }
+.tour-stage .pano { aspect-ratio: 16 / 10; }
+.tour-stage:fullscreen { border-radius: 0; }
+.tour-stage:fullscreen .pano { aspect-ratio: auto; height: 100%; }
+.tour-stage__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; padding: .6rem .9rem; }
+.tour-stage__title { margin: 0; font-weight: 700; }
+.tour-stage__title span { color: rgba(255, 255, 255, .7); font-variant-numeric: tabular-nums; }
+.tour-stage__tools { display: flex; flex-wrap: wrap; gap: .5rem; }
+.tour-stage__foot { display: grid; gap: .6rem; padding: .7rem .9rem .9rem; }
+.tour-stage__caption { margin: 0; color: rgba(255, 255, 255, .85); font-size: .9rem; line-height: 1.4; }
+.tour-btn { min-height: 44px; padding: .5rem .8rem; border: 1px solid rgba(255, 255, 255, .3); border-radius: var(--lg-radius, 6px); background: transparent; color: #fff; font: inherit; font-size: .86rem; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: .4rem; }
+.tour-btn:hover:not(:disabled) { border-color: #fff; }
+.tour-btn:disabled { opacity: .45; cursor: default; }
+.tour-btn.is-on { background: #fff; color: var(--ink); border-color: #fff; }
+.tour-stage :focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.tour-seq { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+.tour-seq .is-next { background: #fff; color: var(--ink); border-color: #fff; font-weight: 600; }
+.tour-near, .tour-levels { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.tour-near .lg-label { color: rgba(255, 255, 255, .7); }
+.tour-strip { display: flex; gap: .4rem; margin: 0; padding: 0 0 .2rem; list-style: none; overflow-x: auto; scrollbar-width: thin; }
+.tour-strip .tour-btn { white-space: nowrap; }
+.tour-strip b { opacity: .7; }
+.pano { position: relative; overflow: hidden; touch-action: none; cursor: grab; background: #000; outline: none; }
+.pano:active { cursor: grabbing; }
+.pano:focus-visible { box-shadow: inset 0 0 0 2px #fff; }
+.pano__canvas { display: block; width: 100%; height: 100%; }
+.pano__spot { position: absolute; left: 0; top: 0; display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; padding: .4rem .7rem .4rem .5rem; margin: -22px 0 0 -22px; border: 0; border-radius: 22px; background: rgba(17, 17, 17, .72); color: #fff; font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer; visibility: hidden; will-change: transform; }
+.pano__spot i { width: 1.6rem; height: 1.6rem; border: 2px solid #fff; border-radius: 50%; }
+.pano__spot.is-nav i { background: radial-gradient(circle, #fff 0 22%, transparent 24%); }
+.pano__spot.is-info i { background: #fff; }
+.pano__state { position: absolute; inset: auto 0 50% 0; margin: 0; padding-inline: 1.4rem; text-align: center; color: rgba(255, 255, 255, .85); }
+.pano__hint { position: absolute; left: 50%; bottom: .8rem; margin: 0; padding: .3rem .6rem; border-radius: 4px; background: rgba(17, 17, 17, .6); color: rgba(255, 255, 255, .85); font-size: .78rem; transform: translateX(-50%); white-space: nowrap; pointer-events: none; }
+.pano.is-ready .pano__hint { animation: pano-hint 4s ease 1.2s forwards; }
+@keyframes pano-hint { to { opacity: 0; } }
+@media (max-width: 559px) { .pano__hint { white-space: normal; width: calc(100% - 2rem); text-align: center; } .tour-stage .pano { aspect-ratio: 4 / 5; } .tour-seq .tour-btn { flex: 1 1 100%; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .pano.is-ready .pano__hint { animation: none; } .tour-poster__btn img, .film__poster img { transition: none; } }
+
+/* ================================================================ B · Dacia 31 — district analytics (no decorative images) */
+.da-head { display: grid; gap: .8rem; max-width: 52rem; margin-bottom: clamp(1.4rem, 3vw, 2.2rem); }
+.da-title { margin: 0; font-size: clamp(1.9rem, 4.6vw, 3.2rem); font-weight: 300; line-height: 1.04; letter-spacing: -.035em; text-wrap: balance; }
+.da-lead { margin: 0; color: var(--lg-text, var(--ink)); line-height: 1.5; }
+.da-sec .lg-tools__tabs { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); }
+.da-facts { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 900px) { .da-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.6rem, 3vw, 3rem); } }
+.da-fact { display: grid; gap: .35rem; padding: 1.2rem 0; border-top: 1px solid var(--line); }
+.da-fact__value { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; line-height: 1.05; letter-spacing: -.035em; font-variant-numeric: lining-nums; overflow-wrap: anywhere; }
+.da-fact__label { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+.da-fact__note { color: var(--lg-text, var(--ink)); font-size: .95rem; line-height: 1.45; }
+.da-fact__meta { display: block; margin-top: .3rem; color: var(--muted); font-size: .78rem; line-height: 1.4; }
+.da-dot { display: inline-block; width: .5rem; height: .5rem; margin-right: .4rem; border-radius: 50%; vertical-align: .05em; background: var(--muted); }
+.da-dot.is-high { background: var(--ink); }
+.da-dot.is-medium { background: transparent; border: 1.5px solid var(--muted); }
+.da-foot { margin: 1rem 0 0; padding: .8rem .9rem; border-left: 2px solid var(--brand); background: var(--paper); font-size: .92rem; line-height: 1.45; }
+.da-note { margin: 1.4rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+
+/* the tour in the explorer: the stage takes the tour's own height (never the 4 : 3 frame that would cut its controls); on desktop the
+   status bar overlays the stage top, so the tour starts below it */
+.lg-explorer__stage:has(.lg-explorer__view.is-tour.is-on) { aspect-ratio: auto; background: #111; }
+.lg-explorer__stage:has(.lg-explorer__view.is-tour.is-on) .lg-explorer__view.is-tour { position: relative; inset: auto; }
+.lg-explorer__stage:has(.lg-explorer__view.is-tour.is-on) .lg-explorer__view:not(.is-tour) { display: none; }
+@media (min-width: 1024px) { .lg-explorer__view.is-tour { padding-top: 2.75rem; } }
+.lg-explorer__view.is-tour .tour-poster, .lg-explorer__view.is-tour .tour-stage { border-radius: 0; }
+.lg-explorer__view.is-tour .tour-poster .lg-stage__caption { padding: .7rem .9rem; margin: 0; background: var(--white); }

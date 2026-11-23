@@ -18,6 +18,40 @@ const ASSET = "src/lib/assets.ts — Moscova 9 asset record (OWNER copy)";
 export const moscova9Experience: LeasingExperience = {
   unitId: "moscova-9-building",
   project: "moscova-9",
+  // OWNER «PROPERTY COMMERCIAL EXPERIENCE 2026» Part A (2026-11-23): the building is let — the short page of an operating property; the
+  // confirmed future vacancy (the ground floor from 1 January 2027, unit M9-01) is shown apart with its date only — its area is not confirmed
+  presentation: "operating",
+  operating: {
+    status: T("Închiriat", "Сдан в аренду", "Leased"),
+    title: T("O clădire independentă pe prima linie a bulevardului.", "Отдельное здание на первой линии бульвара.", "A stand-alone building directly on the boulevard."),
+    lead: T(
+      "Proprietate MEGAPARC în sectorul Rîșcani, închiriată integral: fațadă lungă spre bulevardul Moscova, două intrări pentru clienți, rampă de descărcare și parcare de-a lungul bulevardului.",
+      "Объект MEGAPARC в секторе Рышкань, сдан полностью: протяжённый фасад на бульвар Москова, два входа для покупателей, рампа для разгрузки и парковка вдоль бульвара.",
+      "A MEGAPARC property in the Rîșcani district, fully let: a long frontage on Moscova Boulevard, two customer entrances, an unloading ramp and parking along the boulevard.",
+    ),
+    facts: [
+      { key: "status", label: T("Statut", "Статус", "Status"), value: T("Închiriat integral", "Сдан полностью", "Fully let"), evidence: "OWNER_CONFIRMED", source: OWNER },
+      { key: "area", label: T("Suprafața clădirii", "Площадь здания", "Building area"), value: T("2 561,3 m²", "2 561,3 м²", "2,561.3 m²"), note: T("Suprafața înregistrată.", "Зарегистрированная площадь.", "The registered area."), evidence: "DOCUMENT_CONFIRMED", source: "OWNER tax records R3.3.1 §6" },
+      { key: "format", label: T("Format", "Формат", "Format"), value: T("Clădire independentă", "Отдельное здание", "Stand-alone building"), note: T("Prima linie a bulevardului Moscova.", "Первая линия бульвара Москова.", "Directly on Moscova Boulevard."), evidence: "OWNER_CONFIRMED", source: ASSET },
+      { key: "access", label: T("Acces", "Доступ", "Access"), value: T("Două intrări · rampă", "Два входа · рампа", "Two entrances · ramp"), note: T("Clienții — dinspre bulevard, marfa — prin rampă.", "Покупатели — с бульвара, товар — через рампу.", "Customers from the boulevard, goods via the ramp."), evidence: "OWNER_CONFIRMED", source: OWNER },
+    ],
+    // one real photograph today (the hero) — the gallery waits for the OWNER shoot, never repeats the hero frame
+    gallery: [],
+    future: {
+      kicker: T("Eliberare confirmată", "Подтверждённое освобождение", "Confirmed vacancy"),
+      title: T("Parterul", "1‑й этаж", "The ground floor"),
+      link: T("Se eliberează parterul", "Освобождается 1‑й этаж", "The ground floor is becoming available"),
+      date: "2027-01-01",
+      text: T(
+        "Eliberarea parterului este confirmată de la această dată. Suprafața și condițiile — la cerere.",
+        "Освобождение 1‑го этажа подтверждено с этой даты. Площадь и условия — по запросу.",
+        "The ground floor is confirmed to become available from this date. The area and terms — on request.",
+      ),
+      action: T("Exprimați-vă interesul", "Сообщить об интересе", "Register interest"),
+      evidence: "OWNER_CONFIRMED",
+      source: "OWNER FACT 2026-11-09 — the 1st floor from 2027-01-01 (unit M9-01)",
+    },
+  },
   address: T("Bd. Moscova 9", "бул. Москова, 9", "9 Moscova Blvd"),
   photos: {
     building: portfolioPhoto("m9-building", "moscova-9", 1439, 959, T("Moscova 9 de sus: fațada lungă pe prima linie a bulevardului, trotuarul și parcarea de-a lungul drumului", "Moscova 9 сверху: протяжённый фасад на первой линии бульвара, тротуар и парковка вдоль дороги", "Moscova 9 from above: the long frontage on the boulevard, the pavement and parking along the road"), "50% 62%"),

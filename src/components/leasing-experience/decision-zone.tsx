@@ -3,11 +3,12 @@ import { economicsCopy } from "@/components/leasing-experience/economics-copy";
 import { EconomicsTool } from "@/components/leasing-experience/economics-tool";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import { OfficeTool } from "@/components/leasing-experience/office-tool";
+import { ToolSwitch } from "@/components/leasing-experience/tool-switch";
 import { ownerPreview, ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
 import type { ProjectEntry } from "@/content/source";
 import { T, type LeasingExperience } from "@/data/leasing-experience-model";
-import { economicsExample, locationTraffic, officeExample, sensitivityRates, trafficVisible } from "@/data/tenant-intelligence";
+import { economicsExample, locationTraffic, officeExample, sensitivityRates, toolVisible, trafficVisible } from "@/data/tenant-intelligence";
 import { m20Toolkit } from "@/data/moscova-20-toolkit";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
@@ -22,6 +23,13 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 
 const copy = {
   office: T("Scenariul biroului", "Расчёт площади офиса", "Office scenario"),
+  // Part B (2026-11-23): two formats, two tools — the office scenario and the reverse economics of a retail / service point
+  tools: T("Alegeți calculul", "Выберите расчёт", "Choose the calculation"),
+  toolOffice: T("Birou sau cabinet", "Офис или кабинет", "Office or cabinet"),
+  toolOfficeNote: T("De câtă suprafață are nevoie echipa", "Сколько площади нужно команде", "How much space the team needs"),
+  toolRetail: T("Comerț și servicii", "Торговля и услуги", "Retail and services"),
+  toolRetailNote: T("Câți clienți îi trebuie modelului", "Сколько клиентов нужно модели", "How many customers the model needs"),
+  both: T("Calculul pentru formatul dumneavoastră", "Расчёт под ваш формат", "A calculation for your format"),
   waitlist: T("Când se eliberează un spațiu", "Когда освободится помещение", "When a space becomes available"),
   waitLead: T(
     "Clădirea este închiriată integral. Înscrieți-vă pe lista de așteptare — vă anunțăm când se eliberează un spațiu potrivit formatului dumneavoastră.",
@@ -35,7 +43,7 @@ const copy = {
   ],
 } satisfies Record<string, Localized | { title: Localized; text: Localized }[]>;
 
-export const decisionTitle = (x: LeasingExperience, locale: SiteLocale) => (x.decision.kind === "economics" ? ui.economics[locale] : x.decision.kind === "office" ? copy.office[locale] : copy.waitlist[locale]);
+export const decisionTitle = (x: LeasingExperience, locale: SiteLocale) => (x.decision.also ? copy.both[locale] : x.decision.kind === "economics" ? ui.economics[locale] : x.decision.kind === "office" ? copy.office[locale] : copy.waitlist[locale]);
 export const decisionKicker = (x: LeasingExperience, name: string, locale: SiteLocale) => (x.decision.kind === "economics" ? economicsCopy[locale].kicker : name);
 
 export function DecisionSheet({ x, offer, project, locale }: { x: LeasingExperience; offer: TemplateOffer; project: ProjectEntry; locale: SiteLocale }) {
@@ -54,6 +62,19 @@ export function DecisionSheet({ x, offer, project, locale }: { x: LeasingExperie
       : null;
     // the pre-check link only where the page has the pre-check drawer (the Digital Leasing Toolkit property)
     return <EconomicsTool locale={locale} property={project.name} example={economicsExample} rates={sensitivityRates} traffic={summary} visitLabel={visitLabel} precheck={x.project === m20Toolkit.project} currencySwitch={x.project === m20Toolkit.project} />;
+  }
+  if (x.decision.kind === "office" && x.decision.also === "economics" && toolVisible(`${x.project}.economics-tool`, ownerPreview)) {
+    return (
+      <ToolSwitch
+        label={copy.tools[locale]}
+        tools={[{ key: "office", label: copy.toolOffice[locale], note: copy.toolOfficeNote[locale] }, { key: "retail", label: copy.toolRetail[locale], note: copy.toolRetailNote[locale] }]}
+        panes={[
+          <OfficeTool key="office" locale={locale} property={project.name} example={officeExample} visitLabel={visitLabel} />,
+          // the visitor's own figures only — no location data, no rent (the Moscova 9 configuration of the same tool)
+          <EconomicsTool key="retail" locale={locale} property={project.name} example={economicsExample} rates={sensitivityRates} traffic={null} visitLabel={visitLabel} precheck={false} currencySwitch={false} />,
+        ]}
+      />
+    );
   }
   if (x.decision.kind === "office") return <OfficeTool locale={locale} property={project.name} example={officeExample} visitLabel={visitLabel} />;
   return (
