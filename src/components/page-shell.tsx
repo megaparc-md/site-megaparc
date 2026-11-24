@@ -1,4 +1,5 @@
 import { ViewTransition, type ReactNode } from "react";
+import { Assistant } from "@/components/assistant/assistant";
 import { ExperienceMotion } from "@/components/experience-motion";
 import { PreviewMarker } from "@/components/experience";
 import { MotionController } from "@/components/motion-controller";
@@ -45,6 +46,8 @@ export function PageShell({
       </ViewTransition>
       <SiteFooter locale={locale} statement={footerStatement} />
       <PreviewMarker locale={locale} />
+      {/* the commercial assistant — OWNER preview only: the production edition resolves it to an empty stub (next.config.ts) */}
+      <Assistant locale={locale} />
       {/* last in the shell: it renders nothing, and the ids of the header menus above stay as they were */}
       <DatedDownloadNames />
     </div>

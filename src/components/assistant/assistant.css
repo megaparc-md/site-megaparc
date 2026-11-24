@@ -1,0 +1,195 @@
+/*
+ * MEGAPARC COMMERCIAL ASSISTANT (OWNER «INTELLIGENT COMMERCIAL ASSISTANT», 2026-11-24) — OWNER preview only.
+ *
+ * Self-contained: every rule is under `.mca` (or the two state classes it sets on <html>), with its own tokens, so the
+ * stylesheet neither depends on nor overrides any other sheet of the site — its place in the cascade does not matter.
+ *
+ * Brand: Megaparc Red #CB0102 (the launcher and small marks only — never a field), dark #222222, Graphite #545454,
+ * Dark Grey #4D3F46 (the panel header), white; Manrope. Rectangular controls with the site's 2 px radius, hairlines,
+ * one restrained shadow; no glass, no pills, no gradients. Text on red and on Dark Grey is white (5.9 : 1 · 9.6 : 1).
+ */
+.mca {
+  --mca-red: #cb0102;
+  --mca-ink: #222222;
+  --mca-graphite: #545454;
+  --mca-dark-grey: #4d3f46;
+  --mca-white: #ffffff;
+  --mca-paper: #f7f7f7;
+  --mca-line: rgba(34, 34, 34, .12);
+  --mca-line-strong: rgba(34, 34, 34, .32);
+  --mca-edge: 1.5rem;
+  --mca-ease: cubic-bezier(.22, .61, .36, 1);
+  font-family: var(--font, "Manrope", "Manrope Fallback", Arial, "Helvetica Neue", sans-serif);
+  font-variant-ligatures: no-common-ligatures;
+}
+.mca *, .mca *::before, .mca *::after { box-sizing: border-box; }
+.mca-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* ------------------------------------------------------------------ */
+/* Launcher                                                             */
+/* ------------------------------------------------------------------ */
+.mca-launch {
+  position: fixed;
+  z-index: 150;
+  right: var(--mca-edge);
+  bottom: calc(var(--mca-edge) + var(--mca-slot, 0px) + max(var(--mca-lift, 0px), env(safe-area-inset-bottom, 0px)));
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  height: 3rem;
+  padding: 0 1.1rem 0 .95rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--mca-red);
+  color: var(--mca-white);
+  box-shadow: 0 10px 28px rgba(34, 34, 34, .2);
+  cursor: pointer;
+  transition: background-color .25s ease, opacity .22s ease, transform .3s var(--mca-ease), bottom .18s var(--mca-ease), visibility 0s linear 0s;
+}
+.mca-launch__icon { flex: none; }
+.mca-launch__label { font-size: .72rem; font-weight: 600; line-height: 1; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.mca-launch:focus-visible { outline: 2px solid var(--mca-white); outline-offset: 2px; box-shadow: 0 0 0 6px var(--mca-ink), 0 10px 28px rgba(34, 34, 34, .2); }
+/* out of the page's way: over a control, a calculator or an action; under the menu, a drawer, the entrance; while the panel is open */
+.mca-launch[data-aside] { opacity: 0; transform: translateY(.5rem); pointer-events: none; visibility: hidden; transition: opacity .22s ease, transform .3s var(--mca-ease), bottom .18s var(--mca-ease), visibility 0s linear .22s; }
+
+/* ------------------------------------------------------------------ */
+/* Panel                                                                */
+/* ------------------------------------------------------------------ */
+.mca-panel {
+  position: fixed;
+  z-index: 160;
+  right: var(--mca-edge);
+  bottom: calc(var(--mca-edge) + max(var(--mca-lift, 0px), env(safe-area-inset-bottom, 0px)));
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+  max-width: calc(100vw - 2 * var(--mca-edge));
+  height: 46rem;
+  max-height: calc(100dvh - 2 * var(--mca-edge) - var(--mca-lift, 0px));
+  overflow: hidden;
+  border: 1px solid var(--mca-line);
+  border-radius: 6px;
+  background: var(--mca-white);
+  color: var(--mca-ink);
+  box-shadow: 0 24px 64px rgba(34, 34, 34, .22);
+  animation: mca-in .32s var(--mca-ease) both;
+}
+.mca-panel:focus { outline: none; }
+@keyframes mca-in { from { opacity: 0; transform: translateY(.75rem); } to { opacity: 1; transform: none; } }
+
+/* header — Dark Grey */
+.mca-head { flex: none; display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; padding: 1rem .55rem .95rem 1.15rem; background: var(--mca-dark-grey); color: var(--mca-white); }
+.mca-head__id { min-width: 0; }
+.mca-head__logo { display: block; width: 6.4rem; height: .82rem; margin-bottom: .7rem; background: var(--mca-white); -webkit-mask: var(--mca-logo) left center / contain no-repeat; mask: var(--mca-logo) left center / contain no-repeat; }
+.mca-head__title { margin: 0; font-size: 1.02rem; font-weight: 600; line-height: 1.25; letter-spacing: -.005em; }
+.mca-head__context { margin: .2rem 0 0; color: rgba(255, 255, 255, .82); font-size: .78rem; line-height: 1.4; overflow-wrap: anywhere; }
+.mca-head__close { flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; margin-top: -.45rem; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--mca-white); cursor: pointer; transition: background-color .2s ease; }
+.mca-head__close:focus-visible { outline: 2px solid var(--mca-white); outline-offset: -4px; }
+
+/* the honest status of the channel */
+.mca-status { flex: none; display: grid; grid-template-columns: auto 1fr auto; align-items: start; column-gap: .55rem; padding: .6rem .55rem .6rem 1.15rem; border-bottom: 1px solid var(--mca-line); background: var(--mca-white); }
+.mca-status__dot { width: .5rem; height: .5rem; margin-top: .3rem; border: 1.5px solid var(--mca-graphite); border-radius: 50%; }
+.mca-status__text { margin: 0; color: var(--mca-graphite); font-size: .74rem; line-height: 1.45; }
+.mca-status__restart { align-self: center; min-height: 2.75rem; padding: 0 .6rem; border: 0; background: transparent; color: var(--mca-ink); font: inherit; font-size: .74rem; font-weight: 600; white-space: nowrap; cursor: pointer; text-decoration: underline; text-decoration-color: var(--mca-line-strong); text-underline-offset: .22em; }
+.mca-status__restart:focus-visible, .mca-chip:focus-visible, .mca-act:focus-visible, .mca-form__send:focus-visible, .mca-foot a:focus-visible { outline: 2px solid var(--mca-ink); outline-offset: 2px; }
+
+/* thread */
+.mca-thread { flex: 1 1 auto; min-height: 0; position: relative; display: flex; flex-direction: column; gap: .95rem; padding: 1rem 1.15rem 1.35rem; overflow-y: auto; overscroll-behavior: contain; background: var(--mca-paper); scrollbar-width: thin; }
+.mca-msg { animation: mca-msg .28s ease both; }
+.mca-msg:focus { outline: none; }
+@keyframes mca-msg { from { opacity: 0; transform: translateY(.35rem); } to { opacity: 1; transform: none; } }
+.mca-msg p { margin: 0; }
+.mca-bubble { padding: .8rem .95rem; border: 1px solid var(--mca-line); border-radius: 2px 6px 6px 6px; background: var(--mca-white); font-size: .92rem; line-height: 1.5; }
+.mca-bubble p + p { margin-top: .45rem; }
+.mca-msg--visitor { align-self: flex-end; max-width: 86%; padding: .6rem .85rem; border-radius: 6px 6px 2px 6px; background: var(--mca-ink); color: var(--mca-white); font-size: .88rem; line-height: 1.45; overflow-wrap: anywhere; }
+
+/* cards — a building, a plot, a calculator */
+.mca-cards { display: grid; gap: .45rem; margin: .5rem 0 0; padding: 0; list-style: none; }
+.mca-card { padding: .7rem .9rem .25rem; border: 1px solid var(--mca-line); border-left: 2px solid var(--mca-graphite); border-radius: 2px; background: var(--mca-white); }
+.mca-card[data-tone="now"], .mca-card[data-tone="soon"] { border-left-color: var(--mca-red); }
+.mca-card__title { font-size: .95rem; font-weight: 700; line-height: 1.3; }
+.mca-card__meta { margin-top: .2rem !important; color: var(--mca-graphite); font-size: .8rem; line-height: 1.45; }
+.mca-card__dot { display: inline-block; width: .42rem; height: .42rem; margin-right: .45rem; border-radius: 50%; background: var(--mca-red); vertical-align: .08em; }
+.mca-card[data-tone="soon"] .mca-card__dot { background: transparent; border: 1.5px solid var(--mca-red); }
+.mca-card__note { margin-top: .3rem !important; color: var(--mca-graphite); font-size: .78rem; line-height: 1.45; }
+
+/* actions */
+.mca-acts { display: grid; gap: .4rem; margin-top: .55rem; }
+.mca-act { display: flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 2.75rem; padding: .5rem .85rem; border: 1px solid var(--mca-line-strong); border-radius: 2px; background: var(--mca-white); color: var(--mca-ink); font-size: .84rem; font-weight: 600; line-height: 1.3; text-decoration: none; transition: background-color .2s ease, border-color .2s ease, color .2s ease; }
+.mca-act--primary { border-color: var(--mca-ink); background: var(--mca-ink); color: var(--mca-white); }
+.mca-act--quiet { justify-content: flex-start; gap: .45rem; padding: 0; border: 0; background: transparent; font-size: .8rem; }
+.mca-act__meta { font-size: inherit; font-weight: 500; opacity: .78; }
+.mca-arrow { flex: none; transition: transform .25s var(--mca-ease); }
+.mca-hint, .mca-note { margin: .1rem 0 0 !important; color: var(--mca-graphite); font-size: .75rem; line-height: 1.45; }
+.mca-note { margin-top: .55rem !important; padding-left: .7rem; border-left: 1px solid var(--mca-line-strong); }
+
+/* the next choices: short answers wrap; a menu is a list of rows */
+.mca-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .7rem; }
+.mca-chip { display: inline-flex; align-items: center; justify-content: space-between; gap: .75rem; min-height: 2.75rem; padding: .45rem .8rem; border: 1px solid var(--mca-line-strong); border-radius: 2px; background: var(--mca-white); color: var(--mca-ink); font: inherit; font-size: .84rem; font-weight: 500; line-height: 1.3; text-align: left; cursor: pointer; transition: border-color .2s ease, box-shadow .2s ease; }
+.mca-chip .mca-arrow { display: none; color: var(--mca-graphite); }
+.mca-chips[data-layout="list"] { display: grid; gap: 0; border-top: 1px solid var(--mca-line-strong); }
+.mca-chips[data-layout="list"] .mca-chip { width: 100%; padding: .45rem .15rem .45rem 0; border: 0; border-bottom: 1px solid var(--mca-line); border-radius: 0; background: transparent; font-weight: 600; }
+.mca-chips[data-layout="list"] .mca-chip .mca-arrow { display: block; }
+.mca-chips[data-layout="list"] .mca-chip { transition: padding .25s var(--mca-ease), box-shadow .2s ease; }
+
+/* the question */
+.mca-form { flex: none; display: flex; align-items: center; gap: .5rem; padding: .55rem .55rem .55rem 1.15rem; border-top: 1px solid var(--mca-line); background: var(--mca-white); transition: box-shadow .2s ease; }
+.mca-form:focus-within { box-shadow: inset 0 2px 0 var(--mca-ink); }
+.mca-form__input { flex: 1 1 auto; min-width: 0; height: 2.75rem; padding: 0; border: 0; background: transparent; color: var(--mca-ink); font: inherit; font-size: .92rem; outline: none; }
+.mca-form__input::placeholder { color: var(--mca-graphite); opacity: 1; }
+.mca-form__send { flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; border: 0; border-radius: 2px; background: var(--mca-ink); color: var(--mca-white); cursor: pointer; transition: background-color .2s ease; }
+.mca-form__send:disabled { background: #ebebeb; color: #8e8e8e; cursor: default; }
+
+/* foot — the limit of the answers, the telephone, the language */
+.mca-foot { flex: none; display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: .75rem; padding: 0 .75rem calc(.35rem + env(safe-area-inset-bottom, 0px)) 1.15rem; background: var(--mca-white); }
+.mca-foot__note { grid-column: 1 / -1; margin: 0; color: var(--mca-graphite); font-size: .72rem; line-height: 1.45; }
+.mca-foot__tel { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--mca-ink); font-size: .84rem; font-weight: 600; font-variant-numeric: tabular-nums; text-decoration: none; }
+.mca-foot__lang { display: flex; }
+.mca-foot__lang a, .mca-foot__lang span { display: inline-grid; place-items: center; min-width: 2.4rem; min-height: 2.75rem; color: var(--mca-graphite); font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-decoration: none; }
+.mca-foot__lang span { color: var(--mca-ink); box-shadow: inset 0 -2px 0 var(--mca-red); }
+
+
+/* hover — only where a pointer hovers: a tap never leaves a control in its hover state */
+@media (hover: hover) {
+  .mca-launch:hover { background: var(--mca-ink); }
+  .mca-head__close:hover { background: rgba(255, 255, 255, .14); }
+  .mca-status__restart:hover { text-decoration-color: var(--mca-red); }
+  .mca-act:hover { border-color: var(--mca-ink); background: var(--mca-ink); color: var(--mca-white); }
+  .mca-act--primary:hover { border-color: var(--mca-red); background: var(--mca-red); }
+  .mca-act--quiet:hover { background: transparent; color: var(--mca-red); }
+  .mca-act:hover .mca-arrow { transform: translateX(.15rem); }
+  .mca-chip:hover { border-color: var(--mca-ink); box-shadow: inset 0 -2px 0 var(--mca-red); }
+  .mca-chips[data-layout="list"] .mca-chip:hover { box-shadow: inset 2px 0 0 var(--mca-red); padding-left: .6rem; }
+  .mca-chips[data-layout="list"] .mca-chip:hover .mca-arrow { color: var(--mca-red); transform: translateX(.15rem); }
+  .mca-form__send:hover:not(:disabled) { background: var(--mca-red); }
+  .mca-foot__tel:hover { color: var(--mca-red); }
+  .mca-foot__lang a:hover { color: var(--mca-ink); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Phones — an icon launcher, a full-height sheet                       */
+/* ------------------------------------------------------------------ */
+@media (max-width: 639.98px) {
+  .mca { --mca-edge: 1rem; }
+  .mca-launch { width: 3.25rem; height: 3.25rem; padding: 0; justify-content: center; }
+  .mca-launch__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .mca-panel { inset: 0; width: auto; max-width: none; height: 100dvh; max-height: none; border: 0; border-radius: 0; box-shadow: none; }
+  .mca-head { padding-top: calc(1rem + env(safe-area-inset-top, 0px)); }
+  /* 16 px: iOS does not zoom the page when the field takes the focus */
+  .mca-form__input { font-size: 1rem; }
+  html.mca-lock, html.mca-lock body { overflow: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mca-launch, .mca-launch[data-aside], .mca-act, .mca-chip, .mca-arrow, .mca-form { transition: none; }
+  .mca-panel, .mca-msg { animation: none; }
+}
+
+@media (forced-colors: active) {
+  .mca-launch, .mca-act, .mca-chip, .mca-form__send { border: 1px solid ButtonText; }
+  .mca-head__logo { background: CanvasText; }
+}
+
+@media print {
+  .mca { display: none !important; }
+}

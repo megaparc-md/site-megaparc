@@ -20,6 +20,8 @@ const productionStubs = {
   "@/components/leasing-toolkit/precheck-copy": "./src/editions/production/precheck-copy.ts",
   // OWNER R10 §04 (2026-11-13): the CFO-model prototype is OWNER preview only until its methodology is verified
   "@/components/producer-economics": "./src/editions/production/producer-economics.tsx",
+  // OWNER «INTELLIGENT COMMERCIAL ASSISTANT» (2026-11-24): the assistant is an OWNER-preview prototype — production gets an empty stub
+  "@/components/assistant/assistant": "./src/editions/production/assistant.tsx",
 };
 
 const nextConfig: NextConfig = {
