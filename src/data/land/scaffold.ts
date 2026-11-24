@@ -12,7 +12,6 @@ import type { Localized } from "@/lib/site-data";
  */
 
 type L = Localized;
-const NB = String.fromCharCode(160);
 
 /** what the standard texts need to know about the place */
 export type SiteContext = {
@@ -61,12 +60,8 @@ export function standardMedia(ctx: SiteContext, over: Partial<Record<MediaSlot["
 export function standardLayers(ctx: SiteContext, over: Partial<Record<LocationLayer["key"], Partial<LocationLayer>>> = {}): LocationLayer[] {
   const d = day(ctx.explorer.fetched);
   const osm = T(`OpenStreetMap · ${d}`, `OpenStreetMap · ${d}`, `OpenStreetMap · ${d}`);
-  const m = ctx.explorer.town.distance;
-  // under 1 km in metres, from 1 km in kilometres with one decimal (RO / RU comma, EN point)
-  const km = (sep: string) => (m / 1000).toFixed(1).replace(".", sep);
-  const far = { ro: m < 1000 ? `${m}${NB}m` : `${km(",")}${NB}km`, ru: m < 1000 ? `${m}${NB}м` : `${km(",")}${NB}км`, en: m < 1000 ? `${m}${NB}m` : `${km(".")}${NB}km` };
   const rows: LocationLayer[] = [
-    { key: "site", state: "ready", source: ctx.pointSource, label: T("Amplasare", "Расположение", "Location"), title: T("Terenul în oraș", "Участок в городе", "The site in the town"), text: T(`${ctx.addressShort.ro} — la ≈${NB}${far.ro} în linie dreaptă de centrul orașului (OSM). ${ctx.pointNote.ro}`, `${ctx.addressShort.ru} — около ${far.ru} по прямой от центра города (OSM). ${ctx.pointNote.ru}`, `${ctx.addressShort.en} — about ${far.en} in a straight line from the town centre (OSM). ${ctx.pointNote.en}`) },
+    { key: "site", state: "ready", source: ctx.pointSource, label: T("Amplasare", "Расположение", "Location"), title: T("Terenul în oraș", "Участок в городе", "The site in the town"), text: T(`${ctx.addressShort.ro} — ${ctx.pointNote.ro}`, `${ctx.addressShort.ru} — ${ctx.pointNote.ru}`, `${ctx.addressShort.en} — ${ctx.pointNote.en}`) },
     { key: "boundary", state: "pending", source: T("Se așteaptă planul cadastral sau coordonatele verificate", "Ожидается кадастровый план или проверенные координаты", "Awaiting the cadastral plan or verified coordinates"), label: T("Limite cadastrale", "Кадастровые границы", "Cadastral boundary"), title: T("Limitele — după planul oficial", "Границы — только по официальному плану", "The boundary — from the official plan only"), text: T("Limitele se trasează după planul cadastral oficial sau după coordonatele verificate. Până atunci nu desenăm nicio limită aproximativă.", "Границы наносятся по официальному кадастровому плану или проверенным координатам. До этого мы не рисуем приблизительных границ.", "The boundary is drawn from the official cadastral plan or verified coordinates. Until then we draw no approximate outline.") },
     { key: "access", state: "ready", source: T(`OpenStreetMap · ${d} · rutare OSRM (estimare)`, `OpenStreetMap · ${d} · маршрутизация OSRM (оценка)`, `OpenStreetMap · ${d} · OSRM routing (estimate)`), label: T("Acces și transport", "Подъезды и транспорт", "Access and transport"), title: T("Drumuri, gară, legături", "Дороги, станция, связи", "Roads, station, links"), text: T(`Drumurile naționale și locale după numerotarea din OpenStreetMap, ${ctx.station.ro} și distanțele rutiere estimate până la centrele economice.`, `Национальные и местные дороги по нумерации OpenStreetMap, ${ctx.station.ru} и оценочные расстояния по дорогам до экономических центров.`, `National and local roads by their OpenStreetMap numbering, ${ctx.station.en} and estimated road distances to the economic centres.`) },
     { key: "context", state: "ready", source: osm, label: T("Împrejurimi", "Окружение", "Surroundings"), title: T("Ce este în jurul terenului", "Что вокруг участка", "What surrounds the site"), text: T("Clădirile, străzile, zonele verzi și apa din jurul adresei — conform OpenStreetMap.", "Здания, улицы, зелёные зоны и вода вокруг адреса — по данным OpenStreetMap.", "Buildings, streets, green areas and water around the address — from OpenStreetMap.") },
@@ -190,7 +185,7 @@ export function standardPack(over: Partial<Record<string, Partial<PackDocument>>
 export type LandSiteInput = Omit<LandAsset, "media" | "layers" | "passport" | "readiness" | "deals" | "pack" | "explorer" | "distances" | "market" | "townGen"> & {
   context: SiteContext;
   distances: Distance[];
-  market: { summary: L; indicators: MarketIndicator[]; record: string; checked: string };
+  market: { summary: L; indicators: MarketIndicator[]; record: string; checked: string; charts?: import("@/data/land/model").MarketChart[] };
   scenarios: DevelopmentScenario[];
   presets: ModelPreset[];
   overrides?: {

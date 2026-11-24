@@ -1,0 +1,50 @@
+/* ==================================================================================================================================
+   DEVELOPMENT CALCULATOR 3.0 — the additions of the 3.0 interface (OWNER «FINANCIAL CORRECTION MANDATE · LAND DEVELOPMENT CALCULATOR
+   3.0», 2026-11-24): the Basic / Professional switch, the statutory and assumption tags, selects and checks inside the groups, the limits
+   of the basic level, the multiple-IRR note, the «not entered» notes, the annual tax table and the NPV matrix. Imported by
+   src/components/land-experience/model.tsx only; every rule is scoped to `.lx3*`. The palette of land-experience.css.
+   ================================================================================================================================== */
+.lx3-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; margin-bottom: .6rem; }
+.lx3-modes button { display: grid; gap: .2rem; min-height: 3.6rem; padding: .7rem 1rem; border: 1px solid var(--lx-hair-strong); border-radius: 2px; background: transparent; color: var(--lx-ink); font: inherit; text-align: left; cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+.lx3-modes button span { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.lx3-modes button em { color: var(--lx-graphite); font-size: .78rem; font-style: normal; line-height: 1.35; }
+.lx3-modes button.is-on { background: var(--lx-ink); border-color: var(--lx-ink); color: #fff; }
+.lx3-modes button.is-on em { color: rgba(255, 255, 255, .8); }
+.lx3-modes button.is-on:focus-visible { outline-color: var(--lx-dg); }
+
+/* tags: «демо» keeps the dashed tag of 2.1; «по закону» and «допущение» are quieter, solid hairline */
+.lx3 .lx-field__demo.lx3-tag { border-style: solid; border-color: var(--lx-hair); color: var(--lx-graphite); font-weight: 600; letter-spacing: .04em; text-transform: none; }
+
+.lx3-select select { flex: 1; min-width: 0; height: 2.8rem; padding: 0 .7rem; border: 0; background: transparent; color: var(--lx-ink); font: inherit; font-size: .88rem; }
+.lx3-select select:focus { outline: none; }
+.lx3-check { align-self: center; }
+
+.lx3-limits { padding: 1.1rem 1.1rem 1.25rem; border: 1px dashed var(--lx-hair-strong); border-radius: 2px; background: transparent; }
+.lx3-limits__t { margin: 0 0 .5rem; font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.lx3-limits ul { margin: 0 0 .75rem; padding-left: 1.1rem; color: var(--lx-graphite); font-size: .84rem; line-height: 1.55; }
+.lx3-limits .lx-link { padding: 0; border-top: 0; border-left: 0; border-right: 0; background: none; font: inherit; font-size: .76rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+
+.lx3-irrnote { margin: .9rem 0 0; color: rgba(255, 255, 255, .82); font-size: .78rem; line-height: 1.5; }
+.lx3-sub { margin-top: 1.1rem; }
+.lx3-notes { margin-top: 1rem; padding: .9rem 1rem; border-left: 2px solid var(--lx-hair-strong); background: rgba(34, 34, 34, .03); }
+.lx3-notes__t { margin: 0 0 .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.lx3-notes ul { margin: 0; padding-left: 1.1rem; color: var(--lx-graphite); font-size: .82rem; line-height: 1.5; }
+.lx3-warn { color: var(--lx-ink); font-weight: 600; }
+
+.lx3-annual td, .lx3-annual th, .lx3-matrix td, .lx3-matrix th { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lx3-matrix td.is-neg { color: var(--lx-graphite); }
+.lx3-matrix td.is-base { font-weight: 700; box-shadow: inset 0 0 0 1px var(--lx-ink); }
+
+/* long values (paybacks, «not unique» IRRs, the purchase maximum) wrap instead of widening the page; the two levels stack on phones */
+.lx3 .lx-costs .is-wrap { display: grid; gap: .2rem; }
+.lx3 .lx-costs .is-wrap dd { text-align: left; white-space: normal; }
+.lx3-modes button span, .lx3-modes button em { overflow-wrap: anywhere; }
+@media (max-width: 479.98px) {
+  .lx3-modes { grid-template-columns: 1fr; }
+  .lx3 .lx-costs div, .lx3 .lx-out__sec div { flex-wrap: wrap; }
+  .lx3 .lx-costs dd, .lx3 .lx-out__sec dd { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+}
+/* WebKit sizes a native select by its longest option: the select fills its field and never widens the group (RO 390 px) */
+.lx3-select, .lx3 .lx-field { min-width: 0; }
+.lx3-select .lx-field__box { min-width: 0; overflow: hidden; }
+.lx3-select select { width: 100%; max-width: 100%; text-overflow: ellipsis; }

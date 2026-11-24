@@ -41,43 +41,51 @@ export function MediaStage({ locale, map, slots, preview }: { locale: SiteLocale
   );
 }
 
-/** DEVELOPMENT SCENARIOS (§7) — one format at a time; «model this scenario» loads its labelled demonstration example into the calculator. */
-export function ScenarioSelector({ locale, scenarios, preview }: { locale: SiteLocale; scenarios: DevelopmentScenario[]; preview: boolean }) {
+/**
+ * DEVELOPMENT SCENARIOS (§7; R3 «DROCHIA R3» §3) — one format at a time; the concept architecture of the format large beside it (a
+ * generated CONCEPT visual, always captioned as such — never the site, never an approved project); «model this scenario» loads its
+ * labelled demonstration example into the calculator. The architect's own visual (`visual`) is shown when it exists.
+ */
+export function ScenarioSelector({ locale, scenarios, preview, conceptCaption }: { locale: SiteLocale; scenarios: DevelopmentScenario[]; preview: boolean; conceptCaption?: string }) {
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
   const s = scenarios[active];
   const list = (items: { ro: string; ru: string; en: string }[]) => <ul className="lx-scen__list">{items.map((x) => <li key={x.en}>{x[locale]}</li>)}</ul>;
   return (
-    <div className="lx-scen">
+    <div className="lx-scen r3x-scenwrap">
       <p className="lx-scen__ask">{c.scenAsk[locale]}</p>
       <div className="lx-scen__tabs" role="tablist" aria-label={c.scenAsk[locale]}>
         {scenarios.map((x, i) => (
           <button key={x.key} type="button" role="tab" id={`lx-scen-${x.key}`} aria-controls="lx-scen-panel" aria-selected={i === active} className={`lx-scen__tab${i === active ? " is-on" : ""}`} onClick={() => setActive(i)}>
             <span className="lx-scen__no">{String(i + 1).padStart(2, "0")}</span>
-            <span className="lx-scen__name">{x.title[locale]}</span>
+            <span className="lx-scen__name">{x.title[locale].replace(" · ", "\u00a0· ")}</span>
             <span className="lx-scen__line">{x.line[locale]}</span>
             <span className="lx-scen__chev" aria-hidden="true"><Icon size={16} /></span>
           </button>
         ))}
       </div>
-      <div className="lx-scen__panel" role="tabpanel" id="lx-scen-panel" aria-labelledby={`lx-scen-${s.key}`}>
-        <div className="lx-scen__lead">
-          <h3 className="lx-scen__title">{s.title[locale]}</h3>
+      <div className="lx-scen__panel r3x-scen__panel" role="tabpanel" id="lx-scen-panel" aria-labelledby={`lx-scen-${s.key}`}>
+        <figure className="r3x-scen__figure" key={s.key}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- static export; the visual is decorative next to the text */}
+          {s.visual ? <img className="r3x-scen__img" src={s.visual} alt={s.title[locale]} /> : s.concept ? <img className="r3x-scen__img" src={s.concept} alt="" /> : null}
+          {!s.visual && s.concept && conceptCaption ? <figcaption className="r3x-scen__cap"><i aria-hidden="true" />{conceptCaption}</figcaption> : null}
+          {!s.visual && !s.concept && preview ? <p className="lx-scen__slot">{c.visualSlot[locale]}</p> : null}
+        </figure>
+        <div className="r3x-scen__body">
+          <p className="r3x-scen__count">{String(active + 1).padStart(2, "0")} / {String(scenarios.length).padStart(2, "0")}</p>
+          <h3 className="lx-scen__title">{s.title[locale].replace(" · ", "\u00a0· ")}</h3>
           <p className="lx-scen__logic"><span>{c.logic[locale]}</span>{s.logic[locale]}</p>
-          <button type="button" className="lx-btn lx-btn--dark" onClick={() => window.dispatchEvent(new CustomEvent("lx:scenario", { detail: { preset: s.preset } }))}><span>{c.calcThis[locale]}</span><Icon size={16} /></button>
+          <dl className={`lx-scen__grid${open ? " is-open" : ""}`} id="lx-scen-grid">
+            <div><dt>{c.audience[locale]}</dt><dd>{list(s.audience)}</dd></div>
+            <div className="is-check"><dt>{c.checks[locale]}</dt><dd>{list(s.checks)}</dd></div>
+            <div className="is-extra"><dt>{c.needs[locale]}</dt><dd>{list(s.siteNeeds)}</dd></div>
+            <div className="is-extra"><dt>{c.access[locale]}</dt><dd><p>{s.access[locale]}</p></dd></div>
+            <div className="is-extra"><dt>{c.utilities[locale]}</dt><dd>{list(s.utilities)}</dd></div>
+            <div className="is-extra is-risk"><dt>{c.risks[locale]}</dt><dd>{list(s.risks)}</dd></div>
+          </dl>
+          <button type="button" className="lx-scen__more" aria-expanded={open} aria-controls="lx-scen-grid" onClick={() => setOpen(!open)}><span>{(open ? c.scenLess : c.scenMore)[locale]}</span><Icon name="down" size={14} /></button>
+          <button type="button" className="lx-btn lx-btn--light r3x-scen__calc" onClick={() => window.dispatchEvent(new CustomEvent("lx:scenario", { detail: { preset: s.preset } }))}><span>{c.calcThis[locale]}</span><Icon size={16} /></button>
         </div>
-        {/* R2 §1: on phones the audience and the checks stay, the rest folds (wide screens always show all six — land-experience.css) */}
-        <dl className={`lx-scen__grid${open ? " is-open" : ""}`} id="lx-scen-grid">
-          <div><dt>{c.audience[locale]}</dt><dd>{list(s.audience)}</dd></div>
-          <div className="is-check"><dt>{c.checks[locale]}</dt><dd>{list(s.checks)}</dd></div>
-          <div className="is-extra"><dt>{c.needs[locale]}</dt><dd>{list(s.siteNeeds)}</dd></div>
-          <div className="is-extra"><dt>{c.access[locale]}</dt><dd><p>{s.access[locale]}</p></dd></div>
-          <div className="is-extra"><dt>{c.utilities[locale]}</dt><dd>{list(s.utilities)}</dd></div>
-          <div className="is-extra is-risk"><dt>{c.risks[locale]}</dt><dd>{list(s.risks)}</dd></div>
-        </dl>
-        <button type="button" className="lx-scen__more" aria-expanded={open} aria-controls="lx-scen-grid" onClick={() => setOpen(!open)}><span>{(open ? c.scenLess : c.scenMore)[locale]}</span><Icon name="down" size={14} /></button>
-        {/* eslint-disable-next-line @next/next/no-img-element -- the architect's visual, a static export */}
-        {s.visual ? <img className="lx-scen__visual" src={s.visual} alt={s.title[locale]} /> : preview ? <p className="lx-scen__slot">{c.visualSlot[locale]}</p> : null}
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ const p = {
   infra: T("infrastructură și planificare", "инфраструктура и планирование", "infrastructure and planning"),
   inPack: T("În acest pachet", "В этом пакете", "In this pack"),
   pending: T("Se pregătesc", "Готовятся", "In preparation"),
-  distances: T("Distanțe rutiere (estimare OSRM)", "Расстояния по дорогам (оценка OSRM)", "Road distances (OSRM estimate)"),
+  distances: T("Distanțe rutiere de la oraș (estimare OSRM, nu de la teren)", "Расстояния по дорогам от города (оценка OSRM, не от участка)", "Road distances from the town (OSRM estimate, not from the site)"),
   disclaimer: T("Document de lucru pe baza datelor publicate MEGAPARC și a surselor indicate. Nu este o ofertă, o evaluare sau o confirmare a destinației permise; parametrii de construire ai terenului se verifică.", "Рабочий документ на основе опубликованных данных MEGAPARC и указанных источников. Не оферта, не оценка и не подтверждение разрешённого использования; параметры застройки участка проверяются.", "A working document based on MEGAPARC's published data and the sources named. Not an offer, a valuation or a confirmation of the permitted use; the site's development parameters are being verified."),
 };
 

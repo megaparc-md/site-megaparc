@@ -1,143 +1,91 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useId, useMemo, useRef, useState } from "react";
 import { CurrencyBar, currencyReportLines, useFx } from "@/components/currency-bar";
+import { mc as t } from "@/components/land-experience/model-copy";
 import { NumberInput, type NumberFormat } from "@/components/number-input";
-import { T } from "@/data/leasing-experience-model";
+import { nbmSnapshot } from "@/data/nbm-rate";
 import type { ModelPreset } from "@/data/land/model";
 import { amountIn, convert, shown, type Currency } from "@/lib/currency";
-import { breakEven, btsAnalysis, emptyInputs, maxLandValue, quarterly, run, sensitivity, variantOf, type InputKey, type Inputs, type ModelKey, type Summary, type VariantKey } from "@/lib/land-finance";
+import {
+  breakEven, emptyInputs, ENGINE_VERSION, matrix, MODEL_NAME, purchaseMax, quarterly, run, sensitivity, variantOf,
+  type AdvanceMethod, type Amort, type DrawOrder, type Inputs, type IrrResult, type IssueKey, type Ledger, type LossMode, type ModelKey, type NoteKey, type NumKey, type Result, type Summary, type VariantKey, type VatFunding,
+} from "@/lib/land-finance-v3";
 import { numberLocale, type Localized, type SiteLocale } from "@/lib/site-data";
+import "@/app/land-model-v3.css";
 
 /**
- * DEVELOPMENT CALCULATOR 2.0 (§10–§11) — the interface of src/lib/land-finance.ts. The only pre-filled value is the published site area;
- * a demonstration example loads only on request and is labelled on screen until the visitor changes a figure. Results: the project
- * without financing and the equity view apart, the land's economic value apart from the cash invested, the cost lines apart, the monthly
- * flows as a quarterly chart, realistic / optimistic / pessimistic, the sensitivity and the break-even point. Not a valuation, not an
- * offer, not a forecast — and never MEGAPARC's own figures.
- *
- * R2 (OWNER «DROCHIA MASTER TEMPLATE R2», 2026-11-23): the return WITH the land at its market (economic) value, the return on the
- * ADDITIONAL investment in construction (the same flows without the land line), the equity return, the MAXIMUM land value at the hurdle
- * rate (src/lib/land-finance.ts maxLandValue), the minimum BTS rent; MDL | EUR with the existing NBM mechanism (src/lib/currency.ts,
- * src/lib/nbm.ts, CurrencyBar — every money field keeps the value as typed and its currency, the engine computes in EUR, the results are
- * re-expressed; the demonstration values are euros); every field still holding a demonstration value carries a «демо» tag; the
- * calculation is sent from the visitor's own mail app or copied, exactly as on Moscova 20 — nothing is stored or sent by the site.
+ * DEVELOPMENT CALCULATOR 3.0 — the interface of src/lib/land-finance-v3.ts (OWNER «FINANCIAL CORRECTION MANDATE · LAND DEVELOPMENT
+ * CALCULATOR 3.0», 2026-11-24). Two levels on the one verified engine:
+ *   · BASIC — the minimum fields of a commercial screening; VAT, the loan, the real-estate tax and the professional tax parameters are not
+ *     applied (the statutory defaults are used) and the limits are stated next to the results;
+ *   · PROFESSIONAL — the land's tax basis and book value, the profit tax with depreciation, losses, the interest limit and the payment
+ *     calendar, VAT with the refund, the real-estate tax, the loan (fee, draws, grace, amortisation, refinancing), the debt metrics,
+ *     scenarios, the sensitivity and the two-factor NPV matrix.
+ * Pre-filled values: the published site area; the statutory defaults (tagged «по закону», each with its article); the start date
+ * (tagged «допущение»). A demonstration example loads only on request; every field still holding a demonstration value keeps its «демо»
+ * tag across the model switches until the visitor changes it or accepts the values (Codex P1). The report carries everything needed to
+ * reproduce the calculation (Codex P1). Nothing is stored or sent by the site.
  */
 
-const L = (ro: string, ru: string, en: string) => T(ro, ru, en);
-const t = {
-  models: { sale: L("A · Construire și vânzare", "A · Строительство и продажа", "A · Build and sell"), hold: L("B · Construire și închiriere", "B · Строительство и аренда", "B · Build and lease"), bts: L("C · Build-to-Suit", "C · Build-to-Suit", "C · Build-to-Suit") } as Record<ModelKey, Localized>,
-  modelLine: { sale: L("Construiți, vindeți spațiile, încasările după finalizare.", "Строите, продаёте площади, поступления после ввода.", "Build, sell the space, receipts after completion."), hold: L("Construiți și păstrați: chirie, ocupare, valoarea la ieșire.", "Строите и держите: аренда, заполнение, стоимость на выходе.", "Build and hold: rent, occupancy, the exit value."), bts: L("Construiți pentru un chiriaș: chiria minimă pentru randamentul cerut.", "Строите под арендатора: минимальная ставка для требуемой доходности.", "Build for one tenant: the minimum rent for the required return.") } as Record<ModelKey, Localized>,
-  label: L("Model de dezvoltare 2.0", "Модель девелопмента 2.0", "Development model 2.0"),
-  demo: L("Exemplu demonstrativ", "Демонстрационный пример", "Demonstration example"),
-  clear: L("Goliți", "Очистить", "Clear"),
-  demoNote: L("Valori demonstrative — nu sunt datele terenului, nu sunt o evaluare de piață și nu sunt o recomandare. Înlocuiți-le cu ale dumneavoastră.", "Демонстрационные значения — не данные участка, не рыночная оценка и не рекомендация. Замените своими.", "Demonstration values — not site data, not a market valuation and not a recommendation. Replace them with your own."),
-  groups: { site: L("Teren și clădire", "Участок и здание", "Site and building"), cost: L("Costuri de dezvoltare · fără TVA", "Затраты на девелопмент · без НДС", "Development costs · excl. VAT"), land: L("Terenul", "Земля", "Land"), time: L("Termene", "Сроки", "Schedule"), exit: { sale: L("Vânzare", "Продажа", "Sale"), hold: L("Închiriere și ieșire", "Аренда и выход", "Leasing and exit"), bts: L("Contractul build-to-suit", "Договор build-to-suit", "The build-to-suit lease") } as Record<ModelKey, Localized>, early: L("Încetare anticipată", "Досрочное прекращение аренды", "Early termination"), finance: L("Finanțare, impozite, actualizare", "Финансирование, налоги, дисконтирование", "Financing, tax, discounting") },
-  f: {
-    siteArea: L("Suprafața terenului", "Площадь участка", "Site area"), coverage: L("Ocuparea terenului (ipoteză)", "Застройка участка (допущение)", "Site coverage (assumption)"), floors: L("Niveluri (ipoteză)", "Этажность (допущение)", "Floors (assumption)"), gbaManual: L("Suprafața clădirii GBA — manual", "Площадь здания GBA — вручную", "Gross building area GBA — manual"), efficiency: { sale: L("Ponderea suprafeței vândute", "Доля продаваемой площади", "Sellable share"), hold: L("Ponderea suprafeței închiriabile", "Доля арендуемой площади", "Leasable share"), bts: L("Ponderea suprafeței închiriate", "Доля арендуемой площади", "Leasable share") } as Record<ModelKey, Localized>,
-    hard: L("Construcție", "Строительство", "Construction"), design: L("Proiectare", "Проектирование", "Design"), networks: L("Rețele externe", "Внешние инженерные сети", "External networks"), landscaping: L("Amenajare", "Благоустройство", "Landscaping and site works"), permits: L("Autorizații și avize", "Разрешения и согласования", "Permits and approvals"), contingency: L("Rezervă", "Резерв", "Contingency"),
-    landValue: L("Valoarea de piață (economică) a terenului", "Рыночная (экономическая) стоимость земли", "Market (economic) value of the land"),
-    preMonths: L("Termenul proiectării și autorizării", "Срок проектирования и разрешений", "Design and permitting period"), buildMonths: L("Termenul construcției", "Срок строительства", "Construction period"), salesMonths: L("Perioada vânzărilor", "Период продаж", "Sales period"), leaseUp: L("Ocupare până la nivelul stabil", "Выход на стабильное заполнение", "Lease-up to stabilised occupancy"),
-    price: L("Preț de vânzare", "Цена продажи", "Sale price"), commission: L("Costuri de vânzare", "Затраты на продажу", "Sales costs"),
-    rent: L("Chirie", "Арендная ставка", "Rent"), occupancy: L("Ocupare stabilă", "Стабильное заполнение", "Stabilised occupancy"), opex: L("Costuri operaționale nerecuperabile", "Невозмещаемые операционные расходы", "Non-recoverable operating costs"), indexation: L("Indexare anuală", "Ежегодная индексация", "Annual indexation"), holdYears: L("Perioada de deținere", "Срок владения", "Hold period"), exitYield: L("Randament la ieșire", "Доходность на выходе (exit yield)", "Exit yield"), exitCosts: L("Costuri la ieșire", "Затраты на выходе", "Exit costs"),
-    leaseYears: L("Durata contractului", "Срок договора", "Lease term"), target: L("Randamentul cerut de proprietar", "Требуемая доходность собственника", "Owner's required return"), rentBts: L("Chiria propusă (opțional)", "Предлагаемая ставка (необязательно)", "Proposed rent (optional)"),
-    breakYear: L("Chiriașul pleacă după", "Арендатор уходит через", "The tenant leaves after"), voidMonths: L("Perioadă fără chiriaș", "Простой без арендатора", "Void period"), reletPct: L("Chiria la relocare", "Ставка при повторной сдаче", "Re-letting rent"), breakFee: L("Compensație la plecare", "Компенсация при уходе", "Termination fee"),
-    ltc: L("Credit · din costurile de dezvoltare", "Кредит · доля от затрат на девелопмент", "Loan · share of the development cost"), interest: L("Dobânda anuală", "Ставка кредита, годовая", "Loan interest, annual"), tax: L("Impozit pe profit (ipoteză)", "Налог на прибыль (допущение)", "Profit tax (assumption)"), discount: L("Rata de actualizare pentru NPV", "Ставка дисконтирования для NPV", "Discount rate for NPV"),
-  } as Record<string, Localized | Record<ModelKey, Localized>>,
-  hints: {
-    siteArea: L("datele publicate MEGAPARC", "опубликованные данные MEGAPARC", "MEGAPARC's published data"), coverage: L("nu este POT — POT se verifică", "не POT — POT проверяется", "not POT — POT is being verified"), floors: L("nu este regimul de înălțime", "не регламент высотности", "not the height limit"), gbaManual: L("înlocuiește ocuparea × nivelurile", "заменяет застройку × этажность", "replaces coverage × floors"),
-    landValue: L("valoarea terenului deja deținut, dacă o includeți — nu este o evaluare MEGAPARC", "стоимость уже принадлежащего участка, если учитываете — это не оценка MEGAPARC", "the value of the land already owned, if you include it — not a MEGAPARC valuation"), contingency: L("o dată, pe cele cinci linii de mai sus", "один раз, на пять строк выше", "once, on the five lines above"), design: L("din construcție", "от строительства", "of construction"),
-    rentBts: L("gol = se folosește chiria minimă", "пусто — используется минимальная ставка", "empty = the minimum rent is used"), breakFee: L("luni de chirie", "месяцев аренды", "months of rent"), opexBts: L("în BTS chiriașul plătește de regulă exploatarea", "в BTS эксплуатацию обычно оплачивает арендатор", "in BTS the tenant usually pays the operation"),
-  },
-  includeLand: L("Includ terenul ca aport în proiect", "Учитывать землю как вклад в проект", "Include the land as a contribution to the project"),
-  advanced: L("Parametri avansați", "Расширенные параметры", "Advanced parameters"),
-  u: { m2: L("m²", "м²", "m²"), pct: L("%", "%", "%"), x: L("×", "×", "×"), eurm2: L("€/m²", "€/м²", "€/m²"), eur: L("€", "€", "€"), mo: L("luni", "мес.", "months"), yr: L("ani", "лет", "years"), eurm2m: L("€/m²·lună", "€/м²·мес.", "€/m²·month") },
-  empty: L("Completați ipotezele — rezultatul apare aici.", "Заполните допущения — результат появится здесь.", "Fill in the assumptions — the result appears here."),
-  emptyDemo: L("Sau deschideți un exemplu demonstrativ marcat și înlocuiți cifrele cu ale dumneavoastră.", "Или откройте отмеченный демонстрационный пример и замените цифры своими.", "Or open a labelled demonstration example and replace the figures with your own."),
-  more: L("și încă", "и ещё", "and"),
-  missing: L("Lipsesc", "Не хватает", "Missing"),
-  range: L("Verificați valoarea", "Проверьте значение", "Check the value"),
-  gba: L("GBA (ocupare × niveluri sau manual)", "GBA (застройка × этажность или вручную)", "GBA (coverage × floors or manual)"),
-  breakRange: L("încetarea trebuie să fie înainte de sfârșitul contractului", "уход арендатора — раньше окончания договора", "the break must come before the lease ends"),
-  out: {
-    profit: L("Profit după finanțare și impozit", "Прибыль после финансирования и налога", "Profit after financing and tax"), irrProject: L("IRR al proiectului · fără finanțare", "IRR проекта · без финансирования", "Project IRR · unlevered"), irrEquity: L("IRR al capitalului propriu", "IRR собственного капитала", "Equity IRR"), npv: L("NPV al proiectului", "NPV проекта", "Project NPV"),
-    roi: L("ROI · pe costul total", "ROI · на полную стоимость", "ROI · on the full cost"), margin: L("Marja pe venit", "Маржа к выручке", "Margin on revenue"), peak: L("Necesarul maxim de capital propriu", "Пиковая потребность в капитале", "Peak equity requirement"), payback: L("Recuperare", "Окупаемость", "Payback"), irrCash: L("IRR pe banii investiți · fără teren", "IRR денежных вложений · без земли", "IRR on cash invested · without land"),
-    noi: L("NOI stabilizat, anual", "Стабилизированный NOI, в год", "Stabilised NOI, per year"), yoc: L("Yield on Cost", "Yield on Cost", "Yield on Cost"), terminal: L("Valoarea reziduală la ieșire", "Остаточная стоимость на выходе", "Residual value at exit"), simple: L("Recuperare simplă", "Простая окупаемость", "Simple payback"),
-    minRent: L("Chiria minimă necesară", "Минимально необходимая ставка", "Minimum required rent"), atRent: L("La chiria", "При ставке", "At the rent"), investment: L("Investiția inițială", "Первоначальные инвестиции", "Initial investment"), early: L("Cu încetare anticipată", "При досрочном прекращении", "With early termination"), full: L("Pe tot termenul", "На весь срок", "Full term"), rentYear: L("Chiria anului 1", "Аренда за 1-й год", "Year-1 rent"),
-    notDefined: L("nu se determină", "не определяется", "not defined"), months: L("luni de la start", "мес. от старта", "months from the start"), yearsOpen: L("ani de la deschidere", "лет от открытия", "years from opening"), notWithin: L("nu în perioada modelului", "не в периоде модели", "not within the model period"),
-  },
-  costs: { title: L("Structura costurilor — fiecare linie o dată", "Структура затрат — каждая строка один раз", "Cost structure — each line once"), hard: L("Construcție", "Строительство", "Construction"), design: L("Proiectare", "Проектирование", "Design"), networks: L("Rețele externe", "Внешние сети", "External networks"), landscaping: L("Amenajare", "Благоустройство", "Landscaping"), permits: L("Autorizații", "Разрешения", "Permits"), contingency: L("Rezervă", "Резерв", "Contingency"), cash: L("Investiții în bani", "Денежные инвестиции", "Cash invested"), land: L("Valoarea economică a terenului", "Экономическая стоимость земли", "Economic value of the land"), economic: L("Baza economică a proiectului", "Экономическая база проекта", "Economic base of the project"), interest: L("Dobânzi", "Проценты по кредиту", "Interest"), saleCosts: { sale: L("Costuri de vânzare", "Затраты на продажу", "Sales costs"), hold: L("Exploatare și costuri la ieșire", "Эксплуатация и затраты на выходе", "Operating and exit costs"), bts: L("Exploatare și costuri la ieșire", "Эксплуатация и затраты на выходе", "Operating and exit costs") } as Record<ModelKey, Localized>, tax: L("Impozite", "Налоги", "Tax"), revenue: { sale: L("Venit din vânzări", "Выручка от продаж", "Sales revenue"), hold: L("Chirii pe perioada deținerii", "Аренда за срок владения", "Rent over the hold"), bts: L("Chirii pe durata contractului", "Аренда за срок договора", "Rent over the lease") } as Record<ModelKey, Localized>, gba: L("Suprafața clădirii (GBA)", "Площадь здания (GBA)", "Gross building area (GBA)"), net: { sale: L("Suprafața vândută", "Продаваемая площадь", "Sellable area"), hold: L("Suprafața închiriabilă", "Арендуемая площадь", "Leasable area"), bts: L("Suprafața închiriabilă", "Арендуемая площадь", "Leasable area") } as Record<ModelKey, Localized> },
-  chart: { title: L("Fluxul de numerar al proiectului, pe trimestre", "Денежный поток проекта по кварталам", "The project's cash flow by quarter"), in: L("Încasări", "Поступления", "Inflows"), outflow: L("Plăți", "Платежи", "Outflows"), cum: L("Cumulat", "Накопленный итог", "Cumulative"), table: L("Tabelul fluxurilor", "Таблица потоков", "Flow table"), q: L("Trim.", "Кв.", "Q") },
-  variants: { title: L("Trei scenarii", "Три сценария", "Three scenarios"), realistic: L("Realist", "Реалистичный", "Realistic"), optimistic: L("Optimist", "Оптимистичный", "Optimistic"), pessimistic: L("Pesimist", "Пессимистичный", "Pessimistic"), note: L("Realist = ipotezele dumneavoastră. Optimist: venit +10 %, construcție −5 %, termen −2 luni. Pesimist: venit −10 %, construcție +10 %, termen +3 luni.", "Реалистичный — ваши допущения. Оптимистичный: выручка +10 %, строительство −5 %, срок −2 мес. Пессимистичный: выручка −10 %, строительство +10 %, срок +3 мес.", "Realistic = your assumptions. Optimistic: revenue +10%, construction −5%, schedule −2 months. Pessimistic: revenue −10%, construction +10%, schedule +3 months.") },
-  sens: { title: L("Sensibilitate", "Чувствительность", "Sensitivity"), capex: L("Costul construcției ±10 %", "Стоимость строительства ±10 %", "Construction cost ±10%"), revenue: { sale: L("Prețul de vânzare ±10 %", "Цена продажи ±10 %", "Sale price ±10%"), hold: L("Chiria ±10 %", "Арендная ставка ±10 %", "Rent ±10%"), bts: L("Chiria ±10 %", "Арендная ставка ±10 %", "Rent ±10%") } as Record<ModelKey, Localized>, time: L("Termenul construcției ±3 luni", "Срок строительства ±3 мес.", "Construction time ±3 months"), low: L("Mai favorabil", "Лучше", "Better"), high: L("Mai puțin favorabil", "Хуже", "Worse"), minRentLow: L("Chiria minimă", "Минимальная ставка", "Minimum rent") },
-  be: { title: L("Pragul de rentabilitate", "Точка безубыточности", "Break-even point"), priceNpv: L("Prețul la care NPV = 0", "Цена, при которой NPV = 0", "Price at which NPV = 0"), priceProfit: L("Prețul la care profitul = 0", "Цена, при которой прибыль = 0", "Price at which profit = 0"), rentNpv: L("Chiria la care NPV = 0", "Ставка, при которой NPV = 0", "Rent at which NPV = 0"), occNpv: L("Ocuparea la care NPV = 0", "Заполнение, при котором NPV = 0", "Occupancy at which NPV = 0"), btsNote: L("În BTS chiria minimă este chiar pragul: NPV = 0 la randamentul cerut.", "В BTS минимальная ставка и есть точка безубыточности: NPV = 0 при требуемой доходности.", "In BTS the minimum rent is the break-even: NPV = 0 at the required return."), none: L("nu se atinge în interval", "не достигается в диапазоне", "not reached in range") },
-  r2: {
-    demoTag: L("demo", "демо", "demo"),
-    demoFields: L("Câmpurile cu valori demonstrative sunt marcate «demo».", "Поля с демонстрационными значениями отмечены «демо».", "Fields holding demonstration values are tagged «demo»."),
-    landTitle: L("Terenul și randamentul", "Земля и доходность", "Land and return"),
-    irrLand: L("Randamentul proiectului cu valoarea de piață a terenului (IRR)", "Доходность проекта с учётом рыночной стоимости земли (IRR)", "Project return with the land at market value (IRR)"),
-    noLand: L("valoarea terenului nu este introdusă", "стоимость земли не задана", "land value not entered"),
-    irrBuild: L("Randamentul investițiilor suplimentare în construcție (fără valoarea terenului)", "Доходность дополнительных инвестиций в строительство (без стоимости земли)", "Return on the additional investment in construction (without the land value)"),
-    npvBuild: L("NPV al investițiilor suplimentare", "NPV дополнительных инвестиций", "NPV of the additional investment"),
-    maxLand: L("Valoarea maximă admisibilă a terenului la randamentul de", "Максимально допустимая стоимость земли при доходности", "Maximum land value at a return of"),
-    below: L("proiectul nu atinge rata nici cu terenul la zero", "проект не достигает нормы даже при нулевой стоимости земли", "the project misses the rate even with free land"),
-    needRent: L("introduceți chiria propusă", "укажите предлагаемую ставку", "enter the proposed rent"),
-    landOnce: L("Terenul se ia în calcul o singură dată: valoarea economică a terenului deja deținut — aport la luna 0; investițiile în bani — doar construcția și costurile.", "Земля учитывается один раз: экономическая стоимость уже принадлежащего участка — вклад в месяц 0; денежные вложения — только строительство и затраты.", "The land is counted once: the economic value of the land already owned is the contribution at month 0; the cash invested is the construction and the costs only."),
-    moreDetails: L("Detaliile calculului: costuri, fluxuri, scenarii, sensibilitate", "Подробности расчёта: затраты, потоки, сценарии, чувствительность", "Calculation details: costs, flows, scenarios, sensitivity"),
-    lessDetails: L("Ascundeți detaliile calculului", "Свернуть подробности расчёта", "Hide the calculation details"),
-    send: {
-      mail: L("Trimiteți calculul prin e-mail", "Отправить расчёт по e‑mail", "Send the calculation by e-mail"),
-      copy: L("Copiați calculul", "Скопировать расчёт", "Copy the calculation"),
-      note: L("Se deschide aplicația dumneavoastră de e-mail cu o scrisoare pregătită către MEGAPARC — verificați-o și trimiteți-o singur; destinatarul poate fi schimbat. Dacă aplicația nu s-a deschis sau textul e incomplet, copiați calculul.", "Откроется ваше почтовое приложение с готовым письмом в MEGAPARC — проверьте его и отправьте сами, адресата можно изменить. Если приложение не открылось или текст неполный, скопируйте расчёт.", "Your own mail app opens with a ready message to MEGAPARC — check it and send it yourself; the recipient can be changed. If the app did not open or the text is incomplete, copy the calculation."),
-      copied: L("Calculul a fost copiat — inserați-l într-o scrisoare sau un mesaj.", "Расчёт скопирован — вставьте его в письмо или мессенджер.", "The calculation is copied — paste it into an e-mail or a message."),
-      manual: L("Copierea automată nu a reușit — selectați textul de mai jos și copiați-l.", "Скопировать автоматически не удалось — выделите текст ниже и скопируйте его.", "Automatic copy failed — select the text below and copy it."),
-      subject: L("{place} — calculul dezvoltării", "{place} — расчёт девелопмента", "{place} — development calculation"),
-      title: L("{place} — calculul dezvoltării (modelul 2.0)", "{place} — расчёт девелопмента (модель 2.0)", "{place} — development calculation (model 2.0)"),
-      source: L("Calculatorul MEGAPARC", "Калькулятор MEGAPARC", "MEGAPARC calculator"),
-      date: L("data calculului", "дата расчёта", "date of calculation"),
-      intro: L("Calcul ilustrativ pe ipotezele introduse — nu este o evaluare, o ofertă sau o recomandare de investiții.", "Иллюстративный расчёт по введённым допущениям — не оценка, не предложение и не инвестиционная рекомендация.", "An illustrative calculation on the entered assumptions — not a valuation, an offer or an investment recommendation."),
-      model: L("Model", "Модель", "Model"),
-      results: L("REZULTATE (fără TVA)", "РЕЗУЛЬТАТЫ (без НДС)", "RESULTS (excl. VAT)"),
-      inputs: L("DATE INTRODUSE", "ИСХОДНЫЕ ДАННЫЕ", "INPUTS"),
-      notes: L("REZERVE", "ОГОВОРКИ", "NOTES"),
-    },
-  },
-  disclaimer: L("Calcul ilustrativ pe ipotezele vizitatorului sau pe un exemplu demonstrativ marcat. Nu este o evaluare, o ofertă, o prognoză a proiectului sau o recomandare de investiții. Toate sumele — fără TVA; impozitul este simplificat (fără amortizare și reportarea pierderilor). Parametrii de construire ai terenului (destinația, POT, CUT, înălțimea, rețelele) nu sunt stabiliți.", "Иллюстративный расчёт на допущениях посетителя или на отмеченном демонстрационном примере. Не оценка, не предложение, не прогноз проекта и не инвестиционная рекомендация. Все суммы — без НДС; налог упрощён (без амортизации и переноса убытков). Параметры застройки участка (назначение, POT, CUT, высотность, сети) не определены.", "An illustrative calculation on the visitor's assumptions or a labelled demonstration example. Not a valuation, an offer, a project forecast or an investment recommendation. All amounts excl. VAT; the tax is simplified (no depreciation, no loss carry-forward). The site's development parameters (use, POT, CUT, height, utilities) are not established."),
-  method: L("Metodologie: fluxuri lunare; IRR anualizat (1 + m)^12 − 1; NPV la rata efectivă lunară; terenul — aport la luna 0, niciodată în CAPEX și nici deducere fiscală.", "Методика: помесячные потоки; IRR в годовом выражении (1 + m)^12 − 1; NPV по эффективной месячной ставке; земля — вклад в месяц 0, никогда не в CAPEX и не налоговый вычет.", "Method: monthly flows; IRR annualised (1 + m)^12 − 1; NPV at the effective monthly rate; land — a contribution at month 0, never in CAPEX and never a tax deduction."),
-};
+type Mode = "basic" | "pro";
+type State = Record<NumKey, string>;
+type Flags = { includeLand: boolean; capitalizeInterest: boolean; vatOn: boolean; vatOnRent: boolean; vatOnSale: boolean; vatRefund: boolean; refi: boolean };
+type Enums = { lossMode: LossMode; advanceMethod: AdvanceMethod; drawOrder: DrawOrder; amort: Amort; vatFunding: VatFunding };
+type UnitKey = "m2" | "pct" | "x" | "eurm2" | "eur" | "mo" | "yr" | "eurm2m" | "eurYr" | "pctYr" | "year" | "month";
+type Field = { key: NumKey; unit: UnitKey; fmt: NumberFormat; hint?: string };
 
-type UnitKey = "m2" | "pct" | "x" | "eurm2" | "eur" | "mo" | "yr" | "eurm2m";
-type Field = { key: InputKey; unit: UnitKey; fmt: NumberFormat; hint?: Localized };
-const moneyFmt: NumberFormat = { group: true, decimals: 0, maxInt: 12 };
+const money: NumberFormat = { group: true, decimals: 0, maxInt: 12 };
 const rate: NumberFormat = { group: false, decimals: 2, maxInt: 3 };
-const area: NumberFormat = { group: true, decimals: 0, maxInt: 9 };
-const whole: NumberFormat = { group: false, decimals: 0, maxInt: 3 };
-const price: NumberFormat = { group: true, decimals: 2, maxInt: 7 };
+const areaF: NumberFormat = { group: true, decimals: 0, maxInt: 9 };
+const whole: NumberFormat = { group: false, decimals: 0, maxInt: 4 };
+const priceF: NumberFormat = { group: true, decimals: 2, maxInt: 7 };
 
-const KEYS: InputKey[] = ["siteArea", "coverage", "floors", "gbaManual", "efficiency", "hard", "design", "networks", "landscaping", "permits", "contingency", "landValue", "preMonths", "buildMonths", "ltc", "interest", "tax", "discount", "price", "salesMonths", "commission", "rent", "occupancy", "leaseUp", "opex", "indexation", "holdYears", "exitYield", "exitCosts", "leaseYears", "target", "breakYear", "voidMonths", "reletPct", "breakFee"];
-/** the money inputs: kept as typed with the currency they were typed in (src/lib/currency.ts); the engine reads them in EUR */
-const MONEY = new Set<InputKey>(["hard", "networks", "landscaping", "permits", "landValue", "price", "rent"]);
-type State = Record<InputKey, string>;
-const toCanon = (x: number | undefined) => (x === undefined ? "" : String(x));
+const NUM_KEYS: NumKey[] = [
+  "startYear", "startMonth", "preMonths", "buildMonths", "siteArea", "coverage", "floors", "gbaManual", "efficiency", "hard", "design", "networks", "landscaping", "permits", "contingency",
+  "landMarket", "landCost", "landBook", "landTaxBasis", "landShare", "price", "salesMonths", "commission", "rent", "occupancy", "leaseUp", "opex", "indexation", "holdYears", "exitYield", "exitCosts",
+  "leaseYears", "target", "breakYear", "voidMonths", "reletPct", "breakFee", "discount", "taxRate", "depYears", "bookDepYears", "lossYears", "capGainInclusion", "interestRateCap",
+  "vatRate", "vatRecoverable", "vatRefundLag", "landTaxAnnual", "buildingTaxRate", "ltc", "interest", "fee", "graceMonths", "amortYears", "refiMonth", "refiLtv", "refiRate", "refiCap", "refiAmortYears",
+];
+/** the money inputs: kept as typed with their currency (src/lib/currency.ts); the engine reads them in EUR */
+const MONEY = new Set<NumKey>(["hard", "networks", "landscaping", "permits", "landMarket", "landCost", "landBook", "landTaxBasis", "price", "rent", "landTaxAnnual"]);
+/** the statutory defaults (docs/finance/LAND_TAX_METHODOLOGY_MD.md) — pre-filled and tagged until changed */
+const LEGAL: Partial<Record<NumKey, number>> = { taxRate: 12, lossYears: 5, depYears: 40, capGainInclusion: 100, vatRate: 20, vatRefundLag: 2, buildingTaxRate: 0.3 };
+const LEGAL_PT_MONTHS = "9";
+/** the default start: the January after the build's NBM record (deterministic for the server and the browser) */
+const START_YEAR = Number(String(nbmSnapshot.date).slice(0, 4)) + 1;
+
 const parse = (s: string) => (s === "" || s === "." ? null : Number.isFinite(Number(s)) ? Number(s) : null);
+const toCanon = (x: number | undefined) => (x === undefined ? "" : String(x));
+const BASIC_SET = new Set<NumKey>(["startYear", "startMonth", "preMonths", "buildMonths", "siteArea", "coverage", "floors", "gbaManual", "efficiency", "hard", "design", "networks", "landscaping", "permits", "contingency", "landMarket", "price", "salesMonths", "commission", "rent", "occupancy", "leaseUp", "opex", "indexation", "holdYears", "exitYield", "exitCosts", "leaseYears", "target", "discount", "taxRate"]);
 
 export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: { locale: SiteLocale; siteArea: number; presets: ModelPreset[]; /** the OWNER-confirmed address, passed by the server page */ mailto: string; place: string }) {
   const uid = useId();
   const root = useRef<HTMLDivElement>(null);
-  const blank = (): State => Object.fromEntries(KEYS.map((k) => [k, k === "siteArea" ? String(siteArea) : ""])) as State;
+  const blank = (): State => {
+    const s = Object.fromEntries(NUM_KEYS.map((k) => [k, ""])) as State;
+    s.siteArea = String(siteArea); s.startYear = String(START_YEAR); s.startMonth = "1";
+    for (const [k, x] of Object.entries(LEGAL)) s[k as NumKey] = String(x);
+    return s;
+  };
+  const freshTags = () => new Set<NumKey>(Object.keys(LEGAL) as NumKey[]);
+  const [mode, setMode] = useState<Mode>("basic");
   const [model, setModel] = useState<ModelKey>("sale");
   const [v, setV] = useState<State>(blank);
-  /** the currency each money field was typed in */
-  const [cur, setCur] = useState<Partial<Record<InputKey, Currency>>>({});
+  const [flags, setFlags] = useState<Flags>({ includeLand: true, capitalizeInterest: true, vatOn: false, vatOnRent: true, vatOnSale: true, vatRefund: true, refi: false });
+  const [enums, setEnums] = useState<Enums>({ lossMode: "free", advanceMethod: "prior", drawOrder: "prorata", amort: "bullet", vatFunding: "equity" });
+  const [ptMonths, setPtMonths] = useState(LEGAL_PT_MONTHS);
+  const [cur, setCur] = useState<Partial<Record<NumKey, Currency>>>({});
   const [display, setDisplay] = useState<Currency>("EUR");
-  const [includeLand, setIncludeLand] = useState(true);
   const [demo, setDemo] = useState<string | null>(null);
-  /** the inputs still holding a demonstration value (cleared one by one as the visitor types) */
-  const [demoKeys, setDemoKeys] = useState<Set<InputKey>>(new Set());
-  // phones open with the detailed tables folded (the key results stay visible). The results render only after the visitor's first
-  // input, never in the server HTML, so reading the screen width here cannot cause a hydration mismatch.
+  /** fields still holding a demonstration value — kept across model switches until changed or accepted (Codex P1) */
+  const [demoKeys, setDemoKeys] = useState<Set<NumKey>>(new Set());
+  /** fields still holding a statutory default */
+  const [lawKeys, setLawKeys] = useState<Set<NumKey>>(freshTags);
+  /** fields still holding the default start date */
+  const [assumed, setAssumed] = useState<Set<NumKey>>(new Set<NumKey>(["startYear", "startMonth"]));
   const [more, setMore] = useState(() => typeof window === "undefined" || !window.matchMedia("(max-width: 719.98px)").matches);
-  const started = demoKeys.size > 0 || KEYS.some((k) => k !== "siteArea" && v[k] !== "");
+  const started = demoKeys.size > 0 || NUM_KEYS.some((k) => !["siteArea", "startYear", "startMonth"].includes(k) && !(k in LEGAL) && v[k] !== "");
   const fx = useFx(started);
   const R = fx.rate;
   const nf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 0 }), [locale]);
@@ -145,133 +93,202 @@ export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: {
   const rf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { minimumFractionDigits: 2, maximumFractionDigits: 2 }), [locale]);
   const sym = display === "EUR" ? "€" : "MDL";
   const m2 = locale === "ru" ? "м²" : "m²";
-  /** an engine amount (EUR) in the display currency */
   const toDisplay = (x: number) => convert(x, "EUR", display, R);
-  const cash = (x: number) => `${x < 0 ? "−" : ""}${nf.format(Math.abs(Math.round(toDisplay(x))))} ${sym}`;
-  const pct = (x: number | null) => (x === null ? t.out.notDefined[locale] : `${x < 0 ? "−" : ""}${pf.format(Math.abs(x * 100))} %`);
+  const cash = (x: number) => `${x < 0 ? "−" : ""}${nf.format(Math.abs(Math.round(toDisplay(x))))} ${sym}`;
+  const pct = (x: number | null) => (x === null ? t.out.notDefined[locale] : `${x < 0 ? "−" : ""}${pf.format(Math.abs(x * 100))} %`);
   const unitRent = display === "EUR" ? (locale === "ru" ? "€/м²·мес." : locale === "ro" ? "€/m²·lună" : "€/m²·month") : (locale === "ru" ? "MDL/м²·мес." : locale === "ro" ? "MDL/m²·lună" : "MDL/m²·month");
   const unitPrice = `${sym}/${m2}`;
   const perM2 = (x: number) => rf.format(toDisplay(x));
-  const unitText = (u: UnitKey) => (u === "eurm2" ? unitPrice : u === "eur" ? sym : u === "eurm2m" ? unitRent : t.u[u][locale]);
+  const unitText = (u: UnitKey) => (u === "eurm2" ? unitPrice : u === "eur" ? sym : u === "eurm2m" ? unitRent : u === "eurYr" ? `${sym}/${t.u.year[locale]}` : t.u[u as "m2" | "pct" | "x" | "mo" | "yr" | "pctYr" | "year" | "month"][locale]);
 
   const load = (preset: ModelPreset) => {
     setModel(preset.model);
     setV({ ...blank(), ...Object.fromEntries(Object.entries(preset.values).map(([k, x]) => [k, toCanon(x)])) } as State);
-    // the demonstration values are euros: they stay euros under the switch (re-expressed, never re-typed)
-    setCur(Object.fromEntries(Object.keys(preset.values).filter((k) => MONEY.has(k as InputKey)).map((k) => [k, "EUR"])) as Partial<Record<InputKey, Currency>>);
-    setIncludeLand(true);
+    setCur(Object.fromEntries(Object.keys(preset.values).filter((k) => MONEY.has(k as NumKey)).map((k) => [k, "EUR"])) as Partial<Record<NumKey, Currency>>);
+    setFlags((f) => ({ ...f, includeLand: true }));
     setDemo(preset.key);
-    setDemoKeys(new Set(Object.keys(preset.values) as InputKey[]));
+    const keys = new Set(Object.keys(preset.values) as NumKey[]);
+    setDemoKeys(keys);
+    setLawKeys(new Set([...freshTags()].filter((k) => !keys.has(k))));
+    setAssumed(new Set<NumKey>(["startYear", "startMonth"]));
   };
-  // a scenario card asks for its model and example (src/components/land-experience/interactive.tsx)
   useEffect(() => {
     const on = (event: Event) => {
       const detail = (event as CustomEvent<{ preset: string }>).detail;
       const preset = presets.find((p) => p.key === detail?.preset);
-      if (preset) {
-        load(preset);
-        root.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      if (preset) { load(preset); root.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }
     };
     window.addEventListener("lx:scenario", on);
     return () => window.removeEventListener("lx:scenario", on);
   });
 
+  const months = useMemo(() => ptMonths.split(/[,;\s]+/).map((x) => Math.round(Number(x))).filter((x) => x >= 1 && x <= 12), [ptMonths]);
   const inputs: Inputs = useMemo(() => {
     const i = emptyInputs(model, null);
-    for (const k of KEYS) (i as Record<InputKey, number | null>)[k] = MONEY.has(k) ? amountIn({ v: v[k], c: cur[k] ?? display }, "EUR", R) : parse(v[k]);
-    i.includeLand = includeLand;
+    for (const k of NUM_KEYS) (i as Record<NumKey, number | null>)[k] = MONEY.has(k) ? amountIn({ v: v[k], c: cur[k] ?? display }, "EUR", R) : parse(v[k]);
+    Object.assign(i, flags, enums, { propertyTaxMonths: months });
+    if (model === "sale") i.vatRefund = false; // a building that is sold is never «in use» by the owner (art. 101^1)
+    if (mode === "basic") {
+      // the basic level: the professional parameters are not applied — the statutory tax defaults, no VAT, no loan, no real-estate tax
+      for (const k of NUM_KEYS) if (!BASIC_SET.has(k)) (i as Record<NumKey, number | null>)[k] = null;
+      Object.assign(i, { vatOn: false, refi: false, propertyTaxMonths: [], lossYears: LEGAL.lossYears, lossMode: "free", advanceMethod: "prior", depYears: LEGAL.depYears, capGainInclusion: LEGAL.capGainInclusion, capitalizeInterest: true, includeLand: flags.includeLand });
+    }
     return i;
-  }, [v, cur, display, R, model, includeLand]);
-  const result = useMemo(() => run(inputs), [inputs]);
-  const bts = useMemo(() => (model === "bts" ? btsAnalysis(inputs) : null), [inputs, model]);
-  const residual = useMemo(() => maxLandValue(inputs), [inputs]);
+  }, [v, cur, display, R, model, flags, enums, months, mode]);
+  const result: Result = useMemo(() => run(inputs), [inputs]);
+  const early = useMemo(() => (model === "bts" && result.ok && (inputs.breakYear ?? 0) > 0 ? run(inputs, { earlyBreak: true, rentOverride: result.ledger.rent }) : null), [inputs, model, result]);
+  const deferred = useDeferredValue(inputs);
+  const heavy = mode === "pro" && more && result.ok;
   const extras = useMemo(() => {
-    if (!result.ok) return null;
+    if (!heavy) return null;
+    const r0 = run(deferred);
+    if (!r0.ok) return null;
     return {
-      variants: (["realistic", "optimistic", "pessimistic"] as VariantKey[]).map((k) => ({ k, r: model === "bts" ? null : run(variantOf(inputs, k)), b: model === "bts" ? btsAnalysis(variantOf(inputs, k)) : null })),
-      sens: sensitivity(inputs),
-      be: breakEven(inputs),
+      variants: (["realistic", "optimistic", "pessimistic"] as VariantKey[]).map((k) => ({ k, r: run(variantOf(deferred, k)) })),
+      sens: sensitivity(deferred),
+      mx: matrix(deferred),
+      be: breakEven(deferred),
+      purchase: purchaseMax(deferred),
     };
-  }, [inputs, result.ok, model]);
-  const shownSummary: Summary | null = model === "bts" ? bts?.full ?? null : result.ok ? result.summary : null;
-  const ledger = model === "bts" ? (bts?.rent ? run({ ...inputs, discount: inputs.target }, { rentOverride: bts.rent }) : null) : result;
+  }, [deferred, heavy]);
   const isDemo = demoKeys.size > 0;
-  const landGiven = includeLand && (inputs.landValue ?? 0) > 0;
+  const landApplied = result.ok ? result.ledger.LANDAPP : 0;
 
-  const set = (key: InputKey) => (canonical: string) => {
+  const untag = (key: NumKey) => {
+    const drop = (old: Set<NumKey>) => { if (!old.has(key)) return old; const next = new Set(old); next.delete(key); return next; };
+    setDemoKeys(drop); setLawKeys(drop); setAssumed(drop);
+  };
+  const set = (key: NumKey) => (canonical: string) => {
     setV((old) => ({ ...old, [key]: canonical }));
     if (MONEY.has(key)) setCur((old) => ({ ...old, [key]: display }));
-    setDemoKeys((old) => { if (!old.has(key)) return old; const next = new Set(old); next.delete(key); return next; });
+    untag(key);
   };
-  const label = (key: InputKey) => {
+  const label = (key: NumKey) => {
     const l = t.f[key === "rent" && model === "bts" ? "rentBts" : key];
     return (("ro" in (l as object)) ? (l as Localized) : (l as Record<ModelKey, Localized>)[model])[locale];
   };
-  const fieldValue = (key: InputKey) => (MONEY.has(key) ? shown({ v: v[key], c: cur[key] ?? display }, display, R) : v[key]);
-  const field = ({ key, unit, fmt, hint }: Field) => (
-    <div className={`lx-field${demoKeys.has(key) ? " is-demo" : ""}`} key={key}>
-      <label htmlFor={`${uid}-${key}`}>{label(key)}{demoKeys.has(key) ? <em className="lx-field__demo">{t.r2.demoTag[locale]}</em> : null}</label>
-      <span className={`lx-field__box${!result.ok && result.issues.some((x) => x.key === key && x.kind === "range") ? " is-bad" : ""}`}>
-        <NumberInput id={`${uid}-${key}`} className="lx-field__input" value={fieldValue(key)} onValueChange={set(key)} locale={locale} format={fmt} describedBy={hint ? `${uid}-${key}-h` : undefined} />
-        <span aria-hidden="true">{unitText(unit)}</span>
-      </span>
-      {hint ? <span className="lx-field__hint" id={`${uid}-${key}-h`}>{hint[locale]}</span> : null}
-    </div>
-  );
-  const siteFields: Field[] = [{ key: "siteArea", unit: "m2", fmt: area, hint: t.hints.siteArea }, { key: "coverage", unit: "pct", fmt: rate, hint: t.hints.coverage }, { key: "floors", unit: "x", fmt: rate, hint: t.hints.floors }, { key: "gbaManual", unit: "m2", fmt: area, hint: t.hints.gbaManual }, { key: "efficiency", unit: "pct", fmt: rate }];
-  const costFields: Field[] = [{ key: "hard", unit: "eurm2", fmt: price }, { key: "design", unit: "pct", fmt: rate, hint: t.hints.design }, { key: "networks", unit: "eur", fmt: moneyFmt }, { key: "landscaping", unit: "eur", fmt: moneyFmt }, { key: "permits", unit: "eur", fmt: moneyFmt }, { key: "contingency", unit: "pct", fmt: rate, hint: t.hints.contingency }];
-  const timeFields: Field[] = [{ key: "preMonths", unit: "mo", fmt: whole }, { key: "buildMonths", unit: "mo", fmt: whole }, ...(model === "sale" ? [{ key: "salesMonths", unit: "mo", fmt: whole } as Field] : model === "hold" ? [{ key: "leaseUp", unit: "mo", fmt: whole } as Field] : [])];
-  const exitFields: Record<ModelKey, Field[]> = {
-    sale: [{ key: "price", unit: "eurm2", fmt: price }, { key: "commission", unit: "pct", fmt: rate }],
-    hold: [{ key: "rent", unit: "eurm2m", fmt: price }, { key: "occupancy", unit: "pct", fmt: rate }, { key: "opex", unit: "pct", fmt: rate }, { key: "indexation", unit: "pct", fmt: rate }, { key: "holdYears", unit: "yr", fmt: whole }, { key: "exitYield", unit: "pct", fmt: rate }, { key: "exitCosts", unit: "pct", fmt: rate }],
-    bts: [{ key: "leaseYears", unit: "yr", fmt: whole }, { key: "indexation", unit: "pct", fmt: rate }, { key: "target", unit: "pct", fmt: rate }, { key: "opex", unit: "pct", fmt: rate, hint: t.hints.opexBts }, { key: "exitYield", unit: "pct", fmt: rate }, { key: "exitCosts", unit: "pct", fmt: rate }, { key: "rent", unit: "eurm2m", fmt: price, hint: t.hints.rentBts }],
-  };
-  const earlyFields: Field[] = [{ key: "breakYear", unit: "yr", fmt: whole }, { key: "voidMonths", unit: "mo", fmt: whole }, { key: "reletPct", unit: "pct", fmt: rate }, { key: "breakFee", unit: "mo", fmt: whole, hint: t.hints.breakFee }];
-  const financeFields: Field[] = [{ key: "ltc", unit: "pct", fmt: rate }, { key: "interest", unit: "pct", fmt: rate }, { key: "tax", unit: "pct", fmt: rate }, ...(model !== "bts" ? [{ key: "discount", unit: "pct", fmt: rate } as Field] : [])];
+  const tagOf = (key: NumKey) => (demoKeys.has(key) ? t.tags.demo : lawKeys.has(key) ? t.tags.law : assumed.has(key) ? t.tags.assumption : null);
+  const fieldValue = (key: NumKey) => (MONEY.has(key) ? shown({ v: v[key], c: cur[key] ?? display }, display, R) : v[key]);
   const issues = result.ok ? [] : result.issues;
-  const issueLabel = (key: string) => (key === "gba" ? t.gba[locale] : key === "break" ? t.breakRange[locale] : label(key as InputKey));
-  const presetList = presets.filter((p) => p.model === model);
-  const hurdleText = residual.hurdle !== null ? `${pf.format(residual.hurdle)} %` : "—";
-  const residualText = residual.value === null ? (model === "bts" ? t.r2.needRent[locale] : "—") : residual.belowHurdle ? t.r2.below[locale] : cash(residual.value);
+  const bad = (key: NumKey) => issues.some((x) => x.key === key && x.kind === "range");
+  const field = ({ key, unit, fmt, hint }: Field) => {
+    const tag = tagOf(key);
+    return (
+      <div className={`lx-field${demoKeys.has(key) ? " is-demo" : ""}${lawKeys.has(key) ? " is-law" : ""}`} key={key}>
+        <label htmlFor={`${uid}-${key}`}>{label(key)}{tag ? <em className={`lx-field__demo${demoKeys.has(key) ? "" : " lx3-tag"}`}>{tag[locale]}</em> : null}</label>
+        <span className={`lx-field__box${bad(key) ? " is-bad" : ""}`}>
+          <NumberInput id={`${uid}-${key}`} className="lx-field__input" value={fieldValue(key)} onValueChange={set(key)} locale={locale} format={fmt} describedBy={hint ? `${uid}-${key}-h` : undefined} />
+          <span aria-hidden="true">{unitText(unit)}</span>
+        </span>
+        {hint ? <span className="lx-field__hint" id={`${uid}-${key}-h`}>{hint}</span> : null}
+      </div>
+    );
+  };
+  const h = (k: string) => t.hints[k]?.[locale];
+  const check = (k: keyof Flags, text: Localized) => (
+    <label className="lx-check lx3-check" key={k}><input type="checkbox" checked={flags[k]} onChange={(e) => setFlags((f) => ({ ...f, [k]: e.target.checked }))} /><span>{text[locale]}</span></label>
+  );
+  const select = <K extends keyof Enums>(k: K, options: Enums[K][]) => {
+    const c = t.choices[k] as Record<string, Localized>;
+    return (
+      <div className="lx-field lx3-select" key={k}>
+        <label htmlFor={`${uid}-${k}`}>{c.label[locale]}</label>
+        <span className="lx-field__box"><select id={`${uid}-${k}`} value={enums[k]} onChange={(e) => setEnums((x) => ({ ...x, [k]: e.target.value as Enums[K] }))}>{options.map((o) => <option key={o} value={o}>{c[o][locale]}</option>)}</select></span>
+      </div>
+    );
+  };
 
-  // the calculation as text — for the visitor's own mail app and the clipboard (no personal data, no internal value; the demonstration flagged)
-  const report = shownSummary && ledger && ledger.ok ? (() => {
-    const s = shownSummary;
-    // built only in the browser (a result exists only after an input): the page address and the date of the calculation
+  const pro = mode === "pro";
+  const siteFields: Field[] = [{ key: "siteArea", unit: "m2", fmt: areaF, hint: h("siteArea") }, { key: "coverage", unit: "pct", fmt: rate, hint: h("coverage") }, { key: "floors", unit: "x", fmt: rate, hint: h("floors") }, { key: "gbaManual", unit: "m2", fmt: areaF, hint: h("gbaManual") }, { key: "efficiency", unit: "pct", fmt: rate }];
+  const costFields: Field[] = [{ key: "hard", unit: "eurm2", fmt: priceF }, { key: "design", unit: "pct", fmt: rate, hint: h("design") }, { key: "networks", unit: "eur", fmt: money }, { key: "landscaping", unit: "eur", fmt: money }, { key: "permits", unit: "eur", fmt: money, hint: h("permits") }, { key: "contingency", unit: "pct", fmt: rate, hint: h("contingency") }];
+  const landFields: Field[] = [{ key: "landMarket", unit: "eur", fmt: money, hint: h("landMarket") }, ...(pro ? [{ key: "landTaxBasis", unit: "eur", fmt: money, hint: h("landTaxBasis") } as Field, { key: "landBook", unit: "eur", fmt: money, hint: h("landBook") } as Field, { key: "landCost", unit: "eur", fmt: money, hint: h("landCost") } as Field, { key: "landShare", unit: "pct", fmt: rate, hint: h("landShare") } as Field] : [])];
+  const timeFields: Field[] = [{ key: "startYear", unit: "year", fmt: whole, hint: h("startYear") }, { key: "startMonth", unit: "month", fmt: whole }, { key: "preMonths", unit: "mo", fmt: whole }, { key: "buildMonths", unit: "mo", fmt: whole }, ...(model === "sale" ? [{ key: "salesMonths", unit: "mo", fmt: whole } as Field] : model === "hold" ? [{ key: "leaseUp", unit: "mo", fmt: whole } as Field] : [])];
+  const exitFields: Record<ModelKey, Field[]> = {
+    sale: [{ key: "price", unit: "eurm2", fmt: priceF }, { key: "commission", unit: "pct", fmt: rate }],
+    hold: [{ key: "rent", unit: "eurm2m", fmt: priceF }, { key: "occupancy", unit: "pct", fmt: rate }, { key: "opex", unit: "pct", fmt: rate }, { key: "indexation", unit: "pct", fmt: rate }, { key: "holdYears", unit: "yr", fmt: whole }, { key: "exitYield", unit: "pct", fmt: rate }, { key: "exitCosts", unit: "pct", fmt: rate }],
+    bts: [{ key: "leaseYears", unit: "yr", fmt: whole }, { key: "indexation", unit: "pct", fmt: rate }, { key: "target", unit: "pct", fmt: rate }, { key: "opex", unit: "pct", fmt: rate, hint: h("opexBts") }, { key: "exitYield", unit: "pct", fmt: rate }, { key: "exitCosts", unit: "pct", fmt: rate }, { key: "rent", unit: "eurm2m", fmt: priceF, hint: h("rentBts") }],
+  };
+  const earlyFields: Field[] = [{ key: "breakYear", unit: "yr", fmt: whole }, { key: "voidMonths", unit: "mo", fmt: whole }, { key: "reletPct", unit: "pct", fmt: rate }, { key: "breakFee", unit: "mo", fmt: whole, hint: h("breakFee") }];
+  const taxFields: Field[] = [{ key: "taxRate", unit: "pct", fmt: rate, hint: h("taxRate") }, ...(pro ? [
+    ...(model !== "sale" ? [{ key: "depYears", unit: "yr", fmt: whole, hint: h("depYears") } as Field, { key: "bookDepYears", unit: "yr", fmt: whole } as Field] : []),
+    { key: "lossYears", unit: "yr", fmt: whole, hint: h("lossYears") } as Field,
+    ...(model !== "sale" ? [{ key: "capGainInclusion", unit: "pct", fmt: rate, hint: h("capGainInclusion") } as Field] : []),
+    { key: "interestRateCap", unit: "pctYr", fmt: rate, hint: h("interestRateCap") } as Field,
+  ] : [])];
+  const vatFields: Field[] = [{ key: "vatRate", unit: "pct", fmt: rate, hint: h("vatRate") }, { key: "vatRecoverable", unit: "pct", fmt: rate }, ...(model !== "sale" ? [{ key: "vatRefundLag", unit: "mo", fmt: whole, hint: h("vatRefundLag") } as Field] : [])];
+  const ptFields: Field[] = [{ key: "landTaxAnnual", unit: "eurYr", fmt: money, hint: h("landTaxAnnual") }, { key: "buildingTaxRate", unit: "pctYr", fmt: rate, hint: h("buildingTaxRate") }];
+  const finFields: Field[] = [{ key: "ltc", unit: "pct", fmt: rate }, { key: "interest", unit: "pctYr", fmt: rate, hint: h("interest") }, { key: "fee", unit: "pct", fmt: rate, hint: h("fee") }, ...(model !== "sale" ? [{ key: "graceMonths", unit: "mo", fmt: whole, hint: h("graceMonths") } as Field, { key: "amortYears", unit: "yr", fmt: whole } as Field] : [])];
+  const refiFields: Field[] = [{ key: "refiMonth", unit: "mo", fmt: whole }, { key: "refiLtv", unit: "pct", fmt: rate }, { key: "refiRate", unit: "pctYr", fmt: rate }, { key: "refiCap", unit: "pct", fmt: rate }, { key: "refiAmortYears", unit: "yr", fmt: whole }];
+  const discountFields: Field[] = model !== "bts" ? [{ key: "discount", unit: "pct", fmt: rate }] : [];
+
+  const issueLabel = (key: IssueKey) => (key in t.issue ? t.issue[key as keyof typeof t.issue][locale] : label(key as NumKey));
+  const presetList = presets.filter((p) => p.model === model);
+  const s = result.ok ? result.summary : null;
+  const L = result.ok ? result.ledger : null;
+  const irrText = (r: IrrResult) => {
+    if (r.kind === "unique") return `${pct(r.annual)}${r.plausible ? "" : ` · ${t.out.implausible[locale]}`}`;
+    if (r.kind === "multiple") return r.nonNegative !== null ? `${pct(r.nonNegative)} †` : t.out.irrMulti[locale];
+    return r.kind === "none-proven" ? t.out.irrNone[locale] : t.out.irrNotFound[locale];
+  };
+  const multiNote = (r: IrrResult[]) => {
+    const m = r.find((x) => x.kind === "multiple" && x.nonNegative !== null);
+    return m && m.kind === "multiple" ? t.out.irrNote[locale].replace("{roots}", m.annual.map((x) => pct(x)).join("; ")) : null;
+  };
+  const pbText = (pb: number | null) => (pb === null || !L ? t.out.notWithin[locale] : pb >= L.C ? `${pb} ${t.out.pbUnit[locale].replace("{c}", String(pb - L.C))}` : `${pb} ${t.u.mo[locale]}`);
+  const hurdleText = s ? `${pf.format(s.hurdle)} %` : "—";
+  const landMaxText = !s ? "—" : model === "bts" && !(inputs.rent && inputs.rent > 0) ? t.land.needRent[locale] : s.landMax.below ? t.land.below[locale] : cash(s.landMax.value ?? 0);
+  const purchaseText = !extras ? "—" : model === "bts" && !(inputs.rent && inputs.rent > 0) ? t.land.needRent[locale] : extras.purchase.value === null ? t.be.none[locale] : extras.purchase.value === 0 ? t.land.below[locale] : `${cash(extras.purchase.value)} · ${t.be.check[locale]}`;
+
+  // the calculation as text — for the visitor's own mail app and the clipboard: everything needed to reproduce it (Codex P1)
+  const report = s && L ? (() => {
     const pageUrl = typeof window === "undefined" ? "" : window.location.href.split("#")[0];
     const today = new Date().toLocaleDateString("ru-RU");
-    const lines: string[] = [t.r2.send.title[locale].replace("{place}", place), `${t.r2.send.source[locale]} · ${t.r2.send.date[locale]} ${today}`, pageUrl, t.r2.send.intro[locale], ...currencyReportLines(locale, display, fx), `${t.r2.send.model[locale]}: ${t.models[model][locale]}`];
+    const lines: string[] = [t.send.title[locale].replace("{place}", place), `${t.send.source[locale]} · ${t.send.date[locale]} ${today}`, pageUrl, t.send.intro[locale],
+      `${t.send.version[locale]}: ${MODEL_NAME} · engine ${ENGINE_VERSION}`, `${t.send.mode[locale]}: ${t.modes[mode][locale]}`, ...currencyReportLines(locale, display, fx), `${t.send.model[locale]}: ${t.models[model][locale]}`];
     if (isDemo) lines.push(t.demoNote[locale]);
-    lines.push("", t.r2.send.results[locale]);
+    lines.push("", t.send.results[locale]);
     const row = (k: string, x: string) => lines.push(`- ${k}: ${x}`);
-    if (model === "bts" && bts?.minRent != null) row(t.out.minRent[locale], `${perM2(bts.minRent)} ${unitRent}`);
-    row(t.r2.irrLand[locale] + (landGiven ? "" : ` (${t.r2.noLand[locale]})`), pct(s.irrProject));
-    row(t.r2.irrBuild[locale], `${pct(s.irrCash)} · NPV ${cash(s.npvCash)}`);
-    row(t.out.irrEquity[locale], pct(s.irrEquity));
-    row(t.out.npv[locale], cash(s.npv));
-    row(`${t.r2.maxLand[locale]} ${hurdleText}`, residualText);
-    if (s.noiStabilised) row(t.out.noi[locale], `${cash(s.noiStabilised)} · ${t.out.yoc[locale]} ${pct(s.yieldOnCost)}`);
-    row(t.out.profit[locale], cash(s.profit));
-    row(t.out.roi[locale], pct(s.roi));
-    row(t.costs.cash[locale], cash(s.costs.cash));
-    row(t.costs.land[locale], cash(s.costs.land));
-    row(t.costs.interest[locale], cash(s.costs.interest));
-    row(t.costs.tax[locale], cash(s.costs.tax));
-    row(t.costs.revenue[model][locale], cash(s.revenue));
-    if (extras && model !== "bts") lines.push(`- ${t.variants.title[locale]} (IRR): ${extras.variants.map((x) => `${t.variants[x.k][locale]} ${x.r?.ok ? pct(x.r.summary.irrProject) : "—"}`).join(" · ")}`);
-    lines.push("", t.r2.send.inputs[locale]);
-    for (const k of KEYS) {
-      const val = MONEY.has(k) ? amountIn({ v: v[k], c: cur[k] ?? display }, display, R) : parse(v[k]);
-      if (val === null || (model !== "bts" && ["leaseYears", "target", "breakYear", "voidMonths", "reletPct", "breakFee"].includes(k)) || (model !== "sale" && ["price", "salesMonths", "commission"].includes(k)) || (model === "sale" && ["rent", "occupancy", "leaseUp", "opex", "indexation", "holdYears", "exitYield", "exitCosts"].includes(k))) continue;
-      const u = [...siteFields, ...costFields, ...timeFields, ...exitFields[model], ...earlyFields, ...financeFields, { key: "landValue", unit: "eur" } as Field].find((f) => f.key === k)?.unit;
-      lines.push(`- ${label(k)}: ${MONEY.has(k) ? rf.format(val).replace(/,00$/, "").replace(/\.00$/, "") : rf.format(val).replace(/[.,]00$/, "")}${u ? ` ${unitText(u)}` : ""}${demoKeys.has(k) ? ` (${t.r2.demoTag[locale]})` : ""}`);
+    if (model === "bts") row(t.out.minRent[locale], `${perM2(L.rent)} ${unitRent}${inputs.rent && inputs.rent > 0 ? ` (${t.out.atRent[locale]})` : ""}`);
+    row(t.land.irrLand[locale], irrText(s.irrU));
+    row(t.land.irrBuild[locale], `${irrText(s.irrCF)} · NPV ${cash(s.NPV_CF)}`);
+    if (pro) row(t.out.irrEquity[locale], `${irrText(s.irrL)} · NPV ${cash(s.NPV_L)}`);
+    row(t.out.npv[locale], cash(s.NPV_U));
+    row(`${t.land.maxLand[locale]} ${hurdleText}`, landMaxText);
+    if (extras) row(`${t.land.maxPurchase[locale]} ${hurdleText}`, purchaseText);
+    if (L.NOI_stab !== null) { row(t.out.noiStab[locale], cash(L.NOI_stab)); row(t.out.noiY1[locale], cash(L.NOI_Y1 ?? 0)); row(t.out.noiNext[locale], cash(L.NOI_next ?? 0)); row(t.out.noiTv[locale], cash(L.NOI_TV)); row(t.out.yoc[locale], pct(s.YoC)); }
+    row(pro ? t.out.profit[locale] : t.out.profitU[locale], cash(pro ? s.profitL : L.m.CF.reduce((a, x) => a + x, 0)));
+    if (pro) { row(t.out.peakFunding[locale], cash(s.peakFunding)); row(t.out.peakEquity[locale], cash(s.peakEquity)); }
+    for (const k of (model === "sale" ? ["cashExit", "econExit"] : ["cashOp", "cashExit", "econOp", "econExit"]) as (keyof Summary["pb"])[]) row(`${t.out.pbTitle[locale]} · ${(model === "sale" ? t.out.pbSale[k as "cashExit" | "econExit"] : t.out.pb[k])[locale]}`, pbText(s.pb[k]));
+    row(t.costs.cash[locale], cash(L.CASH));
+    row(t.land.applied[locale], flags.includeLand ? cash(landApplied) : t.land.off[locale]);
+    row(`${t.tax.accrued[locale]} / ${t.tax.paid[locale]}`, `${cash(pro ? s.taxAccrued_L : s.taxAccrued_U)} / ${cash(pro ? s.taxPaid_L : s.taxPaid_U)}`);
+    if (extras) lines.push(`- ${t.variants.title[locale]} (IRR): ${extras.variants.map((x) => `${t.variants[x.k][locale]} ${x.r.ok ? irrText(x.r.summary.irrU) : "—"}`).join(" · ")}`);
+    lines.push("", t.send.inputs[locale]);
+    lines.push(`- ${t.send.landFlag[locale]}: ${flags.includeLand ? t.send.yes[locale] : t.send.no[locale]}`);
+    if (mode === "basic") lines.push(`- ${t.send.basicIgnored[locale]}`);
+    const units: Partial<Record<NumKey, UnitKey>> = Object.fromEntries([...siteFields, ...costFields, ...landFields, ...timeFields, ...exitFields[model], ...earlyFields, ...taxFields, ...vatFields, ...ptFields, ...finFields, ...refiFields, ...discountFields].map((f) => [f.key, f.unit]));
+    for (const k of NUM_KEYS) {
+      const val = (inputs as Record<NumKey, number | null>)[k];
+      if (!(k in units)) continue;
+      if (mode === "basic" && !BASIC_SET.has(k)) continue;
+      const tag = tagOf(k);
+      const shownVal = val === null ? t.send.empty[locale] : MONEY.has(k) ? `${rf.format(convert(val, "EUR", display, R)).replace(/[.,]00$/, "")}` : rf.format(val).replace(/[.,]00$/, "");
+      lines.push(`- ${label(k)}: ${shownVal}${val !== null && units[k] ? ` ${unitText(units[k]!)}` : ""}${tag ? ` (${tag[locale]})` : ""}`);
     }
-    lines.push("", t.r2.send.notes[locale], `- ${t.disclaimer[locale]}`, `- ${t.method[locale]}`, `- ${t.r2.landOnce[locale]}`);
+    if (pro) {
+      lines.push(`- ${t.choices.lossMode.label[locale]}: ${t.choices.lossMode[enums.lossMode][locale]}`, `- ${t.choices.advanceMethod.label[locale]}: ${t.choices.advanceMethod[enums.advanceMethod][locale]}`, `- ${t.checks.capitalizeInterest[locale]}: ${flags.capitalizeInterest ? t.send.yes[locale] : t.send.no[locale]}`);
+      lines.push(`- ${t.checks.vatOn[locale]}: ${flags.vatOn ? t.send.yes[locale] : t.send.no[locale]}`);
+      if (flags.vatOn) lines.push(`- ${t.checks.vatOnRent[locale]}: ${flags.vatOnRent ? t.send.yes[locale] : t.send.no[locale]} · ${t.checks.vatOnSale[locale]}: ${flags.vatOnSale ? t.send.yes[locale] : t.send.no[locale]} · ${t.checks.vatRefund[locale]}: ${inputs.vatRefund ? t.send.yes[locale] : t.send.no[locale]} · ${t.choices.vatFunding.label[locale]}: ${t.choices.vatFunding[enums.vatFunding][locale]}`);
+      lines.push(`- ${t.ptMonths[locale]}: ${months.join(", ") || "—"}`);
+      if ((inputs.ltc ?? 0) > 0) lines.push(`- ${t.choices.drawOrder.label[locale]}: ${t.choices.drawOrder[enums.drawOrder][locale]} · ${t.choices.amort.label[locale]}: ${t.choices.amort[enums.amort][locale]} · ${t.checks.refi[locale]}: ${flags.refi ? t.send.yes[locale] : t.send.no[locale]}`);
+    }
+    lines.push("", t.send.notes[locale], ...result.ok ? result.notes.map((n) => `- ${t.notes[n][locale]}`) : [], `- ${t.disclaimer[locale]}`, `- ${t.method[locale]}`, `- ${t.land.once[locale]}`);
+    const mn = multiNote([s.irrU, s.irrCF, s.irrL]);
+    if (mn) lines.push(`- ${mn}`);
     return lines.join("\n");
   })() : null;
   const enc = (text: string) => encodeURIComponent(text).replace(/[!'()*]/g, (ch) => `%${ch.charCodeAt(0).toString(16).toUpperCase()}`);
-  const mailHref = report ? `${mailto}?subject=${enc(t.r2.send.subject[locale].replace("{place}", place))}&body=${enc(report.replace(/\n/g, "\r\n"))}` : "";
+  const mailHref = report ? `${mailto}?subject=${enc(t.send.subject[locale].replace("{place}", place))}&body=${enc(report.replace(/\n/g, "\r\n"))}` : "";
   const [copied, setCopied] = useState<{ text: string; ok: boolean } | null>(null);
   const copyReport = () => {
     if (!report) return;
@@ -289,13 +306,23 @@ export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: {
     else bySelection();
   };
   const copyNow = copied && copied.text === report ? copied : null;
+  const clear = () => { setV(blank()); setCur({}); setDemo(null); setDemoKeys(new Set()); setLawKeys(freshTags()); setAssumed(new Set<NumKey>(["startYear", "startMonth"])); setPtMonths(LEGAL_PT_MONTHS); };
+  const fmt = { cash, pct, nf, pf, rf, unitRent, unitPrice, perM2, irrText, pbText };
 
   return (
-    <div className="lx-model" ref={root}>
+    <div className="lx-model lx3" ref={root}>
       <div className="lx-model__head">
+        <div className="lx3-modes" role="radiogroup" aria-label={t.modes.label[locale]}>
+          {(["basic", "pro"] as Mode[]).map((m) => (
+            <button key={m} type="button" role="radio" aria-checked={mode === m} className={mode === m ? "is-on" : undefined} onClick={() => setMode(m)}>
+              <span>{t.modes[m][locale]}</span><em>{(m === "basic" ? t.modes.basicLine : t.modes.proLine)[locale]}</em>
+            </button>
+          ))}
+        </div>
         <div className="lx-model__tabs" role="tablist" aria-label={t.label[locale]}>
           {(["sale", "hold", "bts"] as ModelKey[]).map((m) => (
-            <button key={m} type="button" role="tab" aria-selected={model === m} className={model === m ? "is-on" : undefined} onClick={() => { setModel(m); setDemo(null); setDemoKeys(new Set()); }}>
+            // switching the model keeps the values and their «demo» tags (Codex P1: 2.1 dropped the tags and kept the values)
+            <button key={m} type="button" role="tab" aria-selected={model === m} className={model === m ? "is-on" : undefined} onClick={() => setModel(m)}>
               <span>{t.models[m][locale]}</span>
               <em>{t.modelLine[m][locale]}</em>
             </button>
@@ -304,9 +331,10 @@ export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: {
         <CurrencyBar locale={locale} currency={display} onCurrency={setDisplay} fx={fx} className="lx-model__cur" />
         <div className="lx-model__tools">
           {presetList.map((p) => <button key={p.key} type="button" className={`lx-model__demo${demo === p.key && isDemo ? " is-on" : ""}`} onClick={() => load(p)}>{t.demo[locale]} · {p.label[locale]}</button>)}
-          <button type="button" className="lx-model__clear" onClick={() => { setV(blank()); setCur({}); setDemo(null); setDemoKeys(new Set()); }}>{t.clear[locale]}</button>
+          {isDemo ? <button type="button" className="lx-model__clear lx3-accept" onClick={() => setDemoKeys(new Set())}>{t.accept[locale]}</button> : null}
+          <button type="button" className="lx-model__clear" onClick={clear}>{t.clear[locale]}</button>
         </div>
-        {isDemo ? <p className="lx-model__demo-note" role="status">{t.demoNote[locale]} {t.r2.demoFields[locale]}</p> : null}
+        {isDemo ? <p className="lx-model__demo-note" role="status">{t.demoNote[locale]}</p> : null}
       </div>
 
       <div className="lx-model__grid">
@@ -315,26 +343,73 @@ export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: {
           <fieldset className="lx-group"><legend>{t.groups.cost[locale]}</legend><div className="lx-group__grid">{costFields.map(field)}</div></fieldset>
           <fieldset className="lx-group">
             <legend>{t.groups.land[locale]}</legend>
-            <div className="lx-group__grid">
-              {field({ key: "landValue", unit: "eur", fmt: moneyFmt, hint: t.hints.landValue })}
-              <label className="lx-check"><input type="checkbox" checked={includeLand} onChange={(e) => setIncludeLand(e.target.checked)} /><span>{t.includeLand[locale]}</span></label>
-            </div>
-            <p className="lx-group__note">{t.r2.landOnce[locale]}</p>
+            <div className="lx-group__grid">{landFields.map(field)}{check("includeLand", t.checks.includeLand)}</div>
+            <p className="lx-group__note">{t.land.once[locale]}</p>
           </fieldset>
           <fieldset className="lx-group"><legend>{t.groups.time[locale]}</legend><div className="lx-group__grid">{timeFields.map(field)}</div></fieldset>
           <fieldset className="lx-group"><legend>{t.groups.exit[model][locale]}</legend><div className="lx-group__grid">{exitFields[model].map(field)}</div></fieldset>
-          {model === "bts" ? <fieldset className="lx-group"><legend>{t.groups.early[locale]}</legend><div className="lx-group__grid">{earlyFields.map(field)}</div></fieldset> : null}
-          <details className="lx-group lx-group--fold" open={isDemo || undefined}>
-            <summary>{t.groups.finance[locale]} · {t.advanced[locale]}</summary>
-            <div className="lx-group__grid">{financeFields.map(field)}</div>
-          </details>
+          {pro && model === "bts" ? <fieldset className="lx-group"><legend>{t.groups.early[locale]}</legend><div className="lx-group__grid">{earlyFields.map(field)}</div></fieldset> : null}
+          {discountFields.length ? <fieldset className="lx-group"><legend>{t.groups.discount[locale]}</legend><div className="lx-group__grid">{discountFields.map(field)}</div></fieldset> : null}
+          <fieldset className="lx-group">
+            <legend>{t.groups.tax[locale]}</legend>
+            <div className="lx-group__grid">
+              {taxFields.map(field)}
+              {pro ? <>{select("lossMode", ["free", "equal"])}{select("advanceMethod", ["prior", "current", "none"])}{check("capitalizeInterest", t.checks.capitalizeInterest)}</> : null}
+            </div>
+            {pro ? <p className="lx-group__note">{h("advanceMethod")}</p> : null}
+          </fieldset>
+          {pro ? (
+            <>
+              <fieldset className="lx-group">
+                <legend>{t.groups.vat[locale]}</legend>
+                <div className="lx-group__grid">{check("vatOn", t.checks.vatOn)}</div>
+                {flags.vatOn ? (
+                  <div className="lx-group__grid">
+                    {vatFields.map(field)}
+                    {model !== "sale" ? check("vatOnRent", t.checks.vatOnRent) : null}
+                    {check("vatOnSale", t.checks.vatOnSale)}
+                    {model !== "sale" ? check("vatRefund", t.checks.vatRefund) : null}
+                    {select("vatFunding", ["equity", "facility"])}
+                  </div>
+                ) : null}
+              </fieldset>
+              <fieldset className="lx-group">
+                <legend>{t.groups.ptax[locale]}</legend>
+                <div className="lx-group__grid">
+                  {ptFields.map(field)}
+                  <div className="lx-field" key="ptMonths">
+                    <label htmlFor={`${uid}-pt`}>{t.ptMonths[locale]}{ptMonths === LEGAL_PT_MONTHS ? <em className="lx-field__demo lx3-tag">{t.tags.law[locale]}</em> : null}</label>
+                    <span className="lx-field__box"><input id={`${uid}-pt`} className="lx-field__input" inputMode="numeric" value={ptMonths} onChange={(e) => setPtMonths(e.target.value)} aria-describedby={`${uid}-pt-h`} /></span>
+                    <span className="lx-field__hint" id={`${uid}-pt-h`}>{h("ptMonths")}</span>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset className="lx-group">
+                <legend>{t.groups.finance[locale]}</legend>
+                <div className="lx-group__grid">
+                  {finFields.map(field)}
+                  {select("drawOrder", ["prorata", "equityFirst"])}
+                  {model !== "sale" ? select("amort", ["bullet", "annuity", "linear"]) : null}
+                  {model !== "sale" ? check("refi", t.checks.refi) : null}
+                </div>
+                {model !== "sale" && flags.refi ? <div className="lx-group__grid">{refiFields.map(field)}</div> : null}
+                <p className="lx-group__note">{t.fin.limits[locale]}</p>
+              </fieldset>
+            </>
+          ) : (
+            <aside className="lx3-limits">
+              <p className="lx3-limits__t">{t.modes.limitsTitle[locale]}</p>
+              <ul>{t.modes.limits.map((x) => <li key={x.en}>{x[locale]}</li>)}</ul>
+              <button type="button" className="lx-link" onClick={() => setMode("pro")}><span>{t.modes.toPro[locale]}</span></button>
+            </aside>
+          )}
         </div>
 
         <div className="lx-model__out" aria-live="polite">
-          {!shownSummary || !ledger || !ledger.ok ? (
+          {!s || !L ? (
             <div className="lx-out__empty">
               <p className="lx-out__label">{t.label[locale]}</p>
-              <p className="lx-out__empty-t">{model === "bts" && result.ok && bts && bts.minRent === null ? t.be.none[locale] : t.empty[locale]}</p>
+              <p className="lx-out__empty-t">{t.empty[locale]}</p>
               {issues.length ? (
                 <ul className="lx-out__issues">
                   {issues.slice(0, 4).map((x) => <li key={`${x.key}-${x.kind}`} className={`is-${x.kind}`}><span>{x.kind === "missing" ? t.missing[locale] : t.range[locale]}:</span> {issueLabel(x.key)}</li>)}
@@ -350,28 +425,16 @@ export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: {
             </div>
           ) : (
             <>
-              <Results
-                locale={locale}
-                model={model}
-                s={shownSummary}
-                ledger={ledger.ledger}
-                bts={bts}
-                extras={extras}
-                fmt={{ eur: cash, pct, nf, pf, rf, unitRent, unitPrice, perM2, sym, toDisplay }}
-                demo={isDemo}
-                land={{ given: landGiven, residualText, hurdleText }}
-                more={more}
-                onMore={() => setMore((x) => !x)}
-              />
+              <Results locale={locale} model={model} mode={mode} s={s} L={L} inputs={inputs} early={early && early.ok ? early.summary : null} extras={extras} fmt={fmt} demo={isDemo} landText={{ max: landMaxText, purchase: purchaseText, hurdle: hurdleText, applied: flags.includeLand ? cash(landApplied) : t.land.off[locale] }} note={multiNote([s.irrU, s.irrCF, s.irrL])} notes={result.ok ? result.notes : []} more={more} onMore={() => setMore((x) => !x)} />
               {report ? (
-                <section className="lx-send" aria-label={t.r2.send.mail[locale]}>
+                <section className="lx-send" aria-label={t.send.mail[locale]}>
                   <div className="lx-send__actions">
-                    <a className="lx-btn lx-btn--dark" href={mailHref}><span>{t.r2.send.mail[locale]}</span></a>
-                    <button type="button" className="lx-btn lx-btn--ghost" onClick={copyReport}><span>{t.r2.send.copy[locale]}</span></button>
+                    <a className="lx-btn lx-btn--dark" href={mailHref}><span>{t.send.mail[locale]}</span></a>
+                    <button type="button" className="lx-btn lx-btn--ghost" onClick={copyReport}><span>{t.send.copy[locale]}</span></button>
                   </div>
-                  <p className="lx-send__note">{t.r2.send.note[locale]}</p>
-                  <p className="lx-send__status" role="status">{copyNow ? (copyNow.ok ? t.r2.send.copied[locale] : t.r2.send.manual[locale]) : ""}</p>
-                  {copyNow && !copyNow.ok ? <textarea className="lx-send__text" readOnly value={report} aria-label={t.r2.send.copy[locale]} onFocus={(e) => e.currentTarget.select()} /> : null}
+                  <p className="lx-send__note">{t.send.note[locale]}</p>
+                  <p className="lx-send__status" role="status">{copyNow ? (copyNow.ok ? t.send.copied[locale] : t.send.manual[locale]) : ""}</p>
+                  {copyNow && !copyNow.ok ? <textarea className="lx-send__text" readOnly value={report} aria-label={t.send.copy[locale]} onFocus={(e) => e.currentTarget.select()} /> : null}
                 </section>
               ) : null}
             </>
@@ -384,90 +447,160 @@ export function DevelopmentModel({ locale, siteArea, presets, mailto, place }: {
   );
 }
 
-type Fmt = { eur: (x: number) => string; pct: (x: number | null) => string; nf: Intl.NumberFormat; pf: Intl.NumberFormat; rf: Intl.NumberFormat; unitRent: string; unitPrice: string; perM2: (x: number) => string; sym: string; toDisplay: (x: number) => number };
+type Fmt = { cash: (x: number) => string; pct: (x: number | null) => string; nf: Intl.NumberFormat; pf: Intl.NumberFormat; rf: Intl.NumberFormat; unitRent: string; unitPrice: string; perM2: (x: number) => string; irrText: (r: IrrResult) => string; pbText: (pb: number | null) => string };
+type Extras = { variants: { k: VariantKey; r: Result }[]; sens: ReturnType<typeof sensitivity>; mx: ReturnType<typeof matrix>; be: ReturnType<typeof breakEven>; purchase: ReturnType<typeof purchaseMax> } | null;
 
-function Results({ locale, model, s, ledger, bts, extras, fmt, demo, land, more, onMore }: { locale: SiteLocale; model: ModelKey; s: Summary; ledger: import("@/lib/land-finance").Ledger; bts: ReturnType<typeof btsAnalysis> | null; extras: { variants: { k: VariantKey; r: ReturnType<typeof run> | null; b: ReturnType<typeof btsAnalysis> | null }[]; sens: ReturnType<typeof sensitivity>; be: ReturnType<typeof breakEven> } | null; fmt: Fmt; demo: boolean; land: { given: boolean; residualText: string; hurdleText: string }; more: boolean; onMore: () => void }) {
-  const { eur, pct, nf, unitRent, unitPrice, perM2 } = fmt;
-  const payback = model === "sale" ? (s.paybackMonths === null ? t.out.notWithin[locale] : `${s.paybackMonths} ${t.out.months[locale]}`) : s.paybackMonths === null ? t.out.notWithin[locale] : `${fmt.pf.format((s.paybackMonths - ledger.completion) / 12)} ${t.out.yearsOpen[locale]}`;
+function Results({ locale, model, mode, s, L, inputs, early, extras, fmt, demo, landText, note, notes, more, onMore }: {
+  locale: SiteLocale; model: ModelKey; mode: Mode; s: Summary; L: Ledger; inputs: Inputs; early: Summary | null; extras: Extras; fmt: Fmt; demo: boolean;
+  landText: { max: string; purchase: string; hurdle: string; applied: string }; note: string | null; notes: NoteKey[]; more: boolean; onMore: () => void;
+}) {
+  const { cash, pct, nf, pf, unitRent, unitPrice, perM2, irrText, pbText } = fmt;
+  const pro = mode === "pro";
+  const m = L.m;
   const kpis: { k: string; label: string; value: string; accent?: boolean }[] =
     model === "sale"
-      ? [{ k: "profit", label: t.out.profit[locale], value: eur(s.profit), accent: true }, { k: "irr", label: t.out.irrProject[locale], value: pct(s.irrProject) }, { k: "eq", label: t.out.irrEquity[locale], value: pct(s.irrEquity) }, { k: "npv", label: t.out.npv[locale], value: eur(s.npv) }]
+      ? [{ k: "profit", label: pro ? t.out.profit[locale] : t.out.profitU[locale], value: cash(pro ? s.profitL : m.CF.reduce((a, x) => a + x, 0)), accent: true }, { k: "irr", label: t.out.irrProject[locale], value: irrText(s.irrU) }, { k: "npv", label: t.out.npv[locale], value: cash(s.NPV_U) }, { k: "pb", label: `${t.out.pbTitle[locale]} · ${t.out.pbSale.cashExit[locale]}`, value: pbText(s.pb.cashExit) }]
       : model === "hold"
-        ? [{ k: "noi", label: t.out.noi[locale], value: eur(s.noiStabilised ?? 0), accent: true }, { k: "yoc", label: t.out.yoc[locale], value: pct(s.yieldOnCost) }, { k: "irr", label: t.out.irrProject[locale], value: pct(s.irrProject) }, { k: "npv", label: t.out.npv[locale], value: eur(s.npv) }]
-        : [{ k: "min", label: t.out.minRent[locale], value: bts?.minRent !== null && bts?.minRent !== undefined ? `${perM2(bts.minRent)} ${unitRent}` : t.out.notDefined[locale], accent: true }, { k: "irr", label: `${t.out.irrProject[locale]} · ${t.out.atRent[locale]} ${bts?.rent ? perM2(bts.rent) : "—"}`, value: pct(s.irrProject) }, { k: "inv", label: t.out.investment[locale], value: eur(s.costs.economic) }, { k: "yoc", label: t.out.yoc[locale], value: pct(s.yieldOnCost) }];
-  const secondary: { label: string; value: string }[] =
-    model === "sale"
-      ? [{ label: t.out.roi[locale], value: pct(s.roi) }, { label: t.out.margin[locale], value: pct(s.marginOnRevenue) }, { label: t.out.peak[locale], value: eur(s.peakEquity) }, { label: t.out.payback[locale], value: payback }]
-      : model === "hold"
-        ? [{ label: t.out.irrEquity[locale], value: pct(s.irrEquity) }, { label: t.out.terminal[locale], value: eur(s.terminalValue ?? 0) }, { label: t.out.payback[locale], value: payback }, { label: t.out.simple[locale], value: s.simplePaybackYears === null ? t.out.notDefined[locale] : `${fmt.pf.format(s.simplePaybackYears)} ${t.u.yr[locale]}` }, { label: t.out.profit[locale], value: eur(s.profit) }]
-        : [{ label: t.out.rentYear[locale], value: eur((bts?.rent ?? 0) * s.net * 12) }, { label: t.out.npv[locale], value: eur(s.npv) }, { label: t.out.irrEquity[locale], value: pct(s.irrEquity) }, { label: t.out.terminal[locale], value: eur(s.terminalValue ?? 0) }, { label: t.out.peak[locale], value: eur(s.peakEquity) }];
-  const q = quarterly(ledger);
-  const costRows: [string, number][] = [
-    [t.costs.hard[locale], s.costs.hard], [t.costs.design[locale], s.costs.design], [t.costs.networks[locale], s.costs.networks], [t.costs.landscaping[locale], s.costs.landscaping], [t.costs.permits[locale], s.costs.permits], [t.costs.contingency[locale], s.costs.contingency],
+        ? [{ k: "noi", label: t.out.noiStab[locale], value: cash(L.NOI_stab ?? 0), accent: true }, { k: "yoc", label: t.out.yoc[locale], value: pct(s.YoC) }, { k: "irr", label: t.out.irrProject[locale], value: irrText(s.irrU) }, { k: "npv", label: t.out.npv[locale], value: cash(s.NPV_U) }]
+        : [{ k: "min", label: inputs.rent && inputs.rent > 0 ? `${t.out.atRent[locale]}` : t.out.minRent[locale], value: `${perM2(L.rent)} ${unitRent}`, accent: true }, { k: "irr", label: t.out.irrProject[locale], value: irrText(s.irrU) }, { k: "inv", label: t.out.investment[locale], value: cash(L.CASH + L.NONREC + L.LANDAPP) }, { k: "yoc", label: t.out.yoc[locale], value: pct(s.YoC) }];
+  const secondary: { label: string; value: string }[] = [
+    ...(pro ? [{ label: t.out.irrEquity[locale], value: irrText(s.irrL) }, { label: t.out.peakEquity[locale], value: cash(s.peakEquity) }] : []),
+    { label: t.out.peakFunding[locale], value: cash(s.peakFunding) },
+    ...(model !== "sale" ? [{ label: t.out.noiY1[locale], value: cash(L.NOI_Y1 ?? 0) }, { label: t.out.noiNext[locale], value: cash(L.NOI_next ?? 0) }, { label: t.out.terminal[locale], value: cash(L.TV) }] : []),
+    ...(model === "bts" ? [{ label: t.out.rentYear[locale], value: cash(L.rent * L.NET * 12) }] : []),
   ];
+  const q = quarterly(L);
+  const pbKeys = (model === "sale" ? ["cashExit", "econExit"] : ["cashOp", "cashExit", "econOp", "econExit"]) as (keyof Summary["pb"])[];
+  const fin = (inputs.ltc ?? 0) > 0;
   return (
     <div className="lx-out">
       <div className="lx-out__kpis">
-        <p className="lx-out__label">{t.label[locale]} · {t.models[model][locale]}{demo ? ` · ${t.demo[locale]}` : ""}</p>
-        <dl className="lx-out__grid">
-          {kpis.map((x) => <div key={x.k} className={x.accent ? "is-accent" : undefined}><dt>{x.label}</dt><dd>{x.value}</dd></div>)}
-        </dl>
+        <p className="lx-out__label">{t.label[locale]} · {t.models[model][locale]} · {t.modes[mode][locale]}{demo ? ` · ${t.demo[locale]}` : ""}</p>
+        <dl className="lx-out__grid">{kpis.map((x) => <div key={x.k} className={x.accent ? "is-accent" : undefined}><dt>{x.label}</dt><dd>{x.value}</dd></div>)}</dl>
         <dl className="lx-out__sec">{secondary.map((x) => <div key={x.label}><dt>{x.label}</dt><dd>{x.value}</dd></div>)}</dl>
+        {note ? <p className="lx3-irrnote">{note}</p> : null}
       </div>
 
       <div className="lx-out__card lx-out__land">
-        <p className="lx-out__h">{t.r2.landTitle[locale]}</p>
+        <p className="lx-out__h">{t.land.title[locale]}</p>
         <dl className="lx-costs">
-          <div className="is-sum"><dt>{t.r2.irrLand[locale]}{land.given ? "" : <span className="lx-out__muted"> · {t.r2.noLand[locale]}</span>}</dt><dd>{pct(s.irrProject)}</dd></div>
-          <div className="is-sum"><dt>{t.r2.irrBuild[locale]}</dt><dd>{pct(s.irrCash)}</dd></div>
-          <div><dt>{t.r2.npvBuild[locale]}</dt><dd>{eur(s.npvCash)}</dd></div>
-          <div className="is-sum"><dt>{t.out.irrEquity[locale]}</dt><dd>{pct(s.irrEquity)}</dd></div>
-          <div className="is-sum is-wrap"><dt>{t.r2.maxLand[locale]} {land.hurdleText}</dt><dd>{land.residualText}</dd></div>
+          <div><dt>{t.land.applied[locale]}</dt><dd>{landText.applied}</dd></div>
+          <div className="is-sum"><dt>{t.land.irrLand[locale]}</dt><dd>{irrText(s.irrU)}</dd></div>
+          <div className="is-sum"><dt>{t.land.irrBuild[locale]}</dt><dd>{irrText(s.irrCF)}</dd></div>
+          <div><dt>{t.land.npvBuild[locale]}</dt><dd>{cash(s.NPV_CF)}</dd></div>
+          {pro ? <div className="is-sum"><dt>{t.out.irrEquity[locale]}</dt><dd>{irrText(s.irrL)}</dd></div> : null}
+          <div className="is-sum is-wrap"><dt>{t.land.maxLand[locale]} {landText.hurdle}</dt><dd>{landText.max}</dd></div>
+          {pro && more ? <div className="is-wrap"><dt>{t.land.maxPurchase[locale]} {landText.hurdle}</dt><dd>{landText.purchase}</dd></div> : null}
         </dl>
-        <p className="lx-note">{t.r2.landOnce[locale]}</p>
+        <p className="lx-out__h lx3-sub">{t.out.pbTitle[locale]}</p>
+        <dl className="lx-costs">{pbKeys.map((k) => <div key={k} className="is-wrap"><dt>{(model === "sale" ? t.out.pbSale[k as "cashExit" | "econExit"] : t.out.pb[k])[locale]}</dt><dd>{pbText(s.pb[k])}</dd></div>)}</dl>
+        <p className="lx-note">{t.land.once[locale]}</p>
       </div>
 
-      {model === "bts" && bts?.early && bts.full ? (
+      {notes.length ? (
+        <div className="lx3-notes">
+          <p className="lx3-notes__t">{t.notesTitle[locale]}</p>
+          <ul>{notes.map((n) => <li key={n}>{t.notes[n][locale]}</li>)}</ul>
+        </div>
+      ) : null}
+
+      {model === "bts" && early ? (
         <div className="lx-out__card">
           <p className="lx-out__h">{t.groups.early[locale]}</p>
           <table className="lx-table">
             <thead><tr><th /><th>{t.out.full[locale]}</th><th>{t.out.early[locale]}</th></tr></thead>
             <tbody>
-              <tr><th>{t.out.irrProject[locale]}</th><td>{pct(bts.full.irrProject)}</td><td>{pct(bts.early.irrProject)}</td></tr>
-              <tr><th>{t.out.npv[locale]}</th><td>{eur(bts.full.npv)}</td><td>{eur(bts.early.npv)}</td></tr>
+              <tr><th>{t.out.irrProject[locale]}</th><td>{irrText(s.irrU)}</td><td>{irrText(early.irrU)}</td></tr>
+              <tr><th>{t.out.npv[locale]}</th><td>{cash(s.NPV_U)}</td><td>{cash(early.NPV_U)}</td></tr>
             </tbody>
           </table>
         </div>
       ) : null}
 
-      <button type="button" className="lx-out__more" aria-expanded={more} onClick={onMore}>{more ? t.r2.lessDetails[locale] : t.r2.moreDetails[locale]}</button>
+      <button type="button" className="lx-out__more" aria-expanded={more} onClick={onMore}>{more ? t.more2.hide[locale] : t.more2.show[locale]}</button>
       {more ? (
         <>
           <div className="lx-out__card">
             <p className="lx-out__h">{t.costs.title[locale]}</p>
             <dl className="lx-costs">
-              <div className="is-area"><dt>{t.costs.gba[locale]}</dt><dd>{nf.format(Math.round(s.gba))}{" "}{t.u.m2[locale]}</dd></div>
-              <div className="is-area"><dt>{t.costs.net[model][locale]}</dt><dd>{nf.format(Math.round(s.net))}{" "}{t.u.m2[locale]}</dd></div>
-              {costRows.map(([l, x]) => <div key={l}><dt>{l}</dt><dd>{eur(x)}</dd></div>)}
-              <div className="is-sum"><dt>{t.costs.cash[locale]}</dt><dd>{eur(s.costs.cash)}</dd></div>
-              <div><dt>{t.costs.land[locale]}</dt><dd>{eur(s.costs.land)}</dd></div>
-              <div className="is-sum"><dt>{t.costs.economic[locale]}</dt><dd>{eur(s.costs.economic)}</dd></div>
-              <div><dt>{t.costs.interest[locale]}</dt><dd>{eur(s.costs.interest)}</dd></div>
-              <div><dt>{t.costs.saleCosts[model][locale]}</dt><dd>{eur(s.costs.saleCosts)}</dd></div>
-              <div><dt>{t.costs.tax[locale]}</dt><dd>{eur(s.costs.tax)}</dd></div>
-              <div className="is-sum"><dt>{t.costs.revenue[model][locale]}</dt><dd>{eur(s.revenue)}</dd></div>
+              <div className="is-area"><dt>{t.costs.gba[locale]}</dt><dd>{nf.format(Math.round(L.GBA))}{" "}{t.u.m2[locale]}</dd></div>
+              <div className="is-area"><dt>{t.costs.net[model][locale]}</dt><dd>{nf.format(Math.round(L.NET))}{" "}{t.u.m2[locale]}</dd></div>
+              {(["hard", "design", "networks", "landscaping", "permits", "contingency"] as const).map((k) => <div key={k}><dt>{t.costs[k][locale]}</dt><dd>{cash(L.costs[k])}</dd></div>)}
+              <div className="is-sum"><dt>{t.costs.cash[locale]}</dt><dd>{cash(L.CASH)}</dd></div>
+              {L.NONREC ? <div><dt>{t.costs.nonrec[locale]}</dt><dd>{cash(L.NONREC)}</dd></div> : null}
+              <div><dt>{t.costs.land[locale]}</dt><dd>{cash(L.LANDAPP)}</dd></div>
+              <div className="is-sum"><dt>{t.costs.economic[locale]}</dt><dd>{cash(L.CASH + L.NONREC + L.LANDAPP)}</dd></div>
+              <div><dt>{t.costs.propertyTax[locale]}</dt><dd>{cash(s.propertyTax)}</dd></div>
+              <div><dt>{t.costs.tax[locale]}</dt><dd>{cash(pro ? s.taxPaid_L : s.taxPaid_U)}</dd></div>
+              <div className="is-sum"><dt>{t.costs.revenue[model][locale]}</dt><dd>{cash(s.revenue)}</dd></div>
             </dl>
           </div>
 
+          {pro ? (
+            <div className="lx-out__card">
+              <p className="lx-out__h">{t.tax.title[locale]}</p>
+              <div className="lx-table__scroll">
+                <table className="lx-table lx3-annual">
+                  <thead><tr><th>{t.tax.year[locale]}</th><th>{t.tax.taxable[locale]}</th><th>{t.tax.lossUsed[locale]}</th><th>{t.tax.accrued[locale]}</th><th>{t.tax.paid[locale]}</th><th>{t.tax.acct[locale]}</th><th>{t.tax.cash[locale]}</th></tr></thead>
+                  <tbody>{L.annual.map((a) => <tr key={a.year}><th>{a.year}</th><td>{cash(a.TIy_L)}</td><td>{cash(a.lossUsed_L)}</td><td>{cash(a.tax_L)}</td><td>{cash(a.taxPaid_L)}</td><td>{cash(a.acctProfit)}</td><td>{cash(a.cashFlowL)}</td></tr>)}</tbody>
+                </table>
+              </div>
+              <dl className="lx-costs">
+                {model !== "sale" ? <><div><dt>{t.tax.base[locale]}</dt><dd>{cash(L.BASE_L)}</dd></div><div><dt>{t.tax.rtv[locale]}</dt><dd>{cash(L.RTV_L ?? 0)}</dd></div></> : null}
+                <div><dt>{t.tax.disallowed[locale]}</dt><dd>{cash(L.annual.reduce((a, x) => a + x.intDisallowed, 0))}</dd></div>
+                <div><dt>{t.tax.carried[locale]}</dt><dd>{cash(L.annual[L.annual.length - 1]?.lossCarried_L ?? 0)}</dd></div>
+              </dl>
+              <p className="lx-note">{t.tax.note[locale]}</p>
+            </div>
+          ) : null}
+
+          {pro && inputs.vatOn ? (
+            <div className="lx-out__card">
+              <p className="lx-out__h">{t.vat.title[locale]}</p>
+              <dl className="lx-costs">
+                <div><dt>{t.vat.in[locale]}</dt><dd>{cash(s.vatIn)}</dd></div>
+                <div><dt>{t.vat.out[locale]}</dt><dd>{cash(s.vatOut)}</dd></div>
+                <div><dt>{t.vat.refunded[locale]}</dt><dd>{cash(s.vatRefunded)}</dd></div>
+                <div><dt>{t.vat.nonrec[locale]}</dt><dd>{cash(L.NONREC)}</dd></div>
+                <div className="is-sum"><dt>{t.vat.peak[locale]}</dt><dd>{cash(s.peakVat)}</dd></div>
+                {s.vatLapsed ? <div><dt>{t.vat.lapsed[locale]}</dt><dd>{cash(s.vatLapsed)}</dd></div> : null}
+              </dl>
+            </div>
+          ) : null}
+
+          {pro ? (
+            <div className="lx-out__card">
+              <p className="lx-out__h">{t.fin.title[locale]}</p>
+              {fin ? (
+                <>
+                  <dl className="lx-costs">
+                    <div><dt>{t.fin.loan[locale]}</dt><dd>{cash(L.LOAN)}</dd></div>
+                    <div><dt>{t.fin.fee[locale]}</dt><dd>{cash(L.feeAmt)}</dd></div>
+                    <div><dt>{t.fin.capint[locale]}</dt><dd>{cash(L.CAPINT)}</dd></div>
+                    <div><dt>{t.fin.interest[locale]}</dt><dd>{cash(s.interestTotal)}</dd></div>
+                    {model !== "sale" ? <>
+                      <div className="is-sum"><dt>{t.fin.dscr[locale]}</dt><dd>{s.DSCRmin === null ? "—" : `${pf.format(s.DSCRmin)}×`}</dd></div>
+                      <div><dt>{t.fin.ltvStab[locale]}</dt><dd>{pct(s.LTV_stab)}</dd></div>
+                      <div><dt>{t.fin.ltvExit[locale]}</dt><dd>{pct(s.LTV_exit)}</dd></div>
+                      <div><dt>{t.fin.dy[locale]}</dt><dd>{pct(s.debtYield)}</dd></div>
+                    </> : null}
+                  </dl>
+                  <p className={`lx-note${s.shortfallMonths ? " lx3-warn" : ""}`}>{s.shortfallMonths ? t.fin.shortfall[locale].replace("{n}", String(s.shortfallMonths)).replace("{sum}", cash(s.shortfallSum)) : t.fin.noShortfall[locale]}</p>
+                  <p className="lx-note">{t.fin.limits[locale]}</p>
+                </>
+              ) : <p className="lx-note">{t.fin.none[locale]}</p>}
+            </div>
+          ) : null}
+
           <div className="lx-out__card">
             <p className="lx-out__h">{t.chart.title[locale]}</p>
-            <FlowChart q={q} locale={locale} eur={eur} />
+            <FlowChart q={q} locale={locale} eur={cash} />
             <details className="lx-out__fold">
               <summary>{t.chart.table[locale]}</summary>
               <div className="lx-table__scroll">
                 <table className="lx-table lx-table--flows">
                   <thead><tr><th>{t.chart.q[locale]}</th><th>{t.chart.in[locale]}</th><th>{t.chart.outflow[locale]}</th><th>{t.chart.cum[locale]}</th></tr></thead>
-                  <tbody>{q.map((r) => <tr key={r.q}><th>{r.q + 1}</th><td>{eur(r.inflow)}</td><td>{eur(-r.outflow)}</td><td>{eur(r.cumulative)}</td></tr>)}</tbody>
+                  <tbody>{q.map((r) => <tr key={r.q}><th>{r.q + 1}</th><td>{cash(r.inflow)}</td><td>{cash(-r.outflow)}</td><td>{cash(r.cumulative)}</td></tr>)}</tbody>
                 </table>
               </div>
             </details>
@@ -481,15 +614,10 @@ function Results({ locale, model, s, ledger, bts, extras, fmt, demo, land, more,
                   <table className="lx-table">
                     <thead><tr><th />{extras.variants.map((x) => <th key={x.k}>{t.variants[x.k][locale]}</th>)}</tr></thead>
                     <tbody>
-                      {model === "bts" ? (
-                        <tr><th>{t.out.minRent[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.b?.minRent != null ? perM2(x.b.minRent) : "—"}</td>)}</tr>
-                      ) : (
-                        <>
-                          <tr><th>{t.out.irrProject[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r?.ok ? pct(x.r.summary.irrProject) : "—"}</td>)}</tr>
-                          <tr><th>{t.out.npv[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r?.ok ? eur(x.r.summary.npv) : "—"}</td>)}</tr>
-                          <tr><th>{t.out.profit[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r?.ok ? eur(x.r.summary.profit) : "—"}</td>)}</tr>
-                        </>
-                      )}
+                      {model === "bts" ? <tr><th>{t.out.minRent[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r.ok ? `${perM2(x.r.ledger.rent)}` : "—"}</td>)}</tr> : null}
+                      <tr><th>{t.out.irrProject[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r.ok ? irrText(x.r.summary.irrU) : "—"}</td>)}</tr>
+                      <tr><th>{t.out.npv[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r.ok ? cash(x.r.summary.NPV_U) : "—"}</td>)}</tr>
+                      <tr><th>{t.out.irrEquity[locale]}</th>{extras.variants.map((x) => <td key={x.k}>{x.r.ok ? irrText(x.r.summary.irrL) : "—"}</td>)}</tr>
                     </tbody>
                   </table>
                 </div>
@@ -500,14 +628,11 @@ function Results({ locale, model, s, ledger, bts, extras, fmt, demo, land, more,
                 <p className="lx-out__h">{t.sens.title[locale]}</p>
                 <div className="lx-table__scroll">
                   <table className="lx-table">
-                    <thead><tr><th /><th>{t.sens.low[locale]}</th><th>{t.sens.high[locale]}</th></tr></thead>
+                    <thead><tr><th>{model === "bts" ? t.sens.colsBts[locale] : t.sens.cols[locale]}</th><th>{t.sens.low[locale]}</th><th>{t.sens.high[locale]}</th></tr></thead>
                     <tbody>
-                      {extras.sens.filter((row) => !(model === "bts" && row.key === "revenue")).map((row) => {
-                        const name = row.key === "capex" ? t.sens.capex[locale] : row.key === "time" ? t.sens.time[locale] : t.sens.revenue[model][locale];
-                        const better = row.key === "revenue" ? row.high : row.low;
-                        const worse = row.key === "revenue" ? row.low : row.high;
-                        if (model === "bts") return <tr key={row.key}><th>{name} · {t.sens.minRentLow[locale]}</th><td>{row.lowBts != null ? perM2(row.lowBts) : "—"}</td><td>{row.highBts != null ? perM2(row.highBts) : "—"}</td></tr>;
-                        return <tr key={row.key}><th>{name}</th><td>{better ? `${pct(better.irrProject)} · ${eur(better.npv)}` : "—"}</td><td>{worse ? `${pct(worse.irrProject)} · ${eur(worse.npv)}` : "—"}</td></tr>;
+                      {extras.sens.map((row) => {
+                        const cell = (x: typeof row.low) => (model === "bts" && !(inputs.rent && inputs.rent > 0) ? (x.minRent !== null ? `${perM2(x.minRent)}` : "—") : `${x.npv === null ? "—" : cash(x.npv)} · ${pct(x.irrL)}`);
+                        return <tr key={row.key}><th>{t.sens.rows[row.key][locale]}</th><td>{cell(row.low)}</td><td>{cell(row.high)}</td></tr>;
                       })}
                     </tbody>
                   </table>
@@ -515,21 +640,25 @@ function Results({ locale, model, s, ledger, bts, extras, fmt, demo, land, more,
               </div>
 
               <div className="lx-out__card">
+                <p className="lx-out__h">{model === "sale" ? t.matrix.sale[locale] : t.matrix.hold[locale]}</p>
+                <div className="lx-table__scroll">
+                  <table className="lx-table lx3-matrix">
+                    <thead><tr><th />{extras.mx.cols.map((c) => <th key={c}>{extras.mx.colKey === "exitYield" ? `${c > 0 ? "+" : ""}${pf.format(c)} p.p.` : `${c > 0 ? "+" : ""}${c} %`}</th>)}</tr></thead>
+                    <tbody>{extras.mx.rows.map((r, k) => <tr key={r}><th>{`${r > 0 ? "+" : ""}${r} %`}</th>{extras.mx.npv[k].map((x, j) => <td key={j} className={x !== null && x < 0 ? "is-neg" : r === 0 && extras.mx.cols[j] === 0 ? "is-base" : undefined}>{x === null ? "—" : cash(x)}</td>)}</tr>)}</tbody>
+                  </table>
+                </div>
+                <p className="lx-note">{t.matrix.note[locale]}</p>
+              </div>
+
+              <div className="lx-out__card">
                 <p className="lx-out__h">{t.be.title[locale]}</p>
                 <dl className="lx-costs">
-                  {model === "sale" ? (
-                    <>
-                      <div><dt>{t.be.priceNpv[locale]}</dt><dd>{extras.be.priceNpv != null ? `${perM2(extras.be.priceNpv)} ${unitPrice}` : t.be.none[locale]}</dd></div>
-                      <div><dt>{t.be.priceProfit[locale]}</dt><dd>{extras.be.priceProfit != null ? `${perM2(extras.be.priceProfit)} ${unitPrice}` : t.be.none[locale]}</dd></div>
-                    </>
-                  ) : model === "hold" ? (
-                    <>
-                      <div><dt>{t.be.rentNpv[locale]}</dt><dd>{extras.be.rentNpv != null ? `${perM2(extras.be.rentNpv)} ${unitRent}` : t.be.none[locale]}</dd></div>
-                      <div><dt>{t.be.occNpv[locale]}</dt><dd>{extras.be.occupancyNpv != null ? `${fmt.pf.format(extras.be.occupancyNpv)} %` : t.be.none[locale]}</dd></div>
-                    </>
-                  ) : (
-                    <div className="is-note"><dt>{t.be.btsNote[locale]}</dt><dd>{bts?.minRent != null ? `${perM2(bts.minRent)} ${unitRent}` : t.be.none[locale]}</dd></div>
-                  )}
+                  {model === "sale" ? <div><dt>{t.be.price[locale]}</dt><dd>{extras.be.price?.value != null ? `${perM2(extras.be.price.value)} ${unitPrice}` : t.be.none[locale]}</dd></div> : null}
+                  {model === "hold" ? <>
+                    <div><dt>{t.be.rent[locale]}</dt><dd>{extras.be.rent?.value != null ? `${perM2(extras.be.rent.value)} ${unitRent}` : t.be.none[locale]}</dd></div>
+                    <div><dt>{t.be.occ[locale]}</dt><dd>{extras.be.occupancy?.value != null ? `${pf.format(extras.be.occupancy.value)} %` : t.be.none[locale]}</dd></div>
+                  </> : null}
+                  {model === "bts" ? <div><dt>{t.out.minRent[locale]}</dt><dd>{`${perM2(L.rent)} ${unitRent} · ${t.be.check[locale]}`}</dd></div> : null}
                 </dl>
               </div>
             </>
@@ -556,6 +685,7 @@ function FlowChart({ q, locale, eur }: { q: { q: number; inflow: number; outflow
         <line x1={P} x2={W - P} y1={y0} y2={y0} className="lx-chart__axis" />
         {q.map((r, i) => (
           <g key={r.q}>
+            <title>{`${t.chart.q[locale]} ${r.q + 1}: ${t.chart.in[locale]} ${eur(r.inflow)} · ${t.chart.outflow[locale]} ${eur(-r.outflow)} · ${t.chart.cum[locale]} ${eur(r.cumulative)}`}</title>
             <rect className="lx-chart__in" x={x(i)} y={y0 - r.inflow * k} width={bw} height={Math.max(0, r.inflow * k)} />
             <rect className="lx-chart__out" x={x(i)} y={y0} width={bw} height={Math.max(0, r.outflow * k)} />
           </g>

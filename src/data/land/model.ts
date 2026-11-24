@@ -124,6 +124,11 @@ export type DevelopmentScenario = {
   preset: string;
   /** reserved for the architect's visualisations / masterplan / 3D concept — null until they exist; never generated */
   visual: string | null;
+  /**
+   * R3 (OWNER «DROCHIA R3» §3): a CONCEPT visualisation of the format — generated (scripts/land-concepts.mjs), always captioned
+   * «Концептуальная визуализация», never the site, never an approved project, never the architect's visual (that stays `visual`).
+   */
+  concept: string | null;
 };
 
 /** Demonstration assumptions of the development model — always labelled «демонстрационные», never site data or a market valuation. */
@@ -174,6 +179,13 @@ export type ExplorerData = {
   places: { name: string; kind: string; x: number; y: number }[];
 };
 
+/**
+ * R3 (OWNER «DROCHIA R3» §4): a small bar chart of the market research — one measure, one axis, official figures only (each bar a value
+ * of the cited source); the page draws it with direct labels and a table view (the indicators). `highlight` marks the bar the text speaks
+ * about (red), never a rank.
+ */
+export type MarketChart = { key: string; title: Localized; unit: Localized; bars: { label: Localized; value: number; highlight?: boolean }[]; source: string; refDate: string; note?: Localized };
+
 /** A road distance from the routing research (§6) — an estimate of the routing engine, never a measured or official figure. */
 export type Distance = { key: string; to: Localized; km: number; source: string; method: Localized };
 
@@ -218,14 +230,14 @@ export type LandAsset = {
    * WHY THIS SITE (OWNER R2 §1 «главная страница должна продавать инвестиционную возможность»): three or four short arguments right
    * under the first screen. Each one is a verified fact (source in `source`), never a forecast, a superlative or a tenant's interest.
    */
-  arguments: { key: string; title: Localized; text: Localized; nature: Nature; source: Localized }[];
+  arguments: { key: string; title: Localized; text: Localized; nature: Nature; source: Localized; /** R3: the large figure of the argument (a published fact) */ figure?: Localized }[];
   media: MediaSlot[];
   /** the published current facts of the first screen and their status (§4: published data, not a substitute for the cadastral check) */
   facts: { key: string; label: Localized; value: Localized; status: Register; provenance?: string }[];
   layers: LocationLayer[];
   explorer: ExplorerData;
   distances: Distance[];
-  market: { summary: Localized; indicators: MarketIndicator[]; record: string; checked: string };
+  market: { summary: Localized; indicators: MarketIndicator[]; record: string; checked: string; charts?: MarketChart[] };
   scenarios: DevelopmentScenario[];
   passport: Param[];
   readiness: ReadinessItem[];

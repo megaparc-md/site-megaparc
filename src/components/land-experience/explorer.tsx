@@ -9,9 +9,12 @@ import { numberLocale, type Localized, type SiteLocale } from "@/lib/site-data";
 /**
  * LOCATION EXPLORER (§5) — eight switchable layers over one light OpenStreetMap base: location · cadastral boundary · access and
  * transport · surroundings · commercial infrastructure · residential areas and population · utility networks · development potential.
- * Zoom (buttons, double click, Ctrl / ⌘ + wheel, pinch) and drag-pan; the satellite view and directions open Google Maps; the 360°
- * panorama button appears when the tour exists (the OWNER preview shows it as «after the shoot»). The boundary layer draws NOTHING until
- * the official plan or verified coordinates exist — it says so on the map. WAI-ARIA tabs (vertical); the nearest points are listed as text.
+ * Zoom (buttons, double click, Ctrl / ⌘ + wheel, pinch) and drag-pan; the 360° panorama button appears when the tour exists (the OWNER
+ * preview shows it as «after the shoot»). The boundary layer draws NOTHING until the official plan or verified coordinates exist — it says
+ * so on the map. WAI-ARIA tabs (vertical).
+ * R3 location policy (OWNER «DROCHIA R3» §4, the production rule of the location hotfix): until the cadastral coordinates are documented
+ * the site is an APPROXIMATE AREA (a soft zone, no pin, no outline, no name marker); no radius ring, no line to the town centre, no
+ * distance from the site to any point, no coordinate link (satellite / directions); road distances are given from the town.
  */
 
 type Props = {
@@ -22,17 +25,18 @@ type Props = {
   data: ExplorerData;
   layers: LocationLayer[];
   distances: Distance[];
+  /** the label of the approximate area on the map (RU «Ориентировочный район») */
+  areaLabel: string;
   indicators: MarketIndicator[];
   boundary: [number, number][] | null;
   tour: string | null;
   preview: boolean;
-  directions: string;
 };
 
 const MAX = 6;
 const RETAIL = new Set(["retail", "market", "trade", "fuel", "service", "shop"]);
 
-export function LandExplorer({ locale, name, townGen, data, layers, distances, indicators, boundary, tour, preview, directions }: Props) {
+export function LandExplorer({ locale, townGen, data, layers, distances, indicators, boundary, tour, preview, areaLabel }: Props) {
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState({ x: data.frame.w / 2, y: data.frame.h / 2 });
@@ -47,7 +51,6 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
   const W = data.frame.w, H = data.frame.h;
   const mpu = data.frame.metersPerUnit;
   const nf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 0 }), [locale]);
-  const kmf = useMemo(() => new Intl.NumberFormat(numberLocale(locale), { maximumFractionDigits: 1, minimumFractionDigits: 0 }), [locale]);
 
   const w = W / zoom, h = H / zoom;
   const clampC = (x: number, y: number, z: number) => ({ x: Math.min(W - W / z / 2, Math.max(W / z / 2, x)), y: Math.min(H - H / z / 2, Math.max(H / z / 2, y)) });
@@ -112,10 +115,10 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
     tabs.current[next]?.focus();
   };
 
-  const dist = (p: { x: number; y: number }) => Math.round(Math.hypot(p.x - data.site.x, p.y - data.site.y) * mpu);
-  const within = (kinds: Set<string> | string[], m = 1000) => data.points.filter((p) => (Array.isArray(kinds) ? kinds.includes(p.kind) : kinds.has(p.kind)) && dist(p) <= m);
-  const nearest = (kinds: string[], n = 6) => data.points.filter((p) => kinds.includes(p.kind) && p.name).sort((a, b) => dist(a) - dist(b)).slice(0, n);
-  const ring = 1000 / mpu;
+  // what the map frame shows (OpenStreetMap) — counts and names, never a distance from the site
+  const onMap = (kinds: Set<string> | string[]) => data.points.filter((p) => (Array.isArray(kinds) ? kinds.includes(p.kind) : kinds.has(p.kind)));
+  const named = (kinds: string[], n = 6) => [...new Set(data.points.filter((p) => kinds.includes(p.kind) && p.name).map((p) => p.name as string))].slice(0, n);
+  const area = 300 / mpu; // the soft approximate zone (≈ 300 m), never an outline
   const pointsFor: Partial<Record<LayerKey, string[]>> = {
     access: ["station", "bus", "fuel"],
     commerce: ["retail", "market", "trade", "fuel", "service", "shop"],
@@ -123,7 +126,6 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
     utilities: ["substation", "water"],
   };
   const shown = pointsFor[key] ? data.points.filter((p) => pointsFor[key]!.includes(p.kind)) : [];
-  const fmtM = (m: number) => (m >= 1000 ? `${kmf.format(m / 1000)}${" "}${locale === "ru" ? "км" : "km"}` : `${nf.format(m)}${" "}${locale === "ru" ? "м" : "m"}`);
   const roadStroke = (cls: string) => (cls === "trunk" || cls === "primary" ? 7 : cls === "secondary" ? 5 : 3.5);
   // the cadastral boundary — drawn only from verified coordinates (geo.boundary, [lon, lat]); none exists yet, so nothing is drawn
   const R = 6371000;
@@ -138,30 +140,30 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
             <div className="lx-ex__block">
               <p className="lx-ex__sub">{c.distTitle[locale]}</p>
               <dl className="lx-ex__rows">
-                {distances.map((d) => <div key={d.key}><dt>{d.to[locale]}</dt><dd>≈{" "}{nf.format(Math.round(d.km))}{" "}{locale === "ru" ? "км" : "km"}</dd></div>)}
+                {distances.map((d) => <div key={d.key}><dt>{d.to[locale]}</dt><dd>{`≈\u00a0${nf.format(Math.round(d.km))}\u00a0${locale === "ru" ? "км" : "km"}`}</dd></div>)}
               </dl>
               <p className="lx-note">{distances[0].method[locale]}</p>
             </div>
           ) : null}
           <div className="lx-ex__block">
-            <p className="lx-ex__sub">{c.nearest[locale]}</p>
-            <ul className="lx-ex__near">{nearest(["station", "bus", "fuel"], 4).map((p) => <li key={p.osm}><span>{p.name ?? c.kinds[p.kind][locale]}</span><em>{fmtM(dist(p))} · {c.straight[locale]}</em></li>)}</ul>
+            <p className="lx-ex__sub">{c.onMap[locale]}</p>
+            <dl className="lx-ex__counts">{(["station", "bus", "fuel"] as const).map((k) => ({ k, n: onMap([k]).length })).filter((x) => x.n).map((x) => <div key={x.k}><dt>{c.kinds[x.k][locale]}</dt><dd>{x.n}</dd></div>)}</dl>
           </div>
         </>
       );
     }
     if (key === "commerce") {
-      const near = within(RETAIL);
-      const counts = (["retail", "market", "trade", "fuel", "service"] as const).map((k) => ({ k, n: near.filter((p) => p.kind === k).length })).filter((x) => x.n > 0);
+      const all = onMap(RETAIL);
+      const counts = (["retail", "market", "trade", "fuel", "service"] as const).map((k) => ({ k, n: all.filter((p) => p.kind === k).length })).filter((x) => x.n > 0);
       return (
         <>
           <div className="lx-ex__block">
-            <p className="lx-ex__sub">{c.withinKm[locale]}</p>
+            <p className="lx-ex__sub">{c.onMap[locale]}</p>
             <dl className="lx-ex__counts">{counts.map((x) => <div key={x.k}><dt>{c.kinds[x.k][locale]}</dt><dd>{x.n}</dd></div>)}</dl>
           </div>
           <div className="lx-ex__block">
-            <p className="lx-ex__sub">{c.nearest[locale]}</p>
-            <ul className="lx-ex__near">{nearest(["retail", "market", "trade"], 6).map((p) => <li key={p.osm}><span>{p.name}</span><em>{fmtM(dist(p))} · {c.straight[locale]}</em></li>)}</ul>
+            <p className="lx-ex__sub">{c.namedOnMap[locale]}</p>
+            <ul className="lx-ex__near">{named(["retail", "market", "trade"], 8).map((n) => <li key={n}><span>{n}</span></li>)}</ul>
           </div>
         </>
       );
@@ -174,17 +176,17 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
             <dl className="lx-ex__counts lx-ex__counts--big">{pop.map((i) => <div key={i.key}><dt>{i.label[locale]}</dt><dd>{i.value[locale]}{i.note ? <span className="lx-ex__src">{i.note[locale]}</span> : null}<span className="lx-ex__src">{natureCopy[i.nature][locale]} · {i.source} · {i.refDate}</span></dd></div>)}</dl>
           ) : null}
           <div className="lx-ex__block">
-            <p className="lx-ex__sub">{c.withinKm[locale]}</p>
-            <dl className="lx-ex__counts">{(["education", "health"] as const).map((k) => <div key={k}><dt>{c.kinds[k][locale]}</dt><dd>{within([k]).length}</dd></div>)}</dl>
+            <p className="lx-ex__sub">{c.onMap[locale]}</p>
+            <dl className="lx-ex__counts">{(["education", "health"] as const).map((k) => <div key={k}><dt>{c.kinds[k][locale]}</dt><dd>{onMap([k]).length}</dd></div>)}</dl>
           </div>
         </>
       );
     }
     if (key === "utilities") {
-      const near = data.points.filter((p) => p.kind === "substation").sort((a, b) => dist(a) - dist(b))[0];
+      const subs = onMap(["substation"]).length;
       return (
         <div className="lx-ex__block">
-          {near ? <p className="lx-ex__fact"><span>{c.kinds.substation[locale]}</span><em>{fmtM(dist(near))} · {c.straight[locale]}</em></p> : null}
+          {subs ? <p className="lx-ex__fact"><span>{c.kinds.substation[locale]} · {c.onMap[locale]}</span><em>{subs}</em></p> : null}
           <p className="lx-note">{layer.text[locale]}</p>
         </div>
       );
@@ -259,10 +261,8 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
               )) : null}
             </>
           ) : null}
-          {key === "commerce" || key === "residential" || key === "context" ? <circle className="lx-ex__ring" cx={data.site.x} cy={data.site.y} r={ring} style={{ strokeWidth: 2 * s, strokeDasharray: `${3 * s} ${8 * s}` }} /> : null}
           {key === "site" ? (
             <>
-              <line className="lx-ex__tie" x1={data.town.x} y1={data.town.y} x2={data.site.x} y2={data.site.y} style={{ strokeWidth: 2 * s, strokeDasharray: `${5 * s} ${6 * s}` }} />
               <circle className="lx-ex__town" cx={data.town.x} cy={data.town.y} r={9 * s} />
               <text className="lx-ex__label" x={data.town.x} y={data.town.y} dy={-18 * s} textAnchor="middle" style={{ fontSize: 22 * s }}>{locale === "ru" ? `Центр ${townGen.ru}` : locale === "ro" ? "Centrul orașului" : "Town centre"}</text>
             </>
@@ -281,15 +281,21 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
             />
           ))}
           {key === "boundary" && boundaryD ? <path className="lx-ex__boundary" d={boundaryD} style={{ strokeWidth: 3 * s }} /> : null}
-          {/* the site — the geocoded address (a point, never a boundary) */}
-          <g className="lx-ex__site" transform={`translate(${data.site.x} ${data.site.y}) scale(${s})`}>
-            <circle r="30" className="lx-ex__site-halo" />
-            <circle r="11" className="lx-ex__site-dot" />
-            <text y="-40" textAnchor="middle" className="lx-ex__site-name">{name}</text>
+          {/* the approximate area — a soft zone, never a pin or an outline (R3 location policy) */}
+          <defs>
+            <radialGradient id="lx-ex-area">
+              <stop offset="0" stopColor="#cb0102" stopOpacity=".34" />
+              <stop offset=".55" stopColor="#cb0102" stopOpacity=".16" />
+              <stop offset="1" stopColor="#cb0102" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <g className="lx-ex__area" pointerEvents="none">
+            <circle cx={data.site.x} cy={data.site.y} r={area * 1.6} fill="url(#lx-ex-area)" />
+            <text className="lx-ex__area-label" x={data.site.x} y={data.site.y - area * 1.7} textAnchor="middle" style={{ fontSize: 22 * s }}>{areaLabel}</text>
           </g>
           {hover ? (
             <g transform={`translate(${hover.x} ${hover.y}) scale(${s})`} className="lx-ex__tip" pointerEvents="none">
-              <text y="-18" textAnchor="middle">{hover.name ?? c.kinds[hover.kind]?.[locale]}{" · "}{fmtM(dist(hover))}</text>
+              <text y="-18" textAnchor="middle">{hover.name ?? c.kinds[hover.kind]?.[locale]}</text>
             </g>
           ) : null}
         </svg>
@@ -314,8 +320,6 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
         {detail()}
         <Legend layer={key} locale={locale} />
         <div className="lx-ex__links">
-          <a className="lx-link" href={`https://www.google.com/maps/@${data.site.lat},${data.site.lon},17z/data=!3m1!1e3`} target="_blank" rel="noopener noreferrer"><span>{c.satellite[locale]}</span><Icon name="up-right" size={15} /></a>
-          <a className="lx-link" href={directions} target="_blank" rel="noopener noreferrer"><span>{c.route[locale]}</span><Icon name="up-right" size={15} /></a>
           {tour ? <a className="lx-link" href={tour}><span>{c.tour[locale]}</span><Icon size={15} /></a> : preview ? <span className="lx-link is-off" aria-disabled="true">{c.tourSoon[locale]}</span> : null}
         </div>
         <p className="lx-note">{layer.source[locale]}</p>
@@ -327,11 +331,10 @@ export function LandExplorer({ locale, name, townGen, data, layers, distances, i
 function Legend({ layer, locale }: { layer: LayerKey; locale: SiteLocale }) {
   const items: { k: string; label: string }[] = [{ k: "site", label: c.legend.site[locale] }];
   if (layer === "access") items.push({ k: "road", label: c.legend.road[locale] }, { k: "rail", label: c.legend.rail[locale] }, { k: "station", label: c.kinds.station[locale] }, { k: "fuel", label: c.kinds.fuel[locale] });
-  if (layer === "commerce") items.push({ k: "retail", label: c.kinds.retail[locale] }, { k: "trade", label: c.kinds.trade[locale] }, { k: "service", label: c.kinds.service[locale] }, { k: "fuel", label: c.kinds.fuel[locale] }, { k: "ring", label: c.legend.ring[locale] });
+  if (layer === "commerce") items.push({ k: "retail", label: c.kinds.retail[locale] }, { k: "trade", label: c.kinds.trade[locale] }, { k: "service", label: c.kinds.service[locale] }, { k: "fuel", label: c.kinds.fuel[locale] });
   if (layer === "residential") items.push({ k: "residential", label: c.legend.residential[locale] }, { k: "education", label: c.kinds.education[locale] }, { k: "health", label: c.kinds.health[locale] });
   if (layer === "utilities") items.push({ k: "power", label: c.legend.power[locale] }, { k: "substation", label: c.kinds.substation[locale] }, { k: "water", label: c.kinds.water[locale] });
   if (layer === "potential") items.push({ k: "production", label: c.legend.production[locale] }, { k: "trade-zone", label: c.legend.trade[locale] }, { k: "road", label: c.legend.road[locale] });
-  if (layer === "context") items.push({ k: "ring", label: c.legend.ring[locale] });
   return (
     <ul className="lx-ex__legend">
       {items.map((i) => <li key={i.k}><i className={`is-${i.k}`} aria-hidden="true" />{i.label}</li>)}

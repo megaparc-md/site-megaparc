@@ -20,6 +20,7 @@ export const currencyCopy = {
     official: (date: string) => `официальный курс НБМ на ${date} · обновляется автоматически`,
     latest: (date: string) => `последний опубликованный курс НБМ — на ${date}`,
     manual: "Курс задан вручную",
+    empty: (date: string) => `поле курса пустое — применяется официальный курс НБМ на ${date}`,
     restore: "Вернуть курс НБМ",
     offer: (date: string, rate: string) => `Опубликован курс НБМ на ${date}: 1 EUR = ${rate} MDL`,
     apply: "Применить",
@@ -35,6 +36,7 @@ export const currencyCopy = {
     official: (date: string) => `cursul oficial BNM din ${date} · actualizat automat`,
     latest: (date: string) => `ultimul curs oficial BNM publicat — din ${date}`,
     manual: "Curs stabilit manual",
+    empty: (date: string) => `câmpul cursului este gol — se aplică cursul oficial BNM din ${date}`,
     restore: "Reveniți la cursul BNM",
     offer: (date: string, rate: string) => `A fost publicat cursul BNM din ${date}: 1 EUR = ${rate} MDL`,
     apply: "Aplicați",
@@ -50,6 +52,7 @@ export const currencyCopy = {
     official: (date: string) => `official NBM rate of ${date} · updated automatically`,
     latest: (date: string) => `latest published NBM rate — of ${date}`,
     manual: "Rate set manually",
+    empty: (date: string) => `the rate field is empty — the official NBM rate of ${date} applies`,
     restore: "Back to the NBM rate",
     offer: (date: string, rate: string) => `NBM rate of ${date} published: 1 EUR = ${rate} MDL`,
     apply: "Apply",
@@ -73,7 +76,10 @@ export type Fx = {
   rate: number;
   /** what the rate field shows (canonical) */
   text: string;
+  /** a valid rate typed by the visitor is in use (an empty or invalid field is NOT a manual state — Codex P2, 2026-11-24) */
   manual: boolean;
+  /** the field holds no valid rate: the official rate applies and the interface says so */
+  empty: boolean;
   setText: (canonical: string) => void;
   restore: () => void;
   /** a newer official record that arrived after the visitor started a calculation on the official rate — applied only on request */
@@ -90,23 +96,24 @@ export function useFx(started: boolean): Fx {
   const [record, setRecord] = useState<NbmRecord>(nbmSnapshot);
   const [offer, setOffer] = useState<NbmRecord | null>(null);
   const [manual, setManual] = useState<string | null>(null);
-  const state = useRef({ started, manual });
-  useEffect(() => { state.current = { started, manual }; }, [started, manual]);
+  const scenario = manual === null ? null : rateOf(manual);
+  const state = useRef({ started, scenario });
+  useEffect(() => { state.current = { started, scenario }; }, [started, scenario]);
   useEffect(() => {
     let live = true;
     loadNbmRecord().then((fresh) => {
       if (!live || !fresh || !isNewerRecord(fresh, nbmSnapshot)) return;
-      if (state.current.started && state.current.manual === null) setOffer(fresh);
+      if (state.current.started && state.current.scenario === null) setOffer(fresh);
       else setRecord(fresh);
     });
     return () => { live = false; };
   }, []);
-  const scenario = manual === null ? null : rateOf(manual);
   return {
     record,
     rate: scenario ?? record.rate,
     text: manual ?? String(record.rate),
-    manual: manual !== null,
+    manual: scenario !== null,
+    empty: manual !== null && scenario === null,
     setText: (canonical) => setManual(rateOf(canonical) === record.rate ? null : canonical),
     restore: () => { if (offer) { setRecord(offer); setOffer(null); } setManual(null); },
     offer,
@@ -153,7 +160,7 @@ export function CurrencyBar({ locale, currency, onCurrency, fx, className }: {
           <span aria-hidden="true">MDL</span>
         </span>
         <span className={`cur-bar__src${fx.manual ? " is-manual" : ""}`} id={`${uid}-rate-src`} aria-live="polite">
-          {fx.manual ? <>{t.manual} · <button type="button" className="cur-bar__restore" onClick={fx.restore}>{t.restore}</button></> : officialLine}
+          {fx.manual ? <>{t.manual} · <button type="button" className="cur-bar__restore" onClick={fx.restore}>{t.restore}</button></> : fx.empty ? <>{t.empty(date)} · <button type="button" className="cur-bar__restore" onClick={fx.restore}>{t.restore}</button></> : officialLine}
         </span>
       </div>
       {fx.offer && !fx.manual ? (

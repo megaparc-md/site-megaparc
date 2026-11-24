@@ -86,7 +86,7 @@ export const c = {
   straight: T("în linie dreaptă", "по прямой", "straight line"),
   withinKm: T("în raza de 1 km", "в радиусе 1 км", "within 1 km"),
   legend: {
-    site: T("Terenul (punct aproximativ)", "Участок (ориентировочная точка)", "The site (approximate point)"),
+    site: T("Zonă orientativă a terenului", "Ориентировочный район участка", "Approximate area of the site"),
     road: T("Drumuri principale", "Главные дороги", "Main roads"),
     rail: T("Calea ferată", "Железная дорога", "Railway"),
     residential: T("Zone rezidențiale", "Жилые зоны", "Residential zones"),
@@ -109,8 +109,12 @@ export const c = {
     substation: T("Posturi de transformare", "Подстанции", "Substations"),
     water: T("Obiecte de apă", "Водные объекты", "Water facilities"),
   } as Record<string, Localized>,
-  distTitle: T("Distanțe rutiere (estimare)", "Расстояния по дорогам (оценка)", "Road distances (estimate)"),
-  nearest: T("Cele mai apropiate", "Ближайшие", "Nearest"),
+  distTitle: T("Distanțe rutiere de la oraș (estimare)", "Расстояния по дорогам от города (оценка)", "Road distances from the town (estimate)"),
+  nearest: T("Pe hartă", "На карте", "On the map"),
+  onMap: T("Pe hartă (OpenStreetMap)", "На карте (OpenStreetMap)", "On the map (OpenStreetMap)"),
+  namedOnMap: T("Rețele și magazine pe hartă", "Сети и магазины на карте", "Chains and shops on the map"),
+  areaLabel: T("Zonă orientativă", "Ориентировочный район", "Approximate area"),
+  areaNote: T("Zonă orientativă · fără punct sau limite confirmate", "Ориентировочный район · без подтверждённой точки и границ", "Approximate area · no confirmed point or boundary"),
 
   // 02 · market
   p2: T("02 · Studiul pieței", "02 · Исследование рынка", "02 · Market research"),

@@ -1,5 +1,5 @@
 import { T } from "@/data/leasing-experience-model";
-import type { Distance, MarketIndicator } from "@/data/land/model";
+import type { Distance, MarketChart, MarketIndicator } from "@/data/land/model";
 
 /**
  * DROCHIA LOCATION MARKET RESEARCH — the public layer of the desk research of 2026-11-23 (OWNER «DROCHIA · DEVELOPMENT & INVESTMENT
@@ -24,7 +24,7 @@ const PASSPORT = "https://drochia.md/wp-content/uploads/2026/04/PASAPORTUL-Droch
 const census = T("recensământ (BNS)", "перепись (НБС)", "census (NBS)");
 const register = T("serie statistică oficială (BNS)", "официальный статистический ряд (НБС)", "official statistical series (NBS)");
 const doc = T("document oficial", "официальный документ", "official document");
-const osrm = T("Estimare a rutării OSRM pe rețeaua OpenStreetMap, de la punctul aproximativ al terenului; nu este o măsurătoare oficială.", "Оценка маршрутизатора OSRM по дорогам OpenStreetMap от ориентировочной точки участка; не официальное измерение.", "An OSRM routing estimate on the OpenStreetMap road network from the approximate site point; not an official measurement.");
+const osrm = T("Estimare a rutării OSRM pe rețeaua OpenStreetMap, de la orașul Drochia; nu este o măsurătoare oficială și nu este distanța de la teren.", "Оценка маршрутизатора OSRM по дорогам OpenStreetMap от города Дрокия; не официальное измерение и не расстояние от участка.", "An OSRM routing estimate on the OpenStreetMap road network from Drochia town; not an official measurement and not a distance from the site.");
 const MDED_PARKS = "https://mded.gov.md/wp-content/uploads/2026/06/Raport-functionarea-PI-anul-2025-fin-pdf.pdf";
 
 const indicators: MarketIndicator[] = [
@@ -66,7 +66,7 @@ const indicators: MarketIndicator[] = [
 
 const km = (key: string, to: ReturnType<typeof T>, value: number): Distance => ({ key, to, km: value, source: "OSRM · OpenStreetMap · 2026-11-23", method: osrm });
 
-export const drochiaMarket: { distances: Distance[]; market: { summary: ReturnType<typeof T>; indicators: MarketIndicator[]; record: string; checked: string } } = {
+export const drochiaMarket: { distances: Distance[]; market: { summary: ReturnType<typeof T>; indicators: MarketIndicator[]; record: string; checked: string; charts: MarketChart[] } } = {
   distances: [
     km("balti", T("Bălți", "Бэлць", "Bălți"), 42.5),
     km("soroca", T("Soroca", "Сороки", "Soroca"), 43.4),
@@ -81,6 +81,15 @@ export const drochiaMarket: { distances: Distance[]; market: { summary: ReturnTy
       `Drochia is a district centre in the north of Moldova: 12,939 residents in the town and 53,738 in the district (2024 census). National roads R7 and R12 and the Ocnița – Bălți railway cross the town; Bălți is about 43 km by road, Chișinău about 174 km. The district's economy rests on agriculture, food processing and trade. The site's development format is under evaluation.`,
     ),
     indicators,
+    // R3 · the figures of the research as small bar charts (official BNS series; the same values as the indicators above)
+    charts: [
+      { key: "population", title: T("Populația raionului", "Население района", "Population of the district"), unit: T("locuitori", "жителей", "residents"), source: "BNS · RPL2014 / RPL2024", refDate: "2014 · 2024", note: T("−23,9 % în zece ani", "−23,9 % за десять лет", "−23.9% in ten years"),
+        bars: [{ label: T("2014", "2014", "2014"), value: 70574 }, { label: T("2024", "2024", "2024"), value: 53738, highlight: true }] },
+      { key: "harvest", title: T("Recolta raionului, 2025", "Урожай района, 2025", "The district's harvest, 2025"), unit: T("tone", "тонн", "tonnes"), source: "BNS statbank · AGR020600", refDate: "2025",
+        bars: [{ label: T("Cereale", "Зерновые", "Cereals"), value: 165982, highlight: true }, { label: T("Floarea-soarelui", "Подсолнечник", "Sunflower"), value: 53189 }, { label: T("Sfeclă de zahăr", "Сахарная свёкла", "Sugar beet"), value: 48385 }] },
+      { key: "turnover", title: T("Cifra de afaceri în raion, 2024", "Оборот предприятий района, 2024", "Turnover of the district's enterprises, 2024"), unit: T("mil. MDL", "млн MDL", "MDL m"), source: "BNS statbank · ANT020150", refDate: "2024",
+        bars: [{ label: T("Comerț", "Торговля", "Trade"), value: 2860.4, highlight: true }, { label: T("Industria prelucrătoare", "Обрабатывающая промышленность", "Manufacturing"), value: 2433.5 }] },
+    ],
     record: "docs/research/DROCHIA_LOCATION_MARKET_RESEARCH.md",
     checked: "2026-11-23",
   },
