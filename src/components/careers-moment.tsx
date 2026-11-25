@@ -2,7 +2,7 @@ import { MaskTitle } from "@/components/experience";
 import { Icon } from "@/components/ui";
 import { getProject } from "@/content/source";
 import { careersCopy } from "@/data/careers-copy";
-import type { SiteLocale } from "@/lib/site-data";
+import { publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS HERO — R2 (OWNER «MEGAPARC CAREERS R2», 2026-11-25 · §3, §6, §7).
@@ -14,6 +14,13 @@ import type { SiteLocale } from "@/lib/site-data";
  * (docs/careers/PHOTO_VIDEO_BRIEF.md). No text sits on the photograph.
  */
 export type HeroDirection = { key: string; label: string; count: number };
+
+const hero = {
+  band640: publicAsset("/assets/careers/dacia-31-band-640.webp"),
+  band960: publicAsset("/assets/careers/dacia-31-band-960.webp"),
+  wide1200: publicAsset("/assets/careers/dacia-31-wide-1200.webp"),
+  portrait760: publicAsset("/assets/careers/dacia-31-portrait-760.webp"),
+};
 
 export function CareersHero({ locale, href, count, directions }: { locale: SiteLocale; href: string; count: string | null; directions: HeroDirection[] }) {
   const c = careersCopy.hero;
@@ -53,10 +60,12 @@ export function CareersHero({ locale, href, count, directions }: { locale: SiteL
         {property?.media ? (
           <figure className="cr-hero__media">
             {/* art-directed per screen: the upright crop beside the copy (desktop), the 21 : 9 band (tablet), the 4 : 3 frame as a band (phone) */}
+            {/* light derivatives of the same approved frame for this placement (public/assets/careers — crop and compression only):
+                the phone band was the page's LCP at 456 KB (Lighthouse mobile, R2) */}
             <picture>
-              <source media="(min-width: 1024px)" srcSet={property.media.portrait} />
-              <source media="(min-width: 720px)" srcSet={property.media.wide} />
-              <img src={property.media.card} alt={c.photoAlt[locale]} width={1400} height={1050} fetchPriority="high" decoding="async" style={{ objectPosition: "50% 46%" }} />
+              <source media="(min-width: 1024px)" srcSet={`${hero.portrait760} 760w, ${property.media.portrait} 1100w`} sizes="40vw" />
+              <source media="(min-width: 720px)" srcSet={`${hero.wide1200} 1200w, ${property.media.wide} 2200w`} sizes="100vw" />
+              <img src={hero.band960} srcSet={`${hero.band640} 640w, ${hero.band960} 960w`} sizes="100vw" alt={c.photoAlt[locale]} width={960} height={540} fetchPriority="high" decoding="async" style={{ objectPosition: "50% 46%" }} />
             </picture>
             <figcaption className="cr-hero__caption">{property.name} · {property.city[locale]}</figcaption>
           </figure>
