@@ -149,6 +149,65 @@
 .mca-foot__lang span { color: var(--mca-ink); box-shadow: inset 0 -2px 0 var(--mca-red); }
 
 
+/* ------------------------------------------------------------------ */
+/* The live chat with the managers                                      */
+/* ------------------------------------------------------------------ */
+.mca-launch__badge { position: absolute; top: -.3rem; right: -.3rem; width: .85rem; height: .85rem; border: 2px solid var(--mca-white); border-radius: 50%; background: var(--mca-ink); }
+.mca-panel[data-live] .mca-status__dot { border-color: var(--mca-red); background: var(--mca-red); }
+
+/* an employee's message: a name, then the words — Dark Grey marks the human voice */
+.mca-msg--manager { max-width: 92%; }
+.mca-msg__who { margin: 0 0 .3rem !important; color: var(--mca-dark-grey); font-size: .72rem; font-weight: 700; letter-spacing: .04em; }
+.mca-msg--manager .mca-bubble { border-left: 2px solid var(--mca-dark-grey); border-radius: 2px 6px 6px 2px; }
+.mca-pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* the visitor's live message and its real delivery state */
+.mca-msg--live { padding: 0; background: transparent; color: inherit; display: flex; flex-direction: column; align-items: flex-end; }
+.mca-msg--live .mca-msg__body { max-width: 100%; padding: .6rem .85rem; border-radius: 6px 6px 2px 6px; background: var(--mca-ink); color: var(--mca-white); font-size: .88rem; line-height: 1.45; overflow-wrap: anywhere; }
+.mca-msg--live .mca-msg__body:empty { display: none; }
+.mca-msg__state { margin: .25rem 0 0 !important; color: var(--mca-graphite); font-size: .72rem; line-height: 1.4; }
+.mca-msg--live[data-state="failed"] .mca-msg__state { color: var(--mca-red); }
+.mca-msg--live[data-state="sending"] .mca-msg__body, .mca-msg--live[data-state="pending"] .mca-msg__body { opacity: .72; }
+.mca-msg__retry { min-height: 2.75rem; margin-left: .4rem; padding: 0 .2rem; border: 0; background: transparent; color: var(--mca-ink); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+
+/* a line of the service itself — neither the visitor nor an employee */
+.mca-sys { display: flex; align-items: center; gap: .75rem; color: var(--mca-graphite); font-size: .76rem; line-height: 1.45; text-align: center; }
+.mca-sys::before, .mca-sys::after { content: ""; flex: 1 1 1.5rem; min-width: 1rem; height: 1px; background: var(--mca-line-strong); }
+.mca-sys p { flex: 0 1 auto; margin: 0; max-width: 17rem; }
+.mca-sys:focus { outline: none; }
+
+/* files */
+.mca-file { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: .55rem; width: 100%; min-height: 2.75rem; padding: .45rem .6rem; border: 1px solid var(--mca-line-strong); border-radius: 2px; background: var(--mca-white); color: var(--mca-ink); font: inherit; font-size: .84rem; text-align: left; cursor: pointer; }
+.mca-file .mca-arrow { grid-row: span 2; }
+.mca-file__name { font-weight: 600; overflow-wrap: anywhere; }
+.mca-file__meta { color: var(--mca-graphite); font-size: .74rem; }
+.mca-file--own { border-color: rgba(255, 255, 255, .4); background: transparent; color: var(--mca-white); }
+.mca-file--own .mca-file__meta { color: rgba(255, 255, 255, .78); }
+.mca-file--plain { display: block; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; cursor: default; }
+.mca-file:disabled { opacity: .6; cursor: default; }
+.mca-bubble .mca-file + .mca-pre, .mca-bubble .mca-photo + .mca-pre { margin-top: .5rem; }
+.mca-photo { display: block; max-width: 100%; max-height: 14rem; border-radius: 2px; }
+
+/* who receives the messages — said before the first one; the details and the erase control behind one toggle */
+.mca-privacy { flex: none; max-height: 42%; overflow-y: auto; padding: .55rem 1.15rem .5rem; border-top: 1px solid var(--mca-line); background: var(--mca-white); color: var(--mca-graphite); font-size: .74rem; line-height: 1.45; }
+.mca-privacy p { margin: 0; }
+.mca-privacy__more, .mca-privacy__erase button { min-height: 1.6rem; padding: 0; border: 0; background: transparent; color: var(--mca-ink); font: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: var(--mca-line-strong); text-underline-offset: .2em; cursor: pointer; }
+.mca-privacy__test { margin-top: .25rem !important; color: var(--mca-ink); font-weight: 600; }
+.mca-privacy__details { display: grid; gap: .35rem; margin-top: .45rem; padding-top: .45rem; border-top: 1px solid var(--mca-line); }
+.mca-privacy__erase { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .9rem; }
+.mca-privacy__erase button { min-height: 2.75rem; }
+.mca-privacy__erase button[data-erase="yes"] { color: var(--mca-red); }
+.mca-alert { flex: none; margin: 0; padding: .5rem 1.15rem; border-top: 1px solid var(--mca-line); background: var(--mca-white); color: var(--mca-red); font-size: .78rem; font-weight: 600; line-height: 1.45; }
+
+.mca-form__attach { flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; margin-left: -.6rem; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--mca-graphite); cursor: pointer; }
+.mca-foot__telegram { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: .5rem; justify-self: start; min-height: 2.75rem; padding: 0; border: 0; background: transparent; color: var(--mca-ink); font: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; text-decoration: underline; text-decoration-color: var(--mca-line-strong); text-underline-offset: .22em; }
+.mca-msg__retry:focus-visible, .mca-file:focus-visible, .mca-privacy button:focus-visible, .mca-form__attach:focus-visible, .mca-foot__telegram:focus-visible { outline: 2px solid var(--mca-ink); outline-offset: 2px; }
+@media (hover: hover) {
+  .mca-form__attach:hover { color: var(--mca-ink); }
+  .mca-foot__telegram:hover, .mca-privacy__more:hover { text-decoration-color: var(--mca-red); }
+  .mca-file:hover:not(:disabled) { border-color: var(--mca-ink); }
+}
+
 /* hover — only where a pointer hovers: a tap never leaves a control in its hover state */
 @media (hover: hover) {
   .mca-launch:hover { background: var(--mca-ink); }

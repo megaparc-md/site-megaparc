@@ -115,6 +115,29 @@ export type AssistantCopy = {
     propertyFields: string[];
     question: (text: string) => string;
   };
+  /**
+   * The live chat with the managers (shown only when the assistant server is configured and connected). The wording never
+   * promises a reply time and never says «online»: it says who receives the message and where the answer will appear.
+   */
+  live: {
+    status: string;
+    statusClosed: string;
+    with: (name: string) => string;
+    manager: string;
+    placeholder: string;
+    attach: string;
+    sent: string;
+    managerReply: string[];
+    events: Record<string, string>;
+    states: { sending: string; pending: string; failed: string; retry: string };
+    errors: Record<string, string>;
+    telegram: string;
+    telegramHint: string;
+    download: string;
+    unread: string;
+    fromTelegram: string;
+    privacy: { short: string; more: string; less: string; details: (days: number) => string[]; test: string; erase: string; eraseConfirm: string; eraseYes: string; eraseNo: string; erased: string };
+  };
   /** words that route a typed question to a scenario (matched lower-case, without diacritics) */
   intents: Record<"returns" | "terms" | "viewing" | "calc" | "land" | "invest" | "rent" | "careers" | "manager" | "hello", string[]>;
 };

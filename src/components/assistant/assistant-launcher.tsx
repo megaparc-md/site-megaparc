@@ -6,6 +6,7 @@ import { GOTO_KEY, openAnchor } from "@/components/assistant/anchors";
 import type { AssistantPanelProps } from "@/components/assistant/assistant-panel";
 import type { AssistantCopy } from "@/components/assistant/copy";
 import { contextOf } from "@/components/assistant/engine";
+import { fetchEvents, liveConfigured, loadSession } from "@/components/assistant/live";
 import type { AssistantData } from "@/components/assistant/types";
 import { neutralPath, type Localized } from "@/lib/site-data";
 import { track } from "@/lib/track";
@@ -26,6 +27,7 @@ import { track } from "@/lib/track";
 
 const label: Localized = { ro: "Asistent", ru: "Помощник", en: "Assistant" };
 const openLabel: Localized = { ro: "Deschideți asistentul MEGAPARC", ru: "Открыть помощника MEGAPARC", en: "Open the MEGAPARC assistant" };
+const unreadLabel: Localized = { ro: "Mesaj nou de la manager", ru: "Новое сообщение от менеджера", en: "A new message from the manager" };
 
 /** fixed to the bottom edge of the viewport: the button sits above them */
 const BARS = ".lg-sticky, .lp-bar, .xp-preview, [data-assistant-clear]";
@@ -49,6 +51,8 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
   const [aside, setAside] = useState(false);
   const [lift, setLift] = useState(0);
   const [slot, setSlot] = useState(0);
+  /** an employee answered while the panel was closed */
+  const [unread, setUnread] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   const loading = useRef(false);
   /** the place the button holds now (px above the corner; null = aside) — kept across re-runs of the watcher */
@@ -56,6 +60,7 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
 
   const show = useCallback(() => {
     track("assistant_open", { context: context.key });
+    setUnread(false);
     if (loaded) {
       setOpen(true);
       return;
@@ -76,6 +81,30 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
     setOpen(false);
     if (refocus) requestAnimationFrame(() => button.current?.focus({ preventScroll: true }));
   }, []);
+
+  /* the live conversation of this browser, while the panel is closed: a quiet look for an employee's answer */
+  useEffect(() => {
+    if (!liveConfigured || open) return;
+    let timer = 0;
+    let stopped = false;
+    const look = async () => {
+      const session = loadSession();
+      if (session && !document.hidden) {
+        try {
+          const result = await fetchEvents(session, session.seen);
+          if (!stopped && result.messages.some((message) => message.from === "manager")) setUnread(true);
+        } catch {
+          /* unreachable or ended: nothing to show */
+        }
+      }
+      if (!stopped) timer = window.setTimeout(look, 20_000);
+    };
+    timer = window.setTimeout(look, 2_000);
+    return () => {
+      stopped = true;
+      window.clearTimeout(timer);
+    };
+  }, [open, path]);
 
   /* an action of the assistant that led to another page: open its section or drawer once the page is there */
   useEffect(() => {
@@ -223,12 +252,13 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
   const Panel = loaded?.Panel;
   return (
     <div className="mca" data-open={open ? "" : undefined} style={{ "--mca-lift": `${lift}px`, "--mca-slot": `${slot}px` } as React.CSSProperties}>
-      <button ref={button} type="button" className="mca-launch" aria-label={openLabel[data.locale]} aria-haspopup="dialog" aria-expanded={open} data-aside={aside || open ? "" : undefined} tabIndex={aside || open ? -1 : 0} onClick={show}>
+      <button ref={button} type="button" className="mca-launch" aria-label={unread ? `${openLabel[data.locale]} — ${unreadLabel[data.locale]}` : openLabel[data.locale]} data-unread={unread ? "" : undefined} aria-haspopup="dialog" aria-expanded={open} data-aside={aside || open ? "" : undefined} tabIndex={aside || open ? -1 : 0} onClick={show}>
         <svg className="mca-launch__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
           <path d="M4.5 5.5h15v10.25h-8.4L7 19.25v-3.5H4.5z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
           <path d="M8.25 9.4h7.5M8.25 12.1h4.6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
         <span className="mca-launch__label">{label[data.locale]}</span>
+        {unread ? <span className="mca-launch__badge" aria-hidden="true" /> : null}
       </button>
       {open && Panel && loaded ? <Panel data={data} copy={loaded.copy} context={context} onClose={close} /> : null}
     </div>

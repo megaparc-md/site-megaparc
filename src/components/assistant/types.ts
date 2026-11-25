@@ -87,7 +87,19 @@ export type AssistantReply = {
 
 export type AssistantAnswers = Record<string, string>;
 
-export type AssistantTurn = { from: "visitor"; text: string } | { from: "assistant"; reply: AssistantReply };
+/** A file of the live conversation: `id` is the server message that holds it (null while it is being sent). */
+export type AssistantFile = { id: number | null; name: string; mime: string; size: number; image: boolean };
+
+/**
+ * The thread. Guided turns (`visitor` without `live`, `assistant`) never leave the browser. Live turns belong to the
+ * conversation with the managers: the visitor's own messages (with their delivery state), an employee's messages, and
+ * the lines of the service itself («the office is closed», «the conversation was closed»).
+ */
+export type AssistantTurn =
+  | { from: "visitor"; text: string; live?: { key: string; id: number | null; state: "sending" | "sent" | "pending" | "failed"; channel: "site" | "telegram"; file?: AssistantFile } }
+  | { from: "assistant"; reply: AssistantReply }
+  | { from: "manager"; id: number; text: string; author: string | null; file?: AssistantFile; at: number }
+  | { from: "system"; id: number | null; code: string };
 
 /**
  * The transport contract. `localTransport` implements it in the browser; the future server transport implements the same two
