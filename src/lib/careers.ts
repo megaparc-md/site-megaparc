@@ -1,5 +1,5 @@
 import dataset from "@/data/vacancies.json";
-import type { Localized, SiteLocale } from "@/lib/site-data";
+import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS — vacancies as CMS records (OWNER «MEGAPARC CAREERS — PREMIUM EMPLOYER BRAND & WORDPRESS CMS», 2026-11-25).
@@ -36,6 +36,10 @@ export type Pay = {
 };
 export type VacancyText = {
   title: string;
+  /** R2: the short title of a list card (the full official title stays on the vacancy page); absent → the title. */
+  shortTitle?: string | null;
+  /** R2: the theme of the role — the heading of the scene «the role in focus» on the vacancy page; absent → the direction. */
+  theme?: string | null;
   summary: string;
   intro: string;
   role: string[];
@@ -67,6 +71,8 @@ export type Vacancy = {
   compensation: Localized | null;
   /** the mail subject exactly as HR expects it (the wording of the source announcement); null = the Romanian title. */
   applySubject: string | null;
+  /** R2: the real MEGAPARC photograph of the vacancy page (a key of `careerScenes`); absent → the direction's photograph. */
+  scene?: CareerSceneKey | null;
   i18n: Record<SiteLocale, VacancyText>;
 };
 export type ClosedVacancy = { id: string; slug: string; status: "paused" | "closed"; category: VacancyCategory; title: Localized };
@@ -180,6 +186,63 @@ export function openCategories() {
     .map((category) => ({ category, vacancies: openVacancies.filter((vacancy) => vacancy.category === category) }))
     .filter((group) => group.vacancies.length > 0);
 }
+
+/* ------------------------------------------------------------------ */
+/* Scenes — real MEGAPARC photographs for the careers pages (R2)        */
+/* ------------------------------------------------------------------ */
+
+/**
+ * R2 (OWNER «MEGAPARC CAREERS R2», 2026-11-25 · §6): every vacancy page carries one real photograph of a MEGAPARC property —
+ * OWNER-supplied frames already published on the site (portfolio, the VATRA aerial set, the Moscova 20 OWNER-approved interior set).
+ * A photograph illustrates the company's property — never the place of work of the vacancy, never people of MEGAPARC.
+ * Never one of the frames rejected for large formats (m20-facade*, m20-approach, m20-frontage, portfolio/moscova-20*), and never a frame
+ * dominated by tenants' signage (the Creangă 78 frontages carry large third-party brand signs — brand safety lock, OWNER 2026-11-11).
+ * HR chooses the scene in WordPress from this fixed list; a new frame needs a code release.
+ */
+export type CareerScene = { src: string; small: string; smallWidth: number; width: number; height: number; position?: string; alt: Localized; caption: Localized };
+const scene = (src: string, small: string, smallWidth: number, width: number, height: number, alt: Localized, caption: Localized, position?: string): CareerScene => ({
+  src: publicAsset(src), small: publicAsset(small), smallWidth, width, height, alt: localized(alt)!, caption: localized(caption)!, position,
+});
+export const careerScenes = {
+  "dacia-31": scene("/assets/portfolio/dacia-31.webp", "/assets/portfolio/dacia-31-card.webp", 1400, 2200, 1467,
+    { ro: "Dacia 31 — clădire MEGAPARC în Chișinău, vedere de sus", ru: "Dacia 31 — здание MEGAPARC в Кишинэу, вид сверху", en: "Dacia 31 — a MEGAPARC building in Chișinău, seen from above" },
+    { ro: "Dacia 31 · imobil în exploatare · Chișinău", ru: "Dacia 31 · действующий объект · Кишинэу", en: "Dacia 31 · operating property · Chișinău" }, "50% 46%"),
+  "vatra-overview": scene("/assets/development/vatra-aerial-overview-02.webp", "/assets/development/vatra-aerial-overview-02-card.webp", 1365, 1536, 1024,
+    { ro: "VATRA de sus — proiectul de dezvoltare MEGAPARC lângă lac", ru: "VATRA сверху — проект развития MEGAPARC у озера", en: "VATRA from above — a MEGAPARC development project by the lake" },
+    { ro: "VATRA · proiect de dezvoltare", ru: "VATRA · проект развития", en: "VATRA · development project" }),
+  "vatra-shoreline": scene("/assets/development/vatra-aerial-shoreline-01.webp", "/assets/development/vatra-aerial-shoreline-01-card.webp", 1365, 1536, 1024,
+    { ro: "VATRA — malul lacului, clădirile proiectului și drumul de acces", ru: "VATRA — берег озера, постройки проекта и подъездная дорога", en: "VATRA — the lake shore, the project's buildings and the access road" },
+    { ro: "VATRA · proiect de dezvoltare", ru: "VATRA · проект развития", en: "VATRA · development project" }),
+  "m20-engineering": scene("/assets/leasing/moscova-20/m20-int-lower-depth.webp", "/assets/leasing/moscova-20/m20-int-lower-depth-sm.webp", 820, 1536, 1024,
+    { ro: "Demisolul Moscova 20: trasee de ventilație, unitate split și calorifere", ru: "Цоколь Moscova 20: воздуховоды, сплит-система и радиаторы", en: "Moscova 20 lower ground: ducts, a split unit and radiators" },
+    { ro: "Moscova 20 · instalațiile clădirii", ru: "Moscova 20 · инженерные системы", en: "Moscova 20 · building services" }),
+  "m20-entrance": scene("/assets/leasing/moscova-20/m20-entrance-processed.webp", "/assets/leasing/moscova-20/m20-entrance-processed-sm.webp", 820, 1600, 900,
+    { ro: "Intrarea Moscova 20: vitrina, ușa de sticlă, scările și rampa de acces", ru: "Вход Moscova 20: витрина, стеклянная дверь, лестница и пандус", en: "The Moscova 20 entrance: the shop window, the glass door, the steps and the access ramp" },
+    { ro: "Moscova 20 · spațiu comercial", ru: "Moscova 20 · коммерческое помещение", en: "Moscova 20 · commercial space" }, "18% 62%"),
+  "m20-ground-hall": scene("/assets/leasing/moscova-20/m20-int-ground-hall.webp", "/assets/leasing/moscova-20/m20-int-ground-hall-sm.webp", 820, 1536, 1024,
+    { ro: "Parterul Moscova 20: sala deschisă, climatizare și trasee de ventilație", ru: "1-й этаж Moscova 20: открытый зал, кондиционер и воздуховоды", en: "Moscova 20 ground floor: the open hall, air-conditioning and ducts" },
+    { ro: "Moscova 20 · parter", ru: "Moscova 20 · 1-й этаж", en: "Moscova 20 · ground floor" }),
+  "moscova-9": scene("/assets/portfolio/moscova-9.webp", "/assets/portfolio/moscova-9-card.webp", 1125, 1439, 959,
+    { ro: "Moscova 9 — clădire MEGAPARC în Chișinău", ru: "Moscova 9 — здание MEGAPARC в Кишинэу", en: "Moscova 9 — a MEGAPARC building in Chișinău" },
+    { ro: "Moscova 9 · imobil în exploatare · Chișinău", ru: "Moscova 9 · действующий объект · Кишинэу", en: "Moscova 9 · operating property · Chișinău" }),
+  "m20-glazing": scene("/assets/leasing/moscova-20/m20-int-ground-glazing.webp", "/assets/leasing/moscova-20/m20-int-ground-glazing-sm.webp", 820, 1536, 1024,
+    { ro: "Parterul Moscova 20: vitrina spre bulevard și golul scării cu balustradă", ru: "1-й этаж Moscova 20: витрина к бульвару и проём лестницы с ограждением", en: "Moscova 20 ground floor: the glazing to the boulevard and the stair opening with its railing" },
+    { ro: "Moscova 20 · parter", ru: "Moscova 20 · 1-й этаж", en: "Moscova 20 · ground floor" }),
+  "m20-stair": scene("/assets/leasing/moscova-20/m20-int-stair-detail.webp", "/assets/leasing/moscova-20/m20-int-stair-detail-sm.webp", 820, 1536, 1024,
+    { ro: "Scara dintre nivelurile spațiului comercial Moscova 20", ru: "Лестница между уровнями коммерческого помещения Moscova 20", en: "The staircase between the levels of the Moscova 20 commercial premises" },
+    { ro: "Moscova 20 · scara dintre niveluri", ru: "Moscova 20 · лестница между уровнями", en: "Moscova 20 · staircase between levels" }),
+} satisfies Record<string, CareerScene>;
+export type CareerSceneKey = keyof typeof careerScenes;
+export const careerSceneKeys = Object.keys(careerScenes) as CareerSceneKey[];
+
+/** The direction's photograph when a vacancy names none. */
+const categoryScene: Record<VacancyCategory, CareerSceneKey> = {
+  management: "dacia-31", construction: "vatra-overview", commercial: "m20-entrance", legal: "m20-stair", operations: "m20-ground-hall",
+};
+export const sceneOf = (vacancy: Vacancy): CareerScene => careerScenes[vacancy.scene && vacancy.scene in careerScenes ? vacancy.scene : categoryScene[vacancy.category]];
+/** The short title of a list card and the theme of a role — with their fallbacks. */
+export const shortTitleOf = (vacancy: Vacancy, locale: SiteLocale) => vacancy.i18n[locale].shortTitle || vacancy.i18n[locale].title;
+export const themeOf = (vacancy: Vacancy, locale: SiteLocale) => vacancy.i18n[locale].theme || categoryLabel[vacancy.category][locale];
 
 /* ------------------------------------------------------------------ */
 /* Conditions — labels and the pay line                                 */

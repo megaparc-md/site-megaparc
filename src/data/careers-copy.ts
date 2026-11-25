@@ -3,12 +3,17 @@ import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS — the employer-brand copy of the careers page and the labels of a vacancy page
- * (OWNER «MEGAPARC CAREERS — PREMIUM EMPLOYER BRAND & WORDPRESS CMS», 2026-11-25).
+ * (OWNER «MEGAPARC CAREERS — PREMIUM EMPLOYER BRAND & WORDPRESS CMS», 2026-11-25; R2 «EMPLOYER BRAND EXCELLENCE», 2026-11-25).
  *
- * Headings, the hero, the manifesto (RU) and the closing are the OWNER's wording; RO and EN are written as equal versions, not
- * literal translations. RO addresses the candidate with «tu», as the OWNER's own RO lines do («Creează alături de noi…»).
- * No HR clichés, no promise that is not confirmed for every position (training, promotion, bonuses, flexible hours), no reply
- * deadline, no number of interview stages. MEGAPARC buys, builds, develops and leases ITS OWN real estate — never a third-party manager.
+ * R2 structure — every scene has one job, no meaning is said twice:
+ *   hero (the promise + the way to the vacancies) → open vacancies (find a role fast) → why MEGAPARC (the five advantages + the
+ *   confirmed figures) → where the work happens (real property, linked to the directions) → how to apply → closing band.
+ * The R1 manifesto, the six employer points and the separate dark «directions» scene are folded into these scenes.
+ *
+ * RU is the master; RO and EN carry the same idea in their own words (OWNER R2 §4: RO «Construim împreună. Rezultatele se văd.»,
+ * EN «Build something that lasts.»). RO addresses the candidate with «tu», as the OWNER's own RO lines do.
+ * No HR clichés, no promise that is not confirmed for every position (training, promotion, insurance, events, bonuses, flexible
+ * hours), no reply deadline. MEGAPARC buys, builds, develops and leases ITS OWN real estate — never a third-party manager.
  */
 const L = (ro: string, ru: string, en: string): Localized => ({ ro: typeset(ro, "ro"), ru: typeset(ru, "ru"), en: typeset(en, "en") });
 const lines = (ro: string[], ru: string[], en: string[]): Record<SiteLocale, string[]> => ({ ro: ro.map((t) => typeset(t, "ro")), ru: ru.map((t) => typeset(t, "ru")), en: en.map((t) => typeset(t, "en")) });
@@ -16,144 +21,134 @@ const lines = (ro: string[], ru: string[], en: string[]): Record<SiteLocale, str
 export const careersCopy = {
   label: L("Cariere", "Вакансии", "Careers"),
 
-  /* 01 — hero */
+  /* 01 — hero: the promise and the shortest way to the vacancies */
   hero: {
-    title: lines(["O muncă ale cărei", "rezultate se văd."], ["Работа,", "результат которой видно."], ["Work you can see", "the results of."]),
+    title: lines(["Construim împreună.", "Rezultatele se văd."], ["Работа,", "результат которой видно."], ["Build something", "that lasts."]),
     text: L(
-      "Creează alături de noi spații în care afacerile se dezvoltă. Aici, experiența ta se transformă în decizii, deciziile în proiecte, iar proiectele devin parte din oraș.",
-      "Создавайте вместе с нами пространства, в которых развивается бизнес. Здесь ваш опыт превращается в решения, решения — в проекты, а проекты становятся частью города.",
-      "Create spaces where businesses grow. Here, your expertise shapes decisions, decisions become projects, and projects become part of the city.",
+      "MEGAPARC cumpără, construiește și dezvoltă imobile proprii și le închiriază. Aici, experiența ta devine decizii, iar deciziile devin clădiri care funcționează ani la rând.",
+      "MEGAPARC покупает, строит и развивает собственную недвижимость и сдаёт её в аренду. Здесь ваш опыт становится решениями, а решения — зданиями, которые работают годами.",
+      "MEGAPARC buys, builds and develops its own property and leases it to businesses. Here, your expertise turns into decisions — and decisions into buildings that serve for years.",
     ),
-    cta: L("Descoperă oportunitățile", "Найти свою возможность", "Explore opportunities"),
+    cta: L("Vezi posturile vacante", "Смотреть вакансии", "View open positions"),
+    index: L("Direcții", "Направления", "Areas"),
     photoAlt: L("Dacia 31 — clădire MEGAPARC în Chișinău", "Dacia 31 — здание MEGAPARC в Кишинэу", "Dacia 31 — a MEGAPARC building in Chișinău"),
-    pause: L("Oprește filmul", "Остановить видео", "Pause the film"),
-    play: L("Pornește filmul", "Включить видео", "Play the film"),
   },
 
-  /* 02 — manifesto */
-  manifesto: {
-    label: L("A lucra la MEGAPARC", "Работа в MEGAPARC", "Working at MEGAPARC"),
-    title: L("Contribuția ta profesională devine parte din oraș.", "Ваш профессиональный вклад становится частью города.", "Your professional contribution becomes part of the city."),
-    lead: L(
-      "Imobiliarele înseamnă mai mult decât clădiri. În spatele fiecărui proiect realizat se află oameni — cunoștințele, deciziile și responsabilitatea lor pentru rezultat.",
-      "Недвижимость — это больше, чем здания. За каждым реализованным проектом стоят люди, их знания, решения и ответственность за результат.",
-      "Real estate is more than buildings. Behind every completed project are people — their knowledge, their decisions and their responsibility for the result.",
-    ),
-    body: lines(
-      [
-        "La MEGAPARC reunim specialiști din domenii diferite: de la inginerie și construcții până la finanțe, drept, activitate comercială și management strategic.",
-        "Apreciem profesionalismul, inițiativa și capacitatea de a transforma sarcinile complexe în rezultate concrete.",
-        "Dacă pentru tine contează să vezi rezultatul muncii tale și să participi la proiecte cu valoare pe termen lung, poate că anume aici începe următoarea ta etapă profesională.",
-      ],
-      [
-        "В MEGAPARC мы объединяем специалистов разных направлений: от инженерии и строительства до финансов, права, коммерции и стратегического управления.",
-        "Мы ценим профессионализм, инициативу и способность превращать сложные задачи в конкретные результаты.",
-        "Если вам важно видеть результат своей работы и участвовать в проектах, которые имеют долгосрочную ценность, возможно, именно здесь начинается ваш следующий профессиональный этап.",
-      ],
-      [
-        "At MEGAPARC we bring together specialists from different fields: from engineering and construction to finance, law, commercial work and strategic management.",
-        "We value professionalism, initiative and the ability to turn complex tasks into concrete results.",
-        "If it matters to you to see the result of your work and to take part in projects of lasting value, this may be where your next professional chapter begins.",
-      ],
-    ),
-  },
-
-  /* 03 — MEGAPARC as an employer: confirmed facts only (figures come from the site's one confirmed source) */
-  employer: {
-    label: L("MEGAPARC ca angajator", "MEGAPARC как работодатель", "MEGAPARC as an employer"),
-    title: L("Proprietăți proprii. Perspectivă pe termen lung.", "Собственные объекты. Долгая перспектива.", "Our own properties. A long-term view."),
-    figures: {
-      years: L("de ani pe piața Republicii Moldova", "лет на рынке Республики Молдова", "years in the Republic of Moldova"),
-      operating: L("imobile în exploatare", "действующих объекта", "operating properties"),
-      area: L("suprafața imobilelor în exploatare", "площадь действующих объектов", "area of the operating properties"),
-      land: L("terenuri pentru dezvoltare", "земли для развития", "of land for development"),
-    },
-    points: [
-      {
-        title: L("Peste 20 de ani pe piață", "Более 20 лет на рынке", "More than 20 years in the market"),
-        text: L("MEGAPARC a fost fondată în 2005 și activează de atunci pe piața Republicii Moldova.", "MEGAPARC основана в 2005 году и с тех пор работает на рынке Республики Молдова.", "MEGAPARC was founded in 2005 and has worked in the Republic of Moldova ever since."),
-      },
-      {
-        title: L("Proiecte imobiliare reale", "Реальные проекты недвижимости", "Real property projects"),
-        text: L("Clădiri, șantiere și terenuri proprii — obiecte pe care le poți vedea, nu sarcini abstracte.", "Собственные здания, строительные площадки и земля — объекты, которые можно увидеть, а не абстрактные задачи.", "Our own buildings, construction sites and land — properties you can see, not abstract tasks."),
-      },
-      {
-        title: L("Responsabilitate pentru rezultat", "Ответственность за результат", "Responsibility for the result"),
-        text: L("Compania deține ceea ce construiește și închiriază, de aceea calitatea deciziilor se vede în timp.", "Компания владеет тем, что строит и сдаёт в аренду, поэтому качество решений видно годами.", "The company owns what it builds and leases, so the quality of every decision shows over the years."),
-      },
-      {
-        title: L("Dezvoltare profesională", "Профессиональное развитие", "Professional development"),
-        text: L("Lucrul cu un obiect pe toate etapele — achiziție, construcție, închiriere, exploatare — lărgește experiența profesională.", "Работа с объектом на всех стадиях — покупка, строительство, аренда, эксплуатация — расширяет профессиональный опыт.", "Working on a property at every stage — acquisition, construction, leasing, operation — broadens professional experience."),
-      },
-      {
-        title: L("Sarcini complexe", "Комплексные задачи", "Complex tasks"),
-        text: L("Ingineria, dreptul, finanțele și activitatea comercială rezolvă aceleași proiecte împreună.", "Инженерия, право, финансы и коммерция решают задачи одного проекта вместе.", "Engineering, law, finance and commercial work solve the same projects together."),
-      },
-      {
-        title: L("Colaborare pe termen lung", "Долгосрочное сотрудничество", "Long-term cooperation"),
-        text: L("Compania își dezvoltă proprietățile ani la rând și caută oameni pentru o colaborare de durată.", "Компания развивает свои объекты годами и ищет людей для долгой совместной работы.", "The company develops its properties for years and looks for people to work with for the long term."),
-      },
-    ],
-  },
-
-  /* 04 — professional directions (derived from the open vacancies) */
-  directions: {
-    label: L("Direcții profesionale", "Профессиональные направления", "Professional areas"),
-    title: L("Unde este nevoie de experiența ta.", "Где нужен ваш опыт.", "Where your experience is needed."),
-    show: L("Vezi posturile direcției", "Смотреть вакансии направления", "View the positions in this area"),
-  },
-
-  /* 05 — open vacancies */
+  /* 02 — open vacancies */
   positions: {
     label: L("Posturi vacante", "Открытые вакансии", "Open positions"),
-    title: L("Găsește-ți locul în MEGAPARC.", "Найдите своё место в MEGAPARC.", "Find your place at MEGAPARC."),
-    text: L("Profesii diferite. Responsabilități diferite. Același angajament față de rezultate.", "Разные профессии. Разные задачи. Общая ответственность за результат.", "Different professions. Different responsibilities. A shared commitment to results."),
-    all: L("Toate direcțiile", "Все направления", "All areas"),
+    title: L("Găsește-ți rolul.", "Найдите свою роль.", "Find your role."),
+    text: L(
+      "Alege o direcție sau deschide un post. Pentru a aplica, este suficient un e-mail.",
+      "Выберите направление или откройте вакансию. Чтобы откликнуться, достаточно одного письма.",
+      "Choose an area or open a role. Applying takes a single e-mail.",
+    ),
+    all: L("Toate", "Все", "All"),
     filter: L("Direcție profesională", "Профессиональное направление", "Professional area"),
-    more: L("Detalii despre post", "Подробнее о вакансии", "View the position"),
+    more: L("Vezi postul", "Открыть вакансию", "View role"),
     emptyTitle: L("Momentan nu avem posturi vacante.", "Сейчас открытых вакансий нет.", "There are no open positions right now."),
     emptyText: L(
       "Posturile noi apar pe măsură ce proiectele se dezvoltă. Dacă experiența ta ține de domeniul imobiliar, de construcții sau de exploatarea clădirilor, trimite CV-ul la adresa de mai jos — revenim la el când se deschide un post potrivit.",
       "Новые позиции появляются по мере развития проектов. Если ваш опыт связан с недвижимостью, строительством или эксплуатацией зданий, направьте резюме на адрес ниже — мы вернёмся к нему, когда откроется подходящая вакансия.",
-      "New positions open as the projects develop. If your experience is in real estate, construction or building operations, send your CV to the address below — we will come back to it when a suitable position opens.",
+      "New positions open as the projects develop. If your background is in real estate, construction or building operations, send your CV to the address below and we will come back to it when a suitable role opens.",
     ),
   },
 
-  /* 06 — real projects, real contribution */
+  /* 03 — why MEGAPARC: the five advantages (OWNER R2 §5) and the confirmed figures */
+  why: {
+    label: L("De ce MEGAPARC", "Почему MEGAPARC", "Why MEGAPARC"),
+    title: L("Deținem ceea ce construim.", "Мы владеем тем, что строим.", "We own what we build."),
+    lead: L(
+      "De aceea calitatea muncii se vede în clădire — astăzi și peste ani.",
+      "Поэтому качество работы видно в самом здании — сегодня и через годы.",
+      "So the quality of the work shows in the building itself — today and years from now.",
+    ),
+    points: [
+      {
+        title: L("Rezultate vizibile", "Видимый результат", "Results you can see"),
+        text: L(
+          "Clădiri, șantiere și terenuri reale ale MEGAPARC. Rezultatul muncii tale este un loc pe care îl poți vedea, nu un rând dintr-un raport.",
+          "Реальные здания, стройплощадки и земля MEGAPARC. Результат работы — место, которое можно увидеть, а не строка в отчёте.",
+          "Real MEGAPARC buildings, sites and land. What you deliver is a place you can walk into, not a line in a report.",
+        ),
+      },
+      {
+        title: L("Amploare profesională", "Профессиональный масштаб", "Professional scope"),
+        text: L(
+          "Construcție, dezvoltare și exploatare imobiliară — sarcini în care se întâlnesc ingineria, dreptul, finanțele și activitatea comercială. Gradul de implicare depinde de post.",
+          "Строительство, развитие и эксплуатация недвижимости — задачи, где сходятся инженерия, право, финансы и коммерция. Глубина участия зависит от должности.",
+          "Construction, development and building operations — work where engineering, law, finance and leasing meet. How deeply you are involved depends on the role.",
+        ),
+      },
+      {
+        title: L("Perspectivă pe termen lung", "Долгосрочная перспектива", "A long-term horizon"),
+        text: L(
+          "MEGAPARC activează pe piață de peste 20 de ani — din 2005 — și își dezvoltă propriile proiecte. Aici se planifică pe ani înainte.",
+          "MEGAPARC работает на рынке более 20 лет — с 2005 года — и развивает собственные проекты. Здесь планируют на годы вперёд.",
+          "MEGAPARC has been in the market for more than 20 years — since 2005 — and develops its own projects. Plans here are made years ahead.",
+        ),
+      },
+      {
+        title: L("Responsabilitate profesională", "Профессиональная ответственность", "Ownership of the outcome"),
+        text: L(
+          "Deciziile specialiștilor influențează direct calitatea clădirilor și felul în care se dezvoltă proprietățile. Contribuția fiecăruia se vede.",
+          "Решения специалистов прямо влияют на качество зданий и на то, как развиваются объекты. Вклад каждого заметен.",
+          "Specialists' decisions shape the quality of the buildings and the way the properties develop. Every contribution shows.",
+        ),
+      },
+      {
+        title: L("Condiții transparente", "Прозрачные условия", "Clear terms"),
+        text: L(
+          "Responsabilitățile, cerințele și remunerarea sunt descrise în fiecare post — înainte să aplici.",
+          "Задачи, требования и вознаграждение указаны в каждой вакансии — ещё до отклика.",
+          "Every role sets out its responsibilities, requirements and pay before you apply.",
+        ),
+      },
+    ],
+    figures: {
+      years: L("de ani pe piața Republicii Moldova", "лет на рынке Республики Молдова", "years in the Moldovan market"),
+      operating: L("imobile în exploatare", "действующих объекта", "operating properties"),
+      area: L("suprafața imobilelor în exploatare", "площадь действующих объектов", "area of the operating properties"),
+      land: L("terenuri pentru dezvoltare", "земли для развития", "of land for development"),
+    },
+  },
+
+  /* 04 — where the work happens: real property, linked to the directions that have open vacancies */
   projects: {
-    label: L("Proiecte", "Проекты", "Projects"),
-    title: L("Proiecte reale. Contribuție reală.", "Реальные проекты. Реальный вклад.", "Real projects. Real contribution."),
+    label: L("Unde se lucrează", "Где идёт работа", "Where the work happens"),
+    title: L("Fiecare post ține de proiecte reale.", "Каждая вакансия связана с реальными объектами.", "Every role is tied to real property."),
     text: L(
-      "Rezultatul muncii specialiștilor noștri sunt clădirile: le cumpărăm, le construim, le dezvoltăm și le închiriem. Acestea sunt proprietăți MEGAPARC la care echipa lucrează astăzi.",
-      "Результат работы наших специалистов — здания: мы их покупаем, строим, развиваем и сдаём в аренду. Это объекты MEGAPARC, с которыми команда работает сегодня.",
-      "The result of our specialists' work is buildings: we buy, build, develop and lease them. These are MEGAPARC properties the team is working on today.",
+      "Proiectele de dezvoltare cer expertiză în construcții și inginerie; clădirile în exploatare — administrare, închiriere și rigoare juridică.",
+      "Проекты развития требуют строительной и инженерной экспертизы, действующие объекты — эксплуатации, аренды и правовой точности.",
+      "Development projects call for construction and engineering expertise; operating buildings for operations, leasing and legal precision.",
     ),
-    cta: L("Descoperă proiectele noastre", "Познакомиться с нашими проектами", "Explore our projects"),
+    work: {
+      vatra: L("Proiect de dezvoltare: construcție, soluții inginerești, documentație de autorizare.", "Проект развития: строительство, инженерные решения, разрешительная документация.", "Development project: construction, engineering solutions, permits."),
+      "moscova-9": L("Imobil în exploatare: exploatare, relația cu chiriașii, întreținere tehnică.", "Действующий объект: эксплуатация, работа с арендаторами, техническое обслуживание.", "Operating property: building operations, tenant relationships, maintenance."),
+      "moscova-20": L("Imobil în exploatare: spații comerciale, închiriere, instalații.", "Действующий объект: коммерческие площади, аренда, инженерные системы.", "Operating property: commercial space, leasing, building services."),
+    } as Record<string, Localized>,
+    roles: L("Posturi", "Вакансии", "Roles"),
+    cta: L("Toate proiectele MEGAPARC", "Все проекты MEGAPARC", "All MEGAPARC projects"),
   },
 
-  /* 07 — how to apply */
+  /* 05 — how to apply */
   apply: {
     label: L("Candidatură", "Отклик", "Application"),
     title: L("Cum aplici.", "Как откликнуться.", "How to apply."),
     steps: lines(
-      ["Alege postul care te interesează.", "Citește condițiile și trimite un CV detaliat.", "Dacă profilul corespunde cerințelor, echipa HR te va contacta pentru următorii pași."],
-      ["Выберите интересующую вакансию.", "Ознакомьтесь с условиями и направьте подробное резюме.", "При соответствии требованиям HR свяжется с вами для дальнейшего общения."],
-      ["Choose the position that interests you.", "Read the terms and send a detailed CV.", "If your profile matches the requirements, HR will contact you about the next steps."],
+      ["Alege postul și citește condițiile.", "Trimite un CV detaliat, cu subiectul e-mailului indicat în post.", "Dacă experiența ta corespunde, echipa HR te contactează pentru pașii următori."],
+      ["Выберите вакансию и прочитайте условия.", "Отправьте подробное резюме с темой письма, указанной в вакансии.", "Если опыт подходит, HR свяжется с вами и расскажет о следующих шагах."],
+      ["Choose a role and read the terms.", "Send a detailed CV, using the e-mail subject given in the role.", "If your experience is a match, HR will contact you about the next steps."],
     ),
     emailLabel: L("CV-ul — la adresa", "Резюме — на адрес", "Send your CV to"),
-    copy: L("Copiază adresa", "Скопировать адрес", "Copy the address"),
+    copy: L("Copiază adresa", "Скопировать адрес", "Copy address"),
     copied: L("Adresa a fost copiată", "Адрес скопирован", "Address copied"),
   },
 
-  /* 08 — closing */
+  /* 06 — closing band on a real photograph */
   closing: {
-    title: L("Următoarea etapă a carierei tale poate începe aici.", "Ваш следующий профессиональный этап может начаться здесь.", "Your next professional chapter could begin here."),
-    text: L(
-      "Dacă ești pregătit să îți asumi responsabilități, să îți dezvolți competențele și să creezi rezultate vizibile, descoperă oportunitățile MEGAPARC.",
-      "Если вы готовы брать ответственность, развивать свои компетенции и создавать результат, который можно увидеть, — познакомьтесь с возможностями MEGAPARC.",
-      "If you are ready to take responsibility, develop your expertise and deliver results you can see, discover the opportunities at MEGAPARC.",
-    ),
-    cta: L("Vezi posturile vacante", "Смотреть открытые вакансии", "View open positions"),
+    title: lines(["Experiența ta.", "Următorul nostru proiect."], ["Ваш опыт.", "Наш следующий проект."], ["Your expertise.", "Our next project."]),
+    cta: L("Vezi posturile vacante", "Смотреть вакансии", "View open positions"),
   },
 };
 
@@ -162,23 +157,25 @@ export const vacancyCopy = {
   back: L("Toate posturile vacante", "Все вакансии", "All open positions"),
   facts: {
     direction: L("Direcție", "Направление", "Area"),
-    format: L("Format", "Формат", "Format"),
+    employment: L("Program", "Занятость", "Employment"),
+    mode: L("Regim de lucru", "Формат работы", "Work mode"),
     location: L("Locul de muncă", "Место работы", "Location"),
     pay: L("Remunerare", "Оплата", "Pay"),
   },
   apply: L("Aplică", "Откликнуться", "Apply"),
-  applyLong: L("Aplică pentru acest post", "Откликнуться на вакансию", "Apply for this position"),
+  applyLong: L("Aplică pentru acest post", "Откликнуться на вакансию", "Apply for this role"),
+  focus: L("Esența rolului", "Суть роли", "The role in focus"),
   role: L("Rolul tău la MEGAPARC", "Ваша роль в MEGAPARC", "Your role at MEGAPARC"),
   tasks: L("Responsabilitățile tale", "Ваши задачи", "What you will do"),
-  expect: L("Ce așteptăm", "Что мы ожидаем", "What we expect"),
-  must: L("Cerințe obligatorii", "Обязательные требования", "Required"),
+  expect: L("Ce așteptăm", "Что мы ожидаем", "What we are looking for"),
+  must: L("Cerințe obligatorii", "Обязательные требования", "Essential"),
   skills: L("Competențe profesionale", "Профессиональные компетенции", "Professional skills"),
-  plus: L("Constituie un avantaj", "Будет преимуществом", "An advantage"),
-  kpi: L("Cum se evaluează rezultatul", "Как оценивается результат", "How results are measured"),
+  plus: L("Constituie un avantaj", "Будет преимуществом", "Nice to have"),
+  kpi: L("Cum se evaluează rezultatul", "Как оценивается результат", "How performance is measured"),
   offer: L("Ce oferă MEGAPARC", "Что предлагает MEGAPARC", "What MEGAPARC offers"),
-  pay: L("Remunerare", "Вознаграждение", "Remuneration"),
+  pay: L("Remunerare", "Вознаграждение", "Pay"),
   bonus: L("Bonusuri", "Бонусы", "Bonuses"),
-  compensation: L("Compensații", "Компенсации", "Reimbursements"),
+  compensation: L("Compensații", "Компенсации", "Expenses"),
   conditions: L("Condiții", "Условия", "Terms"),
   how: L("Cum aplici", "Как откликнуться", "How to apply"),
   howText: L(
@@ -188,7 +185,7 @@ export const vacancyCopy = {
   ),
   subject: L("Subiectul e-mailului", "Тема письма", "E-mail subject"),
   email: L("Adresa HR", "Адрес HR", "HR address"),
-  other: L("Alte oportunități", "Другие возможности", "Other opportunities"),
+  other: L("Alte posturi vacante", "Другие вакансии", "Other open roles"),
   closedLabel: L("Post închis", "Вакансия закрыта", "Position closed"),
   closedTitle: L("Acest post nu mai este disponibil.", "Эта вакансия закрыта.", "This position is closed."),
   closedText: L(

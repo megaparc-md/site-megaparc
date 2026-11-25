@@ -43,9 +43,12 @@
         "en": "Fuel costs reimbursed, plus other benefits."
       },
       "applySubject": "Aplicare CEO – SRL MEGAPARC",
+      "scene": "dacia-31",
       "i18n": {
         "ro": {
           "title": "Director General (CEO)",
+          "shortTitle": "Director general (CEO)",
+          "theme": "Strategia și dezvoltarea companiei",
           "summary": "Conducerea strategică a companiei și a portofoliului său imobiliar: de la obiective și structură până la decizii investiționale și rezultate.",
           "intro": "Definește strategia de dezvoltare a companiei, condu echipe profesioniste și participă la deciziile care modelează viitorul MEGAPARC.",
           "role": [
@@ -122,7 +125,7 @@
             "Un mediu de lucru profesionist și stabil, într-o companie cu peste 20 de ani de experiență pe piața Republicii Moldova."
           ],
           "apply": [
-            "Poziția este full-time; colaborările part-time nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, funcțiile deținute, responsabilitățile manageriale și realizările relevante.",
             "Cu cât descrii mai detaliat experiența și rezultatele obținute în funcțiile anterioare, cu atât evaluarea candidaturii va fi mai corectă."
           ],
@@ -133,6 +136,8 @@
         },
         "ru": {
           "title": "Генеральный директор (CEO)",
+          "shortTitle": "Генеральный директор (CEO)",
+          "theme": "Стратегия и развитие компании",
           "summary": "Стратегическое управление компанией и её портфелем недвижимости: от целей и структуры до инвестиционных решений и результата.",
           "intro": "Определяйте стратегию развития компании, руководите профессиональными командами и участвуйте в принятии решений, формирующих будущее MEGAPARC.",
           "role": [
@@ -206,7 +211,7 @@
             "Стратегическая роль с прямым участием в развитии компании.",
             "Возможность руководить профессиональными командами и развивать их.",
             "Участие в инвестиционных решениях и значимых проектах.",
-            "Профессиональная и стабильная рабочая среда в компании с более чем 20-летним опытом на рынке Республики Молдова."
+            "Стабильная профессиональная среда в компании, которая более 20 лет работает на рынке Молдовы."
           ],
           "apply": [
             "Полная занятость; частичная занятость не рассматривается.",
@@ -220,8 +225,10 @@
         },
         "en": {
           "title": "Chief Executive Officer (CEO)",
+          "shortTitle": "Chief Executive Officer (CEO)",
+          "theme": "Strategy and company growth",
           "summary": "Strategic leadership of the company and its real estate portfolio — from objectives and structure to investment decisions and results.",
-          "intro": "Set the company's development strategy, lead professional teams and take part in the decisions that shape the future of MEGAPARC.",
+          "intro": "Shape the company's strategy, lead experienced teams and take part in the decisions that define MEGAPARC's future.",
           "role": [
             "The Chief Executive Officer is accountable for the company as a whole: its strategy, its management team, its real estate portfolio and the delivery of the decisions taken. The role is directly involved in investment decisions and in projects, from concept to completion.",
             "All departments report into this role: construction, technical, real estate and leasing, finance and legal."
@@ -233,7 +240,7 @@
                 "Overall coordination of the company and all its departments.",
                 "Developing and implementing the short-, medium- and long-term development strategy.",
                 "Setting strategic and operational objectives and monitoring how departments deliver them.",
-                "An effective internal structure and continuous improvement of company processes.",
+                "Building an effective internal structure and continuously improving the company's processes.",
                 "Leading, motivating and developing the management team; effective communication between departments and management.",
                 "Taking strategic decisions on the company's development."
               ]
@@ -293,7 +300,7 @@
             "A strategic role, directly involved in the company's development.",
             "The opportunity to lead and develop professional teams.",
             "Participation in investment decisions and major projects.",
-            "A professional, stable working environment in a company with more than 20 years of experience in the Republic of Moldova."
+            "A stable, professional environment in a company with more than 20 years in the Moldovan market."
           ],
           "apply": [
             "This is a full-time position; part-time arrangements are not accepted.",
@@ -337,9 +344,12 @@
       "bonus": null,
       "compensation": null,
       "applySubject": "Aplicare – Șef Departament Construcții",
+      "scene": "vatra-overview",
       "i18n": {
         "ro": {
           "title": "Șef Departament Construcții",
+          "shortTitle": "Șef departament construcții",
+          "theme": "Leadership, proiecte și echipe",
           "summary": "Conducerea Departamentului Construcții și a proiectelor de construcții: echipă, termene, bugete, calitate, subcontractori și raportare către conducere.",
           "intro": "Condu direcția de construcții și transformă planurile strategice în proiecte imobiliare realizate la standarde înalte de calitate.",
           "role": [
@@ -416,11 +426,11 @@
             "Proiecte stabile și de amploare în domeniul dezvoltării imobiliare.",
             "Posibilitatea de a conduce și dezvolta un departament de construcții.",
             "Implicare directă în coordonarea și realizarea proiectelor importante.",
-            "Un mediu de lucru profesionist, într-o companie cu peste 20 de ani de experiență pe piață.",
-            "Stabilitate profesională și oportunități de dezvoltare."
+            "Un mediu de lucru profesionist, într-o companie cu peste 20 de ani pe piață.",
+            "Un loc de muncă stabil și oportunități de dezvoltare profesională."
           ],
           "apply": [
-            "Poziția este full-time; colaborările part-time nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, proiectele realizate, funcțiile deținute, responsabilitățile și realizările relevante."
           ],
           "seo": {
@@ -430,8 +440,10 @@
         },
         "ru": {
           "title": "Руководитель департамента строительства",
+          "shortTitle": "Руководитель строительства",
+          "theme": "Лидерство, проекты и команды",
           "summary": "Руководство департаментом строительства и строительными проектами: команда, сроки, бюджеты, качество работ, субподрядчики и отчётность перед руководством.",
-          "intro": "Возглавьте строительное направление и превратите стратегические планы в качественно реализованные объекты недвижимости.",
+          "intro": "Возглавьте строительное направление и превращайте стратегические планы в качественно построенные объекты.",
           "role": [
             "Руководитель департамента строительства возглавляет департамент и отвечает за строительные проекты: за соблюдение сроков выполнения работ, утверждённых бюджетов и стандартов качества. В его координации — менеджеры по строительству, инженеры и технические специалисты; он работает с субподрядчиками, проектировщиками, технадзором, поставщиками и компетентными органами.",
             "Руководитель департамента регулярно отчитывается перед руководством компании и участвует в определении стратегий развития и приоритетов строительных проектов."
@@ -506,8 +518,8 @@
             "Стабильные и масштабные проекты в сфере девелопмента недвижимости.",
             "Возможность руководить департаментом строительства и развивать его.",
             "Прямое участие в координации и реализации значимых проектов.",
-            "Профессиональная рабочая среда в компании с более чем 20-летним опытом на рынке.",
-            "Профессиональная стабильность и возможности развития."
+            "Профессиональная среда в компании, которая более 20 лет работает на рынке.",
+            "Стабильная работа и возможности профессионального развития."
           ],
           "apply": [
             "Полная занятость; частичная занятость не рассматривается.",
@@ -520,8 +532,10 @@
         },
         "en": {
           "title": "Head of Construction Department",
+          "shortTitle": "Head of Construction",
+          "theme": "Leading projects and teams",
           "summary": "Leading the Construction Department and its construction projects: the team, deadlines, budgets, quality, subcontractors and reporting to management.",
-          "intro": "Lead the construction function and turn strategic plans into real estate projects delivered to a high standard of quality.",
+          "intro": "Lead the construction department and turn strategic plans into real estate projects delivered to a high standard.",
           "role": [
             "The Head of Construction Department leads the department and is accountable for construction projects: for meeting execution deadlines, approved budgets and quality standards. The role coordinates construction managers, engineers and technical specialists, and works with subcontractors, designers, site supervisors, suppliers and the competent authorities.",
             "The Head of Department reports regularly to company management and takes part in setting development strategies and the priorities of construction projects."
@@ -593,11 +607,11 @@
           },
           "kpi": null,
           "offer": [
-            "Stable, large-scale projects in real estate development.",
+            "Steady, large-scale real estate development projects.",
             "The opportunity to lead and develop a construction department.",
             "Direct involvement in coordinating and delivering major projects.",
-            "A professional working environment in a company with more than 20 years of experience in the market.",
-            "Professional stability and opportunities for development."
+            "A professional working environment in a company with more than 20 years in the market.",
+            "A stable position and opportunities for professional development."
           ],
           "apply": [
             "This is a full-time position; part-time arrangements are not accepted.",
@@ -636,11 +650,14 @@
       "bonus": null,
       "compensation": null,
       "applySubject": "Inginer-Șef",
+      "scene": "m20-engineering",
       "i18n": {
         "ro": {
           "title": "Inginer-șef",
+          "shortTitle": "Inginer-șef",
+          "theme": "Fiabilitatea tehnică a clădirilor",
           "summary": "Mentenanța clădirilor și a rețelelor inginerești ale companiei, documentație tehnică, devize și bugete, coordonarea lucrărilor și a echipei tehnice.",
-          "intro": "Asigură fiabilitatea infrastructurii inginerești, pune în practică soluții tehnice eficiente și dezvoltă proprietățile companiei.",
+          "intro": "Asigură fiabilitatea instalațiilor din clădiri, introdu soluții tehnice eficiente și contribuie la dezvoltarea proprietăților companiei.",
           "role": [
             "Inginerul-șef răspunde de starea tehnică a clădirilor, instalațiilor și echipamentelor companiei: de mentenanța lor, de rețelele inginerești interne și externe, de funcționarea eficientă și continuă și de respectarea normelor tehnice.",
             "Rolul cuprinde și lucrările de construcție, reparație, renovare și modernizare: analiza proiectelor și caietele de sarcini, devizele și bugetele, selectarea ofertelor, coordonarea antreprenorilor și recepția lucrărilor. Inginerul-șef conduce echipa tehnică și raportează periodic conducerii companiei."
@@ -740,7 +757,7 @@
             "Implicare în proiecte tehnice complexe și de impact."
           ],
           "apply": [
-            "Programul de lucru este full-time; colaborările part-time nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială nu este posibilă.",
             "Trimite un CV complet și detaliat, care să includă experiența profesională și funcțiile deținute.",
             "Candidații care corespund cerințelor vor fi invitați la interviu."
           ],
@@ -751,8 +768,10 @@
         },
         "ru": {
           "title": "Главный инженер",
+          "shortTitle": "Главный инженер",
+          "theme": "Техническая надёжность объектов",
           "summary": "Техническое обслуживание зданий и инженерных сетей компании, техническая документация, сметы и бюджеты, координация работ и технической команды.",
-          "intro": "Обеспечивайте надёжность инженерной инфраструктуры, внедряйте эффективные технические решения и развивайте объекты компании.",
+          "intro": "Отвечайте за надёжность инженерных систем, внедряйте эффективные технические решения и развивайте объекты компании.",
           "role": [
             "Главный инженер отвечает за техническое состояние зданий, инженерных систем и оборудования компании: за их обслуживание, за внутренние и наружные инженерные сети, за эффективную и бесперебойную работу и за соблюдение технических норм.",
             "В эту же роль входят работы по строительству, ремонту, реновации и модернизации: анализ проектов и технические задания, сметы и бюджеты, выбор предложений, координация подрядчиков и приёмка работ. Главный инженер руководит технической командой и регулярно отчитывается перед руководством компании."
@@ -845,7 +864,7 @@
           "kpi": null,
           "offer": [
             "Система оценки эффективности работы по KPI.",
-            "Полный социальный пакет и условия труда в соответствии с действующим законодательством.",
+            "Полный социальный пакет и условия труда по действующему законодательству.",
             "Работа в стабильной компании со значимыми проектами и перспективами развития.",
             "Профессиональная рабочая среда и команда, настроенная на сотрудничество.",
             "Поддержка профессионального развития и постоянного повышения квалификации.",
@@ -863,8 +882,10 @@
         },
         "en": {
           "title": "Chief Engineer",
+          "shortTitle": "Chief Engineer",
+          "theme": "Technical reliability, building by building",
           "summary": "Maintenance of the company's buildings and engineering networks, technical documentation, cost estimates and budgets, coordination of works and of the technical team.",
-          "intro": "Keep the engineering infrastructure reliable, put efficient technical solutions into practice and develop the company's properties.",
+          "intro": "Keep the buildings' engineering systems reliable, introduce efficient technical solutions and help the company's properties evolve.",
           "role": [
             "The Chief Engineer is accountable for the technical condition of the company's buildings, installations and equipment: for their maintenance, for the internal and external engineering networks, for efficient, uninterrupted operation and for compliance with technical regulations.",
             "The role also covers construction, repair, renovation and modernisation works: reviewing designs and preparing terms of reference, cost estimates and budgets, selecting offers, coordinating contractors and accepting completed works. The Chief Engineer leads the technical team and reports regularly to company management."
@@ -1005,9 +1026,12 @@
       },
       "compensation": null,
       "applySubject": "Manager Dezvoltare, Administrare Active Imobiliare și Marketing",
+      "scene": "m20-entrance",
       "i18n": {
         "ro": {
           "title": "Manager Dezvoltare, Administrare Active Imobiliare și Marketing",
+          "shortTitle": "Manager dezvoltare imobiliară și marketing",
+          "theme": "Potențialul comercial al proprietăților",
           "summary": "Atragerea chiriașilor, administrarea proprietăților companiei și marketingul lor — de la primul contact și negociere până la relații pe termen lung.",
           "intro": "Pune în valoare potențialul comercial al proprietăților, atrage chiriași strategici și dezvoltă parteneriate pe termen lung.",
           "role": [
@@ -1072,7 +1096,7 @@
               "Experiență profesională de minimum 5 ani în administrarea portofoliilor imobiliare, marketing, leasing comercial, vânzări, business development sau administrarea proprietăților.",
               "Experiență practică în închirierea spațiilor comerciale și/sau de birouri.",
               "Experiență în identificarea și atragerea potențialilor chiriași și clienți, în negocierea cu aceștia și în dezvoltarea relațiilor comerciale pe termen lung.",
-              "Experiență în administrarea relațiilor contractuale cu chiriașii și în dezvoltarea relațiilor de colaborare pe termen lung.",
+              "Experiență în administrarea relațiilor contractuale cu chiriașii și în construirea unor relații de durată.",
               "Experiență în monitorizarea încasărilor, gestionarea debitorilor și recuperarea creanțelor.",
               "Experiență în promovarea, închirierea sau valorificarea proprietăților imobiliare, inclusiv a terenurilor.",
               "Permis de conducere categoria B și disponibilitate pentru deplasări."
@@ -1113,14 +1137,14 @@
             ]
           },
           "offer": [
-            "Stabilitatea și siguranța unui loc de muncă într-o companie cu peste 20 de ani de experiență pe piața Republicii Moldova.",
+            "Un loc de muncă stabil și sigur, într-o companie cu peste 20 de ani pe piața Republicii Moldova.",
             "Posibilitatea de a contribui direct la dezvoltarea portofoliului imobiliar și la creșterea valorii proprietăților companiei.",
             "Implicare directă în dezvoltarea strategiilor comerciale și de marketing.",
             "Un mediu profesionist și respectuos.",
             "Oportunități reale de dezvoltare profesională și de afirmare pe termen lung."
           ],
           "apply": [
-            "Poziția este full-time; colaborările part-time nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, responsabilitățile deținute, rezultatele obținute și realizările relevante."
           ],
           "seo": {
@@ -1130,6 +1154,8 @@
         },
         "ru": {
           "title": "Менеджер по развитию, управлению недвижимостью и маркетингу",
+          "shortTitle": "Менеджер по развитию недвижимости и маркетингу",
+          "theme": "Коммерческий потенциал недвижимости",
           "summary": "Привлечение арендаторов, управление объектами недвижимости компании и их маркетинг — от первого контакта и переговоров до долгосрочных отношений.",
           "intro": "Раскрывайте коммерческий потенциал недвижимости, привлекайте стратегических арендаторов и развивайте долгосрочные партнёрства.",
           "role": [
@@ -1194,7 +1220,7 @@
               "Не менее 5 лет профессионального опыта в управлении портфелем недвижимости, маркетинге, коммерческой аренде, продажах, развитии бизнеса или управлении объектами недвижимости.",
               "Практический опыт сдачи в аренду коммерческих и (или) офисных помещений.",
               "Опыт поиска и привлечения потенциальных арендаторов и клиентов, ведения переговоров с ними и развития долгосрочных коммерческих отношений.",
-              "Опыт ведения договорных отношений с арендаторами и развития долгосрочного сотрудничества.",
+              "Опыт ведения договорных отношений с арендаторами и выстраивания долгосрочных отношений.",
               "Опыт контроля поступления платежей, работы с дебиторами и взыскания задолженности.",
               "Опыт продвижения, сдачи в аренду или коммерческого использования объектов недвижимости, включая земельные участки.",
               "Водительское удостоверение категории B и готовность к поездкам."
@@ -1235,7 +1261,7 @@
             ]
           },
           "offer": [
-            "Стабильность и надёжность рабочего места в компании с более чем 20-летним опытом на рынке Республики Молдова.",
+            "Стабильная и надёжная работа в компании, которая более 20 лет работает на рынке Молдовы.",
             "Возможность напрямую участвовать в развитии портфеля недвижимости и в росте стоимости объектов компании.",
             "Прямое участие в разработке коммерческих и маркетинговых стратегий.",
             "Профессиональная и уважительная рабочая среда.",
@@ -1252,6 +1278,8 @@
         },
         "en": {
           "title": "Real Estate Development, Property Portfolio & Marketing Manager",
+          "shortTitle": "Property Development & Marketing Manager",
+          "theme": "The commercial potential of property",
           "summary": "Attracting tenants, managing the company's properties and marketing them — from first contact and negotiation to long-term tenant relationships.",
           "intro": "Unlock the commercial potential of the company's properties, attract strategic tenants and build long-term partnerships.",
           "role": [
@@ -1316,7 +1344,7 @@
               "At least 5 years' professional experience in real estate portfolio management, marketing, commercial leasing, sales, business development or property management.",
               "Hands-on experience of leasing commercial and/or office space.",
               "Experience of identifying and attracting prospective tenants and clients, negotiating with them and developing long-term commercial relationships.",
-              "Experience of managing contractual relationships with tenants and building long-term cooperation.",
+              "Experience of managing contractual relationships with tenants and building long-term relationships.",
               "Experience of monitoring incoming payments, managing debtors and recovering receivables.",
               "Experience of promoting, leasing or commercialising real estate, including land plots.",
               "Category B driving licence and availability to travel."
@@ -1357,7 +1385,7 @@
             ]
           },
           "offer": [
-            "The stability and security of a position in a company with more than 20 years of experience in the Republic of Moldova.",
+            "A secure, stable position in a company with more than 20 years in the Moldovan market.",
             "The opportunity to contribute directly to the development of the property portfolio and to the growing value of the company's properties.",
             "Direct involvement in shaping commercial and marketing strategies.",
             "A professional and respectful environment.",
@@ -1404,11 +1432,14 @@
         "en": "Fuel costs reimbursed."
       },
       "applySubject": "Manager de proiect în construcții",
+      "scene": "vatra-shoreline",
       "i18n": {
         "ro": {
           "title": "Manager de Proiect în Construcții",
-          "summary": "Coordonarea proiectelor de construcții de la documentația permisivă până la recepție și dare în exploatare: termene, buget, calitate și participanți.",
-          "intro": "Condu ciclul complet al proiectelor de construcții — de la documentația permisivă până la darea în exploatare a obiectivelor.",
+          "shortTitle": "Manager de proiect în construcții",
+          "theme": "Ciclul complet al proiectului",
+          "summary": "Coordonarea proiectelor de construcții de la autorizare până la recepție și darea în exploatare: termene, buget, calitate și toți participanții.",
+          "intro": "Condu proiectele de construcții pe tot parcursul lor — de la autorizații până la darea în exploatare.",
           "role": [
             "Managerul de proiect coordonează întregul proces de realizare a proiectelor de construcții — de la etapa documentației permisive până la recepția și darea în exploatare a obiectivului — și urmărește respectarea termenelor, a bugetului, a cerințelor tehnice și a standardelor de calitate.",
             "În sarcina sa se află comunicarea dintre toate părțile implicate în proiect — proiectanți, antreprenori, furnizori și specialiști tehnici — și colaborarea cu autoritățile și instituțiile de control."
@@ -1467,7 +1498,7 @@
             "Un mediu de lucru profesionist, stabil și orientat spre rezultate."
           ],
           "apply": [
-            "Poziția este full-time; colaborările part-time nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, proiectele gestionate, responsabilitățile deținute și realizările relevante.",
             "Te rugăm să prezinți detalii despre proiectele de construcții la care ai participat, rolul avut și responsabilitățile exercitate.",
             "La interviu sunt invitate doar persoanele care corespund cerințelor specificate."
@@ -1479,6 +1510,8 @@
         },
         "ru": {
           "title": "Менеджер строительных проектов",
+          "shortTitle": "Менеджер строительных проектов",
+          "theme": "Полный цикл проекта",
           "summary": "Координация строительных проектов от разрешительной документации до приёмки и ввода в эксплуатацию: сроки, бюджет, качество и участники проекта.",
           "intro": "Управляйте полным циклом строительных проектов — от разрешительной документации до ввода объектов в эксплуатацию.",
           "role": [
@@ -1551,8 +1584,10 @@
         },
         "en": {
           "title": "Construction Project Manager",
+          "shortTitle": "Construction Project Manager",
+          "theme": "The full project cycle",
           "summary": "Coordinating construction projects from permits to acceptance and commissioning — deadlines, budget, quality and everyone involved in the project.",
-          "intro": "Manage the full cycle of construction projects — from permits to the commissioning of the completed facilities.",
+          "intro": "Run construction projects through their full cycle — from permits to handover and commissioning.",
           "role": [
             "The Construction Project Manager coordinates the entire delivery of construction projects — from the permitting stage to the acceptance and commissioning of the facility — and monitors compliance with deadlines, the budget, technical requirements and quality standards.",
             "The role is responsible for communication between everyone involved in a project — designers, contractors, suppliers and technical specialists — and for working with the authorities and inspection bodies."
@@ -1605,7 +1640,7 @@
           },
           "kpi": null,
           "offer": [
-            "A stable individual employment contract and a full social package.",
+            "A stable employment contract and a full social package.",
             "Participation in major construction and real estate development projects.",
             "Real opportunities for professional development and growth within the company.",
             "A professional, stable and results-oriented working environment."
@@ -1649,9 +1684,12 @@
       "bonus": null,
       "compensation": null,
       "applySubject": "Administrator condominiu",
+      "scene": "dacia-31",
       "i18n": {
         "ro": {
           "title": "Administrator Condominiu",
+          "shortTitle": "Administrator condominiu",
+          "theme": "Calitatea exploatării și disciplina financiară",
           "summary": "Administrarea condominiului: exploatarea tehnică a clădirii, bugetul și plățile, contractele cu furnizorii și relația cu proprietarii și locatarii.",
           "intro": "Construiește un sistem eficient de exploatare a clădirii, în care fiabilitatea tehnică, disciplina financiară și calitatea serviciilor funcționează împreună.",
           "role": [
@@ -1729,13 +1767,13 @@
           "kpi": null,
           "offer": [
             "Contract individual de muncă și pachet social complet.",
-            "Stabilitate profesională într-o companie cu peste 20 de ani de experiență pe piața Republicii Moldova.",
+            "Un loc de muncă stabil, într-o companie cu peste 20 de ani pe piața Republicii Moldova.",
             "Mediu de lucru profesionist și condiții de muncă adecvate.",
             "Posibilitatea de a coordona și organiza independent activitatea de administrare a condominiului.",
             "Oportunități de dezvoltare profesională și perfecționare continuă."
           ],
           "apply": [
-            "Poziția este full-time; colaborările part-time sau remote nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială sau la distanță nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, responsabilitățile deținute și realizările relevante.",
             "La interviu invităm persoanele care corespund cerințelor specificate."
           ],
@@ -1746,6 +1784,8 @@
         },
         "ru": {
           "title": "Управляющий кондоминиумом",
+          "shortTitle": "Управляющий кондоминиумом",
+          "theme": "Качество эксплуатации и финансовая дисциплина",
           "summary": "Управление кондоминиумом: техническая эксплуатация здания, бюджет и платежи, договоры с поставщиками, работа с собственниками и жильцами.",
           "intro": "Создавайте эффективную систему эксплуатации здания, в которой техническая надёжность, финансовая дисциплина и качество обслуживания работают вместе.",
           "role": [
@@ -1823,7 +1863,7 @@
           "kpi": null,
           "offer": [
             "Индивидуальный трудовой договор и полный социальный пакет.",
-            "Профессиональная стабильность в компании с более чем 20-летним опытом на рынке Республики Молдова.",
+            "Стабильная работа в компании, которая более 20 лет работает на рынке Молдовы.",
             "Профессиональная рабочая среда и надлежащие условия труда.",
             "Возможность самостоятельно координировать и организовывать работу по управлению кондоминиумом.",
             "Возможности профессионального развития и постоянного повышения квалификации."
@@ -1840,6 +1880,8 @@
         },
         "en": {
           "title": "Condominium Manager",
+          "shortTitle": "Condominium Manager",
+          "theme": "Well-run buildings, disciplined finances",
           "summary": "Running the condominium: technical operation of the building, budget and payments, supplier contracts and relations with owners and residents.",
           "intro": "Build an efficient system for operating the building — one in which technical reliability, financial discipline and quality of service work together.",
           "role": [
@@ -1916,8 +1958,8 @@
           },
           "kpi": null,
           "offer": [
-            "An individual employment contract and a full social package.",
-            "Professional stability in a company with more than 20 years of experience in the Republic of Moldova.",
+            "An employment contract and a full social package.",
+            "A stable position in a company with more than 20 years in the Moldovan market.",
             "A professional working environment and appropriate working conditions.",
             "The opportunity to coordinate and organise the administration of the condominium independently.",
             "Opportunities for professional development and continuous training."
@@ -1960,11 +2002,14 @@
       "bonus": null,
       "compensation": null,
       "applySubject": "Responsabil logistică, gospodărie, transport și achiziții",
+      "scene": "m20-glazing",
       "i18n": {
         "ro": {
           "title": "Responsabil Logistică, Gospodărie, Transport și Achiziții",
+          "shortTitle": "Responsabil logistică și achiziții",
+          "theme": "Organizarea eficientă a resurselor",
           "summary": "Organizarea achizițiilor și a aprovizionării, activitatea gospodărească, administrarea parcului auto și transportul Administratorului companiei.",
-          "intro": "Asigură funcționarea zilnică fără întreruperi a companiei, găsește soluții eficiente și organizează folosirea resurselor cu maximă responsabilitate.",
+          "intro": "Asigură buna funcționare zilnică a companiei, găsește soluții eficiente și gestionează resursele cu grijă și chibzuință.",
           "role": [
             "Responsabilul asigură buna desfășurare a activităților logistice, gospodărești, de transport și de aprovizionare ale companiei: gestionează necesitățile curente, organizează achizițiile și identifică cele mai avantajoase oferte de pe piață, administrează bunurile și spațiile aflate în gestiune, întreține și monitorizează parcul auto al companiei.",
             "Rolul include transportul Administratorului companiei și îndeplinirea sarcinilor organizatorice încredințate de acesta — de aceea căutăm o persoană responsabilă, organizată, practică și de încredere."
@@ -2049,7 +2094,7 @@
             "Stabilitate într-un mediu de lucru profesionist și respectuos.",
             "Posibilitatea de a activa într-o companie cu experiență și cu proiecte în dezvoltare.",
             "Condiții de muncă stabile.",
-            "Perspectivă de colaborare pe termen lung.",
+            "Perspectiva unei colaborări de durată.",
             "Mediu de lucru fără fumat: la birou și în automobilele de serviciu nu se fumează."
           ],
           "apply": [
@@ -2063,8 +2108,10 @@
         },
         "ru": {
           "title": "Специалист по логистике, хозяйственному обеспечению, транспорту и закупкам",
+          "shortTitle": "Специалист по логистике и закупкам",
+          "theme": "Эффективная организация ресурсов",
           "summary": "Закупки и снабжение, хозяйственное обеспечение, автопарк компании и транспортное сопровождение администратора компании.",
-          "intro": "Обеспечивайте бесперебойную ежедневную работу компании, находите эффективные решения и организуйте использование ресурсов с максимальной ответственностью.",
+          "intro": "Обеспечивайте слаженную ежедневную работу компании, находите эффективные решения и распоряжайтесь ресурсами ответственно и экономно.",
           "role": [
             "Специалист обеспечивает слаженную работу логистики, хозяйственного обеспечения, транспорта и снабжения компании: ведёт её текущие потребности, организует закупки и находит самые выгодные предложения на рынке, отвечает за вверенные имущество и помещения, обслуживает и контролирует автопарк компании.",
             "В обязанности входят перевозка администратора компании (руководителя) и выполнение его организационных поручений — поэтому мы ищем ответственного, организованного, практичного и надёжного человека."
@@ -2147,9 +2194,9 @@
           "kpi": null,
           "offer": [
             "Стабильность в профессиональной и уважительной рабочей среде.",
-            "Возможность работать в компании с опытом и развивающимися проектами.",
+            "Работа в опытной компании с развивающимися проектами.",
             "Стабильные условия труда.",
-            "Перспектива долгосрочного сотрудничества.",
+            "Перспектива долгой совместной работы.",
             "Рабочая среда без курения: в офисе и в служебных автомобилях не курят."
           ],
           "apply": [
@@ -2163,8 +2210,10 @@
         },
         "en": {
           "title": "Logistics, Facilities, Transport & Procurement Coordinator",
+          "shortTitle": "Logistics & Procurement Coordinator",
+          "theme": "Resources, efficiently organised",
           "summary": "Procurement and supply, day-to-day facilities upkeep, the company's vehicle fleet and driving for the company's Administrator.",
-          "intro": "Keep the company's daily operations running without interruption, find efficient solutions and organise the use of resources with the utmost responsibility.",
+          "intro": "Keep the company running smoothly day to day, find efficient solutions and make careful, economical use of its resources.",
           "role": [
             "The Coordinator keeps the company's logistics, facilities, transport and supply activities running smoothly: managing the company's day-to-day needs, organising purchasing and finding the most advantageous offers on the market, looking after the goods and premises in the role's care, and maintaining and monitoring the company's vehicle fleet.",
             "The role includes driving the company's Administrator (the head of the company) and carrying out the organisational tasks the Administrator assigns — which is why we are looking for a responsible, organised, practical and trustworthy person."
@@ -2247,9 +2296,9 @@
           "kpi": null,
           "offer": [
             "Stability in a professional and respectful working environment.",
-            "The opportunity to work in an experienced company with projects under development.",
+            "Work in an established company with projects in development.",
             "Stable working conditions.",
-            "The prospect of long-term cooperation.",
+            "The prospect of a long-term working relationship.",
             "A smoke-free working environment: no smoking in the office or in company vehicles."
           ],
           "apply": [
@@ -2289,9 +2338,12 @@
       "bonus": null,
       "compensation": null,
       "applySubject": "Jurisconsult",
+      "scene": "m20-stair",
       "i18n": {
         "ro": {
           "title": "Jurisconsult",
+          "shortTitle": "Jurisconsult",
+          "theme": "Siguranța juridică a afacerii",
           "summary": "Suport juridic pentru activitatea companiei și proiectele ei de dezvoltare imobiliară: contracte, conformitate, relația cu autoritățile și litigii.",
           "intro": "Asigură siguranța juridică a tranzacțiilor, protejează interesele companiei și însoțește proiectele de dezvoltare imobiliară.",
           "role": [
@@ -2362,7 +2414,7 @@
             "Mediu de lucru profesionist într-o companie stabilă, în dezvoltare, cu peste 20 de ani de experiență pe piața Republicii Moldova."
           ],
           "apply": [
-            "Poziția este full-time, cu activitate la sediul companiei; colaborările part-time și munca la distanță nu sunt acceptate.",
+            "Postul este cu normă întreagă, la sediul companiei; colaborarea cu normă parțială sau la distanță nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, domeniile de specializare, responsabilitățile deținute și experiența în elaborarea și gestionarea documentației juridice.",
             "La interviu sunt invitate doar persoanele care corespund cerințelor specificate."
           ],
@@ -2373,6 +2425,8 @@
         },
         "ru": {
           "title": "Юрисконсульт",
+          "shortTitle": "Юрисконсульт",
+          "theme": "Правовая надёжность бизнеса",
           "summary": "Правовая поддержка работы компании и её проектов развития недвижимости: договоры, соответствие законодательству, взаимодействие с органами власти и споры.",
           "intro": "Обеспечивайте правовую надёжность сделок, защищайте интересы компании и сопровождайте проекты развития недвижимости.",
           "role": [
@@ -2440,7 +2494,7 @@
             "Индивидуальный трудовой договор и полный социальный пакет в соответствии с действующим законодательством.",
             "Прямое участие в юридической работе и в проектах развития недвижимости компании.",
             "Возможности профессионального развития и постоянного повышения квалификации.",
-            "Профессиональная рабочая среда в стабильной, развивающейся компании с более чем 20-летним опытом на рынке Республики Молдова."
+            "Профессиональная среда в стабильной, развивающейся компании, которая более 20 лет работает на рынке Молдовы."
           ],
           "apply": [
             "Полная занятость, работа в офисе компании; частичная занятость и удалённая работа не рассматриваются.",
@@ -2454,8 +2508,10 @@
         },
         "en": {
           "title": "Legal Counsel",
+          "shortTitle": "Legal Counsel",
+          "theme": "Legal certainty for the business",
           "summary": "Legal support for the company's operations and real estate development projects: contracts, compliance, relations with public authorities and disputes.",
-          "intro": "Ensure the legal soundness of transactions, protect the company's interests and support its real estate development projects.",
+          "intro": "Make every transaction legally sound, protect the company's interests and support its real estate development projects.",
           "role": [
             "The Legal Counsel provides the company with legal support in both its day-to-day operations and its real estate development projects: advising, developing legal solutions and protecting the company's interests in contracts, in dealings with public authorities and in disputes.",
             "The role is directly involved in the company's legal work, in cooperation with the finance, technical and administrative departments and with management."
@@ -2518,10 +2574,10 @@
           },
           "kpi": null,
           "offer": [
-            "An individual employment contract and a full social package, in line with current legislation.",
+            "An employment contract and a full social package, in line with current legislation.",
             "Direct involvement in the company's legal work and real estate development projects.",
             "Opportunities for professional development and continuous training.",
-            "A professional working environment in a stable, growing company with more than 20 years of experience in the Republic of Moldova."
+            "A professional environment in a stable, growing company with more than 20 years in the Moldovan market."
           ],
           "apply": [
             "This is a full-time, office-based position; part-time and remote arrangements are not accepted.",
@@ -2561,9 +2617,12 @@
       "bonus": null,
       "compensation": null,
       "applySubject": null,
+      "scene": "m20-ground-hall",
       "i18n": {
         "ro": {
           "title": "Muncitor în Construcții – Întreținere și Reparații",
+          "shortTitle": "Muncitor în construcții și reparații",
+          "theme": "Măiestrie și rezultate vizibile",
           "summary": "Lucrări de întreținere, reparații și finisaje în clădirile companiei: zidărie, tencuieli, gresie și faianță, zugrăveli, remedierea defecțiunilor.",
           "intro": "Pune-ți măiestria în valoare în clădiri reale. Profesionalismul tău asigură calitatea, siguranța și durabilitatea lor.",
           "role": [
@@ -2613,11 +2672,11 @@
           "offer": [
             "Echipamentele și instrumentele necesare pentru desfășurarea activității.",
             "Condiții de muncă sigure.",
-            "Stabilitate profesională într-o companie cu peste 20 de ani de experiență pe piață.",
+            "Un loc de muncă stabil, într-o companie cu peste 20 de ani pe piață.",
             "Posibilitate de angajare imediată."
           ],
           "apply": [
-            "Poziția este full-time; colaborările part-time nu sunt acceptate.",
+            "Postul este cu normă întreagă; colaborarea cu normă parțială nu este posibilă.",
             "Analizăm CV-urile complete și detaliate, care arată experiența profesională și lucrările executate anterior."
           ],
           "seo": {
@@ -2627,6 +2686,8 @@
         },
         "ru": {
           "title": "Рабочий по строительству, обслуживанию и ремонту",
+          "shortTitle": "Рабочий по строительству и ремонту",
+          "theme": "Мастерство и видимый результат",
           "summary": "Обслуживание, ремонт и отделка в зданиях компании: кладка, штукатурка, укладка плитки, побелка и покраска, устранение неисправностей.",
           "intro": "Применяйте своё мастерство в работе над реальными объектами. Ваш профессионализм обеспечивает качество, надёжность и долговечность зданий.",
           "role": [
@@ -2676,8 +2737,8 @@
           "offer": [
             "Оборудование и инструмент, необходимые для работы.",
             "Безопасные условия труда.",
-            "Профессиональная стабильность в компании с более чем 20-летним опытом на рынке.",
-            "Возможность быстрого трудоустройства."
+            "Стабильная работа в компании, которая более 20 лет работает на рынке.",
+            "Возможность сразу приступить к работе."
           ],
           "apply": [
             "Полная занятость; частичная занятость не рассматривается.",
@@ -2690,6 +2751,8 @@
         },
         "en": {
           "title": "Construction & Maintenance Worker",
+          "shortTitle": "Construction & Maintenance Worker",
+          "theme": "Craft you can see",
           "summary": "Maintenance, repair and finishing work in the company's buildings: masonry, plastering, tiling, painting and decorating, and fixing defects.",
           "intro": "Put your craft to work on real buildings. Your professionalism ensures their quality, reliability and durability.",
           "role": [
@@ -2739,8 +2802,8 @@
           "offer": [
             "The tools and equipment needed for the job.",
             "Safe working conditions.",
-            "Job stability in a company with more than 20 years of experience on the market.",
-            "The possibility of immediate employment."
+            "A stable job in a company with more than 20 years in the market.",
+            "The option to start straight away."
           ],
           "apply": [
             "This is a full-time position; part-time arrangements are not accepted.",

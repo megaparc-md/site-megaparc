@@ -5,7 +5,7 @@ import { R3Label, R3Link } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { relatedVacancies } from "@/content/source";
 import { careersCopy, vacancyCopy } from "@/data/careers-copy";
-import { applyHref, applySubject, categoryLabel, employmentLabel, payOf, workModeLabel, type ClosedVacancy, type Vacancy } from "@/lib/careers";
+import { applyHref, applySubject, categoryLabel, employmentLabel, payOf, sceneOf, shortTitleOf, themeOf, workModeLabel, type ClosedVacancy, type Vacancy } from "@/lib/careers";
 import { vacancyJsonLd } from "@/lib/seo";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
@@ -24,11 +24,13 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
   const p = (path: string) => localePath(locale, path);
   const pay = payOf(vacancy, locale);
   const mail = applyHref(vacancy, locale);
-  const format = [vacancy.employment ? employmentLabel[vacancy.employment][locale] : null, vacancy.workMode ? workModeLabel[vacancy.workMode][locale] : null].filter(Boolean).join(" · ");
   const related = relatedVacancies(vacancy);
+  const scene = sceneOf(vacancy);
+  // R2: employment and the work mode on rows of their own (R1 joined them with « · », which broke awkwardly on phones)
   const facts = [
     [c.facts.direction[locale], categoryLabel[vacancy.category][locale]],
-    format ? [c.facts.format[locale], format] : null,
+    vacancy.employment ? [c.facts.employment[locale], employmentLabel[vacancy.employment][locale]] : null,
+    vacancy.workMode ? [c.facts.mode[locale], workModeLabel[vacancy.workMode][locale]] : null,
     vacancy.location ? [c.facts.location[locale], vacancy.location[locale]] : null,
   ].filter(Boolean) as [string, string][];
   const requirements = [
@@ -47,9 +49,9 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
       <section className="r3-sec r3-sec--ivory cr-vhero">
         <div className="r3-shell">
           <nav className="cr-crumbs" aria-label={careersCopy.label[locale]}>
-            <Link href={p("/careers")}>{careersCopy.label[locale]}</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">{t.title}</span>
+            <Link href={p("/careers")}><Icon name="left" size={14} className="cr-crumbs__back" />{careersCopy.label[locale]}</Link>
+            <span className="cr-crumbs__sep" aria-hidden="true">/</span>
+            <span className="cr-crumbs__here" aria-current="page">{t.title}</span>
           </nav>
           <div className="cr-vhero__grid">
             <div>
@@ -84,12 +86,19 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
         </div>
       </section>
 
-      {/* B — your role */}
-      <section className="r3-sec r3-sec--paper cr-role" id="role">
-        <div className="r3-shell cr-two">
-          <R3Label>{c.role[locale]}</R3Label>
-          <div className="cr-role__copy">
-            {t.role.map((text, index) => <p key={text} className={index === 0 ? "r3-statement" : "r3-lead"}>{text}</p>)}
+      {/* B — the role in focus (R2): the theme of the role, its description and one real MEGAPARC photograph — every page its own */}
+      <section className="r3-sec r3-sec--paper cr-focus" id="role">
+        <div className="r3-shell cr-focus__grid">
+          <figure className="cr-scene cr-focus__media">
+            <img src={scene.src} srcSet={`${scene.small} ${scene.smallWidth}w, ${scene.src} ${scene.width}w`} sizes="(min-width: 1024px) 50vw, 100vw" width={scene.width} height={scene.height} alt={scene.alt[locale]} loading="lazy" decoding="async" style={scene.position ? { objectPosition: scene.position } : undefined} />
+            <figcaption>{scene.caption[locale]}</figcaption>
+          </figure>
+          <div className="cr-focus__copy">
+            <R3Label>{c.focus[locale]}</R3Label>
+            <h2 className="cr-focus__theme">{themeOf(vacancy, locale)}</h2>
+            <div className="cr-role__copy">
+              {t.role.map((text, index) => <p key={text} className={index === 0 ? "cr-role__first" : "r3-lead"}>{text}</p>)}
+            </div>
           </div>
         </div>
       </section>
@@ -208,7 +217,7 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
                 <li key={item.slug}>
                   <Link className="cr-vacancy" href={p(`/careers/${item.slug}`)}>
                     <span className="cr-vacancy__dir">{categoryLabel[item.category][locale]}</span>
-                    <h3 className="cr-vacancy__title">{item.i18n[locale].title}</h3>
+                    <h3 className="cr-vacancy__title">{shortTitleOf(item, locale)}</h3>
                     <p className="cr-vacancy__summary">{item.i18n[locale].summary}</p>
                     <span className="cr-vacancy__more">{careersCopy.positions.more[locale]}<Icon size={16} /></span>
                   </Link>
@@ -220,7 +229,7 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
         </div>
       </section>
 
-      <VacancySticky title={t.title} meta={pay?.line ?? null} label={c.apply[locale]} href={mail} />
+      <VacancySticky title={shortTitleOf(vacancy, locale)} meta={pay?.line ?? null} label={c.apply[locale]} href={mail} />
     </PageShell>
   );
 }
