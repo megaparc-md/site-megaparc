@@ -78,6 +78,19 @@ export function assistantData(locale: SiteLocale): AssistantData {
   };
 }
 
+/**
+ * The button is in the page's HTML before the page's scripts are ready, and a tap in that moment would be lost (a slow phone,
+ * a busy network). This one-line script stands before the button and remembers such a tap; the launcher opens the window as
+ * soon as it is ready and switches the listener off. Plain ES5, no dependency, runs once.
+ */
+const EARLY_TAP =
+  "(function(){var w=window;if(w.__mcaEarly!==undefined)return;w.__mcaEarly=0;function h(e){var t=e.target;if(t&&t.closest&&t.closest('.mca-launch'))w.__mcaEarly=1}document.addEventListener('click',h,true);w.__mcaEarlyOff=function(){document.removeEventListener('click',h,true)}})()";
+
 export function Assistant({ locale }: { locale: SiteLocale }) {
-  return <AssistantLauncher data={assistantData(locale)} />;
+  return (
+    <>
+      <script dangerouslySetInnerHTML={{ __html: EARLY_TAP }} />
+      <AssistantLauncher data={assistantData(locale)} />
+    </>
+  );
 }

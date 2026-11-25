@@ -104,6 +104,18 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
     [data.locale],
   );
 
+  /* a tap made before the scripts were ready (remembered by the inline script of assistant.tsx) opens the window now */
+  useEffect(() => {
+    const early = window as Window & { __mcaEarly?: number; __mcaEarlyOff?: () => void };
+    early.__mcaEarlyOff?.();
+    if (!early.__mcaEarly) return;
+    early.__mcaEarly = 0;
+    const frame = requestAnimationFrame(show);
+    return () => cancelAnimationFrame(frame);
+    // once, when the launcher becomes interactive
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /* a conversation minimised on another page of this visit is still waiting */
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
