@@ -114,7 +114,21 @@ export function intentOf(text: string, data: AssistantData, copy: AssistantCopy)
 
 const MENU = ["rent", "land", "calc", "viewing", "invest", "manager"] as const;
 
+/**
+ * A typed message always gets a way to reach a person with the visitor's own words: when the ready answer carries no letter
+ * with the text, one is added — «open an e-mail with this message». The letter is opened in the visitor's mail app; the site
+ * sends nothing and never says a message was sent.
+ */
 export function buildReply(node: string, context: AssistantContext, answers: AssistantAnswers, data: AssistantData, copy: AssistantCopy, question?: string): AssistantReply {
+  const reply = compose(node, context, answers, data, copy, question);
+  if (!question) return reply;
+  const line = copy.mail.question(question);
+  if (reply.actions?.some((action) => action.kind === "mail" && action.body.includes(line))) return reply;
+  const letter: AssistantAction = { kind: "mail", label: copy.actions.sendText, subject: copy.subject.question, body: [copy.mail.hello, "", copy.mail.context(copy.subject.page(context.name ?? context.path)), line, "", ...copy.mail.fields, "", copy.mail.sent] };
+  return { ...reply, actions: [...(reply.actions ?? []), letter] };
+}
+
+function compose(node: string, context: AssistantContext, answers: AssistantAnswers, data: AssistantData, copy: AssistantCopy, question?: string): AssistantReply {
   const c = copy;
   const chip = (key: string, set?: Record<string, string>): AssistantChip => ({ label: c.chips[key] ?? key, node: key, ...(set ? { set } : {}) });
   const menu = (skip: string[] = []): AssistantChip[] => MENU.filter((key) => !skip.includes(key)).map((key) => chip(key));
@@ -122,6 +136,8 @@ export function buildReply(node: string, context: AssistantContext, answers: Ass
   const offerBy = (slug: string | null | undefined) => data.offers.find((item) => item.slug === slug);
   const plot = data.land.find((item) => item.hasPage) ?? null;
   const plotPath = plot ? `/projects/${plot.slug}` : null;
+  /** the plot's economics: a calculator where the page publishes one, otherwise the consultation the page offers */
+  const landCalc = () => chip(plot?.model ? "land.model" : "land.consult");
   const page = (slug: string) => `/projects/${slug}`;
   const here = c.subject.page(context.name ?? context.path);
 
@@ -144,7 +160,7 @@ export function buildReply(node: string, context: AssistantContext, answers: Ass
     case "start": {
       if (context.key === "offer-property" || context.key === "pack") return buildReply(`property:${context.slug}`, context, answers, data, c);
       if (context.key === "fully-let") return buildReply(`let:${context.slug}`, context, answers, data, c);
-      if (context.key === "land" && plot) return { text: c.start.land(plot.name, plot.area), chips: [chip("land.scenarios"), chip("land.model"), chip("land.pack"), chip("land.deals"), chip("land.discuss"), more] };
+      if (context.key === "land" && plot) return { text: c.start.land(plot.name, plot.area), chips: [chip("land.scenarios"), landCalc(), chip("land.pack"), chip("land.deals"), chip("land.discuss"), more] };
       if (context.key === "leasing") return { text: c.start.leasing, chips: [chip("rent"), chip("viewing"), chip("calc"), chip("manager"), more] };
       if (context.key === "invest" || context.key === "offer") return { text: c.start.invest, chips: [chip("invest"), chip("land"), chip("calc"), chip("manager"), more] };
       if (context.key === "calculator") return { text: c.start.calculator, chips: [chip("calc"), chip("rent"), chip("manager"), more] };
@@ -242,12 +258,15 @@ export function buildReply(node: string, context: AssistantContext, answers: Ass
       return {
         text: c.land.intro,
         cards: data.land.map((item) => ({ title: item.name, meta: item.area ?? c.land.areaPending, tone: "quiet", action: { kind: "route", label: item.hasPage ? c.actions.open(item.name) : c.actions.allLand, path: item.hasPage ? page(item.slug) : "/projects", ...(item.hasPage ? {} : { hash: ["land"] }) } })),
-        chips: [...(plot ? [chip("land.scenarios"), chip("land.model"), chip("land.pack")] : []), chip("invest.owner"), more],
+        chips: [...(plot ? [chip("land.scenarios"), landCalc(), chip("land.pack")] : []), chip("invest.owner"), more],
         note: c.land.note,
       };
     case "land.scenarios":
-      return plotPath && plot ? { text: c.land.scenarios(plot.name), actions: [{ kind: "route", label: c.actions.scenarios, path: plotPath, hash: ["scenarios"], primary: true }], chips: [chip("land.model"), chip("land.pack"), more], note: c.notes.scenario } : buildReply("land", context, answers, data, c);
+      return plotPath && plot ? { text: c.land.scenarios(plot.name), actions: [{ kind: "route", label: c.actions.scenarios, path: plotPath, hash: ["scenarios"], primary: true }], chips: [landCalc(), chip("land.pack"), more], note: c.notes.scenario } : buildReply("land", context, answers, data, c);
+    case "land.consult":
+      return plotPath && plot ? { text: c.land.consult(plot.name), actions: [{ kind: "route", label: c.actions.consult, path: plotPath, hash: ["model"], primary: true }], chips: [chip("land.scenarios"), chip("land.pack"), chip("land.discuss"), more] } : buildReply("land", context, answers, data, copy);
     case "land.model":
+      if (plot && !plot.model) return buildReply("land.consult", context, answers, data, copy);
       return plotPath && plot ? { text: c.land.model(plot.name), actions: [{ kind: "route", label: c.actions.model, path: plotPath, hash: ["model", "scenario"], primary: true }], chips: [chip("land.scenarios"), chip("land.pack"), more], note: c.notes.calc } : buildReply("land", context, answers, data, c);
     case "land.pack":
       return plotPath && plot
@@ -266,7 +285,7 @@ export function buildReply(node: string, context: AssistantContext, answers: Ass
       const cards: AssistantCard[] = [
         ...(unit ? [{ title: c.calc.point.title, meta: c.calc.point.meta(unit.name), action: { kind: "route", label: c.actions.economics, path: page(unit.slug), hash: ["economics"] } } satisfies AssistantCard] : []),
         { title: c.calc.producer.title, meta: c.calc.producer.meta, action: { kind: "route", label: c.actions.producer, path: "/producer-economics" } },
-        ...(plot && plotPath ? [{ title: c.calc.land.title, meta: c.calc.land.meta(plot.name), action: { kind: "route", label: c.actions.model, path: plotPath, hash: ["model", "scenario"] } } satisfies AssistantCard] : []),
+        ...(plot && plotPath && plot.model ? [{ title: c.calc.land.title, meta: c.calc.land.meta(plot.name), action: { kind: "route", label: c.actions.model, path: plotPath, hash: ["model", "scenario"] } } satisfies AssistantCard] : []),
       ];
       return { text: c.calc.intro, cards, chips: [chip("rent"), chip("manager"), more], note: c.notes.calc };
     }
@@ -297,7 +316,7 @@ export function buildReply(node: string, context: AssistantContext, answers: Ass
     case "invest.owner":
       return { text: c.invest.owner, actions: [{ kind: "route", label: c.actions.offerProperty, path: "/offer", primary: true }, mail(c.actions.write, c.subject.property, [c.mail.context(here), ...c.mail.propertyFields])], chips: [chip("manager"), more] };
     case "invest.developer":
-      return { text: c.invest.developer, ...(plot && plotPath ? { actions: [{ kind: "route", label: c.actions.deals, path: plotPath, hash: ["deals", "structure"], primary: true } satisfies AssistantAction, mail(c.actions.write, c.subject.partnership, [c.mail.context(here)])] } : { actions: [mail(c.actions.write, c.subject.partnership, [c.mail.context(here)], true)] }), chips: [chip("land"), chip("land.model"), more], note: c.notes.invest };
+      return { text: c.invest.developer, ...(plot && plotPath ? { actions: [{ kind: "route", label: c.actions.deals, path: plotPath, hash: ["deals", "structure"], primary: true } satisfies AssistantAction, mail(c.actions.write, c.subject.partnership, [c.mail.context(here)])] } : { actions: [mail(c.actions.write, c.subject.partnership, [c.mail.context(here)], true)] }), chips: [chip("land"), landCalc(), more], note: c.notes.invest };
     case "invest.contractor":
       return { text: c.invest.contractor, actions: [mail(c.actions.write, c.subject.cooperation, [c.mail.context(here)], true), { kind: "route", label: c.actions.contactPage, path: "/contact" }], chips: [more] };
 

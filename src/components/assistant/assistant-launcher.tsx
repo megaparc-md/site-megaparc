@@ -27,6 +27,10 @@ import { track } from "@/lib/track";
 
 const label: Localized = { ro: "Asistent", ru: "Помощник", en: "Assistant" };
 const openLabel: Localized = { ro: "Deschideți asistentul MEGAPARC", ru: "Открыть помощника MEGAPARC", en: "Open the MEGAPARC assistant" };
+const continueLabel: Localized = { ro: "Continuați dialogul", ru: "Продолжить диалог", en: "Continue the chat" };
+const continueOpen: Localized = { ro: "Continuați dialogul cu asistentul MEGAPARC", ru: "Продолжить диалог с помощником MEGAPARC", en: "Continue the chat with the MEGAPARC assistant" };
+/** the window was minimised with a conversation in it (this browser tab, per language) */
+const minKey = (locale: string) => `mca:v1:min:${locale}`;
 const unreadLabel: Localized = { ro: "Mesaj nou de la manager", ru: "Новое сообщение от менеджера", en: "A new message from the manager" };
 
 /** fixed to the bottom edge of the viewport: the button sits above them */
@@ -53,6 +57,8 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
   const [slot, setSlot] = useState(0);
   /** an employee answered while the panel was closed */
   const [unread, setUnread] = useState(false);
+  /** a minimised conversation waits behind the button: it offers to continue */
+  const [talk, setTalk] = useState(false);
   const button = useRef<HTMLButtonElement>(null);
   const loading = useRef(false);
   /** the place the button holds now (px above the corner; null = aside) — kept across re-runs of the watcher */
@@ -61,6 +67,12 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
   const show = useCallback(() => {
     track("assistant_open", { context: context.key });
     setUnread(false);
+    setTalk(false);
+    try {
+      window.sessionStorage.removeItem(minKey(data.locale));
+    } catch {
+      /* storage blocked */
+    }
     if (loaded) {
       setOpen(true);
       return;
@@ -77,10 +89,33 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
       });
   }, [context.key, data.locale, loaded]);
 
-  const close = useCallback((refocus = true) => {
-    setOpen(false);
-    if (refocus) requestAnimationFrame(() => button.current?.focus({ preventScroll: true }));
-  }, []);
+  const close = useCallback(
+    (refocus = true, keep = false) => {
+      setOpen(false);
+      setTalk(keep);
+      try {
+        if (keep) window.sessionStorage.setItem(minKey(data.locale), "1");
+        else window.sessionStorage.removeItem(minKey(data.locale));
+      } catch {
+        /* storage blocked: the button simply reads «Assistant» on the next page */
+      }
+      if (refocus) requestAnimationFrame(() => button.current?.focus({ preventScroll: true }));
+    },
+    [data.locale],
+  );
+
+  /* a conversation minimised on another page of this visit is still waiting */
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      try {
+        // a talk with the managers that this browser holds (from this visit or an earlier one) is always there to continue
+        setTalk(window.sessionStorage.getItem(minKey(data.locale)) === "1" || (liveConfigured && loadSession() !== null));
+      } catch {
+        /* storage blocked */
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [data.locale, path]);
 
   /* the live conversation of this browser, while the panel is closed: a quiet look for an employee's answer */
   useEffect(() => {
@@ -252,12 +287,13 @@ export function AssistantLauncher({ data }: { data: AssistantData }) {
   const Panel = loaded?.Panel;
   return (
     <div className="mca" data-open={open ? "" : undefined} style={{ "--mca-lift": `${lift}px`, "--mca-slot": `${slot}px` } as React.CSSProperties}>
-      <button ref={button} type="button" className="mca-launch" aria-label={unread ? `${openLabel[data.locale]} — ${unreadLabel[data.locale]}` : openLabel[data.locale]} data-unread={unread ? "" : undefined} aria-haspopup="dialog" aria-expanded={open} data-aside={aside || open ? "" : undefined} tabIndex={aside || open ? -1 : 0} onClick={show}>
+      <button ref={button} type="button" className="mca-launch" aria-label={unread ? `${openLabel[data.locale]} — ${unreadLabel[data.locale]}` : talk ? continueOpen[data.locale] : openLabel[data.locale]} data-unread={unread ? "" : undefined} data-talk={talk ? "" : undefined} aria-haspopup="dialog" aria-expanded={open} data-aside={aside || open ? "" : undefined} tabIndex={aside || open ? -1 : 0} onClick={show}>
         <svg className="mca-launch__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
           <path d="M4.5 5.5h15v10.25h-8.4L7 19.25v-3.5H4.5z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
           <path d="M8.25 9.4h7.5M8.25 12.1h4.6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
         </svg>
-        <span className="mca-launch__label">{label[data.locale]}</span>
+        <span className="mca-launch__label">{talk ? continueLabel[data.locale] : label[data.locale]}</span>
+        {talk && !unread ? <span className="mca-launch__talk" aria-hidden="true" /> : null}
         {unread ? <span className="mca-launch__badge" aria-hidden="true" /> : null}
       </button>
       {open && Panel && loaded ? <Panel data={data} copy={loaded.copy} context={context} onClose={close} /> : null}

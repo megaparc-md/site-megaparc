@@ -17,10 +17,22 @@ export type AssistantCopy = {
     /** the honest status of the channel while no person and no AI is connected */
     status: string;
     statusLabel: string;
+    /** the visible mark of the test mode: nothing typed here is sent anywhere */
+    trial: string;
     placeholder: string;
     send: string;
     close: string;
     restart: string;
+    /** «new conversation» asks before it clears the window (OWNER decision, 2026-11-25) */
+    newAsk: string;
+    newYes: string;
+    newNo: string;
+    /** hides the window and keeps the conversation and the unsent text */
+    minimise: string;
+    /** the next choices under an answer: their label and the control that hides / shows them */
+    quick: string;
+    quickHide: string;
+    quickShow: string;
     visitor: string;
     assistant: string;
     thread: string;
@@ -50,7 +62,7 @@ export type AssistantCopy = {
   let: { withOffers: (name: string, status: string) => string[]; noOffers: (name: string, status: string) => string[] };
   unit: { plans: string[]; terms: string[]; economics: string[]; offer: string[] };
   pick: { askArea: string[]; askFormat: string[]; result: (name: string) => string[]; note: string; plans: string[] };
-  land: { intro: string[]; areaPending: string; note: string; scenarios: (name: string) => string[]; model: (name: string) => string[]; pack: (name: string) => string[]; deals: string[]; discuss: string[]; genericName: string };
+  land: { intro: string[]; areaPending: string; note: string; scenarios: (name: string) => string[]; model: (name: string) => string[]; consult: (name: string) => string[]; pack: (name: string) => string[]; deals: string[]; discuss: string[]; genericName: string };
   calc: { intro: string[]; point: { title: string; meta: (name: string) => string }; producer: { title: string; meta: string }; land: { title: string; meta: (name: string) => string } };
   viewing: { askWhen: (name: string) => string[]; askProperty: string[]; result: (name: string) => string[]; note: string };
   invest: { ask: string[]; investor: string[]; owner: string[]; developer: string[]; contractor: string[] };
@@ -67,6 +79,9 @@ export type AssistantCopy = {
     sendRequest: string;
     sendViewing: string;
     sendQuestion: string;
+    /** the letter that carries the visitor's typed message */
+    sendText: string;
+    consult: string;
     askTerms: string;
     plans: string;
     terms: string;
@@ -121,6 +136,10 @@ export type AssistantCopy = {
    */
   live: {
     status: string;
+    /** the last line of the opening answer when the managers are connected: the conversation with a person comes first */
+    invite: string;
+    /** the question before a new conversation while a talk with the managers exists: it stays with them */
+    newAsk: string;
     statusClosed: string;
     with: (name: string) => string;
     manager: string;

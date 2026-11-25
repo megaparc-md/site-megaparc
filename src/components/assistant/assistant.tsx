@@ -4,9 +4,10 @@ import type { AssistantData } from "@/components/assistant/types";
 import { projectState } from "@/components/r3";
 import { availabilityCopy, spacesFor } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
+import { landAssetFor, moduleVisible } from "@/data/land/registry";
 import { m20Commercial } from "@/data/moscova-20-commercial";
 import { itemHref, landPortfolio, leasingProjects, portfolioCategories } from "@/lib/portfolio";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { isProductionEdition, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * MEGAPARC COMMERCIAL ASSISTANT — the server half (OWNER «INTELLIGENT COMMERCIAL ASSISTANT», 2026-11-24).
@@ -19,8 +20,9 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  *   — a fully let building (Moscova 9, Creangă 78 today) is never offered for lease (and NEVER_OFFERED guards the two by name);
  *   — no rate, yield, term or availability exists in the assistant that the site does not already publish.
  *
- * OWNER preview only: the production edition resolves this module to an empty stub (next.config.ts →
- * src/editions/production/assistant.tsx), so neither the code nor the copy reaches the production artifact.
+ * Both editions render it since the OWNER «COMMERCIAL ASSISTANT · PRODUCTION UI RELEASE» (2026-11-25): the interface in an
+ * explicitly marked test mode — nothing is sent to a server; a real enquiry is a letter the visitor sends from their own mail
+ * app (mailto:) or a telephone call. The live chat (live.ts) stays off until its server is connected.
  */
 /**
  * OWNER «INTELLIGENT COMMERCIAL ASSISTANT» (2026-11-24): «Не предлагать аренду полностью сданных Moscova 9 и Creangă 78.»
@@ -30,6 +32,12 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  * still never offers them. When the OWNER decides to lease space in one of them again, its slug leaves this list.
  */
 const NEVER_OFFERED: ReadonlySet<string> = new Set(["moscova-9", "creanga-78"]);
+
+/** the project calculator of a land page is published only where the page itself shows it (the same rule: registry.moduleVisible) */
+function landModel(page: string | null): boolean {
+  const asset = page ? landAssetFor(page) : null;
+  return asset ? moduleVisible(asset, "model", !isProductionEdition) : false;
+}
 
 export function assistantData(locale: SiteLocale): AssistantData {
   const leasing = leasingProjects().map((project) => {
@@ -57,7 +65,7 @@ export function assistantData(locale: SiteLocale): AssistantData {
     fullyLet: leasing
       .filter(({ state }) => state.tone === "full")
       .map(({ project, state }) => ({ slug: project.slug, name: project.name, href: localePath(locale, `/projects/${project.slug}`), status: state.text, unitIds: spacesFor(project.slug).map((unit) => unit.id) })),
-    land: landPortfolio.map((plot) => ({ slug: plot.slug, name: plot.name[locale], area: plot.area?.[locale] ?? null, href: itemHref(locale, plot.page, landAnchor), hasPage: Boolean(plot.page) })),
+    land: landPortfolio.map((plot) => ({ slug: plot.slug, name: plot.name[locale], area: plot.area?.[locale] ?? null, href: itemHref(locale, plot.page, landAnchor), hasPage: Boolean(plot.page), model: landModel(plot.page) })),
     contacts: {
       email: company.email.value[locale],
       emailHref: contactLinks.email,

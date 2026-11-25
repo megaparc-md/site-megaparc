@@ -52,12 +52,17 @@ import { track } from "@/lib/track";
  *
  * A side panel on wide screens; a full-height modal sheet on phones. Escape closes it; the focus returns to the launcher.
  */
-export type AssistantPanelProps = { data: AssistantData; copy: AssistantCopy; context: AssistantContext; onClose: (refocus?: boolean) => void };
+/** `keep` = the window is only minimised: the launcher then offers to continue the conversation */
+export type AssistantPanelProps = { data: AssistantData; copy: AssistantCopy; context: AssistantContext; onClose: (refocus?: boolean, keep?: boolean) => void };
 
 type Stored = { path: string; turns: AssistantTurn[]; answers: AssistantAnswers };
 type Thread = { turns: AssistantTurn[]; answers: AssistantAnswers };
 
 const storageKey = (locale: SiteLocale) => `mca:v1:${locale}`;
+/** the text typed and not sent: kept while the window is minimised (this browser tab only) */
+const draftKey = (locale: SiteLocale) => `mca:v1:draft:${locale}`;
+/** the field grows with the text up to this height, then scrolls */
+const FIELD_MAX = 132;
 const MAX_TURNS = 120;
 const TEST_MODE = process.env.NEXT_PUBLIC_ASSISTANT_MODE === "test";
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -85,6 +90,23 @@ const stateOf = (delivery: LiveMessage["delivery"]): LiveTurnState => (delivery 
 /** the clock, read in handlers and effects only (never while rendering) */
 const clock = () => Date.now();
 
+/** Brings messages of the server into the thread: each server message appears once, in the order it arrived. */
+function merge(turns: AssistantTurn[], messages: LiveMessage[]): AssistantTurn[] {
+  let next = turns;
+  for (const m of messages) {
+    if (m.from === "visitor") {
+      const index = next.findIndex((turn) => turn.from === "visitor" && turn.live && (turn.live.id === m.id || (m.clientId !== null && turn.live.key === m.clientId)));
+      const live = { key: m.clientId ?? `s${m.id}`, id: m.id, state: stateOf(m.delivery), channel: m.channel, ...(fileOf(m) ? { file: fileOf(m) } : {}) } as const;
+      if (index === -1) next = [...next, { from: "visitor", text: m.text, at: m.at, live }];
+      // the words are shown as the server stored them (normalised, cut cleanly at the limit)
+      else next = next.map((turn, i) => (i === index && turn.from === "visitor" ? { ...turn, text: m.kind === "text" && m.text ? m.text : turn.text, at: turn.at ?? m.at, live: { ...live, key: turn.live?.key ?? live.key } } : turn));
+    } else if (m.from === "manager") {
+      if (!next.some((turn) => turn.from === "manager" && turn.id === m.id)) next = [...next, { from: "manager", id: m.id, text: m.text, author: m.author, at: m.at, ...(fileOf(m) ? { file: fileOf(m) } : {}) }];
+    } else if (!next.some((turn) => turn.from === "system" && turn.id === m.id)) next = [...next, { from: "system", id: m.id, code: m.text }];
+  }
+  return next.length > MAX_TURNS ? next.slice(-MAX_TURNS) : next;
+}
+
 /** The address the chat offers outside working hours is a link the visitor can use at once (the text itself is unchanged). */
 const MAIL = "receptie@imc.md";
 const withMail = (text: string): ReactNode => {
@@ -102,22 +124,6 @@ const withMail = (text: string): ReactNode => {
   );
 };
 
-/** Brings messages of the server into the thread: each server message appears once, in the order it arrived. */
-function merge(turns: AssistantTurn[], messages: LiveMessage[]): AssistantTurn[] {
-  let next = turns;
-  for (const m of messages) {
-    if (m.from === "visitor") {
-      const index = next.findIndex((turn) => turn.from === "visitor" && turn.live && (turn.live.id === m.id || (m.clientId !== null && turn.live.key === m.clientId)));
-      const live = { key: m.clientId ?? `s${m.id}`, id: m.id, state: stateOf(m.delivery), channel: m.channel, ...(fileOf(m) ? { file: fileOf(m) } : {}) } as const;
-      if (index === -1) next = [...next, { from: "visitor", text: m.text, live }];
-      else next = next.map((turn, i) => (i === index && turn.from === "visitor" ? { ...turn, live: { ...live, key: turn.live?.key ?? live.key } } : turn));
-    } else if (m.from === "manager") {
-      if (!next.some((turn) => turn.from === "manager" && turn.id === m.id)) next = [...next, { from: "manager", id: m.id, text: m.text, author: m.author, at: m.at, ...(fileOf(m) ? { file: fileOf(m) } : {}) }];
-    } else if (!next.some((turn) => turn.from === "system" && turn.id === m.id)) next = [...next, { from: "system", id: m.id, code: m.text }];
-  }
-  return next.length > MAX_TURNS ? next.slice(-MAX_TURNS) : next;
-}
-
 export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelProps) {
   const locale = data.locale;
   const router = useRouter();
@@ -127,8 +133,24 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
   const panel = useRef<HTMLElement>(null);
   const thread = useRef<HTMLDivElement>(null);
   const last = useRef<HTMLDivElement>(null);
+  /** the visitor's message that the newest answer replies to: the thread scrolls to it, so the visitor sees their own words above the answer */
+  const asked = useRef<HTMLDivElement>(null);
   const picker = useRef<HTMLInputElement>(null);
-  const [text, setText] = useState("");
+  const field = useRef<HTMLTextAreaElement>(null);
+  // the panel exists in the browser only (it is mounted by a click), so the unsent text can be read at once
+  const [text, setText] = useState(() => {
+    try {
+      return (window.sessionStorage.getItem(draftKey(data.locale)) ?? "").slice(0, 400);
+    } catch {
+      return "";
+    }
+  });
+  /** the next choices folded away (true) or shown (false) by the visitor; null = no choice made yet */
+  const [quickPref, setQuickPref] = useState<boolean | null>(null);
+  const clockTime = useMemo(() => {
+    const format = new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+    return (at?: number) => (at ? format.format(at) : null);
+  }, [locale]);
   const [state, setState] = useState<Thread>({ turns: [], answers: {} });
   const [ready, setReady] = useState(false);
   const [sheet, setSheet] = useState(false);
@@ -143,8 +165,12 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
   const activity = useRef(0);
   const [notice, setNotice] = useState<string | null>(null);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  /** files that were not delivered for a passing reason, kept in memory only: the visitor sends them again with one action */
+  const [unsent, setUnsent] = useState<Record<string, File>>({});
   const [eraseAsk, setEraseAsk] = useState(false);
   const liveOn = Boolean(status?.live);
+  // a live chat is a conversation with a person, not a menu of the site: the scenarios wait folded until asked for
+  const quickHidden = quickPref ?? liveOn;
 
   const setSession = useCallback((value: LiveSession | null) => {
     sessionRef.current = value;
@@ -179,12 +205,12 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       // a message that was still being sent when the page changed is settled by the server's history below
       const kept = (stored?.turns ?? []).map((turn) => (turn.from === "visitor" && turn.live?.state === "sending" ? { ...turn, live: { ...turn.live, state: "failed" as const } } : turn));
       if (stored && stored.path === context.path) setState({ turns: kept, answers: stored.answers });
-      else if (stored) setState({ turns: [...kept, { from: "assistant" as const, reply }].slice(-MAX_TURNS), answers: stored.answers });
+      else if (stored) setState({ turns: [...kept, { from: "assistant" as const, reply, at: clock(), opening: true }].slice(-MAX_TURNS), answers: stored.answers });
       else {
         const preferred = (navigator.languages?.[0] ?? navigator.language ?? "").slice(0, 2).toLowerCase() as SiteLocale;
         const other = locales.includes(preferred) && preferred !== locale ? preferred : null;
         const first: AssistantReply = other ? { ...reply, actions: [...(reply.actions ?? []), { kind: "route", label: continueIn[other], path: context.path, locale: other }] } : reply;
-        setState({ turns: [{ from: "assistant", reply: first }], answers: {} });
+        setState({ turns: [{ from: "assistant", reply: first, at: clock(), opening: true }], answers: {} });
       }
       setReady(true);
     };
@@ -204,6 +230,46 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       /* storage blocked: the conversation simply does not survive a navigation */
     }
   }, [ready, state, locale, context.path]);
+
+  /* --- the unsent text survives a minimised window; the field is as tall as its text */
+  useEffect(() => {
+    try {
+      if (text) window.sessionStorage.setItem(draftKey(locale), text);
+      else window.sessionStorage.removeItem(draftKey(locale));
+    } catch {
+      /* storage blocked: the text lives while the window is open */
+    }
+    const box = field.current;
+    if (!box) return;
+    box.style.height = "auto";
+    box.style.height = `${Math.min(box.scrollHeight, FIELD_MAX)}px`;
+    box.style.overflowY = box.scrollHeight > FIELD_MAX ? "auto" : "hidden";
+  }, [text, locale]);
+
+  /** is there a conversation to come back to: something the visitor said here, or a talk with the managers on the server */
+  const conversing = () => state.turns.some((turn) => turn.from === "visitor" || turn.from === "manager") || sessionRef.current !== null;
+  /** «minimise» keeps the conversation AND the unsent text; the launcher then offers to continue */
+  const minimise = (refocus = true) => onClose(refocus, conversing() || text.trim().length > 0);
+  /** «close» hides the window and never ends the conversation (OWNER decision, 2026-11-25): only the unsent text goes */
+  const shut = () => {
+    try {
+      window.sessionStorage.removeItem(draftKey(locale));
+    } catch {
+      /* storage blocked */
+    }
+    onClose(true, conversing());
+  };
+  /** «new conversation» asks first (OWNER decision, 2026-11-25) */
+  const [confirmNew, setConfirmNew] = useState(false);
+  const confirmYes = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (confirmNew) confirmYes.current?.focus({ preventScroll: true });
+  }, [confirmNew]);
+  /** Escape always reaches the newest state (the key listener is attached once): it cancels the question, else minimises */
+  const onEscape = useRef<() => void>(() => undefined);
+  useEffect(() => {
+    onEscape.current = () => (confirmNew ? setConfirmNew(false) : minimise());
+  });
 
   /* --- live: is the managers' group connected; the conversation of this browser, if it has one */
   useEffect(() => {
@@ -328,7 +394,8 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       if (!box) return;
       if (event.key === "Escape") {
         event.stopPropagation();
-        onClose();
+        // Escape folds the window away: nothing typed is lost
+        onEscape.current();
         return;
       }
       const active = document.activeElement;
@@ -336,7 +403,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       // The panel moves Tab itself: its actions are links, and Safari's Tab skips links by default — a keyboard user would
       // never reach «open the letter» or «call». On a phone the sheet is a modal and Tab wraps; beside the page it leaves
       // the panel at either end, as in any other part of the page.
-      const items = Array.from(box.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled]):not([type=file])")).filter((node) => node.offsetParent !== null);
+      const items = Array.from(box.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]):not([type=file])")).filter((node) => node.offsetParent !== null);
       if (!items.length) return;
       const index = items.indexOf(active as HTMLElement);
       let next: number;
@@ -357,7 +424,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [onClose, sheet]);
+  }, [sheet]);
 
   /* --- a new turn: bring its beginning into view; a choice made in the thread moves the focus to the answer */
   const count = state.turns.length;
@@ -365,7 +432,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     const box = thread.current;
     const node = last.current;
     if (!box || !node) return;
-    box.scrollTop = Math.max(0, node.offsetTop - 12);
+    box.scrollTop = Math.max(0, (asked.current ?? node).offsetTop - 12);
     if (fromThread.current) node.focus({ preventScroll: true });
     fromThread.current = false;
   }, [count]);
@@ -375,10 +442,13 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       const answers = set ? { ...state.answers, ...set } : state.answers;
       const reply = await transport.reply(request, context, answers, data);
       // with the managers connected, «a manager» means: write here
-      const shown: AssistantReply = liveOn && request.type === "chip" && request.node === "manager" ? { ...reply, text: lv.managerReply } : reply;
-      setState((current) => ({ turns: [...current.turns, ...(said === null ? [] : [{ from: "visitor" as const, text: said }]), { from: "assistant" as const, reply: shown }].slice(-MAX_TURNS), answers }));
+      const toManager: AssistantReply = liveOn && request.type === "chip" && request.node === "manager" ? { ...reply, text: lv.managerReply } : reply;
+      // the typed message itself has gone to the managers: no «open an e-mail with this message» beside its ready answer
+      const shown: AssistantReply = liveOn && request.type === "text" ? { ...toManager, actions: toManager.actions?.filter((action) => !(action.kind === "mail" && action.label === copy.actions.sendText)) } : toManager;
+      const at = clock();
+      setState((current) => ({ turns: [...current.turns, ...(said === null ? [] : [{ from: "visitor" as const, text: said, at }]), { from: "assistant" as const, reply: shown, at }].slice(-MAX_TURNS), answers }));
     },
-    [context, data, liveOn, lv.managerReply, state.answers, transport],
+    [context, copy.actions.sendText, data, liveOn, lv.managerReply, state.answers, transport],
   );
 
   const choose = (chip: AssistantChip) => {
@@ -446,7 +516,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     }
     const key = newClientId();
     const human = state.turns.some((turn) => turn.from === "manager");
-    setState((current) => ({ ...current, turns: [...current.turns, { from: "visitor" as const, text: said, live: { key, id: null, state: "sending" as const, channel: "site" as const } }].slice(-MAX_TURNS) }));
+    setState((current) => ({ ...current, turns: [...current.turns, { from: "visitor" as const, text: said, at: clock(), live: { key, id: null, state: "sending" as const, channel: "site" as const } }].slice(-MAX_TURNS) }));
     // until a person has answered, a question the assistant knows (the published terms, a viewing, a calculator) also gets
     // its ready answer at once; after that the talk is between people and the assistant keeps quiet
     if (!human && !["fallback", "menu", "start"].includes(intent)) void ask({ type: "text", text: said }, null);
@@ -462,6 +532,12 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     const key = newClientId();
     const image = IMAGE_TYPES.includes(file.type);
     setState((current) => ({ ...current, turns: [...current.turns, { from: "visitor" as const, text: "", live: { key, id: null, state: "sending" as const, channel: "site" as const, file: { id: null, name: file.name, mime: file.type, size: file.size, image } } }].slice(-MAX_TURNS) }));
+    await pushFile(file, key);
+  };
+
+  /** Sends a file of the thread (the first time, or again after a passing failure). */
+  const pushFile = async (file: File, key: string) => {
+    setNotice(null);
     activity.current = clock();
     try {
       let current = sessionRef.current;
@@ -475,9 +551,23 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       }
       const result = await sendFile(current, file, key);
       absorb([result.message]);
-      track("assistant_live_file", { image });
+      setUnsent((held) => {
+        if (!(key in held)) return held;
+        const next = { ...held };
+        delete next[key];
+        return next;
+      });
+      track("assistant_live_file", { image: IMAGE_TYPES.includes(file.type) });
     } catch (error) {
       mark(key, { state: "failed" });
+      // no network, or Telegram did not take the file for a moment: it can be sent again; a refused type or size cannot
+      const passing = error instanceof LiveError && (error.status === 0 || error.status >= 500);
+      setUnsent((held) => {
+        const next = { ...held };
+        if (passing) next[key] = file;
+        else delete next[key];
+        return next;
+      });
       problem(error);
     }
   };
@@ -513,20 +603,32 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     setState((thread) => ({ ...thread, turns: [...thread.turns.filter((turn) => !(turn.from === "manager" || turn.from === "system" || (turn.from === "visitor" && turn.live))), { from: "system" as const, id: null, code: "erased" }] }));
   };
 
+  /**
+   * A new conversation — only after the visitor confirmed it. The window is cleared; a talk with the managers is not erased
+   * (it stays with them, in its topic) but this browser lets it go, so the next message opens a new conversation. Reopening
+   * the window, a reload or another page never do this: they continue the conversation the browser holds.
+   */
   const restart = async () => {
+    setConfirmNew(false);
     try {
       window.sessionStorage.removeItem(storageKey(locale));
+      window.sessionStorage.removeItem(draftKey(locale));
     } catch {
       /* storage blocked */
     }
     const reply = await transport.reply({ type: "open" }, context, {}, data);
     fromThread.current = true;
-    // the guided part starts over; the talk with the managers is not thrown away by this — it comes back from the server
+    if (sessionRef.current) track("assistant_live_new");
+    setSession(null);
+    setLiveState(null);
+    setNotice(null);
     cursor.current = 0;
-    setState({ turns: [{ from: "assistant", reply }], answers: {} });
-    const current = sessionRef.current;
-    if (current) fetchEvents(current, 0).then((result) => absorb(result.messages), () => undefined);
+    setQuickPref(null);
+    setText("");
+    setState({ turns: [{ from: "assistant", reply, at: clock(), opening: true }], answers: {} });
   };
+  /** nothing said and no talk with the managers: there is nothing to confirm */
+  const askNew = () => (conversing() || text.trim().length > 0 ? setConfirmNew(true) : void restart());
 
   /* --- actions */
   const go = (action: Extract<AssistantAction, { kind: "route" }>) => (event: MouseEvent<HTMLAnchorElement>) => {
@@ -535,7 +637,8 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     event.preventDefault();
     const target = action.locale ?? locale;
     const samePage = action.path === context.path && target === locale;
-    onClose(false);
+    // the page takes the screen; the conversation waits behind the launcher
+    minimise(false);
     if (samePage) {
       if (action.hash?.length) window.setTimeout(() => openAnchor(action.hash!), 60);
       else window.scrollTo({ top: 0 });
@@ -594,6 +697,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
 
   const lastAssistant = state.turns.reduce((index, turn, i) => (turn.from === "assistant" ? i : index), -1);
   const lastIndex = state.turns.length - 1;
+  const askedIndex = lastIndex > 0 && state.turns[lastIndex].from === "assistant" && state.turns[lastIndex - 1].from === "visitor" ? lastIndex - 1 : -1;
   const statusText = liveOn ? `${liveState?.open === false || (liveState === null && status?.open === false) ? lv.statusClosed : lv.status}${liveState?.manager ? ` ${lv.with(liveState.manager)}.` : ""}` : ui.status;
   const days = status?.retentionDays ?? 180;
 
@@ -604,28 +708,53 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
           <span className="mca-head__logo" aria-hidden="true" style={{ "--mca-logo": `url("${publicAsset("/brand/megaparc-logo-compact.svg")}")` } as React.CSSProperties} />
           <p className="mca-head__title" id="mca-title">
             <span className="mca-sr">{brand.name} · </span>
-            {ui.title.replace(/\s*MEGAPARC\s*/, "") || ui.title}
+            <span>{ui.title.replace(/\s*MEGAPARC\s*/, "") || ui.title}</span>
+            {/* the test mode is named beside the title — always in view, whatever the thread shows */}
+            {liveOn && !TEST_MODE ? null : <strong className="mca-status__tag">{ui.trial}</strong>}
           </p>
           <p className="mca-head__context">{context.name ? `${ui.here}: ${context.name}` : ui.kicker}</p>
         </div>
-        <button type="button" className="mca-head__close" aria-label={ui.close} onClick={() => onClose()}>
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-            <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
-        </button>
+        <div className="mca-head__tools">
+          <button type="button" className="mca-head__tool mca-status__restart" aria-label={ui.restart} title={ui.restart} aria-expanded={confirmNew} onClick={askNew}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path d="M5.5 12a6.5 6.5 0 1 0 2-4.7M5.5 4.5v3.2h3.2" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button type="button" className="mca-head__tool mca-head__min" aria-label={ui.minimise} title={ui.minimise} onClick={() => minimise()}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path d="M6 17.5h12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </button>
+          <button type="button" className="mca-head__tool mca-head__close" aria-label={ui.close} title={ui.close} onClick={shut}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
       </header>
 
       <div className="mca-status" role="note" aria-label={ui.statusLabel}>
         <span className="mca-status__dot" aria-hidden="true" />
         <p className="mca-status__text">{withMail(tie(statusText))}</p>
-        <button type="button" className="mca-status__restart" onClick={() => void restart()}>
-          {ui.restart}
-        </button>
       </div>
+
+      {confirmNew ? (
+        <div className="mca-confirm" role="alertdialog" aria-labelledby="mca-confirm-text">
+          <p id="mca-confirm-text">{tie(session ? lv.newAsk : ui.newAsk)}</p>
+          <div className="mca-confirm__acts">
+            <button ref={confirmYes} type="button" className="mca-confirm__yes" data-new="yes" onClick={() => void restart()}>
+              {ui.newYes}
+            </button>
+            <button type="button" className="mca-confirm__no" data-new="no" onClick={() => setConfirmNew(false)}>
+              {ui.newNo}
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       <div ref={thread} className="mca-thread" role="log" aria-label={ui.thread} aria-live="polite">
         {state.turns.map((turn, index) => {
-          const anchor = index === lastIndex ? last : undefined;
+          const anchor = index === lastIndex ? last : index === askedIndex ? asked : undefined;
           if (turn.from === "system")
             return (
               <div key={index} ref={anchor} className="mca-sys" data-code={turn.code} tabIndex={-1}>
@@ -635,7 +764,10 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
           if (turn.from === "manager")
             return (
               <div key={index} ref={anchor} className="mca-msg mca-msg--manager" data-id={turn.id} tabIndex={-1}>
-                <p className="mca-msg__who">{turn.author ? `${turn.author} · MEGAPARC` : lv.manager}</p>
+                <p className="mca-msg__who mca-msg__meta">
+                  <span>{turn.author ? `${turn.author} · MEGAPARC` : lv.manager}</span>
+                  {clockTime(turn.at) ? <time> · {clockTime(turn.at)}</time> : null}
+                </p>
                 <div className="mca-bubble">
                   {turn.file && session ? <LiveFileView file={turn.file} session={session} label={lv.download} /> : null}
                   {turn.text ? <p className="mca-pre">{turn.text}</p> : null}
@@ -646,7 +778,10 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
             const live = turn.live;
             return (
               <div key={index} ref={anchor} className={`mca-msg mca-msg--visitor${live ? " mca-msg--live" : ""}`} data-state={live?.state} tabIndex={-1}>
-                <span className="mca-sr">{ui.visitor}: </span>
+                <p className="mca-msg__meta">
+                  <span>{ui.visitor}</span>
+                  {clockTime(turn.at) ? <time> · {clockTime(turn.at)}</time> : null}
+                </p>
                 <div className="mca-msg__body">
                   {live?.file ? live.file.id !== null && session ? <LiveFileView file={live.file} session={session} label={lv.download} own /> : <p className="mca-file mca-file--plain">{live.file.name}</p> : null}
                   {turn.text && !(live?.file && turn.text.startsWith("📎")) ? <p className="mca-pre">{turn.text}</p> : null}
@@ -666,6 +801,19 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
                         {lv.states.retry}
                       </button>
                     ) : null}
+                    {live.state === "failed" && live.file && unsent[live.key] ? (
+                      <button
+                        type="button"
+                        className="mca-msg__retry"
+                        data-retry="file"
+                        onClick={() => {
+                          mark(live.key, { state: "sending" });
+                          void pushFile(unsent[live.key], live.key);
+                        }}
+                      >
+                        {lv.states.retry}
+                      </button>
+                    ) : null}
                   </p>
                 ) : null}
               </div>
@@ -676,11 +824,15 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
           const actions = (reply.actions ?? []).filter(usable);
           return (
             <div key={index} ref={anchor} className="mca-msg mca-msg--assistant" tabIndex={-1}>
-              <span className="mca-sr">{ui.assistant}: </span>
+              <p className="mca-msg__meta">
+                <span>{ui.assistant}</span>
+                {clockTime(turn.at) ? <time> · {clockTime(turn.at)}</time> : null}
+              </p>
               <div className="mca-bubble">
                 {reply.text.map((line, i) => (
                   <p key={i}>{tie(line)}</p>
                 ))}
+                {liveOn && turn.opening ? <p className="mca-bubble__invite">{tie(lv.invite)}</p> : null}
               </div>
               {reply.cards?.length ? (
                 <ul className="mca-cards">
@@ -705,13 +857,28 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
               ) : null}
               {reply.note ? <p className="mca-note">{tie(reply.note)}</p> : null}
               {current && reply.chips?.length ? (
-                <div className="mca-chips" data-layout={reply.chips.some((chip) => chip.label.length > 16) ? "list" : "wrap"}>
-                  {reply.chips.map((chip, i) => (
-                    <button key={i} type="button" className="mca-chip" data-node={chip.node} onClick={() => choose(chip)}>
-                      <span>{chip.label}</span>
-                      <Arrow />
-                    </button>
-                  ))}
+                <div className="mca-quick">
+                  {/* a long set of choices can be folded away: the conversation keeps the room */}
+                  {reply.chips.length >= 4 ? (
+                    <div className="mca-quick__head">
+                      <span className="mca-quick__label">{ui.quick}</span>
+                      <button type="button" className="mca-quick__toggle" aria-expanded={!quickHidden} onClick={() => setQuickPref(!quickHidden)}>
+                        <span>{quickHidden ? `${ui.quickShow} · ${reply.chips.length}` : ui.quickHide}</span>
+                        <svg className="mca-quick__chevron" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+                          <path d="m6 9.5 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
+                  ) : null}
+                  {quickHidden && reply.chips.length >= 4 ? null : (
+                    <div className="mca-chips" data-layout={reply.chips.some((chip) => chip.label.length > 16) ? "list" : "wrap"}>
+                      {reply.chips.map((chip, i) => (
+                        <button key={i} type="button" className="mca-chip" data-node={chip.node} onClick={() => choose(chip)}>
+                          <span>{chip.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ) : null}
             </div>
@@ -764,6 +931,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
       ) : null}
 
       <form className="mca-form" onSubmit={submit}>
+        <div className="mca-form__field">
         {liveOn ? (
           <>
             <input ref={picker} className="mca-sr" type="file" tabIndex={-1} aria-hidden="true" accept={ACCEPT} onChange={(event) => void attach(event)} />
@@ -777,10 +945,34 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
         <label className="mca-sr" htmlFor="mca-input">
           {liveOn ? lv.placeholder : ui.placeholder}
         </label>
-        <input id="mca-input" className="mca-form__input" type="text" inputMode="text" autoComplete="off" enterKeyHint="send" maxLength={liveOn ? (status?.maxText ?? 2000) : 400} placeholder={liveOn ? lv.placeholder : ui.placeholder} value={text} onChange={(event) => { activity.current = clock(); setText(event.target.value); }} />
+        <textarea
+          id="mca-input"
+          ref={field}
+          className="mca-form__input"
+          rows={1}
+          inputMode="text"
+          autoComplete="off"
+          enterKeyHint="send"
+          maxLength={liveOn ? (status?.maxText ?? 2000) : 400}
+          placeholder={liveOn ? lv.placeholder : ui.placeholder}
+          value={text}
+          onChange={(event) => {
+            activity.current = clock();
+            setText(event.target.value);
+          }}
+          onKeyDown={(event) => {
+            // Enter sends, Shift + Enter starts a new line; never while an input method is composing a character
+            if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return;
+            event.preventDefault();
+            event.currentTarget.form?.requestSubmit();
+          }}
+        />
         <button type="submit" className="mca-form__send" aria-label={ui.send} disabled={!text.trim()}>
-          <Arrow />
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M12 19V5m-6 6 6-6 6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
+        </div>
       </form>
 
       <footer className="mca-foot">

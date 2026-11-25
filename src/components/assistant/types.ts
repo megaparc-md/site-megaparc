@@ -29,7 +29,8 @@ export type AssistantOffer = {
 /** `unitIds`: unit pages of the building that a build still publishes (an older register) — they belong to its context too */
 export type AssistantFullyLet = { slug: string; name: string; href: string; status: string; unitIds: string[] };
 
-export type AssistantLand = { slug: string; name: string; area: string | null; href: string; hasPage: boolean };
+/** `model`: the plot's page publishes a project calculator in this edition; without it the page offers a consultation instead */
+export type AssistantLand = { slug: string; name: string; area: string | null; href: string; hasPage: boolean; model: boolean };
 
 export type AssistantContacts = {
   email: string;
@@ -96,8 +97,8 @@ export type AssistantFile = { id: number | null; name: string; mime: string; siz
  * the lines of the service itself («the office is closed», «the conversation was closed»).
  */
 export type AssistantTurn =
-  | { from: "visitor"; text: string; live?: { key: string; id: number | null; state: "sending" | "sent" | "pending" | "failed"; channel: "site" | "telegram"; file?: AssistantFile } }
-  | { from: "assistant"; reply: AssistantReply }
+  | { from: "visitor"; text: string; at?: number; live?: { key: string; id: number | null; state: "sending" | "sent" | "pending" | "failed"; channel: "site" | "telegram"; file?: AssistantFile } }
+  | { from: "assistant"; reply: AssistantReply; at?: number; opening?: boolean }
   | { from: "manager"; id: number; text: string; author: string | null; file?: AssistantFile; at: number }
   | { from: "system"; id: number | null; code: string };
 
