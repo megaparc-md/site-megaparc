@@ -3,7 +3,7 @@ import { PageShell } from "@/components/page-shell";
 import { Button, Facts, Head, Intro, Quote, Rows, Section, TextLink } from "@/components/ui";
 import { portfolioAssets } from "@/lib/assets";
 import { brandColours, brandEssence, brandLayers, glyphSample, graphicDevices, signatureWords, typeScale } from "@/lib/brand";
-import { employerBrand } from "@/lib/careers";
+import { careersCopy } from "@/data/careers-copy";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -109,7 +109,7 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
             <Button href={localePath(locale, "/contact")} variant="ghost">Solicită detalii</Button>
             <TextLink href={localePath(locale, "/projects")}>Vezi proiectele</TextLink>
           </div>
-          <p className="note">{employerBrand.direction[locale].join(" ")}</p>
+          <p className="note">{careersCopy.hero.title[locale].join(" ")}</p>
         </div>
       </Section>
     </PageShell>

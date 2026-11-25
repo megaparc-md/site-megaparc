@@ -17,6 +17,7 @@ import "../type.css";
 import "../r8.css";
 import "../r10.css";
 import "../pce.css";
+import "../careers.css";
 import "../brand.css";
 
 /** Root layout for the RU edition: static HTML is served with lang="ru". */

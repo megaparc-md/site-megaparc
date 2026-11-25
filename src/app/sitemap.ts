@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { leasingExperienceForSpace, listProjects, publicSpaces } from "@/content/source";
+import { leasingExperienceForSpace, listProjects, listVacancies, publicSpaces } from "@/content/source";
 import { siteUrl } from "@/lib/seo";
 import { localePath, locales, type SiteLocale } from "@/lib/site-data";
 
@@ -25,6 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/leasing/moscova-20/pack",
     // the producer calculator v2.1 — public from Release 2 (OWNER «NEXT ACTIONS 14.11» §3)
     "/producer-economics",
+    // open vacancies only (OWNER «MEGAPARC CAREERS», 2026-11-25 §10) — a paused or closed vacancy leaves the sitemap with its next build
+    ...listVacancies().map((vacancy) => `/careers/${vacancy.slug}`),
   ];
   return paths.flatMap((path) =>
     locales.map((locale) => ({

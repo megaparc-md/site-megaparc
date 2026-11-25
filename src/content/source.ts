@@ -2,7 +2,7 @@ import { assetProfiles, creangaProfile, daciaDevelopment, drochiaProfile, occupa
 import { leasingExperiences } from "@/data/leasing-experience";
 import { spaces, type AvailableSpace, type SpaceField, type SpaceProject, type SpaceStatus } from "@/data/leasing-inventory";
 import { developmentProjects, portfolioAssets, type AssetMedia, type DevelopmentProject, type PortfolioAsset } from "@/lib/assets";
-import { openVacancies, type Vacancy } from "@/lib/careers";
+import { closedVacancies, openVacancies, type ClosedVacancy, type Vacancy } from "@/lib/careers";
 import { numberLocale, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -23,7 +23,8 @@ import { numberLocale, type Localized, type SiteLocale } from "@/lib/site-data";
  *  - an Available space is published only while its status is AVAILABLE_NOW,
  *    AVAILABLE_FROM_DATE or (switch `showReservedUnits`) RESERVED — LEASED,
  *    HIDDEN and TO_CONFIRM are never published;
- *  - a Vacancy is published only while its status is "open";
+ *  - a Vacancy is published only while its status is "open"; a paused or closed one keeps its address with a short
+ *    «closed» page (no application, no structured data, not in the sitemap, never listed); drafts and archived ones never leave the CMS;
  *  - "for sale" appears only on projects whose forSale flag is set.
  */
 
@@ -394,6 +395,28 @@ export function projectTags(project: ProjectEntry) {
 /* VACANCY                                                              */
 /* ------------------------------------------------------------------ */
 
+/** Open vacancies in the CMS order — the ONE list every public view derives from (Careers, the vacancy pages, counts, the sitemap, the forms). */
 export function listVacancies(): Vacancy[] {
   return openVacancies;
+}
+
+/** An open vacancy by its address. */
+export function getVacancy(slug: string): Vacancy | undefined {
+  return openVacancies.find((vacancy) => vacancy.slug === slug);
+}
+
+/** A vacancy that was public and is now paused or closed (its address answers with the «closed» page). */
+export function getClosedVacancy(slug: string): ClosedVacancy | undefined {
+  return closedVacancies.find((vacancy) => vacancy.slug === slug);
+}
+
+/** Every vacancy address the static export builds: the open ones and the closed ones that keep their address. */
+export function vacancySlugs(): string[] {
+  return [...openVacancies.map((vacancy) => vacancy.slug), ...closedVacancies.map((vacancy) => vacancy.slug)];
+}
+
+/** Other open vacancies for a vacancy page: the same direction first, then the CMS order — closed ones are never recommended. */
+export function relatedVacancies(vacancy: Vacancy, limit = 3): Vacancy[] {
+  const others = openVacancies.filter((item) => item.id !== vacancy.id);
+  return [...others.filter((item) => item.category === vacancy.category), ...others.filter((item) => item.category !== vacancy.category)].slice(0, limit);
 }

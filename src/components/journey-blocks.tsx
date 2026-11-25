@@ -4,7 +4,7 @@ import { OwnerCompass } from "@/components/owner-compass";
 import { getProject, listProjects, listVacancies, publicSpaces } from "@/content/source";
 import { acquisitionProcess, company, leasingProcess } from "@/data/demo-content";
 import { acquisitionTypes } from "@/lib/business";
-import { departmentLabel, type Department } from "@/lib/careers";
+import { categoryLabel, openCategories } from "@/lib/careers";
 import { areaBands, needGroups, needOrder, needs, uses } from "@/lib/leasing";
 import { isProductionEdition, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -83,7 +83,6 @@ export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale
   // production edition: no form backend yet (n8n off) — the confirmed direct contacts instead of a form that cannot send
   if (isProductionEdition) return <DirectContact locale={locale} subject={initial ?? "general"} />;
   const districts = Array.from(new Set(listProjects().filter((p) => p.kind === "operating").map((p) => p.district[locale])));
-  const departments = Array.from(new Set(listVacancies().map((v) => v.department))) as Department[];
   const options: FormOptions = {
     properties: listProjects().filter((p) => p.kind === "operating").map((p) => ({ value: p.slug, label: p.name })),
     spaces: publicSpaces.map((s) => ({ value: s.id, label: `${getProject(s.project)!.name} · ${s.code} · ${s.unit[locale]}` })),
@@ -96,8 +95,8 @@ export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale
     ownerAssets: acquisitionTypes.map((a) => ({ value: a.key, label: a.title[locale] })),
     ownerIntents: ownerIntents.map((i) => ({ value: i.key, label: i.label[locale] })),
     partnerCategories: partnerCategories.map((p) => ({ value: p.key, label: p.label[locale] })),
-    vacancies: listVacancies().map((v) => ({ value: v.slug, label: v.title[locale] })),
-    disciplines: departments.map((d) => ({ value: d, label: departmentLabel[d][locale] })),
+    vacancies: listVacancies().map((v) => ({ value: v.slug, label: v.i18n[locale].title })),
+    disciplines: openCategories().map((group) => ({ value: group.category, label: categoryLabel[group.category][locale] })),
     mailboxes: {
       lease: company.email.value[locale],
       property: company.email.value[locale],

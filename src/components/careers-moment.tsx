@@ -1,14 +1,19 @@
 import { CinemaFilm } from "@/components/cinema-film";
 import { MaskTitle } from "@/components/experience";
-import { Button } from "@/components/ui";
-import { publicAsset, type SiteLocale } from "@/lib/site-data";
+import { ArtImage } from "@/components/primitives";
+import { Icon } from "@/components/ui";
+import { getProject } from "@/content/source";
+import { careersCopy } from "@/data/careers-copy";
+import { isProductionEdition, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
- * CAREERS FILM MOMENT (OWNER addendum 2026-10-08, "MICROCOPY + CAREERS VIDEO
- * CORRECTION"). Interaction principle only: a large atmospheric film, one
- * statement, one call to action. Used as a section on Home and as the hero of
- * Careers. The footage is concept video, registered in src/data/demo-content.ts
- * (videoUses); the public signal is the global PREVIEW · DEMO DATA marker.
+ * CAREERS HERO (OWNER «MEGAPARC CAREERS — PREMIUM EMPLOYER BRAND», 2026-11-25 · block 01; the film principle: OWNER addendum
+ * 2026-10-08). One statement, one action, one moving image.
+ *
+ * The footage is still the temporary concept film (DEMO · CONCEPT_VIDEO · REPLACE_WITH_REAL_MEGAPARC_SHOOT, registered in
+ * src/data/demo-content.ts): it never reaches the production edition. There the hero stands on a real photograph of a MEGAPARC
+ * property — Dacia 31 — with the same statement and action; when an approved MEGAPARC film exists it replaces both.
+ * Poster first, no audio, no autoplay request under reduced motion (CinemaFilm).
  */
 
 const FILM = {
@@ -16,57 +21,37 @@ const FILM = {
   mobile: { src: "/assets/video/careers-concept-mobile.mp4", poster: "/assets/video/careers-concept-mobile-poster.webp" },
 };
 
-const copy = {
-  ro: {
-    label: "Cariere",
-    title: ["Aici, rezultatul", "muncii se vede."],
-    home: "Clădiri, șantiere și proiecte care devin parte din oraș. Căutăm oameni gata să răspundă de rezultat împreună cu MEGAPARC.",
-    page: "Clădiri, șantiere și proiecte care devin parte din oraș. Posturile deschise sunt mai jos.",
-    cta: "Vedeți posturile vacante",
-    pause: "Oprește filmul",
-    play: "Pornește filmul",
-  },
-  ru: {
-    label: "Вакансии",
-    title: ["Работа,", "результат которой видно."],
-    home: "Здания, площадки и проекты, которые становятся частью города. Ищем людей, готовых отвечать за результат вместе с MEGAPARC.",
-    page: "Здания, площадки и проекты, которые становятся частью города. Открытые вакансии — ниже.",
-    cta: "Смотреть вакансии",
-    pause: "Остановить видео",
-    play: "Включить видео",
-  },
-  en: {
-    label: "Careers",
-    title: ["Work", "you can see."],
-    home: "Buildings, sites and projects that become part of the city. We are looking for people ready to own the result with MEGAPARC.",
-    page: "Buildings, sites and projects that become part of the city. Open vacancies are below.",
-    cta: "View vacancies",
-    pause: "Pause the film",
-    play: "Play the film",
-  },
-} satisfies Record<SiteLocale, Record<string, string | string[]>>;
-
 const asset = (edit: { src: string; poster: string }) => ({ src: publicAsset(edit.src), poster: publicAsset(edit.poster) });
 
-export function CareersMoment({ locale, variant, href, no, count }: { locale: SiteLocale; variant: "section" | "hero"; href: string; no?: string; count?: number }) {
-  const c = copy[locale];
-  const hero = variant === "hero";
+export function CareersHero({ locale, href, count }: { locale: SiteLocale; href: string; count: string | null }) {
+  const c = careersCopy.hero;
+  const property = getProject("dacia-31");
+  const photo = isProductionEdition ? property?.media ?? null : null;
   return (
-    <section className={`cm${hero ? " cm--hero" : ""}`} id={hero ? "careers-hero" : "vacancies"} {...(hero ? { "data-xp-hero": "" } : {})}>
-      <CinemaFilm desktop={asset(FILM.desktop)} mobile={asset(FILM.mobile)} copy={{ pause: c.pause, play: c.play }} priority={hero} />
+    <section className={`cm cm--hero cr-hero${photo ? " cr-hero--photo" : ""}`} id="careers-hero" data-xp-hero="">
+      {photo ? (
+        <div className="cr-hero__photo">
+          <ArtImage media={photo} alt={c.photoAlt[locale]} priority sizes="100vw" position="50% 46%" />
+        </div>
+      ) : (
+        <CinemaFilm desktop={asset(FILM.desktop)} mobile={asset(FILM.mobile)} copy={{ pause: c.pause[locale], play: c.play[locale] }} priority />
+      )}
       <span className="cm__veil" aria-hidden="true" />
-      <div className="xp-shell cm__copy">
+      <div className="xp-shell cm__copy cr-hero__copy">
         <p className="xp-eyebrow cm__eyebrow">
-          {no ? <span className="xp-eyebrow__no">{no}</span> : null}
-          <span>{c.label}</span>
-          {count ? <span className="cm__count">{String(count).padStart(2, "0")}</span> : null}
+          <span>{careersCopy.label[locale]}</span>
+          {count ? <span className="cm__count">{count}</span> : null}
         </p>
-        <MaskTitle as={hero ? "h1" : "h2"} className="cm__title" lines={[...c.title]} />
-        <p className="cm__text">{hero ? c.page : c.home}</p>
+        <MaskTitle as="h1" className="cm__title cr-hero__title" lines={[...c.title[locale]]} />
+        <p className="cm__text cr-hero__text">{c.text[locale]}</p>
         <div className="cm__actions">
-          <Button href={href} variant="light">{c.cta}</Button>
+          <a className="btn btn--light cr-hero__cta" href={href}>
+            <span>{c.cta[locale]}</span>
+            <Icon name="down" />
+          </a>
         </div>
       </div>
+      {photo && property ? <p className="cr-hero__caption">{property.name} · {property.city[locale]}</p> : null}
     </section>
   );
 }

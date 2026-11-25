@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { getProject, getSpace, leasingExperienceForSpace, spaceArea } from "@/content/source";
+import { getClosedVacancy, getProject, getSpace, getVacancy, leasingExperienceForSpace, spaceArea } from "@/content/source";
+import { vacancyCopy } from "@/data/careers-copy";
+import type { Vacancy } from "@/lib/careers";
 import { creangaProfile, demoContentPresent } from "@/data/demo-content";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -93,11 +95,11 @@ export const pageSeo = {
     },
   },
   careers: {
-    title: { ro: "Cariere la MEGAPARC", ru: "Работа в\u00a0MEGAPARC", en: "Careers at MEGAPARC" },
+    title: { ro: "Cariere la MEGAPARC — posturi vacante în Chișinău", ru: "Работа в MEGAPARC — открытые вакансии в Кишинэу", en: "Careers at MEGAPARC — open positions in Chișinău" },
     description: {
-      ro: "Cariere la MEGAPARC: dezvoltare și construcții, închiriere și exploatare, juridic. Posturi vacante și contacte.",
-      ru: "Направления работы в\u00a0MEGAPARC: девелопмент и\u00a0строительство, аренда и\u00a0эксплуатация, юридический отдел. Вакансии и\u00a0контакты.",
-      en: "Careers at MEGAPARC: development and construction, leasing and operations, legal. Vacancies and contacts.",
+      ro: "Posturi vacante la MEGAPARC: management, construcții și inginerie, dezvoltare comercială, juridic, exploatare. Responsabilități, cerințe, remunerare și modul de aplicare.",
+      ru: "Открытые вакансии MEGAPARC: управление, строительство и инженерия, коммерческое развитие, право, эксплуатация. Задачи, требования, оплата и порядок отклика.",
+      en: "Open positions at MEGAPARC: management, construction and engineering, commercial development, legal, operations. Responsibilities, requirements, pay and how to apply.",
     },
   },
   contact: {
@@ -218,4 +220,77 @@ export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
   // A unit with a gold-standard leasing experience renders the same page as its property: the property URL is canonical (OWNER 2026-11-06).
   const path = leasingExperienceForSpace(space.id) ? `/projects/${project.slug}` : `/leasing/${space.id}`;
   return buildMetadata(locale, path, { title, description: space.headline }, { image: project.slug === "moscova-20" ? m20ShareImage(locale) : project.media?.wide });
+}
+
+/* ------------------------------------------------------------------ */
+/* VACANCIES (OWNER «MEGAPARC CAREERS», 2026-11-25 · §10)                */
+/* ------------------------------------------------------------------ */
+
+/** An open vacancy: its own title and description in each language, canonical + hreflang. A paused / closed one: noindex. */
+export function vacancyMetadata(locale: SiteLocale, slug: string): Metadata {
+  const vacancy = getVacancy(slug);
+  if (vacancy) {
+    const pick = (key: "title" | "description") => Object.fromEntries(locales.map((l) => [l, vacancy.i18n[l].seo[key]])) as Localized;
+    return buildMetadata(locale, `/careers/${slug}`, { title: pick("title"), description: pick("description") });
+  }
+  const closed = getClosedVacancy(slug);
+  if (!closed) return {};
+  const paused = closed.status === "paused";
+  const title = Object.fromEntries(locales.map((l) => [l, `${closed.title[l]} — ${(paused ? vacancyCopy.pausedLabel : vacancyCopy.closedLabel)[l]} · MEGAPARC`])) as Localized;
+  return buildMetadata(locale, `/careers/${slug}`, { title, description: paused ? vacancyCopy.pausedText : vacancyCopy.closedText }, { noindex: true });
+}
+
+const absolute = (locale: SiteLocale, path: string) => `${siteUrl}${localePath(locale, path)}/`;
+const plain = (text: string) => text.split(String.fromCharCode(160)).join(" ").split(String.fromCharCode(8209)).join("-");
+const html = (text: string) => plain(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/**
+ * Structured data of an open vacancy: JobPosting + BreadcrumbList — confirmed facts only.
+ * · baseSalary is deliberately absent: the published amounts are NET amounts for the probation period, which schema.org cannot
+ *   express — a bare figure would misstate the pay (OWNER brief §10);
+ * · no street address (none is published): the place is the company's office city; · no validThrough unless HR set a closing date;
+ * · employmentType only where the source states the format. A paused or closed vacancy has no structured data at all.
+ */
+export function vacancyJsonLd(vacancy: Vacancy, locale: SiteLocale): Record<string, unknown>[] {
+  const t = vacancy.i18n[locale];
+  const copy = vacancyCopy;
+  const list = (items: string[]) => `<ul>${items.map((item) => `<li>${html(item)}</li>`).join("")}</ul>`;
+  const description = [
+    `<p>${html(t.intro)}</p>`,
+    ...t.role.map((text) => `<p>${html(text)}</p>`),
+    `<h3>${html(copy.tasks[locale])}</h3>`,
+    ...t.responsibilities.map((group) => `<h4>${html(group.title)}</h4>${list(group.items)}`),
+    `<h3>${html(copy.must[locale])}</h3>${list(t.requirements.must)}`,
+    t.requirements.skills.length ? `<h3>${html(copy.skills[locale])}</h3>${list(t.requirements.skills)}` : "",
+    t.requirements.plus.length ? `<h3>${html(copy.plus[locale])}</h3>${list(t.requirements.plus)}` : "",
+    t.kpi ? `<h3>${html(copy.kpi[locale])}</h3><p>${html(t.kpi.intro)}</p>${list(t.kpi.items)}` : "",
+    `<h3>${html(copy.offer[locale])}</h3>${list(t.offer)}`,
+  ].join("");
+  const url = absolute(locale, `/careers/${vacancy.slug}`);
+  const job: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: plain(t.title),
+    description,
+    identifier: { "@type": "PropertyValue", name: brand.name, value: vacancy.id },
+    hiringOrganization: { "@type": "Organization", name: brand.name, sameAs: `${siteUrl}/` },
+    directApply: false,
+    inLanguage: locale,
+    url,
+  };
+  if (vacancy.publishedAt) job.datePosted = vacancy.publishedAt;
+  if (vacancy.closesAt) job.validThrough = `${vacancy.closesAt}T23:59:59+02:00`;
+  if (vacancy.employment) job.employmentType = vacancy.employment === "full-time" ? "FULL_TIME" : "PART_TIME";
+  if (vacancy.location) job.jobLocation = { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: plain(vacancy.location[locale]), addressCountry: "MD" } };
+  const careers: Localized = { ro: "Cariere", ru: "Вакансии", en: "Careers" };
+  const breadcrumbs = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: brand.name, item: `${siteUrl}${locale === "ro" ? "" : `/${locale}`}/` },
+      { "@type": "ListItem", position: 2, name: careers[locale], item: absolute(locale, "/careers") },
+      { "@type": "ListItem", position: 3, name: plain(t.title), item: url },
+    ],
+  };
+  return [job, breadcrumbs];
 }
