@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent, type MouseEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent, type MouseEvent, type ReactNode } from "react";
 import { GOTO_KEY, anchorExists, openAnchor } from "@/components/assistant/anchors";
 import { tie, type AssistantCopy } from "@/components/assistant/copy";
 import { intentOf, localTransport } from "@/components/assistant/engine";
@@ -84,6 +84,23 @@ type LiveTurnState = "sending" | "sent" | "pending" | "failed";
 const stateOf = (delivery: LiveMessage["delivery"]): LiveTurnState => (delivery === "done" ? "sent" : delivery === "pending" ? "pending" : "failed");
 /** the clock, read in handlers and effects only (never while rendering) */
 const clock = () => Date.now();
+
+/** The address the chat offers outside working hours is a link the visitor can use at once (the text itself is unchanged). */
+const MAIL = "receptie@imc.md";
+const withMail = (text: string): ReactNode => {
+  const parts = text.split(MAIL);
+  if (parts.length === 1) return text;
+  return parts.flatMap((part, index) =>
+    index
+      ? [
+          <a key={index} className="mca-mail" href={`mailto:${MAIL}`}>
+            {MAIL}
+          </a>,
+          part,
+        ]
+      : [part],
+  );
+};
 
 /** Brings messages of the server into the thread: each server message appears once, in the order it arrived. */
 function merge(turns: AssistantTurn[], messages: LiveMessage[]): AssistantTurn[] {
@@ -222,10 +239,20 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     if (!session) return;
     let timer = 0;
     let stopped = false;
+    // How often an open window asks for news: at once while the talk is alive, rarely once it has been quiet for long —
+    // a tab left open for a day must not use up the server's daily allowance (free plan: 100 000 requests a day).
+    // Opening the window, writing and an employee's answer all count as the talk being alive.
+    let asked = 0;
+    activity.current = clock();
+    const every = () => {
+      const quiet = clock() - activity.current;
+      return quiet < 120_000 ? 1500 : quiet < 600_000 ? 4000 : quiet < 1_800_000 ? 15_000 : 60_000;
+    };
     const tick = async () => {
       if (stopped) return;
       const current = sessionRef.current;
-      if (current && !document.hidden) {
+      if (current && !document.hidden && clock() - asked >= every() - 50) {
+        asked = clock();
         try {
           const result = await fetchEvents(current, cursor.current);
           if (stopped) return;
@@ -252,12 +279,13 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
           }
         }
       }
-      timer = window.setTimeout(tick, clock() - activity.current < 120_000 ? 1500 : 4000);
+      timer = window.setTimeout(tick, Math.min(every(), 1500));
     };
     void tick();
     const wake = () => {
       if (!document.hidden) {
         window.clearTimeout(timer);
+        asked = 0;
         void tick();
       }
     };
@@ -589,7 +617,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
 
       <div className="mca-status" role="note" aria-label={ui.statusLabel}>
         <span className="mca-status__dot" aria-hidden="true" />
-        <p className="mca-status__text">{tie(statusText)}</p>
+        <p className="mca-status__text">{withMail(tie(statusText))}</p>
         <button type="button" className="mca-status__restart" onClick={() => void restart()}>
           {ui.restart}
         </button>
@@ -601,7 +629,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
           if (turn.from === "system")
             return (
               <div key={index} ref={anchor} className="mca-sys" data-code={turn.code} tabIndex={-1}>
-                <p>{tie(lv.events[turn.code] ?? (turn.code === "sent" ? lv.sent : turn.code))}</p>
+                <p>{withMail(tie(lv.events[turn.code] ?? (turn.code === "sent" ? lv.sent : turn.code)))}</p>
               </div>
             );
           if (turn.from === "manager")
@@ -749,7 +777,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
         <label className="mca-sr" htmlFor="mca-input">
           {liveOn ? lv.placeholder : ui.placeholder}
         </label>
-        <input id="mca-input" className="mca-form__input" type="text" inputMode="text" autoComplete="off" enterKeyHint="send" maxLength={liveOn ? (status?.maxText ?? 2000) : 400} placeholder={liveOn ? lv.placeholder : ui.placeholder} value={text} onChange={(event) => setText(event.target.value)} />
+        <input id="mca-input" className="mca-form__input" type="text" inputMode="text" autoComplete="off" enterKeyHint="send" maxLength={liveOn ? (status?.maxText ?? 2000) : 400} placeholder={liveOn ? lv.placeholder : ui.placeholder} value={text} onChange={(event) => { activity.current = clock(); setText(event.target.value); }} />
         <button type="submit" className="mca-form__send" aria-label={ui.send} disabled={!text.trim()}>
           <Arrow />
         </button>

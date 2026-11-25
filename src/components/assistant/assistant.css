@@ -175,6 +175,9 @@
 .mca-sys::before, .mca-sys::after { content: ""; flex: 1 1 1.5rem; min-width: 1rem; height: 1px; background: var(--mca-line-strong); }
 .mca-sys p { flex: 0 1 auto; margin: 0; max-width: 17rem; }
 .mca-sys:focus { outline: none; }
+.mca-mail { color: var(--mca-ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--mca-line-strong); text-underline-offset: .2em; white-space: nowrap; }
+.mca-mail:hover { text-decoration-color: var(--mca-red); }
+.mca-mail:focus-visible { outline: 2px solid var(--mca-ink); outline-offset: 2px; }
 
 /* files */
 .mca-file { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: .55rem; width: 100%; min-height: 2.75rem; padding: .45rem .6rem; border: 1px solid var(--mca-line-strong); border-radius: 2px; background: var(--mca-white); color: var(--mca-ink); font: inherit; font-size: .84rem; text-align: left; cursor: pointer; }
