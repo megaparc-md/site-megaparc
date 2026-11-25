@@ -7,6 +7,7 @@ import { GOTO_KEY, anchorExists, openAnchor } from "@/components/assistant/ancho
 import { tie, type AssistantCopy } from "@/components/assistant/copy";
 import { intentOf, localTransport } from "@/components/assistant/engine";
 import {
+  LIVE_ENDPOINT,
   LiveError,
   eraseConversation,
   fetchEvents,
@@ -275,21 +276,30 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
   useEffect(() => {
     if (!liveConfigured || !ready) return;
     let cancelled = false;
-    liveStatus()
-      .then((value) => {
-        if (cancelled) return;
-        setStatus(value);
-        const saved = value.live ? loadSession() : null;
-        if (!saved) return;
-        sessionRef.current = saved;
-        setSessionState(saved);
-        activity.current = clock();
-      })
-      .catch(() => {
-        /* the server is unreachable: the assistant stays the guided one and says nothing about a live chat */
-      });
+    let timer = 0;
+    let tries = 0;
+    const load = () =>
+      liveStatus()
+        .then((value) => {
+          if (cancelled) return;
+          setStatus(value);
+          const saved = value.live ? loadSession() : null;
+          if (!saved) return;
+          sessionRef.current = saved;
+          setSessionState(saved);
+          activity.current = clock();
+        })
+        .catch(() => {
+          // the server is unreachable: the assistant stays the guided one and says nothing about a live chat — and asks
+          // again, rarely, so that the window becomes the live chat (with its conversation) when the server is back
+          if (cancelled || tries >= 30) return;
+          tries += 1;
+          timer = window.setTimeout(load, 20_000);
+        });
+    void load();
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [ready]);
 
@@ -461,9 +471,33 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
   const mark = (key: string, patch: Partial<NonNullable<Extract<AssistantTurn, { from: "visitor" }>["live"]>>) =>
     setState((current) => ({ ...current, turns: current.turns.map((turn) => (turn.from === "visitor" && turn.live?.key === key ? { ...turn, live: { ...turn.live, ...patch } } : turn)) }));
 
+  /**
+   * The conversation to write into: the one the window knows, else the one this browser holds on the device — a window
+   * opened while the server was unreachable has not loaded it yet, and a new conversation (a new topic) must never be
+   * opened beside an existing one.
+   */
+  const held = (): LiveSession | null => {
+    if (sessionRef.current) return sessionRef.current;
+    const saved = loadSession();
+    if (saved) setSession(saved);
+    return saved;
+  };
+
   const problem = (error: unknown) => {
     const code = error instanceof LiveError ? error.code : "server";
     setNotice(lv.errors[code] ?? lv.errors.server);
+    // No answer at all (no network, the server down, or this site switched off on the server — a refused origin reaches the
+    // browser as a network failure): is the chat itself still there? If the status does not answer either, the honest line
+    // is «the chat with a manager is unavailable now — call or write an e-mail», not «check the internet and repeat».
+    if (error instanceof LiveError && (error.status === 0 || error.code === "origin")) {
+      const gone = () => setNotice(lv.errors.not_connected);
+      // a probe of its own: the status the window already has is not thrown away by a failed answer
+      fetch(`${LIVE_ENDPOINT}/v1/status`, { credentials: "omit" })
+        .then((response) => (response.ok ? (response.json() as Promise<{ live?: boolean }>) : Promise.reject(new Error("status"))))
+        .then((value) => {
+          if (!value.live) gone();
+        }, gone);
+    }
   };
 
   /** The guided choices made before the first message travel with it: the manager sees what the visitor was looking for. */
@@ -477,7 +511,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     setNotice(null);
     activity.current = clock();
     try {
-      const current = sessionRef.current;
+      const current = held();
       if (!current) {
         const created = await openConversation({ locale, page: pageInfo(), scenario: trail(), text: said, clientId: key });
         setSession({ id: created.id, token: created.token, seen: 0 });
@@ -540,7 +574,7 @@ export function AssistantPanel({ data, copy, context, onClose }: AssistantPanelP
     setNotice(null);
     activity.current = clock();
     try {
-      let current = sessionRef.current;
+      let current = held();
       if (!current) {
         // a file opens the conversation like a message does: its name is the first line
         const created = await openConversation({ locale, page: pageInfo(), scenario: trail(), text: `📎 ${file.name}`.slice(0, 200), clientId: `${key}-t` });
