@@ -29,7 +29,7 @@ export const careersCopy = {
       "MEGAPARC покупает, строит и развивает собственную недвижимость и сдаёт её в аренду. Здесь ваш опыт становится решениями, а решения — зданиями, которые работают годами.",
       "MEGAPARC buys, builds and develops its own property and leases it to businesses. Here, your expertise turns into decisions — and decisions into buildings that serve for years.",
     ),
-    cta: L("Vezi posturile vacante", "Смотреть вакансии", "View open positions"),
+    cta: L("Vezi posturile vacante", "Смотреть вакансии", "View vacancies"),
     index: L("Direcții", "Направления", "Areas"),
     photoAlt: L("Dacia 31 — clădire MEGAPARC în Chișinău", "Dacia 31 — здание MEGAPARC в Кишинэу", "Dacia 31 — a MEGAPARC building in Chișinău"),
   },
@@ -45,7 +45,7 @@ export const careersCopy = {
     ),
     all: L("Toate", "Все", "All"),
     filter: L("Direcție profesională", "Профессиональное направление", "Professional area"),
-    more: L("Vezi postul", "Открыть вакансию", "View role"),
+    more: L("Vezi postul", "Смотреть вакансию", "View role"),
     emptyTitle: L("Momentan nu avem posturi vacante.", "Сейчас открытых вакансий нет.", "There are no open positions right now."),
     emptyText: L(
       "Posturile noi apar pe măsură ce proiectele se dezvoltă. Dacă experiența ta ține de domeniul imobiliar, de construcții sau de exploatarea clădirilor, trimite CV-ul la adresa de mai jos — revenim la el când se deschide un post potrivit.",
@@ -118,9 +118,9 @@ export const careersCopy = {
     label: L("Unde se lucrează", "Где идёт работа", "Where the work happens"),
     title: L("Fiecare post ține de proiecte reale.", "Каждая вакансия связана с реальными объектами.", "Every role is tied to real property."),
     text: L(
-      "Proiectele de dezvoltare cer expertiză în construcții și inginerie; clădirile în exploatare — administrare, închiriere și rigoare juridică.",
+      "Proiectele de dezvoltare cer expertiză în construcții și inginerie; clădirile în funcțiune — exploatare, închiriere și rigoare juridică.",
       "Проекты развития требуют строительной и инженерной экспертизы, действующие объекты — эксплуатации, аренды и правовой точности.",
-      "Development projects call for construction and engineering expertise; operating buildings for operations, leasing and legal precision.",
+      "Development projects need construction and engineering expertise; operating buildings need people for operations, leasing and legal work.",
     ),
     work: {
       vatra: L("Proiect de dezvoltare: construcție, soluții inginerești, documentație de autorizare.", "Проект развития: строительство, инженерные решения, разрешительная документация.", "Development project: construction, engineering solutions, permits."),
@@ -148,7 +148,7 @@ export const careersCopy = {
   /* 06 — closing band on a real photograph */
   closing: {
     title: lines(["Experiența ta.", "Următorul nostru proiect."], ["Ваш опыт.", "Наш следующий проект."], ["Your expertise.", "Our next project."]),
-    cta: L("Vezi posturile vacante", "Смотреть вакансии", "View open positions"),
+    cta: L("Vezi posturile vacante", "Смотреть вакансии", "View vacancies"),
   },
 };
 
@@ -160,7 +160,7 @@ export const vacancyCopy = {
     employment: L("Program", "Занятость", "Employment"),
     mode: L("Regim de lucru", "Формат работы", "Work mode"),
     location: L("Locul de muncă", "Место работы", "Location"),
-    pay: L("Remunerare", "Оплата", "Pay"),
+    pay: L("Remunerare", "Вознаграждение", "Pay"),
   },
   apply: L("Aplică", "Откликнуться", "Apply"),
   applyLong: L("Aplică pentru acest post", "Откликнуться на вакансию", "Apply for this role"),

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getClosedVacancy, getProject, getSpace, getVacancy, leasingExperienceForSpace, spaceArea } from "@/content/source";
 import { vacancyCopy } from "@/data/careers-copy";
 import type { Vacancy } from "@/lib/careers";
+import { privacyCopy, privacyReady } from "@/lib/candidate-privacy";
 import { creangaProfile, demoContentPresent } from "@/data/demo-content";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -226,6 +227,12 @@ export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
 /* VACANCIES (OWNER «MEGAPARC CAREERS», 2026-11-25 · §10)                */
 /* ------------------------------------------------------------------ */
 
+/** The candidate privacy notice (Codex P1-02): indexable once approved; the OWNER-preview draft is noindex. */
+export function candidatePrivacyMetadata(locale: SiteLocale): Metadata {
+  const title = Object.fromEntries(locales.map((l) => [l, `${privacyCopy.title[l]} · MEGAPARC`])) as Localized;
+  return buildMetadata(locale, "/careers/privacy", { title, description: privacyCopy.lead }, { noindex: !privacyReady });
+}
+
 /** An open vacancy: its own title and description in each language, canonical + hreflang. A paused / closed one: noindex. */
 export function vacancyMetadata(locale: SiteLocale, slug: string): Metadata {
   const vacancy = getVacancy(slug);
@@ -248,11 +255,25 @@ const html = (text: string) => plain(text).replace(/&/g, "&amp;").replace(/</g, 
  * Structured data of an open vacancy: JobPosting + BreadcrumbList — confirmed facts only.
  * · baseSalary is deliberately absent: the published amounts are NET amounts for the probation period, which schema.org cannot
  *   express — a bare figure would misstate the pay (OWNER brief §10);
- * · no street address (none is published): the place is the company's office city; · no validThrough unless HR set a closing date;
- * · employmentType only where the source states the format. A paused or closed vacancy has no structured data at all.
+ * · no validThrough unless HR set a closing date; · employmentType only where the source states the format;
+ * · R3 (Codex P1-01): JobPosting only when the vacancy carries a work location confirmed by HR and its publication date — both are
+ *   required by the format, and an invented place would be untrue markup. Until then the page has its breadcrumbs only.
+ * A paused or closed vacancy has no structured data at all.
  */
 export function vacancyJsonLd(vacancy: Vacancy, locale: SiteLocale): Record<string, unknown>[] {
   const t = vacancy.i18n[locale];
+  const careers: Localized = { ro: "Cariere", ru: "Вакансии", en: "Careers" };
+  const url = absolute(locale, `/careers/${vacancy.slug}`);
+  const breadcrumbs = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: brand.name, item: `${siteUrl}${locale === "ro" ? "" : `/${locale}`}/` },
+      { "@type": "ListItem", position: 2, name: careers[locale], item: absolute(locale, "/careers") },
+      { "@type": "ListItem", position: 3, name: plain(t.title), item: url },
+    ],
+  };
+  if (!vacancy.location || !vacancy.publishedAt) return [breadcrumbs];
   const copy = vacancyCopy;
   const list = (items: string[]) => `<ul>${items.map((item) => `<li>${html(item)}</li>`).join("")}</ul>`;
   const description = [
@@ -266,7 +287,6 @@ export function vacancyJsonLd(vacancy: Vacancy, locale: SiteLocale): Record<stri
     t.kpi ? `<h3>${html(copy.kpi[locale])}</h3><p>${html(t.kpi.intro)}</p>${list(t.kpi.items)}` : "",
     `<h3>${html(copy.offer[locale])}</h3>${list(t.offer)}`,
   ].join("");
-  const url = absolute(locale, `/careers/${vacancy.slug}`);
   const job: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "JobPosting",
@@ -277,20 +297,10 @@ export function vacancyJsonLd(vacancy: Vacancy, locale: SiteLocale): Record<stri
     directApply: false,
     inLanguage: locale,
     url,
+    datePosted: vacancy.publishedAt,
+    jobLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: plain(vacancy.location[locale]), addressCountry: "MD" } },
   };
-  if (vacancy.publishedAt) job.datePosted = vacancy.publishedAt;
   if (vacancy.closesAt) job.validThrough = `${vacancy.closesAt}T23:59:59+02:00`;
   if (vacancy.employment) job.employmentType = vacancy.employment === "full-time" ? "FULL_TIME" : "PART_TIME";
-  if (vacancy.location) job.jobLocation = { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: plain(vacancy.location[locale]), addressCountry: "MD" } };
-  const careers: Localized = { ro: "Cariere", ru: "Вакансии", en: "Careers" };
-  const breadcrumbs = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: brand.name, item: `${siteUrl}${locale === "ro" ? "" : `/${locale}`}/` },
-      { "@type": "ListItem", position: 2, name: careers[locale], item: absolute(locale, "/careers") },
-      { "@type": "ListItem", position: 3, name: plain(t.title), item: url },
-    ],
-  };
   return [job, breadcrumbs];
 }

@@ -3,11 +3,7 @@
   "generated": "2026-11-25T00:00:00Z",
   "source": "repository seed — OWNER source documents of 2026-11-25 (nine vacancies)",
   "hrEmail": "hr@imc.md",
-  "location": {
-    "ro": "Chișinău",
-    "ru": "Кишинэу",
-    "en": "Chișinău"
-  },
+  "location": null,
   "vacancies": [
     {
       "id": "ceo",
@@ -18,6 +14,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -130,7 +127,7 @@
             "Cu cât descrii mai detaliat experiența și rezultatele obținute în funcțiile anterioare, cu atât evaluarea candidaturii va fi mai corectă."
           ],
           "seo": {
-            "title": "Director General (CEO) — carieră la MEGAPARC, Chișinău",
+            "title": "Director General (CEO) — carieră la MEGAPARC",
             "description": "Post vacant la MEGAPARC: Director General (CEO). Strategie, conducerea departamentelor, portofoliu imobiliar și decizii investiționale. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
@@ -219,7 +216,7 @@
             "Чем подробнее вы опишете опыт и результаты на предыдущих должностях, тем точнее будет оценка кандидатуры."
           ],
           "seo": {
-            "title": "Генеральный директор (CEO) — вакансия MEGAPARC, Кишинэу",
+            "title": "Генеральный директор (CEO) — вакансия MEGAPARC",
             "description": "Вакансия MEGAPARC: генеральный директор (CEO). Стратегия, руководство департаментами, портфель недвижимости и инвестиционные решения. Задачи, требования, условия и порядок отклика."
           }
         },
@@ -278,7 +275,7 @@
           ],
           "requirements": {
             "must": [
-              "Relevant experience in senior management positions — required.",
+              "Relevant experience in management positions — required.",
               "Experience of leading several departments and coordinating large teams.",
               "Category B driving licence and willingness to use your own car for business travel."
             ],
@@ -308,7 +305,7 @@
             "The more detail you give about your experience and the results achieved in previous roles, the more accurately we can assess your application."
           ],
           "seo": {
-            "title": "Chief Executive Officer (CEO) — careers at MEGAPARC, Chișinău",
+            "title": "Chief Executive Officer (CEO) — careers at MEGAPARC",
             "description": "Vacancy at MEGAPARC: Chief Executive Officer (CEO). Strategy, leadership of all departments, the real estate portfolio and investment decisions. Responsibilities, requirements, terms and how to apply."
           }
         }
@@ -323,6 +320,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -405,7 +403,7 @@
           ],
           "requirements": {
             "must": [
-              "Studii superioare în domeniul Construcțiilor Civile și Industriale.",
+              "Studii superioare în domeniul construcțiilor civile și industriale.",
               "Experiență profesională de minimum 5 ani în domeniul construcțiilor.",
               "Experiență în conducerea și coordonarea unei echipe în domeniul construcțiilor.",
               "Experiență în gestionarea proiectelor și coordonarea subcontractorilor.",
@@ -434,7 +432,7 @@
             "Analizăm CV-urile complete și detaliate, care arată clar experiența profesională, proiectele realizate, funcțiile deținute, responsabilitățile și realizările relevante."
           ],
           "seo": {
-            "title": "Șef Departament Construcții — carieră la MEGAPARC, Chișinău",
+            "title": "Șef Departament Construcții — carieră la MEGAPARC",
             "description": "Post vacant la MEGAPARC: Șef Departament Construcții. Conducerea departamentului, coordonarea proiectelor, control tehnic și financiar. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
@@ -468,7 +466,7 @@
                 "Общая координация строительных проектов и контроль этапов выполнения работ.",
                 "Соблюдение сроков выполнения работ, утверждённых бюджетов и стандартов качества.",
                 "Координация работ субподрядчиков и проверка выполнения договорных обязательств.",
-                "Взаимодействие с субподрядчиками, проектировщиками, технадзором (ответственными за надзор на площадке), поставщиками и компетентными органами.",
+                "Взаимодействие с субподрядчиками, проектировщиками, технадзором (специалистами, ответственными за надзор на площадке), поставщиками и компетентными органами.",
                 "Проверка соответствия работ технической документации, утверждённым проектам и действующим нормативам.",
                 "Участие в планировании проектов и в оптимизации процессов выполнения работ.",
                 "Выявление технических и организационных рисков и предложение решений по их устранению."
@@ -589,7 +587,7 @@
           ],
           "requirements": {
             "must": [
-              "University degree in Civil and Industrial Construction.",
+              "A university degree in civil and industrial construction.",
               "At least 5 years of professional experience in construction.",
               "Experience of leading and coordinating a team in construction.",
               "Experience of managing projects and coordinating subcontractors.",
@@ -618,7 +616,7 @@
             "We review complete, detailed CVs that clearly show your professional experience, the projects you have delivered, the positions you have held, your responsibilities and your relevant achievements."
           ],
           "seo": {
-            "title": "Head of Construction Department — careers at MEGAPARC, Chișinău",
+            "title": "Head of Construction Department — careers at MEGAPARC",
             "description": "Vacancy at MEGAPARC: Head of Construction Department. Leading the department, coordinating projects, technical and financial monitoring. Responsibilities, requirements, terms and how to apply."
           }
         }
@@ -633,6 +631,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -762,8 +761,8 @@
             "Candidații care corespund cerințelor vor fi invitați la interviu."
           ],
           "seo": {
-            "title": "Inginer-șef — carieră la MEGAPARC, Chișinău",
-            "description": "Post vacant la MEGAPARC: Inginer-șef. Mentenanța clădirilor și a rețelelor inginerești, documentație tehnică, devize, bugete, coordonarea lucrărilor. Responsabilități, cerințe și modul de aplicare."
+            "title": "Inginer-șef — carieră la MEGAPARC",
+            "description": "Post vacant la MEGAPARC: Inginer-șef. Mentenanța clădirilor și a rețelelor inginerești, documentație tehnică, devize, bugete, coordonarea lucrărilor. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
         "ru": {
@@ -876,7 +875,7 @@
             "На собеседование приглашаем кандидатов, которые соответствуют требованиям."
           ],
           "seo": {
-            "title": "Главный инженер — вакансия MEGAPARC, Кишинэу",
+            "title": "Главный инженер — вакансия MEGAPARC",
             "description": "Вакансия MEGAPARC: главный инженер. Обслуживание зданий и инженерных сетей, техническая документация, сметы, бюджеты и координация работ. Задачи, требования, условия и порядок отклика."
           }
         },
@@ -955,7 +954,7 @@
           ],
           "requirements": {
             "must": [
-              "University degree in electrical power engineering, a technical or engineering field, construction or building installations.",
+              "A university degree in electrical power engineering, a technical or engineering field, construction or building installations.",
               "At least 5 years of professional experience in a similar position.",
               "Practical experience of preparing technical briefs, terms of reference and technical specifications for construction, renovation, repair and modernisation works.",
               "Experience of preparing, analysing and checking cost estimates.",
@@ -990,8 +989,8 @@
             "Candidates who meet the requirements will be invited to an interview."
           ],
           "seo": {
-            "title": "Chief Engineer — careers at MEGAPARC, Chișinău",
-            "description": "Vacancy at MEGAPARC: Chief Engineer. Building and engineering network maintenance, technical documentation, cost estimates, budgets, coordination of works. Duties, requirements and how to apply."
+            "title": "Chief Engineer — careers at MEGAPARC",
+            "description": "Vacancy at MEGAPARC: Chief Engineer. Building and engineering network maintenance, technical documentation, cost estimates, budgets, coordination of works. Responsibilities, requirements, terms and how to apply."
           }
         }
       }
@@ -1005,6 +1004,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -1029,7 +1029,7 @@
       "scene": "m20-entrance",
       "i18n": {
         "ro": {
-          "title": "Manager Dezvoltare, Administrare Active Imobiliare și Marketing",
+          "title": "Manager Dezvoltare, Portofoliu Imobiliar și Marketing",
           "shortTitle": "Manager dezvoltare imobiliară și marketing",
           "theme": "Potențialul comercial al proprietăților",
           "summary": "Atragerea chiriașilor, administrarea proprietăților companiei și marketingul lor — de la primul contact și negociere până la relații pe termen lung.",
@@ -1411,6 +1411,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -1504,7 +1505,7 @@
             "La interviu sunt invitate doar persoanele care corespund cerințelor specificate."
           ],
           "seo": {
-            "title": "Manager de Proiect în Construcții — carieră la MEGAPARC, Chișinău",
+            "title": "Manager de Proiect în Construcții — carieră la MEGAPARC",
             "description": "Post vacant la MEGAPARC: Manager de Proiect în Construcții. Coordonarea proiectelor de la documentația permisivă până la darea în exploatare. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
@@ -1578,7 +1579,7 @@
             "На собеседование приглашаются только кандидаты, которые соответствуют указанным требованиям."
           ],
           "seo": {
-            "title": "Менеджер строительных проектов — вакансия MEGAPARC, Кишинэу",
+            "title": "Менеджер строительных проектов — вакансия MEGAPARC",
             "description": "Вакансия MEGAPARC: менеджер строительных проектов. Координация проектов от разрешительной документации до ввода в эксплуатацию. Задачи, требования, условия и порядок отклика."
           }
         },
@@ -1652,7 +1653,7 @@
             "Only candidates who meet the stated requirements are invited to an interview."
           ],
           "seo": {
-            "title": "Construction Project Manager — careers at MEGAPARC, Chișinău",
+            "title": "Construction Project Manager — careers at MEGAPARC",
             "description": "Vacancy at MEGAPARC: Construction Project Manager. Coordinating projects from permits to acceptance and commissioning. Responsibilities, requirements, terms and how to apply."
           }
         }
@@ -1667,6 +1668,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": "on-site",
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -1693,7 +1695,7 @@
           "summary": "Administrarea condominiului: exploatarea tehnică a clădirii, bugetul și plățile, contractele cu furnizorii și relația cu proprietarii și locatarii.",
           "intro": "Construiește un sistem eficient de exploatare a clădirii, în care fiabilitatea tehnică, disciplina financiară și calitatea serviciilor funcționează împreună.",
           "role": [
-            "Administratorul organizează, coordonează și administrează activitatea condominiului și răspunde de buna funcționare și exploatare a clădirii, a spațiilor comune și a instalațiilor. În același rol se întâlnesc trei direcții: starea tehnică a clădirii, bugetul și plățile, relația cu proprietarii, locatarii și chiriașii.",
+            "În echipa MEGAPARC, administratorul organizează, coordonează și administrează activitatea condominiului și răspunde de buna funcționare și exploatare a clădirii, a spațiilor comune și a instalațiilor. În același rol se întâlnesc trei direcții: starea tehnică a clădirii, bugetul și plățile, relația cu proprietarii, locatarii și chiriașii.",
             "Rolul presupune organizarea independentă a activității de administrare și raportarea periodică către conducerea companiei privind starea tehnică, financiară și administrativă a condominiului."
           ],
           "responsibilities": [
@@ -1778,7 +1780,7 @@
             "La interviu invităm persoanele care corespund cerințelor specificate."
           ],
           "seo": {
-            "title": "Administrator Condominiu — carieră la MEGAPARC, Chișinău",
+            "title": "Administrator Condominiu — carieră la MEGAPARC",
             "description": "Post vacant la MEGAPARC: Administrator Condominiu. Exploatarea clădirii, buget și plăți, furnizori, relația cu proprietarii. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
@@ -1789,7 +1791,7 @@
           "summary": "Управление кондоминиумом: техническая эксплуатация здания, бюджет и платежи, договоры с поставщиками, работа с собственниками и жильцами.",
           "intro": "Создавайте эффективную систему эксплуатации здания, в которой техническая надёжность, финансовая дисциплина и качество обслуживания работают вместе.",
           "role": [
-            "Управляющий организует и координирует работу кондоминиума и отвечает за исправную эксплуатацию здания, общих помещений и инженерных систем. В одной роли сходятся три направления: техническое состояние здания, бюджет и платежи, работа с собственниками, жильцами и арендаторами.",
+            "В команде MEGAPARC управляющий организует и координирует работу кондоминиума и отвечает за исправную эксплуатацию здания, общих помещений и инженерных систем. В одной роли сходятся три направления: техническое состояние здания, бюджет и платежи, работа с собственниками, жильцами и арендаторами.",
             "Роль предполагает самостоятельную организацию работы по управлению кондоминиумом и регулярную отчётность перед руководством компании о его техническом, финансовом и административном состоянии."
           ],
           "responsibilities": [
@@ -1874,7 +1876,7 @@
             "На собеседование приглашаем кандидатов, соответствующих указанным требованиям."
           ],
           "seo": {
-            "title": "Управляющий кондоминиумом — вакансия MEGAPARC, Кишинэу",
+            "title": "Управляющий кондоминиумом — вакансия MEGAPARC",
             "description": "Вакансия MEGAPARC: управляющий кондоминиумом. Эксплуатация здания, бюджет и платежи, поставщики, работа с собственниками. Задачи, требования, условия и порядок отклика."
           }
         },
@@ -1883,9 +1885,9 @@
           "shortTitle": "Condominium Manager",
           "theme": "Well-run buildings, disciplined finances",
           "summary": "Running the condominium: technical operation of the building, budget and payments, supplier contracts and relations with owners and residents.",
-          "intro": "Build an efficient system for operating the building — one in which technical reliability, financial discipline and quality of service work together.",
+          "intro": "Build an efficient way of running the building, where reliable engineering, disciplined finances and good service go hand in hand.",
           "role": [
-            "The Condominium Manager organises, coordinates and runs the condominium and is accountable for the sound operation of the building, its common areas and its installations. Three strands meet in one role: the technical condition of the building, the budget and payments, and relations with owners, residents and tenants.",
+            "As part of the MEGAPARC team, the Condominium Manager organises, coordinates and runs the condominium and is accountable for the sound operation of the building, its common areas and its installations. Three strands meet in one role: the technical condition of the building, the budget and payments, and relations with owners, residents and tenants.",
             "The role involves organising the administration of the condominium independently and reporting regularly to the company's management on its technical, financial and administrative condition."
           ],
           "responsibilities": [
@@ -1970,7 +1972,7 @@
             "Candidates who meet the stated requirements will be invited to an interview."
           ],
           "seo": {
-            "title": "Condominium Manager — careers at MEGAPARC, Chișinău",
+            "title": "Condominium Manager — careers at MEGAPARC",
             "description": "Vacancy at MEGAPARC: Condominium Manager. Building operation, budget and payments, suppliers and relations with owners. Responsibilities, requirements, terms and how to apply."
           }
         }
@@ -1985,6 +1987,7 @@
       "featured": false,
       "employment": null,
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -2094,8 +2097,7 @@
             "Stabilitate într-un mediu de lucru profesionist și respectuos.",
             "Posibilitatea de a activa într-o companie cu experiență și cu proiecte în dezvoltare.",
             "Condiții de muncă stabile.",
-            "Perspectiva unei colaborări de durată.",
-            "Mediu de lucru fără fumat: la birou și în automobilele de serviciu nu se fumează."
+            "Perspectiva unei colaborări de durată."
           ],
           "apply": [
             "Te rugăm să trimiți un CV complet și detaliat: experiența profesională și toate locurile de muncă anterioare, perioadele de activitate, funcțiile deținute și responsabilitățile exercitate la fiecare loc de muncă.",
@@ -2196,8 +2198,7 @@
             "Стабильность в профессиональной и уважительной рабочей среде.",
             "Работа в опытной компании с развивающимися проектами.",
             "Стабильные условия труда.",
-            "Перспектива долгой совместной работы.",
-            "Рабочая среда без курения: в офисе и в служебных автомобилях не курят."
+            "Перспектива долгой совместной работы."
           ],
           "apply": [
             "Пожалуйста, пришлите полное и подробное резюме: профессиональный опыт и все предыдущие места работы, периоды работы, занимаемые должности и обязанности на каждом месте.",
@@ -2298,8 +2299,7 @@
             "Stability in a professional and respectful working environment.",
             "Work in an established company with projects in development.",
             "Stable working conditions.",
-            "The prospect of a long-term working relationship.",
-            "A smoke-free working environment: no smoking in the office or in company vehicles."
+            "The prospect of a long-term working relationship."
           ],
           "apply": [
             "Please send a complete, detailed CV: your professional experience and all previous workplaces, the periods worked, the positions held and the responsibilities you had in each job.",
@@ -2321,6 +2321,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": "on-site",
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -2419,7 +2420,7 @@
             "La interviu sunt invitate doar persoanele care corespund cerințelor specificate."
           ],
           "seo": {
-            "title": "Jurisconsult — carieră la MEGAPARC, Chișinău",
+            "title": "Jurisconsult — carieră la MEGAPARC",
             "description": "Post vacant la MEGAPARC: Jurisconsult. Contracte, conformitate, reprezentarea companiei și suport juridic pentru proiectele imobiliare. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
@@ -2502,7 +2503,7 @@
             "На собеседование приглашаются только кандидаты, соответствующие указанным требованиям."
           ],
           "seo": {
-            "title": "Юрисконсульт — вакансия MEGAPARC, Кишинэу",
+            "title": "Юрисконсульт — вакансия MEGAPARC",
             "description": "Вакансия MEGAPARC: юрисконсульт. Договоры, соответствие законодательству, представление интересов компании и правовая поддержка проектов недвижимости. Задачи, требования, условия и порядок отклика."
           }
         },
@@ -2585,7 +2586,7 @@
             "Only candidates who meet the stated requirements will be invited to an interview."
           ],
           "seo": {
-            "title": "Legal Counsel — careers at MEGAPARC, Chișinău",
+            "title": "Legal Counsel — careers at MEGAPARC",
             "description": "Vacancy at MEGAPARC: Legal Counsel. Contracts, compliance, representing the company and legal support for real estate projects. Responsibilities, requirements, terms and how to apply."
           }
         }
@@ -2600,6 +2601,7 @@
       "featured": false,
       "employment": "full-time",
       "workMode": null,
+      "location": null,
       "publishedAt": "2026-11-25",
       "closesAt": null,
       "pay": {
@@ -2624,7 +2626,7 @@
           "shortTitle": "Muncitor în construcții și reparații",
           "theme": "Măiestrie și rezultate vizibile",
           "summary": "Lucrări de întreținere, reparații și finisaje în clădirile companiei: zidărie, tencuieli, gresie și faianță, zugrăveli, remedierea defecțiunilor.",
-          "intro": "Pune-ți măiestria în valoare în clădiri reale. Profesionalismul tău asigură calitatea, siguranța și durabilitatea lor.",
+          "intro": "Pune-ți măiestria în valoare în clădiri reale. Profesionalismul tău asigură calitatea, fiabilitatea și durabilitatea lor.",
           "role": [
             "Muncitorul în construcții execută lucrări de întreținere, reparații și finisaje în clădirile și spațiile companiei — de la mentenanța curentă și remedierea defecțiunilor până la renovarea și reamenajarea spațiilor interioare și exterioare.",
             "Lucrul se desfășoară la diferite locații ale companiei, individual și în echipă, cu atenție la calitatea lucrărilor executate și la respectarea termenelor."
@@ -2680,7 +2682,7 @@
             "Analizăm CV-urile complete și detaliate, care arată experiența profesională și lucrările executate anterior."
           ],
           "seo": {
-            "title": "Muncitor în construcții — carieră la MEGAPARC, Chișinău",
+            "title": "Muncitor în construcții — carieră la MEGAPARC",
             "description": "Post vacant la MEGAPARC: Muncitor în construcții — întreținere și reparații. Lucrări curente, reparații și finisaje în clădirile companiei. Responsabilități, cerințe, condiții și modul de aplicare."
           }
         },
@@ -2745,7 +2747,7 @@
             "Мы рассматриваем полные и подробные резюме, в которых отражены профессиональный опыт и ранее выполненные работы."
           ],
           "seo": {
-            "title": "Рабочий по строительству и ремонту — вакансия MEGAPARC, Кишинэу",
+            "title": "Рабочий по строительству и ремонту — вакансия MEGAPARC",
             "description": "Вакансия MEGAPARC: рабочий по строительству, обслуживанию и ремонту. Обслуживание, ремонт и отделочные работы в зданиях компании. Задачи, требования, условия и порядок отклика."
           }
         },
@@ -2810,7 +2812,7 @@
             "We review complete, detailed CVs that show your professional experience and the work you have carried out previously."
           ],
           "seo": {
-            "title": "Construction & Maintenance Worker — careers at MEGAPARC, Chișinău",
+            "title": "Construction & Maintenance Worker — careers at MEGAPARC",
             "description": "Vacancy at MEGAPARC: Construction & Maintenance Worker. Maintenance, repair and finishing work in the company's buildings. Responsibilities, requirements, terms and how to apply."
           }
         }

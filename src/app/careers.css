@@ -175,9 +175,9 @@
 .cr-work__meta { color: var(--r3-muted); font-size: .92rem; line-height: 1.4; }
 .cr-work__line { margin: 0; max-width: 34rem; color: var(--r3-text); font-size: 1rem; line-height: 1.5; }
 .cr-work__roles { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1.1rem; margin: 0; color: var(--r3-muted); font-size: .92rem; }
-.cr-work__roles a { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--r3-ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--r3-hair-strong); text-decoration-thickness: 1px; text-underline-offset: .3em; }
+.cr-work__roles a { display: inline-block; min-height: 2.75rem; padding-block: .69rem; line-height: 1.5; color: var(--r3-ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--r3-hair-strong); text-decoration-thickness: 1px; text-underline-offset: .3em; }
 .cr-work__roles a:hover, .cr-work__roles a:focus-visible { color: var(--r3-burgundy); text-decoration-color: var(--r3-burgundy); }
-.cr-work__roles a span { margin-left: .3em; color: var(--r3-muted); font-weight: 500; }
+.cr-work__roles a span { margin-left: .3em; color: var(--r3-muted); font-weight: 500; white-space: nowrap; }
 .cr-work__roles-label { flex-basis: 100%; }
 @media (min-width: 720px) {
   .cr-work { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -342,3 +342,25 @@
 @media (prefers-reduced-motion: reduce) {
   .cr-page :is(.cr-work__media img, .cr-vacancy__more svg, .cr-index__n, .cr-vacancy__title, .cr-filter__opt) { transition: none !important; }
 }
+
+/* R3 (Codex P1-02) — the candidate privacy notice: the short line beside every way of applying and the notice page */
+.cr-privacy-note { max-width: 34rem; margin: 1rem 0 0; color: var(--r3-muted); font-size: .86rem; line-height: 1.5; }
+.cr-privacy-note a { color: var(--r3-ink); text-decoration: underline; text-decoration-color: var(--r3-hair-strong); text-underline-offset: .25em; }
+.cr-privacy-note a:hover, .cr-privacy-note a:focus-visible { color: var(--r3-burgundy); text-decoration-color: currentColor; }
+.cr-privacy-note--mail { margin: -1rem 0 2rem; }
+.cr-mail .cr-privacy-note--mail { margin: 1rem 0 0; }
+.cr-sticky .cr-privacy-note--short { width: fit-content; margin: .1rem 0 0; color: var(--r3-muted); font-size: .72rem; text-decoration: underline; text-underline-offset: .2em; }
+.cr-privacy__shell { max-width: 52rem; }
+.cr-privacy__title { margin: .6rem 0 1rem; color: var(--r3-ink); font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 700; line-height: 1.08; letter-spacing: -.02em; text-wrap: balance; }
+.cr-privacy__lead { margin: 0 0 2rem; }
+.cr-privacy__draft { margin: 0 0 2rem; padding: .9rem 1.1rem; border-left: 3px solid var(--r3-burgundy); background: var(--r3-paper, #f4f2ee); color: var(--r3-ink); font-size: .92rem; line-height: 1.5; }
+.cr-privacy__list { display: grid; margin: 0; border-bottom: 1px solid var(--r3-hair-strong); }
+.cr-privacy__row { display: grid; gap: .5rem; padding: 1.4rem 0; border-top: 1px solid var(--r3-hair-strong); }
+.cr-privacy__row dt { color: var(--r3-ink); font-size: 1.05rem; font-weight: 700; }
+.cr-privacy__row dd { margin: 0; color: var(--r3-text); font-size: 1rem; line-height: 1.6; }
+.cr-privacy__row dd p { margin: 0 0 .5rem; }
+.cr-privacy__row dd p:last-child { margin-bottom: 0; }
+.cr-privacy__row a { color: var(--r3-ink); text-decoration: underline; text-underline-offset: .2em; }
+.cr-privacy__law { margin: 1.5rem 0 0; color: var(--r3-muted); font-size: .86rem; }
+.cr-pending { padding: .05em .3em; background: #fff1c2; color: #5a4300; font-style: normal; }
+@media (min-width: 900px) { .cr-privacy__row { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 2rem; } }

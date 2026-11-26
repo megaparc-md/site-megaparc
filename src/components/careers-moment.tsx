@@ -17,6 +17,7 @@ export type HeroDirection = { key: string; label: string; count: number };
 
 const hero = {
   band640: publicAsset("/assets/careers/dacia-31-band-640.webp"),
+  band800: publicAsset("/assets/careers/dacia-31-band-800.webp"),
   band960: publicAsset("/assets/careers/dacia-31-band-960.webp"),
   wide1200: publicAsset("/assets/careers/dacia-31-wide-1200.webp"),
   portrait760: publicAsset("/assets/careers/dacia-31-portrait-760.webp"),
@@ -61,11 +62,18 @@ export function CareersHero({ locale, href, count, directions }: { locale: SiteL
           <figure className="cr-hero__media">
             {/* art-directed per screen: the upright crop beside the copy (desktop), the 21 : 9 band (tablet), the 4 : 3 frame as a band (phone) */}
             {/* light derivatives of the same approved frame for this placement (public/assets/careers — crop and compression only):
-                the phone band was the page's LCP at 456 KB (Lighthouse mobile, R2) */}
+                the phone band was the page's LCP at 456 KB (Lighthouse mobile, R2); R3 adds the 800 px cut of the same window
+                (77 KB instead of 113 KB for phones up to 2× density — a 3× phone still takes the 960 px file) */}
+            {/* R3 (Codex P2): the hero is the page's LCP — announced in <head> (React hoists these links) with exactly the sets of the
+                <picture> below, one per screen range, so the browser fetches the one frame it will paint, early, and never a second one;
+                decoded synchronously (no decoding="async" on the LCP image) */}
+            <link rel="preload" as="image" media="(max-width: 719px)" imageSrcSet={`${hero.band640} 640w, ${hero.band800} 800w, ${hero.band960} 960w`} imageSizes="100vw" fetchPriority="high" />
+            <link rel="preload" as="image" media="(min-width: 720px) and (max-width: 1023px)" imageSrcSet={`${hero.wide1200} 1200w, ${property.media.wide} 2200w`} imageSizes="100vw" fetchPriority="high" />
+            <link rel="preload" as="image" media="(min-width: 1024px)" imageSrcSet={`${hero.portrait760} 760w, ${property.media.portrait} 1100w`} imageSizes="40vw" fetchPriority="high" />
             <picture>
               <source media="(min-width: 1024px)" srcSet={`${hero.portrait760} 760w, ${property.media.portrait} 1100w`} sizes="40vw" />
               <source media="(min-width: 720px)" srcSet={`${hero.wide1200} 1200w, ${property.media.wide} 2200w`} sizes="100vw" />
-              <img src={hero.band960} srcSet={`${hero.band640} 640w, ${hero.band960} 960w`} sizes="100vw" alt={c.photoAlt[locale]} width={960} height={540} fetchPriority="high" decoding="async" style={{ objectPosition: "50% 46%" }} />
+              <img src={hero.band960} srcSet={`${hero.band640} 640w, ${hero.band800} 800w, ${hero.band960} 960w`} sizes="100vw" alt={c.photoAlt[locale]} width={960} height={540} fetchPriority="high" style={{ objectPosition: "50% 46%" }} />
             </picture>
             <figcaption className="cr-hero__caption">{property.name} · {property.city[locale]}</figcaption>
           </figure>

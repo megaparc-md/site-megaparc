@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CopyEmail } from "@/components/careers/apply-tools";
+import { PrivacyNote } from "@/components/careers/privacy-note";
 import { VacancyList, type VacancyGroup } from "@/components/careers/vacancy-list";
 import { CareersHero } from "@/components/careers-moment";
 import { PageShell } from "@/components/page-shell";
@@ -193,6 +194,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
                 <a className="cr-mail__address" href={`mailto:${hrEmail}`}><span data-cr-email>{hrEmail}</span></a>
                 <CopyEmail email={hrEmail} label={c.apply.copy[locale]} done={c.apply.copied[locale]} />
               </p>
+              <PrivacyNote locale={locale} className="cr-privacy-note--mail" />
             </div>
           </div>
           <ol className="cr-steps" data-reveal>

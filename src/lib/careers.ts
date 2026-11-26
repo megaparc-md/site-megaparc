@@ -123,7 +123,8 @@ export const openVacancies: Vacancy[] = raw.vacancies
     ...vacancy,
     status: "open" as const,
     featured: vacancy.featured ?? false,
-    location: localized(vacancy.location ?? raw.location),
+    // R3 (Codex P1-01): only the vacancy's own location, entered and confirmed by HR — no city is given to every vacancy by default
+    location: localized(vacancy.location ?? null),
     publishedAt: vacancy.publishedAt ?? null,
     closesAt: vacancy.closesAt ?? null,
     hrEmail: vacancy.hrEmail ?? raw.hrEmail,
@@ -254,9 +255,9 @@ export const employmentLabel: Record<NonNullable<Vacancy["employment"]>, Localiz
 };
 
 export const workModeLabel: Record<NonNullable<Vacancy["workMode"]>, Localized> = {
-  "on-site": { ro: "La sediu, fără regim remote", ru: `Очный формат, без${NB}удалённой работы`, en: "On-site, no remote work" },
+  "on-site": { ro: "Prezență fizică, fără lucru la distanță", ru: `Очный формат, без${NB}удалённой работы`, en: "On-site, no remote work" },
   hybrid: { ro: "Regim hibrid", ru: "Гибридный формат", en: "Hybrid" },
-  remote: { ro: "Remote", ru: "Удалённо", en: "Remote" },
+  remote: { ro: "La distanță", ru: "Удалённо", en: "Remote" },
 };
 
 const amount = (value: number, locale: SiteLocale) => {
@@ -307,7 +308,7 @@ export const applySubject = (vacancy: Vacancy) => vacancy.applySubject ?? untype
 const greeting: Record<SiteLocale, (title: string) => string> = {
   ro: (title) => `Bună ziua,\n\nTransmit CV-ul pentru postul „${title}”.\n\n`,
   ru: (title) => `Здравствуйте!\n\nНаправляю резюме на вакансию «${title}».\n\n`,
-  en: (title) => `Hello,\n\nPlease find my CV for the position “${title}”.\n\n`,
+  en: (title) => `Hello,\n\nPlease find attached my CV for the position “${title}”.\n\n`,
 };
 
 /** mailto: with the subject of the vacancy and a two-line opening — nothing is sent by the site. */

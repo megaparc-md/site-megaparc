@@ -1,0 +1,21 @@
+{
+  "schema": "megaparc-candidate-privacy/1",
+  "note": "Candidate privacy notice (Codex P1-02, OWNER «CAREERS R3 — FINAL FIX», 2026-11-26). Every fact below is supplied by the OWNER / lawyer — never invented. While approved is false or a required fact is null, the production edition renders neither the page nor the short notices, package-production removes the route and qa-production fails on any trace of it; the OWNER preview shows the draft with the gaps marked. approvedBy / approvedAt record the lawyer's approval.",
+  "approved": false,
+  "approvedBy": null,
+  "approvedAt": null,
+  "version": null,
+  "facts": {
+    "controller": null,
+    "idno": null,
+    "address": null,
+    "contact": null,
+    "dpo": null,
+    "legalBasis": null,
+    "retention": null,
+    "reserve": null,
+    "recipients": null,
+    "transfers": null,
+    "automated": null
+  }
+}

@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
  * · VacancySticky — on phones, a compact bar with the apply action once the hero has scrolled away; it steps aside while the
  *   «how to apply» scene is on screen. It reuses the phone bar of the leasing pages (`lg-sticky`), which the assistant launcher
  *   and the preview marker already make room for.
- * Nothing is sent by the site: the action opens the candidate's own mail.
+ * Nothing is sent by the site: the action opens the candidate's own mail. R3 (Codex P1-02): the bar also links the candidate privacy notice
+ * (only where the notice is shown — the approved production notice or the OWNER-preview draft).
  */
 export function CopyEmail({ email, label, done }: { email: string; label: string; done: string }) {
   const [copied, setCopied] = useState(false);
@@ -35,7 +36,7 @@ export function CopyEmail({ email, label, done }: { email: string; label: string
   );
 }
 
-export function VacancySticky({ title, meta, label, href }: { title: string; meta: string | null; label: string; href: string }) {
+export function VacancySticky({ title, meta, label, href, privacy = null }: { title: string; meta: string | null; label: string; href: string; privacy?: { href: string; label: string } | null }) {
   const [heroGone, setHeroGone] = useState(false);
   const [atApply, setAtApply] = useState(false);
 
@@ -61,7 +62,7 @@ export function VacancySticky({ title, meta, label, href }: { title: string; met
 
   return (
     <div className={`lg-sticky cr-sticky${on ? " is-on" : ""}`} aria-hidden={!on}>
-      <p className="lg-sticky__meta"><strong>{title}</strong>{meta ? <span>{meta}</span> : null}</p>
+      <p className="lg-sticky__meta"><strong>{title}</strong>{meta ? <span>{meta}</span> : null}{privacy ? <a className="cr-privacy-note cr-privacy-note--short" href={privacy.href} tabIndex={on ? 0 : -1} data-cr-privacy-note>{privacy.label}</a> : null}</p>
       <a className="btn lg-sticky__btn" href={href} tabIndex={on ? 0 : -1}><span>{label}</span></a>
     </div>
   );

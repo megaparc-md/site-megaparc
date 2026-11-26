@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { CopyEmail, VacancySticky } from "@/components/careers/apply-tools";
+import { PrivacyNote } from "@/components/careers/privacy-note";
 import { PageShell } from "@/components/page-shell";
 import { R3Label, R3Link } from "@/components/r3";
 import { Icon } from "@/components/ui";
 import { relatedVacancies } from "@/content/source";
 import { careersCopy, vacancyCopy } from "@/data/careers-copy";
 import { applyHref, applySubject, categoryLabel, employmentLabel, payOf, sceneOf, shortTitleOf, themeOf, workModeLabel, type ClosedVacancy, type Vacancy } from "@/lib/careers";
+import { privacyCopy, showPrivacy } from "@/lib/candidate-privacy";
 import { vacancyJsonLd } from "@/lib/seo";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
@@ -81,6 +83,7 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
                 <a className="r3-btn r3-btn--dark" href={mail}><span>{c.apply[locale]}</span><Icon size={16} /></a>
                 <a className="r3-link r3-link--dark" href="#apply"><span>{c.how[locale]}</span><Icon name="down" size={16} /></a>
               </div>
+              <PrivacyNote locale={locale} />
             </aside>
           </div>
         </div>
@@ -202,6 +205,7 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
                 <dd lang="ro">{applySubject(vacancy)}</dd>
               </div>
             </dl>
+            <PrivacyNote locale={locale} className="cr-privacy-note--mail" />
             <ul className="cr-bullets cr-notes">{t.apply.map((item) => <li key={item}>{item}</li>)}</ul>
           </div>
         </div>
@@ -229,7 +233,7 @@ export function VacancyPage({ locale, vacancy }: { locale: SiteLocale; vacancy: 
         </div>
       </section>
 
-      <VacancySticky title={shortTitleOf(vacancy, locale)} meta={pay?.line ?? null} label={c.apply[locale]} href={mail} />
+      <VacancySticky title={shortTitleOf(vacancy, locale)} meta={pay?.line ?? null} label={c.apply[locale]} href={mail} privacy={showPrivacy ? { href: p("/careers/privacy"), label: privacyCopy.short[locale] } : null} />
     </PageShell>
   );
 }
