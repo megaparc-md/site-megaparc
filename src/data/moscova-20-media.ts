@@ -130,6 +130,94 @@ export const tourScenes = (): TourScene[] => {
   return ready ? m20Tour.scenes.map((scene) => ({ ...scene, files: file(scene.id) })) : [];
 };
 
+/* ---------------------------------------------------------------- the delivered tour (OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1», 2026-11-26) */
+
+/**
+ * THE PHOTOGRAPHER'S INTERACTIVE TOUR — delivered as a self-contained static package (Pannellum 2.5.6, nine cube-map scenes, two quality
+ * sets: 4096² for desktops, 3072² for touch devices, RO / RU / EN inside) and served from this site's own origin as an immutable vendor
+ * module: `public/Moscova20_3D_tour_site/` — one copy for the three languages, never re-encoded, cropped, recoloured or renamed
+ * (its SHA-256 manifest lives in docs/qa/2026-11-26-m20-immersive-tour-r1/). The page embeds it only on the visitor's action (click-to-load:
+ * no panorama request before), synchronises the tour's language with the page through the package's own public `setLang` (same origin —
+ * the vendor files stay untouched) and reads the current scene from the package's title element. The nine scenes below mirror the package's
+ * NAMES / ORDER tables verbatim in meaning (RO / EN wording follows the site glossary: «demisol» / «lower ground»).
+ */
+export type VendorSceneLevel = "outside" | "ground" | "lower";
+export type VendorScene = { id: string; level: VendorSceneLevel; title: Localized };
+
+export const m20TourVendor = {
+  /** the package is delivered and the OWNER mandated its integration (2026-11-26); false hides every entry point again */
+  delivered: true,
+  /** the package's folder under the public root — its index.html is served for the folder (the operator's `/index.html` form works too);
+   *  the GitHub Pages base path is added at render time */
+  path: "/Moscova20_3D_tour_site/",
+  /** the package opens on the aerial scene */
+  startScene: "04",
+  /** the package's own scene order (its thumbnail strip) */
+  order: ["04", "05", "06", "01", "02", "03", "08", "09", "07"],
+  scenes: [
+    { id: "04", level: "outside", title: L("Vedere de sus", "Вид сверху", "Aerial view") },
+    { id: "05", level: "outside", title: L("Cartierul", `Вид на${N}район`, "The neighbourhood") },
+    { id: "06", level: "outside", title: L("Strada · intrarea", "Улица · вход", "Street · entrance") },
+    { id: "01", level: "ground", title: L("Sala · vedere 1", "Зал · вид 1", "Hall · view 1") },
+    { id: "02", level: "ground", title: L("Sala · vedere 2", "Зал · вид 2", "Hall · view 2") },
+    { id: "03", level: "ground", title: L("Coridor tehnic", "Техкоридор", "Service corridor") },
+    { id: "08", level: "lower", title: L("Demisol · vedere 1", "Цоколь · вид 1", "Lower ground · view 1") },
+    { id: "09", level: "lower", title: L("Demisol · vedere 2", "Цоколь · вид 2", "Lower ground · view 2") },
+    { id: "07", level: "outside", title: L("Curtea", "Двор", "Courtyard") },
+  ] as VendorScene[],
+  levels: {
+    outside: L("Exterior", "Снаружи", "Outside"),
+    ground: L("Parter", `1‑й этаж`, "Ground floor"),
+    lower: L("Demisol", "Цоколь", "Lower ground"),
+  } satisfies Record<VendorSceneLevel, Localized>,
+  /** the cover of the section: the clean aerial frame of the dataset (the tour opens on the aerial scene) */
+  cover: { photo: "context", position: "50% 45%" },
+  copy: {
+    kicker: L("Tur virtual 360°", "Виртуальный тур 360°", "360° virtual tour"),
+    // OWNER copy (verbatim, 2026-11-26)
+    title: L("Explorați spațiul înainte de vizită", `Оцените пространство до${N}первого визита`, "Explore the space before your first visit"),
+    lead: L(
+      "Descoperiți Moscova 20 printr-un tur virtual interactiv de 360°. Explorați ambele niveluri și analizați spațiul pentru viitorul dumneavoastră concept de afaceri.",
+      `Познакомьтесь с${N}Moscova${N}20 в${N}интерактивном виртуальном туре 360°. Исследуйте оба уровня и${N}оцените возможности помещения для${N}вашего бизнеса.`,
+      "Discover Moscova 20 through an interactive 360° virtual tour. Explore both levels and evaluate the space for your future business concept.",
+    ),
+    start: L("Începeți turul virtual", "Начать виртуальный тур", "Start virtual tour"),
+    fullscreen: L("Deschideți în ecran complet", `Открыть на${N}весь экран`, "Open full screen"),
+    exitFullscreen: L("Ieșiți din ecranul complet", "Выйти из полноэкранного режима", "Exit full screen"),
+    after: L("Programați o vizită", "Запланировать посещение", "Schedule a viewing"),
+    // the facts of the package — nine scenes, the two levels of the premises, the street and the courtyard
+    facts: [L("9 scene 360°", "9 сцен 360°", "9 scenes in 360°"), L("Două niveluri", "Два уровня", "Two levels"), L("Exterior și interior", "Снаружи и внутри", "Outside and inside")],
+    loading: L("Se încarcă turul virtual…", "Загружается виртуальный тур…", "Loading the virtual tour…"),
+    openPage: L("Deschideți turul într-o pagină separată", "Открыть тур отдельной страницей", "Open the tour on its own page"),
+    scenes: L("Scenele turului", "Сцены тура", "Tour scenes"),
+    scenesHint: L("Alegeți o scenă — turul se deschide acolo.", `Выберите сцену${N}— тур откроется на${N}ней.`, "Choose a scene — the tour opens there."),
+    share: L("Trimiteți linkul turului", `Отправить ссылку на${N}тур`, "Share the tour link"),
+    shareText: L("Moscova 20 · tur virtual 360° · MEGAPARC", "Moscova 20 · виртуальный тур 360° · MEGAPARC", "Moscova 20 · 360° virtual tour · MEGAPARC"),
+    copy: L("Copiați linkul", "Скопировать ссылку", "Copy link"),
+    copied: L("Linkul a fost copiat", "Ссылка скопирована", "Link copied"),
+    email: L("E‑mail", "E‑mail", "E‑mail"),
+    next: L("Următorul pas", "Следующий шаг", "Next step"),
+    offer: L("Solicitați o ofertă comercială", "Запросить коммерческое предложение", "Request a commercial proposal"),
+    plans: L("Studiați planul spațiului", "Изучить планировку", "Explore the floor plan"),
+    terms: L("Condiții comerciale", "Коммерческие условия", "Commercial terms"),
+    contact: L("Contactați MEGAPARC", `Связаться с${N}MEGAPARC`, "Contact MEGAPARC"),
+    // the compact entry points: the first screen and tab 01 of «Адрес — часть бизнес-модели»
+    heroLink: L("Tur virtual 360°", "Виртуальный тур 360°", "360° virtual tour"),
+    tabLink: L("Deschideți turul virtual", "Открыть виртуальный тур", "Open the virtual tour"),
+    tabText: L(
+      "Nouă scene 360°: cartierul de sus, strada și intrarea, sala de la parter, coridorul tehnic, demisolul și curtea.",
+      `Девять сцен 360°: район с${N}высоты, улица и${N}вход, зал первого этажа, техкоридор, цоколь и${N}двор.`,
+      "Nine 360° scenes: the district from above, the street and the entrance, the ground-floor hall, the service corridor, the lower ground and the courtyard.",
+    ),
+    region: L("Tur virtual 360° · Moscova 20", "Виртуальный тур 360° · Moscova 20", "360° virtual tour · Moscova 20"),
+    frame: L("Turul virtual Moscova 20", "Виртуальный тур Moscova 20", "The Moscova 20 virtual tour"),
+    sceneOf: L("Scena {n} din 9", "Сцена {n} из 9", "Scene {n} of 9"),
+  },
+};
+
+/** the delivered tour, or null while nothing may be shown (the «in preparation» composition stays) */
+export const m20TourLive = () => (m20TourVendor.delivered ? m20TourVendor : null);
+
 /* ---------------------------------------------------------------- concept frames (OWNER CLARIFICATION «Video & Virtual Tour Integration», 2026-11-23) */
 
 /**

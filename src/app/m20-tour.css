@@ -1,0 +1,97 @@
+/*
+ * MOSCOVA 20 · THE IMMERSIVE 360° VISIT (OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1», 2026-11-26) — the photographer's package on one stage:
+ * the cover with the real photograph and the 360° mark → the running tour; the scenes, the full-screen and share tools under it; the next step
+ * after the visit; the two compact entry points (first screen · tab 01). The system only: Manrope, the brand tokens, Red #CB0102 as a mark.
+ * Its own stylesheet (src/components/tour/immersive-tour.tsx + m20-immersive.tsx), loaded after m20-media.css and before brand.css, which stays last.
+ */
+
+/* ---------------------------------------------------------------- the section */
+.tour-sec__title { margin: .7rem 0 1.4rem; font-size: clamp(1.8rem, 4.4vw, 3.2rem); font-weight: 300; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.tour-sec__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem 2.4rem; align-items: end; margin-bottom: 1.4rem; }
+.tour-sec__head .tour-sec__title { margin-bottom: .4rem; }
+.tour-sec__lead { grid-column: 1; margin: 0; max-width: 44rem; color: var(--muted); font-size: 1.02rem; line-height: 1.55; }
+.tour-sec__facts { grid-column: 2; grid-row: 1 / span 2; align-self: end; display: grid; gap: .45rem; margin: 0 0 .2rem; padding: 0; list-style: none; color: var(--ink); font-size: .86rem; font-weight: 600; letter-spacing: .01em; white-space: nowrap; }
+.tour-sec__facts li { display: inline-flex; align-items: center; gap: .6rem; }
+.tour-sec__facts li::before { content: ""; flex: none; width: .3rem; height: .3rem; border-radius: 50%; background: var(--signal); }
+@media (max-width: 719px) { .tour-sec__head { grid-template-columns: minmax(0, 1fr); } .tour-sec__facts { grid-column: 1; grid-row: auto; display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: .4rem; } }
+
+/* ---------------------------------------------------------------- the stage: one box for the cover and the running tour (no layout shift) */
+.imt-stage { position: relative; overflow: hidden; border-radius: var(--lg-radius, 6px); background: #222222; aspect-ratio: 16 / 9; max-height: calc(100svh - var(--header-h) - 2.5rem); }
+@media (max-width: 1023px) { .imt-stage { aspect-ratio: 4 / 3; } }
+@media (max-width: 559px) { .imt-stage { aspect-ratio: 3 / 4; max-height: calc(100svh - 6rem); } }
+.imt-stage:fullscreen { display: grid; grid-template-rows: auto minmax(0, 1fr); width: 100%; height: 100%; max-height: none; aspect-ratio: auto; border-radius: 0; }
+.imt-frame, .imt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+.imt-frame iframe { display: block; border: 0; background: #222222; }
+.imt-stage:fullscreen .imt-frame { position: relative; inset: auto; min-height: 0; }
+.imt-fsbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.9rem; padding: .35rem .5rem .35rem 1rem; background: #222222; color: #fff; }
+.imt-fsbar__brand { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+.imt-fsbar__scene { color: rgba(255, 255, 255, .72); font-size: .82rem; font-variant-numeric: tabular-nums; }
+.imt-fsbar__exit { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .4rem .9rem; border: 1px solid rgba(255, 255, 255, .4); border-radius: 999px; background: transparent; color: #fff; font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer; }
+.imt-fsbar__exit:hover { border-color: #fff; }
+.imt-fsbar__exit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (max-width: 559px) { .imt-fsbar__scene { display: none; } .imt-fsbar__exit span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } .imt-fsbar__exit { padding: .4rem .8rem; } }
+
+/* the cover: the real photograph, a soft shade under the action only, the 360° mark */
+.imt-cover { position: absolute; inset: 0; display: block; width: 100%; height: 100%; padding: 0; border: 0; background: #222222; color: #fff; font: inherit; text-align: left; cursor: pointer; }
+.imt-cover .lg-photo { position: absolute; inset: 0; aspect-ratio: auto; height: 100%; }
+.imt-cover .lg-photo img { transition: transform 1.2s var(--pm-ease, ease); }
+.imt-cover:hover .lg-photo img { transform: scale(1.02); }
+.imt-cover:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.imt-cover__shade { position: absolute; inset: auto 0 0 0; height: 46%; background: linear-gradient(to top, rgba(17, 17, 17, .62), rgba(17, 17, 17, 0)); pointer-events: none; }
+.imt-cover__cta { position: absolute; left: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .7rem 1.15rem; border-radius: var(--lg-radius, 6px); background: #fff; color: var(--ink); font-size: .92rem; font-weight: 600; letter-spacing: .01em; }
+.imt-noscript { position: absolute; left: clamp(1rem, 3vw, 2rem); top: clamp(1rem, 3vw, 2rem); z-index: 2; padding: .6rem 1rem; border-radius: var(--lg-radius, 6px); background: #fff; color: var(--ink); font-weight: 600; }
+.imt-360 { position: absolute; right: clamp(1rem, 3vw, 2rem); top: clamp(1rem, 3vw, 2rem); display: grid; place-items: center; width: 3.6rem; height: 3.6rem; color: #fff; }
+.imt-360 i { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .9); background: rgba(34, 34, 34, .28); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.imt-360 i::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 1px dashed rgba(255, 255, 255, .5); animation: imt-spin 22s linear infinite; }
+.imt-360 b { position: relative; font-size: .8rem; font-weight: 700; letter-spacing: .02em; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+.imt-360.is-spin i::after { animation-duration: 3.2s; }
+@keyframes imt-spin { to { transform: rotate(360deg); } }
+.imt-loading { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 1.1rem; background: #222222; color: rgba(255, 255, 255, .88); font-size: .92rem; font-weight: 600; }
+.imt-loading .imt-360 { position: relative; right: auto; top: auto; }
+
+/* ---------------------------------------------------------------- under the stage: the nine scenes as quiet text options by level · the tools */
+.imt-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.2rem 2.4rem; align-items: start; margin-top: 1.1rem; }
+.imt-scenes { min-width: 0; }
+.imt-scenes__list { display: grid; gap: .55rem; margin: .5rem 0 0; padding: 0; list-style: none; }
+.imt-scenes__group { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .3rem; }
+.imt-scenes__level { margin-right: .5rem; color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.imt-scene { display: inline-flex; align-items: center; gap: .45rem; min-height: 40px; padding: .3rem .6rem; border: 0; border-radius: 4px; background: transparent; color: var(--ink); font: inherit; font-size: .9rem; font-weight: 500; cursor: pointer; }
+.imt-scene b { display: inline-grid; place-items: center; min-width: 1.35rem; height: 1.35rem; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--ink); font-size: .68rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.imt-scene span { border-bottom: 1px solid transparent; transition: border-color .25s ease; }
+.imt-scene:hover span { border-bottom-color: currentColor; }
+.imt-scene.is-on { font-weight: 700; }
+.imt-scene.is-on b { background: var(--signal); border-color: var(--signal); color: #fff; }
+.imt-scene:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.imt-scenes__hint { margin: .5rem 0 0; color: var(--muted); font-size: .82rem; }
+.imt-tools { display: grid; justify-items: end; gap: .8rem; }
+.imt-tool { display: inline-flex; gap: .6rem; }
+.imt-page { font-size: .9rem; }
+.imt-share { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .35rem; }
+.imt-share__label { margin-right: .35rem; color: var(--muted); font-size: .82rem; }
+.imt-share__btn { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-width: 44px; min-height: 44px; padding: 0 .6rem; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--ink); font: inherit; font-size: .82rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: border-color .25s ease; }
+.imt-share__btn:hover { border-color: var(--ink); }
+.imt-share__btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.imt-share__copy { padding: 0 .9rem 0 .7rem; }
+.imt-share__copy.is-done { border-color: var(--ink); }
+@media (max-width: 1023px) { .imt-bar { grid-template-columns: minmax(0, 1fr); } .imt-tools { justify-items: start; } .imt-share { justify-content: flex-start; } }
+@media (max-width: 559px) { .imt-share__label { flex-basis: 100%; margin: 0 0 .1rem; } .imt-tool { width: 100%; } .imt-tools { width: 100%; } }
+
+/* ---------------------------------------------------------------- after the visit: the next step — the viewing first, the other routes quiet */
+.imt-next { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.6rem; margin-top: 1.6rem; padding-top: 1.3rem; border-top: 1px solid var(--line); }
+.imt-next .lg-label { margin: 0 .4rem 0 0; }
+.imt-next .pm-link { font-size: .92rem; }
+@media (max-width: 559px) { .imt-next { gap: .8rem 1.2rem; } .imt-next__primary { width: 100%; } }
+
+/* ---------------------------------------------------------------- the compact entry points: the first screen · tab 01 of «Адрес» */
+.lg-hero__tour { margin: 1rem 0 0; }
+.lg-hero__tour .pm-link { gap: .55rem; font-size: .9rem; }
+.lg-hero__tour b { display: inline-grid; place-items: center; min-width: 2.35rem; height: 1.45rem; padding: 0 .4rem; border: 1px solid var(--line-strong); border-radius: 999px; font-size: .66rem; font-weight: 700; letter-spacing: .02em; }
+/* the mark is styled here in full (not only its link state), so this stylesheet alone carries the entry on any tree with the template */
+.lg-vis:has(.m20-tour-mark.is-link) { position: relative; }
+.m20-tour-mark.is-link { position: absolute; z-index: 2; left: clamp(.9rem, 2.4vw, 1.4rem); bottom: clamp(3.4rem, 6vw, 4.2rem); display: inline-flex; align-items: center; gap: .7rem; padding: .5rem .9rem .5rem .5rem; border-radius: 999px; background: rgba(255, 255, 255, .94); color: var(--ink); font-size: .88rem; font-weight: 600; pointer-events: auto; text-decoration: none; transition: background .25s ease, color .25s ease; }
+.m20-tour-mark.is-link b { display: inline-grid; place-items: center; min-width: 3rem; height: 2rem; padding: 0 .55rem; border-radius: 999px; background: #222222; color: #fff; font-size: .82rem; font-weight: 700; letter-spacing: .02em; }
+@media (max-width: 559px) { .m20-tour-mark.is-link { bottom: .9rem; font-size: .8rem; } }
+.m20-tour-mark.is-link:hover, .m20-tour-mark.is-link:focus-visible { background: #222222; color: #fff; }
+.m20-tour-mark.is-link:hover b, .m20-tour-mark.is-link:focus-visible b { background: #fff; color: var(--ink); }
+.m20-tour-mark.is-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .imt-360 i::after { animation: none; } .imt-cover .lg-photo img { transition: none; } }

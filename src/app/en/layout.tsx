@@ -18,6 +18,7 @@ import "../r8.css";
 import "../r10.css";
 import "../pce.css";
 import "../careers.css";
+import "../m20-tour.css";
 import "../brand.css";
 
 /** Root layout for the EN edition: static HTML is served with lang="en". */

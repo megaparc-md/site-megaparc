@@ -10,5 +10,7 @@ export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   if (!isProductionEdition || isPreviewBuild) return { rules: { userAgent: "*", disallow: "/" } };
-  return { rules: { userAgent: "*", allow: "/" }, sitemap: `${siteUrl}/sitemap.xml`, host: siteUrl };
+  // the Moscova 20 tour package (OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1», 2026-11-26) is reached from the property page and by its direct
+  // link; it is not a page of the site (no site chrome, one language in its title), so crawlers are not sent into its 196 MB of panoramas
+  return { rules: { userAgent: "*", allow: "/", disallow: "/Moscova20_3D_tour_site/" }, sitemap: `${siteUrl}/sitemap.xml`, host: siteUrl };
 }

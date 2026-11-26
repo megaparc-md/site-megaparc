@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { LgPhoto, splitArea, ui } from "@/components/leasing-experience/parts";
 import { Icon } from "@/components/ui";
+import { m20TourHeroLink } from "@/components/tour/m20-immersive";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import type { ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
@@ -33,6 +34,7 @@ export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperienc
   const area = splitArea(offer.figure);
   const supportLines = x.hero.support[locale].split("\n");
   const support = supportLines.length > 1 ? null : supportLines[0];
+  const tour = m20TourHeroLink(x.project, locale);
   return (
     <section className="lg-hero" aria-labelledby="lg-hero-title">
       <div className="xp-shell lg-hero__grid">
@@ -71,6 +73,12 @@ export function LeasingHero({ x, offer, project, locale }: { x: LeasingExperienc
               <Icon />
             </a>
           </div>
+          {/* OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1» (2026-11-26): one quiet line into the virtual visit — the two actions above keep their weight */}
+          {tour ? (
+            <p className="lg-hero__tour lg-rise" style={{ "--d": 6 } as CSSProperties}>
+              <a className="pm-link pm-link--quiet" href={tour.href}><b aria-hidden="true">360°</b><span>{tour.label}</span><Icon /></a>
+            </p>
+          ) : null}
         </div>
         <figure className="lg-hero__media" data-depth="10">
           <LgPhoto photo={x.photos[x.hero.photo]} phone={x.photos[x.hero.phonePhoto]} locale={locale} priority sizes="(min-width: 1024px) 64vw, 100vw" className="lg-hero__photo" />

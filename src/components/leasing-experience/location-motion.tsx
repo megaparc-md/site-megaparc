@@ -10,6 +10,7 @@ import { EconomicsGlyph, ownerPreview, ui } from "@/components/leasing-experienc
 import { PhotoScene } from "@/components/leasing-experience/photo-scene";
 import { TransitBrief, TransportMap } from "@/components/leasing-experience/transport-map";
 import { m20TourNode } from "@/components/tour/m20-media";
+import { m20TourTab } from "@/components/tour/m20-immersive";
 import { LocationMap } from "@/components/location-section";
 import { Icon } from "@/components/ui";
 import type { ProjectEntry } from "@/content/source";
@@ -204,7 +205,7 @@ function DayRhythm({ traffic, locale, narrow = false }: { traffic: LocationTraff
 
 /** OWNER «LOCATION VISUAL INTELLIGENCE R4» §01: the aerial with the architectural annotation (variant B — OWNER decision 2026-11-12) */
 const aerialLegend: Record<SiteLocale, string> = { ro: "Ce este marcat pe fotografie", ru: "Что отмечено на\u00a0фотографии", en: "What is marked on the photograph" };
-function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name: string; locale: SiteLocale; marked: boolean }) {
+function AddressAerial({ x, name, locale, marked, tourLink = null }: { x: LeasingExperience; name: string; locale: SiteLocale; marked: boolean; tourLink?: { href: string; label: string } | null }) {
   const v = x.motion.visibility;
   if (!v) return null;
   const marks = marked ? v.marks.filter((mark) => publishable(mark.evidence)) : [];
@@ -212,11 +213,21 @@ function AddressAerial({ x, name, locale, marked }: { x: LeasingExperience; name
     return (
       <figure className="lg-vis">
         <PhotoScene photo={x.photos[v.photo]} locale={locale} sizes="(min-width: 1024px) 64vw, 100vw" drawing={null} labels={[]} />
+        {/* OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1» (2026-11-26): the tour is delivered — the 360° mark on the clean frame is the way into the visit */}
+        {tourLink ? <a className="m20-tour-mark is-link" href={tourLink.href}><b>360°</b><span>{tourLink.label}</span></a> : null}
         <figcaption className="lg-stage__caption">{x.photos[v.photo].alt[locale]}</figcaption>
       </figure>
     );
   }
-  return <AerialAnnotation photo={x.photos[v.photo]} marks={marks} name={name} caption={v.caption[locale]} locale={locale} />;
+  // the OWNER preview still shows the annotated aerial (visibility study on) — the 360° mark sits on it the same way
+  return tourLink ? (
+    <div className="lg-vis" style={{ position: "relative" }}>
+      <AerialAnnotation photo={x.photos[v.photo]} marks={marks} name={name} caption={v.caption[locale]} locale={locale} />
+      <a className="m20-tour-mark is-link" href={tourLink.href}><b>360°</b><span>{tourLink.label}</span></a>
+    </div>
+  ) : (
+    <AerialAnnotation photo={x.photos[v.photo]} marks={marks} name={name} caption={v.caption[locale]} locale={locale} />
+  );
 }
 
 /* ------------------------------------------------------------ scene */
@@ -243,7 +254,11 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
   // OWNER «MOSCOVA 20 MEDIA INTEGRATION» + clarification (2026-11-23): only tab 01 «Адрес — как виден объект» changes — the nine-point 360°
   // tour replaces the drawn aerial (public site: once delivered and approved; OWNER preview: the interface demonstration); the four other tabs,
   // the map, the layers and the analytics stay as they are (src/data/moscova-20-media.ts)
-  const tour = x.project === "moscova-20" ? m20TourNode(locale) : null;
+  // OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1» (2026-11-26): the photographer's package is delivered and lives in its own section (#tour) —
+  // tab 01 keeps the aerial frame, its 360° mark leads into the visit and the nine real scenes are listed; the earlier interface demonstration
+  // of a tour in this tab (OWNER preview only) gives way to the real one
+  const tourTab = x.project === "moscova-20" ? m20TourTab(x.project, locale) : null;
+  const tour = x.project === "moscova-20" && !tourTab ? m20TourNode(locale) : null;
 
   const figures =
     modelOn && traffic
@@ -309,6 +324,8 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
     // no aerial photograph (Moscova 9 · Dacia 31 · Creangă 78): the address card shows the OSM location map and the address line
     tour
       ? { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: "tour", detail: <><p className="lg-explorer__text">{tourWord[locale].text}</p><ol className="lg-air__legend">{tour.list.map((item) => <li key={item.no}><b>{Number(item.no)}</b><span>{item.title}</span></li>)}</ol>{routeLinks}</> }
+      : tourTab
+        ? { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: "aerial", detail: <><p className="lg-explorer__text">{tourTab.text}</p><div className="m20-tour-points"><ol className="lg-air__legend">{tourTab.points.map((item) => <li key={item.no}><b>{Number(item.no)}</b><span>{item.title}</span></li>)}</ol></div><p className="lg-motion__links"><a className="pm-link" href={tourTab.href}><span>{tourTab.label}</span><Icon /></a></p>{routeLinks}</> }
       : { key: "address", label: copy.option.address[locale], title: m.visibilityTab[locale], visual: v ? "aerial" : "map", detail: <>{v && marksOn ? <AerialLegend marks={v.marks.filter((mark) => publishable(mark.evidence))} locale={locale} label={aerialLegend[locale]} /> : null}<p className="lg-explorer__text">{v ? (marksOn ? v.caption[locale] : x.photos[v.photo].alt[locale]) : m.addressText?.[locale] ?? ""}</p>{routeLinks}</> },
     {
       key: "around",
@@ -337,7 +354,7 @@ export function LocationMotion({ x, offer, project, locale, decision }: { x: Lea
     ...(growth ? [{ key: "growth", label: growth.tab[locale], title: growth.title[locale], visual: "growth", detail: <GrowthBrief copy={growth} locale={locale} /> }] : []),
   ];
   const visuals = [
-    ...(tour ? [{ key: "tour", node: tour.node }] : v ? [{ key: "aerial", node: <AddressAerial x={x} name={project.name} locale={locale} marked={marksOn} /> }] : []),
+    ...(tour ? [{ key: "tour", node: tour.node }] : v ? [{ key: "aerial", node: <AddressAerial x={x} name={project.name} locale={locale} marked={marksOn} tourLink={tourTab ? { href: tourTab.href, label: tourTab.label } : null} /> }] : []),
     { key: "map", node: mapView },
     ...(transit ? [{ key: "transit", node: <TransportMap copy={transit} name={project.name} locale={locale} /> }] : []),
     ...(rhythmView ? [{ key: "rhythm", node: rhythmView }] : []),

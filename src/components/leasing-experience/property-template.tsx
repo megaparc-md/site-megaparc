@@ -25,6 +25,7 @@ import { R3Trust } from "@/components/r3";
 import { PageShell } from "@/components/page-shell";
 import { Dacia31Plans } from "@/components/dacia-31-plans";
 import { M20Film } from "@/components/tour/m20-media";
+import { M20ImmersiveTour } from "@/components/tour/m20-immersive";
 import { DistrictAnalytics } from "@/components/district-analytics";
 import type { ProjectEntry } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
@@ -102,6 +103,9 @@ export function LeasingPropertyTemplate({ locale, project, unit, experience: x }
       {toolkit ? <M20Film locale={locale} /> : null}
       <DecisionNav portals={portals} label={ui.chapters[locale]} cta={offer.primary} status={offer.status} />
       <SummaryCards x={x} offer={offer} locale={locale} />
+      {/* OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1» (2026-11-26): the virtual visit after the main presentation of the property and before the
+          detail — the dossier, the commercial terms, the formats, the location, the plans (Moscova 20 only; renders while the package is delivered) */}
+      {toolkit ? <M20ImmersiveTour locale={locale} x={x} /> : null}
       {/* the digital property dossier — only on the property that carries the Digital Leasing Toolkit */}
       {toolkit ? <DigitalDossier copy={dossierCopy} packHref={packPath} pdfHref={presentation} plansHref="#plans" /> : null}
       {/* OWNER R6 §03 / R7 (2026-11-12): the commercial terms — the two rates, the preliminary calculation, the indexation, the offer */}

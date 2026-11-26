@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* the photographer's Moscova 20 tour is a vendor module served as delivered — never a Tailwind source (its class and token names
+   would otherwise add unused utilities to this stylesheet; OWNER «MOSCOVA 20 IMMERSIVE EXPERIENCE R1», 2026-11-26) */
+@source not "../../public/Moscova20_3D_tour_site";
 
 /* ==================================================================
    MEGAPARC — global stylesheet · benchmark rebuild (2026-09-27)
