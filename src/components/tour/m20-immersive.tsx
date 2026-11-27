@@ -1,6 +1,6 @@
 import { LgPhoto } from "@/components/leasing-experience/parts";
 import { ImmersiveTour } from "@/components/tour/immersive-tour";
-import { visitUrl } from "@/components/visit-planner/href";
+import { viewingCta, visitUrl } from "@/components/visit-planner/href";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import { individualOfferHref } from "@/data/moscova-20-commercial";
 import { m20TourLive, type VendorSceneLevel } from "@/data/moscova-20-media";
@@ -45,7 +45,7 @@ export function M20ImmersiveTour({ locale, x }: { locale: SiteLocale; x: Leasing
           levels={levels}
           cover={<LgPhoto photo={cover} shot={{ photo: live.cover.photo, position: live.cover.position }} locale={locale} sizes="(min-width: 1280px) 1200px, 100vw" />}
           copy={{
-            start: t("start"), fullscreen: t("fullscreen"), exitFullscreen: t("exitFullscreen"), after: t("after"), loading: t("loading"), openPage: t("openPage"),
+            start: t("start"), fullscreen: t("fullscreen"), exitFullscreen: t("exitFullscreen"), after: viewingCta(locale, x.project, t("after")), loading: t("loading"), openPage: t("openPage"),
             scenes: t("scenes"), scenesHint: t("scenesHint"), share: t("share"), shareText: t("shareText"), copy: t("copy"), copied: t("copied"), email: t("email"),
             next: t("next"), offer: t("offer"), plans: t("plans"), terms: t("terms"), contact: t("contact"), region: t("region"), frame: t("frame"), sceneOf: t("sceneOf"),
           }}

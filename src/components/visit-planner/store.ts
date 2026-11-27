@@ -43,6 +43,8 @@ export type DemoVisit = {
   result: string;
   /** the previous start when an employee moved the visit — the visitor is told the time changed */
   movedFrom: number | null;
+  /** the dialogue the visit was planned from (the server: visits.conversation_id) */
+  conversationId?: string | null;
 };
 
 export type DemoClient = {
@@ -61,11 +63,13 @@ export type DemoClient = {
   nextAction: { text: string; dueUtc: number } | null;
   createdAt: number;
   lostReason: string;
+  /** the contact of this card also belongs to another card: a possible duplicate that waits for an employee (the server: client_matches) */
+  duplicateOf?: { clientId: string; by: "phone" | "email" } | null;
   /** the channels this record is known by; a link is «verified» only after the contact was confirmed */
   links: { channel: VisitSource; label: string; verified: boolean }[];
 };
 
-export type EventKind = "request" | "confirm" | "decline" | "move" | "cancel" | "assign" | "result" | "no_show" | "note" | "offer" | "stage" | "next" | "client" | "link" | "schedule" | "message";
+export type EventKind = "request" | "confirm" | "decline" | "move" | "cancel" | "assign" | "result" | "no_show" | "note" | "offer" | "stage" | "next" | "client" | "link" | "schedule" | "message" | "accept" | "reply" | "transfer" | "status";
 
 export type DemoEvent = {
   id: string;
@@ -74,6 +78,11 @@ export type DemoEvent = {
   actor: string;
   clientId: string | null;
   visitId: string | null;
+  /** the dialogue the action belongs to (the server: activity.conversation_id) */
+  conversationId?: string | null;
+  /** a transfer: from whom to whom */
+  fromStaff?: string | null;
+  toStaff?: string | null;
   kind: EventKind;
   text: string;
   /** internal: never shown to the visitor */
@@ -82,7 +91,33 @@ export type DemoEvent = {
 
 export type DemoOffer = { id: string; clientId: string; at: number; by: string; title: string; note: string };
 
-/** an enquiry that arrived by chat, Telegram or telephone and has no visit yet */
+/**
+ * THE COMMERCIAL CHAT (OWNER «VISIT PLANNER & COMMERCIAL DESK V2» §3) — the shapes of the server's own tables `conversations` and
+ * `messages` (Commercial Assistant backend): the same statuses, the same directions; the cabinet adds who accepted and who answered.
+ */
+export type ChatStatus = "new" | "progress" | "viewing" | "negotiation" | "closed";
+export type DemoConversation = {
+  id: string;
+  /** the short code of the dialogue — the same one the Telegram topic carries */
+  code: string;
+  /** where the visitor writes: the site's window, or their own Telegram after «continue in Telegram» */
+  channel: "site" | "telegram";
+  locale: Locale;
+  pageName: string;
+  propertyId: string;
+  status: ChatStatus;
+  /** the assigned operator */
+  assigneeId: string | null;
+  acceptedBy: string | null;
+  acceptedAt: number | null;
+  clientId: string | null;
+  createdAt: number;
+  lastVisitorAt: number;
+  lastManagerAt: number | null;
+};
+export type DemoMessage = { id: string; conversationId: string; at: number; direction: "visitor" | "manager" | "system"; body: string; staffId: string | null; via: "site" | "telegram" | "desk" };
+
+/** an enquiry that arrived by telephone and has no visit yet */
 export type DemoEnquiry = { id: string; channel: VisitSource; at: number; title: string; excerpt: string; locale: Locale; propertyId: string; clientId: string | null; handled: boolean };
 
 export type DeskState = {
@@ -96,11 +131,13 @@ export type DeskState = {
   events: DemoEvent[];
   offers: DemoOffer[];
   enquiries: DemoEnquiry[];
+  conversations: DemoConversation[];
+  messages: DemoMessage[];
   seq: number;
 };
 
 const KEY = "megaparc:visit-demo:v1";
-const VERSION = 6;
+const VERSION = 9;
 const CHANGED = "megaparc:visit-demo:changed";
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
@@ -135,7 +172,7 @@ export function seedState(nowMs: number): DeskState {
   // the second demonstration manager is away for three working days next week — time off is seen in the calendar
   const offFrom = workday(config, today, 6);
   const staff: Staff[] = demoStaff.map((person) => (person.id === "s-m2" ? { ...person, timeOff: [{ from: offFrom, to: workday(config, offFrom, 2), reason: "Отпуск (демо)" }] } : { ...person }));
-  const state: DeskState = { v: VERSION, seedDay: today, config, staff, blocks: [], clients: [], visits: [], events: [], offers: [], enquiries: [], seq: 0 };
+  const state: DeskState = { v: VERSION, seedDay: today, config, staff, blocks: [], clients: [], visits: [], events: [], offers: [], enquiries: [], conversations: [], messages: [], seq: 0 };
   const M = "moscova-20";
   const at = (date: LocalDate, time: string) => fromZoned(date, time, config.timezone) as number;
   const len = config.visitMinutes * 60_000;
@@ -159,7 +196,7 @@ export function seedState(nowMs: number): DeskState {
     state.events.push({ id: `e-${state.events.length + 1}`, at: createdAt, actor: owner.source === "phone" || owner.source === "desk" ? "s-op" : "client", clientId: owner.id, visitId: record.id, kind: "request", text: `Запрос на просмотр · ${record.ref}`, internal: false });
     return record;
   };
-  const log = (atMs: number, actor: string, clientId: string, visitId: string | null, kind: EventKind, text: string, internal = true) => state.events.push({ id: `e-${state.events.length + 1}`, at: atMs, actor, clientId, visitId, kind, text, internal });
+  const log = (atMs: number, actor: string, clientId: string, visitId: string | null, kind: EventKind, text: string, internal = true) => state.events.push({ id: `e-${state.events.length + 1}`, at: atMs, actor, clientId: clientId || null, visitId, kind, text, internal });
 
   const d = (n: number) => workday(config, today, n);
   // today or the next working day: two confirmed viewings
@@ -171,7 +208,7 @@ export function seedState(nowMs: number): DeskState {
   log(v2.createdAt + 25 * 60_000, "s-m2", c2.id, v2.id, "confirm", "Просмотр подтверждён.", false);
   // new requests waiting for an employee
   const c3 = client("ТЕСТ · Мария Демо", "Аптечная сеть", 3, "assistant", "new", null, "Аптека, нужен вход без подъёма по этажам — проверить.", nowMs - 5 * HOUR);
-  visit(c3, d(2), "11:00", "requested", "s-m1", nowMs - 5 * HOUR, { clientNote: "Нужна консультация по электрической мощности." });
+  visit(c3, d(2), "11:00", "requested", "s-m1", nowMs - 5 * HOUR, { clientNote: "Нужна консультация по электрической мощности.", conversationId: "k-2" });
   const c4 = client("ТЕСТ · John Sample", "Retail brand", 4, "terms", "new", null, "Fashion retail, both levels.", nowMs - 2 * HOUR, "en");
   visit(c4, d(3), "14:00", "requested", "s-m1", nowMs - 2 * HOUR);
   // held viewings and what followed
@@ -203,11 +240,37 @@ export function seedState(nowMs: number): DeskState {
   c9.lostReason = "Выбрали другое помещение (демо).";
   // enquiries that have no visit yet — a telephone call and two conversations
   const c10 = client("ТЕСТ · Звонок", "", 10, "phone", "new", null, "Звонок: спрашивали про парковку и время просмотра.", nowMs - 90 * 60_000);
-  state.enquiries.push(
-    { id: "q-1", channel: "phone", at: nowMs - 90 * 60_000, title: "ТЕСТ · звонок на общий номер", excerpt: "Просили перезвонить и предложить время просмотра.", locale: "ru", propertyId: M, clientId: c10.id, handled: false },
-    { id: "q-2", channel: "assistant", at: nowMs - 55 * 60_000, title: "ТЕСТ · диалог в чате на сайте", excerpt: "«Можно посмотреть помещение на следующей неделе?»", locale: "ru", propertyId: M, clientId: null, handled: false },
-    { id: "q-3", channel: "telegram", at: nowMs - 20 * 60_000, title: "ТЕСТ · тема в Telegram-группе", excerpt: "«Vrem să vedem spațiul joi după-amiază.»", locale: "ro", propertyId: M, clientId: null, handled: false },
-  );
+  state.enquiries.push({ id: "q-1", channel: "phone", at: nowMs - 90 * 60_000, title: "ТЕСТ · звонок на общий номер", excerpt: "Просили перезвонить и предложить время просмотра.", locale: "ru", propertyId: M, clientId: c10.id, handled: false });
+  // the commercial chat: a new dialogue nobody answered, a dialogue in work with a planned viewing, a visitor who continued in Telegram, a closed one
+  const talk = (id: string, code: string, channel: "site" | "telegram", locale: Locale, pageName: string, status: ChatStatus, assigneeId: string | null, clientId: string | null, createdAt: number, lines: [number, "visitor" | "manager" | "system", string, string | null, ("site" | "telegram" | "desk")?][]) => {
+    const visitorTimes = lines.filter((line) => line[1] === "visitor").map((line) => createdAt + line[0] * 60_000);
+    const managerTimes = lines.filter((line) => line[1] === "manager").map((line) => createdAt + line[0] * 60_000);
+    state.conversations.push({ id, code, channel, locale, pageName, propertyId: M, status, assigneeId, acceptedBy: assigneeId, acceptedAt: assigneeId ? (managerTimes[0] ?? createdAt + 5 * 60_000) : null, clientId, createdAt, lastVisitorAt: visitorTimes[visitorTimes.length - 1] ?? createdAt, lastManagerAt: managerTimes[managerTimes.length - 1] ?? null });
+    lines.forEach((line, index) => state.messages.push({ id: `${id}-m${index + 1}`, conversationId: id, at: createdAt + line[0] * 60_000, direction: line[1], body: line[2], staffId: line[3], via: line[4] ?? (line[1] === "visitor" ? channel : "desk") }));
+  };
+  talk("k-1", "7QK2M", "site", "ru", "Moscova 20 · страница объекта", "new", null, null, nowMs - 25 * 60_000, [
+    [0, "visitor", "Здравствуйте. Можно посмотреть помещение на следующей неделе? Нас интересует первый этаж под шоурум.", null],
+    [2, "visitor", "И подскажите, пожалуйста, есть ли парковка для клиентов.", null],
+  ]);
+  talk("k-2", "D4PXN", "site", "ru", "Moscova 20 · коммерческие условия", "viewing", "s-m1", c3.id, nowMs - 6 * HOUR, [
+    [0, "visitor", "Добрый день. Рассматриваем помещение под аптеку. Какая электрическая мощность?", null],
+    [14, "manager", "Здравствуйте. Подключённая мощность — 38 кВт. Требования вашего формата проверим вместе с техническим директором.", "s-m1", "telegram"],
+    [21, "visitor", "Спасибо. Хотим приехать посмотреть.", null],
+    [26, "manager", "Отлично. Выберите удобное время в календаре — заявку подтвержу сразу.", "s-m1", "desk"],
+    [58, "system", "Клиент отправил запрос на просмотр.", null],
+  ]);
+  talk("k-3", "M9RTB", "telegram", "ro", "Moscova 20 · Leasing Pack", "new", null, null, nowMs - 48 * 60_000, [
+    [0, "visitor", "Bună ziua. Vrem să vedem spațiul joi după-amiază. Este posibil?", null],
+    [1, "system", "Клиент продолжил диалог в Telegram.", null],
+  ]);
+  talk("k-4", "A2HLW", "site", "ru", "Moscova 20 · тур 360°", "closed", "s-m1", c9.id, nowMs - 6 * DAY, [
+    [0, "visitor", "Здравствуйте. Ищем офис продаж на первой линии.", null],
+    [9, "manager", "Здравствуйте. Покажем объект в удобное для вас время.", "s-m1", "telegram"],
+    [1440, "visitor", "Спасибо, мы выбрали другое помещение.", null],
+    [1452, "manager", "Благодарим за ответ. Будем рады помочь в будущем.", "s-m1", "desk"],
+  ]);
+  for (const item of state.conversations) if (item.acceptedBy) log(item.acceptedAt ?? item.createdAt, item.acceptedBy, item.clientId ?? "", null, "accept", `Обращение принято · диалог ${item.code}`);
+
   // a manual block: works in the premises on a morning next week
   state.blocks.push({ id: "b-1", propertyId: M, staffId: null, date: d(4), from: "09:00", to: "11:00", reason: "Работы в помещении (демо)" });
   state.events.sort((a, b) => a.at - b.at);
@@ -261,6 +324,8 @@ export type RequestInput = {
   propertyId: string; startUtc: number; name: string; company: string; phone: string; email: string; note: string; locale: Locale; source: VisitSource;
   /** an employee creates the visit by hand */
   by?: string; clientId?: string; staffId?: string | null;
+  /** the dialogue the visit is planned from */
+  conversationId?: string | null;
 };
 
 export type ChangeResult = { ok: true; state: DeskState; visit: DemoVisit; matched?: "phone" | "email" } | { ok: false; reason: "slot_taken" | "staff_busy" | "not_allowed" };
@@ -273,31 +338,38 @@ export function requestVisit(current: DeskState, input: RequestInput, nowMs: num
   if (!check.ok) return { ok: false, reason: check.reason };
   let client = input.clientId ? state.clients.find((item) => item.id === input.clientId) ?? null : null;
   let matched: "phone" | "email" | undefined;
+  // A PUBLIC REQUEST ALWAYS GETS A CARD OF ITS OWN (the server's rule): whoever typed somebody's telephone never lands in that
+  // person's card. The match is kept as a possible duplicate and waits for an employee. An employee who books by hand for a
+  // contact already known takes the existing card — that is their own decision.
+  let duplicate: DemoClient["duplicateOf"] = null;
   if (!client) {
     const match = matchClient(state.clients, { phone: input.phone, email: input.email });
-    if (match) {
-      client = match.client;
-      matched = match.by;
-      // the same contact through another channel: the link is recorded as unverified until an employee confirms it
-      if (!client.links.some((link) => link.channel === input.source)) client.links.push({ channel: input.source, label: "совпадение по " + (match.by === "phone" ? "телефону" : "e-mail"), verified: false });
-      push(state, { at: nowMs, actor: "system", clientId: client.id, visitId: null, kind: "link", text: `Новое обращение совпало с этой карточкой по ${match.by === "phone" ? "телефону" : "e-mail"} — связь ждёт подтверждения сотрудником.`, internal: true });
-    }
+    if (match && internal) client = match.client;
+    else if (match) { duplicate = { clientId: match.client.id, by: match.by }; matched = match.by; }
   }
   if (!client) {
     client = {
       id: uid("c"), name: input.name, company: input.company, phone: input.phone, email: input.email, locale: input.locale, propertyId: input.propertyId, source: input.source, stage: "new",
-      ownerId: null, needs: "", nextAction: null, createdAt: nowMs, lostReason: "", links: [{ channel: input.source, label: internal ? "создано сотрудником" : "форма записи", verified: !internal }],
+      ownerId: null, needs: "", nextAction: null, createdAt: nowMs, lostReason: "", duplicateOf: duplicate, links: [{ channel: input.source, label: internal ? "создано сотрудником" : "форма записи", verified: true }],
     };
     state.clients.push(client);
+    if (duplicate) push(state, { at: nowMs, actor: "system", clientId: client.id, visitId: null, kind: "link", text: `Контакт совпал с другой карточкой (по ${duplicate.by === "phone" ? "телефону" : "e-mail"}). Записи не объединены — решение за сотрудником.`, internal: true });
   }
   if (["new", "lost"].includes(client.stage)) client.stage = "visit_planned";
   state.seq += 1;
   const visit: DemoVisit = {
     id: uid("v"), ref: refOf(state.seq), token: tokenOf(), propertyId: input.propertyId, clientId: client.id, staffId: check.staffId, startUtc: check.slot.startUtc, endUtc: check.slot.endUtc,
     status: internal ? "confirmed" : "requested", source: input.source, locale: input.locale, createdAt: nowMs, updatedAt: nowMs, firstResponseAt: internal ? nowMs : null, cancelledBy: null,
-    clientMessage: "", clientNote: input.note, result: "", movedFrom: null,
+    clientMessage: "", clientNote: input.note, result: "", movedFrom: null, conversationId: input.conversationId ?? null,
   };
   state.visits.push(visit);
+  // a visit planned from a dialogue: the dialogue gets the client and the status «viewing» (the server's own status value)
+  const talk = input.conversationId ? state.conversations.find((item) => item.id === input.conversationId) : null;
+  if (talk) {
+    talk.clientId = client.id;
+    if (talk.status !== "closed") talk.status = "viewing";
+    state.messages.push({ id: uid("m"), conversationId: talk.id, at: nowMs, direction: "system", body: internal ? `Назначен просмотр · ${visit.ref}` : "Клиент отправил запрос на просмотр.", staffId: input.by ?? null, via: "desk" });
+  }
   if (internal && !client.ownerId) client.ownerId = input.by === "s-op" || input.by === "s-admin" ? check.staffId : input.by ?? check.staffId;
   push(state, { at: nowMs, actor: input.by ?? "client", clientId: client.id, visitId: visit.id, kind: "request", text: internal ? `Визит создан сотрудником и подтверждён · ${visit.ref}` : `Запрос на просмотр · ${visit.ref}`, internal: false });
   return { ok: true, state, visit, matched };
@@ -505,3 +577,109 @@ export function firstOpenDate(state: DeskState, propertyId: string, nowMs: numbe
   }
   return null;
 }
+
+/* ------------------------------------------------------------------ */
+/* The commercial chat and the responsibility of employees              */
+/* ------------------------------------------------------------------ */
+
+const withTalk = (current: DeskState, id: string, change: (state: DeskState, talk: DemoConversation) => void): DeskState => {
+  const state = clone(current);
+  const talk = state.conversations.find((item) => item.id === id);
+  if (!talk) return current;
+  change(state, talk);
+  return state;
+};
+const nameOf = (state: DeskState, staffId: string | null) => state.staff.find((person) => person.id === staffId)?.name ?? "не назначен";
+
+/** an employee takes a dialogue: they become its operator, a new dialogue goes «in work» — who accepted is recorded */
+export const acceptConversation = (current: DeskState, id: string, by: string, nowMs: number) =>
+  withTalk(current, id, (state, talk) => {
+    talk.assigneeId = by;
+    if (!talk.acceptedBy) { talk.acceptedBy = by; talk.acceptedAt = nowMs; }
+    if (talk.status === "new") talk.status = "progress";
+    push(state, { at: nowMs, actor: by, clientId: talk.clientId, visitId: null, conversationId: talk.id, kind: "accept", text: `Обращение принято · диалог ${talk.code}`, internal: true });
+  });
+
+/** an answer to the visitor from the cabinet; the first answer makes the employee the operator, as a reply in Telegram does on the server */
+export const replyConversation = (current: DeskState, id: string, body: string, by: string, nowMs: number) =>
+  withTalk(current, id, (state, talk) => {
+    state.messages.push({ id: uid("m"), conversationId: talk.id, at: nowMs, direction: "manager", body, staffId: by, via: "desk" });
+    talk.lastManagerAt = nowMs;
+    if (!talk.assigneeId) { talk.assigneeId = by; talk.acceptedBy = talk.acceptedBy ?? by; talk.acceptedAt = talk.acceptedAt ?? nowMs; }
+    if (talk.status === "new" || talk.status === "closed") talk.status = "progress";
+    push(state, { at: nowMs, actor: by, clientId: talk.clientId, visitId: null, conversationId: talk.id, kind: "reply", text: `Ответ клиенту · диалог ${talk.code}`, internal: true });
+  });
+
+export const assignConversation = (current: DeskState, id: string, staffId: string, by: string, nowMs: number) =>
+  withTalk(current, id, (state, talk) => {
+    const from = talk.assigneeId;
+    talk.assigneeId = staffId;
+    if (talk.status === "new") talk.status = "progress";
+    push(state, { at: nowMs, actor: by, clientId: talk.clientId, visitId: null, conversationId: talk.id, fromStaff: from, toStaff: staffId, kind: "assign", text: `Оператор диалога ${talk.code}: ${nameOf(state, staffId)}${from && from !== staffId ? ` (был: ${nameOf(state, from)})` : ""}.`, internal: true });
+  });
+
+export const setConversationStatus = (current: DeskState, id: string, status: ChatStatus, by: string, nowMs: number) =>
+  withTalk(current, id, (state, talk) => {
+    talk.status = status;
+    push(state, { at: nowMs, actor: by, clientId: talk.clientId, visitId: null, conversationId: talk.id, kind: "status", text: `Статус диалога ${talk.code}: ${status}.`, internal: true });
+  });
+
+/** an internal comment in a dialogue — never shown to the visitor (the server: a «//» note of the Telegram topic lands in the same journal) */
+export const noteConversation = (current: DeskState, id: string, text: string, by: string, nowMs: number) =>
+  withTalk(current, id, (state, talk) => push(state, { at: nowMs, actor: by, clientId: talk.clientId, visitId: null, conversationId: talk.id, kind: "note", text, internal: true }));
+
+/** the dialogue gets its client card (an existing one, or the one just registered) */
+export const linkConversation = (current: DeskState, id: string, clientId: string, by: string, nowMs: number) =>
+  withTalk(current, id, (state, talk) => {
+    talk.clientId = clientId;
+    push(state, { at: nowMs, actor: by, clientId, visitId: null, conversationId: talk.id, kind: "link", text: `Диалог ${talk.code} связан с карточкой клиента.`, internal: true });
+  });
+
+/**
+ * The transfer of a client to another employee: the responsibility for the negotiations and the client's open dialogues move,
+ * the whole history stays, and the transfer itself is a line of it — from whom, to whom, with what comment.
+ */
+export const transferClient = (current: DeskState, clientId: string, toStaff: string, note: string, by: string, nowMs: number) =>
+  withClient(current, clientId, (state, client) => {
+    const from = client.ownerId;
+    if (from === toStaff) return;
+    client.ownerId = toStaff;
+    for (const talk of state.conversations) if (talk.clientId === clientId && talk.status !== "closed") talk.assigneeId = toStaff;
+    push(state, { at: nowMs, actor: by, clientId, visitId: null, fromStaff: from, toStaff, kind: "transfer", text: `Клиент передан: ${nameOf(state, from)} → ${nameOf(state, toStaff)}${note ? `. ${note}` : "."}`, internal: true });
+  });
+
+/** dialogues that wait for an employee: nobody answered after the visitor's last message */
+export const waitingConversations = (state: DeskState) => state.conversations.filter((talk) => talk.status !== "closed" && (talk.lastManagerAt === null || talk.lastManagerAt < talk.lastVisitorAt));
+
+/* ------------------------------------------------------------------ */
+/* Possible duplicates: an employee joins two cards, or leaves them apart */
+/* ------------------------------------------------------------------ */
+
+/** join the card `fromId` into `intoId`: visits, dialogues, offers and the whole history move; nothing is lost; the join is a line of the history */
+export function mergeClients(current: DeskState, fromId: string, intoId: string, by: string, nowMs: number): DeskState {
+  const state = clone(current);
+  const from = state.clients.find((item) => item.id === fromId);
+  const into = state.clients.find((item) => item.id === intoId);
+  if (!from || !into || from === into) return current;
+  for (const visit of state.visits) if (visit.clientId === fromId) visit.clientId = intoId;
+  for (const talk of state.conversations) if (talk.clientId === fromId) talk.clientId = intoId;
+  for (const offer of state.offers) if (offer.clientId === fromId) offer.clientId = intoId;
+  for (const event of state.events) if (event.clientId === fromId) event.clientId = intoId;
+  for (const enquiry of state.enquiries) if (enquiry.clientId === fromId) enquiry.clientId = intoId;
+  for (const link of from.links) if (!into.links.some((item) => item.channel === link.channel && item.label === link.label)) into.links.push({ ...link, verified: true });
+  if (!into.company && from.company) into.company = from.company;
+  if (!into.email && from.email) into.email = from.email;
+  if (!into.ownerId && from.ownerId) into.ownerId = from.ownerId;
+  if (["new", "lost"].includes(into.stage) && !["new", "lost"].includes(from.stage)) into.stage = from.stage;
+  state.clients = state.clients.filter((item) => item.id !== fromId);
+  for (const other of state.clients) if (other.duplicateOf?.clientId === fromId) other.duplicateOf = { ...other.duplicateOf, clientId: intoId };
+  push(state, { at: nowMs, actor: by, clientId: intoId, visitId: null, kind: "link", text: `Карточки объединены сотрудником: «${from.name}» присоединена к этой карточке.`, internal: true });
+  return state;
+}
+
+/** the two cards are different people: the mark of a possible duplicate is removed, the decision stays in the history */
+export const keepApart = (current: DeskState, clientId: string, by: string, nowMs: number) =>
+  withClient(current, clientId, (state, client) => {
+    client.duplicateOf = null;
+    push(state, { at: nowMs, actor: by, clientId, visitId: null, kind: "link", text: "Проверено сотрудником: это другой клиент, карточки не объединены.", internal: true });
+  });

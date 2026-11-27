@@ -213,8 +213,20 @@ export function slotsForDate(snapshot: ScheduleSnapshot, propertyId: string, dat
   const buffer = config.bufferMinutes * MINUTE;
   const visits = snapshot.visits.filter((visit) => holds(visit) && visit.id !== options.ignoreVisitId);
   const people = snapshot.staff.filter((person) => person.properties.includes(propertyId) && (!options.staffId || person.id === options.staffId));
-  const dayLoad = (staffId: string) => visits.filter((visit) => visit.staffId === staffId && toZoned(visit.startUtc, tz).date === date).length;
 
+  // the zone's offset of this day, read once at noon (a switch of the clock happens at night): every start after 05:00 is computed
+  // from it without asking the zone again — a range of days stays cheap for the server
+  const [yy, mo, dd] = date.split("-").map(Number);
+  const noonUtc = fromZoned(date, "12:00", tz);
+  const dayOffset = noonUtc === null ? null : Date.UTC(yy, mo - 1, dd, 12, 0) - noonUtc;
+  const startOf = (minute: number): number | null => (dayOffset !== null && minute >= 300 ? Date.UTC(yy, mo - 1, dd, 0, minute) - dayOffset : fromZoned(date, fromMinutes(minute), tz));
+  const dayFrom = noonUtc === null ? 0 : noonUtc - 12 * 60 * MINUTE;
+  const dayTo = noonUtc === null ? 0 : noonUtc + 12 * 60 * MINUTE;
+  // only the visits that can touch this day are looked at for its intervals (the buffer included): a long list of visits costs once a day, not once an interval
+  const near = noonUtc === null ? visits : visits.filter((visit) => visit.endUtc + buffer > dayFrom && visit.startUtc - buffer < dayTo);
+  const loads = new Map<string, number>();
+  for (const visit of near) if (visit.staffId && (noonUtc === null ? toZoned(visit.startUtc, tz).date === date : visit.startUtc >= dayFrom && visit.startUtc < dayTo)) loads.set(visit.staffId, (loads.get(visit.staffId) ?? 0) + 1);
+  const dayLoad = (staffId: string) => loads.get(staffId) ?? 0;
   const byStart = new Map<number, Slot>();
   for (const person of people) {
     if (config.maxPerEmployeePerDay > 0 && dayLoad(person.id) >= config.maxPerEmployeePerDay) continue;
@@ -222,11 +234,11 @@ export function slotsForDate(snapshot: ScheduleSnapshot, propertyId: string, dat
       const last = toMinutes(hours.to) - config.visitMinutes;
       for (let minute = toMinutes(hours.from); minute <= last; minute += config.stepMinutes) {
         const time = fromMinutes(minute);
-        const startUtc = fromZoned(date, time, tz);
+        const startUtc = startOf(minute);
         if (startUtc === null || startUtc < earliest) continue;
         const endUtc = startUtc + config.visitMinutes * MINUTE;
         // the employee: other visits with the buffer around them, and the manual blocks
-        if (visits.some((visit) => visit.staffId === person.id && overlap(startUtc - buffer, endUtc + buffer, visit.startUtc, visit.endUtc))) continue;
+        if (near.some((visit) => visit.staffId === person.id && overlap(startUtc - buffer, endUtc + buffer, visit.startUtc, visit.endUtc))) continue;
         const blocked = snapshot.blocks.some((block) => {
           if (block.date !== date) return false;
           const mine = block.staffId === person.id || (block.staffId === null && (block.propertyId === null || block.propertyId === propertyId));
@@ -234,7 +246,7 @@ export function slotsForDate(snapshot: ScheduleSnapshot, propertyId: string, dat
         });
         if (blocked) continue;
         // the property: no more viewings at once than it can hold
-        const together = visits.filter((visit) => visit.propertyId === propertyId && overlap(startUtc, endUtc, visit.startUtc, visit.endUtc)).length;
+        const together = near.filter((visit) => visit.propertyId === propertyId && overlap(startUtc, endUtc, visit.startUtc, visit.endUtc)).length;
         if (together >= config.propertyCapacity) continue;
         const slot = byStart.get(startUtc) ?? { date, time, endTime: fromMinutes(minute + config.visitMinutes), startUtc, endUtc, staffIds: [] };
         slot.staffIds.push(person.id);
@@ -320,20 +332,27 @@ export const isConfirmedForClient = (status: VisitStatus) => status === "confirm
 export type Permission =
   | "visit.read" | "visit.create" | "visit.confirm" | "visit.reschedule" | "visit.cancel" | "visit.assign" | "visit.result"
   | "client.read" | "client.edit" | "client.merge" | "client.erase" | "note.write" | "offer.send" | "deal.close"
-  | "schedule.edit" | "staff.manage" | "analytics.read" | "analytics.export" | "audit.read";
+  | "schedule.edit" | "availability.edit" | "staff.manage" | "analytics.read" | "analytics.export" | "audit.read"
+  | "chat.read" | "chat.reply" | "chat.assign" | "client.transfer";
 
 const ALL: Permission[] = [
   "visit.read", "visit.create", "visit.confirm", "visit.reschedule", "visit.cancel", "visit.assign", "visit.result",
   "client.read", "client.edit", "client.merge", "client.erase", "note.write", "offer.send", "deal.close",
-  "schedule.edit", "staff.manage", "analytics.read", "analytics.export", "audit.read",
+  "schedule.edit", "availability.edit", "staff.manage", "analytics.read", "analytics.export", "audit.read",
+  "chat.read", "chat.reply", "chat.assign", "client.transfer",
 ];
 
-/** the server is the only place this table is enforced; the cabinet reads it to hide what a role cannot do */
+/**
+ * The server is the only place this table is enforced; the cabinet reads it to hide what a role cannot do.
+ * OWNER «VISIT PLANNER & COMMERCIAL DESK V2» (2026-11-27): the parameters of the planner are changed by the ADMINISTRATOR only
+ * (`schedule.edit`); holidays belong to them; time off, an employee's own hours and manual blocks are set apart (`availability.edit`);
+ * the head of the department (`management`) reads everything, including the full history of actions, and changes nothing.
+ */
 export const PERMISSIONS: Record<StaffRole, Permission[]> = {
   administrator: ALL,
-  manager: ALL.filter((p) => !["staff.manage", "client.erase", "audit.read"].includes(p)),
-  operator: ["visit.read", "visit.create", "visit.reschedule", "visit.cancel", "client.read", "client.edit", "note.write"],
-  management: ["visit.read", "client.read", "analytics.read", "analytics.export", "audit.read"],
+  manager: ALL.filter((p) => !["staff.manage", "client.erase", "audit.read", "schedule.edit"].includes(p)),
+  operator: ["visit.read", "visit.create", "visit.reschedule", "visit.cancel", "client.read", "client.edit", "note.write", "chat.read", "chat.reply"],
+  management: ["visit.read", "client.read", "chat.read", "analytics.read", "analytics.export", "audit.read"],
 };
 
 export const can = (role: StaffRole, permission: Permission) => PERMISSIONS[role].includes(permission);
@@ -386,6 +405,16 @@ export function icsEvent(event: { uid: string; startUtc: number; endUtc: number;
     "BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", `DESCRIPTION:${icsText(event.title)}`, "END:VALARM",
     "END:VEVENT", "END:VCALENDAR",
   ];
+  return lines.join("\r\n");
+}
+
+/** several events as one calendar — the read-only subscription of an employee (their confirmed viewings) */
+export function icsCalendar(name: string, events: { uid: string; startUtc: number; endUtc: number; title: string; location: string; description: string; stampUtc: number; sequence?: number }[]): string {
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//MEGAPARC//Visit Planner//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", `X-WR-CALNAME:${icsText(name)}`, "X-WR-TIMEZONE:Europe/Chisinau"];
+  for (const event of events) {
+    lines.push("BEGIN:VEVENT", `UID:${event.uid}`, `SEQUENCE:${event.sequence ?? 0}`, `DTSTAMP:${icsStamp(event.stampUtc)}`, `DTSTART:${icsStamp(event.startUtc)}`, `DTEND:${icsStamp(event.endUtc)}`, `SUMMARY:${icsText(event.title)}`, `LOCATION:${icsText(event.location)}`, `DESCRIPTION:${icsText(event.description)}`, "END:VEVENT");
+  }
+  lines.push("END:VCALENDAR");
   return lines.join("\r\n");
 }
 

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } 
 import { clientTitle, dayLong, dayRelative, localeLabel, propertyLabel, sourceLabel, stageLabel, stageOrder, staffName, stamp, statusLabel, whenOf } from "@/components/commercial-desk/labels";
 import { CALENDAR_WEEKS, Calendar, SlotList, mondayOf } from "@/components/visit-planner/calendar";
 import {
-  addNote, assignVisit, clock, cancelVisit, confirmVisit, declineVisit, moveVisit, recordResult, registerClient, requestVisit, sendOffer, setNextAction, setOwner, setStage, snapshotOf, verifyLink,
+  addNote, assignVisit, clock, cancelVisit, confirmVisit, declineVisit, keepApart, linkConversation, mergeClients, moveVisit, recordResult, registerClient, requestVisit, sendOffer, setNextAction, setStage, snapshotOf, transferClient, verifyLink,
   type DemoClient, type DemoEnquiry, type DemoVisit, type DeskState, type Locale,
 } from "@/components/visit-planner/store";
 import { commit } from "@/components/visit-planner/use-store";
@@ -16,7 +16,7 @@ import { addDays, canDo, fromZoned, openDays, slotsForDate, toZoned, type DealSt
  * enforced on every request, the cabinet only mirrors it. Internal comments carry the mark «только для сотрудников» and never
  * reach the visitor's page.
  */
-export type Ctx = { state: DeskState; now: number; actor: Staff; may: (permission: Permission) => boolean; open: (target: { visit?: string; client?: string; create?: string } | null) => void };
+export type Ctx = { state: DeskState; now: number; actor: Staff; may: (permission: Permission) => boolean; open: (target: { visit?: string; client?: string; create?: string; chat?: string } | null) => void };
 
 const calendarLabels = { prev: "Предыдущий месяц", next: "Следующий месяц", open: "есть свободное время", none: "нет свободного времени", today: "сегодня" };
 const slotLabels = { morning: "Утро", afternoon: "День" };
@@ -172,6 +172,8 @@ export function VisitCard({ ctx, visit }: { ctx: Ctx; visit: DemoVisit }) {
         </section>
       ) : null}
 
+      <Responsibility state={state} visit={visit} client={client} />
+
       <TelegramPreview state={state} visit={visit} />
 
       <section className="cd-block">
@@ -185,6 +187,29 @@ export function VisitCard({ ctx, visit }: { ctx: Ctx; visit: DemoVisit }) {
         <Timeline state={state} events={events} />
       </section>
     </Drawer>
+  );
+}
+
+/** the responsibility for a visit — read from the journal of actions, never typed: who took the request, confirmed, conducts, moved, cancelled, recorded the result */
+function Responsibility({ state, visit, client }: { state: DeskState; visit: DemoVisit; client: DemoClient }) {
+  const events = state.events.filter((event) => event.visitId === visit.id);
+  const last = (kinds: string[]) => [...events].reverse().find((event) => kinds.includes(event.kind)) ?? null;
+  const who = (event: DeskState["events"][number] | null) => (event ? `${staffName(state, event.actor)} · ${stamp(state, event.at)}` : "—");
+  const talk = state.conversations.find((item) => item.id === visit.conversationId) ?? null;
+  const rows: [string, string][] = [
+    ["Обращение принял", talk?.acceptedBy ? `${staffName(state, talk.acceptedBy)}${talk.acceptedAt ? ` · ${stamp(state, talk.acceptedAt)}` : ""}` : who(last(["request"]))],
+    ["Просмотр подтвердил", who(last(["confirm"]))],
+    ["Просмотр проводит", staffName(state, visit.staffId)],
+    ["Перенёс", who(last(["move"]))],
+    ["Отменил / отклонил", who(last(["cancel", "decline"]))],
+    ["Результат зафиксировал", who(last(["result", "no_show"]))],
+    ["Отвечает за переговоры", staffName(state, client.ownerId)],
+  ];
+  return (
+    <section className="cd-block">
+      <h3 className="cd-block__title">Ответственность</h3>
+      <dl className="cd-resp">{rows.filter(([, value]) => value !== "—").map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+    </section>
   );
 }
 
@@ -234,8 +259,14 @@ export function ClientCard({ ctx, client }: { ctx: Ctx; client: DemoClient }) {
   const [due, setDue] = useState<LocalDate>(client.nextAction ? toZoned(client.nextAction.dueUtc, state.config.timezone).date : addDays(today, 1));
   const [lost, setLost] = useState("");
   const [closing, setClosing] = useState(false);
+  const [moving, setMoving] = useState(false);
+  const [target, setTarget] = useState("");
+  const [reason, setReason] = useState("");
   const at = clock;
   const edit = may("client.edit");
+  const talks = state.conversations.filter((item) => item.clientId === client.id);
+  const twin = client.duplicateOf ? state.clients.find((item) => item.id === client.duplicateOf?.clientId) ?? null : null;
+  const conductors = state.staff.filter((person) => person.conducts && person.active);
   const closed = client.stage === "won" || client.stage === "lost";
 
   return (
@@ -246,15 +277,8 @@ export function ClientCard({ ctx, client }: { ctx: Ctx; client: DemoClient }) {
         <div><dt>Язык общения</dt><dd>{localeLabel[client.locale]}</dd></div>
         <div><dt>Источник обращения</dt><dd>{sourceLabel[client.source]}</dd></div>
         <div>
-          <dt>Ответственный</dt>
-          <dd>
-            {may("visit.assign") ? (
-              <select className="cd-select" value={client.ownerId ?? ""} onChange={(event) => commit(setOwner(state, client.id, event.target.value, actor.id, at()))} aria-label="Ответственный за клиента">
-                <option value="" disabled>Не назначен</option>
-                {state.staff.filter((person) => person.conducts && person.active).map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}
-              </select>
-            ) : staffName(state, client.ownerId)}
-          </dd>
+          <dt>Ответственный за переговоры</dt>
+          <dd>{staffName(state, client.ownerId)}{may("client.transfer") && !closed ? <> · <button type="button" className="cd-link" onClick={() => { setMoving(!moving); setTarget(""); }}>{client.ownerId ? "Передать клиента" : "Назначить ответственного"}</button></> : null}</dd>
         </div>
         <div>
           <dt>Этап переговоров</dt>
@@ -269,6 +293,40 @@ export function ClientCard({ ctx, client }: { ctx: Ctx; client: DemoClient }) {
         {client.needs ? <div><dt>Потребности клиента <span className="cd-internal">только для сотрудников</span></dt><dd>{client.needs}</dd></div> : null}
       </dl>
 
+      {twin ? (
+        <section className="cd-panel cd-panel--mark" aria-label="Возможный дубликат">
+          <p className="cd-panel__title">Возможный дубликат</p>
+          <p className="cd-muted">{client.duplicateOf?.by === "phone" ? "Телефон" : "E-mail"} этой заявки уже есть в карточке «{clientTitle(twin)}». Клиент мог указать чужой контакт, поэтому заявка получила свою карточку: записи объединяет только сотрудник.</p>
+          <div className="cd-actions">
+            {may("client.merge") ? <button type="button" className="btn vp-btn" onClick={() => { commit(mergeClients(state, client.id, twin.id, actor.id, at())); ctx.open({ client: twin.id }); }}><span>Объединить с той карточкой</span></button> : null}
+            {may("client.merge") ? <button type="button" className="btn btn--ghost vp-btn" onClick={() => commit(keepApart(state, client.id, actor.id, at()))}><span>Это разные клиенты</span></button> : null}
+            <button type="button" className="cd-link" onClick={() => ctx.open({ client: twin.id })}>Открыть ту карточку</button>
+          </div>
+        </section>
+      ) : null}
+
+      {moving ? (
+        <section className="cd-panel" aria-label="Передача клиента">
+          <p className="cd-panel__title">{client.ownerId ? "Передача клиента другому сотруднику" : "Ответственный за клиента"}</p>
+          <label className="cd-field"><span>Кому</span>
+            <select className="cd-select" value={target} onChange={(event) => setTarget(event.target.value)}>
+              <option value="" disabled>Выберите сотрудника</option>
+              {conductors.filter((person) => person.id !== client.ownerId).map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}
+            </select>
+          </label>
+          <label className="cd-field"><span>Комментарий к передаче <em>только для сотрудников</em></span><textarea rows={2} value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Например: клиент ведёт переговоры по объекту коллеги" /></label>
+          <p className="cd-muted">История визитов, переписки, комментариев и предложений остаётся в карточке; передача записывается в журнал — от кого, кому и когда. Открытые диалоги клиента переходят новому ответственному.</p>
+          <div className="cd-actions"><button type="button" className="btn vp-btn" disabled={!target} onClick={() => { commit(transferClient(state, client.id, target, reason.trim(), actor.id, at())); setMoving(false); setReason(""); }}><span>{client.ownerId ? "Передать" : "Назначить"}</span></button><button type="button" className="cd-link" onClick={() => setMoving(false)}>Отмена</button></div>
+        </section>
+      ) : null}
+
+      {talks.length ? (
+        <section className="cd-block">
+          <h3 className="cd-block__title">Переписка</h3>
+          <ul className="cd-rows">{talks.map((talk) => <li key={talk.id}><button type="button" className="cd-row" onClick={() => ctx.open({ chat: talk.id })}><span className="cd-row__main">Диалог {talk.code} · {talk.pageName}</span><span className="cd-row__meta">Оператор: {staffName(state, talk.assigneeId)} · последний ответ: {talk.lastManagerAt ? stamp(state, talk.lastManagerAt) : "ещё не было"}</span></button></li>)}</ul>
+        </section>
+      ) : null}
+
       <section className="cd-block">
         <h3 className="cd-block__title">Каналы и связь записей</h3>
         <ul className="cd-links">
@@ -279,7 +337,7 @@ export function ClientCard({ ctx, client }: { ctx: Ctx; client: DemoClient }) {
             </li>
           ))}
         </ul>
-        <p className="cd-muted">Записи из сайта, чата и Telegram объединяются по подтверждённому телефону или e-mail — и только после проверки, никогда молча.</p>
+        <p className="cd-muted">Заявка с сайта всегда получает свою карточку. Если её телефон или e-mail уже есть у другого клиента, карточки объединяет сотрудник — никогда сама система.</p>
       </section>
 
       <section className="cd-block">
@@ -347,18 +405,21 @@ export function ClientCard({ ctx, client }: { ctx: Ctx; client: DemoClient }) {
 
 const manualSources: VisitSource[] = ["phone", "assistant", "telegram", "desk"];
 
-export function NewVisit({ ctx, preset }: { ctx: Ctx; /** a client id, an enquiry id («q-…») or «new» */ preset: string }) {
+export function NewVisit({ ctx, preset }: { ctx: Ctx; /** a client id, a telephone enquiry («q-…»), a dialogue («k-…», «k-…:client» for the card alone) or «new» */ preset: string }) {
   const { state, actor } = ctx;
-  const enquiry: DemoEnquiry | null = state.enquiries.find((item) => item.id === preset) ?? null;
-  const presetClient = state.clients.find((item) => item.id === (enquiry?.clientId ?? preset)) ?? null;
+  const [presetId, mode] = preset.split(":");
+  const enquiry: DemoEnquiry | null = state.enquiries.find((item) => item.id === presetId) ?? null;
+  const talk = state.conversations.find((item) => item.id === presetId) ?? null;
+  const presetClient = state.clients.find((item) => item.id === (talk?.clientId ?? enquiry?.clientId ?? presetId)) ?? null;
+  const firstLine = talk ? state.messages.find((message) => message.conversationId === talk.id && message.direction === "visitor")?.body ?? "" : "";
   const [clientId, setClientId] = useState<string>(presetClient?.id ?? "");
-  const [source, setSource] = useState<VisitSource>(enquiry?.channel ?? (presetClient ? "desk" : "phone"));
-  const [language, setLanguage] = useState<Locale>(enquiry?.locale ?? presetClient?.locale ?? "ru");
+  const [source, setSource] = useState<VisitSource>(talk ? (talk.channel === "telegram" ? "telegram" : "assistant") : enquiry?.channel ?? (presetClient ? "desk" : "phone"));
+  const [language, setLanguage] = useState<Locale>(talk?.locale ?? enquiry?.locale ?? presetClient?.locale ?? "ru");
   const [staffId, setStaffId] = useState("");
   const [slot, setSlot] = useState<Slot | null>(null);
-  const [withVisit, setWithVisit] = useState(true);
+  const [withVisit, setWithVisit] = useState(mode !== "client");
   const [error, setError] = useState("");
-  const propertyId = enquiry?.propertyId ?? presetClient?.propertyId ?? "moscova-20";
+  const propertyId = talk?.propertyId ?? enquiry?.propertyId ?? presetClient?.propertyId ?? "moscova-20";
   const conductors = state.staff.filter((person) => person.conducts && person.active && person.properties.includes(propertyId));
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -376,10 +437,11 @@ export function NewVisit({ ctx, preset }: { ctx: Ctx; /** a client id, an enquir
     } else if (enquiry) {
       working = { ...working, enquiries: working.enquiries.map((item) => (item.id === enquiry.id ? { ...item, handled: true, clientId: id } : item)) };
     }
+    if (talk) working = linkConversation(working, talk.id, id, actor.id, now);
     if (withVisit) {
       if (!slot) return setError("Выберите день и время визита.");
       const client = working.clients.find((item) => item.id === id) as DemoClient;
-      const result = requestVisit(working, { propertyId, startUtc: slot.startUtc, name: client.name, company: client.company, phone: client.phone, email: client.email, note: get("note"), locale: client.locale, source, by: actor.id, clientId: id, staffId: staffId || null }, now);
+      const result = requestVisit(working, { propertyId, startUtc: slot.startUtc, name: client.name, company: client.company, phone: client.phone, email: client.email, note: get("note"), locale: client.locale, source, by: actor.id, clientId: id, staffId: staffId || null, conversationId: talk?.id ?? null }, now);
       if (!result.ok) return setError(result.reason === "staff_busy" ? "Этот сотрудник занят в это время." : "Это время уже занято — выберите другое.");
       commit(result.state);
       return ctx.open({ visit: result.visit.id });
@@ -389,9 +451,9 @@ export function NewVisit({ ctx, preset }: { ctx: Ctx; /** a client id, an enquir
   };
 
   return (
-    <Drawer title={withVisit ? "Новый визит" : "Новый клиент"} kicker={enquiry ? enquiry.title : "Создаёт сотрудник"} onClose={() => ctx.open(null)}>
+    <Drawer title={withVisit ? "Новый визит" : "Новый клиент"} kicker={talk ? `Из диалога ${talk.code}` : enquiry ? enquiry.title : "Создаёт сотрудник"} onClose={() => ctx.open(null)}>
       <form className="cd-form" onSubmit={onSubmit} noValidate>
-        {enquiry ? <p className="cd-quote">{enquiry.excerpt}</p> : null}
+        {talk && firstLine ? <p className="cd-quote">{firstLine}</p> : enquiry ? <p className="cd-quote">{enquiry.excerpt}</p> : null}
         <fieldset className="cd-fieldset">
           <legend>Клиент</legend>
           <label className="cd-field"><span>Карточка клиента</span>

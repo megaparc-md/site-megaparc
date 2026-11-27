@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { ClientCard, NewVisit, VisitCard, type Ctx } from "@/components/commercial-desk/cards";
+import { Chat } from "@/components/commercial-desk/chat";
 import { roleLabel } from "@/components/commercial-desk/labels";
 import { Analytics, Clients, Deals, History, Requests, Schedule, Today, Visits, WeekCalendar, sectionCount, type SectionKey } from "@/components/commercial-desk/sections";
 import { setAddress, useDeskState, useHash, useNow, useQuery } from "@/components/visit-planner/use-store";
@@ -16,6 +17,7 @@ import { can, type Permission } from "@/lib/visits/engine";
  */
 const NAV: { key: SectionKey; label: string; needs?: Permission }[] = [
   { key: "today", label: "Сегодня" },
+  { key: "chat", label: "Коммерческий чат", needs: "chat.read" },
   { key: "calendar", label: "Календарь" },
   { key: "requests", label: "Новые обращения" },
   { key: "visits", label: "Запланированные визиты" },
@@ -33,7 +35,11 @@ export function CommercialDesk({ plannerHref, siteHref }: { plannerHref: string;
   const query = useQuery();
   const [actorId, setActorId] = useState("s-m1");
   const params = useMemo(() => new URLSearchParams(query), [query]);
-  const open = useCallback((target: { visit?: string; client?: string; create?: string } | null) => setAddress({ query: { visit: target?.visit ?? null, client: target?.client ?? null, create: target?.create ?? null } }), []);
+  // a card over the page (a visit, a client, a new visit) or a dialogue of the chat section — the address carries it, so a link can be shared
+  const open = useCallback((target: { visit?: string; client?: string; create?: string; chat?: string } | null) => {
+    if (target?.chat) return setAddress({ query: { visit: null, client: null, create: null, chat: target.chat }, hash: "chat" });
+    setAddress({ query: { visit: target?.visit ?? null, client: target?.client ?? null, create: target?.create ?? null } });
+  }, []);
 
   const actor = state?.staff.find((person) => person.id === actorId) ?? state?.staff[0] ?? null;
   const nav = NAV.filter((item) => !item.needs || (actor && can(actor.role, item.needs)));
@@ -47,7 +53,7 @@ export function CommercialDesk({ plannerHref, siteHref }: { plannerHref: string;
     <div className="cd" lang="ru">
       <p className="cd-band" role="note"><strong>OWNER DEMO · ТЕСТОВЫЕ ДАННЫЕ</strong><span>Прототип кабинета сотрудников. Клиенты, визиты и комментарии вымышлены; ничего не отправляется и не собирается.</span></p>
       <header className="cd-top">
-        <div className="cd-top__brand"><span className="cd-top__mark">MEGAPARC</span><span className="cd-top__product">Commercial Desk</span></div>
+        <div className="cd-top__brand"><span className="cd-top__mark">MEGAPARC</span><span className="cd-top__product">Commercial Desk</span><span className="cd-top__sub">коммерческий отдел · чат · визиты · переговоры</span></div>
         <div className="cd-top__who">
           <label className="cd-label" htmlFor="cd-actor">Вы вошли как (демо)</label>
           <select id="cd-actor" className="cd-select" value={actor?.id ?? actorId} onChange={(event) => setActorId(event.target.value)}>
@@ -69,6 +75,7 @@ export function CommercialDesk({ plannerHref, siteHref }: { plannerHref: string;
         <main className="cd-main" id="cd-main">
           {!ctx ? <p className="cd-muted">Загрузка демонстрации…</p>
             : section === "today" ? <Today ctx={ctx} />
+            : section === "chat" ? <Chat ctx={ctx} selected={params.get("chat")} onSelect={(id) => setAddress({ query: { chat: id } })} />
             : section === "calendar" ? <WeekCalendar ctx={ctx} />
             : section === "requests" ? <Requests ctx={ctx} />
             : section === "visits" ? <Visits ctx={ctx} />

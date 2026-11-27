@@ -4,6 +4,7 @@ import { MaskTitle, Val } from "@/components/experience";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
 import { SpaceImage, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
+import { viewingCta } from "@/components/visit-planner/href";
 import { ProducerRetail } from "@/components/producer-retail";
 import { trustCopy } from "@/components/leasing/property-trust";
 import { Figure, NB, R3Button, R3Label, R3Link, tel, viewableNow } from "@/components/r3";
@@ -160,9 +161,9 @@ function PropertyRow({ project, locale, c, strong }: { project: ProjectEntry; lo
   // a district is shown only when confirmed (Creangă 78's is not — the production dataset carries the sentinel)
   const district = project.district[locale] === "__DEMO_OMITTED__" ? null : project.district[locale];
   const primary = unit
-    ? { href: viewingHref(locale, unit), label: viewableNow(unit) ? c.viewingCta : c.earlyCta }
+    ? { href: viewingHref(locale, unit), label: viewableNow(unit) ? viewingCta(locale, project.slug, c.viewingCta) : c.earlyCta }
     : fullyLet ? { href: waitlistHref(locale, project.slug), label: waitlistLabel[locale] }
-    : onRequest ? { href: viewingPropertyHref(locale, project.slug), label: c.viewingCta } : null;
+    : onRequest ? { href: viewingPropertyHref(locale, project.slug), label: viewingCta(locale, project.slug, c.viewingCta) } : null;
   const detail = unit && project.slug !== "moscova-20" ? p(`/leasing/${unit.id}`) : p(`/projects/${project.slug}`);
   return (
     <article className={`r3-space r33-prop${strong ? "" : " r32-space--compact"}`} data-space={project.slug} data-reveal>

@@ -3,9 +3,10 @@
 import { useMemo, useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
 import { StageChip, StatusChip, type Ctx } from "@/components/commercial-desk/cards";
 import { clientTitle, dayLong, dayNumeric, dayRelative, dayShort, minutesLabel, percent, propertyLabel, roleLabel, sourceLabel, stageLabel, staffName, stamp, statusLabel, weekdayLabel, whenOf } from "@/components/commercial-desk/labels";
-import { addBlock, clock, confirmVisit, removeBlock, resetState, snapshotOf, updateConfig, updateStaff, type DemoVisit, type DeskState } from "@/components/visit-planner/store";
+import { ChatStatusChip } from "@/components/commercial-desk/chat";
+import { addBlock, clock, confirmVisit, removeBlock, resetState, snapshotOf, updateConfig, updateStaff, waitingConversations, type DemoVisit, type DeskState } from "@/components/visit-planner/store";
 import { commit } from "@/components/visit-planner/use-store";
-import { addDays, analytics, fromMinutes, isHoliday, onTimeOff, slotsForDate, toMinutes, toZoned, weekdayOf, type DealStage, type Interval, type LocalDate, type Weekday } from "@/lib/visits/engine";
+import { addDays, analytics, fromMinutes, icsCalendar, isHoliday, onTimeOff, slotsForDate, toMinutes, toZoned, weekdayOf, type DealStage, type Interval, type LocalDate, type Staff, type Weekday, type WeekHours } from "@/lib/visits/engine";
 
 /**
  * COMMERCIAL DESK — the sections (OWNER «VISIT PLANNER & COMMERCIAL DESK V1», stage 1). Rows and hairlines, the tone of a
@@ -55,6 +56,7 @@ export function Today({ ctx }: { ctx: Ctx }) {
   const day = state.visits.filter((visit) => whenOf(state, visit).date === today && ["requested", "confirmed", "completed", "no_show"].includes(visit.status)).sort(byStart);
   const requests = state.visits.filter((visit) => visit.status === "requested").sort(byStart);
   const enquiries = state.enquiries.filter((item) => !item.handled);
+  const waiting = waitingConversations(state);
   const due = state.clients.filter((client) => client.nextAction && toZoned(client.nextAction.dueUtc, state.config.timezone).date <= today).sort((a, b) => (a.nextAction?.dueUtc ?? 0) - (b.nextAction?.dueUtc ?? 0));
   const awaiting = state.visits.filter((visit) => visit.status === "confirmed" && visit.endUtc < ctx.now);
   return (
@@ -65,7 +67,7 @@ export function Today({ ctx }: { ctx: Ctx }) {
       <ul className="cd-kpis">
         <li><b>{requests.length}</b><span>заявок ждут подтверждения</span></li>
         <li><b>{day.length}</b><span>визитов сегодня</span></li>
-        <li><b>{enquiries.length}</b><span>обращений без визита</span></li>
+        <li><b>{waiting.length}</b><span>диалогов ждут ответа</span></li>
         <li><b>{due.length}</b><span>действий к сроку</span></li>
       </ul>
       <div className="cd-cols">
@@ -82,6 +84,15 @@ export function Today({ ctx }: { ctx: Ctx }) {
         <section className="cd-block">
           <h2 className="cd-block__title">Требуют решения</h2>
           {requests.length ? <ul className="cd-rows">{requests.map((visit) => <VisitRow key={visit.id} ctx={ctx} visit={visit} quick />)}</ul> : <Empty text="Новых заявок нет." />}
+          <h2 className="cd-block__title">Диалоги ждут ответа</h2>
+          {waiting.length ? (
+            <ul className="cd-rows">
+              {waiting.map((talk) => { const client = state.clients.find((item) => item.id === talk.clientId); return (
+                <li key={talk.id} className="cd-line"><button type="button" className="cd-row" onClick={() => ctx.open({ chat: talk.id })}><span className="cd-row__main">{client ? clientTitle(client) : `Посетитель · ${talk.code}`}</span><span className="cd-row__meta">{talk.pageName} · {talk.assigneeId ? staffName(state, talk.assigneeId) : "оператор не назначен"} · клиент написал {stamp(state, talk.lastVisitorAt)}</span><ChatStatusChip status={talk.status} /></button></li>
+              ); })}
+            </ul>
+          ) : <Empty text="На все сообщения ответили." />}
+          {enquiries.length ? <p className="cd-muted">Звонков без визита: {enquiries.length} — в разделе «Новые обращения».</p> : null}
           <h2 className="cd-block__title">Следующие действия</h2>
           {due.length ? (
             <ul className="cd-rows">
@@ -112,6 +123,17 @@ export function WeekCalendar({ ctx }: { ctx: Ctx }) {
     return [...set].sort();
   }, [state.config, workdays]);
   const conductors = state.staff.filter((person) => person.conducts && person.active);
+  // the .ics subscription — an extra, read-only: the planner's own calendar stays the source of the entries (OWNER V2 §5)
+  const feed = () => {
+    const mine = state.visits.filter((visit) => visit.status === "confirmed" && (ctx.actor.conducts ? visit.staffId === ctx.actor.id : true));
+    const text = icsCalendar(`MEGAPARC · просмотры · ${ctx.actor.name}`, mine.map((visit) => { const client = state.clients.find((item) => item.id === visit.clientId); return { uid: `${visit.ref}@megaparc.md`, startUtc: visit.startUtc, endUtc: visit.endUtc, title: `Просмотр · ${propertyLabel[visit.propertyId] ?? visit.propertyId}`, location: propertyLabel[visit.propertyId] ?? visit.propertyId, description: `${visit.ref}${client?.company ? ` · ${client.company}` : ""}`, stampUtc: visit.updatedAt }; }));
+    const url = URL.createObjectURL(new Blob([text], { type: "text/calendar;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "MEGAPARC-visits-DEMO.ics";
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+  };
   const cell = (date: LocalDate, time: string) => {
     const visits = state.visits.filter((visit) => { const when = whenOf(state, visit); return when.date === date && when.time === time && ["requested", "confirmed", "completed", "no_show"].includes(visit.status) && (!staffId || visit.staffId === staffId); });
     const block = state.blocks.find((item) => item.date === date && toMinutes(item.from) <= toMinutes(time) && toMinutes(time) < toMinutes(item.to) && (!staffId || item.staffId === null || item.staffId === staffId));
@@ -129,6 +151,7 @@ export function WeekCalendar({ ctx }: { ctx: Ctx }) {
             <option value="">Все сотрудники</option>
             {conductors.map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}
           </select>
+          <button type="button" className="cd-nav cd-nav--text" onClick={feed} title="Подтверждённые просмотры одним файлом календаря">Подписка .ics</button>
         </div>
       </Head>
       <div className="cd-week" style={{ "--cd-days": days.length } as CSSProperties}>
@@ -197,15 +220,33 @@ export function Requests({ ctx }: { ctx: Ctx }) {
   const { state } = ctx;
   const requests = state.visits.filter((visit) => visit.status === "requested").sort(byStart);
   const enquiries = state.enquiries.filter((item) => !item.handled).sort((a, b) => b.at - a.at);
+  const waiting = waitingConversations(state).sort((a, b) => b.lastVisitorAt - a.lastVisitorAt);
   return (
     <>
-      <Head label="Новые обращения" title="Заявки и обращения" lead="Заявки с сайта ждут подтверждения; обращения из чата, Telegram и звонков — превращаются в визит или карточку клиента." />
+      <Head label="Новые обращения" title="Заявки и обращения" lead="Заявки на просмотр ждут подтверждения; диалоги и звонки — ответа, визита или карточки клиента." />
       <section className="cd-block">
         <h2 className="cd-block__title">Заявки на просмотр · {requests.length}</h2>
         {requests.length ? <ul className="cd-rows">{requests.map((visit) => <VisitRow key={visit.id} ctx={ctx} visit={visit} quick />)}</ul> : <Empty text="Все заявки обработаны." />}
       </section>
       <section className="cd-block">
-        <h2 className="cd-block__title">Обращения без визита · {enquiries.length}</h2>
+        <h2 className="cd-block__title">Диалоги ждут ответа · {waiting.length}</h2>
+        {waiting.length ? (
+          <ul className="cd-rows">
+            {waiting.map((talk) => { const client = state.clients.find((item) => item.id === talk.clientId); const first = state.messages.find((message) => message.conversationId === talk.id && message.direction === "visitor"); return (
+              <li key={talk.id} className="cd-line">
+                <button type="button" className="cd-row" onClick={() => ctx.open({ chat: talk.id })}>
+                  <span className="cd-row__main">{client ? clientTitle(client) : `Посетитель · ${talk.code}`}</span>
+                  <span className="cd-row__meta">{talk.channel === "telegram" ? "Telegram клиента" : "Чат на сайте"} · {stamp(state, talk.lastVisitorAt)} · {first?.body}</span>
+                  <ChatStatusChip status={talk.status} />
+                </button>
+                {ctx.may("visit.create") ? <button type="button" className="btn btn--ghost vp-btn cd-line__quick" onClick={() => ctx.open({ create: talk.id })}><span>Назначить визит</span></button> : null}
+              </li>
+            ); })}
+          </ul>
+        ) : <Empty text="На все сообщения ответили." />}
+      </section>
+      <section className="cd-block">
+        <h2 className="cd-block__title">Звонки без визита · {enquiries.length}</h2>
         {enquiries.length ? (
           <ul className="cd-rows">
             {enquiries.map((item) => (
@@ -218,7 +259,7 @@ export function Requests({ ctx }: { ctx: Ctx }) {
               </li>
             ))}
           </ul>
-        ) : <Empty text="Обращений без визита нет." />}
+        ) : <Empty text="Звонков без визита нет." />}
       </section>
     </>
   );
@@ -263,7 +304,7 @@ export function Clients({ ctx }: { ctx: Ctx }) {
             <li key={client.id} className="cd-line">
               <button type="button" className="cd-row" onClick={() => ctx.open({ client: client.id })}>
                 <span className="cd-row__main">{clientTitle(client)}</span>
-                <span className="cd-row__meta">{sourceLabel[client.source]} · {staffName(state, client.ownerId)}{client.nextAction ? ` · далее: ${client.nextAction.text} (${dayRelative(toZoned(client.nextAction.dueUtc, state.config.timezone).date, today)})` : ""}</span>
+                <span className="cd-row__meta">{client.duplicateOf ? "возможный дубликат · " : ""}{sourceLabel[client.source]} · {staffName(state, client.ownerId)}{client.nextAction ? ` · далее: ${client.nextAction.text} (${dayRelative(toZoned(client.nextAction.dueUtc, state.config.timezone).date, today)})` : ""}</span>
                 <StageChip stage={client.stage} />
               </button>
             </li>
@@ -310,10 +351,14 @@ export function Deals({ ctx }: { ctx: Ctx }) {
 export function History({ ctx }: { ctx: Ctx }) {
   const { state } = ctx;
   const [only, setOnly] = useState<"all" | "client" | "staff">("all");
-  const events = [...state.events].sort((a, b) => b.at - a.at).filter((event) => only === "all" || (only === "client" ? event.actor === "client" : event.actor !== "client" && event.actor !== "system")).slice(0, 120);
+  const [who, setWho] = useState("");
+  const full = ctx.may("audit.read");
+  const events = [...state.events].sort((a, b) => b.at - a.at).filter((event) => (only === "all" || (only === "client" ? event.actor === "client" : event.actor !== "client" && event.actor !== "system")) && (!who || event.actor === who || event.fromStaff === who || event.toStaff === who)).slice(0, full ? 400 : 120);
   return (
     <>
-      <Head label="История взаимодействий" title="Журнал" lead={ctx.may("audit.read") ? "Все действия клиентов и сотрудников. Журнал действий сотрудников неизменяем." : "Действия клиентов и сотрудников по визитам и карточкам."} />
+      <Head label="История взаимодействий" title={full ? "Полная история действий" : "Журнал"} lead={full ? "Кто принял обращение, ответил, подтвердил, перенёс, отменил, зафиксировал результат, передал клиента — по каждому сотруднику. Журнал только дополняется." : "Действия клиентов и сотрудников по визитам, диалогам и карточкам."}>
+        <select className="cd-select" value={who} onChange={(event) => setWho(event.target.value)} aria-label="Сотрудник"><option value="">Все сотрудники</option>{state.staff.filter((person) => person.role !== "management").map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}</select>
+      </Head>
       <div className="cd-tabs" role="tablist">{([["all", "Все"], ["client", "Клиенты"], ["staff", "Сотрудники"]] as const).map(([key, label]) => <button key={key} type="button" role="tab" aria-selected={only === key} className={only === key ? "is-on" : ""} onClick={() => setOnly(key)}>{label}</button>)}</div>
       <ol className="cd-timeline cd-timeline--wide">
         {events.map((event) => {
@@ -321,7 +366,7 @@ export function History({ ctx }: { ctx: Ctx }) {
           return (
             <li key={event.id} className={event.internal ? "is-internal" : ""}>
               <p className="cd-timeline__meta">{stamp(state, event.at)} · {staffName(state, event.actor)}{event.internal ? <span className="cd-internal">внутреннее</span> : null}</p>
-              <p className="cd-timeline__text">{event.text}{client ? <> — <button type="button" className="cd-link" onClick={() => ctx.open(event.visitId ? { visit: event.visitId } : { client: client.id })}>{clientTitle(client)}</button></> : null}</p>
+              <p className="cd-timeline__text">{event.text}{client ? <> — <button type="button" className="cd-link" onClick={() => ctx.open(event.visitId ? { visit: event.visitId } : { client: client.id })}>{clientTitle(client)}</button></> : event.conversationId ? <> — <button type="button" className="cd-link" onClick={() => ctx.open({ chat: event.conversationId as string })}>диалог</button></> : null}</p>
             </li>
           );
         })}
@@ -411,6 +456,7 @@ const parseHours = (text: string): Interval[] | null => {
 export function Schedule({ ctx }: { ctx: Ctx }) {
   const { state, actor } = ctx;
   const edit = ctx.may("schedule.edit");
+  const avail = ctx.may("availability.edit");
   const manage = ctx.may("staff.manage");
   const today = todayOf(ctx);
   const [error, setError] = useState("");
@@ -447,6 +493,17 @@ export function Schedule({ ctx }: { ctx: Ctx }) {
     commit(updateStaff(state, staffId, { timeOff: [...person.timeOff, { from, to, reason: String(data.get("reason") ?? "").trim() || "Отсутствие" }] }, actor.id, at()));
     event.currentTarget.reset();
   };
+  // an employee's own hours: empty — the property's hours; «-» — the employee does not show that day
+  const setOwnHours = (person: Staff, day: Weekday, text: string) => {
+    const week: WeekHours = { ...(person.week ?? {}) };
+    const value = text.trim();
+    if (!value) delete week[day];
+    else if (value === "-" || value === "—") week[day] = [];
+    else { const parsed = parseHours(value); if (!parsed) return setError(`Часы «${text}» не распознаны. Формат: 09:00–13:00, 14:00–17:00.`); week[day] = parsed; }
+    setError("");
+    commit(updateStaff(state, person.id, { week: Object.keys(week).length ? week : undefined }, actor.id, at()));
+  };
+  const ownText = (person: Staff, day: Weekday) => (person.week?.[day] === undefined ? "" : person.week[day]?.length ? hoursText(person.week[day]) : "-");
   const addManualBlock = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -458,8 +515,8 @@ export function Schedule({ ctx }: { ctx: Ctx }) {
   };
   return (
     <>
-      <Head label="Расписание" title="Параметры записи" lead="Предложение на согласование OWNER: значения хранятся как данные и меняются здесь, а не в коде. Изменение сразу видно в календаре клиента." />
-      {!edit ? <p className="cd-banner">Роль «{roleLabel[actor.role]}» видит параметры, но не меняет их.</p> : null}
+      <Head label="Расписание" title="Параметры записи" lead="Первоначальные параметры приняты OWNER 27.11. Они хранятся как данные: администратор меняет их здесь, без изменения кода, и календарь клиента сразу следует за ними. Праздники, отпуска и личные часы сотрудников настраиваются отдельно." />
+      {!edit ? <p className="cd-banner">Параметры записи и праздники меняет только администратор. Роль «{roleLabel[actor.role]}» {avail ? "настраивает отпуска, личные часы и блокировки времени" : "видит расписание, но не меняет его"}.</p> : null}
       {error ? <p className="cd-error" role="alert">{error}</p> : null}
       <section className="cd-block">
         <h2 className="cd-block__title">Общие параметры</h2>
@@ -505,8 +562,17 @@ export function Schedule({ ctx }: { ctx: Ctx }) {
               </div>
               {person.conducts ? (
                 <>
-                  {person.timeOff.map((off, index) => <p key={`${off.from}-${index}`} className="cd-staff__off">{dayNumeric(off.from)} — {dayNumeric(off.to)} · {off.reason}{edit ? <button type="button" className="cd-link" onClick={() => commit(updateStaff(state, person.id, { timeOff: person.timeOff.filter((_, i) => i !== index) }, actor.id, at()))}>Убрать</button> : null}</p>)}
-                  {edit ? <form className="cd-inline" onSubmit={addOff(person.id)}><input type="date" name="from" min={today} aria-label="Отсутствует с" required /><input type="date" name="to" min={today} aria-label="по" /><input type="text" name="reason" placeholder="Отпуск, командировка…" aria-label="Причина" /><button type="submit" className="btn btn--ghost vp-btn"><span>Добавить отсутствие</span></button></form> : null}
+                  {person.timeOff.map((off, index) => <p key={`${off.from}-${index}`} className="cd-staff__off">{dayNumeric(off.from)} — {dayNumeric(off.to)} · {off.reason}{avail ? <button type="button" className="cd-link" onClick={() => commit(updateStaff(state, person.id, { timeOff: person.timeOff.filter((_, i) => i !== index) }, actor.id, at()))}>Убрать</button> : null}</p>)}
+                  {avail ? <form className="cd-inline" onSubmit={addOff(person.id)}><input type="date" name="from" min={today} aria-label="Отсутствует с" required /><input type="date" name="to" min={today} aria-label="по" /><input type="text" name="reason" placeholder="Отпуск, командировка…" aria-label="Причина" /><button type="submit" className="btn btn--ghost vp-btn"><span>Добавить отсутствие</span></button></form> : null}
+                  <details className="cd-own">
+                    <summary>Личные часы{person.week ? " · заданы" : " · как у объекта"}</summary>
+                    <ul className="cd-hours">
+                      {([1, 2, 3, 4, 5, 6, 7] as Weekday[]).map((day) => (
+                        <li key={day}><label><span>{weekdayLabel[day]}</span><input key={ownText(person, day)} type="text" defaultValue={ownText(person, day)} placeholder={hoursText(state.config.week[day]) || "выходной"} disabled={!avail} onBlur={(event) => { if (event.target.value.trim() !== ownText(person, day)) setOwnHours(person, day, event.target.value); }} /></label></li>
+                      ))}
+                    </ul>
+                    <p className="cd-muted">Пустое поле — часы объекта; «-» — в этот день сотрудник не показывает. Сотрудник доступен в пересечении своих часов и часов просмотров.</p>
+                  </details>
                 </>
               ) : null}
             </li>
@@ -518,10 +584,10 @@ export function Schedule({ ctx }: { ctx: Ctx }) {
         <h2 className="cd-block__title">Ручная блокировка времени</h2>
         <ul className="cd-rows cd-rows--tight">
           {state.blocks.filter((block) => block.date >= today).sort((a, b) => a.date.localeCompare(b.date)).map((block) => (
-            <li key={block.id} className="cd-row is-static"><span className="cd-row__main">{dayNumeric(block.date)}, {block.from}–{block.to}</span><span className="cd-row__meta">{block.staffId ? staffName(state, block.staffId) : "весь объект"}{block.reason ? ` · ${block.reason}` : ""}</span>{edit ? <button type="button" className="cd-link" onClick={() => commit(removeBlock(state, block.id, actor.id, at()))}>Снять</button> : null}</li>
+            <li key={block.id} className="cd-row is-static"><span className="cd-row__main">{dayNumeric(block.date)}, {block.from}–{block.to}</span><span className="cd-row__meta">{block.staffId ? staffName(state, block.staffId) : "весь объект"}{block.reason ? ` · ${block.reason}` : ""}</span>{avail ? <button type="button" className="cd-link" onClick={() => commit(removeBlock(state, block.id, actor.id, at()))}>Снять</button> : null}</li>
           ))}
         </ul>
-        {edit ? (
+        {avail ? (
           <form className="cd-inline" onSubmit={addManualBlock}>
             <input type="date" name="date" min={today} aria-label="День" required /><input type="time" name="from" step={900} aria-label="С" required /><input type="time" name="to" step={900} aria-label="До" required />
             <select name="who" className="cd-select" aria-label="Кого блокировать"><option value="">Весь объект</option>{state.staff.filter((person) => person.conducts).map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}</select>
@@ -538,5 +604,5 @@ export function Schedule({ ctx }: { ctx: Ctx }) {
   );
 }
 
-export type SectionKey = "today" | "calendar" | "requests" | "visits" | "clients" | "deals" | "history" | "analytics" | "schedule";
-export const sectionCount = (state: DeskState, key: SectionKey) => (key === "requests" ? state.visits.filter((visit) => visit.status === "requested").length + state.enquiries.filter((item) => !item.handled).length : 0);
+export type SectionKey = "today" | "chat" | "calendar" | "requests" | "visits" | "clients" | "deals" | "history" | "analytics" | "schedule";
+export const sectionCount = (state: DeskState, key: SectionKey) => (key === "chat" ? waitingConversations(state).length : key === "requests" ? state.visits.filter((visit) => visit.status === "requested").length + state.enquiries.filter((item) => !item.handled).length : 0);

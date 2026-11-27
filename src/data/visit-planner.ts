@@ -24,6 +24,12 @@ export const visitPlannerOpen = edition !== "production";
  */
 export const visitProperties: readonly string[] = ["moscova-20"];
 
+/**
+ * THE ONE MAIN CALL TO ACTION (OWNER «VISIT PLANNER & COMMERCIAL DESK V2» §2, 2026-11-27) — used wherever a viewing can be planned;
+ * the visitor's own action stays «a request» until an employee confirms it.
+ */
+export const visitCta = { ru: "Запланировать просмотр", ro: "Programați o vizită", en: "Schedule a viewing" } as const;
+
 /** the locale-neutral route of a property's planner */
 export const visitRoute = (slug: string) => `/visit/${slug}`;
 
@@ -33,11 +39,12 @@ export const deskRoute = "/owner-demo/commercial-desk";
 const day = [{ from: "09:00", to: "13:00" }, { from: "14:00", to: "17:00" }];
 
 /**
- * THE SCHEDULE — A PROPOSAL FOR THE OWNER'S APPROVAL, NOT A DECISION (mandate §4: parameters are proposed, never fixed in code).
- * The engine reads these values as data; in the server they live in the database and are edited in the Commercial Desk.
- *   · viewings Monday–Friday 09:00–13:00 and 14:00–17:00 (the chat's working hours are Mon–Fri 08:00–17:00);
- *   · one viewing 45 minutes, starts on the hour, 15 minutes free around every visit of the same employee;
- *   · a visitor books not earlier than 18 hours ahead (an employee confirms every request by hand) and not later than 30 days ahead;
+ * THE SCHEDULE — THE INITIAL PARAMETERS ACCEPTED BY THE OWNER («VISIT PLANNER & COMMERCIAL DESK V2» §1, 2026-11-27). They are the
+ * first values of the data, never constants of the code: the administrator changes every one of them in the Commercial Desk (in the
+ * server they live in the database); holidays, time off and an employee's own hours are set apart.
+ *   · Monday–Friday, 09:00–13:00 and 14:00–17:00, Europe/Chisinau; weekends by individual arrangement (an employee books by hand);
+ *   · one viewing 45 minutes, 15 minutes free around every visit of the same employee; starts on the hour (the grid is a setting too);
+ *   · a visitor books not earlier than 3 hours ahead and not later than 30 days ahead;
  *   · one viewing at a time in a property;
  *   · the public holidays of the Republic of Moldova — the dates below are a draft to be confirmed for each year.
  */
@@ -46,7 +53,7 @@ export const proposedSchedule: ScheduleConfig = {
   visitMinutes: 45,
   stepMinutes: 60,
   bufferMinutes: 15,
-  minNoticeHours: 18,
+  minNoticeHours: 3,
   horizonDays: 30,
   week: { 1: day, 2: day, 3: day, 4: day, 5: day },
   holidays: [

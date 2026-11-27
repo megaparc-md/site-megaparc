@@ -1,3 +1,4 @@
+import { visitCta, visitPlannerOpen } from "@/data/visit-planner";
 import { publicAsset, type Localized } from "@/lib/site-data";
 
 /**
@@ -63,7 +64,8 @@ export const toolkitCopy = {
     dossier: { ro: "Descarcă dosarul obiectului", ru: "Скачать досье объекта", en: "Download property dossier" },
     dossierMeta: { ro: "PDF · {pages} pagini · {version}", ru: "PDF · {pages} страниц · {version}", en: "PDF · {pages} pages · {version}" },
     // the technical pre-check labels live in @/components/leasing-toolkit/precheck-copy (edition-aware: the production edition has no form)
-    book: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+    // where the planner is offered (V2 §2) the one main call to action; the production edition keeps its wording until the planner is live
+    book: visitPlannerOpen ? { ...visitCta } : { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
     bookMeta: { ro: "cerere de vizionare · ziua și intervalul preferat", ru: "запрос на\u00a0просмотр · удобный день и\u00a0время", en: "a viewing request · your preferred day and time window" },
     cadastre: { ro: "Deschideți e\u2011Cadastru", ru: "Открыть e‑Cadastru", en: "Open e-Cadastru" },
     cadastreMeta: { ro: "numărul cadastral {n}", ru: "кадастровый номер {n}", en: "cadastral number {n}" },
@@ -127,7 +129,8 @@ export const toolkitCopy = {
     // OWNER «COMMERCIAL PRESENTATION RESET» §1 (2026-11-13): the bar opens the one current commercial document, never the old dossier;
     // OWNER «PREMIUM DOCUMENT NAMES» (2026-11-16): the document is the commercial proposal
     dossier: { ro: "Ofertă", ru: "Предложение", en: "Proposal" },
-    book: { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+    // where the planner is offered (V2 §2) the one main call to action; the production edition keeps its wording until the planner is live
+    book: visitPlannerOpen ? { ...visitCta } : { ro: "Solicitați o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   },
   // OWNER «MAKE MOSCOVA 20 DIGITAL TOOLS DISCOVERABLE» (2026-11-11): the service block on the property page — one primary action
   // (the Leasing Pack), two secondary (the PDF presentation, the plans), one utility (the QR in a compact drawer)

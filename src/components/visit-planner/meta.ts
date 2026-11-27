@@ -13,7 +13,7 @@ export const visitParams = () => visitProperties.map((property) => ({ property }
 export function visitMetadata(locale: SiteLocale, slug: string): Metadata {
   const name = getProject(slug)?.name ?? "MEGAPARC";
   return buildMetadata(locale, visitRoute(slug), {
-    title: { ro: `${name} — planificați o vizionare · MEGAPARC`, ru: `${name} — запись на просмотр · MEGAPARC`, en: `${name} — plan a viewing · MEGAPARC` },
+    title: { ro: `${name} — programați o vizită · MEGAPARC`, ru: `${name} — запланировать просмотр · MEGAPARC`, en: `${name} — schedule a viewing · MEGAPARC` },
     description: {
       ro: `Alegeți ziua și ora vizionării personale a proprietății ${name}. Cererea este confirmată de managerul MEGAPARC.`,
       ru: `Выберите день и время персонального просмотра объекта ${name}. Запрос подтверждает менеджер MEGAPARC.`,

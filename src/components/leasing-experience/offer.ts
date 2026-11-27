@@ -1,4 +1,5 @@
 import { ui } from "@/components/leasing-experience/parts";
+import { viewingCta } from "@/components/visit-planner/href";
 import { availabilityLabel, availabilityOf, formatArea, isDemoField, propertyOccupancy, viewingEnabled } from "@/content/source";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import type { AreaLevel, AvailableSpace } from "@/data/leasing-inventory";
@@ -46,7 +47,7 @@ export function templateOffer(x: LeasingExperience, unit: AvailableSpace | null,
   const state: TemplateOffer["state"] = unitState ?? (fullyLet ? "full" : "request");
   const status = unit ? availabilityLabel(unit, locale) : fullyLet ? fullLine[locale] : (onRequest ?? fullLine)[locale];
   const open = unit ? viewingEnabled(unit) : !fullyLet;
-  const primary = x.cta && (open || fullyLet) ? x.cta.primary[locale] : open ? ui.viewing[locale] : ui.waitlist[locale];
+  const primary = x.cta && (open || fullyLet) ? x.cta.primary[locale] : open ? viewingCta(locale, x.project, ui.viewing[locale]) : ui.waitlist[locale];
   const secondary = x.cta ? { label: x.cta.secondary.label[locale], href: x.cta.secondary.href } : { label: ui.plansSee[locale], href: "#plans" };
   const what = unit && areaConfirmed ? `${unit.unit[locale]} · ${figure}` : unit ? unit.unit[locale] : status;
   return {
