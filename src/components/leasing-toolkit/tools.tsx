@@ -2,6 +2,8 @@ import { DirectContact } from "@/components/direct-contact";
 import { PreCheckForm } from "@/components/leasing-toolkit/pre-check-form";
 import { precheckCopy } from "@/components/leasing-toolkit/precheck-copy";
 import { ViewingRequest } from "@/components/leasing-toolkit/viewing-request";
+import { VisitEntry } from "@/components/visit-planner/entry";
+import { plannerFor } from "@/components/visit-planner/href";
 import { company } from "@/data/demo-content";
 import { isProductionEdition, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -24,7 +26,9 @@ export function PreCheck({ locale }: { locale: SiteLocale }) {
   return <PreCheckForm locale={locale} mailbox={company.email.value[locale]} phones={[company.mobile.value[locale], company.landline.value[locale]]} />;
 }
 
-export function BookViewing({ locale, unitLabel }: { locale: SiteLocale; unitLabel: string }) {
+export function BookViewing({ locale, unitLabel, project }: { locale: SiteLocale; unitLabel: string; /** the property of the pack — its planner, where one is offered */ project?: string }) {
   if (isProductionEdition) return <DirectContact locale={locale} subject="viewing" context={unitLabel} note={productionNote.book[locale]} />;
+  // OWNER «VISIT PLANNER & COMMERCIAL DESK V1» (stage 1): a real date and time are chosen in the planner
+  if (plannerFor(project)) return <VisitEntry locale={locale} slug={project} unitLabel={unitLabel} />;
   return <ViewingRequest locale={locale} unitLabel={unitLabel} mailbox={company.email.value[locale]} />;
 }

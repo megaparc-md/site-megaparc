@@ -1,6 +1,8 @@
 import { AssistantLauncher } from "@/components/assistant/assistant-launcher";
 import "@/components/assistant/assistant.css";
 import type { AssistantData } from "@/components/assistant/types";
+import { visitCopy } from "@/components/visit-planner/copy";
+import { plannerFor } from "@/components/visit-planner/href";
 import { projectState } from "@/components/r3";
 import { availabilityCopy, spacesFor } from "@/content/source";
 import { company, contactLinks } from "@/data/demo-content";
@@ -45,6 +47,8 @@ export function assistantData(locale: SiteLocale): AssistantData {
     // a building of the guard reads «leased» whatever the register of this build says
     return { project, state: NEVER_OFFERED.has(project.slug) && state.tone !== "full" ? { text: availabilityCopy.leased[locale], tone: "full" as const } : state };
   });
+  // the Visit Planner — only for properties offered now (the same list as `offers`) that the planner's registry carries
+  const plannerSlugs = leasing.filter(({ state }) => state.tone === "now" || state.tone === "soon").map(({ project }) => project.slug).filter((slug) => plannerFor(slug));
   const landAnchor = portfolioCategories.find((category) => category.key === "land")?.anchor ?? "land";
   return {
     locale,
@@ -75,6 +79,7 @@ export function assistantData(locale: SiteLocale): AssistantData {
       landlineHref: contactLinks.landline,
     },
     m20Offer: m20Commercial.offer.published ? m20Commercial.offer.file[locale] : null,
+    planner: plannerSlugs.length ? { slugs: plannerSlugs, label: visitCopy[locale].entry.cta } : null,
   };
 }
 

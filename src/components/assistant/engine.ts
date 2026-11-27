@@ -293,7 +293,9 @@ function compose(node: string, context: AssistantContext, answers: AssistantAnsw
     /* ---------------- 4 · a viewing ---------------- */
     case "viewing": {
       const chosen = arg ?? (context.key === "offer-property" || context.key === "pack" ? context.slug ?? undefined : undefined);
-      if (chosen && offerBy(chosen)) return { text: c.viewing.askWhen(offerBy(chosen)!.name), chips: Object.keys(c.times).map((key) => ({ label: c.times[key], node: "viewing.result", set: { property: chosen, time: key } })) };
+      // OWNER «VISIT PLANNER & COMMERCIAL DESK V1» (stage 1): where the planner is offered for the property, a real date and time are one step away
+      const planner: AssistantAction[] = chosen && data.planner?.slugs.includes(chosen) ? [{ kind: "route", label: data.planner.label, path: `/visit/${chosen}?src=assistant`, primary: true }] : [];
+      if (chosen && offerBy(chosen)) return { text: c.viewing.askWhen(offerBy(chosen)!.name), ...(planner.length ? { actions: planner } : {}), chips: Object.keys(c.times).map((key) => ({ label: c.times[key], node: "viewing.result", set: { property: chosen, time: key } })) };
       if (!data.offers.length) return buildReply("manager", context, answers, data, c);
       return { text: c.viewing.askProperty, chips: data.offers.map((offer) => ({ label: offer.name, node: `viewing:${offer.slug}` })) };
     }

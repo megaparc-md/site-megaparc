@@ -49,6 +49,9 @@ export type AssistantData = {
   contacts: AssistantContacts;
   /** the Moscova 20 commercial proposal of the language (a published PDF) or null */
   m20Offer: string | null;
+  /** the Visit Planner (OWNER «VISIT PLANNER & COMMERCIAL DESK V1», stage 1): the properties a date and time can be chosen for, and the
+   *  label of that action — absent where the planner is not offered (the production edition) */
+  planner?: { slugs: string[]; label: string } | null;
 };
 
 /* ------------------------------------------------------------------ */

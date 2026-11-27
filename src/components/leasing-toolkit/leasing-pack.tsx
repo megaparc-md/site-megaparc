@@ -276,7 +276,7 @@ export function LeasingPackPage({ locale }: { locale: SiteLocale }) {
         <PreCheck locale={locale} />
       </LgDrawer>
       <LgDrawer id="book" title={c.book[locale]} kicker={project.name} closeLabel={ui.close[locale]}>
-        <BookViewing locale={locale} unitLabel={unitLabel} />
+        <BookViewing locale={locale} unitLabel={unitLabel} project={project.slug} />
       </LgDrawer>
       {/* OWNER P1 «SHARE MODAL REDESIGN» (2026-11-15): a compact sheet with the property card, the channels and the link */}
       <LgDrawer id="share" title={toolkitCopy.share.sheetTitle[locale]} closeLabel={ui.close[locale]} sheet>

@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { Icon } from "@/components/ui";
+import { visitCopy } from "@/components/visit-planner/copy";
+import { visitHref } from "@/components/visit-planner/href";
 import { UtilityIcon } from "@/components/utility-icons";
 import { formatAreaExact } from "@/content/source";
 import type { AreaLevel } from "@/data/leasing-inventory";
@@ -59,6 +62,7 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
   const calc = rentCalculation(breakdown, locale);
   if (!calc.lines.length) return null;
   const link = offerLink(locale, fallbackHref);
+  const planner = visitHref(locale, m20Commercial.project, "terms");
   const H = heading;
   return (
     <section className={`ct ct--${tone}`} id={id} aria-labelledby={`${id}-title`}>
@@ -139,6 +143,8 @@ export function CommercialTerms({ breakdown, locale, fallbackHref, id = "commerc
             <span className="ct__action-meta">{link.pdf ? c.offerMeta[locale].replace("{pages}", String(m20Commercial.offer.pages)) : c.offerContactMeta[locale]}{link.draft ? ` · ${c.candidate[locale]}` : ""}</span>
             {/* addendum §5 (2026-11-13): the individual offer is a conversation — the confirmed e-mail with its subject, never the same universal PDF */}
             {link.pdf ? <a className="pm-link ct__individual" href={individualOfferHref(locale)} data-intent="individual-offer"><span>{c.individualCta[locale]}</span></a> : null}
+            {/* OWNER «VISIT PLANNER & COMMERCIAL DESK V1» (stage 1): from the terms straight to a date and a time — the OWNER preview only */}
+            {planner ? <Link className="pm-link ct__individual" href={planner} data-visit-planner=""><span>{visitCopy[locale].entry.cta}</span></Link> : null}
           </p>
         ) : null}
       </div>

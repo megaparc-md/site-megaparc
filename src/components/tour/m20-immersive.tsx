@@ -1,5 +1,6 @@
 import { LgPhoto } from "@/components/leasing-experience/parts";
 import { ImmersiveTour } from "@/components/tour/immersive-tour";
+import { visitUrl } from "@/components/visit-planner/href";
 import type { LeasingExperience } from "@/data/leasing-experience-model";
 import { individualOfferHref } from "@/data/moscova-20-commercial";
 import { m20TourLive, type VendorSceneLevel } from "@/data/moscova-20-media";
@@ -49,7 +50,7 @@ export function M20ImmersiveTour({ locale, x }: { locale: SiteLocale; x: Leasing
             next: t("next"), offer: t("offer"), plans: t("plans"), terms: t("terms"), contact: t("contact"), region: t("region"), frame: t("frame"), sceneOf: t("sceneOf"),
           }}
           // the existing routes of the page — the viewing scene, the confirmed e-mail with its subject, the plans, the commercial terms, the contact page
-          ctas={{ viewing: "#viewing", offer: individualOfferHref(locale), plans: "#plans", terms: "#commercial", contact: localePath(locale, "/contact") }}
+          ctas={{ viewing: visitUrl(locale, x.project, "tour") ?? "#viewing", offer: individualOfferHref(locale), plans: "#plans", terms: "#commercial", contact: localePath(locale, "/contact") }}
         />
       </div>
     </section>

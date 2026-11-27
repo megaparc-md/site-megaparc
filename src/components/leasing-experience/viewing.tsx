@@ -1,9 +1,11 @@
 import { offerLink } from "@/components/leasing-toolkit/commercial-terms";
 import { commercialCopy, m20Commercial, ratesLine } from "@/data/moscova-20-commercial";
+import Link from "next/link";
 import { Accent } from "@/components/accent";
 import { ui } from "@/components/leasing-experience/parts";
 import { DirectContact } from "@/components/direct-contact";
 import { ViewingForm } from "@/components/leasing-experience/viewing-form";
+import { visitHref } from "@/components/visit-planner/href";
 import { Icon } from "@/components/ui";
 import type { TemplateOffer } from "@/components/leasing-experience/offer";
 import type { ProjectEntry } from "@/content/source";
@@ -38,6 +40,9 @@ export function ViewingScene({ x, offer, project, locale }: { x: LeasingExperien
     : offerPdf?.pdf
       ? { label: commercialCopy.offerCta[locale], meta: `${ratesLine(locale)} · ${commercialCopy.vatInline[locale]}`, intent: "offer", href: offerPdf.href, download: true }
       : { label: ui.offer[locale], meta: x.project === m20Commercial.project ? `${ratesLine(locale)} · ${commercialCopy.vatInline[locale]}` : x.terms.pending[locale], intent: "offer", href: "#lg-form", download: false };
+  // OWNER «VISIT PLANNER & COMMERCIAL DESK V1» (stage 1, 2026-11-27): where the planner is offered — the OWNER preview, a property of the
+  // registry, a unit open for viewings — the primary action opens it (a real date and time); everywhere else nothing changes
+  const planner = open ? visitHref(locale, x.project, "site") : null;
   const [title, sub] = v.title[locale].split("\n");
   return (
     <section id="viewing" className="lg-viewing" aria-labelledby="lg-viewing-title">
@@ -52,7 +57,7 @@ export function ViewingScene({ x, offer, project, locale }: { x: LeasingExperien
         </header>
         {/* three actions as premium action cards: one primary, two secondary (OWNER card & air pass §17) */}
         <ul className="lg-actions" data-reveal>
-          <li><a className="lg-card lg-action is-primary" href="#lg-form" data-intent="viewing"><span className="lg-action__label">{offer.primary}</span><span className="lg-action__meta">{label}</span><Icon /></a></li>
+          <li>{planner ? <Link className="lg-card lg-action is-primary" href={planner} data-visit-planner=""><span className="lg-action__label">{offer.primary}</span><span className="lg-action__meta">{label}</span><Icon /></Link> : <a className="lg-card lg-action is-primary" href="#lg-form" data-intent="viewing"><span className="lg-action__label">{offer.primary}</span><span className="lg-action__meta">{label}</span><Icon /></a>}</li>
           <li><a className="lg-card lg-action" href={second.href} {...(second.download ? { download: "" } : { "data-intent": second.intent })}><span className="lg-action__label">{second.label}</span><span className="lg-action__meta">{second.meta}</span><Icon /></a></li>
           <li><a className="lg-card lg-action" href={contactLinks.mobile}><span className="lg-action__label">{ui.call[locale]}</span><span className="lg-action__meta">{company.mobile.value[locale]}</span><Icon /></a></li>
         </ul>

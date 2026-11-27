@@ -1,0 +1,7 @@
+/* VISIT PLANNER — the entry card in a drawer that used to carry a viewing form (stage 1, OWNER preview). */
+.vp-entry { padding: 1.5rem 1.25rem; background: #fff; border: 1px solid rgba(18, 18, 18, .14); border-top: 2px solid #222222; border-radius: 2px; }
+.vp-entry__unit { margin: 0 0 .9rem; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #545454; }
+.vp-entry__title { margin: 0; font-size: 1.35rem; line-height: 1.2; font-weight: 700; color: #222222; }
+.vp-entry__text { margin: .6rem 0 1.25rem; font-size: .9375rem; line-height: 1.5; color: #545454; }
+.vp-entry__btn { min-height: 3.25rem; }
+.vp-entry__meta { margin: .9rem 0 0; font-size: .8125rem; color: #545454; }
